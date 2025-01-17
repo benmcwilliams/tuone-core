@@ -1,0 +1,6 @@
+```dataview
+table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
+from "phases"
+where reject-phase = false and company = "Fondi Italiani per le infrastrutture SGR S.p.A."
+sort location, dt_announce desc
+```

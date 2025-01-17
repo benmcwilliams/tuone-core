@@ -1,0 +1,6 @@
+```dataview
+table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
+from "phases"
+where contains(file.name, "ITA-02665-02791") and reject-phase = false
+sort location, company asc
+```
