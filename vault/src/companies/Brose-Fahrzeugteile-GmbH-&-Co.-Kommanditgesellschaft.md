@@ -1,0 +1,6 @@
+```dataview
+table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
+from "phases"
+where reject-phase = false and company = "Brose Fahrzeugteile GmbH & Co. Kommanditgesellschaft"
+sort location, dt_announce desc
+```

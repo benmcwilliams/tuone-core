@@ -25,6 +25,7 @@ for projectID, articleIDs in projects.items():
     company = companyID_to_company.get(projectID[10:15], 'Unknown Company')
     company = company.replace(' ', '-')
     company = company.replace(':', '-')
+    company = company.replace('"', '')
     location = location.replace(' ', '-')
     location = location.replace(':', '-')
 
