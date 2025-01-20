@@ -10,3 +10,4 @@ Solaris Bologna and others discuss an order made by the municipal government for
 [[Ghent]] has also an [[ArcelorMittal]] steel factory, as well as a [[Honda]] motor facility.
 
 [[Exide-Technologies]] is a lead-acid battery producer. They consume from the solar-battery facility which [[EDP]] has deployed at [[Castanheira-do-Ribatejo]]
+

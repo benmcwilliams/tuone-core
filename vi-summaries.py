@@ -30,6 +30,7 @@ summary_prompt_path_dict = {
 companyID_to_company, locationID_to_location = load_mappings()
 
 # load articles and projects
+print("Connecting to Google Cloud Storage ....")
 articles = read_all_articles_from_gcs(GS_ARTICLE_DATABASE)
 
 with open(PROJECTS_CHRONOLOGICAL, 'r') as file:
