@@ -1,6 +1,6 @@
 ```dataview
 table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "phases"
+from "src/phases"
 where contains(file.name, "SWE-01583-02402") and reject-phase = false
 sort location, company asc
 ```

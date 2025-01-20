@@ -75,9 +75,15 @@ for projectID, articleIDs in projects.items():
 
     for tech in technologies:
 
+        print(f"- - Technology identified as: {tech}")
+        
+        # skip if tech is not in tech_dict
+        if tech not in tech_dict:
+            print(f"- - - !!! Warning: technology {tech} not found in tech_dict.")
+            continue
+
         # add tech to tech_values with a projectID_techID key
         tech_values[projectID + "_" + tech_dict[tech]] = tech  
-        print(f"- - Technology identified as: {tech}")
 
         # prompt for economic branch (deployment or manufacturing)
         economic_system_prompt = read_prompt_from_file(PROMPT_TREE_ECONOMIC, company=company, location=location, tech=tech)

@@ -14,7 +14,7 @@ COUNTRY_FILTER = [
 DROP_LOCATIONS = ['NA', 'Not specified', '', 'Unknown', 'N/A', 'Europe', 'UK', "Great Britain", 'North America', 'Global', 'U.S.', 'TBD', 'Central Europe', 'Undisclosed',
                   'Eastern Germany','eastern Germany', 'North of England', 'Northern England', 'northern England', "Scotland", "Wales", "Italy", "Electrolyser Production",
                   "Italian plant", "Refinery", "Southern Italy", "Northern and Central Italy", "Southern Estonia", "southern Spain", "Southern Spain",
-                  "Northern and Central Italy"]
+                  "Northern and Central Italy", "England", "Central and Eastern Europe"]
 
 COUNTRIES = [country.name for country in pycountry.countries] + \
             [country.alpha_2 for country in pycountry.countries] + \

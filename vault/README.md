@@ -12,3 +12,5 @@ Best way to validate is by first loading "company" view of a phase-ID to underst
 Then to load project-view to see each unique phase
 
 projects components within a technology do not have to be mutually exclusive (for example hydrogen - fuel cell and also vehicle to arrive at fuel cell)
+
+Keeping the end value. 

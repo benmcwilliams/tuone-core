@@ -58,3 +58,18 @@ Currently, we generate an "evolutionary" summary and a "contrastive" summary.
 
 **vii-merge-summaries.py**
 This script merges the "evolutionary" and "contrastive" summaries to form a consistent text output, which is then used for prompting GPT.
+
+## 4. Model Outputs 
+
+**x-node-extraction.py**
+This script sequentially processes each project node. It asks a series of questions returning answers from the model. 
+Prompts are all listed in *prompts/prompt_tree*. Outputs are stored in *src/outputs/model*. 
+The logic is that questions are asked in an iterative manner. First the model identified which technology the project corresponds to. Then it identifies which component of which value chain (deployment or manufacturing) the project corresponds to within that technology. Then for each technology/component value, the model is asked how many investments (initial; first expansion; second expansion etc) are present. 
+Finally for each of these specific *investment phases* the model is asked to return a series of specific information (capacity, investment value, dates, jobs).
+
+## Updating Obsidian 
+**obsidian-sync.ipynb**
+This script updates the Obsidian database with the latest information. Any projects marked by the user as 'checked' in the vault are left untouched. All other projects are updated with the latest model outputs. 
+
+**create-page-views**
+This script creates the markdown views by project, company and location. Each view is a markdown file with dataview logic to show the investment phases associated with that company/location/project. 
