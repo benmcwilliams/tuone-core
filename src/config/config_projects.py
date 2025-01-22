@@ -16,7 +16,7 @@ DROP_LOCATIONS = ['NA', 'Not specified', '', 'Unknown', 'N/A', 'Europe', 'UK', "
                   "Italian plant", "Refinery", "Southern Italy", "Northern and Central Italy", "Southern Estonia", "southern Spain", "Southern Spain",
                   "Northern and Central Italy", "England", "Central and Eastern Europe", "Britain", "Eastern Europe", "German-French border", "Western Europe",
                   "Various locations", "Middle Europe", "Nordic region", "North East England", "North East", "Northern Germany", "South of France", "Southern Norway",
-                  "North-east England"]
+                  "North-east England", "Midlands"]
 
 COUNTRIES = [country.name for country in pycountry.countries] + \
             [country.alpha_2 for country in pycountry.countries] + \
