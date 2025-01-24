@@ -4,3 +4,5 @@ from "src/phases"
 where reject-phase = false and company = "2CA"
 sort location, dt_announce desc
 ```
+
+
