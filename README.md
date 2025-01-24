@@ -68,7 +68,7 @@ The logic is that questions are asked in an iterative manner. First the model id
 Finally for each of these specific *investment phases* the model is asked to return a series of specific information (capacity, investment value, dates, jobs).
 
 ## Updating Obsidian 
-**obsidian-sync.ipynb**
+**z-validated-df.py**
 This script updates the Obsidian database with the latest information. Any projects marked by the user as 'checked' in the vault are left untouched. All other projects are updated with the latest model outputs. 
 
 **create-page-views**
