@@ -28,11 +28,6 @@ article_title_dict = load_jsonl(ARTICLE_ID_TITLE_JSONL)
 source_dict = load_sources_dict('src/source_ID.json')
 article_url_dict = load_jsonl(ARTICLE_ID_URL_JSONL)
 
-#ensure all markdown files in vault have type string and not list
-#vault_path = Path(OBSIDIAN_VAULT_PHASE)
-#for md_file in vault_path.glob('*.md'):
-#    clean_markdown_yaml(md_file)
-
 #run the output validated dataframe cleaned function
 validated_df, num_files = return_validated_df(OBSIDIAN_VAULT_PHASE)
 print(f"Found {num_files} markdown files")
