@@ -29,9 +29,9 @@ source_dict = load_sources_dict('src/source_ID.json')
 article_url_dict = load_jsonl(ARTICLE_ID_URL_JSONL)
 
 #ensure all markdown files in vault have type string and not list
-vault_path = Path(OBSIDIAN_VAULT_PHASE)
-for md_file in vault_path.glob('*.md'):
-    clean_markdown_yaml(md_file)
+#vault_path = Path(OBSIDIAN_VAULT_PHASE)
+#for md_file in vault_path.glob('*.md'):
+#    clean_markdown_yaml(md_file)
 
 #run the output validated dataframe cleaned function
 validated_df, num_files = return_validated_df(OBSIDIAN_VAULT_PHASE)
@@ -61,50 +61,54 @@ print("Output dataframe created and updated with validated entries")
 output_df.to_csv(f"src/outputs/validated/output_df_{timestamp}.csv")
 print("Output dataframe saved and outputted to src/outputs/validated/output_df_{timestamp}.csv")
 
+# Set this variable to control whether to update the vault
+update_vault = True
+
 #update vault content with output_df
-print("Updating vault content with output_df")
-for row_index, (phaseID, row) in enumerate(output_df.iterrows()):
+if update_vault:
+    print("Updating vault content with output_df")
+    for row_index, (phaseID, row) in enumerate(output_df.iterrows()):
 
-    #print which row we are processing out of how many rows there are
-    print(f"Processing row {row_index} out of {len(output_df)}")
+        #print which row we are processing out of how many rows there are
+        print(f"Processing row {row_index} out of {len(output_df)}")
 
-    #get projectID from phase_id
-    projectID = phaseID[:15]
+        #get projectID from phase_id
+        projectID = phaseID[:15]
 
-    #load the project summary
-    master_summary_path = f'{SUMMARIES_EVOLUTIONARY_CONTRASTIVE}/{projectID}.txt'
-    with open(master_summary_path, 'r') as file:
-        project_summary = file.read()
+        #load the project summary
+        master_summary_path = f'{SUMMARIES_EVOLUTIONARY_CONTRASTIVE}/{projectID}.txt'
+        with open(master_summary_path, 'r') as file:
+            project_summary = file.read()
 
-    #construct output filename and filepath
-    filename = f"{phaseID}.md"
-    filepath = os.path.join(OBSIDIAN_VAULT_PHASE, filename)
-    
-    #construct YAML frontmatter
-    yaml_frontmatter = "---\n"
-    #every column is mapped directly to the frontmatter with its value for row == projectID
-    for column_name in output_df.columns:
-        value = row[column_name]
-        # Convert value to string in case it's numeric or another data type
-        yaml_frontmatter += f"{column_name}: {value}\n"
-    yaml_frontmatter += "---\n\n"
+        #construct output filename and filepath
+        filename = f"{phaseID}.md"
+        filepath = os.path.join(OBSIDIAN_VAULT_PHASE, filename)
+        
+        #construct YAML frontmatter
+        yaml_frontmatter = "---\n"
+        #every column is mapped directly to the frontmatter with its value for row == projectID
+        for column_name in output_df.columns:
+            value = row[column_name]
+            # Convert value to string in case it's numeric or another data type
+            yaml_frontmatter += f"{column_name}: {value}\n"
+        yaml_frontmatter += "---\n\n"
 
-    #add summary text
-    yaml_frontmatter += f"## {projectID}\n\n"
-    yaml_frontmatter += f"{project_summary}\n\n"
+        #add summary text
+        yaml_frontmatter += f"## {projectID}\n\n"
+        yaml_frontmatter += f"{project_summary}\n\n"
 
-    #add article references
-    yaml_frontmatter += f"## Article References\n\n"
-    articles = project_articles[projectID]
-    for article in reversed(articles):
-        article = str(article)
-        date = get_value_by_id(article_date_dict, "date", article)
-        title = get_value_by_id(article_title_dict, "title", article)
-        source = get_source_by_id(source_dict, int(article[:2]))
-        url = get_value_by_id(article_url_dict, "url", article)
-        yaml_frontmatter += f"- {date}, {title}, [{source}]({url})\n"
+        #add article references
+        yaml_frontmatter += f"## Article References\n\n"
+        articles = project_articles[projectID]
+        for article in reversed(articles):
+            article = str(article)
+            date = get_value_by_id(article_date_dict, "date", article)
+            title = get_value_by_id(article_title_dict, "title", article)
+            source = get_source_by_id(source_dict, int(article[:2]))
+            url = get_value_by_id(article_url_dict, "url", article)
+            yaml_frontmatter += f"- {date}, {title}, [{source}]({url})\n"
 
-    #write markdown file to obsidian vault
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write(yaml_frontmatter)
+        #write markdown file to obsidian vault
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(yaml_frontmatter)
 
