@@ -4,6 +4,3 @@ from "src/phases"
 where contains(file.name, "DEU-00119-03766") and reject-phase = false
 sort location, company asc
 ```
-
-
-
