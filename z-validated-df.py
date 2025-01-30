@@ -57,7 +57,7 @@ output_df.to_csv(f"src/outputs/validated/output_df_{timestamp}.csv")
 print("Output dataframe saved and outputted to src/outputs/validated/output_df_{timestamp}.csv")
 
 # Set this variable to control whether to update the vault
-update_vault = True
+update_vault = False
 
 #update vault content with output_df
 if update_vault:
