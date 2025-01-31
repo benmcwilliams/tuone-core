@@ -3,24 +3,10 @@ from frontmatter import Frontmatter
 import pymongo
 from src.config.config_paths import OBSIDIAN_VAULT_PHASE
 from src.config.mongoDB import INVESTMENT_PHASE_FIELDS
-import subprocess  # Add this import at the top
-
-def get_git_branch():
-    """Get the current git branch name."""
-    try:
-        result = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], 
-                              capture_output=True, 
-                              text=True, 
-                              check=True)
-        return result.stdout.strip()
-    except subprocess.CalledProcessError:
-        print("Warning: Could not get git branch name. Using 'main' as default.")
-        return 'main'
 
 #establish MongoDB Connection
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-#db_name = f"{get_git_branch()}"  # Use git branch in database name
-db_name = "ben_latest"
+db_name = "tuone"
 db = client[db_name]
 collection = db["projects"]
 #collection.delete_many({})
@@ -98,10 +84,10 @@ def process_markdown_files(directory, debug=False):
                 post = Frontmatter.read(processed_content)
                 
                 # Add these debug prints
-                print(f"\nRaw YAML for {filename}:", post['attributes'])
-                print("Field types:")
-                for key, value in post['attributes'].items():
-                    print(f"{key}: {type(value)}")
+                #print(f"\nRaw YAML for {filename}:", post['attributes'])
+                #print("Field types:")
+                #for key, value in post['attributes'].items():
+                #    print(f"{key}: {type(value)}")
             
             # Clean and normalize metadata
             cleaned_metadata = normalize_yaml_data(post['attributes'])
