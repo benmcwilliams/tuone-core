@@ -19,7 +19,8 @@ def get_git_branch():
 
 #establish MongoDB Connection
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-db_name = f"{get_git_branch()}"  # Use git branch in database name
+#db_name = f"{get_git_branch()}"  # Use git branch in database name
+db_name = "ben_latest"
 db = client[db_name]
 collection = db["projects"]
 #collection.delete_many({})
@@ -27,7 +28,7 @@ collection = db["projects"]
 
 def normalize_yaml_data(metadata):
     """Ensures that YAML metadata follows a consistent structure."""
-    print("BEFORE normalization:", {k: metadata.get(k) for k in ['checked', 'finetune']})
+    #print("BEFORE normalization:", {k: metadata.get(k) for k in ['checked', 'finetune']})
     
     cleaned_data = {}
 
@@ -58,7 +59,7 @@ def normalize_yaml_data(metadata):
                 str_value = str(value)
                 cleaned_data[key] = "" if str_value == "-" else str_value
     
-    print("AFTER normalization:", {k: cleaned_data.get(k) for k in ['checked', 'finetune']})
+    #print("AFTER normalization:", {k: cleaned_data.get(k) for k in ['checked', 'finetune']})
     return cleaned_data
 
 def process_markdown_files(directory, debug=False):
