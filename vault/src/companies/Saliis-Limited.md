@@ -1,6 +1,6 @@
 ```dataview
 table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
 from "src/phases"
-where reject-phase = false and company = "Saliis Limited"
+where reject-phase = false and (company = "Saliis-Limited" or company = "Saliis Limited")
 sort location, dt_announce desc
 ```

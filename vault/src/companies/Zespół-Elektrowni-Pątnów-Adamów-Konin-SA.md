@@ -1,6 +1,6 @@
 ```dataview
 table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
 from "src/phases"
-where reject-phase = false and company = "Zespół Elektrowni Pątnów Adamów Konin SA"
+where reject-phase = false and (company = "Zespół-Elektrowni-Pątnów-Adamów-Konin-SA" or company = "Zespół Elektrowni Pątnów Adamów Konin SA")
 sort location, dt_announce desc
 ```

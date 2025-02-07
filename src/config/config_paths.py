@@ -100,3 +100,5 @@ OBSIDIAN_VAULT_PROJECTS = 'vault/src/projects'
 OBSIDIAN_VAULT_PHASE = 'vault/src/phases'
 OBSIDIAN_VAULT_COMPANIES = 'vault/src/companies'
 OBSIDIAN_VAULT_LOCATIONS = 'vault/src/locations'
+
+PROMPT_EXTRACT_NODES = 'prompts/node_extraction.txt'
