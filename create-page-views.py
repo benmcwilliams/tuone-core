@@ -66,7 +66,12 @@ for company, projectIDs in company_pages.items():
     
     with open(filepath, 'w') as file:
         # Create a dataview query that will show all phases for this company
-        dataview_code = f"table location, company, tech, component, status, phase, capacity, investment_value, dt_announce\nfrom \"src/phases\"\nwhere reject-phase = false and company = \"{company.replace('-', ' ')}\"\nsort location, dt_announce desc"
+        dataview_code = (
+        "table location, company, tech, component, status, phase, capacity, investment_value, dt_announce\n"
+        "from \"src/phases\"\n"
+        f"where reject-phase = false and (company = \"{company}\" or company = \"{company.replace('-', ' ')}\")\n"
+        "sort location, dt_announce desc"
+        )
         file.write("```dataview\n")
         file.write(dataview_code)
         file.write("\n```\n")
@@ -94,7 +99,12 @@ for location, projectIDs in location_pages.items():
     
     with open(filepath, 'w') as file:
         # Create a dataview query that will show all phases for this location
-        dataview_code = f"table company, tech, component, status, capacity, investment_value, dt_announce\nfrom \"src/phases\"\nwhere reject-phase = false and location = \"{location.replace('-', ' ')}\"\nsort company, dt_announce desc"
+        dataview_code = (
+        "table company, tech, component, status, capacity, investment_value, dt_announce\n"
+        "from \"src/phases\"\n"
+        f"where reject-phase = false and (location = \"{location}\" or location = \"{location.replace('-', ' ')}\")\n"
+        "sort company, dt_announce desc"
+        )
         file.write("```dataview\n")
         file.write(dataview_code)
         file.write("\n```\n")
