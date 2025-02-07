@@ -1,5 +1,7 @@
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import json
 import tiktoken
 from functions.utils import load_mappings
@@ -11,6 +13,9 @@ from functions.utils_summaries import get_full_articles_from_IDs, generate_summa
 from functions.general import read_prompt_from_file_only, project_needs_update
 
 openAI_api_key = os.getenv('OPENAI_API_KEY')
+if not openAI_api_key:
+    raise ValueError("OPENAI_API_KEY environment variable is not set")
+
 client = OpenAI(
     api_key=openAI_api_key,
   )
