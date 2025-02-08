@@ -1,29 +1,36 @@
 from openai import OpenAI
-import json
 import os
-from functions.utils_recognise_projects import read_all_articles_from_gcs, write_to_jsonl, yield_full_article_text
-from functions.general import read_prompt_from_file_only
-from src.config.config_paths import GS_ARTICLE_DATABASE
+import json
+from dotenv import load_dotenv
+from pymongo import MongoClient
 
-from dotenv import load_dotenv  # Import the load_dotenv function
-load_dotenv()  # Load environment variables from .env file
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")  # Use the environment variable
+from functions.utils_recognise_projects import load_articles, yield_full_article_text
+from functions.general import read_prompt_from_file_only
+
+load_dotenv()
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 openAI_api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(
     api_key=openAI_api_key,
   )
 
+mongo_client = MongoClient("mongodb://localhost:27017/")
+db = mongo_client["clean_tech_db"]
+article_entities_collection = db["article_entities"]
+
+#delete all existing entries in the collection
+article_entities_collection.delete_many({})
+
 SKIP_PROJECT_IDS = [
     '1402837'
 ]
 
-# File path to articles
-prompt_file = 'prompts/project_recognition.txt'
+PROMPT_PATH = 'prompts/initial_node_extraction.txt'
 
-def extract_projects(text):
+def extract_nodes(text, PROMPT_PATH):
 
-    prompt = read_prompt_from_file_only(prompt_file)
+    prompt = read_prompt_from_file_only(PROMPT_PATH)
 
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -36,26 +43,41 @@ def extract_projects(text):
         ],
         temperature=0)
 
-    companies_mentioned = completion.choices[0].message.content
-    return companies_mentioned
+    # Ensure JSON is properly loaded
+    extracted_nodes = json.loads(completion.choices[0].message.content)
 
-articles_to_process = read_all_articles_from_gcs(GS_ARTICLE_DATABASE)
+    # Extract the list of nodes correctly
+    if "nodes" in extracted_nodes:
+        return extracted_nodes["nodes"]
+    else:
+        raise ValueError("Expected 'nodes' key in LLM output but not found.")
 
-for articleID, text in yield_full_article_text(articles_to_process):
+articles_to_process = load_articles()
 
-    # Skip if article ID is in skip list
+#this speeds up the search for existing article_ids in mongoDB
+article_entities_collection.create_index("article_id", unique=True)
+
+for articleID, text in yield_full_article_text(articles_to_process[:20]):
+
     if articleID in SKIP_PROJECT_IDS:
         print(f"Skipping Article ID: {articleID} - In skip list.")
         continue
 
-    output_file_path = f"src/article_project_lists/{articleID}.jsonl"
+    #check if the article is already in MongoDB
+    existing_entry = article_entities_collection.find_one({"article_id": articleID})
 
-    # Check if the article's output file already exists
-    if os.path.exists(output_file_path):
+    if existing_entry:
         print(f"Skipping Article ID: {articleID} - Already processed.")
-        continue 
+        continue  # Skip this article since it's already stored
 
-    print(f"Processing Article ID: {articleID}")
-    # Extract projects and write the output to a file
-    projects = extract_projects(text)
-    write_to_jsonl(output_file_path, projects)
+    print(f"Processing new Article ID: {articleID}")
+
+    nodes = extract_nodes(text, PROMPT_PATH)
+    # Store raw extraction + article text in MongoDB
+    article_entities_collection.insert_one({
+        "article_id": articleID,
+        "article_text": text,  # For now storing full article text for validation purposes.
+        "nodes": nodes
+    })
+
+print("✅ All articles processed and stored in MongoDB.")

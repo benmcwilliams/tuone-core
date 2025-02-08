@@ -2,6 +2,10 @@ import json
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "src/config/tuone-446608-44616a115888.json"
 from google.cloud import storage  # Import the Google Cloud Storage library
+from src.config.config_paths import GS_ARTICLE_DATABASE
+
+# File path for local cache (where we store the google database after first querying)
+LOCAL_CACHE_PATH = 'src/cached_article_database.jsonl'
 
 def read_all_articles_from_gcs(file_path):
     """
@@ -48,7 +52,7 @@ def yield_full_article_text(articles):
         combined_paragraphs = " ".join(paragraphs.values())
         
         # Combine the title and paragraphs
-        full_text = f"{title} {combined_paragraphs}"
+        full_text = f"{title}. {combined_paragraphs}"
         
         # Yield the article ID and combined text
         yield article_id, full_text
@@ -68,3 +72,24 @@ def write_to_jsonl(file_path, response_text):
         for jsonl_line in jsonl_lines:
             if jsonl_line:  # Ensure it's not an empty line
                 file.write(jsonl_line + '\n')
+
+
+def load_articles():
+    """Load articles from local cache if available, otherwise fetch from GCS"""
+    if os.path.exists(LOCAL_CACHE_PATH):
+        print("Loading articles from local cache...")
+        with open(LOCAL_CACHE_PATH, 'r') as f:
+            return [json.loads(line) for line in f]
+    
+    print("Fetching articles from GCS...")
+    articles = read_all_articles_from_gcs(GS_ARTICLE_DATABASE)
+    
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(LOCAL_CACHE_PATH), exist_ok=True)
+    
+    # Cache the results locally
+    with open(LOCAL_CACHE_PATH, 'w') as f:
+        for article in articles:
+            f.write(json.dumps(article) + '\n')
+    
+    return articles
