@@ -73,3 +73,6 @@ This script updates the Obsidian database with the latest information. Any proje
 
 **create-page-views**
 This script creates the markdown views by project, company and location. Each view is a markdown file with dataview logic to show the investment phases associated with that company/location/project. 
+
+**zz scripts**
+all zz scripts are for testing and maintaining current system, and they can be ignored. 
