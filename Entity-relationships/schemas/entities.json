@@ -1,0 +1,112 @@
+{
+    "name": "extract_clean_tech_entities",
+    "description": "Extracts structured entities from a clean technology investment article. Does not extract relationships.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "nodes": {
+                "type": "object",
+                "properties": {
+                    "companies": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Company"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    },
+                    "joint_ventures": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "JV"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    },
+                    "factories": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Factory"},
+                                "name": {"type": "string"},
+                                "location": {
+                                    "type": "object",
+                                    "properties": {
+                                        "city": {"type": "string"},
+                                        "country": {"type": "string"}
+                                    },
+                                    "required": ["city", "country"]
+                                }
+                            },
+                            "required": ["id", "type", "name", "location"]
+                        }
+                    },
+                    "investments": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Investment"},
+                                "name": {"type": "string"},
+                                "amount": {"type": "string"},
+                                "status": {
+                                    "type": "string",
+                                    "enum": ["announced", "ongoing", "completed"]
+                                }
+                            },
+                            "required": ["id", "type", "name", "amount", "status"]
+                        }
+                    },
+                    "capacities": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Capacity"},
+                                "amount": {"type": "string"},
+                                "status": {
+                                    "type": "string",
+                                    "enum": ["announced", "under construction", "operational"]
+                                }
+                            },
+                            "required": ["id", "type", "amount", "status"]
+                        }
+                    },
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Product"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    }
+                },
+                "required": [
+                    "companies",
+                    "joint_ventures",
+                    "factories",
+                    "investments",
+                    "capacities",
+                    "products"
+                ]
+            }
+        },
+        "required": ["nodes"]
+    }
+}
