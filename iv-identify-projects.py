@@ -1,3 +1,11 @@
+######
+######
+
+# THIS IS JUST A FIRST DRAFT OUTLINE (but it seems to work)
+
+#######
+#######
+
 from openai import OpenAI
 import os
 import json
@@ -7,6 +15,7 @@ from pymongo import MongoClient
 from functions.utils_recognise_projects import load_articles, yield_full_article_text
 from functions.general import read_prompt_from_file_only
 
+# update to load from MongoDB
 load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
@@ -76,7 +85,7 @@ for articleID, text in yield_full_article_text(articles_to_process[:20]):
     # Store raw extraction + article text in MongoDB
     article_entities_collection.insert_one({
         "article_id": articleID,
-        "article_text": text,  # For now storing full article text for validation purposes.
+        #"article_text": text,  # For now storing full article text for validation purposes.
         "nodes": nodes
     })
 
