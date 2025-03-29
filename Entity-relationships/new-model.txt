@@ -1,0 +1,514 @@
+// Company schema
+
+{
+  "_id": "company_id",
+  "type": "company",
+  "name": "Northvolt",
+  "HQ_country": "Sweden",
+  "parent_company": null,
+  "subsidiaries": ["Northvolt Labs"],
+  "factories": ["factory_skelleftea", "northvolt_labs"], // Array of Factory IDs
+  "investments": ["investment_eib_nl"], // Array of Investment IDs
+  "capacities": ["capacity_skelleftea_32gwh"], // Array of Capacity IDs
+  "relationships": [ // Optional: For more complex relationship details
+    {
+      "related_to": "factory_skelleftea",
+      "type": "owns"
+    },
+    {
+      "related_to": "investment_eib_nl",
+      "type": "received"
+    }
+  ],
+  "last_updated": "timestamp"
+}
+
+//factories Collection
+
+{
+  "_id": "factory_id",
+  "type": "factory",
+  "name": "Northvolt Gigafactory",
+  "location": {
+    "city": "Skellefteå",
+    "country": "Sweden"
+  },
+  "technology": "Battery Cell Manufacturing",
+  "owner_companies": ["northvolt"], // Array of Company IDs
+  "investments": ["investment_for_skelleftea"], // Array of Investment IDs
+  "capacities": ["capacity_skelleftea_32gwh"], // Array of Capacity IDs
+  "relationships": [
+    {
+      "related_to": "northvolt",
+      "type": "owned_by"
+    }
+  ],
+  "last_updated": "timestamp"
+}
+
+//investments Collection:
+
+
+{
+  "_id": "investment_id",
+  "type": "investment",
+  "name": "EIB Financing for Northvolt Labs",
+  "company": ["northvolt", "eib"], // Array of Company IDs
+  "amount": {
+    "value": 52.5,
+    "denomination": "million",
+    "currency": "EUR"
+  },
+  "investment_type": "financing",
+  "technology": "Battery Cell Manufacturing",
+  "dates": {...},
+  "funded_factories": ["northvolt_labs"], // Array of Factory IDs
+  "funded_capacities": [], // Array of Capacity IDs
+  "relationships": [
+    {
+      "related_to": "northvolt",
+      "type": "investor"
+    },
+    {
+      "related_to": "eib",
+      "type": "investor"
+    },
+    {
+      "related_to": "northvolt_labs",
+      "type": "funds"
+    }
+  ],
+  "last_updated": "timestamp"
+}
+
+// capacities Collection:
+
+{
+  "_id": "capacity_id",
+  "type": "capacity",
+  "amount": "32 GWh",
+  "factory": "factory_skelleftea", // Factory ID
+  "investment": "investment_for_skelleftea", // Investment ID
+  "status": "planned",
+  "operation_start": null,
+  "relationships": [
+    {
+      "related_to": "factory_skelleftea",
+      "type": "at_factory"
+    },
+    {
+      "related_to": "investment_for_skelleftea",
+      "type": "funded_by"
+    }
+  ],
+  "last_updated": "timestamp"
+}
+
+?? cleaning algorithm architecture
+
+{
+  "nodes": [
+    {
+      "id": "stellantis",
+      "type": "company",
+      "name": "Stellantis",
+      "HQ_country": "Netherlands",
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "catl",
+      "type": "company",
+      "name": "Contemporary Amperex Technology Co. Ltd.",
+      "HQ_country": "China",
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "factory_zaragoza",
+      "type": "factory",
+      "name": "Stellantis-CATL Battery Factory",
+      "location": {
+        "city": "Zaragoza",
+        "country": "Spain"
+      },
+      "technology": "LFP Battery Cell Manufacturing"
+    },
+    {
+      "id": "investment_001",
+      "type": "investment",
+      "name": "Stellantis & CATL Zaragoza LFP Battery Cell Plant Investment",
+      "company": ["stellantis", "catl"],
+      "amount": {
+        "value": 4.1,
+        "denomination": "billion",
+        "currency": "EUR"
+      },
+      "investment_type": "factory construction",
+      "technology": "LFP Batteries",
+      "dates": {
+        "announcement": null,
+        "FID": null,
+        "construction_start": null,
+        "operation_start": "2026"
+      }
+    },
+    {
+      "id": "capacity_50GWh",
+      "type": "capacity",
+      "amount": "50 GWh",
+      "factory": "factory_zaragoza",
+      "investment": "investment_001",
+      "status": "planned",
+      "operation_start": "2026"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "stellantis",
+      "target": "factory_zaragoza",
+      "type": "joint_venture",
+      "details": {}
+    },
+    {
+      "source": "catl",
+      "target": "factory_zaragoza",
+      "type": "joint_venture",
+      "details": {}
+    },
+    {
+      "source": "stellantis",
+      "target": "investment_001",
+      "type": "invests_in",
+      "details": {}
+    },
+    {
+      "source": "catl",
+      "target": "investment_001",
+      "type": "invests_in",
+      "details": {}
+    },
+    {
+      "source": "investment_001",
+      "target": "factory_zaragoza",
+      "type": "funds",
+      "details": {}
+    },
+    {
+      "source": "capacity_50GWh",
+      "target": "factory_zaragoza",
+      "type": "has_capacity",
+      "details": {}
+    },
+    {
+      "source": "investment_001",
+      "target": "capacity_50GWh",
+      "type": "funds",
+      "details": {}
+    }
+  ]
+}
+
+{
+  "nodes": [
+    {
+      "id": "northvolt",
+      "type": "company",
+      "name": "Northvolt",
+      "HQ_country": "Sweden",
+      "parent_company": null,
+      "subsidiaries": [
+        "Northvolt Labs"
+      ]
+    },
+    {
+      "id": "swedish_energy_agency",
+      "type": "company",
+      "name": "Swedish Energy Agency",
+      "HQ_country": "Sweden",
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "scania",
+      "type": "company",
+      "name": "Scania",
+      "HQ_country": null,
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "abb",
+      "type": "company",
+      "name": "ABB",
+      "HQ_country": null,
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "vestas",
+      "type": "company",
+      "name": "Vestas",
+      "HQ_country": null,
+      "parent_company": null,
+      "subsidiaries":
+    },
+    {
+      "id": "northvolt_labs_vasteras",
+      "type": "factory",
+      "name": "Northvolt Labs",
+      "location": {
+        "city": "Västerås",
+        "country": "Sweden"
+      },
+      "technology": "Battery Cell Production"
+    },
+    {
+      "id": "gigafactory_skelleftea",
+      "type": "factory",
+      "name": "Northvolt Gigafactory",
+      "location": {
+        "city": "Skellefteå",
+        "country": "Sweden"
+      },
+      "technology": "Lithium-ion Battery Manufacturing"
+    },
+    {
+      "id": "investment_sea_northvolt_labs_sek",
+      "type": "investment",
+      "name": "Swedish Energy Agency Grant for Northvolt Labs (SEK)",
+      "company": [
+        "swedish_energy_agency",
+        "northvolt"
+      ],
+      "amount": {
+        "value": 146.0,
+        "denomination": "million",
+        "currency": "SEK"
+      },
+      "investment_type": "grant",
+      "technology": "Battery Cell Production",
+      "dates": {
+        "announcement": null,
+        "FID": null,
+        "construction_start": null,
+        "operation_start": null
+      }
+    },
+    {
+      "id": "investment_sea_northvolt_labs_eur",
+      "type": "investment",
+      "name": "Swedish Energy Agency Grant for Northvolt Labs (EUR)",
+      "company": [
+        "swedish_energy_agency",
+        "northvolt"
+      ],
+      "amount": {
+        "value": 15.0,
+        "denomination": "million",
+        "currency": "EUR"
+      },
+      "investment_type": "grant",
+      "technology": "Battery Cell Production",
+      "dates": {
+        "announcement": null,
+        "FID": null,
+        "construction_start": null,
+        "operation_start": null
+      }
+    },
+    {
+      "id": "investment_scania_northvolt_labs",
+      "type": "investment",
+      "name": "Scania Investment in Northvolt Labs",
+      "company": [
+        "scania",
+        "northvolt"
+      ],
+      "amount": {
+        "value": 10.0,
+        "denomination": "million",
+        "currency": "EUR"
+      },
+      "investment_type": "financial backing",
+      "technology": "Battery Cell Production",
+      "dates": {
+        "announcement": null,
+        "FID": null,
+        "construction_start": null,
+        "operation_start": null
+      }
+    },
+    {
+      "id": "investment_vestas_northvolt_labs",
+      "type": "investment",
+      "name": "Vestas Investment in Northvolt Labs",
+      "company": [
+        "vestas",
+        "northvolt"
+      ],
+      "amount": {
+        "value": 10.0,
+        "denomination": "million",
+        "currency": "EUR"
+      },
+      "investment_type": "financial backing",
+      "technology": "Battery Cell Production",
+      "dates": {
+        "announcement": null,
+        "FID": null,
+        "construction_start": null,
+        "operation_start": null
+      }
+    },
+    {
+      "id": "investment_abb_northvolt_labs",
+      "type": "investment",
+      "name": "ABB Support for Northvolt Labs",
+      "company": [
+        "abb",
+        "northvolt"
+      ],
+      "amount": null,
+      "denomination": null,
+      "currency": null
+    },
+    {
+      "id": "capacity_northvolt_labs_employees_initial",
+      "type": "capacity",
+      "amount": "100 people",
+      "factory": "northvolt_labs_vasteras",
+      "investment": null,
+      "status": "planned",
+      "operation_start": null
+    },
+    {
+      "id": "capacity_northvolt_labs_employees_rd",
+      "type": "capacity",
+      "amount": "300 to 400 people",
+      "factory": "northvolt_labs_vasteras",
+      "investment": null,
+      "status": "planned",
+      "operation_start": null
+    },
+    {
+      "id": "capacity_gigafactory_skelleftea_employees",
+      "type": "capacity",
+      "amount": "2,500 jobs",
+      "factory": "gigafactory_skelleftea",
+      "investment": null,
+      "status": "planned",
+      "operation_start": null
+    },
+    {
+      "id": "capacity_gigafactory_skelleftea_8GWh",
+      "type": "capacity",
+      "amount": "8 GWh per year",
+      "factory": "gigafactory_skelleftea",
+      "investment": null,
+      "status": "planned",
+      "operation_start": "2020"
+    },
+    {
+      "id": "capacity_gigafactory_skelleftea_32GWh",
+      "type": "capacity",
+      "amount": "32 GWh by 2023",
+      "factory": "gigafactory_skelleftea",
+      "investment": null,
+      "status": "planned",
+      "operation_start": "2023"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "northvolt",
+      "target": "northvolt_labs_vasteras",
+      "type": "owns",
+      "details": {}
+    },
+    {
+      "source": "swedish_energy_agency",
+      "target": "investment_sea_northvolt_labs_sek",
+      "type": "funds",
+      "details": {}
+    },
+    {
+      "source": "swedish_energy_agency",
+      "target": "investment_sea_northvolt_labs_eur",
+      "type": "funds",
+      "details": {}
+    },
+    {
+      "source": "northvolt",
+      "target": "gigafactory_skelleftea",
+      "type": "plans_to_build",
+      "details": {}
+    },
+    {
+      "source": "northvolt_labs_vasteras",
+      "target": "gigafactory_skelleftea",
+      "type": "precedes",
+      "details": {}
+    },
+    {
+      "source": "scania",
+      "target": "investment_scania_northvolt_labs",
+      "type": "invests_in",
+      "details": {}
+    },
+    {
+      "source": "vestas",
+      "target": "investment_vestas_northvolt_labs",
+      "type": "invests_in",
+      "details": {}
+    },
+    {
+      "source": "abb",
+      "target": "investment_abb_northvolt_labs",
+      "type": "supports",
+      "details": {}
+    },
+    {
+      "source": "northvolt",
+      "target": "scania",
+      "type": "partnership",
+      "details": {}
+    },
+    {
+      "source": "northvolt",
+      "target": "abb",
+      "type": "partnership",
+      "details": {}
+    },
+    {
+      "source": "capacity_northvolt_labs_employees_initial",
+      "target": "northvolt_labs_vasteras",
+      "type": "at_factory",
+      "details": {}
+    },
+    {
+      "source": "capacity_northvolt_labs_employees_rd",
+      "target": "northvolt_labs_vasteras",
+      "type": "at_factory",
+      "details": {}
+    },
+    {
+      "source": "capacity_gigafactory_skelleftea_employees",
+      "target": "gigafactory_skelleftea",
+      "type": "at_factory",
+      "details": {}
+    },
+    {
+      "source": "capacity_gigafactory_skelleftea_8GWh",
+      "target": "gigafactory_skelleftea",
+      "type": "at_factory",
+      "details": {}
+    },
+    {
+      "source": "capacity_gigafactory_skelleftea_32GWh",
+      "target": "gigafactory_skelleftea",
+      "type": "at_factory",
+      "details": {}
+    }
+  ]
+}
