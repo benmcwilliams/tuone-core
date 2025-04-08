@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where reject-phase = false and (company = "Aquila-European-Renewables-Income-Fund-plc" or company = "Aquila European Renewables Income Fund plc")
-sort location, dt_announce desc
-```

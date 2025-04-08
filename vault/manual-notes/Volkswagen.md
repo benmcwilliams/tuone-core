@@ -1,4 +1,0 @@
-via [Electrive](https://www.electrive.com/2020/11/30/vw-transports-batteries-to-zwickau-by-train/) Volkswagen buys cells from [[LG-Wroclaw]]. These are transported by train to the VW facility in [[Volkswagen-Braunschweig]] where they are assembled into modules. They are then transported to [[Volkswagen-Zwickau]] for assembly into final battery vehicles.
-![[Wroclaw-Braunschweig.png]]
-
-Module assembly line is under construction at the [[Volkswagen-Seat-Martorell]] to be operational in 2025. This will assemble cells produced at [[Volkswagen-Sagunt]].
