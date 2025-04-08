@@ -1,0 +1,26 @@
+RELATIONSHIPS_SCHEMA = """
+    "name": "extract_clean_tech_relationships",
+    "description": "Extracts financial relationships between companies, joint ventures, investments, and factories from a clean tech manufacturing article.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "relationships": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "source": {"type": "string"},
+                        "target": {"type": "string"},
+                        "type": {
+                            "type": "string",
+                            "enum": {enum_values}
+                        }
+                    },
+                    "required": ["source", "target", "type"]
+                }
+            }
+        },
+        "required": ["relationships"]
+    }
+}
+"""
