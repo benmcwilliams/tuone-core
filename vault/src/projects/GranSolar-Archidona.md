@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where contains(file.name, "ESP-06992-06916") and reject-phase = false
-sort location, company asc
-```
