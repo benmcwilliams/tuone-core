@@ -72,3 +72,20 @@ def combine_paragraphs(article):
             combined_text += para_obj[key].strip() + " "
 
     return combined_text.strip()
+
+def format_nodes_for_prompt(nodes, allowed_types=None):
+    """
+    Format nodes into a clear ID-to-description mapping for GPT prompts.
+    Falls back to `amount` for Capacity nodes if `name` is missing.
+    """
+    lines = ["The following is a list of known entities. You MUST ALWAYS use the ID when referring to it in a relationship:"]
+    print("- - - allowed types in format_nodes_for_prompt: ", allowed_types)
+    for node in nodes:
+        node_id = node.get("id")
+        node_type = node.get("type")
+
+        if node_id and node_type:
+            if allowed_types is None or node_type in allowed_types:
+                lines.append(f"- ID: {node_id} ({node_type})")
+
+    return "\n".join(lines)
