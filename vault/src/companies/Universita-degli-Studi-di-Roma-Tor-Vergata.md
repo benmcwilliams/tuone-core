@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where reject-phase = false and (company = "Universita-degli-Studi-di-Roma-Tor-Vergata" or company = "Universita degli Studi di Roma Tor Vergata")
-sort location, dt_announce desc
-```

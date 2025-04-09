@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where reject-phase = false and (company = "Energie-Baden-Württemberg-(EnBW)" or company = "Energie Baden Württemberg (EnBW)")
-sort location, dt_announce desc
-```
