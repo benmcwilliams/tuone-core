@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where reject-phase = false and (company = "Ciel-et-Terre-International" or company = "Ciel et Terre International")
-sort location, dt_announce desc
-```

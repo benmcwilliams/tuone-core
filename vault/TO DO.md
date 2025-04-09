@@ -1,2 +1,0 @@
-- add 'intended' as an option for the prompts. 
-- add 'investment-shared' for cases where we can identify the investment but it is across all components

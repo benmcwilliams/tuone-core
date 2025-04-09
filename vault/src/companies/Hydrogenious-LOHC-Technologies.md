@@ -1,6 +1,0 @@
-```dataview
-table location, company, tech, component, status, phase, capacity, investment_value, dt_announce
-from "src/phases"
-where reject-phase = false and (company = "Hydrogenious-LOHC-Technologies" or company = "Hydrogenious LOHC Technologies")
-sort location, dt_announce desc
-```
