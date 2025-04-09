@@ -13,3 +13,9 @@ groups_to_prompts = {
 }
 
 ### define a dictionary to map relationship groups to the node_types that are allowed when they are queried
+nodes_by_group_prompt = {
+    "ownership": ["company", "joint_venture", "factory"],
+    "technological": ["factory", "capacity", "product"],
+    "financial_origin": ["company", "joint_venture"],
+    "financial_technological": ["investment", "capacity", "factory", "product"]
+}

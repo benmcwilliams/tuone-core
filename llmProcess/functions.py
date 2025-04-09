@@ -1,6 +1,7 @@
 import json
 from bson import json_util
 import re
+from inputs import relationship_groups
 
 def ping_openai(client):
     try:
@@ -79,8 +80,12 @@ def format_nodes_for_prompt(nodes, allowed_types=None):
     Falls back to `amount` for Capacity nodes if `name` is missing.
     """
     lines = ["The following is a list of known entities. You MUST ALWAYS use the ID when referring to it in a relationship:"]
-    print("- - - allowed types in format_nodes_for_prompt: ", allowed_types)
+
     for node in nodes:
+        if not isinstance(node, dict):
+            print(f"⚠️ Skipping non-dict node: {node}")
+            continue
+
         node_id = node.get("id")
         node_type = node.get("type")
 
@@ -88,4 +93,12 @@ def format_nodes_for_prompt(nodes, allowed_types=None):
             if allowed_types is None or node_type in allowed_types:
                 lines.append(f"- ID: {node_id} ({node_type})")
 
+    print("✅ Formatted nodes prompt:\n", "\n".join(lines))
     return "\n".join(lines)
+
+def get_schema(group, schema_path="schemas/relationships.json"):
+    with open(schema_path, "r") as f:
+        schema = json.load(f)
+
+    schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
+    return schema
