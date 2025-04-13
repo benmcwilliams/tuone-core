@@ -1,82 +1,106 @@
 # crawley_electrive_automobile.py
 
-import pandas as pd
+import os
+import re
+import time
+import certifi
+
+from pymongo.server_api import ServerApi
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import time
-import re
-from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing from utils
+from pymongo import MongoClient
+from dotenv import load_dotenv
+
+# ==============================
+# MongoDB Utilities (Inlined)
+# ==============================
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")  # This is a shared collection name
+
+def get_mongo_collection():
+    """Returns the shared MongoDB collection for URLs."""
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+    db = client[DB_NAME]
+    return db[COLLECTION_NAME]
+
+def get_existing_urls(collection, category):
+    """Fetch existing URLs from MongoDB collection for a specific category."""
+    return [doc['url'] for doc in collection.find({'category': category}, {'_id': 0, 'url': 1})]
+
+def save_new_urls(collection, urls, category):
+    """Insert new URLs with a specified category into MongoDB."""
+    documents = [{'url': url, 'category': category} for url in urls]
+    if documents:
+        try:
+            collection.insert_many(documents, ordered=False)
+            print(f"Inserted {len(documents)} new URLs into MongoDB.")
+        except Exception as e:
+            print("Mongo insert error:", str(e))
+
+# ==============================
+# Crawling Logic
+# ==============================
 
 # Configuration settings
 BASE_URL = 'https://www.electrive.com/category/'
 
-# Define page types
 PAGE_TYPES = {
     'automobile': 'automobile/',
     'battery': 'battery-fuel-cell/'
 }
 
 def get_initial_url(page_type):
-    """Returns the initial URL based on the page type."""
-    return BASE_URL + PAGE_TYPES.get(page_type, 'automobile/')  # Default to automobile if not found
+    return BASE_URL + PAGE_TYPES.get(page_type, 'automobile/')
 
 def setup_driver():
-    """Sets up the Selenium WebDriver."""
-    driver_path = ChromeDriverManager().install()  # Automatically installs the ChromeDriver
+    driver_path = ChromeDriverManager().install()
     service = Service(driver_path)
-    driver = webdriver.Chrome(service=service)
-    return driver
+    return webdriver.Chrome(service=service)
 
 def scrape_urls(driver, initial_url, max_pages):
-    """Scrapes URLs from the specified initial URL up to a maximum number of pages."""
     driver.get(initial_url)
-    time.sleep(5)  # Wait for the page to load
+    time.sleep(5)
     urls = []
-    page_count = 0  # Initialize page counter
+    page_count = 0
 
     try:
-        while page_count < max_pages:  # Check against max_pages
+        while page_count < max_pages:
             links = driver.find_elements(By.TAG_NAME, 'a')
             urls.extend([link.get_attribute('href') for link in links if link.get_attribute('href') is not None])
-            
+
             more_button = driver.find_element(By.CSS_SELECTOR, 'a.input-button.is-style-ghost[rel="next"]')
             driver.execute_script("arguments[0].click();", more_button)
 
             print('Crawley read another page ;)')
-            time.sleep(5)  # Wait for the new content to load
-            
-            page_count += 1  # Increment page counter
-            
+            time.sleep(5)
+            page_count += 1
     except Exception as e:
-        print("Reached the end of the pages or encountered an error:", str(e))
+        print("Reached the end or encountered an error:", str(e))
 
-    return list(set(urls))  # Remove duplicates
+    return list(set(urls))
 
 def filter_urls(urls):
-    """Filters and returns only the URLs that match the specified pattern."""
     pattern = r'^https://www\.electrive\.com/\d{4}/\d{2}/\d{2}/.*$'
     return [url for url in urls if re.match(pattern, url)]
 
 def electrive_crawler(page_type, max_pages):
-    """Main function to execute the web scraping and URL filtering."""
-    
-    print(f"Starting crawl for Electrive, {page_type}...")
-    
-    # Dynamically set the CSV file path based on the page type
-    CSV_FILE_PATH = f'src/database_urls/URLs/electrive_{page_type}_urls.csv'
-    
+    print(f"Starting crawl for Electrive: {page_type}")
+
+    category = 'electrive'
+    collection = get_mongo_collection()  # Single shared collection for all URLs
+
     driver = setup_driver()
-    
-    initial_url = get_initial_url(page_type)  # Get the initial URL based on the page type
+    initial_url = get_initial_url(page_type)
     urls = scrape_urls(driver, initial_url, max_pages=max_pages)
-    
-    existing_urls = pd.read_csv(CSV_FILE_PATH)['URL'].to_list()
-    new_urls = get_unique_elements(urls, existing_urls)
+
+    existing_urls = set(get_existing_urls(collection, category))
+    new_urls = set(urls) - existing_urls
     new_filtered_urls = filter_urls(new_urls)
-    
-    urls_to_write = existing_urls + new_filtered_urls
-    save_urls_to_csv(urls_to_write, CSV_FILE_PATH)
-    
-    driver.quit()  # Clean up
+
+    save_new_urls(collection, new_filtered_urls, category)
+    driver.quit()
