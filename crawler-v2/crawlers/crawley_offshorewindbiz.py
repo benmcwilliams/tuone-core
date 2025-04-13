@@ -1,16 +1,55 @@
+# offshorewind_crawler.py
+
 import time
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
-from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing from utils
+import os
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import certifi
+from pymongo.server_api import ServerApi
 
-OUTPUT_CSV_PATH = 'src/database_urls/URLs/offshoreWindBiz_urls.csv'
+# ==============================
+# MongoDB Setup
+# ==============================
+
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")  # Shared collection for all crawlers
+
+
+def get_mongo_collection():
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+    db = client[DB_NAME]
+    return db[COLLECTION_NAME]
+
+
+def get_existing_urls(collection, category):
+    return [doc['url'] for doc in collection.find({'category': category}, {'_id': 0, 'url': 1})]
+
+
+def save_new_urls(collection, urls, category):
+    documents = [{'url': url, 'category': category} for url in urls]
+    if documents:
+        try:
+            collection.insert_many(documents, ordered=False)
+            print(f"Inserted {len(documents)} new URLs.")
+        except Exception as e:
+            print("Insert error:", str(e))
+
+
+# ==============================
+# Crawler Config & Logic
+# ==============================
+
 base_url = 'https://www.offshorewind.biz/topic/supply-chain/page/'
 page_param = ''
-
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 }
+
 
 def scrape_page(page_url):
     response = requests.get(page_url, headers=headers)
@@ -19,33 +58,36 @@ def scrape_page(page_url):
     urls = [link['href'] for link in soup.find_all('a', href=True) if link['href'].startswith('http')]
     return urls
 
+
 def offshorewindBiz_crawler(max_pages=150):
+    print('Starting scrape for offshorewind...')
 
-    print('Starting scrape for offshore wind...')
-    
-    try:
-        existing_urls = pd.read_csv(OUTPUT_CSV_PATH)['URL'].tolist()
-    except FileNotFoundError:
-        existing_urls = []
+    category = 'offshorewind'
+    collection = get_mongo_collection()
 
-    all_urls = []  # List to hold all scraped URLs
+    existing_urls = set(get_existing_urls(collection, category))
+    all_urls = []
 
-    for page in range(1, max_pages + 1):  # Adjust the range as needed
+    for page in range(1, max_pages + 1):
         page_url = f'{base_url}{page}{page_param}'
         print(f'Scraping {page_url}')
-        
-        urls = scrape_page(page_url)
-        all_urls.extend(urls)  # Add the found URLs to the all_urls list
+
+        try:
+            urls = scrape_page(page_url)
+        except Exception as e:
+            print(f"Failed to scrape page {page}: {e}")
+            continue
+
         print(f'Found {len(urls)} URLs on page {page}')
+        all_urls.extend(urls)
         print('Crawley read another page ;)')
         time.sleep(1)
 
-    # Optionally, remove duplicates
-    all_urls = list(set(all_urls))
+    total_scraped = len(all_urls)
+    all_urls = list(set(all_urls))  # Remove duplicates
+    print(f"Removed {total_scraped - len(all_urls)} duplicate URLs from scraped list.")
 
-    new_urls = get_unique_elements(all_urls, existing_urls)
-    urls_to_write = existing_urls + new_urls
-    print(f"Total URLs to write: {len(urls_to_write)}")
+    new_urls = list(set(all_urls) - existing_urls)
+    print(f"New unique URLs to insert: {len(new_urls)}")
 
-    # Save the URLs to a CSV file
-    save_urls_to_csv(urls_to_write, OUTPUT_CSV_PATH)
+    save_new_urls(collection, new_urls, category)
