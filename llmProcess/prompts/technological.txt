@@ -7,29 +7,25 @@ A list of known entities is provided to help you match entity IDs after extracti
 1.	Read the article carefully first. Identify any statements that clearly describe a technological relationship between two entities.
 2.	Use the provided list of entities only to map extracted relationships to their IDs.
   → Do not assume a relationship exists just because two entities are listed.
-3.	Return only the following relationship types:
-	•	"at" — this describes a production Capacity being located at a specific Factory
-  •	"produced_at" — this describes the production of a particular Product being located at a specific Factory
+3.	Return only the following relationship types: ["at", "produced_at", "quantifies]
+	•	"at" describes instances where a production Capacity entity is described as being located at a factory location
+  •	"produced_at" — describes instances where a particular Product is described as being produced by a specific Factory
 	•	"quantifies" — when a production Capacity quantifies a particular Product
-4.	For each relationship:
+4.	For different relationship types:
 	•	"at" must have a production Capacity as the source and a Factory as the target
   •	"produced_at" must have a Product as the source and a Factory as the target
 	•	"quantifies" must have a production Capacity as the source and a Product as the target
 5. Only extract relationships when the connection is directly stated or clearly implied by numerical or location context. 
 6. You must fill the source and target fields with the ID of the investment and event, not their names. Only use the IDs exactly as provided in the list.
 
-Example
-“The factory is designed to produce 500,000 vehicles annually.”
-→ capacity-1 at factory-1
+Here is an example: 
 
-**JSON Output Format**
+The Gigafactory in Austin will manufacture 4680 battery cells, with an expected capacity of 100 GWh per year.
 
 {
   "relationships": [
-    {
-      "source": "string",  // Unique ID of the source entity
-      "target": "string",  // Unique ID of the target entity
-      "type": "at" | "produced_at" | "quantifies"
-    }
+    { "source": "capacity-100gwh", "target": "factory-austin", "type": "at" },
+    { "source": "capacity-100gwh", "target": "product-4680cells", "type": "quantifies" },
+    { "source": "product-4680cells", "target": "factory-austin", "type": "produced_at" }
   ]
 }
