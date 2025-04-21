@@ -2,7 +2,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing the utility functions
+from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing the utility scrap_function
 import re  # Importing regex for filtering
 
 # Define headers for the requests

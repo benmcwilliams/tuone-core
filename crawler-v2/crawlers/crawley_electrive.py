@@ -12,15 +12,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pymongo import MongoClient
 from dotenv import load_dotenv
-
-# ==============================
-# MongoDB Utilities (Inlined)
-# ==============================
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
-COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")  # This is a shared collection name
+COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")
 
 def get_mongo_collection():
     """Returns the shared MongoDB collection for URLs."""
@@ -33,14 +29,13 @@ def get_existing_urls(collection, category):
     return [doc['url'] for doc in collection.find({'category': category}, {'_id': 0, 'url': 1})]
 
 def save_new_urls(collection, urls, category):
-    """Insert new URLs with a specified category into MongoDB."""
-    documents = [{'url': url, 'category': category} for url in urls]
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            print(f"Inserted {len(documents)} new URLs into MongoDB.")
+            print(f"Inserted {len(documents)} new URLs.")
         except Exception as e:
-            print("Mongo insert error:", str(e))
+            print("Insert error:", str(e))
 
 # ==============================
 # Crawling Logic

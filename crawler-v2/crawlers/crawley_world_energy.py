@@ -39,10 +39,13 @@ def get_existing_urls(collection, category):
 
 
 def save_new_urls(collection, urls, category):
-    documents = [{'url': url, 'category': category} for url in urls]
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
     if documents:
-        collection.insert_many(documents, ordered=False)
-        print(f"Inserted {len(documents)} new URLs for category '{category}'.")
+        try:
+            collection.insert_many(documents, ordered=False)
+            print(f"Inserted {len(documents)} new URLs.")
+        except Exception as e:
+            print("Insert error:", str(e))
 
 
 # Scrape links from a page

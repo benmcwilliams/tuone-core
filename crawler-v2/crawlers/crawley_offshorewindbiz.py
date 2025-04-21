@@ -9,15 +9,11 @@ from dotenv import load_dotenv
 import certifi
 from pymongo.server_api import ServerApi
 
-# ==============================
-# MongoDB Setup
-# ==============================
-
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
-COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")  # Shared collection for all crawlers
+COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")
 
 
 def get_mongo_collection():
@@ -31,7 +27,7 @@ def get_existing_urls(collection, category):
 
 
 def save_new_urls(collection, urls, category):
-    documents = [{'url': url, 'category': category} for url in urls]
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
@@ -61,33 +57,25 @@ def scrape_page(page_url):
 
 def offshorewindBiz_crawler(max_pages=150):
     print('Starting scrape for offshorewind...')
-
     category = 'offshorewind'
     collection = get_mongo_collection()
-
     existing_urls = set(get_existing_urls(collection, category))
     all_urls = []
-
     for page in range(1, max_pages + 1):
         page_url = f'{base_url}{page}{page_param}'
         print(f'Scraping {page_url}')
-
         try:
             urls = scrape_page(page_url)
         except Exception as e:
             print(f"Failed to scrape page {page}: {e}")
             continue
-
         print(f'Found {len(urls)} URLs on page {page}')
         all_urls.extend(urls)
         print('Crawley read another page ;)')
         time.sleep(1)
-
     total_scraped = len(all_urls)
-    all_urls = list(set(all_urls))  # Remove duplicates
+    all_urls = list(set(all_urls))
     print(f"Removed {total_scraped - len(all_urls)} duplicate URLs from scraped list.")
-
     new_urls = list(set(all_urls) - existing_urls)
     print(f"New unique URLs to insert: {len(new_urls)}")
-
     save_new_urls(collection, new_urls, category)
