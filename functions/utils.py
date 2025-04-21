@@ -110,3 +110,7 @@ def load_sources_dict(file_path):
 
 def get_source_by_id(source_dict, two_digit_ID):
     return source_dict.get(two_digit_ID, "Source not found")
+
+
+def get_date():
+    return None

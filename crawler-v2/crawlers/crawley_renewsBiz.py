@@ -28,11 +28,13 @@ def get_existing_urls(collection, category):
 
 
 def save_new_urls(collection, urls, category):
-    """Insert new URLs with category into MongoDB"""
-    documents = [{'url': url, 'category': category} for url in urls]
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
     if documents:
-        collection.insert_many(documents, ordered=False)
-        print(f"Inserted {len(documents)} new URLs into MongoDB.")
+        try:
+            collection.insert_many(documents, ordered=False)
+            print(f"Inserted {len(documents)} new URLs.")
+        except Exception as e:
+            print("Insert error:", str(e))
 
 
 # Page-level scraping
@@ -58,7 +60,7 @@ def renews_biz_crawler(tech, max_pages):
         'solar': 'solar'
     }
 
-    category = f"renews_{tech_dict[tech]}"
+    category = f"renewsBiz_{tech_dict[tech]}"
     base_url = f'https://renews.biz/{tech}/?p='
     prepend_url = 'https://renews.biz'
     all_urls = []

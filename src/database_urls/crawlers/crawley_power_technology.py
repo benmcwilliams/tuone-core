@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import pandas as pd
-from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing functions
+from src.database_urls.utils import get_unique_elements, save_urls_to_csv  # Importing scrap_function
 
 # Define the CSV file path
 CSV_FILE_PATH = 'src/database_urls/URLs/power_technology_urls.csv'

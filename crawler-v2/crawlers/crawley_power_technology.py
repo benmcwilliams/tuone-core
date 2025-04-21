@@ -28,7 +28,7 @@ def get_existing_urls(collection, category):
     return [doc['url'] for doc in collection.find({'category': category}, {'_id': 0, 'url': 1})]
 
 def save_new_urls(collection, urls, category):
-    documents = [{'url': url, 'category': category} for url in urls]
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
