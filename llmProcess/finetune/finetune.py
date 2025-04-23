@@ -3,6 +3,8 @@ import time
 from openai import OpenAI
 from dotenv import load_dotenv
 
+type = "ownership"
+
 # Load environment variables
 load_dotenv()
 
@@ -11,7 +13,7 @@ def create_fine_tuning_job():
     client = OpenAI()
     
     # Upload the training file
-    with open("finetuning_data/finetuning_ownership_relations.jsonl", "rb") as f:
+    with open(f"finetuning_data/{type}.jsonl", "rb") as f:
         response = client.files.create(
             file=f,
             purpose="fine-tune"
@@ -23,7 +25,7 @@ def create_fine_tuning_job():
     job = client.fine_tuning.jobs.create(
         training_file=file_id,
         model="gpt-4o-mini-2024-07-18",
-        suffix="ownership_relations"
+        suffix=type
     )
     
     print(f"Created fine-tuning job: {job.id}")
