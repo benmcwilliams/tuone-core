@@ -1,9 +1,9 @@
 model_dictionary = {
-    "nodes": "gpt-4o",
-    "ownership": "gpt-4o",
-    "technological": "gpt-4o",
-    "financial_origin": "gpt-4o",
-    "financial_technological": "gpt-4o",
+    "nodes": "ft:gpt-4o-mini-2024-07-18:personal:nodes:BP77XMML",
+    "ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:BPABZ0YG",
+    "technological": "ft:gpt-4o-mini-2024-07-18:personal:technological:BP81OKFE",
+    "financial_origin": "ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BP8EmNJq",
+    "financial_technological": "ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BP8OZFb9",
     "capacities": "gpt-4o",
     "investments": "gpt-4o"
 }   
