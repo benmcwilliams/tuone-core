@@ -68,7 +68,7 @@ def scrape_page(page_url):
 def world_energy_crawler(tech, max_pages):
     print(f'\n--- Starting scrape for {tech} ---')
 
-    category = f"world_energy_{tech}"
+    category = f"world_energy"
     base_url = f'https://www.world-energy.org/channel/{tech_channels[tech]}.html?page='
     all_urls = []
 

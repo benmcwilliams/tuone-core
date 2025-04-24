@@ -60,7 +60,7 @@ def renews_biz_crawler(tech, max_pages):
         'solar': 'solar'
     }
 
-    category = f"renewsBiz_{tech_dict[tech]}"
+    category = f"renewsBiz"
     base_url = f'https://renews.biz/{tech}/?p='
     prepend_url = 'https://renews.biz'
     all_urls = []
