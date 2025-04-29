@@ -15,7 +15,7 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
 URLS_COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")
-ARTICLES_COLLECTION_NAME = os.getenv("MONGO_ARTICLES_NAME")
+ARTICLES_COLLECTION_NAME = os.getenv("MONGO_DB_ARTICLES_COLLECTION_NAME")
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
@@ -66,7 +66,7 @@ def scrape_article(mongo_doc: dict) -> None:
 
 
 def scrape_all_new_articles():
-    cursor = urls_collection.find({'status': 'scraped'})
+    cursor = urls_collection.find({'status': 'new'})
     count = urls_collection.count_documents({'status': 'new'})
     print(f"Found {count} new articles to scrape.")
 
