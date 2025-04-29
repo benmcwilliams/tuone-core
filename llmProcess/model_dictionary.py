@@ -4,9 +4,6 @@ model_dictionary = {
     "technological": "ft:gpt-4o-mini-2024-07-18:personal:technological:BRLQpixd",
     "financial_origin": "ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BRLnaa5P",
     "financial_technological": "ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BRLwp6jl",
-    "capacities": "gpt-4o-mini",
-    "investments": "gpt-4o-mini"
+    "capacities": "ft:gpt-4o-mini-2024-07-18:personal:capacities:BRLdDhGR",
+    "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BRhQzVnK"
 }   
-
-#"capacities": "ft:gpt-4o-mini-2024-07-18:personal:capacities:BRLdDhGR",
-#"investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BRM8EgyY"
