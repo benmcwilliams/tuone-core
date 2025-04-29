@@ -20,10 +20,18 @@ groups_to_prompts = {
 nodes_by_group_prompt = {
     "ownership": ["company", "joint_venture", "factory"],
     "technological": ["factory", "capacity", "product"],
-    "financial_origin": ["company", "joint_venture"],
+    "financial_origin": ["company", "joint_venture", "investment"],
     "financial_technological": ["investment", "capacity", "factory", "product"],
     "capacities": ["capacity"],
     "investments": ["investment"]
+}
+
+# at least one of the following nodes is needed for the relationship type to be processed
+required_node_types = {
+    "ownership": ["factory", "joint_venture"],
+    "technological": ["product", "capacity"],
+    "financial_origin": ["investment"],
+    "financial_technological": ["investment"],
 }
 
 # keys for extracting characteristics about particular nodes
