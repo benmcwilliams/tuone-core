@@ -35,11 +35,6 @@ def save_new_urls(collection, urls, category):
         except Exception as e:
             print("Insert error:", str(e))
 
-
-# ==============================
-# Crawler Config & Logic
-# ==============================
-
 base_url = 'https://www.offshorewind.biz/topic/supply-chain/page/'
 page_param = ''
 headers = {
