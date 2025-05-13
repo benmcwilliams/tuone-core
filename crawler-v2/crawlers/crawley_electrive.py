@@ -37,10 +37,6 @@ def save_new_urls(collection, urls, category):
         except Exception as e:
             print("Insert error:", str(e))
 
-# ==============================
-# Crawling Logic
-# ==============================
-
 # Configuration settings
 BASE_URL = 'https://www.electrive.com/category/'
 
