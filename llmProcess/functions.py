@@ -93,7 +93,6 @@ def format_nodes_for_prompt(nodes, allowed_types=None):
             if allowed_types is None or node_type in allowed_types:
                 lines.append(f"- ID: {node_id}")
 
-    print(" - formatted nodes prompt:\n", "\n".join(lines))
     return "\n".join(lines)
 
 def get_schema(group, schema_path="schemas/relationships.json"):
@@ -102,8 +101,3 @@ def get_schema(group, schema_path="schemas/relationships.json"):
 
     schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
     return schema
-
-def pretty_print_json(data, title=None):
-    if title:
-        print(f"\n🔹 {title}")
-    print(json.dumps(data, indent=2, sort_keys=False))
