@@ -28,7 +28,6 @@ articles_collection = db[ARTICLES_COLLECTION_NAME]
 # Expected date format
 date_format = "%d-%m-%Y"
 
-
 def scrape_article(mongo_doc: dict) -> None:
     url = mongo_doc.get('url')
     doc_id = mongo_doc.get('_id')

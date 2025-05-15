@@ -2,6 +2,8 @@ import json
 from bson import json_util
 import re
 from inputs import relationship_groups
+import os
+import logging
 
 def ping_openai(client):
     try:
@@ -10,30 +12,6 @@ def ping_openai(client):
         print(f"Available Models: {[model.id for model in response.data]}")
     except Exception as e:
         print(f"❌ OpenAI API Connection Error: {e}")
-
-def fetch_articles(collection, limit=00,offset=0):
-    try:
-        # Fetch articles with an optional limit
-        articles_cursor = (collection.find()
-                           .skip(offset)
-                           .limit(limit))
-        articles = list(articles_cursor)
-
-        if articles:
-            print(f"✅ Retrieved {len(articles)} articles from MongoDB.\n")
-            for idx, article in enumerate(articles, start=1):
-                print(f"--- Article {idx} ---")
-                # Convert BSON to JSON using json_util
-                article_json = json.dumps(article, indent=4, default=json_util.default)
-                print(article_json)
-        else:
-            print("⚠️ No articles found in the collection.")
-
-        return articles
-
-    except Exception as e:
-        print(f"❌ Error fetching articles: {e}")
-        return []
     
 def read_prompt_from_file_only(file_path):
     with open(file_path, 'r') as file:
@@ -101,3 +79,17 @@ def get_schema(group, schema_path="schemas/relationships.json"):
 
     schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
     return schema
+
+def setup_logger(article_id, log_dir="logs"):
+    os.makedirs(log_dir, exist_ok=True)
+    logger = logging.getLogger(f"article_{article_id}")
+    logger.setLevel(logging.DEBUG)
+
+    if not logger.handlers:
+        file_path = os.path.join(log_dir, f"{article_id}.log")
+        handler = logging.FileHandler(file_path)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    return logger
