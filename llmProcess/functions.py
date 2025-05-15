@@ -5,6 +5,7 @@ from inputs import relationship_groups
 import os
 import logging
 from functools import lru_cache 
+from openai_client import openai_client
 
 def ping_openai(client):
     try:
@@ -96,3 +97,44 @@ def setup_logger(article_id, log_dir="logs"):
         logger.addHandler(handler)
 
     return logger
+
+import json
+
+def call_openai_function(
+    prompt: str,
+    user_content: str,
+    function_schema: dict,
+    function_name: str,
+    expected_top_key: str,
+    model_name: str,
+    logger,
+):
+    try:
+        response = openai_client.chat.completions.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": user_content}
+            ],
+            functions=[function_schema],
+            function_call={"name": function_name},
+            temperature=0
+        )
+
+        function_args = response.choices[0].message.function_call.arguments
+        parsed = json.loads(function_args)
+
+        logger.info("✅ OpenAI returned output:")
+        logger.info(json.dumps(parsed, indent=2))
+
+        if expected_top_key not in parsed:
+            raise ValueError(f"❌ Expected key '{expected_top_key}' not found in OpenAI output.")
+
+        return parsed[expected_top_key]
+
+    except json.JSONDecodeError as e:
+        print(f"❌ JSON parsing error: {e}")
+        return []
+    except Exception as e:
+        print(f"❌ OpenAI call failed: {e}")
+        return []
