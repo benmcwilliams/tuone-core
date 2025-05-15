@@ -4,6 +4,7 @@ import re
 from inputs import relationship_groups
 import os
 import logging
+from functools import lru_cache 
 
 def ping_openai(client):
     try:
@@ -12,12 +13,14 @@ def ping_openai(client):
         print(f"Available Models: {[model.id for model in response.data]}")
     except Exception as e:
         print(f"❌ OpenAI API Connection Error: {e}")
-    
+
+@lru_cache(maxsize=None)  # we cache each prompt so no need to re-run every time
 def read_prompt_from_file_only(file_path):
     with open(file_path, 'r') as file:
         prompt = file.read()
     return prompt
 
+@lru_cache(maxsize=None) # cache schema
 def load_function_schema(path):
     with open(path, "r") as f:
         return json.load(f)
