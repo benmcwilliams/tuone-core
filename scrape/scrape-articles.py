@@ -73,6 +73,8 @@ def scrape_article(mongo_doc: dict) -> None:
                 'meta': {
                     'date': date_utc,
                     'url': url,
+                    'category': category,
+                    'scraped_on': date.utc.now
                 }
             }
 
