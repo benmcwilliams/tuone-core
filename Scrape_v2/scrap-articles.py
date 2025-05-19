@@ -25,6 +25,8 @@ db = client[DB_NAME]
 urls_collection = db[URLS_COLLECTION_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 
+keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project"}
+
 # Expected date format
 date_format = "%d-%m-%Y"
 
@@ -35,23 +37,19 @@ def scrape_article(mongo_doc: dict) -> None:
     category = mongo_doc.get('category')
 
     try:
-        # Set timeout to 30 seconds
         response = requests.get(url, headers=HEADERS, cookies=COOKIES, timeout=30)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
 
-            # Extract title
             title_tag = soup.select_one('h1') or soup.select_one('h2')
             title = title_tag.get_text(strip=True) if title_tag else "No Title Found"
 
-            # Extract and format date
             raw_date = get_date(soup, category)
             print(f"{title} - Raw date: {raw_date}")
             date = format_date(raw_date)
             print(f"{title} - Formatted date: {date}")
 
-            # Convert to UTC datetime or leave blank if invalid
             date_utc = ""
             if date:
                 try:
@@ -61,23 +59,31 @@ def scrape_article(mongo_doc: dict) -> None:
             else:
                 print(f"[!] No valid date found for article: {title}")
 
-            # Extract all <p> paragraphs
-            paragraphs = {
+            paragraphs_dict = {
                 f"p{idx + 1}": p.get_text(strip=True)
                 for idx, p in enumerate(soup.select('p'))
             }
 
-            # Create article document
+            paragraphs = [paragraphs_dict]  # Wrap the dict in a list
+
+            # Check for keywords in title and paragraphs
+            title_lower = title.lower()
+            all_paragraphs_text = " ".join(paragraphs_dict.values()).lower()
+            if not any(keyword.lower() in title_lower or keyword.lower() in all_paragraphs_text for keyword in keywords):
+                urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'irrelevant'}})
+                print(f"[–] Skipped (no keywords found): {title}")
+                return
+
             article_data = {
                 'title': title,
                 'paragraphs': paragraphs,
                 'meta': {
                     'date': date_utc,
                     'url': url,
+                    'category': category,
                 }
             }
 
-            # Save article and mark as extracted
             articles_collection.insert_one(article_data)
             urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'extracted'}})
             print(f"[✓] Scraped and saved: {title}")
@@ -96,7 +102,6 @@ def scrape_article(mongo_doc: dict) -> None:
     except Exception as e:
         urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'failed', 'error': str(e)}})
         print(f"[✗] Failed to scrape {url}: {e}")
-
 
 def scrape_all_new_articles():
     new_articles_cursor = urls_collection.find({'status': 'new'})
