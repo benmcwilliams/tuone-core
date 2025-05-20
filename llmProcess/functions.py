@@ -7,14 +7,6 @@ import logging
 from functools import lru_cache 
 from openai_client import openai_client
 
-def ping_openai(client):
-    try:
-        response = client.models.list()
-        print("✅ Successfully connected to OpenAI API!")
-        print(f"Available Models: {[model.id for model in response.data]}")
-    except Exception as e:
-        print(f"❌ OpenAI API Connection Error: {e}")
-
 @lru_cache(maxsize=None)  # we cache each prompt so no need to re-run every time
 def read_prompt_from_file_only(file_path):
     with open(file_path, 'r') as file:
@@ -84,6 +76,8 @@ def get_schema(group, schema_path="schemas/relationships.json"):
     schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
     return schema
 
+### Logging utils
+
 def setup_logger(article_id, log_dir="logs"):
     os.makedirs(log_dir, exist_ok=True)
     logger = logging.getLogger(f"article_{article_id}")
@@ -98,7 +92,15 @@ def setup_logger(article_id, log_dir="logs"):
 
     return logger
 
-import json
+### OpenAI Utils
+
+def ping_openai(client):
+    try:
+        response = client.models.list()
+        print("✅ Successfully connected to OpenAI API!")
+        print(f"Available Models: {[model.id for model in response.data]}")
+    except Exception as e:
+        print(f"❌ OpenAI API Connection Error: {e}")
 
 def call_openai_function(
     prompt: str,
