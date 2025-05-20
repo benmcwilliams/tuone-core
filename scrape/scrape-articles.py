@@ -27,7 +27,7 @@ urls_collection = db[URLS_COLLECTION_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 
 keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
-            "mining project", "dam"}
+            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project"}
 
 # Expected date format
 date_format = "%d-%m-%Y"
@@ -69,14 +69,25 @@ def scrape_article(mongo_doc: dict) -> None:
             paragraphs = [paragraphs_dict]  # Wrap the dict in a list
 
             # Check for keywords in title and paragraphs
-            title_lower = title.lower()
-            all_paragraphs_text = " ".join(paragraphs_dict.values()).lower()
 
-            #regex checking for patterns
-            pattern = re.compile(r'\b(' + '|'.join(re.escape(k) for k in keywords) + r')\b', re.IGNORECASE)
+            single_word = {k for k in keywords if ' ' not in k}
+            multi_word  = {k for k in keywords if ' ' in k}
 
-            if not (pattern.search(title_lower) or pattern.search(all_paragraphs_text)):
-                urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'irrelevant'}})
+            word_regex = re.compile(r'\b(' + '|'.join(re.escape(k) for k in single_word) + r')\b',
+                                    re.IGNORECASE)
+
+            title_txt = title.lower()
+            body_txt  = " ".join(paragraphs_dict.values()).lower()
+
+            found = (
+                word_regex.search(title_txt) or
+                word_regex.search(body_txt)  or
+                any(k in title_txt or k in body_txt for k in multi_word)
+            )
+
+            if not found:
+                urls_collection.update_one({'_id': doc_id},
+                                        {'$set': {'status': 'irrelevant'}})
                 print(f"[–] Skipped (no keywords found): {title}")
                 return
 
