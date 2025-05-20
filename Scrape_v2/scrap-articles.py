@@ -9,6 +9,7 @@ from scrap_function.utility import get_date, format_date
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from requests.exceptions import Timeout, RequestException
+import re
 
 # Load environment variables
 load_dotenv()
@@ -25,7 +26,8 @@ db = client[DB_NAME]
 urls_collection = db[URLS_COLLECTION_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 
-keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project"}
+keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
+            "mining project", "dam"}
 
 # Expected date format
 date_format = "%d-%m-%Y"
@@ -69,7 +71,11 @@ def scrape_article(mongo_doc: dict) -> None:
             # Check for keywords in title and paragraphs
             title_lower = title.lower()
             all_paragraphs_text = " ".join(paragraphs_dict.values()).lower()
-            if not any(keyword.lower() in title_lower or keyword.lower() in all_paragraphs_text for keyword in keywords):
+
+            #regex checking for patterns
+            pattern = re.compile(r'\b(' + '|'.join(re.escape(k) for k in keywords) + r')\b', re.IGNORECASE)
+
+            if not (pattern.search(title_lower) or pattern.search(all_paragraphs_text)):
                 urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'irrelevant'}})
                 print(f"[–] Skipped (no keywords found): {title}")
                 return
