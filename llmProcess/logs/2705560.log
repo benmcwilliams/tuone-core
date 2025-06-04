@@ -1,0 +1,122 @@
+2025-05-21 00:22:06,673 - INFO - 📌 Processing Article ID: 2705560 — Volkswagen to decide on Trinity production in 2023
+2025-05-21 00:22:09,413 - INFO - ✅ OpenAI returned output:
+2025-05-21 00:22:09,414 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vw",
+        "type": "company",
+        "name": "VW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wolfsburg",
+        "type": "factory",
+        "name": "Wolfsburg",
+        "location": {
+          "city": "Wolfsburg",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_warmenau",
+        "type": "factory",
+        "name": "Warmenau",
+        "location": {
+          "city": "Warmenau",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_gifhorn",
+        "type": "factory",
+        "name": "Gifhorn",
+        "location": {
+          "city": "Gifhorn",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200k_300k_cars_per_year",
+        "type": "capacity",
+        "amount": "200,000 - 300,000 cars per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_trinity",
+        "type": "product",
+        "name": "Trinity"
+      }
+    ]
+  }
+}
+2025-05-21 00:22:09,414 - INFO - Formatted nodes used for all prompts hereafter: [{'article_id': '67f52bc0981040986eab7652', 'id': 'company_vw', 'type': 'company', 'name': 'VW', 'location': None, 'amount': None, 'status': None}, {'article_id': '67f52bc0981040986eab7652', 'id': 'factory_wolfsburg', 'type': 'factory', 'name': 'Wolfsburg', 'location': {'city': 'Wolfsburg', 'country': 'Germany'}, 'amount': None, 'status': None}, {'article_id': '67f52bc0981040986eab7652', 'id': 'factory_warmenau', 'type': 'factory', 'name': 'Warmenau', 'location': {'city': 'Warmenau', 'country': 'Germany'}, 'amount': None, 'status': None}, {'article_id': '67f52bc0981040986eab7652', 'id': 'factory_gifhorn', 'type': 'factory', 'name': 'Gifhorn', 'location': {'city': 'Gifhorn', 'country': 'Germany'}, 'amount': None, 'status': None}, {'article_id': '67f52bc0981040986eab7652', 'id': 'capacity_200k_300k_cars_per_year', 'type': 'capacity', 'name': None, 'location': None, 'amount': '200,000 - 300,000 cars per year', 'status': 'announced'}, {'article_id': '67f52bc0981040986eab7652', 'id': 'product_trinity', 'type': 'product', 'name': 'Trinity', 'location': None, 'amount': None, 'status': None}]
+2025-05-21 00:22:09,414 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-05-21 00:22:10,952 - INFO - ✅ OpenAI returned output:
+2025-05-21 00:22:10,952 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200k_300k_cars_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-05-21 00:22:10,952 - INFO - Node ID is capacity_200k_300k_cars_per_year
+2025-05-21 00:22:10,952 - INFO - ✅ Match found for capacity_ID 'capacity_200k_300k_cars_per_year' in capacity nodes
+2025-05-21 00:22:10,952 - INFO -   ➕ Set status: announced
+2025-05-21 00:22:10,952 - INFO -   ➕ Set phase: greenfield
+2025-05-21 00:22:10,952 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-05-21 00:22:10,952 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-05-21 00:22:10,952 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:BXWPGQJN
+2025-05-21 00:22:10,953 - INFO - Node types included in the query: ['forms', 'owns']
+2025-05-21 00:22:12,590 - INFO - ✅ OpenAI returned output:
+2025-05-21 00:22:12,590 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vw",
+      "target": "factory_wolfsburg",
+      "type": "owns"
+    },
+    {
+      "source": "company_vw",
+      "target": "factory_warmenau",
+      "type": "owns"
+    },
+    {
+      "source": "company_vw",
+      "target": "factory_gifhorn",
+      "type": "owns"
+    }
+  ]
+}
+2025-05-21 00:22:12,590 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BXWs6rcC
+2025-05-21 00:22:12,590 - INFO - Node types included in the query: ['at', 'produced_at', 'quantifies']
+2025-05-21 00:22:13,913 - INFO - ✅ OpenAI returned output:
+2025-05-21 00:22:13,913 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200k_300k_cars_per_year",
+      "target": "factory_warmenau",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200k_300k_cars_per_year",
+      "target": "product_trinity",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_trinity",
+      "target": "factory_warmenau",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-05-21 00:22:13,913 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-05-21 00:22:13,913 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-05-21 00:22:13,934 - INFO - ✅ Updated Article ID: 67f52bc0981040986eab7652 with 6 nodes and combined text.

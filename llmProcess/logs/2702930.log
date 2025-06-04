@@ -1,0 +1,111 @@
+2025-05-21 02:44:34,862 - INFO - 📌 Processing Article ID: 2702930 — Daimler’s Annette Winkler to quit as Smart CEO
+2025-05-21 02:44:36,984 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:36,985 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daimler",
+        "type": "company",
+        "name": "Daimler"
+      },
+      {
+        "id": "company_smart",
+        "type": "company",
+        "name": "Smart"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hambach",
+        "type": "factory",
+        "name": "Hambach facility",
+        "location": {
+          "city": "null",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hambach_ev_plant",
+        "type": "investment",
+        "name": "Hambach EV Plant",
+        "amount": "500 million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mercedes_compact_model_eq",
+        "type": "product",
+        "name": "Mercedes compact model of the EQ brand"
+      }
+    ]
+  }
+}
+2025-05-21 02:44:36,985 - INFO - Formatted nodes used for all prompts hereafter: [{'article_id': '67f52ad2981040986eab729e', 'id': 'company_daimler', 'type': 'company', 'name': 'Daimler', 'location': None, 'amount': None, 'status': None}, {'article_id': '67f52ad2981040986eab729e', 'id': 'company_smart', 'type': 'company', 'name': 'Smart', 'location': None, 'amount': None, 'status': None}, {'article_id': '67f52ad2981040986eab729e', 'id': 'factory_hambach', 'type': 'factory', 'name': 'Hambach facility', 'location': {'city': 'null', 'country': 'France'}, 'amount': None, 'status': None}, {'article_id': '67f52ad2981040986eab729e', 'id': 'investment_hambach_ev_plant', 'type': 'investment', 'name': 'Hambach EV Plant', 'location': None, 'amount': '500 million euros', 'status': 'announced'}, {'article_id': '67f52ad2981040986eab729e', 'id': 'product_mercedes_compact_model_eq', 'type': 'product', 'name': 'Mercedes compact model of the EQ brand', 'location': None, 'amount': None, 'status': None}]
+2025-05-21 02:44:36,985 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-05-21 02:44:36,985 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-05-21 02:44:37,907 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:37,907 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hambach_ev_plant",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-05-21 02:44:37,907 - INFO - Node ID is investment_hambach_ev_plant
+2025-05-21 02:44:37,907 - INFO - ✅ Match found for investment_ID 'investment_hambach_ev_plant' in investment nodes
+2025-05-21 02:44:37,908 - INFO -   ➕ Set status: announced
+2025-05-21 02:44:37,908 - INFO -   ➕ Set phase: expansion
+2025-05-21 02:44:37,908 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-05-21 02:44:37,908 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:BXWPGQJN
+2025-05-21 02:44:37,908 - INFO - Node types included in the query: ['forms', 'owns']
+2025-05-21 02:44:38,744 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:38,745 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daimler",
+      "target": "factory_hambach",
+      "type": "owns"
+    }
+  ]
+}
+2025-05-21 02:44:38,745 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BXWs6rcC
+2025-05-21 02:44:38,745 - INFO - Node types included in the query: ['at', 'produced_at', 'quantifies']
+2025-05-21 02:44:39,748 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:39,749 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mercedes_compact_model_eq",
+      "target": "factory_hambach",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-05-21 02:44:39,749 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BXXE7fZp
+2025-05-21 02:44:39,749 - INFO - Node types included in the query: ['invests', 'recieves']
+2025-05-21 02:44:40,331 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:40,332 - INFO - {
+  "relationships": []
+}
+2025-05-21 02:44:40,332 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BXXZRxlC
+2025-05-21 02:44:40,332 - INFO - Node types included in the query: ['enables', 'targets', 'funds']
+2025-05-21 02:44:41,488 - INFO - ✅ OpenAI returned output:
+2025-05-21 02:44:41,488 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hambach_ev_plant",
+      "target": "factory_hambach",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hambach_ev_plant",
+      "target": "product_mercedes_compact_model_eq",
+      "type": "targets"
+    }
+  ]
+}
+2025-05-21 02:44:41,507 - INFO - ✅ Updated Article ID: 67f52ad2981040986eab729e with 5 nodes and combined text.

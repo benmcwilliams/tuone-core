@@ -1,0 +1,109 @@
+2025-05-20 23:01:27,192 - INFO - 📌 Processing Article ID: 2706719 — Tesla steps up production to meet growing demand
+2025-05-20 23:01:29,013 - INFO - ✅ OpenAI returned output:
+2025-05-20 23:01:29,014 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai",
+        "type": "factory",
+        "name": "Shanghai Factory",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20k_vehicles_per_month",
+        "type": "capacity",
+        "amount": "20,000 vehicles per month",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_model_3",
+        "type": "product",
+        "name": "Model 3"
+      },
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      }
+    ]
+  }
+}
+2025-05-20 23:01:29,014 - INFO - Formatted nodes used for all prompts hereafter: [{'article_id': '67f52c3c981040986eab7843', 'id': 'company_tesla', 'type': 'company', 'name': 'Tesla', 'location': None, 'amount': None, 'status': None}, {'article_id': '67f52c3c981040986eab7843', 'id': 'factory_shanghai', 'type': 'factory', 'name': 'Shanghai Factory', 'location': {'city': 'Shanghai', 'country': 'China'}, 'amount': None, 'status': None}, {'article_id': '67f52c3c981040986eab7843', 'id': 'capacity_20k_vehicles_per_month', 'type': 'capacity', 'name': None, 'location': None, 'amount': '20,000 vehicles per month', 'status': 'announced'}, {'article_id': '67f52c3c981040986eab7843', 'id': 'product_model_3', 'type': 'product', 'name': 'Model 3', 'location': None, 'amount': None, 'status': None}, {'article_id': '67f52c3c981040986eab7843', 'id': 'product_model_y', 'type': 'product', 'name': 'Model Y', 'location': None, 'amount': None, 'status': None}]
+2025-05-20 23:01:29,014 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-05-20 23:01:29,935 - INFO - ✅ OpenAI returned output:
+2025-05-20 23:01:29,935 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20k_vehicles_per_month",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-05-20 23:01:29,935 - INFO - Node ID is capacity_20k_vehicles_per_month
+2025-05-20 23:01:29,935 - INFO - ✅ Match found for capacity_ID 'capacity_20k_vehicles_per_month' in capacity nodes
+2025-05-20 23:01:29,936 - INFO -   ➕ Set status: announced
+2025-05-20 23:01:29,936 - INFO -   ➕ Set phase: unclear
+2025-05-20 23:01:29,936 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-05-20 23:01:29,936 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-05-20 23:01:29,936 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:BXWPGQJN
+2025-05-20 23:01:29,936 - INFO - Node types included in the query: ['forms', 'owns']
+2025-05-20 23:01:30,997 - INFO - ✅ OpenAI returned output:
+2025-05-20 23:01:30,998 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "target": "factory_shanghai",
+      "type": "owns"
+    }
+  ]
+}
+2025-05-20 23:01:30,998 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BXWs6rcC
+2025-05-20 23:01:30,998 - INFO - Node types included in the query: ['at', 'produced_at', 'quantifies']
+2025-05-20 23:01:32,599 - INFO - ✅ OpenAI returned output:
+2025-05-20 23:01:32,600 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20k_vehicles_per_month",
+      "target": "factory_shanghai",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20k_vehicles_per_month",
+      "target": "product_model_3",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_20k_vehicles_per_month",
+      "target": "product_model_y",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_model_3",
+      "target": "factory_shanghai",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_model_y",
+      "target": "factory_shanghai",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-05-20 23:01:32,600 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-05-20 23:01:32,600 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-05-20 23:01:32,626 - INFO - ✅ Updated Article ID: 67f52c3c981040986eab7843 with 5 nodes and combined text.
