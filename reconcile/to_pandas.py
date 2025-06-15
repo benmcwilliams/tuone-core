@@ -9,53 +9,18 @@ from collections import defaultdict
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
 from functools import reduce
-
-import geopandas as gpd
-from shapely.geometry import Point
-from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
-import networkx as nx
-from neo4j import GraphDatabase
-from copy import copy
-
-from mongo_client import mongo_client, articles_collection
 from to_pandas_helpers import flatten_dict
-
-# # === Fetch all documents with _id and meta fields ===
-# docs = list(
-#     articles_collection.find(
-#         {},  # No filter — get all documents
-#         {
-#             "_id": 1,
-#             "meta.url": 1,
-#             "meta.date": 1
-#         }
-#     )
-# )
-
-# # === Create DataFrame ===
-# data = [{
-#     "_id": str(doc.get("_id")),
-#     "url": doc.get("meta", {}).get("url"),
-#     "date": doc.get("meta", {}).get("date")
-# } for doc in docs]
-
-# df_meta = pd.DataFrame(data)
-
-# # === Display sample or save ===
-# print(df_meta.head())
+from mongo_client import mongo_client, articles_collection
 
 # === Query articles from MongoDB ===
 articles_to_process = list(
     articles_collection.find(
         {
-            "nodes": {"$exists": True},
-            "relationships": {"$exists": True}
+            "nodes": {"$exists": True},         # nodes field must exist
+            "relationships": {"$exists": True}  # relationship field must exist
         },
         {
-            "_id": 1,
-            "nodes": 1,
-            "relationships": 1
+            "_id": 1, "nodes": 1, "relationships": 1 # return the mongodb _id, nodes and relationships
         }
     ).sort("_id", 1)
 )
@@ -65,6 +30,7 @@ all_nodes = []
 all_rels = []
 
 for doc in articles_to_process:
+
     article_id = str(doc.get("_id"))
 
     # === Nodes ===
@@ -106,13 +72,11 @@ for doc in articles_to_process:
 # === Convert to DataFrames ===
 df_all_nodes = pd.DataFrame(all_nodes)
 df_all_rels = pd.DataFrame(all_rels)
-print(df_all_nodes.head())
-print(df_all_rels.head())
+
 print("Loaded to DataFrames: nodes =", len(df_all_nodes), "| relationships =", len(df_all_rels))
 
 # === Create unique_id for each node ===
 df_all_nodes["unique_id"] = df_all_nodes["article_id"] + "_" + df_all_nodes["id"]
-df_all_nodes_raw = df_all_nodes.copy()
 
 # === Create lookup dictionaries ===
 id_to_unique = df_all_nodes.set_index(['article_id', 'id'])['unique_id'].to_dict()
@@ -129,13 +93,11 @@ df_all_rels['source_label'] = df_all_rels.apply(lambda row: get_label(row, 'sour
 df_all_rels['target_label'] = df_all_rels.apply(lambda row: get_label(row, 'target'), axis=1)
 df_all_rels['source'] = df_all_rels.apply(lambda row: get_unique_id(row, 'source'), axis=1)
 df_all_rels['target'] = df_all_rels.apply(lambda row: get_unique_id(row, 'target'), axis=1)
-df_all_rels_raw = df_all_rels.copy()
+
+df_all_nodes.to_excel("output/all_nodes.xlsx")
+df_all_rels.to_excel("output/all_rels.xlsx")
 
 # === Helper Functions ===
-def extract_ids(x):
-    if isinstance(x, list):
-        return [i.split("_")[1] if "_" in i else i for i in x]
-    return []
 
 def safe_lookup_list(ids, lookup, key):
     if not isinstance(ids, list):
@@ -170,6 +132,7 @@ def build_reconciliation_lookup(log):
     return df_log, capacity_ids, product_ids, company_ids, jv_ids, investment_ids
 
 def deduplicate_nodes_and_rels(df_nodes, df_rels):
+    #very small number of exact duplicates which we remove - consider dropping this
     return (
         df_nodes.drop_duplicates(subset="unique_id"),
         df_rels.drop_duplicates(subset=["source", "target", "type"])
@@ -199,19 +162,21 @@ def group_linked_nodes(rel_df, source_nodes, source_col, target_col, entity_labe
     df = df.merge(
         source_nodes[["unique_id", "name"]].rename(columns={
             "unique_id": f"{entity_label_prefix}_unique_id",
-            "name": f"{entity_label_prefix}_name"
+            "name": f"{entity_label_prefix}_name",
         }),
         left_on=source_col, right_on=f"{entity_label_prefix}_unique_id", how="left"
     )
     grouped = df.groupby(target_col).agg({
         f"{entity_label_prefix}_unique_id": lambda x: list(x.dropna().unique()),
-        f"{entity_label_prefix}_name": lambda x: list(x.dropna().unique())
+        f"{entity_label_prefix}_name": lambda x: list(x.dropna().unique()),
     }).reset_index().rename(columns={target_col: "factory_unique_id"})
     return grouped
 
 def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     # capacity_article_ids, product_article_ids, company_article_ids, joint_venture_article_ids, investment_article_ids = build_reconciliation_lookup(main_reconciliation_log)
+
     df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
+
     nodes = extract_node_subsets(df_all_nodes)
     rels = extract_relationship_subsets(df_all_rels)
 
@@ -221,10 +186,10 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
             "unique_id": "factory_unique_id",
             "location_city": "factory_city",
             "location_country": "factory_country",
-            "name":"factory_name"
+            "name":"factory_name",
+            "article_id": "article_id"
         }
     )
-
 
     df_owns_comp = group_linked_nodes(rels["owns"], nodes["companies"], "source", "target", "owner_company")
     df_owns_jv = group_linked_nodes(rels["owns"], nodes["joint_ventures"], "source", "target", "owner_jv")
@@ -251,19 +216,6 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     df_master["capacity_amount"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "amount"))
     df_master["capacity_phase"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "phase"))
 
-    print(df_master.head())
-    # df_master["factory_article_ids"] = df_master["factory_unique_id"].apply(extract_ids)
-
-    # df_master["product_article_ids"] = df_master["product_unique_id"].apply(extract_ids)
-
-    # df_master["capacity_article_ids"] = df_master["capacity_unique_id"].apply(extract_ids)
-
-    # df_master["company_article_ids"] = df_master["owner_company_unique_id"].apply(
-    #     lambda uids: [aid for uid in uids for aid in company_article_ids.get(uid, [])] if isinstance(uids, list) else [])
-
-    # df_master["joint_venture_article_ids"] = df_master["owner_jv_unique_id"].apply(
-    #     lambda uids: [aid for uid in uids for aid in joint_venture_article_ids.get(uid, [])] if isinstance(uids, list) else [])
-
     df_master_final = df_master[[
         "factory_name", "factory_country", "factory_city",
         "owner_company_name", 
@@ -273,8 +225,6 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
         "investment_name", "investment_status", "investment_phase", "investment_amount", 
     ]]
 
-    # df_canonical = pd.DataFrame([{"entity_type": k, "unique_id": v} for k, vs in canonical_entities.items() for v in vs])
-
     df_factories_pivot = df_master.explode(["factory_unique_id"])
     df_owner_companies_pivot = df_master.explode("owner_company_name")
     df_owner_jvs_pivot = df_master.explode("owner_jv_name")
@@ -282,7 +232,7 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     df_capacities_pivot = df_master.explode(["capacity_name", "capacity_status", "capacity_amount", "capacity_phase"])
     df_investments_pivot = df_master.explode(["investment_name", "investment_status", "investment_amount", "investment_phase"])
 
-    with pd.ExcelWriter("reconciliation_outputs_factory.xlsx", engine="openpyxl") as writer:
+    with pd.ExcelWriter("output/reconciliation_outputs_factory.xlsx", engine="openpyxl") as writer:
         df_master.to_excel(writer, sheet_name="factory", index=False)
         df_master_final.to_excel(writer, sheet_name="summary_view_factory", index=False)
         df_factories_pivot.to_excel(writer, sheet_name="pivot_factories", index=False)
@@ -291,11 +241,8 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
         df_products_pivot.to_excel(writer, sheet_name="pivot_products", index=False)
         df_capacities_pivot.to_excel(writer, sheet_name="pivot_capacities", index=False)
         df_investments_pivot.to_excel(writer, sheet_name="pivot_investments", index=False)
-        # df_reconcile_log.to_excel(writer, sheet_name="reconciliation_log_factory", index=False)
-        # df_canonical.to_excel(writer, sheet_name="canonical_entities_factory", index=False)
 
     print("\u2705 Saved factory-centric outputs to reconciliation_outputs_factory.xlsx")
 
-# === Sample Data ===
-# Run enrichment
+# run
 run_factory_centric_enrichment(df_all_nodes, df_all_rels)
