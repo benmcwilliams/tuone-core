@@ -10,7 +10,7 @@ from transformers import pipeline
 import re
 from mongo_client import mongo_client, articles_collection
 from utils import combine_paragraphs
-from functions import clean_text
+from reconcile.src.products_utils import clean_text
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -44,7 +44,6 @@ query = {
 
 entries_to_process = list(articles_collection.find(query))
 print(f"Found {len(entries_to_process)} entries to classify with version {pipeline_version}")
-
 
 # ----------- Main Processing Loop -----------
 for idx, article in enumerate(entries_to_process, 1):
