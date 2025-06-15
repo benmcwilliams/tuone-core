@@ -21,29 +21,29 @@ from copy import copy
 from mongo_client import mongo_client, articles_collection
 from to_pandas_helpers import flatten_dict
 
-# === Fetch all documents with _id and meta fields ===
-docs = list(
-    articles_collection.find(
-        {},  # No filter — get all documents
-        {
-            "_id": 1,
-            "meta.url": 1,
-            "meta.date": 1
-        }
-    )
-)
+# # === Fetch all documents with _id and meta fields ===
+# docs = list(
+#     articles_collection.find(
+#         {},  # No filter — get all documents
+#         {
+#             "_id": 1,
+#             "meta.url": 1,
+#             "meta.date": 1
+#         }
+#     )
+# )
 
-# === Create DataFrame ===
-data = [{
-    "_id": str(doc.get("_id")),
-    "url": doc.get("meta", {}).get("url"),
-    "date": doc.get("meta", {}).get("date")
-} for doc in docs]
+# # === Create DataFrame ===
+# data = [{
+#     "_id": str(doc.get("_id")),
+#     "url": doc.get("meta", {}).get("url"),
+#     "date": doc.get("meta", {}).get("date")
+# } for doc in docs]
 
-df_meta = pd.DataFrame(data)
+# df_meta = pd.DataFrame(data)
 
-# === Display sample or save ===
-print(df_meta.head())
+# # === Display sample or save ===
+# print(df_meta.head())
 
 # === Query articles from MongoDB ===
 articles_to_process = list(
