@@ -8,13 +8,13 @@ from crawlers.crawley_power_technology import power_technology_crawler
 from config.config_crawl import WORLD_ENERGY_CHANNELS, PV_MAGAZINE_EXTENSIONS, RENEWS_BIZ_TECH_DICT, ELECTRIVE_PAGE_TYPES
 
 # set max pages to crawl for each source
-world_energy_max_pages = 1
-pv_magazine_max_pages = 1
-pv_tech_max_pages = 1
-renews_biz_max_pages = 1
-offshore_wind_max_pages = 1
-electrive_max_pages = 1
-power_technology_max_pages = 1
+world_energy_max_pages = 2
+pv_magazine_max_pages = 3
+pv_tech_max_pages = 2
+renews_biz_max_pages = 2
+offshore_wind_max_pages = 2
+electrive_max_pages = 2
+power_technology_max_pages = 2
 
 if __name__ == "__main__":
 
