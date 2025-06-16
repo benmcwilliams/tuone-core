@@ -14,7 +14,6 @@ from functools import lru_cache
 import pycountry
 import requests
 
-
 # ──────────────────────────────── Configuration ────────────────────────────────
 GEONAMES_USERNAME   = "chiarastrama"
 VALID_FEATURE_CODES = {"PPL", "PPLA", "PPLA2", "PPLC", "PPLG"}      # populated-place codes
