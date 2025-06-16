@@ -11,3 +11,11 @@ def combine_paragraphs(article):
             combined_text += para_obj[key].strip() + " "
 
     return combined_text.strip()
+
+def ping_openai(client):
+    try:
+        response = client.models.list()
+        print("✅ Successfully connected to OpenAI API!")
+        print(f"Available Models: {[model.id for model in response.data]}")
+    except Exception as e:
+        print(f"❌ OpenAI API Connection Error: {e}")
