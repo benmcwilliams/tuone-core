@@ -1,10 +1,7 @@
-import sys
+import sys; sys.path.append("..")
 import os
 import time
 from datetime import datetime, timezone
-
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(project_root)
 
 from transformers import pipeline
 import re
@@ -14,6 +11,25 @@ from reconcile.src.products_utils import clean_text
 from dotenv import load_dotenv
 
 load_dotenv()
+
+import logging
+
+def get_article_logger(article_id: str) -> logging.Logger:
+    logger = logging.getLogger(str(article_id))
+    logger.setLevel(logging.INFO)
+
+    # Avoid adding multiple handlers in repeated runs
+    if not logger.handlers:
+        file_handler = logging.FileHandler(os.path.join(log_dir, f"{article_id}.log"), mode='w')
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+    return logger
+
+# Base log folder
+log_dir = "logs/logs_articles"
+os.makedirs(log_dir, exist_ok=True)
 
 # ----------- Timing: Start Clock -----------
 global_start = time.time()
@@ -26,6 +42,7 @@ labels = ["battery", "biomass", "geothermal", "hydroelectric", "hydrogen", "nucl
 clf = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 # ----------- MongoDB Query -----------
+#ADD LOGIC that the product must be connected to a factory? 
 query = {
     "llm_processed": {"$exists": True},
     "$or": [
@@ -50,21 +67,40 @@ for idx, article in enumerate(entries_to_process, 1):
     article_start = time.time()
 
     title = article["title"]
-    print(f"\n[{idx}/{len(entries_to_process)}] Processing article: {title}")
     article_id = article["_id"]
+    print(f"\n[{idx}/{len(entries_to_process)}] Processing article: {title}")
+
+    logger = get_article_logger(article_id)  # create logger for this article
+    logger.info(f"{title}")
+
     raw_text = combine_paragraphs(article)
     text = clean_text(raw_text)
+
     product_nodes = [node for node in article["nodes"] if node.get("type") == "product"]
+    logger.info(f"Found {len(product_nodes)} product node(s)")
+
+    product_ids_with_produced_at = set(
+    rel["source"] for rel in article["relationships"]
+    if rel.get("type") == "produced_at")
+    logger.info(f"Found {len(product_ids_with_produced_at)} product node(s) with a 'produced_at' relationship")
 
     for product_node in product_nodes:
+
         product_name = product_node.get("name")
         if not product_name:
+            logger.warning("Skipping unnamed product node.")
             continue
+
+        if product_node["id"] not in product_ids_with_produced_at:
+            logger.info(f"Skipping product '{product_name}' (not linked via 'produced_at')")
+            continue  # skip classification
 
         premise = f"Item: {product_name}. Context: {text}"
         result = clf(premise, labels)
 
-        product_node["technology"] = result["labels"][0]  # storing only the top result
+        predicted_label = result["labels"][0]
+        product_node["technology"] = predicted_label  # storing only the top result
+        logger.info(f"✓ Classified '{product_name}' → {predicted_label}")
 
     articles_collection.update_one(
         {"_id": article_id},

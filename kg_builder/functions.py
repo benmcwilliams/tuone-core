@@ -34,20 +34,6 @@ def normalize_type(type_str):
         return None
     return re.sub(r"\s+", "_", type_str.strip().lower())
 
-def combine_paragraphs(article):
-    paragraphs = article.get('paragraphs', [])
-    # Handle missing or empty paragraphs
-    if not paragraphs:
-        print("⚠️ No paragraphs found in the article.")
-        return ""
-
-    combined_text = ""
-    for para_obj in paragraphs:
-        for key in sorted(para_obj.keys()):
-            combined_text += para_obj[key].strip() + " "
-
-    return combined_text.strip()
-
 def format_nodes_for_prompt(nodes, allowed_types=None):
     """
     Format nodes into a clear ID-to-description mapping for GPT prompts.

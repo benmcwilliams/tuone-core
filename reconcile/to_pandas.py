@@ -1,3 +1,4 @@
+import sys; sys.path.append("..")
 from rapidfuzz import fuzz
 import pandas as pd
 import os
