@@ -94,14 +94,6 @@ def setup_logger(article_id, log_dir="logs"):
 
 ### OpenAI Utils
 
-def ping_openai(client):
-    try:
-        response = client.models.list()
-        print("✅ Successfully connected to OpenAI API!")
-        print(f"Available Models: {[model.id for model in response.data]}")
-    except Exception as e:
-        print(f"❌ OpenAI API Connection Error: {e}")
-
 def call_openai_function(
     prompt: str,
     user_content: str,
