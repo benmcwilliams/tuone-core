@@ -59,7 +59,7 @@ EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"] --> E
 BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"] --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
 %% Section 5: Excel export
 
-EnrichCap --> SelectCols
+EnrichCap --> SelectCols["5.1 Select final columns"]
 SelectCols --> PivotViews["5.2 Explode columns for pivot views"]
 PivotViews --> SaveExcel["5.3 Save multiple sheets to reconciliation_outputs_factory.xlsx"]
 SaveExcel --> End([✅ 5.4 Done])
