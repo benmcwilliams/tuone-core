@@ -15,18 +15,21 @@ os.makedirs(log_dir, exist_ok=True)
 
 # Configure logging
 
-def get_article_logger(article_id) -> logging.Logger:
+def get_article_logger(article_id) -> (logging.Logger, logging.FileHandler):
     logger = logging.getLogger(str(article_id))
     logger.setLevel(logging.INFO)
 
-    if not logger.handlers:
-        log_path = os.path.join(log_dir, f"{article_id}.log")
-        handler = logging.FileHandler(log_path, mode='w')
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
+    # Avoid duplicate handlers
+    if logger.hasHandlers():
+        logger.handlers.clear()
 
-    return logger
+    log_path = os.path.join(log_dir, f"{article_id}.log")
+    handler = logging.FileHandler(log_path, mode='w')
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    return logger, handler
 
 # 1. Query MongoDB for entries needing enrichment
 
@@ -52,7 +55,7 @@ print(f"Found {len(entries)} article(s) with unenriched factory location(s)")
 for doc in entries:
     article_id = doc["_id"]
     title = doc.get("title", "No Title")
-    logger = get_article_logger(article_id)
+    logger, handler = get_article_logger(article_id)
     logger.info(f"Processing article: {title}")
 
     updated = False
@@ -137,5 +140,8 @@ for doc in entries:
                       "factory_geonames_enriched_at": datetime.now(timezone.utc)}}
         )
         logging.info(f"✓ Updated article {article_id} with enriched factory location(s)")
+
+    logger.removeHandler(handler)
+    handler.close()
 
 logging.info("🎉 Finished enrichment of factory nodes")
