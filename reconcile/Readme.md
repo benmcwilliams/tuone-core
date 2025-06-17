@@ -14,6 +14,7 @@
  into summary and pivoted views for easy exploration.
 
 ```mermaid
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
 flowchart TD
 
@@ -54,16 +55,10 @@ SubsetNodes --> FactoryMeta["3.6 Extract FACTORY metadata:\nname, city, country"
 MergeGroups --> MergeFactory["3.7 Merge grouped tables on factory_unique_id"]
 MergeFactory --> MergeMeta["3.8 Join with factory metadata"]
 
-%% New arrow from factory metadata to merge step
-FactoryMeta --> MergeMeta
-
 %% Section 4: Enrichment using dictionaries
 MergeMeta --> BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"]
 BuildLookups --> EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"]
 BuildLookups --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
-
-%% New arrow from 2.2 (SubsetNodes) to 4.2 (EnrichInvest)
-SubsetNodes --> EnrichInvest
 
 %% Section 5: Excel export
 EnrichInvest --> SelectCols["5.1 Select final output columns"]
@@ -71,4 +66,5 @@ EnrichCap --> SelectCols
 SelectCols --> PivotViews["5.2 Explode columns for pivot views"]
 PivotViews --> SaveExcel["5.3 Save multiple sheets to reconciliation_outputs_factory.xlsx"]
 SaveExcel --> End([✅ 5.4 Done])
+```
 ```
