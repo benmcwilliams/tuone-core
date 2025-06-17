@@ -54,6 +54,7 @@ GroupCapacities --> MergeGroups
 SubsetNodes --> FactoryMeta["3.6 Extract FACTORY metadata:\nname, city, country"]
 MergeGroups --> MergeFactory["3.7 Merge grouped tables on factory_unique_id"]
 MergeFactory --> MergeMeta["3.8 Join with factory metadata"]
+FactoryMeta --> MergeMeta  %% 🔁 New arrow from 3.6 to 3.8
 
 %% Section 4: Enrichment using dictionaries
 MergeMeta --> BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"]
