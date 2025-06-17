@@ -33,6 +33,7 @@ UniqueID["1.7 Add unique_id = article_id + node id"] --> IDToLabel["1.8 Build lo
 SaveRawExcel --> StartEnrich([2️⃣ run_factory_centric_enrichment])
 StartEnrich --> Deduplicate["2.1 Drop duplicate rows"]
 Deduplicate --> SubsetNodes["2.2 Filter df_all_nodes by label → factories, products, etc."]
+SubsetNodes["2.2 Filter df_all_nodes by label → factories, products, etc."] --> BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"]
 Deduplicate --> SubsetRels["2.3 Filter df_all_rels by type → owns, funds, at, produced_at"]
 
 %% Section 3: Grouping via relationships
@@ -51,10 +52,11 @@ MergeGroups --> MergeFactory["3.7 Merge grouped tables on factory_unique_id"]
 MergeFactory --> MergeMeta["3.8 Join with factory metadata"]
 FactoryMeta["3.6 Extract FACTORY metadata:\nname, city, country"] --> MergeMeta["3.8 Join with factory metadata"]
 %% Section 4: Enrichment using dictionaries
-MergeMeta --> BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"]
-BuildLookups --> EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"]
-BuildLookups --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
 
+MergeMeta["3.8 Join with factory metadata"] --> EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"]
+BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"] --> EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"]
+EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"] --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
+BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"] --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
 %% Section 5: Excel export
 EnrichInvest --> SelectCols["5.1 Select final output columns"]
 EnrichCap --> SelectCols
