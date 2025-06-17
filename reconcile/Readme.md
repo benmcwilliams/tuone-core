@@ -13,7 +13,6 @@
  The result is a set of clean Excel files where each factory has its ecosystem (direct links) of owners, products, investments, and capacities clearly organised
  into summary and pivoted views for easy exploration.
 
-## Mermaid
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
 flowchart TD
@@ -62,6 +61,9 @@ FactoryMeta --> MergeMeta
 MergeMeta --> BuildLookups["4.1 Create inv_lookup & cap_lookup from df_all_nodes"]
 BuildLookups --> EnrichInvest["4.2 Enrich investment fields:\nname, amount, phase, status"]
 BuildLookups --> EnrichCap["4.3 Enrich capacity fields:\nname, amount, phase, status"]
+
+%% New arrow from 2.2 (SubsetNodes) to 4.2 (EnrichInvest)
+SubsetNodes --> EnrichInvest
 
 %% Section 5: Excel export
 EnrichInvest --> SelectCols["5.1 Select final output columns"]
