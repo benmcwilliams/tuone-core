@@ -26,13 +26,8 @@ IterateDocs --> FlattenRels["1.4 Flatten 'relationships' → flat rows with sour
 FlattenNodes --> DFNodes["1.5 Create df_all_nodes"]
 FlattenRels --> DFRels["1.6 Create df_all_rels"]
 DFNodes --> UniqueID["1.7 Add unique_id = article_id + node id"]
-DFNodes --> IDToLabel["1.8 Build lookup dictionaries:\nid_to_unique & id_to_label"]
-DFNodes --> Role1["1.9 Used for filtering entity types:\nfactories, companies, etc."]
-DFNodes --> Role2["1.10 Used to enrich metadata:\nname, status, amount, etc."]
-DFNodes --> Role3["1.11 Used for lookup during relationship mapping"]
-DFNodes --> Role4["1.12 Used to build enrichment dictionaries:\ninv_lookup & cap_lookup"]
-DFRels --> MapSourceTarget["1.13 Use lookup to map:\nsource & target → unique_id and label"]
-MapSourceTarget --> SaveRawExcel["1.14 Save df_all_nodes & df_all_rels to Excel"]
+UniqueID["1.7 Add unique_id = article_id + node id"] --> IDToLabel["1.8 Build lookup dictionaries:\nid_to_unique & id_to_label"]
+
 
 %% Section 2: Begin enrichment function
 SaveRawExcel --> StartEnrich([2️⃣ run_factory_centric_enrichment])
