@@ -29,15 +29,17 @@ def get_article_logger(article_id) -> logging.Logger:
     return logger
 
 # 1. Query MongoDB for entries needing enrichment
+
 query = {
+    "factory_geonames_enriched_at": {"$exists": False},  # skip already-processed
     "nodes": {
         "$elemMatch": {
             "type": "factory",
-            "location.city": {"$exists": True, "$ne": None},    # have a city field that is not empty
-            "location.country": {"$exists": True, "$ne": None}, # have a country field that is not empty
+            "location.city": {"$exists": True, "$nin": [None, "", "null", "nan"]},
+            "location.country": {"$exists": True, "$nin": [None, "", "null", "nan"]},
             "$or": [
-                {"location.factory_city_adm_name": {"$exists": False}},  # not already enriched
-                {"location.factory_city_adm_name": None}                 # enriched but with a null value (perhaps call failed)
+                {"location.factory_city_adm1_name": {"$exists": False}},
+                {"location.factory_city_adm1_name": None}
             ]
         }
     }
