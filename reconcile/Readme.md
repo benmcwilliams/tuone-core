@@ -13,7 +13,7 @@
  The result is a set of clean Excel files where each factory has its ecosystem (direct links) of owners, products, investments, and capacities clearly organised
  into summary and pivoted views for easy exploration.
 
-```mermaid
+
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
 flowchart TD
