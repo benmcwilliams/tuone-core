@@ -281,6 +281,10 @@ def process_articles(articles_to_process, model_dictionary):
         except Exception as e:
             print(f"❌ Error processing Article ID {articleID}: {e}")  
 
+        for handler in logger.handlers:
+            handler.close()
+        logger.handlers.clear()
+
 n_articles = 10000
 offset_articles = 0
 
