@@ -137,7 +137,7 @@ def extract_relationships(text, nodes, relationship_group, model_name, logger, a
 
     return formatted_relationships
 
-def should_skip_article(article, logger, run_id):
+def should_skip_article(article, run_id):
     """Returns (proceed, text). If should skip, returns (False, None)."""
 
     # skip if article has been validated
@@ -156,13 +156,11 @@ def should_skip_article(article, logger, run_id):
     previous_run = article.get("llm_processed", {}).get("run_id")
     if previous_run == run_id:
         print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
-        logger.info(f"⏭️  Skipping – article already processed with run_id: {run_id}")
         return False, None
 
     # skip if there is no text
     text = combine_paragraphs(article)
     if not text:
-        logger.warning("⚠️ No valid text found; skipping.")
         return False, None
 
     return True, text
@@ -190,7 +188,7 @@ def process_articles(articles_to_process, model_dictionary):
     for article in articles_to_process:
         articleID  = str(article["_id"])
 
-        proceed, text = should_skip_article(article, logger, run_id)
+        proceed, text = should_skip_article(article, run_id)
         if not proceed:
             continue
 
