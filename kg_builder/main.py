@@ -189,12 +189,13 @@ def process_articles(articles_to_process, model_dictionary):
     run_id = model_dictionary["run_id"]
     for article in articles_to_process:
         articleID  = str(article["_id"])
-        logger      = setup_logger(articleID)
 
         proceed, text = should_skip_article(article, logger, run_id)
         if not proceed:
             continue
 
+        #set up logger
+        logger      = setup_logger(articleID)
         print(f"📌 Processing Article: {article['title']}")
         logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
 
