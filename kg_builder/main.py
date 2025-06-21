@@ -144,14 +144,12 @@ def should_skip_article(article, logger, run_id):
     val = article.get("validation")
     if val is True:
         print("⏭️  Skipping – article is validated")
-        logger.info("⏭️  Skipping – article is validated")
         return False, None
 
     if isinstance(val, (int, float)):
         processed_on = datetime.fromtimestamp(val, tz=timezone.utc)\
                                .strftime("%Y-%m-%d %H:%M UTC")
         print(f"⏭️  Skipping – article was validated on {processed_on}")
-        logger.info("⏭️  Skipping – article was validated on %s", processed_on)
         return False, None
     
     # skip if this model architecture has already processed article
@@ -193,12 +191,12 @@ def process_articles(articles_to_process, model_dictionary):
         articleID  = str(article["_id"])
         logger      = setup_logger(articleID)
 
-        print(f"📌 Processing Article: {article['title']}")
-        logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
-
         proceed, text = should_skip_article(article, logger, run_id)
         if not proceed:
             continue
+
+        print(f"📌 Processing Article: {article['title']}")
+        logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
 
         try:
             # extract entities
