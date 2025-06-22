@@ -289,7 +289,7 @@ def process_articles(articles_to_process, model_dictionary):
 n_articles = 1000
 offset_articles = 0
 
-cutoff_date = datetime(2025, 1, 1)
+cutoff_date = datetime(2024, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
