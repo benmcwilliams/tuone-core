@@ -143,19 +143,19 @@ def should_skip_article(article, run_id):
     # skip if article has been validated
     val = article.get("validation")
     if val is True:
-        print("⏭️  Skipping – article is validated")
+        #print("⏭️  Skipping – article is validated")
         return False, None
 
     if isinstance(val, (int, float)):
         processed_on = datetime.fromtimestamp(val, tz=timezone.utc)\
                                .strftime("%Y-%m-%d %H:%M UTC")
-        print(f"⏭️  Skipping – article was validated on {processed_on}")
+        #print(f"⏭️  Skipping – article was validated on {processed_on}")
         return False, None
     
     # skip if this model architecture has already processed article
     previous_run = article.get("llm_processed", {}).get("run_id")
     if previous_run == run_id:
-        print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
+        #print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
         return False, None
 
     # skip if there is no text
@@ -286,7 +286,7 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.removeHandler(handler)
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
-n_articles = 10000
+n_articles = 1000
 offset_articles = 0
 
 cutoff_date = datetime(2025, 1, 1)
