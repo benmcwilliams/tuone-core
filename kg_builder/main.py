@@ -1,17 +1,16 @@
 import sys; sys.path.append("..")
-from kg_builder.functions import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, format_nodes_for_prompt, get_schema, setup_logger
+from kg_builder.format_prompts import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, get_schema, format_nodes_for_prompt
+from kg_builder.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function
 from utils import ping_openai, combine_paragraphs
-from kg_builder.functions import call_openai_function
 from kg_builder.model_dictionary import model_dictionary
 from kg_builder.inputs import relationship_groups, groups_to_prompts, nodes_by_group_prompt, characteristic_node_types, required_node_types
 from openai_client import openai_client
 from mongo_client import mongo_client, articles_collection
-from datetime import datetime, timezone
 
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 from bson import json_util
 import re
-from datetime import datetime, timezone
 load_dotenv()
 
 try:
@@ -137,49 +136,6 @@ def extract_relationships(text, nodes, relationship_group, model_name, logger, a
 
     return formatted_relationships
 
-def should_skip_article(article, run_id):
-    """Returns (proceed, text). If should skip, returns (False, None)."""
-
-    # skip if article has been validated
-    val = article.get("validation")
-    if val is True:
-        #print("⏭️  Skipping – article is validated")
-        return False, None
-
-    if isinstance(val, (int, float)):
-        processed_on = datetime.fromtimestamp(val, tz=timezone.utc)\
-                               .strftime("%Y-%m-%d %H:%M UTC")
-        #print(f"⏭️  Skipping – article was validated on {processed_on}")
-        return False, None
-    
-    # skip if this model architecture has already processed article
-    previous_run = article.get("llm_processed", {}).get("run_id")
-    if previous_run == run_id:
-        #print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
-        return False, None
-
-    # skip if there is no text
-    text = combine_paragraphs(article)
-    if not text:
-        return False, None
-
-    return True, text
-
-def print_article_stats(articles):
-    """
-    Print basic descriptive statistics for a list of article documents.
-    """
-    n_total = len(articles)
-    n_validated = sum(1 for a in articles if "validation" in a and a["validation"] is not None)
-    n_llm_processed = sum(1 for a in articles if "llm_processed" in a and a["llm_processed"] is not None)
-
-    print("\n📊 Descriptive Stats (from articles_to_process)")
-    print(f"🧾 Total articles loaded: {n_total}")
-    print(f"✅ Validated: {n_validated}")
-    print(f"❌ Not validated: {n_total - n_validated}")
-    print(f"🤖 LLM processed: {n_llm_processed}")
-    print(f"🕳️ Not LLM processed: {n_total - n_llm_processed}")
-
 def process_articles(articles_to_process, model_dictionary):
 
     print_article_stats(articles_to_process)
@@ -198,13 +154,12 @@ def process_articles(articles_to_process, model_dictionary):
         logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
 
         try:
-            # extract entities
+            # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
             formatted_nodes = extract_nodes(text, model_dictionary["nodes"], logger)
-            logger.info(f"Formatted nodes used for all prompts hereafter: {formatted_nodes}")
 
-            # attach characteristics to entities (capacities and investments)
+            # - - - STAGE 2: enrich entities with characteristics (capacities and investments)
             for relationship_group, config in characteristic_node_types.items():
-                model_name = model_dictionary[relationship_group] # select fine-tuned model
+                model_name = model_dictionary[relationship_group]  # select fine-tuned model
                 id_key = config["id_key"]
                 type_match = config["type_match"]
 
@@ -237,10 +192,10 @@ def process_articles(articles_to_process, model_dictionary):
                     if not found_match:
                         logger.info(f"⚠️ No match found for {id_key} '{node_id}' in formatted_nodes")
 
-            # extract relationships between entities
+            # - - - STAGE 3: extract relationships between entities
             all_relationships = []
             for relationship_group,model_name in model_dictionary.items():
-                if relationship_group in ["nodes", "capacities", "investments"]: #skip nodes, capacities and investments which have logic elsewhere
+                if relationship_group in ["nodes", "capacities", "investments"]: # skip nodes, capacities and investments prompts which have logic elsewhere
                     continue
 
                 def has_required_nodes(formatted_nodes, required_types):
