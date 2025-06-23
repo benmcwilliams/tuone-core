@@ -6,61 +6,51 @@ import os
 import logging
 from functools import lru_cache 
 from openai_client import openai_client
+from utils import combine_paragraphs
+from datetime import datetime, timezone
 
-@lru_cache(maxsize=None)  # we cache each prompt so no need to re-run every time
-def read_prompt_from_file_only(file_path):
-    with open(file_path, 'r') as file:
-        prompt = file.read()
-    return prompt
+def should_skip_article(article, run_id):
+    """Returns (proceed, text). If should skip, returns (False, None)."""
 
-@lru_cache(maxsize=None) # cache schema
-def load_function_schema(path):
-    with open(path, "r") as f:
-        return json.load(f)
+    # skip if article has been validated
+    val = article.get("validation")
+    if val is True:
+        #print("⏭️  Skipping – article is validated")
+        return False, None
 
-def normalize_id(id_str):
-    # we need this helper as model is indifferent returning capacity-1 or capacity_1
-    return id_str.replace("-", "_") if id_str else id_str
+    if isinstance(val, (int, float)):
+        processed_on = datetime.fromtimestamp(val, tz=timezone.utc)\
+                               .strftime("%Y-%m-%d %H:%M UTC")
+        #print(f"⏭️  Skipping – article was validated on {processed_on}")
+        return False, None
+    
+    # skip if this model architecture has already processed article
+    previous_run = article.get("llm_processed", {}).get("run_id")
+    if previous_run == run_id:
+        #print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
+        return False, None
 
-def normalize_type(type_str):
+    # skip if there is no text
+    text = combine_paragraphs(article)
+    if not text:
+        return False, None
+
+    return True, text
+
+def print_article_stats(articles):
     """
-    Normalize a node or entity type to lower_snake_case.
-    Examples:
-    - "Company" -> "company"
-    - "Joint Venture" -> "joint_venture"
-    - "  Joint venture  " -> "joint_venture"
+    Print basic descriptive statistics for a list of article documents.
     """
-    if not type_str:
-        return None
-    return re.sub(r"\s+", "_", type_str.strip().lower())
+    n_total = len(articles)
+    n_validated = sum(1 for a in articles if "validation" in a and a["validation"] is not None)
+    n_llm_processed = sum(1 for a in articles if "llm_processed" in a and a["llm_processed"] is not None)
 
-def format_nodes_for_prompt(nodes, allowed_types=None):
-    """
-    Format nodes into a clear ID-to-description mapping for GPT prompts.
-    Falls back to `amount` for Capacity nodes if `name` is missing.
-    """
-    lines = ["The following is a list of known entities. You MUST ALWAYS use the ID when referring to it in a relationship:"]
-
-    for node in nodes:
-        if not isinstance(node, dict):
-            print(f"⚠️ Skipping non-dict node: {node}")
-            continue
-
-        node_id = node.get("id")
-        node_type = node.get("type")
-
-        if node_id and node_type:
-            if allowed_types is None or node_type in allowed_types:
-                lines.append(f"- ID: {node_id}")
-
-    return "\n".join(lines)
-
-def get_schema(group, schema_path="schemas/relationships.json"):
-    with open(schema_path, "r") as f:
-        schema = json.load(f)
-
-    schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
-    return schema
+    print("\n📊 Descriptive Stats (from articles_to_process)")
+    print(f"🧾 Total articles loaded: {n_total}")
+    print(f"✅ Validated: {n_validated}")
+    print(f"❌ Not validated: {n_total - n_validated}")
+    print(f"🤖 LLM processed: {n_llm_processed}")
+    print(f"🕳️ Not LLM processed: {n_total - n_llm_processed}")
 
 ### Logging utils
 
