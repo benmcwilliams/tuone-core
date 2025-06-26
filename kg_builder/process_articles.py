@@ -1,3 +1,4 @@
+import sys; sys.path.append("..")
 import json
 from bson import json_util
 import re
