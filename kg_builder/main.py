@@ -241,7 +241,7 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.removeHandler(handler)
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
-n_articles = 3000
+n_articles = 3005
 offset_articles = 0
 
 cutoff_date = datetime(2024, 1, 1)
