@@ -3,7 +3,7 @@ import time
 from openai import OpenAI
 from dotenv import load_dotenv
 
-type = "investments"
+type = "capacities"
 
 # Load environment variables
 load_dotenv()
@@ -13,7 +13,7 @@ def create_fine_tuning_job():
     client = OpenAI()
     
     # Upload the training file
-    with open(f"finetuning_data/{type}.jsonl", "rb") as f:
+    with open(f"{type}.jsonl", "rb") as f:
         response = client.files.create(
             file=f,
             purpose="fine-tune"
