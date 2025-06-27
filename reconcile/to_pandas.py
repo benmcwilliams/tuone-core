@@ -27,8 +27,6 @@ from mongo_client import mongo_client, articles_collection
 # The result is a set of clean Excel files where each factory has its ecosystem (direct links) of owners, products, investments, and capacities clearly organised
 # into summary and pivoted views for easy exploration.
 
-
-    
 # 1.2: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
 articles_to_process = list(
     articles_collection.find(
@@ -112,8 +110,8 @@ df_all_rels['source'] = df_all_rels.apply(lambda row: get_unique_id(row, 'source
 df_all_rels['target'] = df_all_rels.apply(lambda row: get_unique_id(row, 'target'), axis=1)
 
 # 1.12: Save raw flattened node and relationship data to Excel
-df_all_nodes.to_excel("output/all_nodes.xlsx")
-df_all_rels.to_excel("output/all_rels.xlsx")
+df_all_nodes.to_excel("storage/output/all_nodes.xlsx")
+df_all_rels.to_excel("storage/output/all_rels.xlsx")
 
 # 2. Start enrichment: main function is defined at the end
 # Commenting will continue through function and helper definitions
@@ -164,11 +162,11 @@ def deduplicate_nodes_and_rels(df_nodes, df_rels):
 def extract_node_subsets(df_nodes):
     # 2.2: Split the df_all_nodes DataFrame into subsets by label for different entity types
     return {
-        "joint_ventures": df_nodes[df_nodes["label"].str.lower() == "joint_venture"],
-        "factories": df_nodes[df_nodes["label"].str.lower().str.contains("factory", na=False)].copy(),
-        "capacities": df_nodes[df_nodes["label"].str.lower() == "capacity"],
-        "products": df_nodes[df_nodes["label"].str.lower() == "product"],
-        "companies": df_nodes[df_nodes["label"].str.lower() == "company"],
+        "joint_venture": df_nodes[df_nodes["label"].str.lower() == "joint_venture"],
+        "factory": df_nodes[df_nodes["label"].str.lower().str.contains("factory", na=False)].copy(),
+        "capacity": df_nodes[df_nodes["label"].str.lower() == "capacity"],
+        "product": df_nodes[df_nodes["label"].str.lower() == "product"],
+        "company": df_nodes[df_nodes["label"].str.lower() == "company"],
         "investment": df_nodes[df_nodes["label"].str.lower() == "investment"]
     }
 
@@ -212,21 +210,22 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     rels = extract_relationship_subsets(df_all_rels)
 
     # 3.6: Extract factory metadata: name, city, country
-    df_factory_locations = nodes["factories"][[
-        "name", "unique_id", "location_city", "location_country"
+    df_factory_locations = nodes["factory"][[
+        "name", "unique_id", "location_city", "location_country", "factory_city_adm1_name"
     ]].rename(columns={
         "unique_id": "factory_unique_id",
         "location_city": "factory_city",
+        "factory_city_adm1_name": "geonames_city",
         "location_country": "factory_country",
         "name": "factory_name"
     })
 
     # 3.1–3.5: Group by relationships
-    df_owns_comp = group_linked_nodes(rels["owns"], nodes["companies"], "source", "target", "owner_company")
-    df_owns_jv = group_linked_nodes(rels["owns"], nodes["joint_ventures"], "source", "target", "owner_jv")
+    df_owns_comp = group_linked_nodes(rels["owns"], nodes["company"], "source", "target", "owner_company")
+    df_owns_jv = group_linked_nodes(rels["owns"], nodes["joint_venture"], "source", "target", "owner_jv")
     df_funds = group_linked_nodes(rels["funds"], nodes["investment"], "source", "target", "investment")
-    df_products = group_linked_nodes(rels["produced_at"], nodes["products"], "source", "target", "product")
-    df_capacities = group_linked_nodes(rels["at"], nodes["capacities"], "source", "target", "capacity")
+    df_products = group_linked_nodes(rels["produced_at"], nodes["product"], "source", "target", "product")
+    df_capacities = group_linked_nodes(rels["at"], nodes["capacity"], "source", "target", "capacity")
 
     # 3.7–3.8: Merge all grouped attributes into master factory table
     df_master = reduce(lambda left, right: pd.merge(left, right, on="factory_unique_id", how="outer"), [
@@ -236,7 +235,8 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
 
     # 4.1: Create enrichment lookup dictionaries
     inv_lookup = nodes["investment"].set_index("unique_id")[["name", "status", "amount", "phase"]].to_dict("index")
-    cap_lookup = nodes["capacities"].set_index("unique_id")[["name", "status", "amount", "phase"]].to_dict("index")
+    cap_lookup = nodes["capacity"].set_index("unique_id")[["name", "status", "amount", "phase"]].to_dict("index")
+    prod_lookup = nodes["product"].set_index("unique_id")[["technology"]].to_dict("index")
 
     # 4.2: Enrich investments using lookup
     df_master["investment_name"] = df_master["investment_unique_id"].apply(lambda uids: safe_lookup_list(uids, inv_lookup, "name"))
@@ -250,15 +250,21 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     df_master["capacity_amount"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "amount"))
     df_master["capacity_phase"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "phase"))
 
+    # 4.4: Enrich product using lookup
+    df_master["product_technology"] = df_master["product_unique_id"].apply(lambda ids: safe_lookup_list(ids, prod_lookup, "technology"))
+
     # 5.1: Define summary output
     df_master_final = df_master[[
         "factory_name", "factory_country", "factory_city",
         "owner_company_name", 
         "owner_jv_name", 
-        "product_name", 
+        "product_name", "product_technology",
         "capacity_name", "capacity_status",  "capacity_phase", "capacity_amount",
         "investment_name", "investment_status", "investment_phase", "investment_amount", 
     ]]
+
+    df_master_final[["owner_company_name","factory_country","factory_city","geonames_city","factory_name","product_name","product_technology",
+                     "capacity_amount","capacity_status","capacity_phase"]].to_excel("storage/output/capacities.xlsx")
 
     # 5.2: Pivot for views
     df_factories_pivot = df_master.explode(["factory_unique_id"])
@@ -269,7 +275,7 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     df_investments_pivot = df_master.explode(["investment_name", "investment_status", "investment_amount", "investment_phase"])
 
     # 5.3: Save everything to Excel
-    with pd.ExcelWriter("output/reconciliation_outputs_factory.xlsx", engine="openpyxl") as writer:
+    with pd.ExcelWriter("storage/output/reconciliation_outputs_factory.xlsx", engine="openpyxl") as writer:
         df_master.to_excel(writer, sheet_name="factory", index=False)
         df_master_final.to_excel(writer, sheet_name="summary_view_factory", index=False)
         df_factories_pivot.to_excel(writer, sheet_name="pivot_factories", index=False)
