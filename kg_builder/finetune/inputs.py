@@ -14,6 +14,6 @@ groups_to_prompts = {
     "technological": "/Users/ben/Documents/bruegel/data_new/WORKING/INDUSTRY/tuone_v6/llmProcess/prompts/technological.txt",
     "financial_origin": "/Users/ben/Documents/bruegel/data_new/WORKING/INDUSTRY/tuone_v6/llmProcess/prompts/financial-origin.txt",
     "financial_technological": "/Users/ben/Documents/bruegel/data_new/WORKING/INDUSTRY/tuone_v6/llmProcess/prompts/financial-technological.txt",
-    "capacities": "/Users/ben/Documents/bruegel/data_new/WORKING/INDUSTRY/tuone_v6/llmProcess/prompts/capacities.txt",
-    "investments": "/Users/ben/Documents/bruegel/data_new/WORKING/INDUSTRY/tuone_v6/llmProcess/prompts/investments.txt"
+    "capacities": "prompts/capacities.txt",
+    "investments": "prompts/investments.txt"
 }
