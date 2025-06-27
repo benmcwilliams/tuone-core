@@ -55,7 +55,7 @@ articles_to_process = list(
                 "$ne": False
             }
         },
-        {"_id": 1, "paragraphs": 1, "nodes": 1, "validation": 1}
+        {"_id": 1, "title": 1, "paragraphs": 1, "nodes": 1, "validation": 1}
     )
     .sort("_id", -1)   
 )
