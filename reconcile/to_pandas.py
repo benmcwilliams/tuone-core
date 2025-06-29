@@ -1,5 +1,5 @@
 # 1.1: Import necessary libraries and modules
-import sys; sys.path.append("..")  # Allow access to parent folder modules
+import sys; sys.path.append("..")  # allow access to parent folder modules
 from rapidfuzz import fuzz
 import pandas as pd
 import os
@@ -32,7 +32,8 @@ articles_to_process = list(
     articles_collection.find(
         {
             "nodes": {"$exists": True},
-            "relationships": {"$exists": True}
+            "relationships": {"$exists": True},
+            "llm_processed.run_id": "v1"
         },
         {
             "_id": 1, "nodes": 1, "relationships": 1
@@ -53,10 +54,11 @@ for doc in articles_to_process:
     for _, row in df_nodes.iterrows():
         node_id = row.get("id")
         label = row.get("type", "Entity")
+
         if not node_id or not label:
             continue
         raw_props = {k: v for k, v in row.items() if k not in ["id", "type"]}
-        flat_props = flatten_dict(raw_props)
+        flat_props = flatten_dict(raw_props)    # dictionary which outputs our location_city and location_country values
         flat_props.update({
             "article_id": article_id,
             "id": node_id,
@@ -69,7 +71,7 @@ for doc in articles_to_process:
     for _, row in df_rels.iterrows():
         source = row.get("source")
         target = row.get("target")
-        rel_type = row.get("type", "RELATED_TO")
+        rel_type = row.get("type", "RELATED_TO")      # placeholder RELATED_TO in case of model non-conformity
         group = row.get("group", "unspecified")
         if not source or not target:
             continue
@@ -211,11 +213,10 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
 
     # 3.6: Extract factory metadata: name, city, country
     df_factory_locations = nodes["factory"][[
-        "name", "unique_id", "location_city", "location_country", "factory_city_adm1_name"
+        "name", "unique_id", "location_city", "location_country"
     ]].rename(columns={
         "unique_id": "factory_unique_id",
         "location_city": "factory_city",
-        "factory_city_adm1_name": "geonames_city",
         "location_country": "factory_country",
         "name": "factory_name"
     })
@@ -236,7 +237,7 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     # 4.1: Create enrichment lookup dictionaries
     inv_lookup = nodes["investment"].set_index("unique_id")[["name", "status", "amount", "phase"]].to_dict("index")
     cap_lookup = nodes["capacity"].set_index("unique_id")[["name", "status", "amount", "phase"]].to_dict("index")
-    prod_lookup = nodes["product"].set_index("unique_id")[["technology"]].to_dict("index")
+    #prod_lookup = nodes["product"].set_index("unique_id")[["technology"]].to_dict("index")
 
     # 4.2: Enrich investments using lookup
     df_master["investment_name"] = df_master["investment_unique_id"].apply(lambda uids: safe_lookup_list(uids, inv_lookup, "name"))
@@ -250,20 +251,17 @@ def run_factory_centric_enrichment(df_all_nodes, df_all_rels):
     df_master["capacity_amount"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "amount"))
     df_master["capacity_phase"] = df_master["capacity_unique_id"].apply(lambda ids: safe_lookup_list(ids, cap_lookup, "phase"))
 
-    # 4.4: Enrich product using lookup
-    df_master["product_technology"] = df_master["product_unique_id"].apply(lambda ids: safe_lookup_list(ids, prod_lookup, "technology"))
-
     # 5.1: Define summary output
     df_master_final = df_master[[
         "factory_name", "factory_country", "factory_city",
         "owner_company_name", 
         "owner_jv_name", 
-        "product_name", "product_technology",
+        "product_name",
         "capacity_name", "capacity_status",  "capacity_phase", "capacity_amount",
         "investment_name", "investment_status", "investment_phase", "investment_amount", 
     ]]
 
-    df_master_final[["owner_company_name","factory_country","factory_city","geonames_city","factory_name","product_name","product_technology",
+    df_master_final[["owner_company_name","factory_country","factory_city","factory_name","product_name",
                      "capacity_amount","capacity_status","capacity_phase"]].to_excel("storage/output/capacities.xlsx")
 
     # 5.2: Pivot for views
