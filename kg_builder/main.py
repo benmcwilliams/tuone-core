@@ -1,9 +1,9 @@
 import sys; sys.path.append("..")
-from kg_builder.format_prompts import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, get_schema, format_nodes_for_prompt
-from kg_builder.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function
+from kg_builder.src.format_prompts import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, get_schema, format_nodes_for_prompt
+from kg_builder.src.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function
 from utils import ping_openai, combine_paragraphs
-from kg_builder.model_dictionary import model_dictionary
-from kg_builder.inputs import relationship_groups, groups_to_prompts, nodes_by_group_prompt, characteristic_node_types, required_node_types
+from kg_builder.src.model_dictionary import model_dictionary
+from kg_builder.src.inputs import relationship_groups, groups_to_prompts, nodes_by_group_prompt, characteristic_node_types, required_node_types
 from openai_client import openai_client
 from mongo_client import mongo_client, articles_collection
 
@@ -25,8 +25,8 @@ ping_openai()
 
 def extract_nodes(text, model_name, logger):
 
-    PROMPT_PATH = "prompts/entities-only.txt"
-    FUNCTION_SCHEMA_PATH = "schemas/entities.json"
+    PROMPT_PATH = "src/prompts/entities-only.txt"
+    FUNCTION_SCHEMA_PATH = "src/schemas/entities.json"
 
     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
     prompt = read_prompt_from_file_only(PROMPT_PATH)
@@ -66,7 +66,7 @@ def extract_nodes(text, model_name, logger):
 def extract_node_characteristics(text, nodes, relationship_group, model_name, logger):
 
     PROMPT_PATH = groups_to_prompts[relationship_group]
-    FUNCTION_SCHEMA_PATH = f"schemas/{relationship_group}.json"
+    FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
 
     prompt = read_prompt_from_file_only(PROMPT_PATH)
     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
@@ -92,7 +92,7 @@ def extract_node_characteristics(text, nodes, relationship_group, model_name, lo
 def extract_relationships(text, nodes, relationship_group, model_name, logger, allowed_types=None):
 
     PROMPT_PATH = groups_to_prompts[relationship_group]
-    FUNCTION_SCHEMA_PATH = f"schemas/{relationship_group}.json"
+    FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
 
     prompt = read_prompt_from_file_only(PROMPT_PATH)
     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
@@ -241,11 +241,11 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.removeHandler(handler)
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
-n_articles = 200
+#n_articles = 200
 offset_articles = 0
 category = "electrive"
 
-cutoff_date = datetime(2024, 1, 1)
+cutoff_date = datetime(2021, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(

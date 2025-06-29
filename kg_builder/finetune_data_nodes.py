@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 from utils import ping_openai, combine_paragraphs
 from mongo_client import mongo_client, articles_collection
-from kg_builder.format_prompts import read_prompt_from_file_only
+from kg_builder.src.format_prompts import read_prompt_from_file_only
 import json
 from collections import defaultdict
 

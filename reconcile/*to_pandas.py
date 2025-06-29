@@ -11,7 +11,7 @@ from collections import defaultdict
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
 from functools import reduce
-from src.to_pandas_helpers import flatten_dict
+from reconcile.src.flatten_helpers import flatten_dict
 from mongo_client import mongo_client, articles_collection
 
 # === OVERVIEW ===
