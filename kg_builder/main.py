@@ -243,17 +243,19 @@ def process_articles(articles_to_process, model_dictionary):
 
 n_articles = 200
 offset_articles = 0
+category = "electrive"
 
-cutoff_date = datetime(2025, 6, 1)
+cutoff_date = datetime(2025, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
-        {"meta.date": {"$gt": cutoff_date}},  
+        {"meta.date": {"$gt": cutoff_date},
+         "meta.category": category},  
         {"_id": 1, "meta": 1, "title": 1, "validation": 1, "llm_processed": 1,  "paragraphs": 1}       
     )
     .sort("_id", -1)            # sort by MongoDB ObjectId (descending)
     .skip(offset_articles)      # skip first `offset` articles
-    .limit(n_articles)          # limit the number of articles
+    #.limit(n_articles)          # limit the number of articles
 )
 
 process_articles(articles_to_process, model_dictionary)
