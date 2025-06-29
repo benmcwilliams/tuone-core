@@ -16,25 +16,31 @@ def should_skip_article(article, run_id):
     # skip if article has been validated
     val = article.get("validation")
     if val is True:
-        #print("⏭️  Skipping – article is validated")
+        print("⏭️  Skipping – article is validated")
         return False, None
 
     if isinstance(val, (int, float)):
         processed_on = datetime.fromtimestamp(val, tz=timezone.utc)\
                                .strftime("%Y-%m-%d %H:%M UTC")
-        #print(f"⏭️  Skipping – article was validated on {processed_on}")
+        print(f"⏭️  Skipping – article was validated on {processed_on}")
         return False, None
     
     # skip if this model architecture has already processed article
     previous_run = article.get("llm_processed", {}).get("run_id")
     if previous_run == run_id:
-        #print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
+        print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
         return False, None
 
     # skip if there is no text
     text = combine_paragraphs(article)
     if not text:
         return False, None
+    
+    # if we reach here, we are going to process it
+    if previous_run is None:
+        print(f"✅ Processing – no previous run_id found")
+    else:
+        print(f"✅ Overwiting run_id: {previous_run}. Processing article with run_id: {run_id}")
 
     return True, text
 
