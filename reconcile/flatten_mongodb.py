@@ -13,12 +13,13 @@ articles_to_process = list(
         {
             "nodes": {"$exists": True},
             "relationships": {"$exists": True},
-            "llm_processed.run_id": "v1"
+            "llm_processed.run_id": "v0"
         },
         {
             "_id": 1, "nodes": 1, "relationships": 1
         }
     ).sort("_id", 1)
+    .limit(400)
 )
 
 # 1.3: Initialize lists to collect all nodes and relationships
@@ -102,3 +103,4 @@ df_all_nodes.to_excel("storage/output/all_nodes.xlsx",
 df_all_rels.to_excel("storage/output/all_rels.xlsx",
                             columns=rels_cols,
                             index=False)
+
