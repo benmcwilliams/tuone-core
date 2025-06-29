@@ -245,7 +245,7 @@ n_articles = 200
 offset_articles = 0
 category = "electrive"
 
-cutoff_date = datetime(2025, 1, 1)
+cutoff_date = datetime(2024, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
