@@ -3,7 +3,7 @@ import time
 from openai import OpenAI
 from dotenv import load_dotenv
 
-type = "capacities"
+type = "investments"
 
 # Load environment variables
 load_dotenv()
