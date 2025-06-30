@@ -9,6 +9,7 @@ from functools import lru_cache
 from openai_client import openai_client
 from utils import combine_paragraphs
 from datetime import datetime, timezone
+from collections import Counter
 
 def should_skip_article(article, run_id):
     """Returns (proceed, text). If should skip, returns (False, None)."""
@@ -52,12 +53,28 @@ def print_article_stats(articles):
     n_validated = sum(1 for a in articles if "validation" in a and a["validation"] is not None)
     n_llm_processed = sum(1 for a in articles if "llm_processed" in a and a["llm_processed"] is not None)
 
+    # Count run_id occurrences
+    run_id_counter = Counter()
+    for a in articles:
+        llm_data = a.get("llm_processed")
+        if isinstance(llm_data, dict):
+            run_id = llm_data.get("run_id")
+            if run_id:
+                run_id_counter[run_id] += 1
+
     print("\n📊 Descriptive Stats (from articles_to_process)")
     print(f"🧾 Total articles loaded: {n_total}")
     print(f"✅ Validated: {n_validated}")
     print(f"❌ Not validated: {n_total - n_validated}")
     print(f"🤖 LLM processed: {n_llm_processed}")
     print(f"🕳️ Not LLM processed: {n_total - n_llm_processed}")
+
+    if run_id_counter:
+        print("📦 Processed by run_id:")
+        for run_id, count in run_id_counter.items():
+            print(f"   🔁 {run_id}: {count}")
+    else:
+        print("📦 No run_id information found.")
 
 ### Logging utils
 
