@@ -11,14 +11,13 @@
 # }   
 
 model_dictionary = {
-    "run_id": "v1",  # unified version tag for this model set
+    "run_id": "v1.1",  # unified version tag for this model set
 
     "nodes": "ft:gpt-4o-mini-2024-07-18:personal:nodes:Bn70EOIq", #updated to v0
     "ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP",
-    "technological": "ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP",
+    "technological": "ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN",
     "financial_origin": "ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI",
     "financial_technological": "ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS",
     "capacities": "ft:gpt-4o-mini-2024-07-18:personal:capacities:BnBvxHsg",
     "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BnCKWIn4"
 } 
-

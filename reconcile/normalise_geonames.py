@@ -55,6 +55,7 @@ print(f"Found {len(entries)} article(s) with unenriched factory location(s)")
 for doc in entries:
     article_id = doc["_id"]
     title = doc.get("title", "No Title")
+    print(title)
     logger, handler = get_article_logger(article_id)
     logger.info(f"Processing article: {title}")
 
@@ -65,10 +66,14 @@ for doc in entries:
             continue
 
         loc = node.get("location", {})
+        if loc is None:
+            logger.warning(f"⚠️ Skipping factory with None location: {node.get('id')}")
+            continue
+
         city_raw = loc.get("city")
         country_raw = loc.get("country")
 
-        # Normalize inputs
+        # normalize inputs
         city = str(city_raw).strip().lower() if city_raw is not None else ""
         country = str(country_raw).strip().lower() if country_raw is not None else ""
 
