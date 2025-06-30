@@ -1,9 +1,11 @@
-import sys
+import sys; sys.path.append("..")
 from datetime import datetime
 import time
 import logging
 import pandas as pd
-from src.step_1 import TextCleaner
+import numpy as np
+from reconcile.src.step_1 import TextCleaner
+from reconcile.src.id_date_dict import get_article_id_to_date_map
 
 # Set up logging
 logging.basicConfig(
@@ -20,20 +22,24 @@ t0_pipeline = time.time()
 
 # Input file and columns to validate
 file_path = "./storage/output/factory-technological.xlsx"
+product_classification_path = "src/product_classification.xlsx"
 
 # DEFINE subset cols 
-
-# subset_cols = [
-#     "country_standardized",
-#     "factory_city_adm3_name",
-#     "owner_company_name",
-#     "product_name"
-# ]
+subset_cols = [
+    "country",
+    "adm3",
+    "institution",
+    "product"
+]
 
 # 1) Load and validate data
 logging.info(f"Reading input file: {file_path}")
-df = pd.read_excel(file_path, sheet_name="summary_view_factory")
+df = pd.read_excel(file_path)
 initial_len = len(df)
+
+# merge product dictionary 
+product_classification = pd.read_excel(product_classification_path)
+df = df.merge(product_classification, on = "product")
 
 df = df.dropna(subset=subset_cols)
 logging.info(f"Dropped {initial_len - len(df)} rows; {len(df)} remain after validation")
@@ -62,13 +68,13 @@ for fn, label in pipeline:
     logging.info(f"Step {label} done. Changes: {changes or 'none'}")
 
 # 3) Compute clusters
-group_cols = ['country_standardized', 'factory_city_adm_name', 'owner_company_name', 'product_name']
+group_cols = ['country', 'adm3', 'institution', 'product_lv1']
 complete_mask = df[group_cols].notna().all(axis=1)
 df['cluster_num'] = np.nan 
 df['cluster_id']  = '000000'
 tmp = df.loc[complete_mask].copy()
 tmp['cluster_num'] = tmp.groupby(group_cols).ngroup() + 1
-sizes = tmp.groupby('cluster_num')['factory_city_adm_name'].transform('size')
+sizes = tmp.groupby('cluster_num')['factory'].transform('size')
 
 tmp['cluster_id'] = (
     sizes.gt(1)                       # keep only clusters with ≥2 rows
@@ -79,16 +85,14 @@ tmp['cluster_id'] = (
 )
 df.loc[complete_mask, ['cluster_num', 'cluster_id']] = tmp[['cluster_num', 'cluster_id']]
 
+# map article dates
+id_to_date = get_article_id_to_date_map()
+df['date'] = df['article_id'].map(id_to_date)
+
 # 4) Save output
-output_cols = [col for col in [
-    'factory_unique_id','factory_name','factory_city','factory_city_adm_name',
-    'factory_country','country_standardized','country_iso2','country_not_found',
-    'owner_company_unique_id','owner_company_name','product_name','factory_city_adm_code',
-    'factory_city_adm_level','factory_city_latitude','factory_city_longitude','cluster_id'
-] if col in df.columns]
-output_file = "./storage/output/clean_output.xlsx"
+output_file = "./storage/output/clean_output_ben.xlsx"
 logging.info(f"Saving output to {output_file}")
-df[output_cols].to_excel(output_file, index=False)
+df.to_excel(output_file, index=False)
 
 # Final timing
 t1_pipeline = time.time()
