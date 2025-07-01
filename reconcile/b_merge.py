@@ -102,7 +102,13 @@ df_owns = df_owns.drop_duplicates(subset=["factory_id"], keep="first")     # kg 
 
 ## 1.4. Merge and output 
 
+print(len(df_quant))
+print(len(df_at))
+print(len(df_owns))
+
 df_capacity_product = df_quant.merge(df_at, on="capacity_id", how="inner")
+
+print(len(df_capacity_product))
 
 df_all = df_owns.merge(df_capacity_product, on = "factory_id")
 
