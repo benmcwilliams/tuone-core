@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timezone
 from requests.exceptions import Timeout, RequestException
 import re
+from boiler_markers import BOILER_STRINGS
 
 # Load environment variables
 load_dotenv()
@@ -31,7 +32,6 @@ keywords = {"factory", "facility", "plant", "production line", "production site"
 
 # Expected date format
 date_format = "%d-%m-%Y"
-
 
 def scrape_article(mongo_doc: dict) -> None:
     url = mongo_doc.get('url')
@@ -61,9 +61,16 @@ def scrape_article(mongo_doc: dict) -> None:
             else:
                 print(f"[!] No valid date found for article: {title}")
 
+            clean_paras = []
+            for p in soup.select('p'):
+                txt = p.get_text(strip=True)
+                if txt in BOILER_STRINGS:
+                    continue
+                clean_paras.append(txt)
+
             paragraphs_dict = {
-                f"p{idx + 1}": p.get_text(strip=True)
-                for idx, p in enumerate(soup.select('p'))
+                f"p{idx + 1}": txt
+                for idx, txt in enumerate(clean_paras)
             }
 
             paragraphs = [paragraphs_dict]  # Wrap the dict in a list
