@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from reconcile.src.step_1 import TextCleaner
 from reconcile.src.id_date_dict import get_article_id_to_date_map
+from reconcile.src.normalise_capacities import normalise_capacities
 
 # Set up logging
 logging.basicConfig(
@@ -88,6 +89,8 @@ df.loc[complete_mask, ['cluster_num', 'cluster_id']] = tmp[['cluster_num', 'clus
 # map article dates
 id_to_date = get_article_id_to_date_map()
 df['date'] = df['article_id'].map(id_to_date)
+
+# apply capacity normalisation function
 
 # 4) Save output
 output_file = "./storage/output/clean_output_ben.xlsx"
