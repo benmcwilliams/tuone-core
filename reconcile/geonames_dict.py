@@ -7,6 +7,15 @@ from mongo_client import mongo_client, test_articles_collection, articles_collec
 from reconcile.src.step_2 import standardize_country, get_adm_level
 import pandas as pd
 
+# load existing results (if file exists)
+existing_path = "storage/output/geonames.xlsx"
+if os.path.exists(existing_path):
+    existing_df = pd.read_excel(existing_path)
+    existing_pairs = set(zip(existing_df["ctry_standard"], existing_df["city"]))
+else:
+    existing_df = pd.DataFrame()
+    existing_pairs = set()
+
 def clean_city(city_raw):
     if city_raw is None:
         return ""
@@ -45,7 +54,7 @@ filtered_articles = list(
             }
         },
         {"nodes": 1}
-    ).limit(10)
+    ).limit(200)
 )
 
 print(f"Found {len(filtered_articles)} article(s) with nodes")
@@ -70,11 +79,17 @@ for doc in filtered_articles:
             # per city-country logger
             logger = setup_city_logger(std_country, city) if city and not country_failed else None
 
+            if (std_country, city) in existing_pairs:
+                if logger:
+                    logger.info(f"⏭️ Skipping: already processed ({city}, {std_country})")
+                continue
+
             if logger:
                 logger.info(f"📍 Starting GeoNames lookup for city='{city}', country='{country}'")
             if not city:
                 if logger:
                     logger.warning("⚠️ Skipping: city is empty or invalid")
+                break
 
             factory_data = {
                 "type": node.get("type"),
@@ -85,46 +100,40 @@ for doc in filtered_articles:
                 "city": city
             }
 
-            # Default ADM fields
-            for level in range(1, 4):
-                factory_data[f"adm_{level}"] = None
-                factory_data[f"adm_{level}_code"] = None
-
-            factory_data["lat"] = None
-            factory_data["lon"] = None
-            factory_data["adm_max_level"] = None
-
             if not country_failed and city:
-                last_valid_lat = None
-                last_valid_lon = None
-                last_valid_level = None
 
-                for level in range(1, 2):
+                print(f"🔍 Querying for city='{city}', country='{std_country}'")
+                name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(city, iso2, logger=logger)
 
-                    logger.info(f"🔍 Querying ADM{level} for city='{city}', country='{std_country}'")
-                    name, code, lat, lon, failed = get_adm_level(city, iso2, level, logger=logger)
+                if not failed and name:
+                    factory_data["name"] = name
+                    factory_data["adm1"] = adm1
+                    factory_data["adm1"] = adm1
+                    factory_data["adm2"] = adm2
+                    factory_data["adm3"] = adm3
+                    factory_data["adm4"] = adm4
+                    factory_data["bbox"] = bbox
 
-                    if not failed and name:
-                        logger.info(f"✅ ADM{level} success: {name}, code={code}, lat={lat}, lon={lon}")
-                        factory_data[f"adm_{level}"] = name
-                        factory_data[f"adm_{level}_code"] = code
-                        last_valid_lat = lat
-                        last_valid_lon = lon
-                        last_valid_level = level
-                    else:
-                        logger.warning(f"❌ ADM{level} lookup failed for city='{city}', iso2='{iso2}'")
-                
-                factory_data["lat"] = last_valid_lat
-                factory_data["lon"] = last_valid_lon
-                factory_data["adm_max_level"] = last_valid_level
+                else:
+                    logger.warning(f"❌ lookup failed for city='{city}', iso2='{iso2}'")
             
             factory_nodes.append(factory_data)
 
 # Step 3 (optional): Convert to DataFrame for inspection
-
 df_factories = pd.DataFrame(factory_nodes)
 
-# Display or return
-print(df_factories.head(20))
+# Combine with existing if needed
+if not existing_df.empty:
+    combined_df = pd.concat([existing_df, df_factories], ignore_index=True)
+else:
+    combined_df = df_factories
 
-df_factories.to_excel("test_geonames.xlsx")
+combined_df.to_excel(existing_path, index=False)
+
+# Display or return
+print(combined_df.head(5))
+
+combined_df.sort_values(by=["ctry_standard", "city"], inplace=True)
+
+combined_df.drop_duplicates(subset=["ctry_standard", "city", "name", "adm1"], inplace=True)
+combined_df.to_excel("storage/output/geonames.xlsx", index=False)
