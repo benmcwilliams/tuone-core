@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Create log directory
+# create log directory
 log_dir = "logs/logs_geonames"
 os.makedirs(log_dir, exist_ok=True)
 
-# Configure logging
+# configure logging
 
-def get_article_logger(article_id) -> (logging.Logger, logging.FileHandler):
+def get_article_logger(article_id) -> tuple[logging.Logger, logging.FileHandler]:
     logger = logging.getLogger(str(article_id))
     logger.setLevel(logging.INFO)
 
@@ -31,7 +31,7 @@ def get_article_logger(article_id) -> (logging.Logger, logging.FileHandler):
 
     return logger, handler
 
-# 1. Query MongoDB for entries needing enrichment
+# 1. query MongoDB for entries needing enrichment
 
 query = {
     "factory_geonames_enriched_at": {"$exists": False},  # skip already-processed
@@ -77,7 +77,7 @@ for doc in entries:
         city = str(city_raw).strip().lower() if city_raw is not None else ""
         country = str(country_raw).strip().lower() if country_raw is not None else ""
 
-        # Skip if city or country are invalid
+        # skip if city or country are invalid
         if city in {"", "null", "nan"} or country in {"", "null", "nan"}:
             logger.warning(f"⚠️ Skipping factory with bad city/country: city='{city_raw}', country='{country_raw}'")
             continue
@@ -88,7 +88,7 @@ for doc in entries:
 
         logger.info(f"🔍 Factory: {city}, {country}")
 
-        # --- Country standardization ---
+        # --- country standardization ---
         std_country, iso2, country_failed = standardize_country(country)
         loc["country_standardized"] = std_country
         loc["country_iso2"] = iso2
