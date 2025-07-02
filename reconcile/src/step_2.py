@@ -76,13 +76,11 @@ def get_adm_level(city: str, iso2: str | None, level: int, logger,
     attempt = 0
     admin_code = f"ADM{level}"
 
-    logger.info(f"🔍 Querying for ADM level {level}")
-
     while attempt <= max_retries:
         attempt += 1
         params = {
             "q": city,
-            "maxRows": 10,
+            "maxRows": 4,
             "style": "FULL",
             "featureClass": ["A", "P"],
             "username": GEONAMES_USERNAME,
@@ -124,14 +122,31 @@ def get_adm_level(city: str, iso2: str | None, level: int, logger,
         # ── choose best candidate ───────────────────────────────────────── 
         target_admin = target_ppl = None
         # loop through all the records in the geonames returned data
-        for rec in data:
-            logger.info(f"📄 Full record results: {rec}")
-            fcl, fcode = rec.get("fcl"), rec.get("fcode")
-            if fcl == "A" and fcode == admin_code:                                  # if we find an entry that is A-type and has the fcode granularity we need. 
-                logger.info(f"✅ Found a suitable result, with code: {fcl} and the admin_code: {fcode}")
+        for idx, rec in enumerate(data):
+
+            fcl = rec.get("fcl")
+            fcode = rec.get("fcode")
+            score = rec.get("score")
+            name = rec.get("name") or rec.get("toponymName") or rec.get("asciiName")
+            pop = rec.get("population", "NA")
+
+            adm1 = rec.get("adminName1", "")
+            adm2 = rec.get("adminName2", "")
+            adm3 = rec.get("adminName3", "")
+
+            logger.info(
+                f"📄 Index {idx} | Name: {name} | fcl: {fcl}, fcode: {fcode} | "
+                f"ADM1: {adm1}, ADM2: {adm2}, ADM3: {adm3} | "
+                f"Score: {score:.2f}, Population: {pop}"
+            )
+            
+            if fcl == "A" and fcode == admin_code:
+                logger.info(f"✅ Found a suitable result at index {idx}, with code: {fcl} and the admin_code: {fcode}")
                 target_admin = rec
                 break
-            if not target_ppl and fcl == "P" and fcode in VALID_FEATURE_CODES:
+
+            if not target_ppl and fcl == "P" and fcode in VALID_FEATURE_CODES:   # we only allow fallback to a PPL if this is happening at ADM1. 
+                logger.info(f"↪️ Fell back to Populated Place at index {idx} (loop iteration {idx + 1})")
                 target_ppl = rec
 
         chosen = target_admin or target_ppl

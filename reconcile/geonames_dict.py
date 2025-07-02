@@ -45,7 +45,7 @@ filtered_articles = list(
             }
         },
         {"nodes": 1}
-    ).limit(2)
+    ).limit(10)
 )
 
 print(f"Found {len(filtered_articles)} article(s) with nodes")
@@ -99,23 +99,20 @@ for doc in filtered_articles:
                 last_valid_lon = None
                 last_valid_level = None
 
-                for level in range(1, 4):
-                    if logger:
-                        logger.info(f"🔍 Querying ADM{level} for city='{city}', country='{std_country}'")
+                for level in range(1, 2):
 
+                    logger.info(f"🔍 Querying ADM{level} for city='{city}', country='{std_country}'")
                     name, code, lat, lon, failed = get_adm_level(city, iso2, level, logger=logger)
 
                     if not failed and name:
-                        if logger:
-                            logger.info(f"✅ ADM{level} success: {name}, code={code}, lat={lat}, lon={lon}")
+                        logger.info(f"✅ ADM{level} success: {name}, code={code}, lat={lat}, lon={lon}")
                         factory_data[f"adm_{level}"] = name
                         factory_data[f"adm_{level}_code"] = code
                         last_valid_lat = lat
                         last_valid_lon = lon
                         last_valid_level = level
                     else:
-                        if logger:
-                            logger.warning(f"❌ ADM{level} lookup failed for city='{city}', iso2='{iso2}'")
+                        logger.warning(f"❌ ADM{level} lookup failed for city='{city}', iso2='{iso2}'")
                 
                 factory_data["lat"] = last_valid_lat
                 factory_data["lon"] = last_valid_lon
