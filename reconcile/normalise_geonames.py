@@ -86,7 +86,7 @@ for doc in entries:
             logger.info(f"Already enriched: {city}, {country}")
             continue
 
-        logger.info(f"🔍 Factory: {city}, {country}")
+        logger.info(f"🔍 Factory: {city}, {country}") # print the normalised city and country
 
         # --- country standardization ---
         std_country, iso2, country_failed = standardize_country(country)
