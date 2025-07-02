@@ -13,6 +13,7 @@ from functools import lru_cache
 
 import pycountry
 import requests
+import traceback
 
 # ──────────────────────────────── Configuration ────────────────────────────────
 GEONAMES_USERNAME   = "chiarastrama"
@@ -62,7 +63,7 @@ def standardize_country(country_name: str):
 
 
 @lru_cache(maxsize=None)
-def get_adm_level(city: str, iso2: str | None, level: int,
+def get_adm_level(city: str, iso2: str | None, level: int, logger,
                   max_retries: int = 5, backoff: int = 60):
     """
     Query GeoNames for *city* (ADM{level} first, then PPL).
@@ -74,6 +75,8 @@ def get_adm_level(city: str, iso2: str | None, level: int,
     """
     attempt = 0
     admin_code = f"ADM{level}"
+
+    logger.info(f"🔍 Querying for ADM level {level}")
 
     while attempt <= max_retries:
         attempt += 1
@@ -118,11 +121,14 @@ def get_adm_level(city: str, iso2: str | None, level: int,
         if not data:                                     # no hits
             return None, None, None, None, True
 
-        # ── choose best candidate ─────────────────────────────────────────
+        # ── choose best candidate ───────────────────────────────────────── 
         target_admin = target_ppl = None
+        # loop through all the records in the geonames returned data
         for rec in data:
+            logger.info(f"📄 Full record results: {rec}")
             fcl, fcode = rec.get("fcl"), rec.get("fcode")
-            if fcl == "A" and fcode == admin_code:
+            if fcl == "A" and fcode == admin_code:                                  # if we find an entry that is A-type and has the fcode granularity we need. 
+                logger.info(f"✅ Found a suitable result, with code: {fcl} and the admin_code: {fcode}")
                 target_admin = rec
                 break
             if not target_ppl and fcl == "P" and fcode in VALID_FEATURE_CODES:
