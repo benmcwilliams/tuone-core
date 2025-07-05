@@ -9,6 +9,7 @@ from scrap_function.utility import get_date, format_date,extract_article_text_en
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from requests.exceptions import Timeout, RequestException
+from dateutil import parser
 import re
 
 # Load environment variables
@@ -68,24 +69,32 @@ def scrape_article(mongo_doc: dict) -> None:
 
             soup = BeautifulSoup(response.content, 'html.parser')
 
+            # Title tag
             title_tag = soup.select_one('h1') or soup.select_one('h2')
             title = title_tag.get_text(strip=True) if title_tag else "No Title Found"
 
+            # Date tag
             raw_date = get_date(soup, category)
-            print(f"{title} - Raw date: {raw_date}")
-            date = format_date(raw_date)
 
-            date_utc = ""
-            if raw_date:
+            def get_utc_date_from_raw(raw_date: str) -> datetime:
+                if not raw_date or raw_date == "No Date Found":
+                    return datetime.utcnow().replace(tzinfo=timezone.utc)
+
                 try:
-                    # Convert milliseconds to seconds, then to UTC datetime
-                    timestamp_sec = int(raw_date) / 1000
-                    date_utc = datetime.fromtimestamp(timestamp_sec, tz=timezone.utc)
+                    if raw_date.isdigit():
+                        # Handle Unix timestamp in milliseconds
+                        timestamp_sec = int(raw_date) / 1000
+                        return datetime.fromtimestamp(timestamp_sec, tz=timezone.utc)
+
+                    # Try parsing human-readable string via dateutil
+                    parsed = parser.parse(raw_date, dayfirst=True)
+                    return parsed.replace(tzinfo=timezone.utc)
+
                 except Exception as e:
-                    print(f"[!] Failed to parse EnergyTech timestamp '{raw_date}': {e}")
-                    date_utc = datetime.utcnow().replace()  # fallback
-            else:
-                date_utc = datetime.utcnow().replace()
+                    print(f"[!] Failed to parse raw date '{raw_date}': {e}")
+                    return datetime.utcnow().replace(tzinfo=timezone.utc)
+
+            date_utc = get_utc_date_from_raw(raw_date)
 
             paragraphs_dict = {
                 f"p{idx + 1}": p.get_text(strip=True)
