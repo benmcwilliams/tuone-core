@@ -82,11 +82,8 @@ def scrape_article(mongo_doc: dict) -> None:
 
                 try:
                     if raw_date.isdigit():
-                        # Handle Unix timestamp in milliseconds
                         timestamp_sec = int(raw_date) / 1000
                         return datetime.fromtimestamp(timestamp_sec, tz=timezone.utc)
-
-                    # Try parsing human-readable string via dateutil
                     parsed = parser.parse(raw_date, dayfirst=True)
                     return parsed.replace(tzinfo=timezone.utc)
 
