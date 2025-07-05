@@ -90,9 +90,10 @@ def fetch_article_ids(skip=0, limit=10):
     }
 
     response = requests.post(GRAPHQL_URL, json=payload, headers=HEADERS)
+    print(response)
     response.raise_for_status()
     data = response.json()
-
+    print(data)
     docs = data.get("data", {}).get("searchContent", {}).get("docs", [])
     return [doc["id"] for doc in docs if "id" in doc]
 
