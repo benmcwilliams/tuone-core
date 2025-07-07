@@ -86,7 +86,7 @@ filtered_articles = list(
             }
         },
         {"nodes": 1}
-    ).limit(3600)
+    ).limit(6000)
 )
 
 print(f"📰 Found {len(filtered_articles)} article(s) containing factory nodes.")
