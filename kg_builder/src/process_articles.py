@@ -76,6 +76,12 @@ def print_article_stats(articles):
     else:
         print("📦 No run_id information found.")
 
+### has required nodes to process relationship (eg company | factory for ownership)
+
+def has_required_nodes_for_relationship(formatted_nodes, required_types):
+    existing_types = {node['type'] for node in formatted_nodes}
+    return any(req_type in existing_types for req_type in required_types)
+
 ### Logging utils
 
 def setup_logger(article_id, log_dir="logs"):
