@@ -1,7 +1,7 @@
 import sys; sys.path.append("..")  # allow access to parent folder modules
 import pandas as pd
 from reconcile.src.flatten_helpers import flatten_dict
-from mongo_client import mongo_client, articles_collection, test_articles_collection
+from mongo_client import articles_collection, test_articles_collection
 
 # === OVERVIEW ===
 # the script outputs flat structured (pandas) table data for all nodes and relationships contained in the monogoDB collection
@@ -10,12 +10,11 @@ from mongo_client import mongo_client, articles_collection, test_articles_collec
 # 1.1: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
 
 articles_to_process = list(
-    test_articles_collection.find(
+    articles_collection.find(
         {
             "nodes": {"$exists": True},
             "relationships": {"$exists": True},
-            "meta.category": "electrive",
-            "factory_geonames_enriched_at": {"$exists": True},
+            "meta.category": "electrive"
         },
         {
             "_id": 1, "nodes": 1, "relationships": 1

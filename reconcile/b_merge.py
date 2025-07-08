@@ -1,9 +1,29 @@
 import sys; sys.path.append("..")  # allow access to parent folder modules
 import pandas as pd
-from openpyxl import Workbook, load_workbook
-from functools import reduce
-from mongo_client import mongo_client, articles_collection
 from reconcile.src.merge_helpers import deduplicate_nodes_and_rels, filter_nodes_by_label, filter_rels_by_label
+from reconcile.src.location_helpers import clean_city, clean_country, normalize_city_key
+from reconcile.src.step_2 import standardize_country
+from mongo_client import geonames_collection
+
+# Build lookup dictionary
+geo_lookup = {}
+
+for doc in geonames_collection.find():
+    iso2 = doc.get("ctry_iso2", "").upper()
+    cities = doc.get("cities", {})
+
+    # Ensure we have a valid iso2
+    if not iso2:
+        continue
+
+    # Initialize nested dict
+    if iso2 not in geo_lookup:
+        geo_lookup[iso2] = {}
+
+    for city_key, city_data in cities.items():
+        geo_lookup[iso2][city_key] = city_data
+
+print(geonames_collection)
 
 ## file outputs a clean factory-technology file, this includes all cases of 
 ## owner | factory | capacity | product
@@ -28,13 +48,17 @@ rels = filter_rels_by_label(df_all_rels)
 ## 1.2 Compile relevant node metadata
 # for factory: name, city, country
 df_factory_expand = nodes["factory"][[
-    "name", "unique_id", "location_factory_city_adm3_name", "location_country_standardized", "article_id"
+    "name", "unique_id", "location_city", "location_country", "article_id"
 ]].rename(columns={
     "unique_id": "factory_id",
-    "location_factory_city_adm3_name": "adm3",          # replace with geonames once I run on main collection
-    "location_country_standardized": "country",         # replace with geonames once I run on main collection
     "name": "factory"
 })
+
+## apply clean geonames dictionaries
+df_factory_expand["city_clean"] = df_factory_expand["location_city"].apply(clean_city)
+df_factory_expand["city_key"] = df_factory_expand["city_clean"].apply(normalize_city_key)
+df_factory_expand["country_clean"] = df_factory_expand["location_country"].apply(clean_country)
+df_factory_expand["iso2"] = df_factory_expand["country_clean"].apply(lambda x: standardize_country(x)[1]) # returning only the iso2 value (out of three values returned)
 
 # for capacity: amount, status, phase
 df_capacity_expand = nodes["capacity"][[
@@ -111,7 +135,7 @@ enrich_capacity = enrich_factory.merge(df_capacity_expand, on = "capacity_id")
 enrich_owner = enrich_capacity.merge(df_owner_expand, on = "owner_id")
 enrich_product = enrich_owner.merge(df_product_expand, on = "product_id")
 
-custom_order = ["article_id", "institution", "factory", "country", "adm3", "capacity", "product", "phase", "status"]
+custom_order = ["article_id", "institution", "factory", "city_key", "iso2", "capacity", "product", "phase", "status"]
 
 enrich_product.to_excel(output_file,
                         columns=custom_order,

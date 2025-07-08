@@ -112,6 +112,7 @@ def run_extraction_pipeline(file_path):
 
 # ========= Main Run Block =========
 if __name__ == "__main__":
-    file_path = 'C:/Users/marie.juge/OneDrive - Bruegel/Desktop/tuone/tuone_v6/reconcile/storage/output/clean_output_ben.xlsx'
+    file_path = 'storage/output/clean_output_ben.xlsx'
     df_result = run_extraction_pipeline(file_path)
-    print(df_result.head(10))
+    df_result.to_excel("test.xlsx")
+    print(df_result.head(20))
