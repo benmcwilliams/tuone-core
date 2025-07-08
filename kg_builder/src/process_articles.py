@@ -2,7 +2,7 @@ import sys; sys.path.append("..")
 import json
 from bson import json_util
 import re
-from .inputs import relationship_groups
+#from .inputs import relationship_groups
 import os
 import logging
 from functools import lru_cache 
