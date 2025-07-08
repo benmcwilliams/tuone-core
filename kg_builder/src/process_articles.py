@@ -2,7 +2,7 @@ import sys; sys.path.append("..")
 import json
 from bson import json_util
 import re
-from .inputs import relationship_groups
+#from .inputs import relationship_groups
 import os
 import logging
 from functools import lru_cache 
@@ -75,6 +75,12 @@ def print_article_stats(articles):
             print(f"   🔁 {run_id}: {count}")
     else:
         print("📦 No run_id information found.")
+
+### has required nodes to process relationship (eg company | factory for ownership)
+
+def has_required_nodes_for_relationship(formatted_nodes, required_types):
+    existing_types = {node['type'] for node in formatted_nodes}
+    return any(req_type in existing_types for req_type in required_types)
 
 ### Logging utils
 

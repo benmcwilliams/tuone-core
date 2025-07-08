@@ -10,10 +10,17 @@ step_2.py  – Country / city standardisation and GeoNames look-ups
 import logging
 import time
 from functools import lru_cache
+from rapidfuzz import fuzz
 
 import pycountry
 import requests
 import traceback
+
+# Choose your matching function – token_sort_ratio handles swapped word orders well
+def fuzzy_match_score(a, b):
+    if not a or not b:
+        return 0
+    return fuzz.token_sort_ratio(a.lower(), b.lower())
 
 # ──────────────────────────────── Configuration ────────────────────────────────
 GEONAMES_USERNAME   = "chiarastrama"
@@ -63,18 +70,17 @@ def standardize_country(country_name: str):
 
 
 @lru_cache(maxsize=None)
-def get_adm_level(city: str, iso2: str | None, level: int, logger,
+def get_adm_level(city: str, iso2: str | None, logger,
                   max_retries: int = 5, backoff: int = 60):
     """
-    Query GeoNames for *city* (ADM{level} first, then PPL).
+    Query GeoNames for *city*, returns ADM to as deep level as possible.
 
     Automatically retries (with exponential back-off) when the server says
     “hourly limit” (value 10) or “daily limit” (value 11).
 
-    Returns (adm_name, adm_code, lat, lon, failed_flag).
+    Returns (adm_name, adm_code 1, 2, 3, 4, bbox, failed_flag).
     """
     attempt = 0
-    admin_code = f"ADM{level}"
 
     while attempt <= max_retries:
         attempt += 1
@@ -97,7 +103,7 @@ def get_adm_level(city: str, iso2: str | None, level: int, logger,
             js = resp.json()
         except Exception as exc:
             logging.error(f"[get_adm_level] request error “{city}” → {exc}")
-            return None, None, None, None, True
+            return None, None, None, None, None, None, True
 
         # ── handle GeoNames error payloads ────────────────────────────────
         if "status" in js:                               # request was *rejected*
@@ -113,56 +119,45 @@ def get_adm_level(city: str, iso2: str | None, level: int, logger,
                 continue
 
             # any other status code is fatal for this lookup
-            return None, None, None, None, True
+            return None, None, None, None, None, None, True
 
         data = js.get("geonames", [])
-        if not data:                                     # no hits
-            return None, None, None, None, True
+        if not data:    # no hits
+            logger.warning(f"⚠️ GeoNames returned empty result for city={city}")
+            return None, None, None, None, None, None, True
 
         # ── choose best candidate ───────────────────────────────────────── 
-        target_admin = target_ppl = None
         # loop through all the records in the geonames returned data
         for idx, rec in enumerate(data):
+
+            name = rec.get("name") or rec.get("toponymName") or rec.get("asciiName")
+            match_score = fuzzy_match_score(city, name)
 
             fcl = rec.get("fcl")
             fcode = rec.get("fcode")
             score = rec.get("score")
-            name = rec.get("name") or rec.get("toponymName") or rec.get("asciiName")
             pop = rec.get("population", "NA")
 
             adm1 = rec.get("adminName1", "")
             adm2 = rec.get("adminName2", "")
             adm3 = rec.get("adminName3", "")
+            adm4 = rec.get("adminName4", "")
+
+            bbox = rec.get("bbox", {}) or {}
 
             logger.info(
                 f"📄 Index {idx} | Name: {name} | fcl: {fcl}, fcode: {fcode} | "
-                f"ADM1: {adm1}, ADM2: {adm2}, ADM3: {adm3} | "
-                f"Score: {score:.2f}, Population: {pop}"
+                f"ADM1: {adm1}, ADM2: {adm2}, ADM3: {adm3}, ADM4: {adm4} | "
+                f"Score: {score:.2f}, Population: {pop} | Fuzzy match: {match_score}"
             )
-            
-            if fcl == "A" and fcode == admin_code:
-                logger.info(f"✅ Found a suitable result at index {idx}, with code: {fcl} and the admin_code: {fcode}")
-                target_admin = rec
-                break
 
-            if not target_ppl and fcl == "P" and fcode in VALID_FEATURE_CODES:   # we only allow fallback to a PPL if this is happening at ADM1. 
-                logger.info(f"↪️ Fell back to Populated Place at index {idx} (loop iteration {idx + 1})")
-                target_ppl = rec
+            if match_score > 80:
+                logger.info(f"✅ Accepted fuzzy match at index {idx}: {name} (match_score={match_score})")
+                return name, adm1, adm2, adm3, adm4, bbox, False 
 
-        chosen = target_admin or target_ppl
-        if not chosen:
-            return None, None, None, None, True
-
-        name = chosen.get(f"adminName{level}") or chosen.get("name")
-        code = chosen.get(f"adminCode{level}")
-        lat  = chosen.get("lat")
-        lon  = chosen.get("lng")
-        return name, code, lat, lon, False
-
-    # exhausted retries
-    logging.error(f"[get_adm_level] giving up on “{city}” after {max_retries} retries")
-    return None, None, None, None, True
-
+    # If no match found
+    logger.warning(f"❌ No match found with fuzzy score > 80 for city: {city}")
+    return None, None, None, None, None, None, True
 
 # ────────────────────────────── Main API function ──────────────────────────────
 def standardise_country_city(
