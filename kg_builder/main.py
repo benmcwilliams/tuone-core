@@ -1,6 +1,8 @@
 import sys; sys.path.append("..")
+from config import EXTRACTION_CONFIG
+
 from kg_builder.src.format_prompts import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, get_schema, format_nodes_for_prompt
-from kg_builder.src.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function
+from kg_builder.src.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function, has_required_nodes_for_relationship
 from utils import ping_openai, combine_paragraphs
 from kg_builder.src.model_dictionary import model_dictionary
 from kg_builder.src.inputs import relationship_groups, groups_to_prompts, nodes_by_group_prompt, characteristic_node_types, required_node_types
@@ -23,118 +25,247 @@ except Exception as e:
 # establish openai client 
 ping_openai() 
 
-def extract_nodes(text, model_name, logger):
-
-    PROMPT_PATH = "src/prompts/entities-only.txt"
-    FUNCTION_SCHEMA_PATH = "src/schemas/entities.json"
-
-    function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
-    prompt = read_prompt_from_file_only(PROMPT_PATH)
-
-    user_content = f"Here is the article: {text}"
-
-    nodes_by_category = call_openai_function(
-        prompt=prompt,
-        user_content=user_content,
-        function_schema=function_schema,
-        function_name="extract_clean_tech_entities",
-        expected_top_key="nodes",
-        model_name=model_name,
-        logger=logger
-    )
-
-    # Flatten nodes while retaining their type
-    formatted_nodes = []
-    for node_type, node_categories in nodes_by_category.items():
-        for node in node_categories:
-            formatted_node = {
-                #"article_id": article_id,
-                "id": normalize_id(node.get("id")),
-                "type": normalize_type(node.get("type")),
-                "name": node.get("name"),
-                "location": {
-                    "city": node.get("location", {}).get("city", ""),
-                    "country": node.get("location", {}).get("country", "")
-                } if node.get("location") else None,
-                "amount": node.get("amount"), #possibly to drop
-                "status": node.get("status"),
-            }
-            formatted_nodes.append(formatted_node)
-
-    return formatted_nodes
-
-def extract_node_characteristics(text, nodes, relationship_group, model_name, logger):
-
-    PROMPT_PATH = groups_to_prompts[relationship_group]
-    FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
-
-    prompt = read_prompt_from_file_only(PROMPT_PATH)
-    function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
-
-    allowed_types = nodes_by_group_prompt[relationship_group]
-    compact_nodes = format_nodes_for_prompt(nodes, allowed_types)
+def run_extraction(
+    text: str,
+    *,
+    group: str,
+    nodes: list[dict] | None,
+    model_dictionary: dict,
+    logger,
+) -> list[dict]:
     
-    user_content = f"""Here is the article text: {text}
-    Here is the list of known entities:
-    {compact_nodes}
-    """
+    cfg = EXTRACTION_CONFIG[group]
+    logger.info(f"Extracting: {cfg}")
 
-    return call_openai_function(
+    # 1. load prompt & schema
+    prompt = read_prompt_from_file_only(cfg["prompt"])
+    schema = load_function_schema(cfg["schema"])
+
+    # 2. build user_content
+    if nodes:
+        allowed = nodes_by_group_prompt.get(group)
+        compact = format_nodes_for_prompt(nodes, allowed)
+        user_content = f"Here is the article text:\n\n{text}\n\nKnown entities:\n{compact}"
+    else:
+        user_content = f"Here is the article:\n\n{text}"
+
+    # 3. call the LLM
+    model_name = model_dictionary[cfg["model_key"]]
+    
+    raw = call_openai_function(
         prompt=prompt,
         user_content=user_content,
-        function_schema=function_schema,
-        function_name="extract_characteristics",
-        expected_top_key="node_characteristics",
+        function_schema=schema,
+        function_name=cfg["function_name"],
+        expected_top_key=cfg["top_key"],
         model_name=model_name,
-        logger=logger
+        logger=logger,
     )
 
-def extract_relationships(text, nodes, relationship_group, model_name, logger, allowed_types=None):
+    # 4. post-process
+    result = post_process(raw, cfg, group, logger)
+    return result
 
-    PROMPT_PATH = groups_to_prompts[relationship_group]
-    FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
+def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
+    
+    logger.info("POST-PROCESSING STARTING.")
+    if group == "entities":
+        formatted = []
+        for t, items in raw.items():
 
-    prompt = read_prompt_from_file_only(PROMPT_PATH)
-    function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
+            for i, node in enumerate(items):
 
-    allowed_types = nodes_by_group_prompt[relationship_group]
-    compact_nodes = format_nodes_for_prompt(nodes, allowed_types)
+                formatted_node = {
+                    "id": normalize_id(node.get("id", "")),
+                    "type": normalize_type(node.get("type", "")),
+                    "name": node.get("name", ""),
+                    "location": (
+                        {
+                            "city": node.get("location", {}).get("city",""),
+                            "country": node.get("location", {}).get("country","")
+                        }
+                        if node.get("location") else None
+                    ),
+                    "amount": node.get("amount"),
+                    "status": node.get("status"),
+                }
+                formatted.append(formatted_node)
+        return formatted
 
-    user_content = f"""Here is the article text: {text}
-    Here is the list of known entities:
-    {compact_nodes}
-    Please extract only the specified relationship types.
-    """
+    if group in ("capacities", "investments"):
+        result = raw if isinstance(raw, list) else []
+        return result
 
-    # Use shared OpenAI wrapper
-    raw_relationships = call_openai_function(
-        prompt=prompt,
-        user_content=user_content,
-        function_schema=function_schema,
-        function_name="extract_clean_tech_relationships",
-        expected_top_key="relationships",
-        model_name=model_name,
-        logger=logger
+    elif group in ("ownership", "technological", "financial_origin", "financial_technological"):
+        formatted = []
+        for i, rel in enumerate(raw):
+            src = normalize_id(rel.get("source", ""))
+            tgt = normalize_id(rel.get("target", ""))
+            formatted_rel = {
+                "id": f"{src}_{rel.get('type', '')}_{tgt}",
+                "source": src,
+                "target": tgt,
+                "type": rel.get("type", ""),
+                "group": group
+            }
+            formatted.append(formatted_rel)
+        return formatted
+    else:
+        raise ValueError(f"Unknown group {group!r}")
+
+def extract_nodes(text, group, logger):
+    
+    result = run_extraction(
+        text,
+        group=group,
+        nodes=None,
+        model_dictionary=model_dictionary,
+        logger=logger,
     )
 
-    # Format output
-    formatted_relationships = []
-    for rel in raw_relationships:
-        raw_source = rel.get("source")
-        raw_target = rel.get("target")
-        norm_source = normalize_id(raw_source)
-        norm_target = normalize_id(raw_target)
+    return result
 
-        formatted_relationships.append({
-            #"article_id": article_id,
-            "id": f"{norm_source}_{rel.get('type')}_{norm_target}",
-            "source": norm_source,
-            "target": norm_target,
-            "type": rel.get("type"),
-            "group": relationship_group
-        })
+# def extract_nodes(text, model_name, logger):
 
-    return formatted_relationships
+#     # PROMPT_PATH = "src/prompts/entities-only.txt"
+#     # FUNCTION_SCHEMA_PATH = "src/schemas/entities.json"
+
+#     entities_config = EXTRACTION_CONFIG["entities"]
+    
+#     PROMPT_PATH = entities_config["prompt"]
+#     FUNCTION_SCHEMA_PATH = entities_config["schema"]
+
+#     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
+#     prompt = read_prompt_from_file_only(PROMPT_PATH)
+
+#     user_content = f"Here is the article: {text}"
+
+#     nodes_by_category = call_openai_function(
+#         prompt=prompt,
+#         user_content=user_content,
+#         function_schema=function_schema,
+#         function_name="extract_clean_tech_entities",
+#         expected_top_key="nodes",
+#         model_name=model_name,
+#         logger=logger
+#     )
+
+#     # Flatten nodes while retaining their type
+#     formatted_nodes = []
+#     for node_type, node_categories in nodes_by_category.items():
+#         for node in node_categories:
+#             formatted_node = {
+#                 #"article_id": article_id,
+#                 "id": normalize_id(node.get("id")),
+#                 "type": normalize_type(node.get("type")),
+#                 "name": node.get("name"),
+#                 "location": {
+#                     "city": node.get("location", {}).get("city", ""),
+#                     "country": node.get("location", {}).get("country", "")
+#                 } if node.get("location") else None,
+#                 "amount": node.get("amount"), #possibly to drop
+#                 "status": node.get("status"),
+#             }
+#             formatted_nodes.append(formatted_node)
+
+#     return formatted_nodes
+
+def extract_node_characteristics(text, group, nodes, logger):
+
+    result = run_extraction(
+        text,
+        group=group,
+        nodes=nodes,
+        model_dictionary=model_dictionary,
+        logger=logger,
+    )
+
+    return result 
+
+# def extract_node_characteristics(text, nodes, relationship_group, model_name, logger):
+
+#     PROMPT_PATH = groups_to_prompts[relationship_group]
+#     FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
+
+#     prompt = read_prompt_from_file_only(PROMPT_PATH)
+#     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
+
+#     allowed_types = nodes_by_group_prompt[relationship_group]
+#     compact_nodes = format_nodes_for_prompt(nodes, allowed_types)
+    
+#     user_content = f"""Here is the article text: {text}
+#     Here is the list of known entities:
+#     {compact_nodes}
+#     """
+
+#     return call_openai_function(
+#         prompt=prompt,
+#         user_content=user_content,
+#         function_schema=function_schema,
+#         function_name="extract_characteristics",
+#         expected_top_key="node_characteristics",
+#         model_name=model_name,
+#         logger=logger
+#     )
+
+def extract_relationships(text, group, nodes, logger):
+
+    result = run_extraction(
+        text,
+        group=group,
+        nodes=nodes,
+        model_dictionary=model_dictionary,
+        logger=logger,
+    )
+
+    return result 
+
+# def extract_relationships(text, nodes, relationship_group, model_name, logger, allowed_types=None):
+
+#     PROMPT_PATH = groups_to_prompts[relationship_group]
+#     FUNCTION_SCHEMA_PATH = f"src/schemas/{relationship_group}.json"
+
+#     prompt = read_prompt_from_file_only(PROMPT_PATH)
+#     function_schema = load_function_schema(FUNCTION_SCHEMA_PATH)
+
+#     allowed_types = nodes_by_group_prompt[relationship_group]
+#     compact_nodes = format_nodes_for_prompt(nodes, allowed_types)
+
+#     user_content = f"""Here is the article text: {text}
+#     Here is the list of known entities:
+#     {compact_nodes}
+#     Please extract only the specified relationship types.
+#     """
+
+#     # Use shared OpenAI wrapper
+#     raw_relationships = call_openai_function(
+#         prompt=prompt,
+#         user_content=user_content,
+#         function_schema=function_schema,
+#         function_name="extract_clean_tech_relationships",
+#         expected_top_key="relationships",
+#         model_name=model_name,
+#         logger=logger
+#     )
+
+#     # Format output
+#     formatted_relationships = []
+#     for rel in raw_relationships:
+#         raw_source = rel.get("source")
+#         raw_target = rel.get("target")
+#         norm_source = normalize_id(raw_source)
+#         norm_target = normalize_id(raw_target)
+
+#         formatted_relationships.append({
+#             #"article_id": article_id,
+#             "id": f"{norm_source}_{rel.get('type')}_{norm_target}",
+#             "source": norm_source,
+#             "target": norm_target,
+#             "type": rel.get("type"),
+#             "group": relationship_group
+#         })
+
+#     return formatted_relationships
 
 def process_articles(articles_to_process, model_dictionary):
 
@@ -149,18 +280,19 @@ def process_articles(articles_to_process, model_dictionary):
             continue
 
         #set up logger
-        logger      = setup_logger(articleID)
         print(f"📌 Processing Article: {article['title']}")
+        logger      = setup_logger(articleID)
+        logger.info(f"🔍 Text length: {len(text)} characters")
         logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
 
         try:
             # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
-            formatted_nodes = extract_nodes(text, model_dictionary["nodes"], logger)
+            formatted_nodes = extract_nodes(text, "entities", logger)
 
             # - - - STAGE 2: enrich entities with characteristics (capacities and investments)
             for relationship_group, config in characteristic_node_types.items():
                 model_name = model_dictionary[relationship_group]  # select fine-tuned model
-                id_key = config["id_key"]
+                id_key = config["id_key"]                          
                 type_match = config["type_match"]
 
                 # only continue if there are nodes of this type in the article
@@ -170,7 +302,7 @@ def process_articles(articles_to_process, model_dictionary):
                     continue
 
                 logger.info(f"🔍 Extracting characteristics for node group: {relationship_group}")
-                node_characteristics = extract_node_characteristics(text, formatted_nodes, relationship_group, model_name, logger)  
+                node_characteristics = extract_node_characteristics(text, relationship_group, formatted_nodes, logger)  
 
                 # attach 'status' and 'type' to matching capacity nodes (flat list structure)
                 for char in node_characteristics:
@@ -195,24 +327,18 @@ def process_articles(articles_to_process, model_dictionary):
             # - - - STAGE 3: extract relationships between entities
             all_relationships = []
             for relationship_group,model_name in model_dictionary.items():
+
                 if relationship_group in ["nodes", "capacities", "investments"]: # skip nodes, capacities and investments prompts which have logic elsewhere
                     continue
-
-                def has_required_nodes(formatted_nodes, required_types):
-                    existing_types = {node['type'] for node in formatted_nodes}
-                    return any(req_type in existing_types for req_type in required_types)
                 
                 required_types = required_node_types.get(relationship_group, [])
-                if not has_required_nodes(formatted_nodes, required_types):
+                if not has_required_nodes_for_relationship(formatted_nodes, required_types):
                     logger.info(f"🛑 Skipping {relationship_group}: required nodes {required_types} not present.")
                     continue
 
                 logger.info(f"- - - Querying openai for relationships: {relationship_group}, using model: {model_name}")
 
-                allowed_types = relationship_groups[relationship_group]
-                logger.info(f"Node types included in the query: {allowed_types}")
-
-                relationships = extract_relationships(text, formatted_nodes, relationship_group, model_name, logger, allowed_types)
+                relationships = extract_relationships(text, relationship_group, formatted_nodes, logger)
                 all_relationships.extend(relationships)
 
             # update entries in mongodb with clean entities and relationships
@@ -243,7 +369,7 @@ def process_articles(articles_to_process, model_dictionary):
 
 #n_articles = 200
 offset_articles = 0
-category = "electrive"
+category = "world_energy"
 
 cutoff_date = datetime(2021, 1, 1)
 
