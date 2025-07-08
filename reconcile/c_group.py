@@ -23,7 +23,7 @@ t0_pipeline = time.time()
 
 # Input file and columns to validate
 file_path = "./storage/output/factory-technological.xlsx"
-product_classification_path = "src/product_classification.xlsx"
+#product_classification_path = "src/product_classification.xlsx"
 
 # DEFINE subset cols 
 subset_cols = [
