@@ -23,8 +23,6 @@ for doc in geonames_collection.find():
     for city_key, city_data in cities.items():
         geo_lookup[iso2][city_key] = city_data
 
-print(geonames_collection)
-
 ## file outputs a clean factory-technology file, this includes all cases of 
 ## owner | factory | capacity | product
 
@@ -68,9 +66,9 @@ df_capacity_expand = nodes["capacity"][[
     "amount": "capacity"
 })
 
-# for product: name
+# for product: name, product_lv1, product_lv2
 df_product_expand = nodes["product"][[
-    "name", "unique_id",
+    "name", "unique_id", "product_lv1", "product_lv2"
 ]].rename(columns={
     "unique_id": "product_id",
     "name": "product"
@@ -78,10 +76,11 @@ df_product_expand = nodes["product"][[
 
 # for owner (company | joint venture): name
 df_owner_expand = nodes["owner"][[
-    "name", "unique_id",
+    "name", "unique_id", "name_canon"
 ]].rename(columns={
     "unique_id": "owner_id",
-    "name": "institution"
+    "name": "institution",
+    "name_canon": "inst_canon"
 })
 
 ## 1.3 Clean formatting for each relationship type 
@@ -135,7 +134,8 @@ enrich_capacity = enrich_factory.merge(df_capacity_expand, on = "capacity_id")
 enrich_owner = enrich_capacity.merge(df_owner_expand, on = "owner_id")
 enrich_product = enrich_owner.merge(df_product_expand, on = "product_id")
 
-custom_order = ["article_id", "institution", "factory", "city_key", "iso2", "capacity", "product", "phase", "status"]
+custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "capacity", 
+                "product", "product_lv1", "product_lv2", "phase", "status"]
 
 enrich_product.to_excel(output_file,
                         columns=custom_order,

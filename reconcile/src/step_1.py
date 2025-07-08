@@ -15,7 +15,6 @@ import unicodedata
 import re
 from typing import Callable, Dict, List, Tuple
 
-
 symbol_mapping: Dict[str, str] = {
     "&": "and",
     "＆": "and",
@@ -182,3 +181,17 @@ class TextCleaner:
             transform_str=_sym_expand,
             transform_list=_sym_expand
         )
+    
+    def clean_string(self, s: str):
+        df = pd.DataFrame({"name": [s]})
+        for func in [
+            self.to_lower,
+            self.remove_diacritics,
+            self.normalize_nfkd,
+            self.strip,
+            self.remove_punctuation,
+            self.replace_hyphen_with_space,
+            self.expand_symbols,
+        ]:
+            df, _ = func(df, ["name"])
+        return df["name"].iloc[0]

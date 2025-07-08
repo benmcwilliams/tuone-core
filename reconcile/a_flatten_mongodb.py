@@ -1,7 +1,7 @@
 import sys; sys.path.append("..")  # allow access to parent folder modules
 import pandas as pd
 from reconcile.src.flatten_helpers import flatten_dict
-from mongo_client import articles_collection, test_articles_collection
+from mongo_client import articles_collection
 
 # === OVERVIEW ===
 # the script outputs flat structured (pandas) table data for all nodes and relationships contained in the monogoDB collection
