@@ -1,7 +1,7 @@
 import json 
 import re
 from functools import lru_cache 
-from .inputs import relationship_groups
+# from .inputs import relationship_groups
 
 ### series of functions which are used to cleanly format inputs and outputs from prompts
 
@@ -32,12 +32,12 @@ def normalize_type(type_str):
         return None
     return re.sub(r"\s+", "_", type_str.strip().lower())
 
-def get_schema(group, schema_path="schemas/relationships.json"):
-    with open(schema_path, "r") as f:
-        schema = json.load(f)
+# def get_schema(group, schema_path="schemas/relationships.json"):
+#     with open(schema_path, "r") as f:
+#         schema = json.load(f)
 
-    schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
-    return schema
+#     schema["parameters"]["properties"]["relationships"]["items"]["properties"]["type"]["enum"] = relationship_groups[group]
+#     return schema
 
 def format_nodes_for_prompt(nodes, allowed_types=None):
     """

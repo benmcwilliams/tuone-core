@@ -2,10 +2,12 @@ import sys; sys.path.append("..")
 import os
 import time
 import logging
+from pymongo import UpdateOne
 from datetime import datetime, timezone
-from mongo_client import mongo_client, test_articles_collection, articles_collection
+from mongo_client import mongo_client, test_articles_collection, articles_collection, geonames_collection
 from reconcile.src.step_2 import standardize_country, get_adm_level
 import pandas as pd
+import re
 
 def clean_city(city_raw):
     if city_raw is None:
@@ -13,9 +15,36 @@ def clean_city(city_raw):
     city = str(city_raw).strip().lower()
     if city in {"", "null", "none", "nan", "unknown", "tbd"}:
         return ""
+    # Replace forward/backslashes with space and collapse multiple spaces
+    city = re.sub(r"[\/\\]", " ", city)
+    city = re.sub(r"\s+", " ", city).strip()
     return city
 
-# initiate logging
+def clean_country(country_raw):
+    if country_raw is None:
+        return ""
+    country = str(country_raw).strip().lower()
+    if country in {"", "null", "none", "nan", "unknown", "tbd"}:
+        return ""
+    # Replace forward slashes, backslashes, periods, and multiple spaces
+    country = re.sub(r"[\/\\\.]", " ", country)
+    country = re.sub(r"\s+", " ", country).strip()
+    return country
+
+def normalize_city_key(city: str) -> str:
+    """
+    Normalize city name for use as MongoDB key:
+    - lowercase
+    - replace spaces and dots with underscores
+    - collapse multiple underscores
+    - remove non-alphanumeric characters (except underscore)
+    """
+    city = city.strip().lower()
+    city = re.sub(r"[ .]", "_", city)         # replace space and dot with underscore
+    city = re.sub(r"[^\w]", "", city)         # remove remaining invalid characters
+    city = re.sub(r"__+", "_", city)          # collapse double/triple underscores
+    return city.strip("_")                    # remove leading/trailing underscores
+
 def setup_city_logger(country, city, logs_dir="logs/logs_geonames"):
     os.makedirs(logs_dir, exist_ok=True)
     name = f"{country}_{city}".replace(" ", "_").lower()
@@ -33,98 +62,114 @@ def setup_city_logger(country, city, logs_dir="logs/logs_geonames"):
 
     return logger
 
-# set up mongodb filter to only return cases where article has at least one node with type == factory
+# 1) load existing entries from mongoDB-geonames-collection (both cases which succeeded and failed)
+existing_entries = geonames_collection.find({})
+
+existing_pairs = set()
+
+for doc in existing_entries:
+    country = doc["ctry_standard"]
+    for city_key in doc.get("cities", {}).keys():
+        existing_pairs.add((country, city_key))
+    for city_key in doc.get("failures", []):
+        existing_pairs.add((country, city_key))
+
+print(f"📦 Loaded {len(existing_pairs)} existing (country, city_key) pairs from MongoDB.")
+
+# 2) mongodb filter to only return cases where article has at least one node with type == factory
 filtered_articles = list(
     articles_collection.find(
         {
             "meta.category": "electrive",
             "nodes": {
-                "$elemMatch": {
-                    "type": "factory"
-                }
+                "$elemMatch": {"type": "factory"}
             }
         },
         {"nodes": 1}
-    ).limit(10)
+    ).limit(6000)
 )
 
-print(f"Found {len(filtered_articles)} article(s) with nodes")
+print(f"📰 Found {len(filtered_articles)} article(s) containing factory nodes.")
 
-# Step 2: Extract and flatten all factory nodes with their city and country
-factory_nodes = []
+# 3) extract unique candidate (country, city) pairs. These are present in our articles_collection but not already queried through geonames.
+
+candidates = set()
+metadata = {}
 
 for doc in filtered_articles:
     for node in doc.get("nodes", []):
         if node.get("type") == "factory":
+
             location = node.get("location", {})
-
-            city_raw = location.get("city")
-            country_raw = location.get("country")
-
-            # normalize inputs
-            country = str(country_raw).strip().lower() if country_raw is not None else ""
-            city = clean_city(city_raw)
+            city = clean_city(location.get("city"))
+            country = clean_country(location.get("country"))
 
             std_country, iso2, country_failed = standardize_country(country)
 
-            # per city-country logger
-            logger = setup_city_logger(std_country, city) if city and not country_failed else None
+            if not city or country_failed:
+                continue
 
-            if logger:
-                logger.info(f"📍 Starting GeoNames lookup for city='{city}', country='{country}'")
-            if not city:
-                if logger:
-                    logger.warning("⚠️ Skipping: city is empty or invalid")
+            key = (std_country, normalize_city_key(city))
+            if key not in existing_pairs:
+                candidates.add(key)
+                metadata[key] = {"iso2":iso2, "original_country": country}
 
-            factory_data = {
-                "type": node.get("type"),
-                "ctry": country,
-                "ctry_standard": std_country,
-                "ctry_iso2": iso2,
-                "ctry_failed": country_failed,
-                "city": city
-            }
+print(f"🧹 Identified {len(candidates)} new (country, city) pairs to query.")
+print(candidates)
 
-            # Default ADM fields
-            for level in range(1, 4):
-                factory_data[f"adm_{level}"] = None
-                factory_data[f"adm_{level}_code"] = None
+# 4) query the geoname API to return geographic data for any new locations & prepare bulk update
 
-            factory_data["lat"] = None
-            factory_data["lon"] = None
-            factory_data["adm_max_level"] = None
+updates = []
 
-            if not country_failed and city:
-                last_valid_lat = None
-                last_valid_lon = None
-                last_valid_level = None
+for (std_country, city) in sorted(candidates):
+    iso2 = metadata[(std_country,city)]["iso2"]
+    original_country = metadata[(std_country, city)]["original_country"]
 
-                for level in range(1, 2):
+    logger = setup_city_logger(iso2, city)
+    logger.info(f"📍 Starting GeoNames lookup for city='{city}', country='{country}'")
 
-                    logger.info(f"🔍 Querying ADM{level} for city='{city}', country='{std_country}'")
-                    name, code, lat, lon, failed = get_adm_level(city, iso2, level, logger=logger)
+    name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(city, iso2, logger=logger)
 
-                    if not failed and name:
-                        logger.info(f"✅ ADM{level} success: {name}, code={code}, lat={lat}, lon={lon}")
-                        factory_data[f"adm_{level}"] = name
-                        factory_data[f"adm_{level}_code"] = code
-                        last_valid_lat = lat
-                        last_valid_lon = lon
-                        last_valid_level = level
-                    else:
-                        logger.warning(f"❌ ADM{level} lookup failed for city='{city}', iso2='{iso2}'")
-                
-                factory_data["lat"] = last_valid_lat
-                factory_data["lon"] = last_valid_lon
-                factory_data["adm_max_level"] = last_valid_level
-            
-            factory_nodes.append(factory_data)
+    if failed or not name:
+        logger.warning(f"❌ Lookup failed for city='{city}', iso2='{iso2}'")
 
-# Step 3 (optional): Convert to DataFrame for inspection
+        city_key = normalize_city_key(city)
 
-df_factories = pd.DataFrame(factory_nodes)
+        update = UpdateOne(
+            {"ctry_standard": std_country},
+            {"$addToSet": {"failures": city_key}},  # avoids duplicates
+            upsert=True,
+        )
+        updates.append(update)
+        continue
 
-# Display or return
-print(df_factories.head(20))
+    logger.info(f"✅ Success. Writing to DB for: {std_country} – {city}")
+    city_key = normalize_city_key(city)
 
-df_factories.to_excel("test_geonames.xlsx")
+    update = UpdateOne(
+          {"ctry_standard": std_country},
+          {
+                "$setOnInsert": {"ctry_standard": std_country, "ctry_iso2": iso2},
+                "$set": {
+                      f"cities.{city_key}" : {
+                      "name": name,
+                      "adm1": adm1,
+                      "adm2": adm2,
+                      "adm3": adm3,
+                      "adm4": adm4,
+                      "bbox": bbox,
+                    }
+                },
+        },
+        upsert=True,
+    )
+
+    updates.append(update)
+
+# 5) commit updates to mongodb
+
+if updates:
+    result = geonames_collection.bulk_write(updates)
+    print(f"✅ MongoDB updated. Inserted: {result.upserted_count}, Modified: {result.modified_count}")
+else:
+    print("📭 No new updates to write.")
