@@ -19,3 +19,5 @@ mongo_client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certi
 db = mongo_client[DB_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 test_articles_collection = db[TEST_ARTICLES_COLLECTION]
+# MongoDB target collection for Geonames
+geonames_collection = db["geonames_lookup"]
