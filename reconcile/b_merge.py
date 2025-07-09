@@ -57,6 +57,7 @@ df_factory_expand["city_clean"] = df_factory_expand["location_city"].apply(clean
 df_factory_expand["city_key"] = df_factory_expand["city_clean"].apply(normalize_city_key)
 df_factory_expand["country_clean"] = df_factory_expand["location_country"].apply(clean_country)
 df_factory_expand["iso2"] = df_factory_expand["country_clean"].apply(lambda x: standardize_country(x)[1]) # returning only the iso2 value (out of three values returned)
+# add further geo data we want to include
 
 # for capacity: amount, status, phase
 df_capacity_expand = nodes["capacity"][[
