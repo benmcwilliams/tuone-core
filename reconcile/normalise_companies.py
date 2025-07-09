@@ -39,15 +39,16 @@ for raw_name in company_mongo:
     ops.append(
         UpdateMany(
             # match any doc with a company node having this raw name
-            {"nodes": {"$elemMatch": {"type": "company", "name": raw_name}}},
+            {"nodes": {"$elemMatch": {"type": {"$in": ["joint_venture", "company"]}, "name": raw_name}}}, # must add company back
             # set the new name_canon field on that array element
             {"$set": {"nodes.$[c].name_canon": canon}},
-            array_filters=[{"c.type": "company", "c.name": raw_name}]
+            array_filters=[{"c.type": {"$in": ["joint_venture", "company"]}, "c.name": raw_name}] # must add company back
         )
     )
 
 # execute in batches
 BATCH_SIZE = 500
+print(len(ops))
 for i in range(0, len(ops), BATCH_SIZE):
     batch = ops[i : i + BATCH_SIZE]
     result = articles_collection.bulk_write(batch)

@@ -21,7 +21,7 @@ def filter_rels_by_label(df_rels):
     # split df_all_rels into filtered views containing each relationship type
     return {
         "owns": df_rels[df_rels["type"].str.lower() == "owns"],                 #ownership
-        "forms": df_rels[df_rels["type"].str.lower() == "owns"],                #ownership
+        "forms": df_rels[df_rels["type"].str.lower() == "forms"],                #ownership
         "at": df_rels[df_rels["type"].str.lower() == "at"],                     #technological
         "produced_at": df_rels[df_rels["type"].str.lower() == "produced_at"],   #technological
         "quantifies": df_rels[df_rels["type"].str.lower() == "quantifies"],     #technological
