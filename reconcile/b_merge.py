@@ -12,16 +12,21 @@ for doc in geonames_collection.find():
     iso2 = doc.get("ctry_iso2", "").upper()
     cities = doc.get("cities", {})
 
-    # Ensure we have a valid iso2
+    # ensure we have a valid iso2
     if not iso2:
         continue
 
-    # Initialize nested dict
+    # initialize nested dict
     if iso2 not in geo_lookup:
         geo_lookup[iso2] = {}
 
     for city_key, city_data in cities.items():
         geo_lookup[iso2][city_key] = city_data
+
+def get_geo_value(row, key):
+    iso2 = row["iso2"]
+    city_key = row["city_key"]
+    return geo_lookup.get(iso2, {}).get(city_key, {}).get(key)
 
 ## file outputs a clean factory-technology file, this includes all cases of 
 ## owner | factory | capacity | product
@@ -52,12 +57,17 @@ df_factory_expand = nodes["factory"][[
     "name": "factory"
 })
 
-## apply clean geonames dictionaries
+# clean city name into city_key (compataible with mongo geonames collection)
 df_factory_expand["city_clean"] = df_factory_expand["location_city"].apply(clean_city)
 df_factory_expand["city_key"] = df_factory_expand["city_clean"].apply(normalize_city_key)
+
+# clean country into iso2 compatible with mongo geonames collection
 df_factory_expand["country_clean"] = df_factory_expand["location_country"].apply(clean_country)
 df_factory_expand["iso2"] = df_factory_expand["country_clean"].apply(lambda x: standardize_country(x)[1]) # returning only the iso2 value (out of three values returned)
-# add further geo data we want to include
+
+# query mongo geonames collection to return appropriate adm1
+df_factory_expand["adm1"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm1"), axis=1)
+df_factory_expand["adm2"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm2"), axis=1)
 
 # for capacity: amount, status, phase
 df_capacity_expand = nodes["capacity"][[
@@ -135,8 +145,8 @@ enrich_capacity = enrich_factory.merge(df_capacity_expand, on = "capacity_id")
 enrich_owner = enrich_capacity.merge(df_owner_expand, on = "owner_id")
 enrich_product = enrich_owner.merge(df_product_expand, on = "product_id")
 
-custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "capacity", 
-                "product", "product_lv1", "product_lv2", "phase", "status"]
+custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "adm1", "adm2",
+                "capacity", "product", "product_lv1", "product_lv2", "phase", "status"]
 
 enrich_product.to_excel(output_file,
                         columns=custom_order,
