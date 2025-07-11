@@ -335,8 +335,8 @@ def normalize_to_gwh_and_flag(row):
 
 
 # ========= Pipeline Execution =========
-def run_extraction_pipeline(file_path):
-    df = load_capacity_column(file_path)
+def run_extraction_pipeline(df):
+    # df = load_capacity_column(file_path)
     df[["value", "scale", "text"]] = df["capacity"].apply(lambda x: pd.Series(extract_capacity_info(x)))
     df[["metric", "text"]] = df["text"].apply(lambda x: pd.Series(extract_normalized_metric_unit(x)))
     df[["time", "text"]] = df["text"].apply(lambda x: pd.Series(extract_normalized_time_unit(x)))
