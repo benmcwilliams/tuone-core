@@ -7,6 +7,7 @@ import numpy as np
 #from reconcile.src.step_1 import TextCleaner
 #from reconcile.src.normalise_capacities import normalise_capacities
 from reconcile.src.id_date_dict import get_article_id_to_date_map
+from normalise_capacity import run_extraction_pipeline
 
 # Set up logging
 logging.basicConfig(
@@ -94,9 +95,13 @@ df['date'] = df['article_id'].map(id_to_date)
 cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "cluster_id",
         "product_lv1", "product_lv2", "product",
         "capacity", "status", "phase",
-        "date", "article_id"]
+        "date", "article_id",
+        'value', 'scale', 'text', 'metric', 'time', 'conversion',
+       'value_gwh_normalized', 'flag_failed', 'gwh_normalized']
 
 df.sort_values(by="cluster_id", inplace=True)
+df = run_extraction_pipeline(df)
+print(df.columns)
 
 output_file = "./storage/output/clean_output_ben.xlsx"
 logging.info(f"Saving output to {output_file}")
