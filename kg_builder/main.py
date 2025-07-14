@@ -1,4 +1,5 @@
 import sys; sys.path.append("..")
+from dotenv import load_dotenv
 load_dotenv()
 from config import EXTRACTION_CONFIG
 
@@ -10,7 +11,6 @@ from kg_builder.src.inputs import nodes_by_group_prompt, characteristic_node_typ
 from mongo_client import mongo_client, articles_collection
 
 from datetime import datetime, timezone
-from dotenv import load_dotenv
 from bson import json_util
 import re
 
@@ -250,9 +250,9 @@ def process_articles(articles_to_process, model_dictionary):
 
 #n_articles = 200
 offset_articles = 0
-category = "world_energy"
+category = "pvtech"
 
-cutoff_date = datetime(2021, 1, 1)
+cutoff_date = datetime(2025, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(

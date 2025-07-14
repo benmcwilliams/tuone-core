@@ -1,3 +1,5 @@
+## This was first set of finetuned models ran
+
 # model_dictionary = {
 #     "run_id": "v0",  # unified version tag for this model set
 
@@ -10,6 +12,8 @@
 #     "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BXY0ZUN1" #updated to v0
 # }   
 
+## The LATEST set of finetuned models
+
 model_dictionary = {
     "run_id": "v1.1",  # unified version tag for this model set
 
@@ -21,3 +25,45 @@ model_dictionary = {
     "capacities": "ft:gpt-4o-mini-2024-07-18:personal:capacities:BnBvxHsg",
     "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BnCKWIn4"
 } 
+
+## gpt-4o-mini 
+
+# model_dictionary = {
+#     "run_id": "gpt-4o-mini",  # unified version tag for this model set
+
+#     "nodes": "gpt-4o-mini", #updated to v0
+#     "ownership": "gpt-4o-mini",
+#     "technological": "gpt-4o-mini",
+#     "financial_origin": "gpt-4o-mini",
+#     "financial_technological": "gpt-4o-mini",
+#     "capacities": "gpt-4o-mini",
+#     "investments": "gpt-4o-mini"
+# }
+
+## gpt-4.1-mini
+
+# model_dictionary = {
+#     "run_id": "gpt-4.1-mini",  # unified version tag for this model set
+
+#     "nodes": "gpt-4.1-mini", #updated to v0
+#     "ownership": "gpt-4.1-mini",
+#     "technological": "gpt-4.1-mini",
+#     "financial_origin": "gpt-4.1-mini",
+#     "financial_technological": "gpt-4.1-mini",
+#     "capacities": "gpt-4.1-mini",
+#     "investments": "gpt-4.1-mini"
+# }
+
+## gpt-4o
+
+# model_dictionary = {
+#     "run_id": "gpt-4o",  # unified version tag for this model set
+
+#     "nodes": "gpt-4o", #updated to v0
+#     "ownership": "gpt-4o",
+#     "technological": "gpt-4o",
+#     "financial_origin": "gpt-4o",
+#     "financial_technological": "gpt-4o",
+#     "capacities": "gpt-4o",
+#     "investments": "gpt-4o"
+# }
