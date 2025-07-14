@@ -1,2 +1,138 @@
 2025-07-08 01:21:15,071 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fb — New Zealand’s largest solar PV provider enters liquidation
 2025-07-08 01:21:27,130 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fb — New Zealand’s largest solar PV provider enters liquidation
+2025-07-13 00:14:09,027 - INFO - 🔍 Text length: 2258 characters
+2025-07-13 00:14:09,028 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fb — New Zealand’s largest solar PV provider enters liquidation
+2025-07-13 00:14:09,028 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:14:12,055 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:12,055 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solarzero",
+        "type": "company",
+        "name": "SolarZero"
+      },
+      {
+        "id": "company_blackrock",
+        "type": "company",
+        "name": "BlackRock"
+      },
+      {
+        "id": "company_grant_thornton",
+        "type": "company",
+        "name": "Grant Thornton"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [
+      {
+        "id": "investment_solarzero_debt_facilities",
+        "type": "investment",
+        "name": "SolarZero Debt Facilities",
+        "amount": "US$195 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_blackrock_acquisition",
+        "type": "investment",
+        "name": "BlackRock Acquisition of SolarZero",
+        "amount": "US$1 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_solar_subscriptions",
+        "type": "product",
+        "name": "Solar Subscriptions"
+      },
+      {
+        "id": "product_virtual_power_plant",
+        "type": "product",
+        "name": "Virtual Power Plant"
+      }
+    ]
+  }
+}
+2025-07-13 00:14:12,056 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:12,056 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:14:12,056 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:14:12,056 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:14:13,228 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:13,228 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_solarzero_debt_facilities",
+      "status": "completed",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_blackrock_acquisition",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:14:13,228 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:13,228 - INFO - Node ID is investment_solarzero_debt_facilities
+2025-07-13 00:14:13,228 - INFO - ✅ Match found for investment_ID 'investment_solarzero_debt_facilities' in investment nodes
+2025-07-13 00:14:13,228 - INFO -   ➕ Set status: completed
+2025-07-13 00:14:13,228 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:14:13,228 - INFO - Node ID is investment_blackrock_acquisition
+2025-07-13 00:14:13,228 - INFO - ✅ Match found for investment_ID 'investment_blackrock_acquisition' in investment nodes
+2025-07-13 00:14:13,228 - INFO -   ➕ Set status: completed
+2025-07-13 00:14:13,228 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:14:13,228 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:14:13,228 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:14:13,228 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:14:13,228 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:14:14,332 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:14,332 - INFO - {
+  "relationships": [
+    {
+      "source": "product_virtual_power_plant",
+      "target": "product_solar_subscriptions",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:14:14,332 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:14,332 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:14:14,332 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:14:15,503 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:15,503 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solarzero",
+      "target": "investment_solarzero_debt_facilities",
+      "type": "receives"
+    },
+    {
+      "source": "company_blackrock",
+      "target": "investment_blackrock_acquisition",
+      "type": "invests"
+    }
+  ]
+}
+2025-07-13 00:14:15,504 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:15,504 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:14:15,504 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:14:16,834 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:16,834 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_solarzero_debt_facilities",
+      "target": "product_solar_subscriptions",
+      "type": "targets"
+    },
+    {
+      "source": "investment_solarzero_debt_facilities",
+      "target": "product_virtual_power_plant",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:14:16,834 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:16,919 - INFO - ✅ Updated Article ID: 67fa8b41eaa4fb525afee4fb with 7 nodes and combined text.

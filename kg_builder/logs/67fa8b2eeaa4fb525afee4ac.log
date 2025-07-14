@@ -1,2 +1,114 @@
 2025-07-08 01:21:15,083 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ac — TMEIC to build 9GW PV inverter facility in Texas
 2025-07-08 01:21:27,138 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ac — TMEIC to build 9GW PV inverter facility in Texas
+2025-07-13 00:25:35,193 - INFO - 🔍 Text length: 1595 characters
+2025-07-13 00:25:35,194 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ac — TMEIC to build 9GW PV inverter facility in Texas
+2025-07-13 00:25:35,194 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:25:37,525 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:37,526 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tmeic",
+        "type": "company",
+        "name": "TMEIC"
+      },
+      {
+        "id": "company_tmeic_corporation_americas",
+        "type": "company",
+        "name": "TMEIC Corporation Americas"
+      },
+      {
+        "id": "company_sma_solar",
+        "type": "company",
+        "name": "SMA Solar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_brookshire_texas",
+        "type": "factory",
+        "name": "Brookshire Texas PV Inverter Facility",
+        "location": {
+          "city": "Brookshire",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_9gw_annual",
+        "type": "capacity",
+        "amount": "9GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_inverter",
+        "type": "product",
+        "name": "PV Inverter"
+      }
+    ]
+  }
+}
+2025-07-13 00:25:37,526 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:37,526 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:25:37,526 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:25:38,304 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:38,304 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_9gw_annual",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:25:38,304 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:38,304 - INFO - Node ID is capacity_9gw_annual
+2025-07-13 00:25:38,304 - INFO - ✅ Match found for capacity_ID 'capacity_9gw_annual' in capacity nodes
+2025-07-13 00:25:38,304 - INFO -   ➕ Set status: under construction
+2025-07-13 00:25:38,304 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:25:38,305 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:25:38,305 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:25:38,305 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:25:38,305 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:25:39,163 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:39,163 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tmeic_corporation_americas",
+      "target": "factory_brookshire_texas",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:25:39,163 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:39,163 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:25:39,163 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:25:40,575 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:40,576 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_9gw_annual",
+      "target": "factory_brookshire_texas",
+      "type": "at"
+    },
+    {
+      "source": "capacity_9gw_annual",
+      "target": "product_pv_inverter",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pv_inverter",
+      "target": "factory_brookshire_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:25:40,576 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:40,576 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:25:40,576 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:25:40,660 - INFO - ✅ Updated Article ID: 67fa8b2eeaa4fb525afee4ac with 6 nodes and combined text.

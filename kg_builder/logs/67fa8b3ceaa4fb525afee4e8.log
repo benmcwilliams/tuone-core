@@ -1,2 +1,81 @@
 2025-07-08 01:21:15,074 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e8 — Australia: Large-scale solar PV grows 20-fold in six years
 2025-07-08 01:21:27,133 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e8 — Australia: Large-scale solar PV grows 20-fold in six years
+2025-07-13 00:17:03,424 - INFO - 🔍 Text length: 4005 characters
+2025-07-13 00:17:03,425 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e8 — Australia: Large-scale solar PV grows 20-fold in six years
+2025-07-13 00:17:03,425 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:17:05,795 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:05,796 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_origin_energy",
+        "type": "company",
+        "name": "Origin Energy"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_2_8gwh",
+        "type": "capacity",
+        "amount": "2.8GWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      },
+      {
+        "id": "product_wind",
+        "type": "product",
+        "name": "wind"
+      },
+      {
+        "id": "product_hydropower",
+        "type": "product",
+        "name": "hydropower"
+      },
+      {
+        "id": "product_coal_fired_power",
+        "type": "product",
+        "name": "coal-fired power"
+      }
+    ]
+  }
+}
+2025-07-13 00:17:05,796 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:05,796 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:17:05,796 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:17:06,463 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:06,463 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_8gwh",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:17:06,463 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:06,463 - INFO - Node ID is capacity_2_8gwh
+2025-07-13 00:17:06,464 - INFO - ✅ Match found for capacity_ID 'capacity_2_8gwh' in capacity nodes
+2025-07-13 00:17:06,464 - INFO -   ➕ Set status: operational
+2025-07-13 00:17:06,464 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:17:06,464 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:17:06,464 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:17:06,464 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:17:06,464 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:17:06,464 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:17:07,361 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:07,361 - INFO - {
+  "relationships": []
+}
+2025-07-13 00:17:07,362 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:07,362 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:17:07,362 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:17:07,438 - INFO - ✅ Updated Article ID: 67fa8b3ceaa4fb525afee4e8 with 6 nodes and combined text.

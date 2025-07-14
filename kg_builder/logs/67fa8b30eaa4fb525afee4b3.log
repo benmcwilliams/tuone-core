@@ -1,2 +1,82 @@
 2025-07-08 01:21:15,081 - INFO - 📌 Processing Article ID: 67fa8b30eaa4fb525afee4b3 — ‘Low hanging fruit is gone’ for US solar developers, says EDP CEO
 2025-07-08 01:21:27,138 - INFO - 📌 Processing Article ID: 67fa8b30eaa4fb525afee4b3 — ‘Low hanging fruit is gone’ for US solar developers, says EDP CEO
+2025-07-13 00:24:34,217 - INFO - 🔍 Text length: 2957 characters
+2025-07-13 00:24:34,218 - INFO - 📌 Processing Article ID: 67fa8b30eaa4fb525afee4b3 — ‘Low hanging fruit is gone’ for US solar developers, says EDP CEO
+2025-07-13 00:24:34,218 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:24:36,391 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:24:36,392 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_edp_renewables_north_america",
+        "type": "company",
+        "name": "EDP Renewables North America"
+      },
+      {
+        "id": "company_louisville_gas_electric",
+        "type": "company",
+        "name": "Louisville Gas & Electric"
+      },
+      {
+        "id": "company_kentucky_utilities",
+        "type": "company",
+        "name": "Kentucky Utilities"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_14gw",
+        "type": "capacity",
+        "amount": "14GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      }
+    ]
+  }
+}
+2025-07-13 00:24:36,392 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:24:36,392 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:24:36,392 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:24:37,208 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:24:37,208 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_14gw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:24:37,209 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:24:37,209 - INFO - Node ID is capacity_14gw
+2025-07-13 00:24:37,209 - INFO - ✅ Match found for capacity_ID 'capacity_14gw' in capacity nodes
+2025-07-13 00:24:37,209 - INFO -   ➕ Set status: announced
+2025-07-13 00:24:37,209 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:24:37,209 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:24:37,209 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:24:37,209 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:24:37,209 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:24:37,209 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:24:38,131 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:24:38,132 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_14gw",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:24:38,132 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:24:38,132 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:24:38,132 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:24:38,209 - INFO - ✅ Updated Article ID: 67fa8b30eaa4fb525afee4b3 with 5 nodes and combined text.

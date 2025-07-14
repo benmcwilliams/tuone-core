@@ -14,7 +14,7 @@ from collections import Counter
 def should_skip_article(article, run_id):
     """Returns (proceed, text). If should skip, returns (False, None)."""
 
-    # skip if article has been validated
+    # skip if article has been validated (True as per old system or a datetime stamp as now)
     val = article.get("validation")
     if val is True:
         print("⏭️  Skipping – article is validated")
@@ -25,7 +25,19 @@ def should_skip_article(article, run_id):
                                .strftime("%Y-%m-%d %H:%M UTC")
         print(f"⏭️  Skipping – article was validated on {processed_on}")
         return False, None
+
+    # skip if latest model architecture has already processed this run (v1.1) 
+    previous_run = article.get("llm_processed", {}).get("run_id")
+    if previous_run == "v1.1":
+        print(f"⏭️  Skipping – article already processed with latest run_id: v1.1")
+        return False, None
     
+    # skip if latest model architecture has already processed this run (v1.1) 
+    previous_run = article.get("llm_processed", {}).get("run_id")
+    if run_id == "gpt-4o-mini" and previous_run == "gpt-4o":
+        print(f"⏭️  Skipping – article processed with gpt-4o, won't overwrite with 4o-mini.")
+        return False, None
+
     # skip if this model architecture has already processed article
     previous_run = article.get("llm_processed", {}).get("run_id")
     if previous_run == run_id:

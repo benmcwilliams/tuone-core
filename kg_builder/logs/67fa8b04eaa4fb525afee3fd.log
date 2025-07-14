@@ -1,3 +1,102 @@
 2025-07-08 01:19:12,101 - INFO - 📌 Processing Article ID: 67fa8b04eaa4fb525afee3fd — REC Silicon abandons US polysilicon production at Moses Lake
 2025-07-08 01:21:15,102 - INFO - 📌 Processing Article ID: 67fa8b04eaa4fb525afee3fd — REC Silicon abandons US polysilicon production at Moses Lake
 2025-07-08 01:21:27,155 - INFO - 📌 Processing Article ID: 67fa8b04eaa4fb525afee3fd — REC Silicon abandons US polysilicon production at Moses Lake
+2025-07-12 23:53:50,351 - INFO - 🔍 Text length: 3124 characters
+2025-07-12 23:53:50,351 - INFO - 📌 Processing Article ID: 67fa8b04eaa4fb525afee3fd — REC Silicon abandons US polysilicon production at Moses Lake
+2025-07-12 23:53:50,352 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 23:53:52,815 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:53:52,815 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      },
+      {
+        "id": "company_highland_materials",
+        "type": "company",
+        "name": "Highland Materials"
+      },
+      {
+        "id": "company_tongwei_solar",
+        "type": "company",
+        "name": "Tongwei Solar"
+      },
+      {
+        "id": "company_daqo_new_energy",
+        "type": "company",
+        "name": "Daqo New Energy"
+      },
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      },
+      {
+        "id": "company_hanwha_solutions",
+        "type": "company",
+        "name": "Hanwha Solutions"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_moses_lake",
+        "type": "factory",
+        "name": "Moses Lake",
+        "location": {
+          "city": "Moses Lake",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      }
+    ]
+  }
+}
+2025-07-12 23:53:52,815 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:53:52,815 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 23:53:52,815 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 23:53:52,816 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 23:53:52,816 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-12 23:53:52,816 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 23:53:53,949 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:53:53,950 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hanwha_solutions",
+      "target": "company_rec_silicon",
+      "type": "forms"
+    },
+    {
+      "source": "company_rec_silicon",
+      "target": "factory_moses_lake",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-12 23:53:53,950 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:53:53,950 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-12 23:53:53,950 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 23:53:54,856 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:53:54,856 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polysilicon",
+      "target": "factory_moses_lake",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 23:53:54,856 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:53:54,856 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 23:53:54,856 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 23:53:54,940 - INFO - ✅ Updated Article ID: 67fa8b04eaa4fb525afee3fd with 8 nodes and combined text.

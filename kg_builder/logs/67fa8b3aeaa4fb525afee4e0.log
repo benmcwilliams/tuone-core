@@ -1,2 +1,153 @@
 2025-07-08 01:21:15,075 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4e0 — Leeward commissions 179MW White Wing Ranch solar project in Arizona
 2025-07-08 01:21:27,133 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4e0 — Leeward commissions 179MW White Wing Ranch solar project in Arizona
+2025-07-13 00:18:01,693 - INFO - 🔍 Text length: 2182 characters
+2025-07-13 00:18:01,693 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4e0 — Leeward commissions 179MW White Wing Ranch solar project in Arizona
+2025-07-13 00:18:01,693 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:18:07,483 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:07,483 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_leeward_renewable_energy",
+        "type": "company",
+        "name": "Leeward Renewable Energy"
+      },
+      {
+        "id": "company_verizon",
+        "type": "company",
+        "name": "Verizon"
+      },
+      {
+        "id": "company_first_solar",
+        "type": "company",
+        "name": "First Solar"
+      },
+      {
+        "id": "company_terabase_energy",
+        "type": "company",
+        "name": "Terabase Energy"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_white_wing_ranch",
+        "type": "factory",
+        "name": "White Wing Ranch",
+        "location": {
+          "city": "Yuma County",
+          "country": "USA"
+        }
+      },
+      {
+        "id": "factory_first_solar_alabama",
+        "type": "factory",
+        "name": "First Solar Alabama",
+        "location": {
+          "city": "null",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_179mw",
+        "type": "capacity",
+        "amount": "179MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_11gw",
+        "type": "capacity",
+        "amount": "11GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_series_7_pv_modules",
+        "type": "product",
+        "name": "Series 7 PV modules"
+      }
+    ]
+  }
+}
+2025-07-13 00:18:07,484 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:07,484 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:18:07,484 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:18:08,513 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:08,514 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_179mw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_11gw",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:18:08,514 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:08,514 - INFO - Node ID is capacity_179mw
+2025-07-13 00:18:08,514 - INFO - ✅ Match found for capacity_ID 'capacity_179mw' in capacity nodes
+2025-07-13 00:18:08,514 - INFO -   ➕ Set status: operational
+2025-07-13 00:18:08,514 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:18:08,514 - INFO - Node ID is capacity_11gw
+2025-07-13 00:18:08,514 - INFO - ✅ Match found for capacity_ID 'capacity_11gw' in capacity nodes
+2025-07-13 00:18:08,514 - INFO -   ➕ Set status: announced
+2025-07-13 00:18:08,514 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:18:08,514 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:18:08,514 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:18:08,514 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:18:08,514 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:18:09,570 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:09,570 - INFO - {
+  "relationships": [
+    {
+      "source": "company_leeward_renewable_energy",
+      "target": "factory_white_wing_ranch",
+      "type": "owns"
+    },
+    {
+      "source": "company_first_solar",
+      "target": "factory_first_solar_alabama",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:18:09,570 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:09,571 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:18:09,571 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:18:11,243 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:11,244 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_179mw",
+      "target": "factory_white_wing_ranch",
+      "type": "at"
+    },
+    {
+      "source": "capacity_11gw",
+      "target": "factory_first_solar_alabama",
+      "type": "at"
+    },
+    {
+      "source": "product_series_7_pv_modules",
+      "target": "factory_first_solar_alabama",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_179mw",
+      "target": "product_series_7_pv_modules",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:18:11,244 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:11,244 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:18:11,244 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:18:11,323 - INFO - ✅ Updated Article ID: 67fa8b3aeaa4fb525afee4e0 with 9 nodes and combined text.

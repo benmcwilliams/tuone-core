@@ -1,0 +1,120 @@
+2025-07-12 01:38:40,477 - INFO - 🔍 Text length: 3015 characters
+2025-07-12 01:38:40,477 - INFO - 📌 Processing Article ID: 68719ebb3a890264658cfe8e — Xiaomi starts YU7 SUV deliveries; wait times increase to over a year
+2025-07-12 01:38:40,477 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:38:43,218 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:43,219 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_xiaomi",
+        "type": "company",
+        "name": "Xiaomi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_phase_1_beijing",
+        "type": "factory",
+        "name": "Phase 1 Facility",
+        "location": {
+          "city": "Beijing",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_phase_2_beijing",
+        "type": "factory",
+        "name": "Phase 2 Factory",
+        "location": {
+          "city": "Beijing",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_yu7",
+        "type": "product",
+        "name": "YU7"
+      },
+      {
+        "id": "product_su7",
+        "type": "product",
+        "name": "SU7"
+      }
+    ]
+  }
+}
+2025-07-12 01:38:43,219 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:43,219 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-12 01:38:43,219 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-12 01:38:44,539 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:44,539 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_units_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 01:38:44,539 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:44,539 - INFO - Node ID is capacity_150k_units_per_year
+2025-07-12 01:38:44,539 - INFO - ✅ Match found for capacity_ID 'capacity_150k_units_per_year' in capacity nodes
+2025-07-12 01:38:44,539 - INFO -   ➕ Set status: operational
+2025-07-12 01:38:44,539 - INFO -   ➕ Set phase: unclear
+2025-07-12 01:38:44,539 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 01:38:44,539 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:38:44,540 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:38:44,540 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:38:45,650 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:45,650 - INFO - {
+  "relationships": [
+    {
+      "source": "company_xiaomi",
+      "type": "owns",
+      "target": "factory_phase_1_beijing"
+    },
+    {
+      "source": "company_xiaomi",
+      "type": "owns",
+      "target": "factory_phase_2_beijing"
+    }
+  ]
+}
+2025-07-12 01:38:45,650 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:45,650 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:38:45,650 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:38:47,110 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:47,111 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_units_per_year",
+      "target": "factory_phase_1_beijing",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_units_per_year",
+      "target": "product_su7",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_su7",
+      "target": "factory_phase_1_beijing",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:38:47,111 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:47,111 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 01:38:47,111 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 01:38:47,188 - INFO - ✅ Updated Article ID: 68719ebb3a890264658cfe8e with 6 nodes and combined text.

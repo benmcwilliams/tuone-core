@@ -1,2 +1,91 @@
 2025-07-08 01:21:15,073 - INFO - 📌 Processing Article ID: 67fa8b3feaa4fb525afee4f1 — Oxford PV unveils record 26.9% perovskite tandem module
 2025-07-08 01:21:27,132 - INFO - 📌 Processing Article ID: 67fa8b3feaa4fb525afee4f1 — Oxford PV unveils record 26.9% perovskite tandem module
+2025-07-13 00:15:39,758 - INFO - 🔍 Text length: 2157 characters
+2025-07-13 00:15:39,758 - INFO - 📌 Processing Article ID: 67fa8b3feaa4fb525afee4f1 — Oxford PV unveils record 26.9% perovskite tandem module
+2025-07-13 00:15:39,758 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:15:42,339 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:15:42,340 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_oxford_pv",
+        "type": "company",
+        "name": "Oxford PV"
+      },
+      {
+        "id": "company_sunmaxx",
+        "type": "company",
+        "name": "Sunmaxx"
+      },
+      {
+        "id": "company_fraunhofer_ise",
+        "type": "company",
+        "name": "Fraunhofer ISE"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_brandenburg_an_der_havel",
+        "type": "factory",
+        "name": "Brandenburg an der Havel",
+        "location": {
+          "city": "Brandenburg an der Havel",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_perovskite_silicon_tandem_module",
+        "type": "product",
+        "name": "perovskite-silicon tandem module"
+      },
+      {
+        "id": "product_60_cell_double_glass_module",
+        "type": "product",
+        "name": "60-cell double-glass module"
+      },
+      {
+        "id": "product_glass_glass_tandem_pv_module",
+        "type": "product",
+        "name": "glass-glass tandem PV module"
+      }
+    ]
+  }
+}
+2025-07-13 00:15:42,340 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:15:42,340 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:15:42,340 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:15:42,340 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:15:42,340 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:15:42,340 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:15:43,860 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:15:43,860 - INFO - {
+  "relationships": [
+    {
+      "source": "company_oxford_pv",
+      "target": "factory_brandenburg_an_der_havel",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:15:43,860 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:15:43,860 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:15:43,860 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:15:44,818 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:15:44,818 - INFO - {
+  "relationships": [
+    {
+      "source": "product_perovskite_silicon_tandem_module",
+      "target": "factory_brandenburg_an_der_havel",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:15:44,818 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:15:44,818 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:15:44,818 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:15:44,899 - INFO - ✅ Updated Article ID: 67fa8b3feaa4fb525afee4f1 with 7 nodes and combined text.

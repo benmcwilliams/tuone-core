@@ -1,2 +1,149 @@
 2025-07-08 01:21:15,077 - INFO - 📌 Processing Article ID: 67fa8b38eaa4fb525afee4d6 — SEG Solar commissions 2GW module manufacturing facility in Texas
 2025-07-08 01:21:27,134 - INFO - 📌 Processing Article ID: 67fa8b38eaa4fb525afee4d6 — SEG Solar commissions 2GW module manufacturing facility in Texas
+2025-07-13 00:19:27,118 - INFO - 🔍 Text length: 3196 characters
+2025-07-13 00:19:27,118 - INFO - 📌 Processing Article ID: 67fa8b38eaa4fb525afee4d6 — SEG Solar commissions 2GW module manufacturing facility in Texas
+2025-07-13 00:19:27,118 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:19:29,583 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:19:29,583 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_seg_solar",
+        "type": "company",
+        "name": "SEG Solar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_houston_texas",
+        "type": "factory",
+        "name": "Houston Facility",
+        "location": {
+          "city": "Houston",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_2gw_per_year",
+        "type": "capacity",
+        "amount": "2GW per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_5_5gw_per_year",
+        "type": "capacity",
+        "amount": "5.5GW per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_585w_module",
+        "type": "product",
+        "name": "585W module"
+      },
+      {
+        "id": "product_yukon_n_series",
+        "type": "product",
+        "name": "Yukon N series"
+      },
+      {
+        "id": "product_182mm_n_type_cells",
+        "type": "product",
+        "name": "182mm n-type cells"
+      },
+      {
+        "id": "product_210mm_n_type_cells",
+        "type": "product",
+        "name": "210mm n-type cells"
+      }
+    ]
+  }
+}
+2025-07-13 00:19:29,583 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:19:29,583 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:19:29,583 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:19:30,719 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:19:30,720 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2gw_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_5_5gw_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-07-13 00:19:30,720 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:19:30,720 - INFO - Node ID is capacity_2gw_per_year
+2025-07-13 00:19:30,720 - INFO - ✅ Match found for capacity_ID 'capacity_2gw_per_year' in capacity nodes
+2025-07-13 00:19:30,720 - INFO -   ➕ Set status: operational
+2025-07-13 00:19:30,720 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:19:30,720 - INFO - Node ID is capacity_5_5gw_per_year
+2025-07-13 00:19:30,720 - INFO - ✅ Match found for capacity_ID 'capacity_5_5gw_per_year' in capacity nodes
+2025-07-13 00:19:30,720 - INFO -   ➕ Set status: announced
+2025-07-13 00:19:30,720 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:19:30,720 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:19:30,720 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:19:30,720 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:19:30,721 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:19:31,540 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:19:31,541 - INFO - {
+  "relationships": [
+    {
+      "source": "company_seg_solar",
+      "target": "factory_houston_texas",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:19:31,541 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:19:31,541 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:19:31,541 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:19:33,281 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:19:33,281 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2gw_per_year",
+      "target": "factory_houston_texas",
+      "type": "at"
+    },
+    {
+      "source": "product_585w_module",
+      "target": "factory_houston_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_2gw_per_year",
+      "target": "product_585w_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2gw_per_year",
+      "target": "product_yukon_n_series",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2gw_per_year",
+      "target": "product_182mm_n_type_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2gw_per_year",
+      "target": "product_210mm_n_type_cells",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:19:33,281 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:19:33,281 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:19:33,281 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:19:33,366 - INFO - ✅ Updated Article ID: 67fa8b38eaa4fb525afee4d6 with 8 nodes and combined text.

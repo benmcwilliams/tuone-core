@@ -1,2 +1,106 @@
 2025-07-08 01:21:15,082 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ad — IEA PVPS: distributed solar and storage can ‘contribute very well’ to grid flexibility
 2025-07-08 01:21:27,138 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ad — IEA PVPS: distributed solar and storage can ‘contribute very well’ to grid flexibility
+2025-07-13 00:25:30,136 - INFO - 🔍 Text length: 5616 characters
+2025-07-13 00:25:30,137 - INFO - 📌 Processing Article ID: 67fa8b2eeaa4fb525afee4ad — IEA PVPS: distributed solar and storage can ‘contribute very well’ to grid flexibility
+2025-07-13 00:25:30,137 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:25:32,706 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:32,707 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_800kw",
+        "type": "capacity",
+        "amount": "800kW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_2_4mwh",
+        "type": "capacity",
+        "amount": "2.4MWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_distributed_solar_pv",
+        "type": "product",
+        "name": "Distributed Solar PV"
+      },
+      {
+        "id": "product_hybrid_pv_systems",
+        "type": "product",
+        "name": "Hybrid PV Systems"
+      },
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "Battery Energy Storage Systems"
+      },
+      {
+        "id": "product_synthetic_inertia",
+        "type": "product",
+        "name": "Synthetic Inertia"
+      },
+      {
+        "id": "product_fast_frequency_response",
+        "type": "product",
+        "name": "Fast Frequency Response"
+      }
+    ]
+  }
+}
+2025-07-13 00:25:32,707 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:32,707 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:25:32,707 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:25:33,632 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:33,633 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_800kw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_2_4mwh",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:25:33,633 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:33,633 - INFO - Node ID is capacity_800kw
+2025-07-13 00:25:33,633 - INFO - ✅ Match found for capacity_ID 'capacity_800kw' in capacity nodes
+2025-07-13 00:25:33,633 - INFO -   ➕ Set status: operational
+2025-07-13 00:25:33,633 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:25:33,633 - INFO - Node ID is capacity_2_4mwh
+2025-07-13 00:25:33,633 - INFO - ✅ Match found for capacity_ID 'capacity_2_4mwh' in capacity nodes
+2025-07-13 00:25:33,633 - INFO -   ➕ Set status: operational
+2025-07-13 00:25:33,633 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:25:33,633 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:25:33,634 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:25:33,634 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:25:33,634 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:25:33,634 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:25:35,110 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:25:35,110 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_800kw",
+      "target": "product_distributed_solar_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2_4mwh",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:25:35,110 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:25:35,111 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:25:35,111 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:25:35,191 - INFO - ✅ Updated Article ID: 67fa8b2eeaa4fb525afee4ad with 7 nodes and combined text.

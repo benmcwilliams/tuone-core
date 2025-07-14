@@ -1,2 +1,123 @@
 2025-07-08 01:21:15,093 - INFO - 📌 Processing Article ID: 67fa8b18eaa4fb525afee44f — Comstock Metals to recycle PV modules at Nevada facility
 2025-07-08 01:21:27,147 - INFO - 📌 Processing Article ID: 67fa8b18eaa4fb525afee44f — Comstock Metals to recycle PV modules at Nevada facility
+2025-07-13 00:43:12,734 - INFO - 🔍 Text length: 2528 characters
+2025-07-13 00:43:12,734 - INFO - 📌 Processing Article ID: 67fa8b18eaa4fb525afee44f — Comstock Metals to recycle PV modules at Nevada facility
+2025-07-13 00:43:12,735 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:43:15,003 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:43:15,003 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_comstock_metals",
+        "type": "company",
+        "name": "Comstock Metals"
+      },
+      {
+        "id": "company_solarcycle",
+        "type": "company",
+        "name": "Solarcycle"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_silver_springs_nevada",
+        "type": "factory",
+        "name": "solar module recycling facility",
+        "location": {
+          "city": "Silver Springs",
+          "country": "US"
+        }
+      },
+      {
+        "id": "factory_polk_county_georgia",
+        "type": "factory",
+        "name": "recycled solar glass manufacturing facility",
+        "location": {
+          "city": "Polk County",
+          "country": "Georgia"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_100k_tonnes_per_year",
+        "type": "capacity",
+        "amount": "100,000 tonnes per year",
+        "status": "null"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_glass",
+        "type": "product",
+        "name": "solar glass"
+      }
+    ]
+  }
+}
+2025-07-13 00:43:15,004 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:43:15,004 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:43:15,004 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:43:15,945 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:43:15,945 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_tonnes_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:43:15,945 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:43:15,945 - INFO - Node ID is capacity_100k_tonnes_per_year
+2025-07-13 00:43:15,945 - INFO - ✅ Match found for capacity_ID 'capacity_100k_tonnes_per_year' in capacity nodes
+2025-07-13 00:43:15,946 - INFO -   ➕ Set status: announced
+2025-07-13 00:43:15,946 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:43:15,946 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:43:15,946 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:43:15,946 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-13 00:43:15,946 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:43:16,846 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:43:16,846 - INFO - {
+  "relationships": [
+    {
+      "source": "company_comstock_metals",
+      "target": "factory_silver_springs_nevada",
+      "type": "owns"
+    },
+    {
+      "source": "company_solarcycle",
+      "target": "factory_polk_county_georgia",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:43:16,846 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:43:16,846 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:43:16,846 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:43:17,974 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:43:17,974 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_tonnes_per_year",
+      "target": "factory_silver_springs_nevada",
+      "type": "at"
+    },
+    {
+      "source": "product_solar_glass",
+      "target": "factory_polk_county_georgia",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_100k_tonnes_per_year",
+      "target": "product_solar_glass",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:43:17,974 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:43:17,974 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:43:17,974 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:43:18,054 - INFO - ✅ Updated Article ID: 67fa8b18eaa4fb525afee44f with 6 nodes and combined text.

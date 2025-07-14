@@ -1,0 +1,119 @@
+2025-07-12 01:38:07,458 - INFO - 🔍 Text length: 2300 characters
+2025-07-12 01:38:07,458 - INFO - 📌 Processing Article ID: 68719ec03a890264658cfe91 — Donut Lab secures €25m and expands EV operations
+2025-07-12 01:38:07,459 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:38:09,050 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:09,050 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_donut_lab",
+        "type": "company",
+        "name": "Donut Lab"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chippenham_kent",
+        "type": "factory",
+        "name": "Chippenham R&D Centre",
+        "location": {
+          "city": "Chippenham",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_donut_lab_25m",
+        "type": "investment",
+        "name": "Donut Lab \u20ac25 million funding",
+        "amount": "\u20ac25 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_motor",
+        "type": "product",
+        "name": "electric motor"
+      },
+      {
+        "id": "product_donut_platform",
+        "type": "product",
+        "name": "Donut Platform"
+      }
+    ]
+  }
+}
+2025-07-12 01:38:09,050 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:09,050 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:38:09,050 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-12 01:38:09,050 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-12 01:38:10,245 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:10,246 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_donut_lab_25m",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-07-12 01:38:10,246 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:10,246 - INFO - Node ID is investment_donut_lab_25m
+2025-07-12 01:38:10,246 - INFO - ✅ Match found for investment_ID 'investment_donut_lab_25m' in investment nodes
+2025-07-12 01:38:10,246 - INFO -   ➕ Set status: completed
+2025-07-12 01:38:10,246 - INFO -   ➕ Set phase: expansion
+2025-07-12 01:38:10,246 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:38:10,246 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:38:10,246 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:38:11,679 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:11,680 - INFO - {
+  "relationships": [
+    {
+      "source": "company_donut_lab",
+      "type": "owns",
+      "target": "factory_chippenham_kent"
+    }
+  ]
+}
+2025-07-12 01:38:11,680 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:11,680 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:38:11,680 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:38:13,111 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:13,112 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_motor",
+      "target": "factory_chippenham_kent",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_donut_platform",
+      "target": "factory_chippenham_kent",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:38:13,112 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:13,112 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-12 01:38:13,112 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-12 01:38:13,931 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:13,931 - INFO - {
+  "relationships": []
+}
+2025-07-12 01:38:13,931 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:13,931 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-12 01:38:13,931 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-12 01:38:15,878 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:15,878 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_donut_lab_25m",
+      "target": "factory_chippenham_kent",
+      "type": "funds"
+    }
+  ]
+}
+2025-07-12 01:38:15,878 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:15,958 - INFO - ✅ Updated Article ID: 68719ec03a890264658cfe91 with 5 nodes and combined text.

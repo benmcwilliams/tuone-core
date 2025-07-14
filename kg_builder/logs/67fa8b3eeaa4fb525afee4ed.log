@@ -1,2 +1,124 @@
 2025-07-08 01:21:15,074 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ed — CSIRO opens AU$6.8 million printed flexible solar cell facility in Victoria, Australia
 2025-07-08 01:21:27,132 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ed — CSIRO opens AU$6.8 million printed flexible solar cell facility in Victoria, Australia
+2025-07-13 00:16:17,652 - INFO - 🔍 Text length: 4056 characters
+2025-07-13 00:16:17,653 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ed — CSIRO opens AU$6.8 million printed flexible solar cell facility in Victoria, Australia
+2025-07-13 00:16:17,653 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:16:20,396 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:20,396 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_csiro",
+        "type": "company",
+        "name": "CSIRO"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_victoria_australia",
+        "type": "factory",
+        "name": "printed flexible solar cell facility",
+        "location": {
+          "city": "Victoria",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_csiro_victoria_facility",
+        "type": "investment",
+        "name": "CSIRO Victoria Facility Investment",
+        "amount": "AU$6.8 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_printed_flexible_solar_cell",
+        "type": "product",
+        "name": "printed flexible solar cell"
+      }
+    ]
+  }
+}
+2025-07-13 00:16:20,396 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:20,396 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:16:20,396 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:16:20,396 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:16:21,352 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:21,353 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_csiro_victoria_facility",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:16:21,353 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:21,353 - INFO - Node ID is investment_csiro_victoria_facility
+2025-07-13 00:16:21,353 - INFO - ✅ Match found for investment_ID 'investment_csiro_victoria_facility' in investment nodes
+2025-07-13 00:16:21,353 - INFO -   ➕ Set status: completed
+2025-07-13 00:16:21,353 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:16:21,353 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:16:21,353 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:16:21,353 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:16:22,276 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:22,276 - INFO - {
+  "relationships": [
+    {
+      "source": "company_csiro",
+      "target": "factory_victoria_australia",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:16:22,276 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:22,276 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:16:22,276 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:16:23,873 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:23,873 - INFO - {
+  "relationships": [
+    {
+      "source": "product_printed_flexible_solar_cell",
+      "target": "factory_victoria_australia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:16:23,873 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:23,873 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:16:23,873 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:16:25,039 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:25,039 - INFO - {
+  "relationships": [
+    {
+      "source": "company_csiro",
+      "target": "investment_csiro_victoria_facility",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:16:25,039 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:25,040 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:16:25,040 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:16:25,961 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:25,962 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_csiro_victoria_facility",
+      "target": "factory_victoria_australia",
+      "type": "funds"
+    },
+    {
+      "source": "investment_csiro_victoria_facility",
+      "target": "product_printed_flexible_solar_cell",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:16:25,962 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:26,050 - INFO - ✅ Updated Article ID: 67fa8b3eeaa4fb525afee4ed with 4 nodes and combined text.

@@ -1,3 +1,302 @@
 2025-07-08 01:19:12,068 - INFO - 📌 Processing Article ID: 685f284acc1182d72e3ae78e — Halocell Energy launches ‘Australian-made’ perovskite PV module for low-light conditions
 2025-07-08 01:21:15,049 - INFO - 📌 Processing Article ID: 685f284acc1182d72e3ae78e — Halocell Energy launches ‘Australian-made’ perovskite PV module for low-light conditions
 2025-07-08 01:21:27,112 - INFO - 📌 Processing Article ID: 685f284acc1182d72e3ae78e — Halocell Energy launches ‘Australian-made’ perovskite PV module for low-light conditions
+2025-07-12 23:19:23,974 - INFO - 🔍 Text length: 3970 characters
+2025-07-12 23:19:23,974 - INFO - 📌 Processing Article ID: 685f284acc1182d72e3ae78e — Halocell Energy launches ‘Australian-made’ perovskite PV module for low-light conditions
+2025-07-12 23:19:23,974 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 23:19:26,582 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:26,582 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_halocell_energy",
+        "type": "company",
+        "name": "Halocell Energy"
+      },
+      {
+        "id": "company_tindo_solar",
+        "type": "company",
+        "name": "Tindo Solar"
+      },
+      {
+        "id": "company_sundrive_solar",
+        "type": "company",
+        "name": "SunDrive Solar"
+      },
+      {
+        "id": "company_trina_solar",
+        "type": "company",
+        "name": "Trina Solar"
+      },
+      {
+        "id": "company_sofab_inks",
+        "type": "company",
+        "name": "Sofab Inks"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_wagga_wagga",
+        "type": "factory",
+        "name": "Halocell production facility",
+        "location": {
+          "city": "Wagga Wagga",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sofab_inks_funding",
+        "type": "investment",
+        "name": "Sofab Inks funding",
+        "amount": "US$1.2 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_halocell_ambient_modules",
+        "type": "product",
+        "name": "Halocell Ambient Modules"
+      }
+    ]
+  }
+}
+2025-07-12 23:19:26,582 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:26,583 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 23:19:26,583 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-12 23:19:26,583 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-12 23:19:27,496 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:27,497 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sofab_inks_funding",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 23:19:27,497 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:27,497 - INFO - Node ID is investment_sofab_inks_funding
+2025-07-12 23:19:27,497 - INFO - ✅ Match found for investment_ID 'investment_sofab_inks_funding' in investment nodes
+2025-07-12 23:19:27,497 - INFO -   ➕ Set status: announced
+2025-07-12 23:19:27,497 - INFO -   ➕ Set phase: unclear
+2025-07-12 23:19:27,497 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 23:19:27,497 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-12 23:19:27,497 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 23:19:28,324 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:28,324 - INFO - {
+  "relationships": [
+    {
+      "source": "company_halocell_energy",
+      "target": "factory_wagga_wagga",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-12 23:19:28,325 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:28,325 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-12 23:19:28,325 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 23:19:29,350 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:29,351 - INFO - {
+  "relationships": [
+    {
+      "source": "product_halocell_ambient_modules",
+      "target": "factory_wagga_wagga",
+      "type": "produced_at"
+    },
+    {
+      "source": "factory_wagga_wagga",
+      "target": "product_halocell_ambient_modules",
+      "type": "at"
+    }
+  ]
+}
+2025-07-12 23:19:29,351 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:29,351 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o-mini
+2025-07-12 23:19:29,351 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-12 23:19:30,470 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:30,470 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sofab_inks",
+      "target": "investment_sofab_inks_funding",
+      "type": "receives"
+    },
+    {
+      "source": "company_halocell_energy",
+      "target": "investment_sofab_inks_funding",
+      "type": "invests"
+    }
+  ]
+}
+2025-07-12 23:19:30,470 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:30,471 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o-mini
+2025-07-12 23:19:30,471 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-12 23:19:31,962 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:19:31,963 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sofab_inks_funding",
+      "target": "factory_wagga_wagga",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sofab_inks_funding",
+      "target": "product_halocell_ambient_modules",
+      "type": "targets"
+    },
+    {
+      "source": "investment_sofab_inks_funding",
+      "target": "capacity_perovskite_pv_manufacturing",
+      "type": "enables"
+    }
+  ]
+}
+2025-07-12 23:19:31,963 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:19:32,045 - INFO - ✅ Updated Article ID: 685f284acc1182d72e3ae78e with 8 nodes and combined text.
+2025-07-12 23:36:17,276 - INFO - 🔍 Text length: 3970 characters
+2025-07-12 23:36:17,276 - INFO - 📌 Processing Article ID: 685f284acc1182d72e3ae78e — Halocell Energy launches ‘Australian-made’ perovskite PV module for low-light conditions
+2025-07-12 23:36:17,277 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 23:36:19,851 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:19,851 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_halocell_energy",
+        "type": "company",
+        "name": "Halocell Energy"
+      },
+      {
+        "id": "company_tindo_solar",
+        "type": "company",
+        "name": "Tindo Solar"
+      },
+      {
+        "id": "company_sundrive_solar",
+        "type": "company",
+        "name": "SunDrive Solar"
+      },
+      {
+        "id": "company_trina_solar",
+        "type": "company",
+        "name": "Trina Solar"
+      },
+      {
+        "id": "company_sofab_inks",
+        "type": "company",
+        "name": "Sofab Inks"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_wagga_wagga",
+        "type": "factory",
+        "name": "Halocell Production Facility",
+        "location": {
+          "city": "Wagga Wagga",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sofab_inks_funding",
+        "type": "investment",
+        "name": "Sofab Inks Funding",
+        "amount": "US$1.2 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_halocell_ambient_modules",
+        "type": "product",
+        "name": "Halocell Ambient Modules"
+      }
+    ]
+  }
+}
+2025-07-12 23:36:19,851 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:19,851 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 23:36:19,851 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-12 23:36:19,851 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-12 23:36:21,318 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:21,318 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sofab_inks_funding",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 23:36:21,318 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:21,318 - INFO - Node ID is investment_sofab_inks_funding
+2025-07-12 23:36:21,319 - INFO - ✅ Match found for investment_ID 'investment_sofab_inks_funding' in investment nodes
+2025-07-12 23:36:21,319 - INFO -   ➕ Set status: completed
+2025-07-12 23:36:21,319 - INFO -   ➕ Set phase: unclear
+2025-07-12 23:36:21,319 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 23:36:21,319 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-12 23:36:21,319 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 23:36:22,311 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:22,312 - INFO - {
+  "relationships": [
+    {
+      "source": "company_halocell_energy",
+      "target": "factory_wagga_wagga",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-12 23:36:22,312 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:22,312 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-12 23:36:22,312 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 23:36:23,432 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:23,432 - INFO - {
+  "relationships": [
+    {
+      "source": "product_halocell_ambient_modules",
+      "target": "factory_wagga_wagga",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 23:36:23,432 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:23,432 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-12 23:36:23,432 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-12 23:36:24,663 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:24,663 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sofab_inks",
+      "target": "investment_sofab_inks_funding",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-12 23:36:24,663 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:24,663 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-12 23:36:24,664 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-12 23:36:26,006 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:36:26,006 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sofab_inks_funding",
+      "target": "factory_wagga_wagga",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sofab_inks_funding",
+      "target": "product_halocell_ambient_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-12 23:36:26,006 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:36:26,081 - INFO - ✅ Updated Article ID: 685f284acc1182d72e3ae78e with 8 nodes and combined text.

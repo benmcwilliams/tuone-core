@@ -1,2 +1,109 @@
 2025-07-08 01:21:15,071 - INFO - 📌 Processing Article ID: 67fa8b42eaa4fb525afee4ff — 300MW solar PV power plant in Queensland, Australia, given Federal government green tick
 2025-07-08 01:21:27,130 - INFO - 📌 Processing Article ID: 67fa8b42eaa4fb525afee4ff — 300MW solar PV power plant in Queensland, Australia, given Federal government green tick
+2025-07-13 00:13:35,750 - INFO - 🔍 Text length: 2289 characters
+2025-07-13 00:13:35,751 - INFO - 📌 Processing Article ID: 67fa8b42eaa4fb525afee4ff — 300MW solar PV power plant in Queensland, Australia, given Federal government green tick
+2025-07-13 00:13:35,751 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:13:38,024 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:38,024 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cambridge_jmd_australia",
+        "type": "company",
+        "name": "Cambridge JMD Australia"
+      },
+      {
+        "id": "company_cambridge_re_partners",
+        "type": "company",
+        "name": "Cambridge RE Partners"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_cambridge_solar_farm",
+        "type": "factory",
+        "name": "Cambridge Solar Farm",
+        "location": {
+          "city": "Townsville",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_300mw",
+        "type": "capacity",
+        "amount": "300MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv_power_plant",
+        "type": "product",
+        "name": "solar PV power plant"
+      },
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      }
+    ]
+  }
+}
+2025-07-13 00:13:38,024 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:38,024 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:13:38,024 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:13:38,973 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:38,973 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:13:38,973 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:38,973 - INFO - Node ID is capacity_300mw
+2025-07-13 00:13:38,973 - INFO - ✅ Match found for capacity_ID 'capacity_300mw' in capacity nodes
+2025-07-13 00:13:38,973 - INFO -   ➕ Set status: announced
+2025-07-13 00:13:38,973 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:13:38,973 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:13:38,973 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:13:38,973 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:13:38,973 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:13:39,692 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:39,692 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cambridge_jmd_australia",
+      "target": "factory_cambridge_solar_farm",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:13:39,692 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:39,692 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:13:39,692 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:13:40,637 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:40,637 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300mw",
+      "target": "factory_cambridge_solar_farm",
+      "type": "at"
+    },
+    {
+      "source": "product_solar_pv_power_plant",
+      "target": "factory_cambridge_solar_farm",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:13:40,637 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:40,637 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:13:40,637 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:13:40,721 - INFO - ✅ Updated Article ID: 67fa8b42eaa4fb525afee4ff with 6 nodes and combined text.

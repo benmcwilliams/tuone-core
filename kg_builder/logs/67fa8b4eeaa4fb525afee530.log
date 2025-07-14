@@ -1,2 +1,122 @@
 2025-07-08 01:21:15,061 - INFO - 📌 Processing Article ID: 67fa8b4eeaa4fb525afee530 — PowerField commissions Netherlands’ ‘largest’ co-located BESS at PV site
 2025-07-08 01:21:27,125 - INFO - 📌 Processing Article ID: 67fa8b4eeaa4fb525afee530 — PowerField commissions Netherlands’ ‘largest’ co-located BESS at PV site
+2025-07-13 00:05:25,979 - INFO - 🔍 Text length: 1186 characters
+2025-07-13 00:05:25,980 - INFO - 📌 Processing Article ID: 67fa8b4eeaa4fb525afee530 — PowerField commissions Netherlands’ ‘largest’ co-located BESS at PV site
+2025-07-13 00:05:25,980 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:05:28,299 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:28,299 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powerfield",
+        "type": "company",
+        "name": "PowerField"
+      },
+      {
+        "id": "company_enexis",
+        "type": "company",
+        "name": "Enexis"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_52mwh",
+        "type": "capacity",
+        "amount": "52MWh",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_28mwp",
+        "type": "capacity",
+        "amount": "28MWp",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_12mwh",
+        "type": "capacity",
+        "amount": "12MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bess",
+        "type": "product",
+        "name": "BESS"
+      },
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      }
+    ]
+  }
+}
+2025-07-13 00:05:28,299 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:28,299 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:05:28,299 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:05:29,412 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:29,412 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_52mwh",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_28mwp",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_12mwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:05:29,413 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:29,413 - INFO - Node ID is capacity_52mwh
+2025-07-13 00:05:29,413 - INFO - ✅ Match found for capacity_ID 'capacity_52mwh' in capacity nodes
+2025-07-13 00:05:29,413 - INFO -   ➕ Set status: operational
+2025-07-13 00:05:29,413 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:29,413 - INFO - Node ID is capacity_28mwp
+2025-07-13 00:05:29,413 - INFO - ✅ Match found for capacity_ID 'capacity_28mwp' in capacity nodes
+2025-07-13 00:05:29,413 - INFO -   ➕ Set status: operational
+2025-07-13 00:05:29,413 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:29,413 - INFO - Node ID is capacity_12mwh
+2025-07-13 00:05:29,413 - INFO - ✅ Match found for capacity_ID 'capacity_12mwh' in capacity nodes
+2025-07-13 00:05:29,413 - INFO -   ➕ Set status: announced
+2025-07-13 00:05:29,413 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:29,413 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:05:29,413 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:05:29,413 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:05:29,414 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:05:29,414 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:05:32,631 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:32,632 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_52mwh",
+      "target": "product_bess",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_28mwp",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_12mwh",
+      "target": "product_bess",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:05:32,632 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:32,632 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:05:32,632 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:05:32,721 - INFO - ✅ Updated Article ID: 67fa8b4eeaa4fb525afee530 with 7 nodes and combined text.

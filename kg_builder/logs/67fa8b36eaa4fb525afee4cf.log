@@ -1,2 +1,86 @@
 2025-07-08 01:21:15,078 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cf — Array Technologies sees ‘strong momentum’ with 45X and domestic content credits
 2025-07-08 01:21:27,135 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cf — Array Technologies sees ‘strong momentum’ with 45X and domestic content credits
+2025-07-13 00:20:42,897 - INFO - 🔍 Text length: 3309 characters
+2025-07-13 00:20:42,898 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cf — Array Technologies sees ‘strong momentum’ with 45X and domestic content credits
+2025-07-13 00:20:42,898 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:20:44,693 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:44,693 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_array_technologies",
+        "type": "company",
+        "name": "Array Technologies"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_new_mexico",
+        "type": "factory",
+        "name": "tracker manufacturing facility",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_torque_tubes",
+        "type": "product",
+        "name": "torque tubes"
+      },
+      {
+        "id": "product_structural_fasteners",
+        "type": "product",
+        "name": "structural fasteners"
+      },
+      {
+        "id": "product_omni_track",
+        "type": "product",
+        "name": "OmniTrack"
+      }
+    ]
+  }
+}
+2025-07-13 00:20:44,694 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:44,694 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:20:44,694 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:20:44,694 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:20:44,694 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:20:44,694 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:20:45,475 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:45,475 - INFO - {
+  "relationships": [
+    {
+      "source": "company_array_technologies",
+      "target": "factory_new_mexico",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:20:45,475 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:45,475 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:20:45,475 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:20:46,807 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:46,807 - INFO - {
+  "relationships": [
+    {
+      "source": "product_torque_tubes",
+      "target": "factory_new_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_structural_fasteners",
+      "target": "factory_new_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:20:46,807 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:46,807 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:20:46,807 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:20:46,882 - INFO - ✅ Updated Article ID: 67fa8b36eaa4fb525afee4cf with 5 nodes and combined text.

@@ -1,2 +1,87 @@
 2025-07-08 01:21:15,090 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46c — Ingeteam, QE-Labs perform electroluminescence drone inspection in Spanish PV plant
 2025-07-08 01:21:27,145 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46c — Ingeteam, QE-Labs perform electroluminescence drone inspection in Spanish PV plant
+2025-07-13 00:38:23,244 - INFO - 🔍 Text length: 2105 characters
+2025-07-13 00:38:23,244 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46c — Ingeteam, QE-Labs perform electroluminescence drone inspection in Spanish PV plant
+2025-07-13 00:38:23,244 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:38:25,104 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:25,104 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ingeteam",
+        "type": "company",
+        "name": "Ingeteam"
+      },
+      {
+        "id": "company_qe-labs",
+        "type": "company",
+        "name": "QE-Labs"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_40000_modules",
+        "type": "capacity",
+        "amount": "40000 modules",
+        "status": "null"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ingecon_sun_b_series_inverter",
+        "type": "product",
+        "name": "INGECON SUN B Series inverter"
+      },
+      {
+        "id": "product_drone_el_mapping_solution",
+        "type": "product",
+        "name": "autonomous drone EL mapping solution"
+      }
+    ]
+  }
+}
+2025-07-13 00:38:25,104 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:25,104 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:38:25,104 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:38:26,126 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:26,126 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40000_modules",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:38:26,126 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:26,126 - INFO - Node ID is capacity_40000_modules
+2025-07-13 00:38:26,126 - INFO - ✅ Match found for capacity_ID 'capacity_40000_modules' in capacity nodes
+2025-07-13 00:38:26,127 - INFO -   ➕ Set status: operational
+2025-07-13 00:38:26,127 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:38:26,127 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:38:26,127 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:38:26,127 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:38:26,127 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:38:26,127 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:38:27,459 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:27,460 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40000_modules",
+      "target": "product_drone_el_mapping_solution",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_drone_el_mapping_solution",
+      "target": "product_ingecon_sun_b_series_inverter",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:38:27,460 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:27,460 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:38:27,460 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:38:27,543 - INFO - ✅ Updated Article ID: 67fa8b1feaa4fb525afee46c with 5 nodes and combined text.

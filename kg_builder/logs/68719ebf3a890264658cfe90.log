@@ -1,0 +1,202 @@
+2025-07-12 01:38:15,960 - INFO - 🔍 Text length: 5282 characters
+2025-07-12 01:38:15,960 - INFO - 📌 Processing Article ID: 68719ebf3a890264658cfe90 — Nissan considers exporting EVs from China
+2025-07-12 01:38:15,960 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:38:21,246 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:21,246 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_foxconn",
+        "type": "company",
+        "name": "Foxconn"
+      },
+      {
+        "id": "company_dongfeng",
+        "type": "company",
+        "name": "Dongfeng"
+      },
+      {
+        "id": "company_iat_automobile_technology",
+        "type": "company",
+        "name": "IAT Automobile Technology"
+      },
+      {
+        "id": "company_aesc",
+        "type": "company",
+        "name": "AESC"
+      },
+      {
+        "id": "ncic",
+        "type": "company",
+        "name": "NCIC",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_dongfeng_nissan",
+        "type": "joint_venture",
+        "name": "Dongfeng Nissan"
+      },
+      {
+        "id": "joint_venture_dongfeng_nic",
+        "type": "joint_venture",
+        "name": "Dongfeng NCIC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "Sunderland Plant",
+        "location": {
+          "city": "Sunderland",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_china",
+        "type": "factory",
+        "name": "Nissan China Plant",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nissan_china",
+        "type": "investment",
+        "name": "Nissan China Investment",
+        "amount": "10 billion yuan (1.2 billion euros)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_dongfeng_nic",
+        "type": "investment",
+        "name": "Dongfeng NCIC Investment",
+        "amount": "1 billion yuan (around 119 million euros)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_n7",
+        "type": "product",
+        "name": "N7"
+      },
+      {
+        "id": "product_lfp_battery",
+        "type": "product",
+        "name": "LFP battery"
+      }
+    ]
+  }
+}
+2025-07-12 01:38:21,246 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:21,247 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:38:21,247 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-12 01:38:21,247 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-12 01:38:23,966 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:23,967 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nissan_china",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_dongfeng_nic",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 01:38:23,967 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:23,967 - INFO - Node ID is investment_nissan_china
+2025-07-12 01:38:23,967 - INFO - ✅ Match found for investment_ID 'investment_nissan_china' in investment nodes
+2025-07-12 01:38:23,967 - INFO -   ➕ Set status: announced
+2025-07-12 01:38:23,967 - INFO -   ➕ Set phase: unclear
+2025-07-12 01:38:23,967 - INFO - Node ID is investment_dongfeng_nic
+2025-07-12 01:38:23,967 - INFO - ✅ Match found for investment_ID 'investment_dongfeng_nic' in investment nodes
+2025-07-12 01:38:23,967 - INFO -   ➕ Set status: announced
+2025-07-12 01:38:23,967 - INFO -   ➕ Set phase: unclear
+2025-07-12 01:38:23,967 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:38:23,967 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:38:23,967 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:38:27,365 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:27,365 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_nissan"
+    },
+    {
+      "source": "company_dongfeng",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_nissan"
+    },
+    {
+      "source": "joint_venture_dongfeng_nissan",
+      "type": "owns",
+      "target": "factory_china"
+    },
+    {
+      "source": "company_dongfeng",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_nic"
+    },
+    {
+      "source": "ncic",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_nic"
+    }
+  ]
+}
+2025-07-12 01:38:27,366 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:27,366 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:38:27,366 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:38:28,267 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:28,267 - INFO - {
+  "relationships": [
+    {
+      "source": "product_n7",
+      "target": "factory_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:38:28,267 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:28,267 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-12 01:38:28,267 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-12 01:38:34,005 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:34,005 - INFO - {
+  "relationships": []
+}
+2025-07-12 01:38:34,005 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:34,005 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-12 01:38:34,005 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-12 01:38:38,551 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:38:38,551 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nissan_china",
+      "target": "factory_china",
+      "type": "funds"
+    }
+  ]
+}
+2025-07-12 01:38:38,551 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:38:38,629 - INFO - ✅ Updated Article ID: 68719ebf3a890264658cfe90 with 14 nodes and combined text.

@@ -1,2 +1,158 @@
 2025-07-08 01:21:15,066 - INFO - 📌 Processing Article ID: 67fa8b47eaa4fb525afee515 — Qatar unveils plans for 2GW ‘mega’ PV project
 2025-07-08 01:21:27,128 - INFO - 📌 Processing Article ID: 67fa8b47eaa4fb525afee515 — Qatar unveils plans for 2GW ‘mega’ PV project
+2025-07-13 00:09:36,390 - INFO - 🔍 Text length: 1220 characters
+2025-07-13 00:09:36,390 - INFO - 📌 Processing Article ID: 67fa8b47eaa4fb525afee515 — Qatar unveils plans for 2GW ‘mega’ PV project
+2025-07-13 00:09:36,390 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:09:39,326 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:09:39,326 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_qatarenergy",
+        "type": "company",
+        "name": "QatarEnergy"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_dukhan_solar_power_plant",
+        "type": "factory",
+        "name": "Dukhan Solar Power Plant",
+        "location": {
+          "city": "Dukhan",
+          "country": "Qatar"
+        }
+      },
+      {
+        "id": "factory_al_kharsaah_plant",
+        "type": "factory",
+        "name": "Al-Kharsaah Plant",
+        "location": {
+          "city": "null",
+          "country": "Qatar"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_2gw",
+        "type": "capacity",
+        "amount": "2GW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_800mw",
+        "type": "capacity",
+        "amount": "800MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_875mw",
+        "type": "capacity",
+        "amount": "875MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-07-13 00:09:39,327 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:09:39,327 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:09:39,327 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:09:40,451 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:09:40,451 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2gw",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_800mw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_875mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:09:40,451 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:09:40,452 - INFO - Node ID is capacity_2gw
+2025-07-13 00:09:40,452 - INFO - ✅ Match found for capacity_ID 'capacity_2gw' in capacity nodes
+2025-07-13 00:09:40,452 - INFO -   ➕ Set status: announced
+2025-07-13 00:09:40,452 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:09:40,452 - INFO - Node ID is capacity_800mw
+2025-07-13 00:09:40,452 - INFO - ✅ Match found for capacity_ID 'capacity_800mw' in capacity nodes
+2025-07-13 00:09:40,452 - INFO -   ➕ Set status: operational
+2025-07-13 00:09:40,452 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:09:40,452 - INFO - Node ID is capacity_875mw
+2025-07-13 00:09:40,452 - INFO - ✅ Match found for capacity_ID 'capacity_875mw' in capacity nodes
+2025-07-13 00:09:40,452 - INFO -   ➕ Set status: under construction
+2025-07-13 00:09:40,452 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:09:40,452 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:09:40,452 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:09:40,452 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:09:40,452 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:09:42,908 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:09:42,908 - INFO - {
+  "relationships": [
+    {
+      "source": "company_qatarenergy",
+      "target": "factory_dukhan_solar_power_plant",
+      "type": "owns"
+    },
+    {
+      "source": "company_qatarenergy",
+      "target": "factory_al_kharsaah_plant",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:09:42,908 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:09:42,908 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:09:42,908 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:09:44,444 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:09:44,445 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2gw",
+      "target": "factory_dukhan_solar_power_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_800mw",
+      "target": "factory_al_kharsaah_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2gw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_800mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_875mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:09:44,445 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:09:44,445 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:09:44,445 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:09:44,532 - INFO - ✅ Updated Article ID: 67fa8b47eaa4fb525afee515 with 7 nodes and combined text.

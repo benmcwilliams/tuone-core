@@ -1,2 +1,134 @@
 2025-07-08 01:21:15,080 - INFO - 📌 Processing Article ID: 67fa8b32eaa4fb525afee4bc — European solar boasts low carbon footprint and falling material requirements, says SolarPower Europe
 2025-07-08 01:21:27,137 - INFO - 📌 Processing Article ID: 67fa8b32eaa4fb525afee4bc — European solar boasts low carbon footprint and falling material requirements, says SolarPower Europe
+2025-07-13 00:23:17,417 - INFO - 🔍 Text length: 7149 characters
+2025-07-13 00:23:17,418 - INFO - 📌 Processing Article ID: 67fa8b32eaa4fb525afee4bc — European solar boasts low carbon footprint and falling material requirements, says SolarPower Europe
+2025-07-13 00:23:17,418 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:23:20,001 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:23:20,001 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_first_solar",
+        "type": "company",
+        "name": "First Solar"
+      },
+      {
+        "id": "company_iberdrola",
+        "type": "company",
+        "name": "Iberdrola"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_alabama",
+        "type": "factory",
+        "name": "Alabama",
+        "location": {
+          "city": "null",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_157gw",
+        "type": "capacity",
+        "amount": "157GW",
+        "status": "null"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_modules",
+        "type": "product",
+        "name": "TOPCon modules"
+      },
+      {
+        "id": "product_perc_modules",
+        "type": "product",
+        "name": "PERC modules"
+      },
+      {
+        "id": "product_cadmium_telluride_cells",
+        "type": "product",
+        "name": "cadmium telluride (CdTe) cells"
+      },
+      {
+        "id": "product_mono_silicon_cells",
+        "type": "product",
+        "name": "mono-silicon (mono-si) cells"
+      }
+    ]
+  }
+}
+2025-07-13 00:23:20,001 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:23:20,001 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:23:20,001 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:23:20,818 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:23:20,818 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_157gw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:23:20,818 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:23:20,818 - INFO - Node ID is capacity_157gw
+2025-07-13 00:23:20,818 - INFO - ✅ Match found for capacity_ID 'capacity_157gw' in capacity nodes
+2025-07-13 00:23:20,818 - INFO -   ➕ Set status: announced
+2025-07-13 00:23:20,818 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:23:20,818 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:23:20,818 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:23:20,818 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:23:20,818 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:23:21,739 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:23:21,740 - INFO - {
+  "relationships": [
+    {
+      "source": "company_first_solar",
+      "target": "factory_alabama",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:23:21,740 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:23:21,740 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:23:21,740 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:23:23,255 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:23:23,255 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_157gw",
+      "target": "factory_alabama",
+      "type": "at"
+    },
+    {
+      "source": "capacity_157gw",
+      "target": "product_topcon_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_157gw",
+      "target": "product_perc_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_157gw",
+      "target": "product_cadmium_telluride_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_157gw",
+      "target": "product_mono_silicon_cells",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:23:23,255 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:23:23,255 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:23:23,255 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:23:23,336 - INFO - ✅ Updated Article ID: 67fa8b32eaa4fb525afee4bc with 8 nodes and combined text.

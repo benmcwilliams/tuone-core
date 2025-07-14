@@ -1,2 +1,130 @@
 2025-07-08 01:21:15,087 - INFO - 📌 Processing Article ID: 67fa8b25eaa4fb525afee486 — Libertas study assesses feasibility of re-establishing European PV supply chain
 2025-07-08 01:21:27,142 - INFO - 📌 Processing Article ID: 67fa8b25eaa4fb525afee486 — Libertas study assesses feasibility of re-establishing European PV supply chain
+2025-07-13 00:34:50,250 - INFO - 🔍 Text length: 3328 characters
+2025-07-13 00:34:50,251 - INFO - 📌 Processing Article ID: 67fa8b25eaa4fb525afee486 — Libertas study assesses feasibility of re-establishing European PV supply chain
+2025-07-13 00:34:50,251 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:34:52,111 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:52,111 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rct_solutions",
+        "type": "company",
+        "name": "RCT Solutions"
+      },
+      {
+        "id": "company_vdma",
+        "type": "company",
+        "name": "VDMA"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [
+      {
+        "id": "investment_german_government_funding",
+        "type": "investment",
+        "name": "German government funding",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_hundreds_of_gigawatts",
+        "type": "capacity",
+        "amount": "hundreds of gigawatts",
+        "status": "null"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_modules",
+        "type": "product",
+        "name": "PV modules"
+      }
+    ]
+  }
+}
+2025-07-13 00:34:52,111 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:52,111 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:34:52,111 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:34:52,929 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:52,929 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_hundreds_of_gigawatts",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:34:52,929 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:52,929 - INFO - Node ID is capacity_hundreds_of_gigawatts
+2025-07-13 00:34:52,929 - INFO - ✅ Match found for capacity_ID 'capacity_hundreds_of_gigawatts' in capacity nodes
+2025-07-13 00:34:52,929 - INFO -   ➕ Set status: announced
+2025-07-13 00:34:52,929 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:34:52,929 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:34:52,929 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:34:53,852 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:53,852 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_german_government_funding",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:34:53,852 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:53,852 - INFO - Node ID is investment_german_government_funding
+2025-07-13 00:34:53,852 - INFO - ✅ Match found for investment_ID 'investment_german_government_funding' in investment nodes
+2025-07-13 00:34:53,852 - INFO -   ➕ Set status: ongoing
+2025-07-13 00:34:53,852 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:34:53,852 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:34:53,853 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:34:53,853 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:34:53,853 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:34:54,744 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:54,744 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_hundreds_of_gigawatts",
+      "target": "product_pv_modules",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:34:54,744 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:54,745 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o-mini
+2025-07-13 00:34:54,745 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:34:55,667 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:55,668 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rct_solutions",
+      "target": "investment_german_government_funding",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:34:55,668 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:55,668 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o-mini
+2025-07-13 00:34:55,668 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:34:56,709 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:34:56,709 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_german_government_funding",
+      "target": "capacity_hundreds_of_gigawatts",
+      "type": "enables"
+    },
+    {
+      "source": "investment_german_government_funding",
+      "target": "product_pv_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:34:56,709 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:34:56,794 - INFO - ✅ Updated Article ID: 67fa8b25eaa4fb525afee486 with 5 nodes and combined text.

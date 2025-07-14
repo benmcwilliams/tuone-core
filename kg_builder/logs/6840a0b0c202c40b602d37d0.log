@@ -1,3 +1,111 @@
 2025-07-08 01:19:12,087 - INFO - 📌 Processing Article ID: 6840a0b0c202c40b602d37d0 — Meyer Burger on the edge following German cell production insolvency
 2025-07-08 01:21:15,054 - INFO - 📌 Processing Article ID: 6840a0b0c202c40b602d37d0 — Meyer Burger on the edge following German cell production insolvency
 2025-07-08 01:21:27,117 - INFO - 📌 Processing Article ID: 6840a0b0c202c40b602d37d0 — Meyer Burger on the edge following German cell production insolvency
+2025-07-12 23:41:51,617 - INFO - 🔍 Text length: 4644 characters
+2025-07-12 23:41:51,618 - INFO - 📌 Processing Article ID: 6840a0b0c202c40b602d37d0 — Meyer Burger on the edge following German cell production insolvency
+2025-07-12 23:41:51,618 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 23:41:55,627 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:41:55,627 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_meyer_burger_technology_ag",
+        "type": "company",
+        "name": "Meyer Burger Technology AG"
+      },
+      {
+        "id": "company_meyer_burger_industries",
+        "type": "company",
+        "name": "Meyer Burger Industries"
+      },
+      {
+        "id": "company_meyer_burger_germany",
+        "type": "company",
+        "name": "Meyer Burger Germany"
+      },
+      {
+        "id": "company_meyer_burger_switzerland",
+        "type": "company",
+        "name": "Meyer Burger Switzerland"
+      },
+      {
+        "id": "company_meyer_burger_americas",
+        "type": "company",
+        "name": "Meyer Burger Americas"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_thalheim_germany",
+        "type": "factory",
+        "name": "Thalheim solar cell production plant",
+        "location": {
+          "city": "Thalheim",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_goodyear_arizona",
+        "type": "factory",
+        "name": "Goodyear module manufacturing facility",
+        "location": {
+          "city": "Goodyear",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      },
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      }
+    ]
+  }
+}
+2025-07-12 23:41:55,627 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:41:55,627 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 23:41:55,627 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 23:41:55,627 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 23:41:55,627 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-12 23:41:55,628 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 23:41:57,419 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:41:57,419 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger_industries",
+      "target": "factory_thalheim_germany",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-12 23:41:57,419 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:41:57,419 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-12 23:41:57,420 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 23:41:59,963 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:41:59,964 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_cells",
+      "target": "factory_thalheim_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 23:41:59,964 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:41:59,964 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 23:41:59,964 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 23:42:00,054 - INFO - ✅ Updated Article ID: 6840a0b0c202c40b602d37d0 with 10 nodes and combined text.

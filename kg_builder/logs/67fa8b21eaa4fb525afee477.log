@@ -1,2 +1,104 @@
 2025-07-08 01:21:15,089 - INFO - 📌 Processing Article ID: 67fa8b21eaa4fb525afee477 — Emeren signs seven-year PPA for 15MW Polish solar project
 2025-07-08 01:21:27,144 - INFO - 📌 Processing Article ID: 67fa8b21eaa4fb525afee477 — Emeren signs seven-year PPA for 15MW Polish solar project
+2025-07-13 00:37:08,635 - INFO - 🔍 Text length: 2287 characters
+2025-07-13 00:37:08,636 - INFO - 📌 Processing Article ID: 67fa8b21eaa4fb525afee477 — Emeren signs seven-year PPA for 15MW Polish solar project
+2025-07-13 00:37:08,636 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:37:10,453 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:37:10,454 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_emeren_group",
+        "type": "company",
+        "name": "Emeren Group"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_polish_solar_project",
+        "type": "factory",
+        "name": "Polish solar project",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_30_6mw",
+        "type": "capacity",
+        "amount": "30.6MW",
+        "status": "null"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-07-13 00:37:10,454 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:37:10,454 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:37:10,454 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:37:11,582 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:37:11,582 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_6mw",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:37:11,582 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:37:11,582 - INFO - Node ID is capacity_30_6mw
+2025-07-13 00:37:11,582 - INFO - ✅ Match found for capacity_ID 'capacity_30_6mw' in capacity nodes
+2025-07-13 00:37:11,582 - INFO -   ➕ Set status: unclear
+2025-07-13 00:37:11,582 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:37:11,582 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:37:11,582 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:37:11,582 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-13 00:37:11,582 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:37:12,503 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:37:12,503 - INFO - {
+  "relationships": [
+    {
+      "source": "company_emeren_group",
+      "target": "factory_polish_solar_project",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:37:12,503 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:37:12,504 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:37:12,504 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:37:13,833 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:37:13,833 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_6mw",
+      "target": "factory_polish_solar_project",
+      "type": "at"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_polish_solar_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_30_6mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:37:13,834 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:37:13,834 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:37:13,834 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:37:13,919 - INFO - ✅ Updated Article ID: 67fa8b21eaa4fb525afee477 with 4 nodes and combined text.

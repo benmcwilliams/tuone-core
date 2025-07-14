@@ -1,2 +1,106 @@
 2025-07-08 01:21:15,093 - INFO - 📌 Processing Article ID: 67fa8b19eaa4fb525afee456 — Carbon named as challenger to JA Solar TOPCon patent
 2025-07-08 01:21:27,147 - INFO - 📌 Processing Article ID: 67fa8b19eaa4fb525afee456 — Carbon named as challenger to JA Solar TOPCon patent
+2025-07-13 00:41:53,156 - INFO - 🔍 Text length: 3677 characters
+2025-07-13 00:41:53,156 - INFO - 📌 Processing Article ID: 67fa8b19eaa4fb525afee456 — Carbon named as challenger to JA Solar TOPCon patent
+2025-07-13 00:41:53,156 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:41:55,567 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:55,567 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_carbon",
+        "type": "company",
+        "name": "Carbon"
+      },
+      {
+        "id": "company_ja_solar",
+        "type": "company",
+        "name": "JA Solar"
+      },
+      {
+        "id": "company_astronergy",
+        "type": "company",
+        "name": "Astronergy"
+      },
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_jinko",
+        "type": "company",
+        "name": "Jinko"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_south_france",
+        "type": "factory",
+        "name": "manufacturing facility",
+        "location": {
+          "city": "null",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_topcon_modules",
+        "type": "product",
+        "name": "TOPCon modules"
+      },
+      {
+        "id": "product_topcon_technology",
+        "type": "product",
+        "name": "TOPCon technology"
+      }
+    ]
+  }
+}
+2025-07-13 00:41:55,567 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:55,567 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:41:55,567 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:41:55,567 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:41:55,567 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-13 00:41:55,568 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:41:56,306 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:56,306 - INFO - {
+  "relationships": [
+    {
+      "source": "company_carbon",
+      "target": "factory_south_france",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:41:56,306 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:56,306 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:41:56,306 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:41:57,625 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:57,625 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_south_france",
+      "target": "product_topcon_modules",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_topcon_technology",
+      "target": "product_topcon_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "factory_south_france",
+      "target": "product_topcon_technology",
+      "type": "at"
+    }
+  ]
+}
+2025-07-13 00:41:57,625 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:57,626 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:41:57,626 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:41:57,713 - INFO - ✅ Updated Article ID: 67fa8b19eaa4fb525afee456 with 8 nodes and combined text.
