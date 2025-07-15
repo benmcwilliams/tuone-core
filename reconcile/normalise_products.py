@@ -4,6 +4,8 @@ from mongo_client import articles_collection
 from pymongo import UpdateMany
 import logging
 
+product_classification_file = "storage/input/product_classification.xlsx"
+
 # configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -14,11 +16,10 @@ logger = logging.getLogger(__name__)
 
 # read existing product excel dictionary 
 
-df = pd.read_excel("storage/input/product_classification_new.xlsx")
-
+df = pd.read_excel(product_classification_file)
 existing_products = df["product"].tolist() 
 
-# all products that have at least level 1 mapped for the dictionary
+# filter df to products that have at least level 1 mapped (these will be written to the mongodb)
 df_lv1 = df[~df['product_lv1'].isna()].copy()          
 updates = df_lv1.set_index("product").to_dict(orient="index")
 
@@ -63,7 +64,8 @@ new_products_df = pd.DataFrame({
 df_out = pd.concat([df,new_products_df])
 df_out.sort_values(by="product",inplace=True)
 
-df_out.to_excel("storage/input/product_classification_new.xlsx",index=False)
+# concat the dataframes and output back to the same dataframe. We can update from here. 
+df_out.to_excel(product_classification_file,index=False)
 
 # 4 - update all product values in mongodb
 processed = 0
@@ -76,11 +78,11 @@ for product_name, payload in updates.items():
     ## DEBUGGING CODE BELOW (in case anything strange happening during update)
 
     # # 1) count how many docs match this product
-    # match_count = articles_collection.count_documents(filter_)
-    # logger.info(
-    #     f"🔎 [{processed}/{len(updates)}] product={product_name!r} → "
-    #     f"{match_count} document(s) matched"
-    # )
+    match_count = articles_collection.count_documents(filter_)
+    logger.info(
+        f"🔎 [{processed}/{len(updates)}] product={product_name!r} → "
+        f"{match_count} document(s) matched"
+    )
 
     # if match_count:
     #     # Peek at up to 3 matched docs, including existing lv1/lv2

@@ -30,3 +30,4 @@ def flatten_dict(d, parent_key='', sep='_'):
             v = None if isinstance(v, str) and v.lower() == "null" else v
             items.append((new_key, v))
     return dict(items)
+
