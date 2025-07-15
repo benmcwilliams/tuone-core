@@ -580,8 +580,8 @@ def capacity_logic(row):
 
 
 # ========= Pipeline Execution =========
-def run_extraction_pipeline(file_path):
-    df = load_capacity_column(file_path)
+def run_extraction_pipeline(df):
+    #df = load_capacity_column(file_path)
     df[["capacity_value", "capacity_scale", "capacity_text"]] = df["capacity"].apply(lambda x: pd.Series(extract_capacity_info(x)))
     df[["capacity_metric", "capacity_text"]] = df["capacity_text"].apply(lambda x: pd.Series(extract_normalized_metric_unit(x)))
     df[["capacity_time", "capacity_text"]] = df["capacity_text"].apply(lambda x: pd.Series(extract_normalized_time_unit(x)))
