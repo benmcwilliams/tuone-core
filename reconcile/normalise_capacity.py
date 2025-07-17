@@ -56,8 +56,12 @@ METRIC_MAP = {
     "gigawatts hours":"gigawatt hour", "giga watt hours":"gigawatt hour", "gigawatt-hours":"gigawatt hour","gigawatts-hour":"gigawatt hour","gigawatt hours": "gigawatt hour",
     "mwh": "megawatt hour", "kwh": "kilowatt hour", "twh": "terawatt hour", "wh": "watt hour",
     "mw": "megawatt", "kw": "kilowatt", "tw": "terawatt",
-    "t": "tonne","tonne": "tonne", "tonnes": "tonne", "tons": "tonne", "ton": "tonne", "mt": "megatonne", "kt": "kilotonne",
-    "kg": "kilogram", "g": "gram", "units": "unit", "unit": "unit"
+    "t": "tonne","tonne": "tonne", "tonnes": "tonne", "tons": "tonne", "ton": "tonne", 
+    "mt": "megatonne",
+    "kt": "kilotonne",
+    "kg": "kilogram", 
+    "g": "gram", 
+    "units": "unit", "unit": "unit"
 }
 
 # ========= Regex Patterns =========
@@ -76,9 +80,13 @@ REGEX_PATTERNS = {
     
     "word_with_scale": r"^([a-z\s-]+)\s+(thousand|million|billion|trillion)\b\s*(.*)",
     
+    "num_with_scale_stuck": r"^([0-9.,]+)\s*([a-zA-Z]+)\b\s*(.*)",
+    
     "plain_numeric": r"^([0-9,.]+)\s*([a-zA-Z/]+.*)",
 
-    "mixed_fraction_scaled": r"^([a-z0-9\s-]+?)\s+and a half\s+(thousand|million|billion|trillion)\b\s*(.*)"
+    "mixed_fraction_scaled": r"^([a-z0-9\s-]+?)\s+and a half\s+(thousand|million|billion|trillion)\b\s*(.*)",
+    
+    "fallback" : r"^([0-9,.]+)\s*(thousand|million|billion|trillion)?\b\s*(.*)" 
 
 }
 
@@ -172,15 +180,14 @@ def extract_capacity_info(text):
             pass
 
     # Case: Numeric + suffix (e.g., 5k, 12.3B)
-    match = re.match(r"^([0-9.,]+)\s*([a-zA-Z]+)\b\s*(.*)", text)
+    match = re.match(REGEX_PATTERNS["num_with_scale_stuck"], text, re.IGNORECASE)
     if match:
         try:
             num_str, suffix, remaining = match.groups()
             value = float(num_str.replace(",", ""))
-            scale = SCALE_MAP.get(suffix)
             if scale:
-                return value * scale, scale, remaining.strip()
-        except:
+                return value, None, remaining.strip()
+        except Exception:
             pass
 
     # Case: Numeric stuck to unit (e.g., 20GWh, 1000MW/year)
@@ -203,7 +210,7 @@ def extract_capacity_info(text):
                 break
 
         numerized = numerize(text_lower)
-        match = re.match(r"^([0-9,.]+)\s*(thousand|million|billion|trillion)?\b\s*(.*)", numerized, re.IGNORECASE)
+        match = re.match(REGEX_PATTERNS["fallback"], numerized, re.IGNORECASE)
         if match:
             value = float(match.group(1).replace(",", ""))
             scale_str = match.group(2)
@@ -235,10 +242,9 @@ def extract_normalized_metric_unit(text):
         return "", text
 
     text_lower = text.lower()
-    for pattern, replacement in METRIC_MAP.items():
-        # match units stuck to numbers or attached with hyphen/slash
-        if re.search(rf"(?<![a-zA-Z0-9]){re.escape(pattern)}(?![a-zA-Z0-9])|[-/]{re.escape(pattern)}", text_lower):
-            cleaned = re.sub(rf"(?<![a-zA-Z0-9]){re.escape(pattern)}(?![a-zA-Z0-9])|[-/]{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
+    for pattern, replacement in sorted(METRIC_MAP.items(), key=lambda x: -len(x[0])):
+        if re.search(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", text_lower):
+            cleaned = re.sub(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
             return replacement, cleaned
     return "", text
 
@@ -306,12 +312,12 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
         converted = [_to_gwh(v) for v in value]
         if any(v is None or pd.isna(v) for v in converted):
             return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return converted, False, "GWh", vehicle_to_gwh_or_battery_to_gwh
+        return converted, False, "gigawatt hour", vehicle_to_gwh_or_battery_to_gwh
     else:
         result = _to_gwh(value)
         if result is None or pd.isna(result):
             return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return result, False, "GWh", vehicle_to_gwh_or_battery_to_gwh
+        return result, False, "gigawatt hour", vehicle_to_gwh_or_battery_to_gwh
 
 
 def normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False):
@@ -362,58 +368,6 @@ def normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False):
             return None, True, None, vehicle_to_gwh_or_battery_to_gwh
         return result, False, "vehicle", vehicle_to_gwh_or_battery_to_gwh
 
-def normalize_to_tonnes_or_gw(row):
-    """
-    Converts capacity value to yearly equivalent if time-based.
-    Returns: capacity_normalised, flag_failed, metric_out
-    """
-    value  = row.get("capacity_value")
-    scale  = row.get("capacity_scale", 1)
-    metric = row.get("capacity_metric")
-    time   = row.get("capacity_time")
-
-    if value is None or metric is None:
-        return None, True, None
-    if pd.isna(scale):
-        scale = 1
-    if not isinstance(metric, str):
-        return None, True, None
-
-    def _to_tonnes_or_gw(x):
-        try:
-            v = float(x) * scale
-        except Exception:
-            return None
-
-        if time == "per day":
-            v *= 365
-        elif time == "per week":
-            v *= 52
-        elif time == "per month":
-            v *= 12
-        elif time == "per year" or time is None:
-            pass
-        else:
-            return None
-
-        return v
-
-    if isinstance(value, (list, tuple)):
-        converted = [_to_tonnes_or_gw(v) for v in value]
-        if not converted or any(v is None or pd.isna(v) for v in converted):
-            return None, True, None
-    else:
-        converted = _to_tonnes_or_gw(value)
-        if converted is None or pd.isna(converted):
-            return None, True, None
-
-    metric_lower = metric.strip().lower()
-    if "tonne" in metric_lower:
-        return converted, False, "tonnes"
-    elif "gigawatt" in metric_lower or "gw" == metric_lower:
-        return converted, False, "gigawatt"
-    else:
-        return converted, False, None
 
 def metric_is_missing(metric):
     """
@@ -434,10 +388,10 @@ def metric_is_missing(metric):
         return True
     return False
 
-def normalize_to_tonnes_or_gw(row):
+def normalize_to_tonnes_or_gw(row): 
     """
-    Converts capacity value to yearly equivalent if time-based.
-    Returns: capacity_normalised, flag_failed, metric_out
+    Converts 'tonne' or 'gigawatt' capacity value to yearly equivalent if time-based.
+    Returns: capacity_normalised, flag_failed, capacity_metric_normalized
     """
     value  = row.get("capacity_value")
     scale  = row.get("capacity_scale", 1)
@@ -451,7 +405,7 @@ def normalize_to_tonnes_or_gw(row):
     if not isinstance(metric, str):
         return None, True, None
 
-    def _to_tonnes_or_gw(x):
+    def _to_annual_scaled(x):
         try:
             v = float(x) * scale
         except Exception:
@@ -471,28 +425,30 @@ def normalize_to_tonnes_or_gw(row):
         return v
 
     if isinstance(value, (list, tuple)):
-        converted = [_to_tonnes_or_gw(v) for v in value]
+        converted = [_to_annual_scaled(v) for v in value]
         if not converted or any(v is None or pd.isna(v) for v in converted):
             return None, True, None
     else:
-        converted = _to_tonnes_or_gw(value)
+        converted = _to_annual_scaled(value)
         if converted is None or pd.isna(converted):
             return None, True, None
 
     metric_lower = metric.strip().lower()
-    if "tonne" in metric_lower:
-        return converted, False, "tonnes"
-    elif "gigawatt" in metric_lower or "gw" == metric_lower:
-        return converted, False, "gigawatt"
+    if metric_lower in {"tonne", "gigawatt"}:
+        return converted, False, metric_lower
     else:
-        return converted, False, None
-
+        return converted, False, metric_lower
 
 def capacity_logic(row):
     """
-    Case 1: product is battery AND metric is missing
-    Case 2: product is battery AND capacity_text mentions evs/cars/vehicles
-            AND does NOT mention battery/cell/module/pack/research and development
+    Determines how to normalize capacity based on product type and metric.
+
+    Priority:
+    1. If capacity_metric is tonne or gigawatt → normalize as GWh (via scale × time)
+    2. If product = battery and capacity_text includes EV/cars but not battery/etc → Case 2
+    3. If product = battery and metric is missing → Case 1
+    4. If product = vehicle and metric is missing → convert to vehicle count
+    5. Default: use normalize_to_gwh_and_flag
     """
     product_lv1 = str(row.get("product_lv1", "")).strip().lower()
     capacity_text = str(row.get("capacity_text", "")).lower()
@@ -510,73 +466,31 @@ def capacity_logic(row):
     excludes = ["battery", "batteries", "cell", "cells", "pack", "packs",
                 "module", "modules", "research and development"]
 
-    # VEHICLE rows
+    # -------- TONNE or GIGAWATT always → GWh logic first
+    if "tonne" in metric_str or "gigawatt" in metric_str:
+        return normalize_to_tonnes_or_gw(row)
+
+    # -------- VEHICLE rows
     if product_lv1 == "vehicle":
         if metric_is_missing(metric_raw) or metric_str == "unit":
-            return normalize_to_vehicle_and_flag(row)
+            return normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
 
-    # BATTERY rows
+    # -------- BATTERY rows
     if product_lv1 == "battery" or metric_str == "unit":
         if any(inc in text for inc in includes) and not any(exc in text for exc in excludes):
             print(f"CASE 2 triggered: '{capacity_text}'")
-            return normalize_to_gwh_and_flag(row, multiplier_override=50/1e6)
+            return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6)
 
         if metric_is_missing(metric_raw):
             print("CASE 1 triggered")
-            return normalize_to_gwh_and_flag(row, multiplier_override=50/1e6)
+            return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6)
 
-        return normalize_to_gwh_and_flag(row)
+        return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
 
-    # fallback (including tonnes/gigawatt)
-    return normalize_to_tonnes_or_gw(row)
+    # -------- Fallback
+    return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
 
 
-# def capacity_logic(row):
-#     """
-#     Case 1 (×2): product is battery AND metric is missing
-#     Case 2 (×4): product is battery AND capacity_text mentions evs/cars/vehicles
-#                 AND does NOT mention battery/cell/module/pack/research and development
-#     """
-#     product_lv1 = str(row.get("product_lv1", "")).strip().lower()
-#     capacity_text = str(row.get("capacity_text", "")).lower()
-#     metric_raw = row.get("capacity_metric")
-#     metric_str = str(metric_raw).strip().lower() if isinstance(metric_raw, str) else ""
-
-#     # Normalize capacity_text
-#     text = (
-#         capacity_text.replace(",", " ")
-#         .replace("-", " ")
-#         .replace("_", " ")
-#         .strip()
-#     )
-
-#     # Define inclusion and exclusion phrases
-#     includes = ["ev", "evs", "car", "cars", "vehicle", "vehicles"]
-#     excludes = ["battery", "batteries", "cell", "cells", "pack", "packs",
-#                 "module", "modules", "research and development"]
-
-#     # -------- VEHICLE rows
-#     if product_lv1 == "vehicle":
-#         if metric_is_missing(metric_raw) or metric_str == "unit":
-#             return normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
-
-#     # -------- BATTERY rows
-#     if product_lv1 == "battery" or metric_str == "unit":
-#         # CASE 2 has priority now
-#         if any(inc in text for inc in includes) and not any(exc in text for exc in excludes):
-#             print(f"CASE 2 triggered: '{capacity_text}'")
-#             return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6) 
-
-#         # CASE 1 fallback: only when metric is missing
-#         if metric_is_missing(metric_raw):
-#             print("CASE 1 triggered")
-#             return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6)
-
-#         # Default
-#         return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
-#     # TO DO keep tonnes ->
-#     # -------- OTHER products
-#     return None, None, None, None
 
 
 # ========= Pipeline Execution =========
@@ -604,7 +518,3 @@ if __name__ == "__main__":
     df_result.to_excel(output_path, index=False)
     print(df_result.head(10))
 
-
-# "conversion"column built based 
-# Case when product contains cell or battery or modules or pack and capacity metric contains vehicles or cars or buses or EV -> apply interproduct conversion disctionnary
-# Else apply dictionnary for product to GWh 
