@@ -24,7 +24,8 @@ t0_pipeline = time.time()
 
 # Input file and columns to validate
 file_path = "./storage/output/factory-technological.xlsx"
-output_file_path = "storage/output/tuone_battery_projects_jul15.xlsx"
+output_file_long = "./storage/output/all_projects.xlsx"
+output_file_filtered = "storage/output/filtered_projects_jul16.xlsx"
 
 # DEFINE subset cols 
 group_cols = [
@@ -99,13 +100,12 @@ cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "cluster_id",
         "capacity_normalized", "capacity_metric_normalized",
         "status", "phase", "date", "article_id"]
 
-output_file = "./storage/output/clean_output_ben.xlsx"
-logging.info(f"Saving output to {output_file}")
-df.to_excel(output_file, columns=cols, index=False)
+logging.info(f"Saving output to {output_file_long}")
+df.to_excel(output_file_long, columns=cols, index=False)
 
 # battery projects to validate
 df_filter = df[(df["product_lv1"] == "battery") & (df["product_lv2"] != "eam") & (df["iso2"].isin(EUROPEAN_COUNTRIES))].copy()
-df_filter.to_excel(output_file_path, columns = cols, index=False)
+df_filter.to_excel(output_file_filtered, columns = cols, index=False)
 
 # Final timing
 t1_pipeline = time.time()
