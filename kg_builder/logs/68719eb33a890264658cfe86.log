@@ -1,0 +1,91 @@
+2025-07-12 01:39:56,415 - INFO - 🔍 Text length: 2753 characters
+2025-07-12 01:39:56,415 - INFO - 📌 Processing Article ID: 68719eb33a890264658cfe86 — CATL to build battery packs in third-party factories
+2025-07-12 01:39:56,415 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:39:59,101 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:59,101 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_seres",
+        "type": "company",
+        "name": "Seres"
+      },
+      {
+        "id": "company_huawei",
+        "type": "company",
+        "name": "Huawei"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chongqing_seres",
+        "type": "factory",
+        "name": "Seres' factory",
+        "location": {
+          "city": "Chongqing",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      },
+      {
+        "id": "product_m6",
+        "type": "product",
+        "name": "M6"
+      },
+      {
+        "id": "product_freevoy_battery_pack",
+        "type": "product",
+        "name": "Freevoy battery pack"
+      },
+      {
+        "id": "product_qilin_battery",
+        "type": "product",
+        "name": "Qilin battery"
+      }
+    ]
+  }
+}
+2025-07-12 01:39:59,102 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:59,102 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:39:59,102 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 01:39:59,102 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:39:59,102 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:39:59,102 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:40:00,309 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:40:00,309 - INFO - {
+  "relationships": [
+    {
+      "source": "company_seres",
+      "type": "owns",
+      "target": "factory_chongqing_seres"
+    }
+  ]
+}
+2025-07-12 01:40:00,309 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:40:00,310 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:40:00,310 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:40:01,038 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:40:01,039 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_packs",
+      "target": "factory_chongqing_seres",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:40:01,039 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:40:01,039 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 01:40:01,039 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 01:40:01,115 - INFO - ✅ Updated Article ID: 68719eb33a890264658cfe86 with 8 nodes and combined text.

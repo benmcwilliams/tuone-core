@@ -1,3 +1,120 @@
 2025-07-08 01:19:12,099 - INFO - 📌 Processing Article ID: 67fa8b49eaa4fb525afee51c — Waaree begins trial production at 5.4GW Indian solar cell facility
 2025-07-08 01:21:15,065 - INFO - 📌 Processing Article ID: 67fa8b49eaa4fb525afee51c — Waaree begins trial production at 5.4GW Indian solar cell facility
 2025-07-08 01:21:27,127 - INFO - 📌 Processing Article ID: 67fa8b49eaa4fb525afee51c — Waaree begins trial production at 5.4GW Indian solar cell facility
+2025-07-12 23:51:18,847 - INFO - 🔍 Text length: 2565 characters
+2025-07-12 23:51:18,847 - INFO - 📌 Processing Article ID: 67fa8b49eaa4fb525afee51c — Waaree begins trial production at 5.4GW Indian solar cell facility
+2025-07-12 23:51:18,847 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 23:51:22,683 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:51:22,683 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_waaree_energies",
+        "type": "company",
+        "name": "Waaree Energies"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_chikhli_gujarat",
+        "type": "factory",
+        "name": "Chikhli Solar Cell Facility",
+        "location": {
+          "city": "Chikhli",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_5_4gw",
+        "type": "capacity",
+        "amount": "5.4GW",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_13_3gw",
+        "type": "capacity",
+        "amount": "13.3GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_cell",
+        "type": "product",
+        "name": "solar cell"
+      },
+      {
+        "id": "product_ntype_topcon_module",
+        "type": "product",
+        "name": "n-type tunnel oxide passivated contact (TOPCon) module"
+      }
+    ]
+  }
+}
+2025-07-12 23:51:22,683 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:51:22,683 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-12 23:51:22,683 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-12 23:51:23,487 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:51:23,487 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_4gw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_13_3gw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 23:51:23,487 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:51:23,487 - INFO - Node ID is capacity_5_4gw
+2025-07-12 23:51:23,487 - INFO - ✅ Match found for capacity_ID 'capacity_5_4gw' in capacity nodes
+2025-07-12 23:51:23,487 - INFO -   ➕ Set status: operational
+2025-07-12 23:51:23,488 - INFO -   ➕ Set phase: greenfield
+2025-07-12 23:51:23,488 - INFO - Node ID is capacity_13_3gw
+2025-07-12 23:51:23,488 - INFO - ✅ Match found for capacity_ID 'capacity_13_3gw' in capacity nodes
+2025-07-12 23:51:23,488 - INFO -   ➕ Set status: operational
+2025-07-12 23:51:23,488 - INFO -   ➕ Set phase: unclear
+2025-07-12 23:51:23,488 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 23:51:23,488 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 23:51:23,488 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-12 23:51:23,488 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 23:51:24,279 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:51:24,279 - INFO - {
+  "relationships": [
+    {
+      "source": "company_waaree_energies",
+      "target": "factory_chikhli_gujarat",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-12 23:51:24,279 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:51:24,279 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-12 23:51:24,279 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 23:51:25,569 - INFO - ✅ OpenAI returned output:
+2025-07-12 23:51:25,570 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_4gw",
+      "target": "factory_chikhli_gujarat",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_4gw",
+      "target": "product_solar_cell",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-12 23:51:25,570 - INFO - POST-PROCESSING STARTING.
+2025-07-12 23:51:25,570 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 23:51:25,570 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 23:51:25,650 - INFO - ✅ Updated Article ID: 67fa8b49eaa4fb525afee51c with 6 nodes and combined text.

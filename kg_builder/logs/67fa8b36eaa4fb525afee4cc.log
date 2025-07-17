@@ -1,2 +1,134 @@
 2025-07-08 01:21:15,078 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cc — DESRI sends notice of termination for module supply agreement with Meyer Burger
 2025-07-08 01:21:27,135 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cc — DESRI sends notice of termination for module supply agreement with Meyer Burger
+2025-07-13 00:21:05,524 - INFO - 🔍 Text length: 1729 characters
+2025-07-13 00:21:05,525 - INFO - 📌 Processing Article ID: 67fa8b36eaa4fb525afee4cc — DESRI sends notice of termination for module supply agreement with Meyer Burger
+2025-07-13 00:21:05,525 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:21:08,209 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:21:08,210 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_desri",
+        "type": "company",
+        "name": "D. E. Shaw Renewable Investments"
+      },
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_goodyear_arizona",
+        "type": "factory",
+        "name": "Goodyear, Arizona module assembly plant",
+        "location": {
+          "city": "Goodyear",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_5gw",
+        "type": "capacity",
+        "amount": "5GW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_3_75gw",
+        "type": "capacity",
+        "amount": "3.75GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heterojunction_cell_and_module",
+        "type": "product",
+        "name": "heterojunction cell and module"
+      }
+    ]
+  }
+}
+2025-07-13 00:21:08,210 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:21:08,210 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:21:08,210 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:21:09,437 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:21:09,437 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5gw",
+      "status": "cancelled",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_3_75gw",
+      "status": "cancelled",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:21:09,437 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:21:09,437 - INFO - Node ID is capacity_5gw
+2025-07-13 00:21:09,437 - INFO - ✅ Match found for capacity_ID 'capacity_5gw' in capacity nodes
+2025-07-13 00:21:09,437 - INFO -   ➕ Set status: cancelled
+2025-07-13 00:21:09,437 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:21:09,437 - INFO - Node ID is capacity_3_75gw
+2025-07-13 00:21:09,437 - INFO - ✅ Match found for capacity_ID 'capacity_3_75gw' in capacity nodes
+2025-07-13 00:21:09,437 - INFO -   ➕ Set status: cancelled
+2025-07-13 00:21:09,437 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:21:09,437 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:21:09,437 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:21:09,437 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:21:09,438 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:21:10,256 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:21:10,256 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "target": "factory_goodyear_arizona",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:21:10,257 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:21:10,257 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:21:10,257 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:21:12,007 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:21:12,008 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5gw",
+      "target": "factory_goodyear_arizona",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_75gw",
+      "target": "factory_goodyear_arizona",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5gw",
+      "target": "product_heterojunction_cell_and_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_3_75gw",
+      "target": "product_heterojunction_cell_and_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_heterojunction_cell_and_module",
+      "target": "factory_goodyear_arizona",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:21:12,008 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:21:12,008 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:21:12,008 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:21:12,089 - INFO - ✅ Updated Article ID: 67fa8b36eaa4fb525afee4cc with 6 nodes and combined text.

@@ -1,2 +1,169 @@
 2025-07-08 01:21:15,077 - INFO - 📌 Processing Article ID: 67fa8b37eaa4fb525afee4d1 — Corning to build solar wafer manufacturing plant in Michigan
 2025-07-08 01:21:27,135 - INFO - 📌 Processing Article ID: 67fa8b37eaa4fb525afee4d1 — Corning to build solar wafer manufacturing plant in Michigan
+2025-07-13 00:20:23,137 - INFO - 🔍 Text length: 3539 characters
+2025-07-13 00:20:23,138 - INFO - 📌 Processing Article ID: 67fa8b37eaa4fb525afee4d1 — Corning to build solar wafer manufacturing plant in Michigan
+2025-07-13 00:20:23,138 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:20:26,430 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:26,431 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_corning",
+        "type": "company",
+        "name": "Corning"
+      },
+      {
+        "id": "company_hemlock_semiconductor",
+        "type": "company",
+        "name": "Hemlock Semiconductor"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_corning_solar_wafer_michigan",
+        "type": "factory",
+        "name": "Corning Solar Wafer Manufacturing Plant",
+        "location": {
+          "city": "null",
+          "country": "US"
+        }
+      },
+      {
+        "id": "factory_hsc_polysilicon_michigan",
+        "type": "factory",
+        "name": "HSC Polysilicon Manufacturing Facility",
+        "location": {
+          "city": "Hemlock",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hsc_doc_funding",
+        "type": "investment",
+        "name": "HSC DOC Funding",
+        "amount": "325 million USD",
+        "status": "announced"
+      },
+      {
+        "id": "investment_corning_solar_wafer_plant",
+        "type": "investment",
+        "name": "Corning Solar Wafer Plant Investment",
+        "amount": "900 million USD",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_solar_wafer",
+        "type": "product",
+        "name": "Solar Wafer"
+      },
+      {
+        "id": "product_semiconductor_grade_polysilicon",
+        "type": "product",
+        "name": "Semiconductor-grade Polysilicon"
+      }
+    ]
+  }
+}
+2025-07-13 00:20:26,431 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:26,431 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:20:26,431 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:20:26,431 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:20:27,862 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:27,862 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hsc_doc_funding",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_corning_solar_wafer_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:20:27,862 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:27,862 - INFO - Node ID is investment_hsc_doc_funding
+2025-07-13 00:20:27,862 - INFO - ✅ Match found for investment_ID 'investment_hsc_doc_funding' in investment nodes
+2025-07-13 00:20:27,862 - INFO -   ➕ Set status: announced
+2025-07-13 00:20:27,862 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:20:27,862 - INFO - Node ID is investment_corning_solar_wafer_plant
+2025-07-13 00:20:27,863 - INFO - ✅ Match found for investment_ID 'investment_corning_solar_wafer_plant' in investment nodes
+2025-07-13 00:20:27,863 - INFO -   ➕ Set status: announced
+2025-07-13 00:20:27,863 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:20:27,863 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:20:27,863 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:20:27,863 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:20:29,293 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:29,294 - INFO - {
+  "relationships": [
+    {
+      "source": "company_corning",
+      "target": "factory_corning_solar_wafer_michigan",
+      "type": "owns"
+    },
+    {
+      "source": "company_hemlock_semiconductor",
+      "target": "factory_hsc_polysilicon_michigan",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:20:29,294 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:29,294 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:20:29,294 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:20:32,059 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:32,059 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_hsc_polysilicon_michigan",
+      "target": "product_semiconductor_grade_polysilicon",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:20:32,060 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:32,060 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:20:32,060 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:20:32,980 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:32,981 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hemlock_semiconductor",
+      "target": "investment_hsc_doc_funding",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:20:32,981 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:32,981 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:20:32,981 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:20:34,620 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:20:34,620 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hsc_doc_funding",
+      "target": "factory_hsc_polysilicon_michigan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hsc_doc_funding",
+      "target": "product_semiconductor_grade_polysilicon",
+      "type": "targets"
+    },
+    {
+      "source": "investment_corning_solar_wafer_plant",
+      "target": "product_solar_wafer",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:20:34,620 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:20:34,704 - INFO - ✅ Updated Article ID: 67fa8b37eaa4fb525afee4d1 with 8 nodes and combined text.

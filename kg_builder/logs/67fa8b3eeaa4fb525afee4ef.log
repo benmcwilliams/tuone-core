@@ -1,2 +1,117 @@
 2025-07-08 01:21:15,073 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ef — Scatec signs PPA for 1GW solar-plus-storage project in Egypt
 2025-07-08 01:21:27,132 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ef — Scatec signs PPA for 1GW solar-plus-storage project in Egypt
+2025-07-13 00:15:57,893 - INFO - 🔍 Text length: 2358 characters
+2025-07-13 00:15:57,893 - INFO - 📌 Processing Article ID: 67fa8b3eeaa4fb525afee4ef — Scatec signs PPA for 1GW solar-plus-storage project in Egypt
+2025-07-13 00:15:57,894 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:16:01,385 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:01,385 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_scatec",
+        "type": "company",
+        "name": "Scatec"
+      },
+      {
+        "id": "company_egyptian_electricity_transmission_company",
+        "type": "company",
+        "name": "Egyptian Electricity Transmission Company"
+      },
+      {
+        "id": "company_egyptian_electricity_holding_company",
+        "type": "company",
+        "name": "Egyptian Electricity Holding Company"
+      },
+      {
+        "id": "company_elite_solar",
+        "type": "company",
+        "name": "EliTe Solar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_1gw",
+        "type": "capacity",
+        "amount": "1GW",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_100mw_200mwh_bess",
+        "type": "capacity",
+        "amount": "100MW/200MWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_plus_storage",
+        "type": "product",
+        "name": "solar-plus-storage"
+      },
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      },
+      {
+        "id": "product_solar_cell_and_module",
+        "type": "product",
+        "name": "solar cell and module"
+      }
+    ]
+  }
+}
+2025-07-13 00:16:01,385 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:01,385 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:16:01,385 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:16:02,656 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:02,657 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1gw",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100mw_200mwh_bess",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:16:02,657 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:02,657 - INFO - Node ID is capacity_1gw
+2025-07-13 00:16:02,657 - INFO - ✅ Match found for capacity_ID 'capacity_1gw' in capacity nodes
+2025-07-13 00:16:02,657 - INFO -   ➕ Set status: announced
+2025-07-13 00:16:02,657 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:16:02,657 - INFO - Node ID is capacity_100mw_200mwh_bess
+2025-07-13 00:16:02,657 - INFO - ✅ Match found for capacity_ID 'capacity_100mw_200mwh_bess' in capacity nodes
+2025-07-13 00:16:02,657 - INFO -   ➕ Set status: announced
+2025-07-13 00:16:02,657 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:16:02,657 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:16:02,657 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:16:02,657 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:16:02,657 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:16:02,657 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:16:04,511 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:04,511 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1gw",
+      "target": "product_solar_plus_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100mw_200mwh_bess",
+      "target": "product_battery_energy_storage_system",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:16:04,511 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:04,512 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:16:04,512 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:16:04,592 - INFO - ✅ Updated Article ID: 67fa8b3eeaa4fb525afee4ef with 9 nodes and combined text.

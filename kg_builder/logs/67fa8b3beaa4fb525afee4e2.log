@@ -1,2 +1,127 @@
 2025-07-08 01:21:15,075 - INFO - 📌 Processing Article ID: 67fa8b3beaa4fb525afee4e2 — Orlen acquires Polish solar portfolio with capacity of up to 280MW
 2025-07-08 01:21:27,133 - INFO - 📌 Processing Article ID: 67fa8b3beaa4fb525afee4e2 — Orlen acquires Polish solar portfolio with capacity of up to 280MW
+2025-07-13 00:17:57,181 - INFO - 🔍 Text length: 2642 characters
+2025-07-13 00:17:57,181 - INFO - 📌 Processing Article ID: 67fa8b3beaa4fb525afee4e2 — Orlen acquires Polish solar portfolio with capacity of up to 280MW
+2025-07-13 00:17:57,182 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:17:59,351 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:59,352 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_orlen",
+        "type": "company",
+        "name": "Orlen"
+      },
+      {
+        "id": "company_orlen_wind_3",
+        "type": "company",
+        "name": "Orlen Wind 3"
+      },
+      {
+        "id": "company_edp_renewables_polska",
+        "type": "company",
+        "name": "EDP Renewables Polska"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_280mw",
+        "type": "capacity",
+        "amount": "280MW",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_40mw",
+        "type": "capacity",
+        "amount": "40MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_200mw",
+        "type": "capacity",
+        "amount": "200MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_portfolio",
+        "type": "product",
+        "name": "solar portfolio"
+      },
+      {
+        "id": "product_wind_farm",
+        "type": "product",
+        "name": "wind farm"
+      }
+    ]
+  }
+}
+2025-07-13 00:17:59,352 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:59,352 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:17:59,352 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:18:00,481 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:00,481 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_280mw",
+      "status": "under construction",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_40mw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_200mw",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-07-13 00:18:00,481 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:00,482 - INFO - Node ID is capacity_280mw
+2025-07-13 00:18:00,482 - INFO - ✅ Match found for capacity_ID 'capacity_280mw' in capacity nodes
+2025-07-13 00:18:00,482 - INFO -   ➕ Set status: under construction
+2025-07-13 00:18:00,482 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:18:00,482 - INFO - Node ID is capacity_40mw
+2025-07-13 00:18:00,482 - INFO - ✅ Match found for capacity_ID 'capacity_40mw' in capacity nodes
+2025-07-13 00:18:00,482 - INFO -   ➕ Set status: operational
+2025-07-13 00:18:00,482 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:18:00,482 - INFO - Node ID is capacity_200mw
+2025-07-13 00:18:00,482 - INFO - ✅ Match found for capacity_ID 'capacity_200mw' in capacity nodes
+2025-07-13 00:18:00,482 - INFO -   ➕ Set status: operational
+2025-07-13 00:18:00,482 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:18:00,482 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:18:00,482 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:18:00,482 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:18:00,482 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:18:00,482 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:18:01,607 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:01,607 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_280mw",
+      "target": "product_solar_portfolio",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_40mw",
+      "target": "product_solar_portfolio",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200mw",
+      "target": "product_solar_portfolio",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:18:01,607 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:01,607 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:18:01,607 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:18:01,691 - INFO - ✅ Updated Article ID: 67fa8b3beaa4fb525afee4e2 with 8 nodes and combined text.

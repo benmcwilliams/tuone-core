@@ -1,0 +1,110 @@
+2025-07-12 01:39:16,676 - INFO - 🔍 Text length: 2607 characters
+2025-07-12 01:39:16,676 - INFO - 📌 Processing Article ID: 68719eb73a890264658cfe8a — Nissan delays US production of upcoming electric SUV
+2025-07-12 01:39:16,676 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:39:21,875 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:21,876 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mississippi_us",
+        "type": "factory",
+        "name": "Nissan plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "British plant",
+        "location": {
+          "city": "Sunderland",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pz1k",
+        "type": "product",
+        "name": "Nissan electric crossover (PZ1K)"
+      },
+      {
+        "id": "product_pz1j",
+        "type": "product",
+        "name": "Infiniti electric crossover (PZ1J)"
+      },
+      {
+        "id": "product_leaf",
+        "type": "product",
+        "name": "third-generation Leaf"
+      }
+    ]
+  }
+}
+2025-07-12 01:39:21,876 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:21,876 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:39:21,876 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 01:39:21,876 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:39:21,876 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:39:21,876 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:39:23,769 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:23,769 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_mississippi_us"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_sunderland_uk"
+    }
+  ]
+}
+2025-07-12 01:39:23,770 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:23,770 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:39:23,770 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:39:25,613 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:25,614 - INFO - {
+  "relationships": [
+    {
+      "source": "product_pz1k",
+      "target": "factory_mississippi_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pz1j",
+      "target": "factory_mississippi_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_leaf",
+      "target": "factory_sunderland_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:39:25,614 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:25,614 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 01:39:25,614 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 01:39:25,688 - INFO - ✅ Updated Article ID: 68719eb73a890264658cfe8a with 8 nodes and combined text.

@@ -1,2 +1,162 @@
 2025-07-08 01:21:15,063 - INFO - 📌 Processing Article ID: 67fa8b4beaa4fb525afee524 — Fortescue begins operation of 100MW Western Australia solar plant, remains ‘steadfast’ in commitment to green hydrogen
 2025-07-08 01:21:27,126 - INFO - 📌 Processing Article ID: 67fa8b4beaa4fb525afee524 — Fortescue begins operation of 100MW Western Australia solar plant, remains ‘steadfast’ in commitment to green hydrogen
+2025-07-13 00:06:51,370 - INFO - 🔍 Text length: 5390 characters
+2025-07-13 00:06:51,370 - INFO - 📌 Processing Article ID: 67fa8b4beaa4fb525afee524 — Fortescue begins operation of 100MW Western Australia solar plant, remains ‘steadfast’ in commitment to green hydrogen
+2025-07-13 00:06:51,370 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:06:54,350 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:54,350 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fortescue_metals_group",
+        "type": "company",
+        "name": "Fortescue Metals Group"
+      },
+      {
+        "id": "company_apa_group",
+        "type": "company",
+        "name": "APA Group"
+      },
+      {
+        "id": "company_arena",
+        "type": "company",
+        "name": "Australian Renewable Energy Agency"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_gladstone_gigafactory",
+        "type": "factory",
+        "name": "Gladstone Gigafactory",
+        "location": {
+          "city": "Gladstone",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_solar_sunshot_programme",
+        "type": "investment",
+        "name": "Solar Sunshot Programme",
+        "amount": "AUS$1 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100mw",
+        "type": "capacity",
+        "amount": "100MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hp_pem_electrolysers",
+        "type": "product",
+        "name": "HP PEM electrolysers"
+      }
+    ]
+  }
+}
+2025-07-13 00:06:54,350 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:54,350 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:06:54,350 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:06:55,024 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:55,024 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100mw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:06:55,024 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:55,024 - INFO - Node ID is capacity_100mw
+2025-07-13 00:06:55,024 - INFO - ✅ Match found for capacity_ID 'capacity_100mw' in capacity nodes
+2025-07-13 00:06:55,024 - INFO -   ➕ Set status: operational
+2025-07-13 00:06:55,024 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:06:55,024 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:06:55,025 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:06:56,059 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:56,059 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_solar_sunshot_programme",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:06:56,059 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:56,060 - INFO - Node ID is investment_solar_sunshot_programme
+2025-07-13 00:06:56,060 - INFO - ✅ Match found for investment_ID 'investment_solar_sunshot_programme' in investment nodes
+2025-07-13 00:06:56,060 - INFO -   ➕ Set status: announced
+2025-07-13 00:06:56,060 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:06:56,060 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:06:56,060 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:06:56,060 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:06:56,852 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:56,853 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fortescue_metals_group",
+      "target": "factory_gladstone_gigafactory",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:06:56,853 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:56,853 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:06:56,853 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:06:58,042 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:58,042 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100mw",
+      "target": "factory_gladstone_gigafactory",
+      "type": "at"
+    },
+    {
+      "source": "product_hp_pem_electrolysers",
+      "target": "factory_gladstone_gigafactory",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:06:58,042 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:58,042 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:06:58,042 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:06:59,226 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:06:59,227 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arena",
+      "target": "investment_solar_sunshot_programme",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:06:59,227 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:06:59,227 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:06:59,227 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:07:00,140 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:07:00,140 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_solar_sunshot_programme",
+      "target": "capacity_100mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_solar_sunshot_programme",
+      "target": "product_hp_pem_electrolysers",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:07:00,140 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:07:00,217 - INFO - ✅ Updated Article ID: 67fa8b4beaa4fb525afee524 with 7 nodes and combined text.

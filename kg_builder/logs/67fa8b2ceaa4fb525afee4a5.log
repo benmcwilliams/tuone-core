@@ -1,2 +1,95 @@
 2025-07-08 01:21:15,083 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a5 — US manufacturer Toledo Solar ceases operations
 2025-07-08 01:21:27,139 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a5 — US manufacturer Toledo Solar ceases operations
+2025-07-13 00:26:50,108 - INFO - 🔍 Text length: 2226 characters
+2025-07-13 00:26:50,109 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a5 — US manufacturer Toledo Solar ceases operations
+2025-07-13 00:26:50,109 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:26:52,381 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:26:52,381 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toledo_solar",
+        "type": "company",
+        "name": "Toledo Solar"
+      },
+      {
+        "id": "company_first_solar",
+        "type": "company",
+        "name": "First Solar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_toledo_ohio",
+        "type": "factory",
+        "name": "Toledo Solar Facility",
+        "location": {
+          "city": "Toledo",
+          "country": "USA"
+        }
+      },
+      {
+        "id": "factory_malaysia",
+        "type": "factory",
+        "name": "First Solar Malaysia Plant",
+        "location": {
+          "city": "null",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_cadmium_telluride_panels",
+        "type": "product",
+        "name": "Cadmium Telluride Panels"
+      },
+      {
+        "id": "product_hardened_panels",
+        "type": "product",
+        "name": "Hardened Panels"
+      }
+    ]
+  }
+}
+2025-07-13 00:26:52,381 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:26:52,381 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:26:52,381 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:26:52,382 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:26:52,382 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:26:52,382 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:26:53,509 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:26:53,509 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toledo_solar",
+      "target": "factory_toledo_ohio",
+      "type": "owns"
+    },
+    {
+      "source": "company_first_solar",
+      "target": "factory_malaysia",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:26:53,509 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:26:53,509 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:26:53,509 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:26:54,971 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:26:54,971 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cadmium_telluride_panels",
+      "target": "factory_malaysia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:26:54,971 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:26:54,971 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:26:54,972 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:26:55,052 - INFO - ✅ Updated Article ID: 67fa8b2ceaa4fb525afee4a5 with 6 nodes and combined text.

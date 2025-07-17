@@ -1,2 +1,124 @@
 2025-07-08 01:21:15,090 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46f — TÜV Rheinland to launch module traceability testing service at Intersolar Europe 2024
 2025-07-08 01:21:27,144 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46f — TÜV Rheinland to launch module traceability testing service at Intersolar Europe 2024
+2025-07-13 00:38:17,198 - INFO - 🔍 Text length: 2491 characters
+2025-07-13 00:38:17,199 - INFO - 📌 Processing Article ID: 67fa8b1feaa4fb525afee46f — TÜV Rheinland to launch module traceability testing service at Intersolar Europe 2024
+2025-07-13 00:38:17,199 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:38:18,754 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:18,754 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tuv_rheinland",
+        "type": "company",
+        "name": "T\u00dcV Rheinland"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_boxborough_massachusetts",
+        "type": "factory",
+        "name": "Technology and Innovation Centre",
+        "location": {
+          "city": "Boxborough",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_us_base",
+        "type": "investment",
+        "name": "new US base",
+        "amount": "null",
+        "status": "completed"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_traceability_testing_service",
+        "type": "product",
+        "name": "traceability testing service"
+      }
+    ]
+  }
+}
+2025-07-13 00:38:18,754 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:18,754 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:38:18,754 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:38:18,754 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:38:19,533 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:19,533 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_us_base",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:38:19,533 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:19,533 - INFO - Node ID is investment_us_base
+2025-07-13 00:38:19,533 - INFO - ✅ Match found for investment_ID 'investment_us_base' in investment nodes
+2025-07-13 00:38:19,533 - INFO -   ➕ Set status: completed
+2025-07-13 00:38:19,533 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:38:19,533 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:38:19,533 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-13 00:38:19,534 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:38:20,290 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:20,291 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tuv_rheinland",
+      "target": "factory_boxborough_massachusetts",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:38:20,291 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:20,291 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:38:20,291 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:38:21,214 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:21,214 - INFO - {
+  "relationships": [
+    {
+      "source": "product_traceability_testing_service",
+      "target": "factory_boxborough_massachusetts",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:38:21,214 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:21,214 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o-mini
+2025-07-13 00:38:21,214 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:38:22,135 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:22,135 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tuv_rheinland",
+      "target": "investment_us_base",
+      "type": "invests"
+    }
+  ]
+}
+2025-07-13 00:38:22,135 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:22,135 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o-mini
+2025-07-13 00:38:22,135 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:38:23,158 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:38:23,159 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_us_base",
+      "target": "factory_boxborough_massachusetts",
+      "type": "funds"
+    },
+    {
+      "source": "investment_us_base",
+      "target": "product_traceability_testing_service",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:38:23,159 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:38:23,242 - INFO - ✅ Updated Article ID: 67fa8b1feaa4fb525afee46f with 4 nodes and combined text.

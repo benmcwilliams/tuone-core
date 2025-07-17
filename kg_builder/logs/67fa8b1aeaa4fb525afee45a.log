@@ -1,2 +1,160 @@
 2025-07-08 01:21:15,092 - INFO - 📌 Processing Article ID: 67fa8b1aeaa4fb525afee45a — SolarDuck, RWE install offshore PV pilot in Dutch North Sea
 2025-07-08 01:21:27,146 - INFO - 📌 Processing Article ID: 67fa8b1aeaa4fb525afee45a — SolarDuck, RWE install offshore PV pilot in Dutch North Sea
+2025-07-13 00:41:26,330 - INFO - 🔍 Text length: 2694 characters
+2025-07-13 00:41:26,330 - INFO - 📌 Processing Article ID: 67fa8b1aeaa4fb525afee45a — SolarDuck, RWE install offshore PV pilot in Dutch North Sea
+2025-07-13 00:41:26,331 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:41:28,916 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:28,917 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solarduck",
+        "type": "company",
+        "name": "SolarDuck"
+      },
+      {
+        "id": "company_rwe",
+        "type": "company",
+        "name": "RWE"
+      },
+      {
+        "id": "company_seavolt",
+        "type": "company",
+        "name": "SeaVolt"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_rwe_solarduck",
+        "type": "joint_venture",
+        "name": "RWE and SolarDuck joint venture"
+      }
+    ],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_100mw",
+        "type": "capacity",
+        "amount": "100MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_150mw",
+        "type": "capacity",
+        "amount": "150MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_300mw",
+        "type": "capacity",
+        "amount": "300MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_0.5mwp",
+        "type": "capacity",
+        "amount": "0.5MWp",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_offshore_fpv",
+        "type": "product",
+        "name": "offshore FPV"
+      },
+      {
+        "id": "product_floating_platforms",
+        "type": "product",
+        "name": "floating platforms"
+      }
+    ]
+  }
+}
+2025-07-13 00:41:28,917 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:28,917 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:41:28,917 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:41:30,451 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:30,451 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_0.5mwp",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_150mw",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_300mw",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_100mw",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:41:30,451 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:30,451 - INFO - Node ID is capacity_0.5mwp
+2025-07-13 00:41:30,452 - INFO - ✅ Match found for capacity_ID 'capacity_0.5mwp' in capacity nodes
+2025-07-13 00:41:30,452 - INFO -   ➕ Set status: operational
+2025-07-13 00:41:30,452 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:41:30,452 - INFO - Node ID is capacity_150mw
+2025-07-13 00:41:30,452 - INFO - ✅ Match found for capacity_ID 'capacity_150mw' in capacity nodes
+2025-07-13 00:41:30,452 - INFO -   ➕ Set status: announced
+2025-07-13 00:41:30,452 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:41:30,452 - INFO - Node ID is capacity_300mw
+2025-07-13 00:41:30,452 - INFO - ✅ Match found for capacity_ID 'capacity_300mw' in capacity nodes
+2025-07-13 00:41:30,452 - INFO -   ➕ Set status: announced
+2025-07-13 00:41:30,452 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:41:30,452 - INFO - Node ID is capacity_100mw
+2025-07-13 00:41:30,452 - INFO - ✅ Match found for capacity_ID 'capacity_100mw' in capacity nodes
+2025-07-13 00:41:30,452 - INFO -   ➕ Set status: announced
+2025-07-13 00:41:30,453 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:41:30,453 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:41:30,453 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:41:30,453 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o-mini
+2025-07-13 00:41:30,453 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:41:31,479 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:31,479 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rwe",
+      "target": "joint_venture_rwe_solarduck",
+      "type": "forms"
+    },
+    {
+      "source": "joint_venture_rwe_solarduck",
+      "target": "company_solarduck",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:41:31,479 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:31,479 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:41:31,479 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:41:32,878 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:41:32,878 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_0.5mwp",
+      "target": "product_offshore_fpv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_offshore_fpv",
+      "target": "capacity_0.5mwp",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:41:32,878 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:41:32,878 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:41:32,878 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:41:32,953 - INFO - ✅ Updated Article ID: 67fa8b1aeaa4fb525afee45a with 10 nodes and combined text.

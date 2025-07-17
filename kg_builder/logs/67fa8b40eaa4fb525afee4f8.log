@@ -1,2 +1,162 @@
 2025-07-08 01:21:15,071 - INFO - 📌 Processing Article ID: 67fa8b40eaa4fb525afee4f8 — Spain publishes guidance on €750 million renewables and storage manufacturing scheme
 2025-07-08 01:21:27,130 - INFO - 📌 Processing Article ID: 67fa8b40eaa4fb525afee4f8 — Spain publishes guidance on €750 million renewables and storage manufacturing scheme
+2025-07-13 00:14:31,564 - INFO - 🔍 Text length: 3493 characters
+2025-07-13 00:14:31,564 - INFO - 📌 Processing Article ID: 67fa8b40eaa4fb525afee4f8 — Spain publishes guidance on €750 million renewables and storage manufacturing scheme
+2025-07-13 00:14:31,564 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:14:34,652 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:34,653 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_spanish_ministry_of_ecological_transition",
+        "type": "company",
+        "name": "Spanish Ministry of Ecological Transition"
+      },
+      {
+        "id": "company_institute_for_diversification_and_energy_saving",
+        "type": "company",
+        "name": "Institute for Diversification and Energy Saving"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [
+      {
+        "id": "investment_renewables_and_storage_manufacturing_scheme",
+        "type": "investment",
+        "name": "Renewables and Storage Manufacturing Scheme",
+        "amount": "\u20ac750 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "Solar Panels"
+      },
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "Battery Energy Storage Systems"
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "Batteries"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "Battery Cells"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "Battery Packs"
+      }
+    ]
+  }
+}
+2025-07-13 00:14:34,653 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:34,653 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:14:34,653 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:14:34,653 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:14:35,640 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:35,640 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_renewables_and_storage_manufacturing_scheme",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:14:35,641 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:35,641 - INFO - Node ID is investment_renewables_and_storage_manufacturing_scheme
+2025-07-13 00:14:35,641 - INFO - ✅ Match found for investment_ID 'investment_renewables_and_storage_manufacturing_scheme' in investment nodes
+2025-07-13 00:14:35,641 - INFO -   ➕ Set status: announced
+2025-07-13 00:14:35,641 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:14:35,641 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:14:35,641 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:14:35,641 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:14:35,641 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:14:37,617 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:37,618 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_panels",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "product_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteries",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteries",
+      "target": "product_battery_packs",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:14:37,618 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:37,618 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:14:37,618 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:14:38,686 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:38,687 - INFO - {
+  "relationships": [
+    {
+      "source": "company_spanish_ministry_of_ecological_transition",
+      "target": "investment_renewables_and_storage_manufacturing_scheme",
+      "type": "invests"
+    },
+    {
+      "source": "company_institute_for_diversification_and_energy_saving",
+      "target": "investment_renewables_and_storage_manufacturing_scheme",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:14:38,687 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:38,687 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:14:38,687 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:14:40,218 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:40,218 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_renewables_and_storage_manufacturing_scheme",
+      "target": "product_solar_panels",
+      "type": "targets"
+    },
+    {
+      "source": "investment_renewables_and_storage_manufacturing_scheme",
+      "target": "product_battery_energy_storage_systems",
+      "type": "targets"
+    },
+    {
+      "source": "investment_renewables_and_storage_manufacturing_scheme",
+      "target": "product_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_renewables_and_storage_manufacturing_scheme",
+      "target": "product_battery_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_renewables_and_storage_manufacturing_scheme",
+      "target": "product_battery_packs",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:14:40,218 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:40,300 - INFO - ✅ Updated Article ID: 67fa8b40eaa4fb525afee4f8 with 8 nodes and combined text.

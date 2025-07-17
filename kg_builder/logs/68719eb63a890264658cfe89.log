@@ -1,0 +1,151 @@
+2025-07-12 01:39:25,690 - INFO - 🔍 Text length: 2040 characters
+2025-07-12 01:39:25,690 - INFO - 📌 Processing Article ID: 68719eb63a890264658cfe89 — China’s Axxiva builds first solid-state batteries
+2025-07-12 01:39:25,690 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:39:28,174 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:28,174 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_axxiva",
+        "type": "company",
+        "name": "Axxiva"
+      },
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_gotion_high_tech",
+        "type": "company",
+        "name": "Gotion High-Tech"
+      },
+      {
+        "id": "company_24m_technologies",
+        "type": "company",
+        "name": "24M Technologies"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wuhu_china",
+        "type": "factory",
+        "name": "Axxiva's plant",
+        "location": {
+          "city": "Wuhu Economic and Technological Development Zone",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_25_gwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.25 GWh per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_5_gwh_unclear_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "5 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_battery",
+        "type": "product",
+        "name": "solid-state battery"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-07-12 01:39:28,174 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:28,174 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-12 01:39:28,175 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-12 01:39:29,975 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:29,975 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_25_gwh_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_5_gwh_unclear_unclear",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-12 01:39:29,975 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:29,975 - INFO - Node ID is capacity_1_25_gwh_per_year
+2025-07-12 01:39:29,975 - INFO - ✅ Match found for capacity_ID 'capacity_1_25_gwh_per_year' in capacity nodes
+2025-07-12 01:39:29,975 - INFO -   ➕ Set status: operational
+2025-07-12 01:39:29,975 - INFO -   ➕ Set phase: greenfield
+2025-07-12 01:39:29,975 - INFO - Node ID is capacity_5_gwh_unclear_unclear
+2025-07-12 01:39:29,975 - INFO - ✅ Match found for capacity_ID 'capacity_5_gwh_unclear_unclear' in capacity nodes
+2025-07-12 01:39:29,975 - INFO -   ➕ Set status: unclear
+2025-07-12 01:39:29,975 - INFO -   ➕ Set phase: unclear
+2025-07-12 01:39:29,976 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 01:39:29,976 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:39:29,976 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:39:29,976 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:39:31,348 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:31,348 - INFO - {
+  "relationships": [
+    {
+      "source": "company_axxiva",
+      "type": "owns",
+      "target": "factory_wuhu_china"
+    }
+  ]
+}
+2025-07-12 01:39:31,348 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:31,348 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:39:31,348 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:39:33,703 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:33,704 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_25_gwh_per_year",
+      "target": "factory_wuhu_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_gwh_unclear_unclear",
+      "target": "factory_wuhu_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_25_gwh_per_year",
+      "target": "product_solid_state_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_5_gwh_unclear_unclear",
+      "target": "product_solid_state_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solid_state_battery",
+      "target": "factory_wuhu_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:39:33,704 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:33,704 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 01:39:33,704 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 01:39:33,778 - INFO - ✅ Updated Article ID: 68719eb63a890264658cfe89 with 9 nodes and combined text.

@@ -1,2 +1,132 @@
 2025-07-08 01:21:15,062 - INFO - 📌 Processing Article ID: 67fa8b4ceaa4fb525afee52b — BayWa r.e. sells 95MW Spanish solar PV project to Encavis AG
 2025-07-08 01:21:27,125 - INFO - 📌 Processing Article ID: 67fa8b4ceaa4fb525afee52b — BayWa r.e. sells 95MW Spanish solar PV project to Encavis AG
+2025-07-13 00:05:54,252 - INFO - 🔍 Text length: 1695 characters
+2025-07-13 00:05:54,253 - INFO - 📌 Processing Article ID: 67fa8b4ceaa4fb525afee52b — BayWa r.e. sells 95MW Spanish solar PV project to Encavis AG
+2025-07-13 00:05:54,253 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:05:57,214 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:57,214 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_baywa_re",
+        "type": "company",
+        "name": "BayWa r.e."
+      },
+      {
+        "id": "company_encavis_ag",
+        "type": "company",
+        "name": "Encavis AG"
+      },
+      {
+        "id": "company_huhtamaki",
+        "type": "company",
+        "name": "Huhtamaki"
+      },
+      {
+        "id": "company_velux_group",
+        "type": "company",
+        "name": "Velux Group"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_95mw",
+        "type": "capacity",
+        "amount": "95MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_54mw",
+        "type": "capacity",
+        "amount": "54MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_53mw",
+        "type": "capacity",
+        "amount": "53MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv_plant",
+        "type": "product",
+        "name": "solar PV plant"
+      },
+      {
+        "id": "product_agripv_plant",
+        "type": "product",
+        "name": "agriPV plant"
+      }
+    ]
+  }
+}
+2025-07-13 00:05:57,214 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:57,214 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:05:57,214 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:05:58,285 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:58,285 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_95mw",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_54mw",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_53mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:05:58,285 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:58,285 - INFO - Node ID is capacity_95mw
+2025-07-13 00:05:58,285 - INFO - ✅ Match found for capacity_ID 'capacity_95mw' in capacity nodes
+2025-07-13 00:05:58,285 - INFO -   ➕ Set status: announced
+2025-07-13 00:05:58,285 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:58,285 - INFO - Node ID is capacity_54mw
+2025-07-13 00:05:58,285 - INFO - ✅ Match found for capacity_ID 'capacity_54mw' in capacity nodes
+2025-07-13 00:05:58,285 - INFO -   ➕ Set status: operational
+2025-07-13 00:05:58,286 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:58,286 - INFO - Node ID is capacity_53mw
+2025-07-13 00:05:58,286 - INFO - ✅ Match found for capacity_ID 'capacity_53mw' in capacity nodes
+2025-07-13 00:05:58,286 - INFO -   ➕ Set status: under construction
+2025-07-13 00:05:58,286 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:05:58,286 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:05:58,286 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:05:58,286 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:05:58,286 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:05:58,286 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:05:59,468 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:59,468 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_95mw",
+      "target": "product_solar_pv_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_54mw",
+      "target": "product_agripv_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_53mw",
+      "target": "product_solar_pv_plant",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:05:59,468 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:59,468 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:05:59,468 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:05:59,551 - INFO - ✅ Updated Article ID: 67fa8b4ceaa4fb525afee52b with 9 nodes and combined text.

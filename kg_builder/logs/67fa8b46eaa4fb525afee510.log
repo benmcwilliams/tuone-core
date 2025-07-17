@@ -1,2 +1,109 @@
 2025-07-08 01:21:15,067 - INFO - 📌 Processing Article ID: 67fa8b46eaa4fb525afee510 — J&V Energy enters the Philippines utility-scale solar market with 180MW acquisition
 2025-07-08 01:21:27,128 - INFO - 📌 Processing Article ID: 67fa8b46eaa4fb525afee510 — J&V Energy enters the Philippines utility-scale solar market with 180MW acquisition
+2025-07-13 00:10:28,530 - INFO - 🔍 Text length: 2202 characters
+2025-07-13 00:10:28,530 - INFO - 📌 Processing Article ID: 67fa8b46eaa4fb525afee510 — J&V Energy enters the Philippines utility-scale solar market with 180MW acquisition
+2025-07-13 00:10:28,531 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:10:30,483 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:10:30,483 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jv_energy",
+        "type": "company",
+        "name": "J&V Energy"
+      },
+      {
+        "id": "company_jnv_philippines_renewable_corporation",
+        "type": "company",
+        "name": "JNV Philippines Renewable Corporation"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_general_santos_philippines",
+        "type": "factory",
+        "name": "General Santos Solar Power Plant",
+        "location": {
+          "city": "General Santos",
+          "country": "Philippines"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_180mw",
+        "type": "capacity",
+        "amount": "180MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "Solar PV"
+      }
+    ]
+  }
+}
+2025-07-13 00:10:30,483 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:10:30,483 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:10:30,483 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:10:31,278 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:10:31,278 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_180mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:10:31,278 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:10:31,279 - INFO - Node ID is capacity_180mw
+2025-07-13 00:10:31,279 - INFO - ✅ Match found for capacity_ID 'capacity_180mw' in capacity nodes
+2025-07-13 00:10:31,279 - INFO -   ➕ Set status: announced
+2025-07-13 00:10:31,279 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:10:31,279 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:10:31,279 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:10:31,279 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:10:31,279 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:10:32,894 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:10:32,894 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jv_energy",
+      "target": "factory_general_santos_philippines",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:10:32,894 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:10:32,894 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:10:32,894 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:10:34,228 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:10:34,228 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_180mw",
+      "target": "factory_general_santos_philippines",
+      "type": "at"
+    },
+    {
+      "source": "capacity_180mw",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_pv",
+      "target": "factory_general_santos_philippines",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:10:34,228 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:10:34,228 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:10:34,228 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:10:34,307 - INFO - ✅ Updated Article ID: 67fa8b46eaa4fb525afee510 with 5 nodes and combined text.

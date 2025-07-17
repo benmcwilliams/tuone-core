@@ -1,2 +1,102 @@
 2025-07-08 01:21:15,076 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4dd — Iberdrola Australia pens PPA with 13 regional councils in New South Wales
 2025-07-08 01:21:27,134 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4dd — Iberdrola Australia pens PPA with 13 regional councils in New South Wales
+2025-07-13 00:18:37,455 - INFO - 🔍 Text length: 2350 characters
+2025-07-13 00:18:37,455 - INFO - 📌 Processing Article ID: 67fa8b3aeaa4fb525afee4dd — Iberdrola Australia pens PPA with 13 regional councils in New South Wales
+2025-07-13 00:18:37,455 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:18:40,110 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:40,110 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iberdrola_australia",
+        "type": "company",
+        "name": "Iberdrola Australia"
+      },
+      {
+        "id": "company_res",
+        "type": "company",
+        "name": "RES"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_500gwh_per_year",
+        "type": "capacity",
+        "amount": "500GWh per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_390gwh_per_year",
+        "type": "capacity",
+        "amount": "390GWh per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      },
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      },
+      {
+        "id": "product_wind_farm",
+        "type": "product",
+        "name": "wind farm"
+      }
+    ]
+  }
+}
+2025-07-13 00:18:40,111 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:40,111 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:18:40,111 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:18:41,457 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:41,457 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500gwh_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_390gwh_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:18:41,457 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:41,457 - INFO - Node ID is capacity_500gwh_per_year
+2025-07-13 00:18:41,457 - INFO - ✅ Match found for capacity_ID 'capacity_500gwh_per_year' in capacity nodes
+2025-07-13 00:18:41,457 - INFO -   ➕ Set status: operational
+2025-07-13 00:18:41,457 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:18:41,457 - INFO - Node ID is capacity_390gwh_per_year
+2025-07-13 00:18:41,458 - INFO - ✅ Match found for capacity_ID 'capacity_390gwh_per_year' in capacity nodes
+2025-07-13 00:18:41,458 - INFO -   ➕ Set status: operational
+2025-07-13 00:18:41,458 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:18:41,458 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:18:41,458 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:18:41,458 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:18:41,458 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:18:41,458 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:18:42,385 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:18:42,386 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500gwh_per_year",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:18:42,386 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:18:42,386 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:18:42,386 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:18:42,484 - INFO - ✅ Updated Article ID: 67fa8b3aeaa4fb525afee4dd with 7 nodes and combined text.

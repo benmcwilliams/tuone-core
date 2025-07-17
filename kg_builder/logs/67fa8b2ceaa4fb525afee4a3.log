@@ -1,2 +1,124 @@
 2025-07-08 01:21:15,084 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a3 — Meyer Burger bags US$39 million to aid restructuring after DESRI deal collapse
 2025-07-08 01:21:27,139 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a3 — Meyer Burger bags US$39 million to aid restructuring after DESRI deal collapse
+2025-07-13 00:27:03,154 - INFO - 🔍 Text length: 3066 characters
+2025-07-13 00:27:03,155 - INFO - 📌 Processing Article ID: 67fa8b2ceaa4fb525afee4a3 — Meyer Burger bags US$39 million to aid restructuring after DESRI deal collapse
+2025-07-13 00:27:03,155 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:27:05,695 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:05,696 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_desri",
+        "type": "company",
+        "name": "D.E. Shaw Renewable Investments"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_goodyear_arizona",
+        "type": "factory",
+        "name": "Goodyear Facility",
+        "location": {
+          "city": "Goodyear",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_meyer_burger_bridge_financing",
+        "type": "investment",
+        "name": "Meyer Burger Bridge Financing",
+        "amount": "US$39.48 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_hjt_modules",
+        "type": "product",
+        "name": "HJT Modules"
+      }
+    ]
+  }
+}
+2025-07-13 00:27:05,696 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:05,696 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:27:05,696 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-13 00:27:05,696 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-13 00:27:06,719 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:06,719 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_meyer_burger_bridge_financing",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-13 00:27:06,719 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:06,720 - INFO - Node ID is investment_meyer_burger_bridge_financing
+2025-07-13 00:27:06,720 - INFO - ✅ Match found for investment_ID 'investment_meyer_burger_bridge_financing' in investment nodes
+2025-07-13 00:27:06,720 - INFO -   ➕ Set status: ongoing
+2025-07-13 00:27:06,720 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:27:06,720 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:27:06,720 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:27:06,720 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:27:07,640 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:07,641 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "target": "factory_goodyear_arizona",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:27:07,641 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:07,641 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:27:07,641 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:27:08,625 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:08,625 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hjt_modules",
+      "target": "factory_goodyear_arizona",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:27:08,625 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:08,625 - INFO - - - - Querying openai for relationships: financial_origin, using model: gpt-4o
+2025-07-13 00:27:08,625 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-13 00:27:09,996 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:09,997 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "target": "investment_meyer_burger_bridge_financing",
+      "type": "receives"
+    }
+  ]
+}
+2025-07-13 00:27:09,997 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:09,997 - INFO - - - - Querying openai for relationships: financial_technological, using model: gpt-4o
+2025-07-13 00:27:09,997 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-13 00:27:10,915 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:27:10,915 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_meyer_burger_bridge_financing",
+      "target": "product_hjt_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-13 00:27:10,915 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:27:10,997 - INFO - ✅ Updated Article ID: 67fa8b2ceaa4fb525afee4a3 with 5 nodes and combined text.

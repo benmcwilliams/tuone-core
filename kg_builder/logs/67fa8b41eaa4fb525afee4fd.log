@@ -1,2 +1,109 @@
 2025-07-08 01:21:15,071 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fd — Data centre provider Teraco begins construction at 120MW solar PV plant in South Africa
 2025-07-08 01:21:27,130 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fd — Data centre provider Teraco begins construction at 120MW solar PV plant in South Africa
+2025-07-13 00:13:55,100 - INFO - 🔍 Text length: 1671 characters
+2025-07-13 00:13:55,100 - INFO - 📌 Processing Article ID: 67fa8b41eaa4fb525afee4fd — Data centre provider Teraco begins construction at 120MW solar PV plant in South Africa
+2025-07-13 00:13:55,101 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:13:57,442 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:57,442 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_teraco",
+        "type": "company",
+        "name": "Teraco"
+      },
+      {
+        "id": "company_juwi",
+        "type": "company",
+        "name": "Juwi"
+      },
+      {
+        "id": "company_subsolar",
+        "type": "company",
+        "name": "Subsolar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_solar_pv_plant_free_state",
+        "type": "factory",
+        "name": "Solar PV Plant",
+        "location": {
+          "city": "null",
+          "country": "South Africa"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_120mw",
+        "type": "capacity",
+        "amount": "120MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "Solar PV"
+      }
+    ]
+  }
+}
+2025-07-13 00:13:57,443 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:57,443 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:13:57,443 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:13:58,248 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:58,248 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:13:58,248 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:58,248 - INFO - Node ID is capacity_120mw
+2025-07-13 00:13:58,248 - INFO - ✅ Match found for capacity_ID 'capacity_120mw' in capacity nodes
+2025-07-13 00:13:58,248 - INFO -   ➕ Set status: under construction
+2025-07-13 00:13:58,248 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:13:58,249 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:13:58,249 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:13:58,249 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:13:58,249 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:13:59,016 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:13:59,017 - INFO - {
+  "relationships": [
+    {
+      "source": "company_teraco",
+      "target": "factory_solar_pv_plant_free_state",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:13:59,017 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:13:59,017 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:13:59,017 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:14:00,263 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:14:00,263 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120mw",
+      "target": "factory_solar_pv_plant_free_state",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120mw",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-07-13 00:14:00,263 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:14:00,263 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:14:00,263 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:14:00,347 - INFO - ✅ Updated Article ID: 67fa8b41eaa4fb525afee4fd with 6 nodes and combined text.

@@ -1,2 +1,124 @@
 2025-07-08 01:21:15,074 - INFO - 📌 Processing Article ID: 67fa8b3deaa4fb525afee4ec — EDP trials automated construction technology on Spanish PV project
 2025-07-08 01:21:27,132 - INFO - 📌 Processing Article ID: 67fa8b3deaa4fb525afee4ec — EDP trials automated construction technology on Spanish PV project
+2025-07-13 00:16:26,051 - INFO - 🔍 Text length: 2550 characters
+2025-07-13 00:16:26,052 - INFO - 📌 Processing Article ID: 67fa8b3deaa4fb525afee4ec — EDP trials automated construction technology on Spanish PV project
+2025-07-13 00:16:26,052 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:16:28,568 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:28,569 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_edp",
+        "type": "company",
+        "name": "EDP"
+      },
+      {
+        "id": "company_comau",
+        "type": "company",
+        "name": "Comau"
+      },
+      {
+        "id": "company_terabase",
+        "type": "company",
+        "name": "Terabase"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_penaflor",
+        "type": "factory",
+        "name": "Pe\u00f1aflor",
+        "location": {
+          "city": "Valladolid",
+          "country": "Spain"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_122mw",
+        "type": "capacity",
+        "amount": "122MW",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_3mw",
+        "type": "capacity",
+        "amount": "3MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hyperflex_technology",
+        "type": "product",
+        "name": "Hyperflex technology"
+      },
+      {
+        "id": "product_terafab_system",
+        "type": "product",
+        "name": "Terafab system"
+      }
+    ]
+  }
+}
+2025-07-13 00:16:28,569 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:28,569 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:16:28,569 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:16:29,649 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:29,649 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_122mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_3mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-13 00:16:29,649 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:29,649 - INFO - Node ID is capacity_122mw
+2025-07-13 00:16:29,649 - INFO - ✅ Match found for capacity_ID 'capacity_122mw' in capacity nodes
+2025-07-13 00:16:29,650 - INFO -   ➕ Set status: under construction
+2025-07-13 00:16:29,650 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:16:29,650 - INFO - Node ID is capacity_3mw
+2025-07-13 00:16:29,650 - INFO - ✅ Match found for capacity_ID 'capacity_3mw' in capacity nodes
+2025-07-13 00:16:29,650 - INFO -   ➕ Set status: under construction
+2025-07-13 00:16:29,650 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:16:29,650 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:16:29,650 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:16:29,650 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:16:29,650 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:16:30,466 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:30,467 - INFO - {
+  "relationships": [
+    {
+      "source": "company_edp",
+      "target": "factory_penaflor",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:16:30,467 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:30,467 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:16:30,467 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:16:31,491 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:16:31,491 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3mw",
+      "target": "factory_penaflor",
+      "type": "at"
+    }
+  ]
+}
+2025-07-13 00:16:31,491 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:16:31,491 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:16:31,491 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:16:31,578 - INFO - ✅ Updated Article ID: 67fa8b3deaa4fb525afee4ec with 8 nodes and combined text.

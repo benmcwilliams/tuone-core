@@ -1,0 +1,118 @@
+2025-07-12 01:36:32,657 - INFO - 🔍 Text length: 2644 characters
+2025-07-12 01:36:32,657 - INFO - 📌 Processing Article ID: 68719ec73a890264658cfe98 — Honda reportedly halts plans for large electric SUV
+2025-07-12 01:36:32,658 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:36:36,039 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:36,039 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_honda_marysville_auto_plant",
+        "type": "factory",
+        "name": "Honda Marysville Auto Plant",
+        "location": {
+          "city": "Marysville, Ohio",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ev_hub_canada",
+        "type": "investment",
+        "name": "EV hub Canada",
+        "amount": "multi-billion-dollar",
+        "status": "paused"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_large_electric_suv",
+        "type": "product",
+        "name": "large electric SUV"
+      },
+      {
+        "id": "product_flagship_sedan",
+        "type": "product",
+        "name": "flagship sedan"
+      },
+      {
+        "id": "product_midsize_suv",
+        "type": "product",
+        "name": "midsize SUV"
+      }
+    ]
+  }
+}
+2025-07-12 01:36:36,039 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:36,040 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:36:36,040 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-12 01:36:36,040 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-12 01:36:41,674 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:41,674 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ev_hub_canada",
+      "status": "paused",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-12 01:36:41,674 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:41,674 - INFO - Node ID is investment_ev_hub_canada
+2025-07-12 01:36:41,674 - INFO - ✅ Match found for investment_ID 'investment_ev_hub_canada' in investment nodes
+2025-07-12 01:36:41,674 - INFO -   ➕ Set status: paused
+2025-07-12 01:36:41,674 - INFO -   ➕ Set phase: greenfield
+2025-07-12 01:36:41,674 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:36:41,674 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:36:41,674 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:36:43,515 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:43,515 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_honda_marysville_auto_plant"
+    }
+  ]
+}
+2025-07-12 01:36:43,515 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:43,515 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:36:43,515 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:36:50,792 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:50,792 - INFO - {
+  "relationships": [
+    {
+      "source": "product_flagship_sedan",
+      "target": "factory_honda_marysville_auto_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_midsize_suv",
+      "target": "factory_honda_marysville_auto_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:36:50,793 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:50,793 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-12 01:36:50,793 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-12 01:36:56,262 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:56,262 - INFO - {
+  "relationships": []
+}
+2025-07-12 01:36:56,262 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:56,262 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-12 01:36:56,262 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-12 01:36:56,951 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:36:56,952 - INFO - {
+  "relationships": []
+}
+2025-07-12 01:36:56,952 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:36:57,028 - INFO - ✅ Updated Article ID: 68719ec73a890264658cfe98 with 6 nodes and combined text.

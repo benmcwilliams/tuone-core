@@ -1,2 +1,76 @@
 2025-07-08 01:21:15,062 - INFO - 📌 Processing Article ID: 67fa8b4deaa4fb525afee52d — Enphase Energy begins shipments of IQ8 microinverters made in Texas
 2025-07-08 01:21:27,125 - INFO - 📌 Processing Article ID: 67fa8b4deaa4fb525afee52d — Enphase Energy begins shipments of IQ8 microinverters made in Texas
+2025-07-13 00:05:38,945 - INFO - 🔍 Text length: 2615 characters
+2025-07-13 00:05:38,945 - INFO - 📌 Processing Article ID: 67fa8b4deaa4fb525afee52d — Enphase Energy begins shipments of IQ8 microinverters made in Texas
+2025-07-13 00:05:38,946 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:05:40,561 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:40,562 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_enphase_energy",
+        "type": "company",
+        "name": "Enphase Energy"
+      },
+      {
+        "id": "company_american_design_and_build",
+        "type": "company",
+        "name": "American Design and Build"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_arlington_texas",
+        "type": "factory",
+        "name": "facility in Arlington",
+        "location": {
+          "city": "Arlington",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_iq8_microinverter",
+        "type": "product",
+        "name": "IQ8 microinverter"
+      }
+    ]
+  }
+}
+2025-07-13 00:05:40,562 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:40,562 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-13 00:05:40,562 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:05:40,562 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:05:40,562 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:05:40,562 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:05:41,281 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:41,281 - INFO - {
+  "relationships": [
+    {
+      "source": "company_enphase_energy",
+      "target": "factory_arlington_texas",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:05:41,282 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:41,282 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:05:41,282 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:05:42,571 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:05:42,571 - INFO - {
+  "relationships": [
+    {
+      "source": "product_iq8_microinverter",
+      "target": "factory_arlington_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:05:42,571 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:05:42,572 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:05:42,572 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:05:42,653 - INFO - ✅ Updated Article ID: 67fa8b4deaa4fb525afee52d with 4 nodes and combined text.

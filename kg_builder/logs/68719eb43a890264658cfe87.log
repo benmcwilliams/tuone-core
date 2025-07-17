@@ -1,0 +1,105 @@
+2025-07-12 01:39:51,501 - INFO - 🔍 Text length: 3751 characters
+2025-07-12 01:39:51,501 - INFO - 📌 Processing Article ID: 68719eb43a890264658cfe87 — Volkswagen halts ID.Buzz exports to the US amid increased tariffs
+2025-07-12 01:39:51,501 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-12 01:39:53,561 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:53,562 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_volkswagen_commercial_vehicles",
+        "type": "company",
+        "name": "Volkswagen Commercial Vehicles"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hannover",
+        "type": "factory",
+        "name": "Hannover",
+        "location": {
+          "city": "Hannover",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_chattanooga",
+        "type": "factory",
+        "name": "Chattanooga",
+        "location": {
+          "city": "Chattanooga",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id_buzz",
+        "type": "product",
+        "name": "ID.Buzz"
+      },
+      {
+        "id": "product_id_4",
+        "type": "product",
+        "name": "ID.4"
+      }
+    ]
+  }
+}
+2025-07-12 01:39:53,562 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:53,562 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-12 01:39:53,562 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-12 01:39:53,562 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-12 01:39:53,562 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-12 01:39:53,562 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-12 01:39:54,838 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:54,839 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_hannover"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_chattanooga"
+    }
+  ]
+}
+2025-07-12 01:39:54,839 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:54,839 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-12 01:39:54,839 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-12 01:39:56,337 - INFO - ✅ OpenAI returned output:
+2025-07-12 01:39:56,337 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id_buzz",
+      "target": "factory_hannover",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id_4",
+      "target": "factory_chattanooga",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-12 01:39:56,337 - INFO - POST-PROCESSING STARTING.
+2025-07-12 01:39:56,337 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-12 01:39:56,337 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-12 01:39:56,414 - INFO - ✅ Updated Article ID: 68719eb43a890264658cfe87 with 8 nodes and combined text.

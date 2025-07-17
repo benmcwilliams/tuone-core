@@ -1,2 +1,112 @@
 2025-07-08 01:21:15,089 - INFO - 📌 Processing Article ID: 67fa8b23eaa4fb525afee47d — New US cell capacity would be ‘pivotal moment’ in PV landscape – Finlay Colville
 2025-07-08 01:21:27,143 - INFO - 📌 Processing Article ID: 67fa8b23eaa4fb525afee47d — New US cell capacity would be ‘pivotal moment’ in PV landscape – Finlay Colville
+2025-07-13 00:36:13,865 - INFO - 🔍 Text length: 2949 characters
+2025-07-13 00:36:13,866 - INFO - 📌 Processing Article ID: 67fa8b23eaa4fb525afee47d — New US cell capacity would be ‘pivotal moment’ in PV landscape – Finlay Colville
+2025-07-13 00:36:13,866 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:36:16,282 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:36:16,283 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      },
+      {
+        "id": "company_silfab",
+        "type": "company",
+        "name": "Silfab"
+      },
+      {
+        "id": "company_heliene",
+        "type": "company",
+        "name": "Heliene"
+      },
+      {
+        "id": "company_first_solar",
+        "type": "company",
+        "name": "First Solar"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_cell_production",
+        "type": "capacity",
+        "amount": "null",
+        "status": "null"
+      },
+      {
+        "id": "capacity_module_assembly",
+        "type": "capacity",
+        "amount": "null",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      },
+      {
+        "id": "product_thin_film_panel_technology",
+        "type": "product",
+        "name": "thin-film panel technology"
+      }
+    ]
+  }
+}
+2025-07-13 00:36:16,283 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:36:16,283 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:36:16,283 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:36:17,512 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:36:17,512 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_cell_production",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_module_assembly",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-07-13 00:36:17,512 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:36:17,512 - INFO - Node ID is capacity_cell_production
+2025-07-13 00:36:17,512 - INFO - ✅ Match found for capacity_ID 'capacity_cell_production' in capacity nodes
+2025-07-13 00:36:17,512 - INFO -   ➕ Set status: announced
+2025-07-13 00:36:17,512 - INFO -   ➕ Set phase: unclear
+2025-07-13 00:36:17,513 - INFO - Node ID is capacity_module_assembly
+2025-07-13 00:36:17,513 - INFO - ✅ Match found for capacity_ID 'capacity_module_assembly' in capacity nodes
+2025-07-13 00:36:17,513 - INFO -   ➕ Set status: operational
+2025-07-13 00:36:17,513 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:36:17,513 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:36:17,513 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:36:17,513 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-07-13 00:36:17,513 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o-mini
+2025-07-13 00:36:17,513 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:36:18,740 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:36:18,740 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_cell_production",
+      "target": "product_solar_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_cell_production",
+      "target": "capacity_module_assembly",
+      "type": "at"
+    }
+  ]
+}
+2025-07-13 00:36:18,740 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:36:18,741 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:36:18,741 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:36:18,827 - INFO - ✅ Updated Article ID: 67fa8b23eaa4fb525afee47d with 8 nodes and combined text.

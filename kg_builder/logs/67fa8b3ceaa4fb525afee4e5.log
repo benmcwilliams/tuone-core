@@ -1,2 +1,124 @@
 2025-07-08 01:21:15,075 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e5 — Daqo sells polysilicon at lower price than production cost in Q2 2024
 2025-07-08 01:21:27,133 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e5 — Daqo sells polysilicon at lower price than production cost in Q2 2024
+2025-07-13 00:17:33,943 - INFO - 🔍 Text length: 4048 characters
+2025-07-13 00:17:33,944 - INFO - 📌 Processing Article ID: 67fa8b3ceaa4fb525afee4e5 — Daqo sells polysilicon at lower price than production cost in Q2 2024
+2025-07-13 00:17:33,944 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-13 00:17:36,106 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:36,106 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daqo_new_energy",
+        "type": "company",
+        "name": "Daqo New Energy"
+      },
+      {
+        "id": "company_wacker_chemie",
+        "type": "company",
+        "name": "Wacker Chemie"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_phase_5b_inner_mongolia",
+        "type": "factory",
+        "name": "Phase 5B",
+        "location": {
+          "city": "null",
+          "country": "Inner Mongolia"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_100000mt",
+        "type": "capacity",
+        "amount": "100,000MT",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_64961mt",
+        "type": "capacity",
+        "amount": "64,961MT",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      }
+    ]
+  }
+}
+2025-07-13 00:17:36,106 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:36,106 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-13 00:17:36,106 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-13 00:17:37,335 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:37,335 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100000mt",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_64961mt",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-07-13 00:17:37,335 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:37,335 - INFO - Node ID is capacity_100000mt
+2025-07-13 00:17:37,335 - INFO - ✅ Match found for capacity_ID 'capacity_100000mt' in capacity nodes
+2025-07-13 00:17:37,335 - INFO -   ➕ Set status: under construction
+2025-07-13 00:17:37,336 - INFO -   ➕ Set phase: greenfield
+2025-07-13 00:17:37,336 - INFO - Node ID is capacity_64961mt
+2025-07-13 00:17:37,336 - INFO - ✅ Match found for capacity_ID 'capacity_64961mt' in capacity nodes
+2025-07-13 00:17:37,336 - INFO -   ➕ Set status: operational
+2025-07-13 00:17:37,336 - INFO -   ➕ Set phase: expansion
+2025-07-13 00:17:37,336 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-13 00:17:37,336 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-13 00:17:37,336 - INFO - - - - Querying openai for relationships: ownership, using model: gpt-4o
+2025-07-13 00:17:37,336 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-13 00:17:38,565 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:38,565 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daqo_new_energy",
+      "target": "factory_phase_5b_inner_mongolia",
+      "type": "owns"
+    }
+  ]
+}
+2025-07-13 00:17:38,565 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:38,565 - INFO - - - - Querying openai for relationships: technological, using model: gpt-4o
+2025-07-13 00:17:38,566 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-13 00:17:39,895 - INFO - ✅ OpenAI returned output:
+2025-07-13 00:17:39,895 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100000mt",
+      "target": "factory_phase_5b_inner_mongolia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_64961mt",
+      "target": "product_polysilicon",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_polysilicon",
+      "target": "factory_phase_5b_inner_mongolia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-13 00:17:39,895 - INFO - POST-PROCESSING STARTING.
+2025-07-13 00:17:39,895 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-13 00:17:39,895 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-13 00:17:39,978 - INFO - ✅ Updated Article ID: 67fa8b3ceaa4fb525afee4e5 with 6 nodes and combined text.
