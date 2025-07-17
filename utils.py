@@ -16,5 +16,6 @@ def combine_paragraphs(article):
 def ping_openai():
     try:
         print("✅ Successfully connected to OpenAI API!")
+
     except Exception as e:
         print(f"❌ OpenAI API Connection Error: {e}")
