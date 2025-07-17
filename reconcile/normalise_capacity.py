@@ -242,10 +242,9 @@ def extract_normalized_metric_unit(text):
         return "", text
 
     text_lower = text.lower()
-    for pattern, replacement in METRIC_MAP.items():
-        # match units stuck to numbers or attached with hyphen/slash
-        if re.search(rf"(?<![a-zA-Z0-9]){re.escape(pattern)}(?![a-zA-Z0-9])|[-/]{re.escape(pattern)}", text_lower):
-            cleaned = re.sub(rf"(?<![a-zA-Z0-9]){re.escape(pattern)}(?![a-zA-Z0-9])|[-/]{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
+    for pattern, replacement in sorted(METRIC_MAP.items(), key=lambda x: -len(x[0])):
+        if re.search(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", text_lower):
+            cleaned = re.sub(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
             return replacement, cleaned
     return "", text
 
