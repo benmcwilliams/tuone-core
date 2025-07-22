@@ -3,6 +3,7 @@ from dateutil import parser
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+from datetime import datetime
 
 url = "https://gemenon.graphql.aspire-ebm.com/"
 base_url = "https://www.energytech.com"
@@ -39,16 +40,55 @@ DATE_SELECTORS = {
     'renewsBiz': ('class', '.first-upper[itemprop="dateCreated"]'),
     'world_energy': ('class', '.color-front.fwb'),
     'justauto': ('class', 'div.article-meta > span.date-published'),
+    'battery-news':('class','li.wpr-post-info-date > span:nth-of-type(2)'),
+    'glass-international':('class','li.wpr-post-info-date > span:nth-of-type(2)')
 }
 
+def parse_date(date_str):
+    date_str = re.sub(r'(\d{1,2})(st|nd|rd|th)', r'\1', date_str)
+    formats = [
+        "%B %d, %Y",
+        "%d %B %Y",
+        "%Y-%m-%d",
+        "%d. %B %Y",
+        "%d %B, %Y",
+    ]
+
+    for fmt in formats:
+        try:
+            print(f'Parsing date that is {datetime.strptime(date_str, fmt).strftime("%Y-%m-%d")}')
+            return datetime.strptime(date_str, fmt).strftime("%Y-%m-%d")
+        except Exception:
+            continue
+    return date_str
+
+def glass_international_date_util(soup: BeautifulSoup) -> str:
+    print(f'Parsing glass international date')
+    published_tag = soup.select_one("div.publishedby p")
+    text = published_tag.get_text(strip=True) if published_tag else ""
+    match = re.search(r"Published (\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+, \d{4})", text)
+    date_raw = match.group(1) if match else "No date found"
+    print("Raw date in the crawler function",date_raw)
+    return parse_date(date_raw)
+
+def battery_news_date_util(soup: BeautifulSoup) -> str:
+    date_tag = soup.select_one("li.wpr-post-info-date > span:nth-of-type(2)")
+    date_raw = date_tag.get_text(strip=True) if date_tag else "No date found"
+    return parse_date(date_raw)
 
 def extract_date_with_regex(date_str: str) -> str:
     date_pattern = r"(\d{2}\.\d{2}\.\d{4})"
     date_match = re.search(date_pattern, date_str)
     return date_match.group(1) if date_match else date_str
 
-
 def get_date(soup: BeautifulSoup, website: str) -> str:
+    print(f"Getting date from {website}")
+    if website == "battery_news":
+        return battery_news_date_util(soup)
+    elif website == "glass-international":
+        print("Using glass international date")
+        return glass_international_date_util(soup)
+
     selector_type, selector = DATE_SELECTORS.get(website, (None, None))
 
     if selector_type == 'class':
@@ -61,8 +101,8 @@ def get_date(soup: BeautifulSoup, website: str) -> str:
     date = date_element.get_text(strip=True) if date_element else "No Date Found"
 
     if ',' in date:
-        date = date.split(',')[0] + ',' + date.split(',')[1]  # Keep the month and day, and the year part
-    date = re.sub(r'\s*by.*$', '', date).strip()  # Remove 'by' and anything after it
+        date = date.split(',')[0] + ',' + date.split(',')[1]
+    date = re.sub(r'\s*by.*$', '', date).strip()
 
     if website in ['electrive', 'electrive_automobile']:
         return extract_date_with_regex(date)
