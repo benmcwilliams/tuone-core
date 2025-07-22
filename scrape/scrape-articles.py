@@ -28,7 +28,7 @@ urls_collection = db[MONGO_DB_URLS_COLLECTION_NAME]
 articles_collection = db[MONGO_DB_ARTICLES_COLLECTION_NAME]
 
 keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
-            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project","geothermal"}
+            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project","geothermal","battery", "lithium"}
 
 # Expected date format
 date_format = "%d-%m-%Y"
@@ -75,6 +75,7 @@ def scrape_article(mongo_doc: dict) -> None:
 
             # Date tag
             raw_date = get_date(soup, category)
+            print("raw date",raw_date)
 
             def get_utc_date_from_raw(raw_date: str) -> datetime:
                 if not raw_date or raw_date == "No Date Found":
