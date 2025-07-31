@@ -12,6 +12,24 @@ def load_capacity_column(file_path):
     df["capacity"] = df["capacity"].fillna("")
     return df
 
+# Define overrides as a mapping of (product_lv1, product_lv2, metric) → multiplier
+MULTIPLIER_OVERRIDE_MAP = {
+    # For 1 tonne EAM = 1 kWh → GWh
+    ("battery", "eam", "tonne"): 1 / 1e3,  # 1 kWh per kg → 1 MWh per tonne → 0.001 GWh
+
+    # For EV/cars implied capacity
+    ("battery", None, None): 50 / 1e6,     # 50 kWh per car → 0.00005 GWh
+
+    # You can add more specific or fallback mappings here
+}
+
+KEYWORD_MULTIPLIER_MAP = {
+    ("ev", "car", "vehicle", "electric vehicle", "electric car", "vehicle electric", "evs", "bevs", "phevs", "phev"): 50 / 1e6,
+    ("van","vans"): 80 / 1e6,
+    ("truck", "electric truck", "trucks", "fret truck", "fret trucks", "electric heavy-duty vehicles", "heavy-duty vehicles", "heavy-duty"): 300 / 1e6,
+    ("bus", "electric bus", "buses", "electric buses"): 350 / 1e6,
+}
+
 # ========= Scale Mapping =========
 SCALE_MAP = {
     # Thousand
@@ -54,15 +72,30 @@ METRIC_MAP = {
     "gw": "gigawatt", "gigawatt": "gigawatt",
     "gwh": "gigawatt hour", "gigawatt-hours": "gigawatt hour", "giga watt hour": "gigawatt hour", "giga watt hour": "gigawatt hour", "giga-watt-hours": "gigawatt hour",
     "gigawatts hours":"gigawatt hour", "giga watt hours":"gigawatt hour", "gigawatt-hours":"gigawatt hour","gigawatts-hour":"gigawatt hour","gigawatt hours": "gigawatt hour",
-    "mwh": "megawatt hour", "kwh": "kilowatt hour", "twh": "terawatt hour", "wh": "watt hour",
+    "mwh": "megawatt hour", "megawatt-hours":"megawatt hour", "megawatt-hour":"megawatt hour",
+    "kwh": "kilowatt hour", "twh": "terawatt hour", "wh": "watt hour",
     "mw": "megawatt", "kw": "kilowatt", "tw": "terawatt",
     "t": "tonne","tonne": "tonne", "tonnes": "tonne", "tons": "tonne", "ton": "tonne", 
     "mt": "megatonne",
-    "kt": "kilotonne",
+    "kt": "kilotonne", "kilotonne": "kilotonne",
     "kg": "kilogram", 
     "g": "gram", 
     "units": "unit", "unit": "unit"
 }
+
+UNIT_NORMALIZATION = {
+    "watt hour":        ("gigawatt hour", 1e-9),
+    "kilowatt hour":    ("gigawatt hour", 1e-6),
+    "megawatt hour":    ("gigawatt hour", 1e-3),
+    "gigawatt hour":    ("gigawatt hour", 1),
+    "terawatt hour":    ("gigawatt hour", 1e3),
+
+    "tonne":            ("tonne", 1),
+    "kilotonne":        ("tonne", 1e3),
+    "megatonne":        ("tonne", 1e6),
+}
+
+
 
 # ========= Regex Patterns =========
 REGEX_PATTERNS = {
@@ -92,13 +125,7 @@ REGEX_PATTERNS = {
 
 #========== Metric conversion ===============
 
-UNIT_TO_GWH = {
-    "watt hour": 1e-9,
-    "kilowatt hour": 1e-6,
-    "megawatt hour": 1e-3,
-    "gigawatt hour": 1,
-    "terawatt hour": 1e3
-}
+
 
 
 
@@ -237,22 +264,40 @@ def extract_normalized_time_unit(text):
 
 
 # ========= Metric Unit Extraction =========
+# ========= Metric Unit Extraction =========
 def extract_normalized_metric_unit(text):
+    """
+    Extracts and normalizes a metric unit from the input text.
+
+    Returns:
+        - standardized metric string (e.g. 'tonne', 'gigawatt hour')
+        - cleaned text with the metric removed
+        - scale (e.g. 1e3 for kilotonne)
+    """
     if not isinstance(text, str):
-        return "", text
+        return "", text, 1
 
     text_lower = text.lower()
-    for pattern, replacement in sorted(METRIC_MAP.items(), key=lambda x: -len(x[0])):
-        if re.search(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", text_lower):
-            cleaned = re.sub(rf"(?<!\w){re.escape(pattern)}(?!\w)|[-/]?{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
-            return replacement, cleaned
-    return "", text
+    for pattern, mapped_unit in sorted(METRIC_MAP.items(), key=lambda x: -len(x[0])):
+        if re.search(rf"\b{re.escape(pattern)}\b", text_lower):
+            cleaned = re.sub(rf"\b{re.escape(pattern)}\b", "", text, flags=re.IGNORECASE).strip()
+
+            # Normalize using UNIT_NORMALIZATION if available
+            if mapped_unit in UNIT_NORMALIZATION:
+                standard_metric, scale = UNIT_NORMALIZATION[mapped_unit]
+                return standard_metric, cleaned, scale
+
+            # Otherwise, return mapped unit with scale 1
+            return mapped_unit, cleaned, 1
+
+    # No match
+    return "", text, 1
 
 # ======== Metric conversions =========
 
 
 # ---------- GWh converter -------------------------------------------------
-def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
+def normalize_to_gwh_and_flag(row, conversion=False, *,
                               multiplier_override: int | None = None):
     """
     Normalises any capacity number(s) to GWh.
@@ -260,7 +305,7 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
     Parameters
     ----------
     row : Mapping-like (Pandas Series or dict)
-    vehicle_to_gwh_or_battery_to_gwh : bool
+    conversion : bool
         If True and multiplier_override is None  -> ×2 (Case 1 default)
     multiplier_override : {None, 2, 4}
         • None  -> use default behaviour (×2 when flag is True)  
@@ -268,7 +313,7 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
 
     Returns
     -------
-    (capacity_normalised, flag_failed, metric_out, vehicle_to_gwh_or_battery_to_gwh)
+    (capacity_normalised, flag_failed, metric_out, conversion)
     """
     value  = row.get("capacity_value")
     scale  = row.get("capacity_scale", 1)
@@ -277,19 +322,19 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
 
     # --------- basic validation ----------
     if value is None or metric is None:
-        return None, True, None, vehicle_to_gwh_or_battery_to_gwh
+        return None, True, None, conversion
     if pd.isna(scale):
         scale = 1
     if not isinstance(metric, str):
-        return None, True, None, vehicle_to_gwh_or_battery_to_gwh
+        return None, True, None, conversion
 
     metric = metric.strip().lower()
-    gwh_factor = UNIT_TO_GWH.get(metric, 1)          # default 1-to-1 when unknown
+       # default 1-to-1 when unknown
 
     # --------- conversion helper ----------
     def _to_gwh(x):
         try:
-            gwh_val = float(x) * scale * gwh_factor
+            gwh_val = float(x) * scale 
         except Exception:
             return None
 
@@ -302,7 +347,7 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
         mult = 1
         if multiplier_override is not None:
             mult = multiplier_override                         # 5*1e-6
-        elif vehicle_to_gwh_or_battery_to_gwh:
+        elif conversion:
             mult = 5*1e-6                                           # 5*1e-6
 
         return gwh_val * mult
@@ -311,20 +356,20 @@ def normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False, *,
     if isinstance(value, (list, tuple)):
         converted = [_to_gwh(v) for v in value]
         if any(v is None or pd.isna(v) for v in converted):
-            return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return converted, False, "gigawatt hour", vehicle_to_gwh_or_battery_to_gwh
+            return None, True, None, conversion
+        return converted, False, "gigawatt hour", conversion
     else:
         result = _to_gwh(value)
         if result is None or pd.isna(result):
-            return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return result, False, "gigawatt hour", vehicle_to_gwh_or_battery_to_gwh
+            return None, True, None, conversion
+        return result, False, "gigawatt hour", conversion
 
-
-def normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False):
+#no need
+def normalize_to_vehicle_and_flag(row, conversion=False):
     """
     Converts vehicle counts → vehicle metric.
-    If vehicle_to_gwh_or_battery_to_gwh=True, *2 is applied to the output.
-    Returns: capacity_normalised, flag_failed, metric_out, vehicle_to_gwh_or_battery_to_gwh
+    If conversion=True, *2 is applied to the output.
+    Returns: capacity_normalised, flag_failed, metric_out, conversion
     """
     value  = row.get("capacity_value")
     scale  = row.get("capacity_scale", 1)
@@ -360,13 +405,13 @@ def normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False):
     if isinstance(value, (list, tuple)):
         converted = [_to_vehicle(v) for v in value]
         if not converted or any(v is None or pd.isna(v) for v in converted):
-            return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return converted, False, "vehicle", vehicle_to_gwh_or_battery_to_gwh
+            return None, True, None, conversion
+        return converted, False, "vehicle", conversion
     else:
         result = _to_vehicle(value)
         if result is None or pd.isna(result):
-            return None, True, None, vehicle_to_gwh_or_battery_to_gwh
-        return result, False, "vehicle", vehicle_to_gwh_or_battery_to_gwh
+            return None, True, None, conversion
+        return result, False, "vehicle", conversion
 
 
 def metric_is_missing(metric):
@@ -388,7 +433,7 @@ def metric_is_missing(metric):
         return True
     return False
 
-def normalize_to_tonnes_or_gw(row): 
+def normalize_default(row): 
     """
     Converts 'tonne' or 'gigawatt' capacity value to yearly equivalent if time-based.
     Returns: capacity_normalised, flag_failed, capacity_metric_normalized
@@ -434,11 +479,22 @@ def normalize_to_tonnes_or_gw(row):
             return None, True, None
 
     metric_lower = metric.strip().lower()
-    if metric_lower in {"tonne", "gigawatt"}:
-        return converted, False, metric_lower
+    if metric_lower in { "gigawatt"}:
+        return converted, False, metric_lower, False
     else:
-        return converted, False, metric_lower
+        return converted, False, metric_lower,False
 
+# ========= Multiplier Override Mapping =========
+MULTIPLIER_OVERRIDE_MAP = {
+    # 1 tonne EAM = 1 kWh → 0.001 GWh
+    ("battery", "eam", "tonne"): 1 / 1e3,
+
+    # EV estimate: 50 kWh per vehicle → 0.00005 GWh
+    ("battery", None, None): 50 / 1e6,
+}
+
+
+# ========= Updated Capacity Logic =========
 def capacity_logic(row):
     """
     Determines how to normalize capacity based on product type and metric.
@@ -451,6 +507,7 @@ def capacity_logic(row):
     5. Default: use normalize_to_gwh_and_flag
     """
     product_lv1 = str(row.get("product_lv1", "")).strip().lower()
+    product_lv2 = str(row.get("product_lv2", "")).strip().lower()
     capacity_text = str(row.get("capacity_text", "")).lower()
     metric_raw = row.get("capacity_metric")
     metric_str = str(metric_raw).strip().lower() if isinstance(metric_raw, str) else ""
@@ -462,51 +519,81 @@ def capacity_logic(row):
         .strip()
     )
 
-    includes = ["ev", "evs", "car", "cars", "vehicle", "vehicles"]
     excludes = ["battery", "batteries", "cell", "cells", "pack", "packs",
                 "module", "modules", "research and development"]
 
     # -------- TONNE or GIGAWATT always → GWh logic first
-    if "tonne" in metric_str or "gigawatt" in metric_str:
-        return normalize_to_tonnes_or_gw(row)
+    if "gigawatt" in metric_str:
+        return normalize_default(row)
+
+    # -------- Check if a multiplier override applies
+    key = (product_lv1, product_lv2 if product_lv2 else None, metric_str if metric_str else None)
+    mult_override = MULTIPLIER_OVERRIDE_MAP.get(key)
+    if mult_override is not None:
+        return normalize_to_gwh_and_flag(row, conversion=False, multiplier_override=mult_override)
 
     # -------- VEHICLE rows
     if product_lv1 == "vehicle":
         if metric_is_missing(metric_raw) or metric_str == "unit":
-            return normalize_to_vehicle_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
+            return normalize_to_vehicle_and_flag(row, conversion=False)
 
     # -------- BATTERY rows
-    if product_lv1 == "battery" or metric_str == "unit":
-        if any(inc in text for inc in includes) and not any(exc in text for exc in excludes):
+    if product_lv1 == "battery" and product_lv2 == "eam" and metric_is_missing(metric_raw):
+        if not any(exc in text for exc in excludes):
             print(f"CASE 2 triggered: '{capacity_text}'")
-            return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6)
+
+            for keywords, override in KEYWORD_MULTIPLIER_MAP.items():
+                if any(k in text for k in keywords):
+                    return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=override)
+
+    if product_lv1 == "battery" or metric_str == "unit": #could be or
+        if not any(exc in text for exc in excludes):
+            print(f"CASE 2 triggered: '{capacity_text}'")
+
+            for keywords, override in KEYWORD_MULTIPLIER_MAP.items():
+                if any(k in text for k in keywords):
+                    return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=override)
 
         if metric_is_missing(metric_raw):
             print("CASE 1 triggered")
-            return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=True, multiplier_override=50/1e6)
+            fallback_override = MULTIPLIER_OVERRIDE_MAP.get(("battery", None, None))
+            return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=fallback_override)
 
-        return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
+        return normalize_to_gwh_and_flag(row, conversion=False)
+
 
     # -------- Fallback
-    return normalize_to_gwh_and_flag(row, vehicle_to_gwh_or_battery_to_gwh=False)
-
-
+    return normalize_default(row)
 
 
 # ========= Pipeline Execution =========
-def run_extraction_pipeline(df):
-    #df = load_capacity_column(file_path)
-    df[["capacity_value", "capacity_scale", "capacity_text"]] = df["capacity"].apply(lambda x: pd.Series(extract_capacity_info(x)))
-    df[["capacity_metric", "capacity_text"]] = df["capacity_text"].apply(lambda x: pd.Series(extract_normalized_metric_unit(x)))
-    df[["capacity_time", "capacity_text"]] = df["capacity_text"].apply(lambda x: pd.Series(extract_normalized_time_unit(x)))
-    
-    # df[["capacity_normalized", "flag_failed", "capacity_metric_normalized"]] = df.apply(lambda row: pd.Series(normalize_to_gwh_and_flag(row)), axis=1)
-    df[
-        ["capacity_normalized",
-        "flag_failed",
-        "capacity_metric_normalized",
-        "vehicle_to_gwh_or_battery_to_gwh"]
-    ] = df.apply(lambda row: pd.Series(capacity_logic(row)), axis=1)
+def run_extraction_pipeline(file_path):
+    df = load_capacity_column(file_path)
+
+    # Extract value, scale (from numbers/words), and raw remainder text
+    df[["capacity_value", "capacity_scale", "capacity_text"]] = df["capacity"].apply(
+        lambda x: pd.Series(extract_capacity_info(x))
+    )
+
+    # Extract normalized metric and scale adjustment (e.g. kilotonne → tonne + 1e3 scale)
+    df[["capacity_metric", "capacity_text", "metric_scale"]] = df["capacity_text"].apply(
+        lambda x: pd.Series(extract_normalized_metric_unit(x))
+    )
+
+    # Merge the metric scale multiplicatively
+    df["capacity_scale"] = df["capacity_scale"].fillna(1) * df["metric_scale"].fillna(1)
+    df.drop(columns=["metric_scale"], inplace=True)
+
+    # Extract time units (e.g. per year)
+    df[["capacity_time", "capacity_text"]] = df["capacity_text"].apply(
+        lambda x: pd.Series(extract_normalized_time_unit(x))
+    )
+
+    # Normalize to final metric (GWh, vehicles, tonnes...)
+    df[["capacity_normalized", "flag_failed", "capacity_metric_normalized", "flag_conversion"]] = df.apply(
+        lambda row: pd.Series(capacity_logic(row)), axis=1
+    )
+
     return df
 
 
