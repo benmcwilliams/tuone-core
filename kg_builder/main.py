@@ -250,7 +250,7 @@ def process_articles(articles_to_process, model_dictionary):
 
 #n_articles = 200
 offset_articles = 0
-category = "pvtech"
+category = "electrive"
 
 cutoff_date = datetime(2025, 1, 1)
 
