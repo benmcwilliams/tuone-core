@@ -1,0 +1,148 @@
+2025-07-31 12:19:16,150 - INFO - 🔍 Text length: 3770 characters
+2025-07-31 12:19:16,151 - INFO - 📌 Processing Article ID: 688b3fa8fbcf7664dfd16b7d — Germany funds two lithium projects by Vulcan Energy
+2025-07-31 12:19:16,151 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:19:20,642 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:20,642 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vulcan_energy",
+        "type": "company",
+        "name": "Vulcan Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_landau_rhineland_palatinate",
+        "type": "factory",
+        "name": "Landau Lithium Extraction Plant",
+        "location": {
+          "city": "Landau",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_frankfurt_hoechst_hesse",
+        "type": "factory",
+        "name": "Frankfurt-H\u00f6chst Lithium Electrolysis Plant",
+        "location": {
+          "city": "Frankfurt-H\u00f6chst",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vulcan_energy_lithium_projects",
+        "type": "investment",
+        "name": "Vulcan Energy Lithium Projects",
+        "amount": "\u20ac690 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_chloride",
+        "type": "product",
+        "name": "lithium chloride"
+      },
+      {
+        "id": "product_lithium_hydroxide_monohydrate",
+        "type": "product",
+        "name": "lithium hydroxide monohydrate"
+      }
+    ]
+  }
+}
+2025-07-31 12:19:20,642 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:20,643 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:19:20,643 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-31 12:19:20,643 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-31 12:19:23,190 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:23,190 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vulcan_energy_lithium_projects",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-07-31 12:19:23,190 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:23,191 - INFO - Node ID is investment_vulcan_energy_lithium_projects
+2025-07-31 12:19:23,191 - INFO - ✅ Match found for investment_ID 'investment_vulcan_energy_lithium_projects' in investment nodes
+2025-07-31 12:19:23,191 - INFO -   ➕ Set status: announced
+2025-07-31 12:19:23,191 - INFO -   ➕ Set phase: greenfield
+2025-07-31 12:19:23,191 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:19:23,191 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:19:23,191 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:19:33,582 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:33,582 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vulcan_energy",
+      "type": "owns",
+      "target": "factory_landau_rhineland_palatinate"
+    },
+    {
+      "source": "company_vulcan_energy",
+      "type": "owns",
+      "target": "factory_frankfurt_hoechst_hesse"
+    }
+  ]
+}
+2025-07-31 12:19:33,582 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:33,583 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:19:33,583 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:19:37,324 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:37,324 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_chloride",
+      "target": "factory_landau_rhineland_palatinate",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_hydroxide_monohydrate",
+      "target": "factory_frankfurt_hoechst_hesse",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:19:37,325 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:37,325 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-31 12:19:37,325 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-31 12:19:38,643 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:38,644 - INFO - {
+  "relationships": []
+}
+2025-07-31 12:19:38,644 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:38,644 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-31 12:19:38,644 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-31 12:19:45,230 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:45,230 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_vulcan_energy_lithium_projects",
+      "target": "factory_landau_rhineland_palatinate",
+      "type": "funds"
+    },
+    {
+      "source": "investment_vulcan_energy_lithium_projects",
+      "target": "factory_frankfurt_hoechst_hesse",
+      "type": "funds"
+    },
+    {
+      "source": "investment_vulcan_energy_lithium_projects",
+      "target": "product_lithium_chloride",
+      "type": "targets"
+    },
+    {
+      "source": "investment_vulcan_energy_lithium_projects",
+      "target": "product_lithium_hydroxide_monohydrate",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-31 12:19:45,230 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:45,308 - INFO - ✅ Updated Article ID: 688b3fa8fbcf7664dfd16b7d with 6 nodes and combined text.

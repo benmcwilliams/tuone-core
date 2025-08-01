@@ -1,0 +1,153 @@
+2025-07-31 12:21:27,082 - INFO - 🔍 Text length: 3141 characters
+2025-07-31 12:21:27,082 - INFO - 📌 Processing Article ID: 688b3fa1fbcf7664dfd16b77 — Tozero expands at Gendorf Chemical Park
+2025-07-31 12:21:27,082 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:21:33,547 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:33,547 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tozero",
+        "type": "company",
+        "name": "Tozero"
+      },
+      {
+        "id": "company_infraserv_gendorf",
+        "type": "company",
+        "name": "InfraServ Gendorf"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gendorf_chemical_park",
+        "type": "factory",
+        "name": "Gendorf Chemical Park",
+        "location": {
+          "city": "Burgkirchen an der Alz",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_munich",
+        "type": "factory",
+        "name": "Munich",
+        "location": {
+          "city": "Munich",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gendorf_chemical_park",
+        "type": "investment",
+        "name": "Gendorf Chemical Park Investment",
+        "amount": "mid-single-digit million euro",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_recycling",
+        "type": "product",
+        "name": "lithium-ion battery recycling"
+      },
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "lithium"
+      },
+      {
+        "id": "product_graphite",
+        "type": "product",
+        "name": "graphite"
+      }
+    ]
+  }
+}
+2025-07-31 12:21:33,548 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:33,548 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:21:33,548 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-31 12:21:33,548 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-31 12:21:35,937 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:35,937 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gendorf_chemical_park",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-07-31 12:21:35,937 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:35,937 - INFO - Node ID is investment_gendorf_chemical_park
+2025-07-31 12:21:35,937 - INFO - ✅ Match found for investment_ID 'investment_gendorf_chemical_park' in investment nodes
+2025-07-31 12:21:35,937 - INFO -   ➕ Set status: announced
+2025-07-31 12:21:35,937 - INFO -   ➕ Set phase: retrofit
+2025-07-31 12:21:35,937 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:21:35,937 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:21:35,937 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:21:39,898 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:39,898 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tozero",
+      "type": "owns",
+      "target": "factory_gendorf_chemical_park"
+    },
+    {
+      "source": "company_tozero",
+      "type": "owns",
+      "target": "factory_munich"
+    }
+  ]
+}
+2025-07-31 12:21:39,898 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:39,898 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:21:39,898 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:21:42,855 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:42,855 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_battery_recycling",
+      "target": "factory_gendorf_chemical_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium",
+      "target": "factory_munich",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_graphite",
+      "target": "factory_munich",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:21:42,855 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:42,855 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-31 12:21:42,856 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-31 12:21:47,170 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:47,171 - INFO - {
+  "relationships": []
+}
+2025-07-31 12:21:47,171 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:47,171 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-31 12:21:47,171 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-31 12:21:49,761 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:49,761 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gendorf_chemical_park",
+      "target": "factory_gendorf_chemical_park",
+      "type": "funds"
+    },
+    {
+      "source": "investment_gendorf_chemical_park",
+      "target": "product_lithium_ion_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-31 12:21:49,761 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:49,839 - INFO - ✅ Updated Article ID: 688b3fa1fbcf7664dfd16b77 with 8 nodes and combined text.

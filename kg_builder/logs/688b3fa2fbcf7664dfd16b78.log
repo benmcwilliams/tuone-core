@@ -1,0 +1,135 @@
+2025-07-31 12:21:19,288 - INFO - 🔍 Text length: 2266 characters
+2025-07-31 12:21:19,288 - INFO - 📌 Processing Article ID: 688b3fa2fbcf7664dfd16b78 — BASF & CATL to codevelop cathode active materials
+2025-07-31 12:21:19,289 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:21:21,864 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:21,864 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_vulcan_energy",
+        "type": "company",
+        "name": "Vulcan Energy"
+      },
+      {
+        "id": "company_bhp",
+        "type": "company",
+        "name": "BHP"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_arnstadt_germany",
+        "type": "factory",
+        "name": "Arnstadt Battery Factory",
+        "location": {
+          "city": "Arnstadt",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_indonesia",
+        "type": "factory",
+        "name": "Indonesia Battery Factory",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        }
+      },
+      {
+        "id": "factory_ludwigshafen_germany",
+        "type": "factory",
+        "name": "Ludwigshafen Geothermal Project",
+        "location": {
+          "city": "Ludwigshafen",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_active_materials",
+        "type": "product",
+        "name": "cathode active materials"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      },
+      {
+        "id": "battery",
+        "type": "product",
+        "name": "battery",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-07-31 12:21:21,864 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:21,865 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:21:21,865 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-31 12:21:21,865 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:21:21,865 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:21:21,865 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:21:23,834 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:23,834 - INFO - {
+  "relationships": [
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_arnstadt_germany"
+    },
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_indonesia"
+    },
+    {
+      "source": "company_basf",
+      "type": "owns",
+      "target": "factory_ludwigshafen_germany"
+    }
+  ]
+}
+2025-07-31 12:21:23,835 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:23,835 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:21:23,835 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:21:26,993 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:21:26,993 - INFO - {
+  "relationships": [
+    {
+      "source": "battery",
+      "target": "factory_arnstadt_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "battery",
+      "target": "factory_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_black_mass",
+      "target": "factory_ludwigshafen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:21:26,993 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:21:26,994 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-31 12:21:26,994 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-31 12:21:27,081 - INFO - ✅ Updated Article ID: 688b3fa2fbcf7664dfd16b78 with 10 nodes and combined text.

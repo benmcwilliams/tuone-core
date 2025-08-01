@@ -1,0 +1,103 @@
+2025-07-31 12:25:36,411 - INFO - 🔍 Text length: 3100 characters
+2025-07-31 12:25:36,411 - INFO - 📌 Processing Article ID: 688b3f97fbcf7664dfd16b6b — Svolt will start semi-solid battery production for Mini in Q4
+2025-07-31 12:25:36,411 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:25:40,425 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:40,425 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_svolt_energy",
+        "type": "company",
+        "name": "Svolt Energy"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_gwm",
+        "type": "company",
+        "name": "GWM"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_gwm_bmw",
+        "type": "joint_venture",
+        "name": "GWM BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_huzhou_zhejiang_china",
+        "type": "factory",
+        "name": "Huzhou Base",
+        "location": {
+          "city": "Huzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_semi_solid_state_battery",
+        "type": "product",
+        "name": "semi-solid-state battery"
+      },
+      {
+        "id": "product_dragon_armor_battery",
+        "type": "product",
+        "name": "Dragon Armor Battery"
+      },
+      {
+        "id": "product_lithium_ion_battery",
+        "type": "product",
+        "name": "lithium-ion battery"
+      }
+    ]
+  }
+}
+2025-07-31 12:25:40,425 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:40,425 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:25:40,426 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-31 12:25:40,426 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:25:40,426 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:25:40,426 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:25:41,073 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:41,073 - INFO - {
+  "relationships": [
+    {
+      "source": "company_svolt_energy",
+      "type": "owns",
+      "target": "factory_huzhou_zhejiang_china"
+    }
+  ]
+}
+2025-07-31 12:25:41,073 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:41,073 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:25:41,073 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:25:42,583 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:42,584 - INFO - {
+  "relationships": [
+    {
+      "source": "product_dragon_armor_battery",
+      "target": "factory_huzhou_zhejiang_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:25:42,584 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:42,584 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-31 12:25:42,584 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-31 12:25:42,655 - INFO - ✅ Updated Article ID: 688b3f97fbcf7664dfd16b6b with 10 nodes and combined text.
