@@ -131,6 +131,7 @@ def get_adm_level(city: str, iso2: str | None, logger,
         for idx, rec in enumerate(data):
 
             name = rec.get("name") or rec.get("toponymName") or rec.get("asciiName")
+            logger.info(f"Comparing database entry: {city} with {name} returned from geonames.")
             match_score = fuzzy_match_score(city, name)
 
             fcl = rec.get("fcl")
