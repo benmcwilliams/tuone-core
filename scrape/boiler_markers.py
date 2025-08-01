@@ -21,6 +21,20 @@ BOILER_STRINGS = {
     "As our energy demands grow greater, renewable energy is key to the future of our planet. Harnessing the power of wind is essential. At Aggreko, we have over 60 years’ experience and an in-depth understanding of the power and temperature control needs of wind farms. We have a dedicated Wind Energy Team whose innovative strategies […]",
     "Daily news and in-depth stories in your inbox",
     "Share this article",
-    "Follow us"
+    "Follow us",
+    "This content is protected by copyright and may not be reused. If you want to cooperate with us and would like to reuse some of our content, please contact:editors@pv-magazine.com.",
+    "Please be mindful of ourcommunity standards.",
+    "Your email address will not be published.Required fields are marked*",
+    "Comment*",
+    "Name*",
+    "Email*",
+    "Website",
+    "Save my name, email, and website in this browser for the next time I comment.",
+    "By submitting this form you agree to pv magazine using your data for the purposes of publishing your comment.",
+    "Your personal data will only be disclosed or otherwise transmitted to third parties for the purposes of spam filtering or if this is necessary for technical maintenance of the website. Any other transfer to third parties will not take place unless this is justified on the basis of applicable data protection regulations or if pv magazine is legally obliged to do so.",
+    "You may revoke this consent at any time with effect for the future, in which case your personal data will be deleted immediately. Otherwise, your data will be deleted if pv magazine has processed your request or the purpose of data storage is fulfilled.",
+    "Further information on data privacy can be found in ourData Protection Policy.",
+    "Legal NoticeTerms and ConditionsData Privacy© pv magazine 2025",
+    "This website uses cookies to anonymously count visitor numbers.View our privacy policy.×",
     # …add any other exact lines you see
 }
