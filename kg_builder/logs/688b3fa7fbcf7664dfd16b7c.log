@@ -1,0 +1,71 @@
+2025-07-31 12:19:45,310 - INFO - 🔍 Text length: 3352 characters
+2025-07-31 12:19:45,310 - INFO - 📌 Processing Article ID: 688b3fa7fbcf7664dfd16b7c — BYD Sealion 06: Second-generation mid-size SUV for China
+2025-07-31 12:19:45,310 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:19:48,995 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:48,995 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hungary",
+        "type": "factory",
+        "name": "BYD factory",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sealion_06",
+        "type": "product",
+        "name": "Sealion 06"
+      },
+      {
+        "id": "product_seal_u",
+        "type": "product",
+        "name": "Seal U"
+      }
+    ]
+  }
+}
+2025-07-31 12:19:48,996 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:48,996 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:19:48,996 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-31 12:19:48,996 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:19:48,996 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:19:48,996 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:19:51,230 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:51,230 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_hungary"
+    }
+  ]
+}
+2025-07-31 12:19:51,230 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:51,230 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:19:51,230 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:19:58,315 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:19:58,316 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sealion_06",
+      "target": "factory_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:19:58,317 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:19:58,317 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-31 12:19:58,317 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-31 12:19:58,389 - INFO - ✅ Updated Article ID: 688b3fa7fbcf7664dfd16b7c with 4 nodes and combined text.

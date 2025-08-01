@@ -1,0 +1,91 @@
+2025-07-31 12:15:52,288 - INFO - 🔍 Text length: 2660 characters
+2025-07-31 12:15:52,288 - INFO - 📌 Processing Article ID: 688b3fb5fbcf7664dfd16b85 — Cupra postpones US market entry
+2025-07-31 12:15:52,288 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:15:59,130 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:15:59,130 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cupra",
+        "type": "company",
+        "name": "Cupra"
+      },
+      {
+        "id": "company_seat",
+        "type": "company",
+        "name": "Seat"
+      },
+      {
+        "id": "company_penske_automotive",
+        "type": "company",
+        "name": "Penske Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_martorell_plant",
+        "type": "factory",
+        "name": "Martorell plant",
+        "location": {
+          "city": "Martorell",
+          "country": "Spain"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cupra_tavascan",
+        "type": "product",
+        "name": "Cupra Tavascan"
+      },
+      {
+        "id": "product_cupra_raval",
+        "type": "product",
+        "name": "Cupra Raval"
+      },
+      {
+        "id": "product_vw_id2",
+        "type": "product",
+        "name": "VW ID.2"
+      }
+    ]
+  }
+}
+2025-07-31 12:15:59,130 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:15:59,130 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:15:59,130 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-31 12:15:59,130 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:15:59,130 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:15:59,130 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:16:03,377 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:16:03,377 - INFO - {
+  "relationships": [
+    {
+      "source": "company_seat",
+      "type": "owns",
+      "target": "factory_martorell_plant"
+    }
+  ]
+}
+2025-07-31 12:16:03,377 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:16:03,377 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:16:03,377 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:16:10,802 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:16:10,803 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cupra_raval",
+      "target": "factory_martorell_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vw_id2",
+      "target": "factory_martorell_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:16:10,803 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:16:10,803 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-31 12:16:10,803 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-31 12:16:10,889 - INFO - ✅ Updated Article ID: 688b3fb5fbcf7664dfd16b85 with 7 nodes and combined text.

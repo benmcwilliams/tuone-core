@@ -1,0 +1,160 @@
+2025-07-31 12:22:17,052 - INFO - 🔍 Text length: 2964 characters
+2025-07-31 12:22:17,052 - INFO - 📌 Processing Article ID: 688b3f9efbcf7664dfd16b74 — Cylib produces lithium from used EV batteries
+2025-07-31 12:22:17,052 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:22:29,648 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:29,648 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cylib",
+        "type": "company",
+        "name": "Cylib"
+      },
+      {
+        "id": "company_syensqo",
+        "type": "company",
+        "name": "Syensqo"
+      },
+      {
+        "id": "company_porsche_ventures",
+        "type": "company",
+        "name": "Porsche Ventures"
+      },
+      {
+        "id": "company_bosch_ventures",
+        "type": "company",
+        "name": "Bosch Ventures"
+      },
+      {
+        "id": "company_tenova_advanced_technologies",
+        "type": "company",
+        "name": "Tenova Advanced Technologies"
+      },
+      {
+        "id": "vulcan_energy",
+        "type": "company",
+        "name": "Vulcan Energy",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chempark_dormagen",
+        "type": "factory",
+        "name": "Chempark Dormagen",
+        "location": {
+          "city": "North Rhine-Westphalia",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cylib_55_million",
+        "type": "investment",
+        "name": "Cylib \u20ac55 million",
+        "amount": "\u20ac55 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_hydroxide",
+        "type": "product",
+        "name": "lithium hydroxide"
+      },
+      {
+        "id": "product_cathode_active_material",
+        "type": "product",
+        "name": "cathode active material"
+      },
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "lithium"
+      },
+      {
+        "id": "product_graphite",
+        "type": "product",
+        "name": "graphite"
+      }
+    ]
+  }
+}
+2025-07-31 12:22:29,648 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:29,649 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:22:29,649 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-31 12:22:29,649 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-31 12:22:31,040 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:31,040 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cylib_55_million",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-31 12:22:31,040 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:31,041 - INFO - Node ID is investment_cylib_55_million
+2025-07-31 12:22:31,041 - INFO - ✅ Match found for investment_ID 'investment_cylib_55_million' in investment nodes
+2025-07-31 12:22:31,041 - INFO -   ➕ Set status: completed
+2025-07-31 12:22:31,041 - INFO -   ➕ Set phase: unclear
+2025-07-31 12:22:31,041 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:22:31,041 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:22:31,041 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:22:38,691 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:38,691 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cylib",
+      "type": "owns",
+      "target": "factory_chempark_dormagen"
+    }
+  ]
+}
+2025-07-31 12:22:38,691 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:38,691 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:22:38,691 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:22:41,457 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:41,457 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium",
+      "target": "factory_chempark_dormagen",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_graphite",
+      "target": "factory_chempark_dormagen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:22:41,457 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:41,457 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-31 12:22:41,458 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-31 12:22:43,196 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:43,196 - INFO - {
+  "relationships": []
+}
+2025-07-31 12:22:43,197 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:43,197 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-31 12:22:43,197 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-31 12:22:45,257 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:22:45,257 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cylib_55_million",
+      "target": "factory_chempark_dormagen",
+      "type": "funds"
+    }
+  ]
+}
+2025-07-31 12:22:45,257 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:22:45,333 - INFO - ✅ Updated Article ID: 688b3f9efbcf7664dfd16b74 with 12 nodes and combined text.

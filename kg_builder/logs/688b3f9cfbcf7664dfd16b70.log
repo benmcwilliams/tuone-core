@@ -1,0 +1,91 @@
+2025-07-31 12:23:41,840 - INFO - 🔍 Text length: 2648 characters
+2025-07-31 12:23:41,840 - INFO - 📌 Processing Article ID: 688b3f9cfbcf7664dfd16b70 — Slate Auto to build electric pickup in Indiana
+2025-07-31 12:23:41,841 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:23:46,286 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:46,286 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_slate_auto",
+        "type": "company",
+        "name": "Slate Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_warsaw_indiana",
+        "type": "factory",
+        "name": "Warsaw Factory",
+        "location": {
+          "city": "Warsaw",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_slate_truck",
+        "type": "product",
+        "name": "Slate Truck"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2k_jobs_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2,000 jobs",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-07-31 12:23:46,287 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:46,287 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-07-31 12:23:46,287 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-07-31 12:23:52,521 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:52,521 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2k_jobs_announced",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-07-31 12:23:52,521 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:52,521 - INFO - Node ID is capacity_2k_jobs_announced
+2025-07-31 12:23:52,522 - INFO - ✅ Match found for capacity_ID 'capacity_2k_jobs_announced' in capacity nodes
+2025-07-31 12:23:52,522 - INFO -   ➕ Set status: announced
+2025-07-31 12:23:52,522 - INFO -   ➕ Set phase: retrofit
+2025-07-31 12:23:52,522 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-07-31 12:23:52,522 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:23:52,522 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:23:52,522 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:23:54,860 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:54,860 - INFO - {
+  "relationships": [
+    {
+      "source": "company_slate_auto",
+      "type": "owns",
+      "target": "factory_warsaw_indiana"
+    }
+  ]
+}
+2025-07-31 12:23:54,860 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:54,860 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:23:54,860 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:23:59,235 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:59,235 - INFO - {
+  "relationships": [
+    {
+      "source": "product_slate_truck",
+      "target": "factory_warsaw_indiana",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:23:59,235 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:59,235 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-07-31 12:23:59,236 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-07-31 12:23:59,320 - INFO - ✅ Updated Article ID: 688b3f9cfbcf7664dfd16b70 with 4 nodes and combined text.

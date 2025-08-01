@@ -13,6 +13,8 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
 
+print(f"Writing to {MONGO_URI}, database: {DB_NAME}")
+
 # Channel IDs for each tech
 tech_channels = {
     'hydropower': 13,
@@ -74,7 +76,7 @@ def world_energy_crawler(tech, max_pages):
 
     collection = get_mongo_collection()
     existing_urls = set(get_existing_urls(collection, category))
-    print(f"Found {len(existing_urls)} existing URLs for {category} in DB.")
+    print(f"Found {len(existing_urls)} existing URLs for {category} - {tech} in DB.")
 
     for page in range(1, max_pages + 1):
         page_url = f'{base_url}{page}'

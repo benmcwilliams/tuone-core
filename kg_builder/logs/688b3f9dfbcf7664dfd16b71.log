@@ -1,0 +1,139 @@
+2025-07-31 12:23:20,835 - INFO - 🔍 Text length: 3730 characters
+2025-07-31 12:23:20,835 - INFO - 📌 Processing Article ID: 688b3f9dfbcf7664dfd16b71 — BMW invests in chemistry-agnostic US battery startup
+2025-07-31 12:23:20,835 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:23:26,120 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:26,120 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_estes_energy_solutions",
+        "type": "company",
+        "name": "Estes Energy Solutions"
+      },
+      {
+        "id": "company_fortescue",
+        "type": "company",
+        "name": "Fortescue"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pilot_manufacturing_plant",
+        "type": "factory",
+        "name": "pilot manufacturing plant",
+        "location": {
+          "city": "null",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_seed_financing_round",
+        "type": "investment",
+        "name": "BMW seed financing round",
+        "amount": "11 million US dollars",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_chemistry_agnostic_battery_pack_platform",
+        "type": "product",
+        "name": "chemistry-agnostic battery pack platform"
+      },
+      {
+        "id": "product_parvus_battery_pack",
+        "type": "product",
+        "name": "Parvus battery pack"
+      },
+      {
+        "id": "product_magnus_battery_pack",
+        "type": "product",
+        "name": "Magnus battery pack"
+      }
+    ]
+  }
+}
+2025-07-31 12:23:26,120 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:26,120 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:23:26,121 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-31 12:23:26,121 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-31 12:23:29,261 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:29,261 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_seed_financing_round",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-31 12:23:29,261 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:29,262 - INFO - Node ID is investment_bmw_seed_financing_round
+2025-07-31 12:23:29,262 - INFO - ✅ Match found for investment_ID 'investment_bmw_seed_financing_round' in investment nodes
+2025-07-31 12:23:29,262 - INFO -   ➕ Set status: announced
+2025-07-31 12:23:29,262 - INFO -   ➕ Set phase: unclear
+2025-07-31 12:23:29,262 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:23:29,262 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:23:29,262 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:23:30,440 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:30,441 - INFO - {
+  "relationships": [
+    {
+      "source": "company_estes_energy_solutions",
+      "type": "owns",
+      "target": "factory_pilot_manufacturing_plant"
+    }
+  ]
+}
+2025-07-31 12:23:30,441 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:30,441 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:23:30,441 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:23:33,124 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:33,125 - INFO - {
+  "relationships": [
+    {
+      "source": "product_parvus_battery_pack",
+      "target": "factory_pilot_manufacturing_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_magnus_battery_pack",
+      "target": "factory_pilot_manufacturing_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:23:33,125 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:33,125 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-31 12:23:33,125 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-31 12:23:38,468 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:38,469 - INFO - {
+  "relationships": []
+}
+2025-07-31 12:23:38,469 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:38,469 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-31 12:23:38,469 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-31 12:23:41,753 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:23:41,754 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_seed_financing_round",
+      "target": "product_chemistry_agnostic_battery_pack_platform",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_seed_financing_round",
+      "target": "factory_pilot_manufacturing_plant",
+      "type": "funds"
+    }
+  ]
+}
+2025-07-31 12:23:41,754 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:23:41,839 - INFO - ✅ Updated Article ID: 688b3f9dfbcf7664dfd16b71 with 8 nodes and combined text.

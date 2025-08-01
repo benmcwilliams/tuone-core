@@ -1,0 +1,144 @@
+2025-07-31 12:25:09,592 - INFO - 🔍 Text length: 3641 characters
+2025-07-31 12:25:09,593 - INFO - 📌 Processing Article ID: 688b3f99fbcf7664dfd16b6d — Tesla reportedly places major LFP battery order with LGES
+2025-07-31 12:25:09,593 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-07-31 12:25:15,191 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:15,191 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_michigan",
+        "type": "factory",
+        "name": "Michigan Factory",
+        "location": {
+          "city": "Michigan",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lg_energy_solution_lfp_cells",
+        "type": "investment",
+        "name": "LG Energy Solution LFP Cells Supply Agreement",
+        "amount": "$4.3 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_battery_cells",
+        "type": "product",
+        "name": "LFP Battery Cells"
+      },
+      {
+        "id": "product_powerwall",
+        "type": "product",
+        "name": "Powerwall"
+      },
+      {
+        "id": "product_megapack",
+        "type": "product",
+        "name": "Megapack"
+      },
+      {
+        "id": "product_model_3",
+        "type": "product",
+        "name": "Model 3"
+      },
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      }
+    ]
+  }
+}
+2025-07-31 12:25:15,191 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:15,191 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-07-31 12:25:15,191 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-07-31 12:25:15,192 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-07-31 12:25:18,564 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:18,564 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lg_energy_solution_lfp_cells",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-07-31 12:25:18,564 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:18,564 - INFO - Node ID is investment_lg_energy_solution_lfp_cells
+2025-07-31 12:25:18,565 - INFO - ✅ Match found for investment_ID 'investment_lg_energy_solution_lfp_cells' in investment nodes
+2025-07-31 12:25:18,565 - INFO -   ➕ Set status: announced
+2025-07-31 12:25:18,565 - INFO -   ➕ Set phase: unclear
+2025-07-31 12:25:18,565 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-07-31 12:25:18,565 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-07-31 12:25:18,565 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-07-31 12:25:19,228 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:19,228 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_michigan"
+    }
+  ]
+}
+2025-07-31 12:25:19,228 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:19,228 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-07-31 12:25:19,228 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-07-31 12:25:20,033 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:20,033 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lfp_battery_cells",
+      "target": "factory_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-07-31 12:25:20,033 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:20,034 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-07-31 12:25:20,034 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-07-31 12:25:23,225 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:23,225 - INFO - {
+  "relationships": []
+}
+2025-07-31 12:25:23,226 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:23,226 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-07-31 12:25:23,226 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-07-31 12:25:26,910 - INFO - ✅ OpenAI returned output:
+2025-07-31 12:25:26,910 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lg_energy_solution_lfp_cells",
+      "target": "product_lfp_battery_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-07-31 12:25:26,910 - INFO - POST-PROCESSING STARTING.
+2025-07-31 12:25:26,988 - INFO - ✅ Updated Article ID: 688b3f99fbcf7664dfd16b6d with 11 nodes and combined text.
