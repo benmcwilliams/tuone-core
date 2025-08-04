@@ -1,0 +1,190 @@
+2025-08-04 14:52:06,715 - INFO - 🔍 Text length: 2844 characters
+2025-08-04 14:52:06,715 - INFO - 📌 Processing Article ID: 6890ac6bf6f52ec430dbfa76 — Ford secures £1 billion UK guarantee to expand EV exports
+2025-08-04 14:52:06,715 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-04 14:52:13,115 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:13,115 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford_uk",
+        "type": "company",
+        "name": "Ford UK"
+      },
+      {
+        "id": "company_citibank",
+        "type": "company",
+        "name": "Citibank"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_halewood",
+        "type": "factory",
+        "name": "Halewood",
+        "location": {
+          "city": "Halewood",
+          "country": "United Kingdom"
+        }
+      },
+      {
+        "id": "factory_essex_r_d_centre",
+        "type": "factory",
+        "name": "Essex R&D Centre",
+        "location": {
+          "city": "Essex",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_halewood_transformation",
+        "type": "investment",
+        "name": "Halewood Transformation",
+        "amount": "\u00a3380 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_essex_testing_development",
+        "type": "investment",
+        "name": "Essex Testing and Development",
+        "amount": "\u00a370 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_export_development_guarantee",
+        "type": "investment",
+        "name": "Export Development Guarantee",
+        "amount": "\u00a31 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_drive_units",
+        "type": "product",
+        "name": "electric drive units"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      },
+      {
+        "id": "product_ford_transit_custom_e_tourneo_custom",
+        "type": "product",
+        "name": "Ford Transit Custom/E-Tourneo Custom"
+      },
+      {
+        "id": "product_ford_puma",
+        "type": "product",
+        "name": "Ford Puma"
+      }
+    ]
+  }
+}
+2025-08-04 14:52:13,116 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:13,116 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-04 14:52:13,116 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-04 14:52:13,116 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-04 14:52:21,880 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:21,880 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_halewood_transformation",
+      "status": "completed",
+      "phase": "retrofit"
+    },
+    {
+      "investment_ID": "investment_essex_testing_development",
+      "status": "completed",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_export_development_guarantee",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-04 14:52:21,880 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:21,880 - INFO - Node ID is investment_halewood_transformation
+2025-08-04 14:52:21,880 - INFO - ✅ Match found for investment_ID 'investment_halewood_transformation' in investment nodes
+2025-08-04 14:52:21,880 - INFO -   ➕ Set status: completed
+2025-08-04 14:52:21,880 - INFO -   ➕ Set phase: retrofit
+2025-08-04 14:52:21,880 - INFO - Node ID is investment_essex_testing_development
+2025-08-04 14:52:21,880 - INFO - ✅ Match found for investment_ID 'investment_essex_testing_development' in investment nodes
+2025-08-04 14:52:21,880 - INFO -   ➕ Set status: completed
+2025-08-04 14:52:21,880 - INFO -   ➕ Set phase: expansion
+2025-08-04 14:52:21,881 - INFO - Node ID is investment_export_development_guarantee
+2025-08-04 14:52:21,881 - INFO - ✅ Match found for investment_ID 'investment_export_development_guarantee' in investment nodes
+2025-08-04 14:52:21,881 - INFO -   ➕ Set status: announced
+2025-08-04 14:52:21,881 - INFO -   ➕ Set phase: unclear
+2025-08-04 14:52:21,881 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-04 14:52:21,881 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-04 14:52:21,881 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-04 14:52:25,995 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:25,996 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford_uk",
+      "type": "owns",
+      "target": "factory_halewood"
+    },
+    {
+      "source": "company_ford_uk",
+      "type": "owns",
+      "target": "factory_essex_r_d_centre"
+    }
+  ]
+}
+2025-08-04 14:52:25,996 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:25,996 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-04 14:52:25,996 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-04 14:52:35,336 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:35,336 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_drive_units",
+      "target": "factory_halewood",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_motors",
+      "target": "factory_essex_r_d_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-04 14:52:35,336 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:35,337 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-04 14:52:35,337 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-04 14:52:37,752 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:37,753 - INFO - {
+  "relationships": []
+}
+2025-08-04 14:52:37,753 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:37,753 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-04 14:52:37,753 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-04 14:52:41,478 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:52:41,479 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_halewood_transformation",
+      "target": "factory_halewood",
+      "type": "funds"
+    },
+    {
+      "source": "investment_halewood_transformation",
+      "target": "product_electric_drive_units",
+      "type": "targets"
+    },
+    {
+      "source": "investment_essex_testing_development",
+      "target": "factory_essex_r_d_centre",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-04 14:52:41,479 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:52:41,562 - INFO - ✅ Updated Article ID: 6890ac6bf6f52ec430dbfa76 with 11 nodes and combined text.

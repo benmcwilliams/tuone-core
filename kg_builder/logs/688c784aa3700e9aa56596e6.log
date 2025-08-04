@@ -1,0 +1,85 @@
+2025-08-04 14:53:24,474 - INFO - 🔍 Text length: 4097 characters
+2025-08-04 14:53:24,474 - INFO - 📌 Processing Article ID: 688c784aa3700e9aa56596e6 — Is EV battery recycling or a second life the better option?
+2025-08-04 14:53:24,474 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-04 14:53:27,898 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:53:27,898 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_voltfang",
+        "type": "company",
+        "name": "Voltfang"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_porsche_plant",
+        "type": "factory",
+        "name": "Porsche plant",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_rome_airport",
+        "type": "factory",
+        "name": "Rome\u2019s airport",
+        "location": {
+          "city": "Rome",
+          "country": "Italy"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_batteries",
+        "type": "product",
+        "name": "lithium iron phosphate batteries"
+      }
+    ]
+  }
+}
+2025-08-04 14:53:27,898 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:53:27,898 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-04 14:53:27,898 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-04 14:53:27,899 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-04 14:53:27,899 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-04 14:53:27,899 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-04 14:53:30,427 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:53:30,427 - INFO - {
+  "relationships": [
+    {
+      "source": "company_voltfang",
+      "type": "owns",
+      "target": "factory_rome_airport"
+    },
+    {
+      "source": "company_voltfang",
+      "type": "owns",
+      "target": "factory_porsche_plant"
+    }
+  ]
+}
+2025-08-04 14:53:30,427 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:53:30,427 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-04 14:53:30,427 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-04 14:53:34,305 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:53:34,306 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_batteries",
+      "target": "factory_porsche_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_batteries",
+      "target": "factory_rome_airport",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-04 14:53:34,306 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:53:34,306 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-04 14:53:34,306 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-04 14:53:34,393 - INFO - ✅ Updated Article ID: 688c784aa3700e9aa56596e6 with 4 nodes and combined text.
