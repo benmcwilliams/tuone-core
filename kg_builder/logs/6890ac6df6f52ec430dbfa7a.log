@@ -1,0 +1,133 @@
+2025-08-04 14:50:27,640 - INFO - 🔍 Text length: 4409 characters
+2025-08-04 14:50:27,640 - INFO - 📌 Processing Article ID: 6890ac6df6f52ec430dbfa7a — BMW kicks off serial drive production in Steyr
+2025-08-04 14:50:27,640 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-04 14:50:33,480 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:50:33,480 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_voestalpine",
+        "type": "company",
+        "name": "Voestalpine"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_steyr",
+        "type": "factory",
+        "name": "Steyr",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        }
+      },
+      {
+        "id": "factory_dingolfing",
+        "type": "factory",
+        "name": "Dingolfing",
+        "location": {
+          "city": "Dingolfing",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_linz",
+        "type": "factory",
+        "name": "Linz",
+        "location": {
+          "city": "Linz",
+          "country": "Austria"
+        }
+      },
+      {
+        "id": "factory_landshut",
+        "type": "factory",
+        "name": "Landshut",
+        "location": {
+          "city": "Landshut",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gen6_electric_drive_unit",
+        "type": "product",
+        "name": "Gen6 electric drive unit"
+      },
+      {
+        "id": "product_gen5_electric_drive_systems",
+        "type": "product",
+        "name": "Gen5 electric drive systems"
+      },
+      {
+        "id": "product_ix3_xdrive_50",
+        "type": "product",
+        "name": "iX3 xDrive 50"
+      }
+    ]
+  }
+}
+2025-08-04 14:50:33,480 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:50:33,481 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-04 14:50:33,481 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-04 14:50:33,481 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-04 14:50:33,481 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-04 14:50:33,481 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-04 14:50:39,098 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:50:39,098 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_steyr"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_dingolfing"
+    },
+    {
+      "source": "company_voestalpine",
+      "type": "owns",
+      "target": "factory_linz"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_landshut"
+    }
+  ]
+}
+2025-08-04 14:50:39,098 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:50:39,099 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-04 14:50:39,099 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-04 14:50:43,525 - INFO - ✅ OpenAI returned output:
+2025-08-04 14:50:43,526 - INFO - {
+  "relationships": [
+    {
+      "source": "product_gen6_electric_drive_unit",
+      "target": "factory_steyr",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gen5_electric_drive_systems",
+      "target": "factory_dingolfing",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ix3_xdrive_50",
+      "target": "factory_munich",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-04 14:50:43,526 - INFO - POST-PROCESSING STARTING.
+2025-08-04 14:50:43,526 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-04 14:50:43,526 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-04 14:50:43,604 - INFO - ✅ Updated Article ID: 6890ac6df6f52ec430dbfa7a with 9 nodes and combined text.

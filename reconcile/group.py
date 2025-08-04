@@ -81,6 +81,7 @@ def group_projects():
 
     # set and sort by datetime, cluster_id
     id_to_date = get_article_id_to_date_map()   # map article dates
+    
     df['date'] = df['article_id'].map(id_to_date)
     df['date'] = pd.to_datetime(df['date'], format='%Y-%m', errors='coerce')
     df.sort_values(by=["cluster_id", "date"], na_position='last', inplace=True)
@@ -88,7 +89,7 @@ def group_projects():
 
     # custom column names
 
-    cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "cluster_id",
+    cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "bbox", "cluster_id",
             "product_lv1", "product_lv2", "product",
             "capacity_normalized", "capacity_metric_normalized",
             "status", "phase", "date", "article_id"]
@@ -99,3 +100,4 @@ def group_projects():
     # battery projects to validate
     df_filter = df[(df["product_lv1"] == "battery") & (df["product_lv2"] != "eam") & (df["iso2"].isin(EUROPEAN_COUNTRIES))].copy()
     df_filter.to_excel(GRPD_PROJECTS_FILTER, columns = cols, index=False)
+    logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")
