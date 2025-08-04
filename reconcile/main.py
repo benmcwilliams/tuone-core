@@ -7,6 +7,7 @@ from query_geonames import query_geonames_new_cities
 from flatten import run_flatten_articles
 from merge import merge_nodes_rels
 from group import group_projects
+from facilities import write_facilities
 
 def main(update_mongo_metadata=False):
 
@@ -33,6 +34,9 @@ def main(update_mongo_metadata=False):
 
     logging.info("🧮 Grouping projects...")
     group_projects()
+
+    logging.info("- writing facilities")
+    write_facilities()
 
     # final timing
     t1_pipeline = time.time()
