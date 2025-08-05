@@ -17,19 +17,21 @@ from boiler_markers import BOILER_STRINGS
 load_dotenv()
 
 # MongoDB configuration
-MONGO_DB_URI = os.getenv("MONGO_DB_URI")
-MONGO_DB_NAME = os.getenv("MONGO_DB_NAME")
-MONGO_DB_URLS_COLLECTION_NAME = os.getenv("MONGO_DB_URLS_COLLECTION_NAME")
-MONGO_DB_ARTICLES_COLLECTION_NAME = os.getenv("MONGO_DB_ARTICLES_COLLECTION_NAME")
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+URLS_COLLECTION_NAME = os.getenv("MONGO_DB_URLS_COLLECTION")
+ARTICLES_COLLECTION_NAME = os.getenv("MONGO_DB_ARTICLES_COLLECTION_NAME")
 
 # Initialize MongoDB connection
-client = MongoClient(MONGO_DB_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
-db = client[MONGO_DB_NAME]
-urls_collection = db[MONGO_DB_URLS_COLLECTION_NAME]
-articles_collection = db[MONGO_DB_ARTICLES_COLLECTION_NAME]
+client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+db = client[DB_NAME]
+urls_collection = db[URLS_COLLECTION_NAME]
+articles_collection = db[ARTICLES_COLLECTION_NAME]
 
 keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
-            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project","geothermal","battery", "lithium"}
+            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project"}
+
+# dropped battery & lithium & geothermal
 
 # Expected date format
 date_format = "%d-%m-%Y"
