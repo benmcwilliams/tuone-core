@@ -40,36 +40,36 @@ if __name__ == "__main__":
     for tech in WORLD_ENERGY_CHANNELS.keys():
         world_energy_crawler(tech, max_pages=world_energy_max_pages)
 
-    # crawl PV Magazine
-    for tech in PV_MAGAZINE_EXTENSIONS.keys():
-        pv_magazine_crawler(PV_MAGAZINE_EXTENSIONS, tech=tech, max_pages=pv_magazine_max_pages)
+    # # crawl PV Magazine
+    # for tech in PV_MAGAZINE_EXTENSIONS.keys():
+    #     pv_magazine_crawler(PV_MAGAZINE_EXTENSIONS, tech=tech, max_pages=pv_magazine_max_pages)
 
-    # crawl PV Tech
-    pv_tech_crawler(max_pages=pv_tech_max_pages)
+    # # crawl PV Tech
+    # pv_tech_crawler(max_pages=pv_tech_max_pages)
 
-    # crawl renewsBiz
-    for tech in RENEWS_BIZ_TECH_DICT.keys():
-        renews_biz_crawler(tech, max_pages=renews_biz_max_pages)
+    # # crawl renewsBiz
+    # for tech in RENEWS_BIZ_TECH_DICT.keys():
+    #     renews_biz_crawler(tech, max_pages=renews_biz_max_pages)
 
-    # crawl offshoreWindBiz
-    offshorewindBiz_crawler(max_pages=offshore_wind_max_pages)
+    # # crawl offshoreWindBiz
+    # offshorewindBiz_crawler(max_pages=offshore_wind_max_pages)
 
-    # crawl electrive
-    for page_type in ELECTRIVE_PAGE_TYPES:
-        electrive_crawler(page_type=page_type, max_pages=electrive_max_pages)
+    # # crawl electrive
+    # for page_type in ELECTRIVE_PAGE_TYPES:
+    #     electrive_crawler(page_type=page_type, max_pages=electrive_max_pages)
 
-    # # crawl Power Technology
-    power_technology_crawler(max_pages=power_technology_max_pages)
+    # # # crawl Power Technology
+    # power_technology_crawler(max_pages=power_technology_max_pages)
 
-    # # 🆕 Crawl Aspire EnergyTech (GraphQL source)
-    aspire_energytech_crawler(skip=0, limit=10)
+    # # # 🆕 Crawl Aspire EnergyTech (GraphQL source)
+    # #aspire_energytech_crawler(skip=0, limit=10)
 
-    # crawl just Auto
-    just_auto_crawler()
+    # # crawl just Auto
+    # just_auto_crawler()
 
-    # crawl battery news
-    battery_news_crawler()
+    # # crawl battery news
+    # battery_news_crawler()
 
-    # crawl glass international
-    glass_international_crawler()
+    # # crawl glass international
+    # glass_international_crawler()
 
