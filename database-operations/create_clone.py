@@ -1,14 +1,14 @@
-import sys; sys.path.append("..")
-from mongo_client import mongo_client  # only import the client
-
-from pymongo import InsertOne
+import sys
 import time
+sys.path.append("..")
+from mongo_client import mongo_client
 
 # ---------- Configuration ----------
 SOURCE_DB_NAME = "tuone"
 SOURCE_COLLECTION_NAME = "articles"
 TARGET_DB_NAME = "tuone"
-TARGET_COLLECTION_NAME = "test_articles"
+TARGET_COLLECTION_NAME = "articles_clone"
+BATCH_SIZE = 1000
 
 # ---------- Setup ----------
 source_collection = mongo_client[SOURCE_DB_NAME][SOURCE_COLLECTION_NAME]
@@ -23,11 +23,24 @@ start = time.time()
 target_collection.drop()
 print("Target collection dropped (clean slate).")
 
-docs = list(source_collection.find({}))
-if not docs:
-    print("❌ No documents found in source collection.")
-    sys.exit(1)
+# Use regular cursor (no no_cursor_timeout)
+cursor = source_collection.find({})
+batch = []
+count = 0
 
-target_collection.insert_many(docs)
-print(f"✅ Copied {len(docs)} documents.")
-print(f"⏱️ Done in {time.time() - start:.2f} seconds.")
+for doc in cursor:
+    batch.append(doc)
+    if len(batch) == BATCH_SIZE:
+        target_collection.insert_many(batch)
+        count += len(batch)
+        print(f"✅ Inserted batch of {len(batch)} docs. Total: {count}")
+        batch = []
+
+# Insert any remaining docs
+if batch:
+    target_collection.insert_many(batch)
+    count += len(batch)
+    print(f"✅ Inserted final batch of {len(batch)} docs. Total: {count}")
+
+print(f"✅ Done. Total inserted: {count}")
+print(f"⏱️ Elapsed time: {time.time() - start:.2f} seconds")

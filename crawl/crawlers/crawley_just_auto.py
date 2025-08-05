@@ -11,6 +11,9 @@ from pymongo.server_api import ServerApi
 # Load environment variables
 load_dotenv()
 
+import logging
+logger = logging.getLogger(__name__)
+
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
 COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")
@@ -31,14 +34,14 @@ def save_new_urls(collection, urls, category):
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            print(f"✅ Inserted {len(documents)} new URLs.")
+            logging.info(f"✅ Inserted {len(documents)} new URLs.")
         except Exception as e:
-            print("❌ Insert error:", str(e))
+            logging.info("❌ Insert error:", str(e))
 
 
 def fetch_urls_from_sitemap(sitemap_url):
     try:
-        print(f"🔍 Fetching sitemap: {sitemap_url}")
+        logging.info(f"🔍 Fetching sitemap: {sitemap_url}")
         response = requests.get(sitemap_url)
         response.raise_for_status()
 
@@ -52,14 +55,14 @@ def fetch_urls_from_sitemap(sitemap_url):
             if loc is not None and loc.text:
                 urls.append(loc.text)
 
-        print(f"📰 Found {len(urls)} article URLs.")
+        logging.info(f"📰 Found {len(urls)} article URLs.")
         return urls
 
     except requests.RequestException as e:
-        print(f"❌ Request failed: {e}")
+        logging.info(f"❌ Request failed: {e}")
         return []
     except ET.ParseError as e:
-        print(f"❌ XML parsing failed: {e}")
+        logging.info(f"❌ XML parsing failed: {e}")
         return []
 
 
@@ -68,12 +71,12 @@ def just_auto_crawler():
     sitemap_url = "https://www.just-auto.com/post-sitemap.xml"
     collection = get_mongo_collection()
 
-    print(f"🚀 Starting crawler for category: {category}")
+    logging.info(f"🚀 Starting crawler for category: {category}")
     existing_urls = set(get_existing_urls(collection, category))
 
     sitemap_urls = fetch_urls_from_sitemap(sitemap_url)
     new_urls = list(set(sitemap_urls) - existing_urls)
 
-    print(f"🔎 New URLs to insert: {len(new_urls)}")
+    logging.info(f"🔎 New URLs to insert: {len(new_urls)}")
     save_new_urls(collection, new_urls, category)
 
