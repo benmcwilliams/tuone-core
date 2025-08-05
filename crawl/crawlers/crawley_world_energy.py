@@ -66,7 +66,7 @@ def scrape_page(page_url):
 
 # main crawler
 def world_energy_crawler(tech, max_pages):
-    logging.info(f'\n--- Starting crawl for {tech} ---')
+    logging.info(f'\n--- Starting crawl for {tech} (World Energy) ---')
 
     category = f"world_energy"
     base_url = f'https://www.world-energy.org/channel/{tech_channels[tech]}.html?page='

@@ -12,6 +12,10 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pymongo import MongoClient
 from dotenv import load_dotenv
+
+import logging
+logger = logging.getLogger(__name__)
+
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
@@ -33,9 +37,9 @@ def save_new_urls(collection, urls, category):
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            print(f"Inserted {len(documents)} new URLs.")
+            logging.info(f"Inserted {len(documents)} new URLs.")
         except Exception as e:
-            print("Insert error:", str(e))
+            logging.info("Insert error:", str(e))
 
 # Configuration settings
 BASE_URL = 'https://www.electrive.com/category/'
@@ -67,11 +71,11 @@ def scrape_urls(driver, initial_url, max_pages):
             more_button = driver.find_element(By.CSS_SELECTOR, 'a.input-button.is-style-ghost[rel="next"]')
             driver.execute_script("arguments[0].click();", more_button)
 
-            print('Crawley read another page ;)')
+            logging.info('Crawley read another page ;)')
             time.sleep(5)
             page_count += 1
     except Exception as e:
-        print("Reached the end or encountered an error:", str(e))
+        logging.info("Reached the end or encountered an error:", str(e))
 
     return list(set(urls))
 
@@ -80,7 +84,7 @@ def filter_urls(urls):
     return [url for url in urls if re.match(pattern, url)]
 
 def electrive_crawler(page_type, max_pages):
-    print(f"Starting crawl for Electrive: {page_type}")
+    logging.info(f'\n--- Starting crawl for {page_type} (Electrive) ---')
 
     category = 'electrive'
     collection = get_mongo_collection()  # Single shared collection for all URLs
