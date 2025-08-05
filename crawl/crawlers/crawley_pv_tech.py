@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 from pymongo.server_api import ServerApi
 import certifi
+import logging
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -32,9 +34,9 @@ def save_new_urls(collection, urls, category):
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            print(f"Inserted {len(documents)} new URLs.")
+            logging.info(f"Inserted {len(documents)} new URLs.")
         except Exception as e:
-            print("Insert error:", str(e))
+            logging.info("Insert error:", str(e))
 
 
 # Scraper logic
@@ -49,12 +51,12 @@ def scrape_page(page_url):
         urls = [link['href'] for link in soup.find_all('a', href=True) if link['href'].startswith('http')]
         return urls
     except requests.exceptions.RequestException as e:
-        print(f"Request failed for {page_url}: {e}")
+        logging.info(f"Request failed for {page_url}: {e}")
         return []
 
 
 def pv_tech_crawler(max_pages=1):
-    print('Starting scrape for PV Tech...')
+    logging.info(f'\n--- Starting crawl for PV Tech ---')
 
     category = "pvtech"
     collection = get_mongo_collection()
@@ -62,23 +64,23 @@ def pv_tech_crawler(max_pages=1):
 
     for page in range(1, max_pages + 1):
         page_url = f'https://www.pv-tech.org/category/news/page/{page}/'
-        print(f'Scraping {page_url}')
+        logging.info(f'Scraping {page_url}')
 
         urls = scrape_page(page_url)
         all_urls.extend(urls)
-        print(f'Found {len(urls)} URLs on page {page}')
-        print('Crawley read another page ;)')
+        logging.info(f'Found {len(urls)} URLs on page {page}')
+        logging.info('Crawley read another page ;)')
         time.sleep(1)
 
     # Deduplicate from current scrape
     unique_urls = list(set(all_urls))
-    print(f'Total unique URLs found: {len(unique_urls)}')
+    logging.info(f'Total unique URLs found: {len(unique_urls)}')
 
     existing_urls = set(get_existing_urls(collection, category))
-    print(f"Found {len(existing_urls)} existing URLs in the DB.")
+    logging.info(f"Found {len(existing_urls)} existing URLs in the DB.")
 
     new_urls = list(set(unique_urls) - existing_urls)
-    print(f"New URLs to insert: {len(new_urls)}")
+    logging.info(f"New URLs to insert: {len(new_urls)}")
 
     save_new_urls(collection, new_urls, category)
 

@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 import os
 import time
 import certifi
+import logging
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -32,13 +34,13 @@ def save_new_urls(collection, urls, category):
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            print(f"Inserted {len(documents)} new URLs.")
+            logging.info(f"Inserted {len(documents)} new URLs.")
         except Exception as e:
-            print("Insert error:", str(e))
+            logging.info("Insert error:", str(e))
 
 # Main Crawler
 def power_technology_crawler(max_pages=10):
-    print('Starting scrape for Power Technology...')
+    logging.info(f'\n--- Starting crawl for Power Technology ---')
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     initial_url = 'https://www.power-technology.com/news/?cf-view'
@@ -58,28 +60,28 @@ def power_technology_crawler(max_pages=10):
                 actions.move_to_element(view_more_button).perform()
                 view_more_button.click()
             except Exception as e:
-                print("No more pages to click or error occurred:", str(e))
+                logging.info("No more pages to click or error occurred:", str(e))
                 break
 
-            print(f'Crawley read page {page_count + 1} ;)')
+            logging.info(f'Crawley read page {page_count + 1} ;)')
             page_count += 1
             time.sleep(5)
     except Exception as e:
-        print("Encountered an error while scraping:", str(e))
+        logging.info("Encountered an error while scraping:", str(e))
     finally:
         driver.quit()
 
     # Deduplicate and save to MongoDB
     total_scraped = len(urls)
     urls = list(set(urls))  # Remove duplicates
-    print(f"Removed {total_scraped - len(urls)} duplicate URLs from scraped list.")
+    logging.info(f"Removed {total_scraped - len(urls)} duplicate URLs from scraped list.")
 
     category = 'powertechnology'
     collection = get_mongo_collection()
     existing_urls = set(get_existing_urls(collection, category))
     new_urls = list(set(urls) - existing_urls)
 
-    print(f"New unique URLs to insert: {len(new_urls)}")
+    logging.info(f"New unique URLs to insert: {len(new_urls)}")
     save_new_urls(collection, new_urls, category)
 
 if __name__ == "__main__":
