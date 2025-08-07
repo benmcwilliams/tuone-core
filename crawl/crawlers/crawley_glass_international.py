@@ -70,7 +70,7 @@ def glass_international_crawler():
     sitemap_url = "https://www.glass-international.com/sitemaps-1-section-news-1-sitemap.xml"
     collection = get_mongo_collection()
 
-    logging.info(f"🚀 Starting crawler for category: {category}")
+    logging.info(f'\n--- 🚀 Starting crawl for {category} ---')
     existing_urls = set(get_existing_urls(collection, category))
 
     sitemap_urls = fetch_urls_from_sitemap(sitemap_url)
