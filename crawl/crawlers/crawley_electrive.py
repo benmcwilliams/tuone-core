@@ -37,7 +37,7 @@ def save_new_urls(collection, urls, category):
     if documents:
         try:
             collection.insert_many(documents, ordered=False)
-            logging.info(f"Inserted {len(documents)} new URLs.")
+            logging.info(f"✅ Inserted {len(documents)} new URLs.")
         except Exception as e:
             logging.info("Insert error:", str(e))
 

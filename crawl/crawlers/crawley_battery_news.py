@@ -70,7 +70,7 @@ def battery_news_crawler():
     sitemap_url = "https://battery-news.de/post-sitemap3.xml"
     collection = get_mongo_collection()
 
-    logging.info(f"🚀 Starting crawler for category: {category}")
+    logging.info(f'\n--- 🚀 Starting crawl for {category} ---')
     existing_urls = set(get_existing_urls(collection, category))
 
     sitemap_urls = fetch_urls_from_sitemap(sitemap_url)
