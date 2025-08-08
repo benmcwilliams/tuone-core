@@ -6,9 +6,11 @@ from normalise_owners import clean_owner_names
 from query_geonames import query_geonames_new_cities
 from flatten import run_flatten_articles
 from merge import merge_nodes_rels
+from normalise_capacity import run_capacity_normalisation_pipeline
 from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
+from project_page import output_capacities_plot
 
 def main(update_mongo_metadata=False):
 
@@ -22,7 +24,7 @@ def main(update_mongo_metadata=False):
         # clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities()
+        query_geonames_new_cities(limit=10000,skip=0)
 
         # logging.info("🧸 Classifying products")
         # classify_products_sync_mongo()
@@ -33,6 +35,9 @@ def main(update_mongo_metadata=False):
     logging.info("🉑 Merging nodes and relationships...")
     merge_nodes_rels()
 
+    logging.info("Normalising capacities")
+    run_capacity_normalisation_pipeline()
+
     logging.info("🫂 Grouping projects...")
     group_projects()
 
@@ -41,6 +46,9 @@ def main(update_mongo_metadata=False):
 
     logging.info("🧮 Determining phase summaries")
     determine_phase_summary()
+
+    logging.info("Outputting clean capacities summary data")
+    output_capacities_plot()
 
     # final timing
     t1_pipeline = time.time()
