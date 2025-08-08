@@ -13,7 +13,7 @@ if not logger.hasHandlers():
 
     # Let messages also propagate to root (main logger)
     logger.propagate = False
-    log_path = f"logs/article_dates_update_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    log_path = f"logs/article_dates_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -72,7 +72,7 @@ def get_article_id_to_date_map():
         if "meta" not in article:
             dict_creation_stats['articles_skipped'] += 1
             dict_creation_stats['skipped_reasons']['no_meta'] = dict_creation_stats['skipped_reasons'].get('no_meta', 0) + 1
-            logger.info(f"❌ Article {article_id}: NO META FIELD")
+            logger.info(f"❌ Article failed {article_id}: NO META FIELD")
             continue
             
         dict_creation_stats['articles_with_meta'] += 1
@@ -80,7 +80,7 @@ def get_article_id_to_date_map():
         if "date" not in article["meta"]:
             dict_creation_stats['articles_skipped'] += 1
             dict_creation_stats['skipped_reasons']['no_date'] = dict_creation_stats['skipped_reasons'].get('no_date', 0) + 1
-            logger.info(f"❌ Article {article_id}: NO DATE FIELD IN META")
+            logger.info(f"❌ Article failed {article_id}: NO DATE FIELD IN META")
             continue
             
         dict_creation_stats['articles_with_date'] += 1
@@ -104,7 +104,7 @@ def get_article_id_to_date_map():
             dict_creation_stats['articles_skipped'] += 1
             reason = f"unparseable_{type(date_value).__name__}"
             dict_creation_stats['skipped_reasons'][reason] = dict_creation_stats['skipped_reasons'].get(reason, 0) + 1
-            logger.info(f"❌ Article {article_id}: Could not parse date '{date_value}' (type: {type(date_value).__name__})")
+            logger.info(f"❌ Article failed {article_id}: Could not parse date '{date_value}' (type: {type(date_value).__name__})")
 
     logger.info("=" * 50)
     logger.info(f"📊 DICTIONARY CREATION SUMMARY:")

@@ -95,6 +95,8 @@ def run_flatten_articles():
     df_all_rels.to_excel(ALL_RELS,
                                 index=False)
     
+    logging.info(f"-- tracking {len(df_all_nodes)} nodes")
+    logging.info(f"-- tracking {len(df_all_rels)} relationships")
     logging.info(f"💾 Saved nodes to {ALL_NODES}")
     logging.info(f"💾 Saved relationships to {ALL_RELS}")
 

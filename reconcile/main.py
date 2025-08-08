@@ -8,6 +8,7 @@ from flatten import run_flatten_articles
 from merge import merge_nodes_rels
 from group import group_projects
 from facilities import write_facilities
+from phase_summary import determine_phase_summary
 
 def main(update_mongo_metadata=False):
 
@@ -17,14 +18,14 @@ def main(update_mongo_metadata=False):
 
     if update_mongo_metadata:
 
-        logging.info("🕴️Normalising companies...")
-        clean_owner_names()
+        # logging.info("🕴️Normalising companies...")
+        # clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
         query_geonames_new_cities()
 
-        logging.info("🧸 Classifying products")
-        classify_products_sync_mongo()
+        # logging.info("🧸 Classifying products")
+        # classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
     run_flatten_articles()
@@ -32,15 +33,18 @@ def main(update_mongo_metadata=False):
     logging.info("🉑 Merging nodes and relationships...")
     merge_nodes_rels()
 
-    logging.info("🧮 Grouping projects...")
+    logging.info("🫂 Grouping projects...")
     group_projects()
 
-    logging.info("- writing facilities")
+    logging.info("🏭 Importing facilities")
     write_facilities()
+
+    logging.info("🧮 Determining phase summaries")
+    determine_phase_summary()
 
     # final timing
     t1_pipeline = time.time()
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=False)
+    main(update_mongo_metadata=True)
