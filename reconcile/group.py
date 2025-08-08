@@ -3,11 +3,12 @@ from datetime import datetime
 import logging
 import pandas as pd
 import numpy as np
+import pprint
 from src.id_date_dict import get_article_id_to_date_map
-from normalise_capacity import run_extraction_pipeline
+#from normalise_capacity import run_extraction_pipeline
 from src.company_mapping import map_to_canonical
 from src.inputs import EUROPEAN_COUNTRIES
-from src.config import FACTORY_TECH, GRPD_PROJECTS, GRPD_PROJECTS_FILTER
+from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS, GRPD_PROJECTS_FILTER
 
 def group_projects():
 
@@ -19,22 +20,22 @@ def group_projects():
     ]
 
     # 1) Load and validate data
-    logging.info(f"Reading input file: {FACTORY_TECH}")
-    df = pd.read_excel(FACTORY_TECH)
+    df = pd.read_excel(FACTORY_TECH_CLEAN_CAPACITIES)
+    df = df[(df["iso2"].isin(EUROPEAN_COUNTRIES))].copy() # only filter applied is European for now. 
     initial_len = len(df)
+    logging.info(f"Found {initial_len} rows:")
 
+    # dropping missing cities
     missing_cities = df["city_key"].isna().sum()
-    logging.info(f"⚠️ {missing_cities} entries without CITY are dropped.")
     df = df.dropna(subset=['city_key'])
-    logging.info(f"🗑️ Dropped all {missing_cities} from dataframe. {initial_len} reduced to {len(df)}")
+    logging.info(f"⚠️ {missing_cities} entries without CITY are dropped, rows reduced to {len(df)}.")
 
     # count missing values per column before dropping
     missing_counts = df[group_cols + ["product_lv2"]].isna().sum()
-    logging.info("Missing values per column before dropping:")
-    logging.info(missing_counts)
+    logging.info(f"Missing counts: {pprint.pformat(missing_counts, indent=2)}")
 
     df = df.dropna(subset=group_cols)
-    logging.info(f"Dropped {initial_len - len(df)} rows because of missing values; {len(df)} remain.")
+    logging.info(f"⚠️  {initial_len - len(df)} rows dropped because of missing values; {len(df)} remain.")
 
     # apply temporary manual company name mapping
     logging.info(f"Unique owners before manual dict: {len(df["inst_canon"].unique())}")
@@ -45,11 +46,7 @@ def group_projects():
         logging.error("No valid rows remaining after validation. Exiting.")
         sys.exit(1)
 
-    # 2a) Normalise capacities 
-
-    df = run_extraction_pipeline(df)
-
-    # 2b) Replace ADM1 with ADM2 for iso2 == GB (because ADM1 is England, Scotland for GB)
+    # 2) Replace ADM1 with ADM2 for iso2 == GB (because ADM1 is England, Scotland for GB)
 
     mask = (df['iso2'] == "GB") & (df['adm2'].notna())
     df.loc[mask, 'adm1'] = df.loc[mask, 'adm2']
@@ -89,10 +86,5 @@ def group_projects():
             "capacity_normalized", "capacity_metric_normalized",
             "status", "phase", "date", "article_id"]
 
-    logging.info(f"Saving output to {GRPD_PROJECTS}")
-    df.to_excel(GRPD_PROJECTS, columns=cols, index=False)
-
-    # battery projects to validate
-    df_filter = df[(df["product_lv1"] == "battery") & (df["iso2"].isin(EUROPEAN_COUNTRIES))].copy()
-    df_filter.to_excel(GRPD_PROJECTS_FILTER, columns = cols, index=False)
+    df.to_excel(GRPD_PROJECTS_FILTER, columns=cols, index=False)
     logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")

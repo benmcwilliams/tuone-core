@@ -65,7 +65,7 @@ def standardize_country(country_name: str):
             country = pycountry.countries.search_fuzzy(country_name.strip())[0]
             return country.name, country.alpha_2, False
         except Exception:
-            logging.warning(f"[standardize_country] country lookup failed for “{country_name}”")
+            logging.debug(f"[standardize_country] country lookup failed for “{country_name}”")
             return None, None, True
 
 

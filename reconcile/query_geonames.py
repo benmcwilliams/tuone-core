@@ -1,146 +1,217 @@
 import sys; sys.path.append("..")
-import os
-import time
 import logging
+from collections import defaultdict
+from datetime import datetime, timedelta
+from typing import Dict, Iterable, Iterator, List, Optional, Set, Tuple
+
 from pymongo import UpdateOne
 from mongo_client import articles_collection, geonames_collection
 from src.step_2 import standardize_country, get_adm_level
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.logger import setup_city_logger
 from src.inputs import EUROPEAN_COUNTRIES
-import re
 
 system_logger = logging.getLogger("main")
 
-def query_geonames_new_cities():
+Country = str
+CityKey = str
+Key = Tuple[Country, CityKey]
 
-    # 1) load existing entries from mongoDB-geonames-collection (both cases which succeeded and failed)
-    existing_entries = geonames_collection.find({})
-    existing_pairs = set()
+# ---------- Data access ----------
 
-    for doc in existing_entries:
-        country = doc["ctry_standard"]
-        for city_key in doc.get("cities", {}).keys():
-            existing_pairs.add((country, city_key))
-        # for city_key in doc.get("failures", []):
-        #     existing_pairs.add((country, city_key))
+def load_existing_pairs(include_failures: bool = True, failure_backoff_days: Optional[int] = 7) -> Set[Key]:
+    """
+    Return set of (ctry_standard, city_key) pairs that are already present in geonames_collection,
+    including failures (optionally with backoff, so we don't hammer the same bad city).
+    """
+    existing: Set[Key] = set()
+    projection = {"ctry_standard": 1, "cities": 1}
+    if include_failures:
+        projection["failures"] = 1
 
-    system_logger.info(f"📦 Loaded {len(existing_pairs)} existing (country, city_key) pairs from MongoDB.")
+    for doc in geonames_collection.find({}, projection):
+        ctry = doc.get("ctry_standard")
+        if not ctry:
+            continue
 
-    # 2) mongodb filter to only return cases where article has at least one node with type == factory
-    filtered_articles = list(
-        articles_collection.find(
-            {
-                "meta.category": "electrive",
-                "nodes": {
-                    "$elemMatch": {"type": "factory"}
-                }
-            },
-            {"nodes": 1, "_id":1}
-        ).skip(0 ).limit(100)
-    )
+        # already-successful cities
+        for city_key in (doc.get("cities") or {}).keys():
+            existing.add((ctry, city_key))
 
-    system_logger.info(f"📰 Found {len(filtered_articles)} article(s) containing factory nodes.")
+        if include_failures:
+            failures = doc.get("failures") or []
+            cutoff = None
+            if failure_backoff_days is not None:
+                cutoff = datetime.utcnow() - timedelta(days=failure_backoff_days)
 
-    # 3) extract unique candidate (country, city) pairs. These are present in our articles_collection but not already queried through geonames.
+            # failures can be a list of strings (legacy) or list of dicts with last_attempt
+            for f in failures:
+                if isinstance(f, str):
+                    existing.add((ctry, f))
+                elif isinstance(f, dict):
+                    ck = f.get("city_key")
+                    last = f.get("last_attempt")
+                    if ck and (cutoff is None or (isinstance(last, datetime) and last > cutoff)):
+                        existing.add((ctry, ck))
 
-    candidates = set()
-    metadata = {}
+    system_logger.info(f"📦 Loaded {len(existing)} existing (country, city_key) pairs from MongoDB.")
+    return existing
 
-    for doc in filtered_articles:
+
+def iter_factory_articles(limit: Optional[int] = 100, skip: int = 0) -> Iterator[dict]:
+    query = {
+        "meta.category": "pvtech",
+        "nodes": {"$elemMatch": {"type": "factory"}},
+    }
+    projection = {"nodes": 1}  # _id automatically included
+    cursor = articles_collection.find(query, projection).skip(skip)
+    if limit:
+        cursor = cursor.limit(limit)
+    yield from cursor
+
+
+# ---------- Candidate extraction ----------
+def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, skip: int = 0) -> Tuple[Set[Key], Dict[Key, dict]]:
+    """
+    Scan articles and produce candidate (std_country, city_key) pairs not yet in geonames_collection.
+    Also return metadata for each candidate.
+    """
+    candidates: Set[Key] = set()
+    metadata: Dict[Key, dict] = {}
+
+    count_articles = 0
+    for doc in iter_factory_articles(limit=limit, skip=skip):
+        count_articles += 1
         article_id = doc.get("_id")
         for node in doc.get("nodes", []):
-            if node.get("type") == "factory":
+            if node.get("type") != "factory":
+                continue
 
-                location = node.get("location") or {}
-                city = clean_city(location.get("city"))
-                country = clean_country(location.get("country"))
+            location = node.get("location") or {}
+            raw_city = clean_city(location.get("city"))
+            raw_country = clean_country(location.get("country"))
 
-                std_country, iso2, country_failed = standardize_country(country)
+            std_country, iso2, country_failed = standardize_country(raw_country)
+            if not raw_city or country_failed:
+                continue
 
-                if not city or country_failed:
-                    continue
+            city_key = normalize_city_key(raw_city)
+            key: Key = (std_country, city_key)
 
-                key = (std_country, normalize_city_key(city))
-                if key not in existing_pairs:
-                    candidates.add(key)
+            if key in existing_pairs:
+                continue
 
-                    #metadata[key] = {"iso2":iso2, "original_country": country}
-                    if key not in metadata:
-                        metadata[key] = {
-                            "iso2": iso2,
-                            "original_country": country,
-                            "original_city": city,
-                            "article_ids": [article_id]
-                        }
-                    else:
-                        metadata[key]["article_ids"].append(article_id)
+            # Only track European ISO2s later; keep metadata for logging now
+            entry = metadata.setdefault(
+                key,
+                {
+                    "iso2": iso2,
+                    "original_country": raw_country,
+                    "original_city": raw_city,
+                    "article_ids": set(),
+                },
+            )
+            entry["article_ids"].add(article_id)
+            candidates.add(key)
 
-    system_logger.info(f"🧹 Identified {len(candidates)} new (country, city) pairs to query. Example three:")
-    system_logger.info(list(candidates)[:3])
+    system_logger.info(f"📰 Scanned {count_articles} article(s) with factory nodes.")
+    system_logger.info(f"🧹 Identified {len(candidates)} new (country, city) pairs to query. Example three: {list(candidates)[:3]}")
+    return candidates, metadata
 
-    # 4) query the geoname API to return geographic data for any new locations & prepare bulk update
 
-    updates = []
+# ---------- Update builders ----------
 
-    for (std_country, city) in sorted(candidates):
-        iso2 = metadata[(std_country,city)]["iso2"]
-        if iso2 not in EUROPEAN_COUNTRIES:
-            logging.info(f"Skipping {iso2} - {std_country} because not in EUROPE.")
+def build_failure_update(std_country: str, city_key: str) -> UpdateOne:
+    # Store richer failure info so we can backoff retries
+    fail_rec = {"city_key": city_key, "last_attempt": datetime.utcnow()}
+    return UpdateOne(
+        {"ctry_standard": std_country},
+        {"$setOnInsert": {"ctry_standard": std_country},
+         "$addToSet": {"failures": fail_rec}},
+        upsert=True,
+    )
+
+
+def build_success_update(std_country: str, iso2: str, city_key: str, payload: dict) -> UpdateOne:
+    return UpdateOne(
+        {"ctry_standard": std_country},
+        {
+            "$setOnInsert": {"ctry_standard": std_country, "ctry_iso2": iso2},
+            "$set": {f"cities.{city_key}": payload},
+            # Optional: clean out a past failure record for this key if it exists
+            "$pull": {"failures": {"city_key": city_key}},
+        },
+        upsert=True,
+    )
+
+
+# ---------- Core job ----------
+
+def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european_only: bool = True) -> List[UpdateOne]:
+    updates: List[UpdateOne] = []
+
+    for std_country, city_key in sorted(candidates):
+        meta = metadata[(std_country, city_key)]
+        iso2 = meta["iso2"]
+        logger = setup_city_logger(iso2, city_key)
+
+        if european_only and iso2 not in EUROPEAN_COUNTRIES:
+            logger.info(f"⏭️ Skipping {iso2} - {std_country} (non-Europe).")
             continue
-        original_country = metadata[(std_country, city)]["original_country"]
 
-        logger = setup_city_logger(iso2, city)
-        article_ids = metadata[(std_country, city)]["article_ids"]
-        logger.info(f"🗺️ Starting GeoNames lookup for city='{city}', country='{original_country}'")
+        original_country = meta["original_country"]
+        original_city = meta["original_city"]
+        article_ids = sorted(meta["article_ids"])
+
+        logger.info(f"🗺️ Starting GeoNames lookup for city='{original_city}', country='{original_country}'")
         logger.info(f"📍 Location is present in the following articles: {article_ids}")
 
-        city_to_query = metadata[(std_country, city)]["original_city"]
-        name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(city_to_query, iso2, logger=logger)
+        name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(original_city, iso2, logger=logger)
 
         if failed or not name:
-            logger.warning(f"❌ Lookup failed for city='{city}', iso2='{iso2}'")
-
-            city_key = normalize_city_key(city)
-
-            update = UpdateOne(
-                {"ctry_standard": std_country},
-                {"$addToSet": {"failures": city_key}},  # avoids duplicates
-                upsert=True,
-            )
-            updates.append(update)
+            logger.warning(f"❌ Lookup failed for city='{city_key}', iso2='{iso2}'")
+            updates.append(build_failure_update(std_country, city_key))
             continue
 
-        logger.info(f"✅ Success. Writing to DB for: {std_country} – {city}")
-        city_key = normalize_city_key(city)
+        logger.info(f"✅ Success. Writing to DB for: {std_country} – {city_key}")
+        payload = {
+            "name": name,
+            "adm1": adm1,
+            "adm2": adm2,
+            "adm3": adm3,
+            "adm4": adm4,
+            "bbox": bbox,
+        }
+        updates.append(build_success_update(std_country, iso2, city_key, payload))
 
-        update = UpdateOne(
-            {"ctry_standard": std_country},
-            {
-                    "$setOnInsert": {"ctry_standard": std_country, "ctry_iso2": iso2},
-                    "$set": {
-                        f"cities.{city_key}" : {
-                        "name": name,
-                        "adm1": adm1,
-                        "adm2": adm2,
-                        "adm3": adm3,
-                        "adm4": adm4,
-                        "bbox": bbox,
-                        }
-                    },
-            },
-            upsert=True,
-        )
+    return updates
 
-        updates.append(update)
 
-    # 5) commit updates to mongodb
-
-    if updates:
-        result = geonames_collection.bulk_write(updates)
-        system_logger.info(f"✅ Geonames MongoDB updated. Inserted: {result.upserted_count} fresh documents, Modified: {result.modified_count} documents.")
-    else:
+def commit_updates(updates: List[UpdateOne], batch_size: int = 1000) -> None:
+    if not updates:
         system_logger.info("📭 No new updates to write.")
+        return
+
+    total_upserts = 0
+    total_modified = 0
+
+    for i in range(0, len(updates), batch_size):
+        chunk = updates[i : i + batch_size]
+        result = geonames_collection.bulk_write(chunk, ordered=False)
+        total_upserts += getattr(result, "upserted_count", 0) or 0
+        total_modified += getattr(result, "modified_count", 0) or 0
+
+    system_logger.info(f"✅ Geonames MongoDB updated. Inserted: {total_upserts} fresh documents, Modified: {total_modified} documents.")
+
+
+# ---------- Entry point ----------
+
+def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0) -> None:
+    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=7)
+    candidates, metadata = collect_candidates(existing_pairs, limit=limit, skip=skip)
+    updates = process_candidates(candidates, metadata, european_only=True)
+    commit_updates(updates)
+
 
 if __name__ == "__main__":
     query_geonames_new_cities()
