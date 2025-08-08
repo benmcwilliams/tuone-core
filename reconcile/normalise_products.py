@@ -146,7 +146,7 @@ def classify_products_sync_mongo():
         total_matched += matched
         total_modified += modified
 
-        logger.info(
+        system_logger.info(
             f"✅ Batch {batch_idx//500 + 1}: "
             f"submitted={len(batch)}, matched={matched}, modified={modified}"
         )

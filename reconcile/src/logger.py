@@ -10,7 +10,7 @@ def setup_logger():
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler(f'logs/pipeline_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
+            logging.FileHandler(f'logs/full_pipeline_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
             logging.StreamHandler(sys.stdout)
         ]
     )

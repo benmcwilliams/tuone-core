@@ -3,11 +3,11 @@ import os
 import time
 import logging
 from pymongo import UpdateOne
-#from datetime import datetime, timezone
 from mongo_client import articles_collection, geonames_collection
 from src.step_2 import standardize_country, get_adm_level
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.logger import setup_city_logger
+from src.inputs import EUROPEAN_COUNTRIES
 import re
 
 system_logger = logging.getLogger("main")
@@ -22,8 +22,8 @@ def query_geonames_new_cities():
         country = doc["ctry_standard"]
         for city_key in doc.get("cities", {}).keys():
             existing_pairs.add((country, city_key))
-        for city_key in doc.get("failures", []):
-            existing_pairs.add((country, city_key))
+        # for city_key in doc.get("failures", []):
+        #     existing_pairs.add((country, city_key))
 
     system_logger.info(f"📦 Loaded {len(existing_pairs)} existing (country, city_key) pairs from MongoDB.")
 
@@ -31,13 +31,13 @@ def query_geonames_new_cities():
     filtered_articles = list(
         articles_collection.find(
             {
-                "meta.category": "pvmagazine",
+                "meta.category": "electrive",
                 "nodes": {
                     "$elemMatch": {"type": "factory"}
                 }
             },
             {"nodes": 1, "_id":1}
-        )
+        ).skip(0 ).limit(100)
     )
 
     system_logger.info(f"📰 Found {len(filtered_articles)} article(s) containing factory nodes.")
@@ -85,6 +85,9 @@ def query_geonames_new_cities():
 
     for (std_country, city) in sorted(candidates):
         iso2 = metadata[(std_country,city)]["iso2"]
+        if iso2 not in EUROPEAN_COUNTRIES:
+            logging.info(f"Skipping {iso2} - {std_country} because not in EUROPE.")
+            continue
         original_country = metadata[(std_country, city)]["original_country"]
 
         logger = setup_city_logger(iso2, city)
@@ -135,6 +138,9 @@ def query_geonames_new_cities():
 
     if updates:
         result = geonames_collection.bulk_write(updates)
-        system_logger.info(f"✅ Geonames MongoDB updated. Inserted: {result.upserted_count}, Modified: {result.modified_count}")
+        system_logger.info(f"✅ Geonames MongoDB updated. Inserted: {result.upserted_count} fresh documents, Modified: {result.modified_count} documents.")
     else:
         system_logger.info("📭 No new updates to write.")
+
+if __name__ == "__main__":
+    query_geonames_new_cities()

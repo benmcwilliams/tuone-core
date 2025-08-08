@@ -567,8 +567,9 @@ def capacity_logic(row):
 
 
 # ========= Pipeline Execution =========
-def run_extraction_pipeline(file_path):
-    df = load_capacity_column(file_path)
+def run_extraction_pipeline(df):
+    # EDITED - reading a df not file_path
+    #df = load_capacity_column(file_path)
 
     # Extract value, scale (from numbers/words), and raw remainder text
     df[["capacity_value", "capacity_scale", "capacity_text"]] = df["capacity"].apply(

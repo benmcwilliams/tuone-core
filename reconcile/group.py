@@ -9,16 +9,6 @@ from src.company_mapping import map_to_canonical
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH, GRPD_PROJECTS, GRPD_PROJECTS_FILTER
 
-# # Set up logging
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format='%(asctime)s - %(levelname)s - %(message)s',
-#     handlers=[
-#         logging.FileHandler(f'logs/pipeline_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
-#         logging.StreamHandler(sys.stdout)
-#     ]
-# )
-
 def group_projects():
 
     # DEFINE subset cols 
@@ -33,8 +23,13 @@ def group_projects():
     df = pd.read_excel(FACTORY_TECH)
     initial_len = len(df)
 
+    missing_cities = df["city_key"].isna().sum()
+    logging.info(f"⚠️ {missing_cities} entries without CITY are dropped.")
+    df = df.dropna(subset=['city_key'])
+    logging.info(f"🗑️ Dropped all {missing_cities} from dataframe. {initial_len} reduced to {len(df)}")
+
     # count missing values per column before dropping
-    missing_counts = df[group_cols].isna().sum()
+    missing_counts = df[group_cols + ["product_lv2"]].isna().sum()
     logging.info("Missing values per column before dropping:")
     logging.info(missing_counts)
 
@@ -98,6 +93,6 @@ def group_projects():
     df.to_excel(GRPD_PROJECTS, columns=cols, index=False)
 
     # battery projects to validate
-    df_filter = df[(df["product_lv1"] == "battery") & (df["product_lv2"] != "eam") & (df["iso2"].isin(EUROPEAN_COUNTRIES))].copy()
+    df_filter = df[(df["product_lv1"] == "battery") & (df["iso2"].isin(EUROPEAN_COUNTRIES))].copy()
     df_filter.to_excel(GRPD_PROJECTS_FILTER, columns = cols, index=False)
     logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")
