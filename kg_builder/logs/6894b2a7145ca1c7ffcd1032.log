@@ -1,0 +1,108 @@
+2025-08-08 17:41:58,767 - INFO - 🔍 Text length: 2993 characters
+2025-08-08 17:41:58,767 - INFO - 📌 Processing Article ID: 6894b2a7145ca1c7ffcd1032 — Rivian boosts revenue and improves margins in Q2
+2025-08-08 17:41:58,767 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:42:01,693 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:01,694 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian_automotive",
+        "type": "company",
+        "name": "Rivian Automotive"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_rivian_volkswagen",
+        "type": "joint_venture",
+        "name": "Rivian Volkswagen"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_rivian",
+        "type": "investment",
+        "name": "Volkswagen Rivian Investment",
+        "amount": "$1 billion",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r1s",
+        "type": "product",
+        "name": "R1S"
+      },
+      {
+        "id": "product_r1t",
+        "type": "product",
+        "name": "R1T"
+      }
+    ]
+  }
+}
+2025-08-08 17:42:01,694 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:01,694 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:42:01,694 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:42:01,694 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:42:03,953 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:03,954 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_rivian",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 17:42:03,954 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:03,954 - INFO - Node ID is investment_volkswagen_rivian
+2025-08-08 17:42:03,954 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_rivian' in investment nodes
+2025-08-08 17:42:03,954 - INFO -   ➕ Set status: completed
+2025-08-08 17:42:03,954 - INFO -   ➕ Set phase: unclear
+2025-08-08 17:42:03,954 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:42:03,954 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:42:03,954 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:42:05,157 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:05,157 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian_automotive",
+      "type": "forms",
+      "target": "joint_venture_rivian_volkswagen"
+    },
+    {
+      "source": "company_volkswagen_group",
+      "type": "forms",
+      "target": "joint_venture_rivian_volkswagen"
+    }
+  ]
+}
+2025-08-08 17:42:05,157 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:05,157 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:42:05,157 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:42:06,318 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:06,318 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:42:06,318 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:06,318 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:42:06,318 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:42:11,941 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:11,942 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:42:11,942 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:11,942 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:42:11,942 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:42:15,506 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:42:15,506 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:42:15,506 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:42:15,580 - INFO - ✅ Updated Article ID: 6894b2a7145ca1c7ffcd1032 with 6 nodes and combined text.

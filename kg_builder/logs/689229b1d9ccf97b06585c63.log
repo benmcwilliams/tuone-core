@@ -1,0 +1,159 @@
+2025-08-08 17:59:00,099 - INFO - 🔍 Text length: 2461 characters
+2025-08-08 17:59:00,100 - INFO - 📌 Processing Article ID: 689229b1d9ccf97b06585c63 — Iron-sodium battery to back up fire-prone community in California
+2025-08-08 17:59:00,100 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:59:13,944 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:13,944 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_inlyte_energy",
+        "type": "company",
+        "name": "Inlyte Energy"
+      },
+      {
+        "id": "company_vital_energy_solutions",
+        "type": "company",
+        "name": "Vital Energy Solutions"
+      },
+      {
+        "id": "company_electric_power_research_institute",
+        "type": "company",
+        "name": "Electric Power Research Institute"
+      },
+      {
+        "id": "company_pacific_northwest_national_laboratories",
+        "type": "company",
+        "name": "Pacific Northwest National Laboratories"
+      },
+      {
+        "id": "company_russian_river_utility",
+        "type": "company",
+        "name": "Russian River Utility"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_alliance_redwoods_conference grounds",
+        "type": "factory",
+        "name": "Alliance Redwoods Conference Grounds",
+        "location": {
+          "city": "Sonoma County",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_us_department_of_energy grant",
+        "type": "investment",
+        "name": "US Department of Energy grant",
+        "amount": "$4.1 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_kw_4_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 kW/4 MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_iron_sodium_battery",
+        "type": "product",
+        "name": "iron-sodium battery"
+      },
+      {
+        "id": "product_solar_array",
+        "type": "product",
+        "name": "solar array"
+      }
+    ]
+  }
+}
+2025-08-08 17:59:13,944 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:13,944 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:59:13,945 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:59:16,287 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:16,287 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_kw_4_mwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:59:16,288 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:16,288 - INFO - Node ID is capacity_200_kw_4_mwh
+2025-08-08 17:59:16,288 - INFO - ✅ Match found for capacity_ID 'capacity_200_kw_4_mwh' in capacity nodes
+2025-08-08 17:59:16,288 - INFO -   ➕ Set status: announced
+2025-08-08 17:59:16,288 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:59:16,288 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:59:16,288 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:59:18,735 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:18,735 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_us_department_of_energy grant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:59:18,735 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:18,735 - INFO - Node ID is investment_us_department_of_energy grant
+2025-08-08 17:59:18,735 - INFO - ✅ Match found for investment_ID 'investment_us_department_of_energy grant' in investment nodes
+2025-08-08 17:59:18,735 - INFO -   ➕ Set status: announced
+2025-08-08 17:59:18,735 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:59:18,735 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:59:18,735 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:59:18,735 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:59:19,914 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:19,914 - INFO - {
+  "relationships": [
+    {
+      "source": "company_russian_river_utility",
+      "type": "owns",
+      "target": "factory_alliance_redwoods_conference grounds"
+    }
+  ]
+}
+2025-08-08 17:59:19,914 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:19,914 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:59:19,915 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:59:21,022 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:21,022 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_kw_4_mwh",
+      "target": "factory_alliance_redwoods_conference grounds",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-08 17:59:21,022 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:21,022 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:59:21,022 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:59:25,281 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:25,282 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:59:25,282 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:25,282 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:59:25,282 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:59:26,592 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:59:26,592 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_us_department_of_energy grant",
+      "target": "product_iron_sodium_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-08 17:59:26,592 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:59:26,677 - INFO - ✅ Updated Article ID: 689229b1d9ccf97b06585c63 with 10 nodes and combined text.

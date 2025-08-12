@@ -1,0 +1,165 @@
+2025-08-08 18:08:02,408 - INFO - 🔍 Text length: 5320 characters
+2025-08-08 18:08:02,408 - INFO - 📌 Processing Article ID: 689227d619278e1655b84a63 — Perovskite rollout gathers pace
+2025-08-08 18:08:02,408 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:08:07,607 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:07,608 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_oxford_pv",
+        "type": "company",
+        "name": "Oxford PV"
+      },
+      {
+        "id": "company_trinasolar",
+        "type": "company",
+        "name": "Trinasolar"
+      },
+      {
+        "id": "company_gcl",
+        "type": "company",
+        "name": "GCL"
+      },
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      },
+      {
+        "id": "company_huasun",
+        "type": "company",
+        "name": "Huasun"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rd_center_germany",
+        "type": "factory",
+        "name": "R&D Center",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_pilot_production_line_china",
+        "type": "factory",
+        "name": "Pilot Production Line",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mw_pilot_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_perovskite_tandem_technology",
+        "type": "product",
+        "name": "perovskite tandem technology"
+      },
+      {
+        "id": "product_standalone_perovskite_module",
+        "type": "product",
+        "name": "standalone perovskite module"
+      },
+      {
+        "id": "product_perovskite_silicon_tandem_cells",
+        "type": "product",
+        "name": "perovskite-silicon tandem cells"
+      },
+      {
+        "id": "product_centaur_tandem_module_series",
+        "type": "product",
+        "name": "Centaur tandem module series"
+      }
+    ]
+  }
+}
+2025-08-08 18:08:07,608 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:07,608 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 18:08:07,608 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 18:08:09,032 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:09,032 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mw_pilot_under_construction",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 18:08:09,032 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:09,032 - INFO - Node ID is capacity_100_mw_pilot_under_construction
+2025-08-08 18:08:09,032 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_pilot_under_construction' in capacity nodes
+2025-08-08 18:08:09,032 - INFO -   ➕ Set status: under construction
+2025-08-08 18:08:09,032 - INFO -   ➕ Set phase: greenfield
+2025-08-08 18:08:09,032 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:08:09,032 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:08:09,032 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:08:09,032 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:08:11,462 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:11,462 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hanwha_qcells",
+      "type": "owns",
+      "target": "factory_rd_center_germany"
+    },
+    {
+      "source": "company_huasun",
+      "type": "owns",
+      "target": "factory_pilot_production_line_china"
+    }
+  ]
+}
+2025-08-08 18:08:11,462 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:11,462 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:08:11,462 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:08:16,071 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:16,071 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mw_pilot_under_construction",
+      "target": "factory_pilot_production_line_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mw_pilot_under_construction",
+      "target": "product_perovskite_tandem_technology",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_perovskite_tandem_technology",
+      "target": "factory_pilot_production_line_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_standalone_perovskite_module",
+      "target": "factory_rd_center_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_perovskite_silicon_tandem_cells",
+      "target": "factory_rd_center_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_centaur_tandem_module_series",
+      "target": "factory_rd_center_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:08:16,071 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:16,071 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:08:16,071 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:08:16,156 - INFO - ✅ Updated Article ID: 689227d619278e1655b84a63 with 12 nodes and combined text.

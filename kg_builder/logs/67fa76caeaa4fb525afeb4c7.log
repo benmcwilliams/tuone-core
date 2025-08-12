@@ -1,0 +1,154 @@
+2025-08-12 13:24:39,736 - INFO - 🔍 Text length: 4495 characters
+2025-08-12 13:24:39,736 - INFO - 📌 Processing Article ID: 67fa76caeaa4fb525afeb4c7 — Sekisui Chemical launches pilot perovskite PV projects in Japan
+2025-08-12 13:24:39,736 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:24:43,138 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:24:43,139 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sekisui_chemical",
+        "type": "company",
+        "name": "Sekisui Chemical"
+      },
+      {
+        "id": "company_mufg_bank",
+        "type": "company",
+        "name": "MUFG Bank"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_perovskite_solar_cell_production_line",
+        "type": "factory",
+        "name": "perovskite solar cell production line",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_100_mw_perovskite_solar_production_plant",
+        "type": "investment",
+        "name": "100 MW perovskite solar production plant",
+        "amount": "null",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mw_perovskite_solar_cell_production_line",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_perovskite_solar_panels",
+        "type": "product",
+        "name": "perovskite solar panels"
+      },
+      {
+        "id": "product_perovskite_solar_cell_technology",
+        "type": "product",
+        "name": "perovskite solar cell technology"
+      }
+    ]
+  }
+}
+2025-08-12 13:24:43,139 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:24:43,139 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:24:43,139 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:24:45,399 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:24:45,400 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mw_perovskite_solar_cell_production_line",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:24:45,400 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:24:45,400 - INFO - Node ID is capacity_100_mw_perovskite_solar_cell_production_line
+2025-08-12 13:24:45,400 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_perovskite_solar_cell_production_line' in capacity nodes
+2025-08-12 13:24:45,400 - INFO -   ➕ Set status: announced
+2025-08-12 13:24:45,400 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:24:45,400 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 13:24:45,400 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 13:24:46,915 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:24:46,915 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_100_mw_perovskite_solar_production_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:24:46,915 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:24:46,915 - INFO - Node ID is investment_100_mw_perovskite_solar_production_plant
+2025-08-12 13:24:46,915 - INFO - ✅ Match found for investment_ID 'investment_100_mw_perovskite_solar_production_plant' in investment nodes
+2025-08-12 13:24:46,915 - INFO -   ➕ Set status: completed
+2025-08-12 13:24:46,915 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:24:46,915 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:24:46,915 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:24:46,915 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:24:48,102 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:24:48,102 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sekisui_chemical",
+      "type": "owns",
+      "target": "factory_perovskite_solar_cell_production_line"
+    }
+  ]
+}
+2025-08-12 13:24:48,102 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:24:48,102 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:24:48,102 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:25:08,114 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:08,115 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mw_perovskite_solar_cell_production_line",
+      "target": "factory_perovskite_solar_cell_production_line",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mw_perovskite_solar_cell_production_line",
+      "target": "product_perovskite_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_perovskite_solar_panels",
+      "target": "factory_perovskite_solar_cell_production_line",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:25:08,115 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:08,115 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 13:25:08,115 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 13:25:09,133 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:09,133 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:25:09,133 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:09,133 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 13:25:09,133 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 13:25:11,082 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:11,082 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_100_mw_perovskite_solar_production_plant",
+      "target": "capacity_100_mw_perovskite_solar_cell_production_line",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-12 13:25:11,082 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:11,175 - INFO - ✅ Updated Article ID: 67fa76caeaa4fb525afeb4c7 with 7 nodes and combined text.

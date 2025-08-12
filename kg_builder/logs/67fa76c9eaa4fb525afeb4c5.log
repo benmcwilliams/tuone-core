@@ -1,0 +1,133 @@
+2025-08-12 13:25:23,033 - INFO - 🔍 Text length: 4928 characters
+2025-08-12 13:25:23,033 - INFO - 📌 Processing Article ID: 67fa76c9eaa4fb525afeb4c5 — REC Silicon shuts down polysilicon operations at U.S. site
+2025-08-12 13:25:23,033 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:25:27,162 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:27,162 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      },
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_moses_lake_washington",
+        "type": "factory",
+        "name": "Moses Lake Facility",
+        "location": {
+          "city": "Moses Lake",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_butte_montana",
+        "type": "factory",
+        "name": "Butte Facility",
+        "location": {
+          "city": "Butte",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      },
+      {
+        "id": "product_silicon_gases",
+        "type": "product",
+        "name": "silicon gases"
+      },
+      {
+        "id": "product_silicon_anode",
+        "type": "product",
+        "name": "silicon anode"
+      },
+      {
+        "id": "product_fbr_granular_polysilicon",
+        "type": "product",
+        "name": "high purity fluidized bed reactor (FBR) granular polysilicon",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "ingot",
+        "type": "product",
+        "name": "ingot",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "solar_wafer",
+        "type": "product",
+        "name": "solar wafer",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 13:25:27,162 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:27,162 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 13:25:27,162 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:25:27,162 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:25:27,162 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:25:27,162 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:25:28,238 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:28,239 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_moses_lake_washington"
+    },
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_butte_montana"
+    }
+  ]
+}
+2025-08-12 13:25:28,239 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:28,239 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:25:28,239 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:25:32,317 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:32,317 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polysilicon",
+      "target": "factory_moses_lake_washington",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fbr_granular_polysilicon",
+      "target": "factory_moses_lake_washington",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:25:32,317 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:32,317 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:25:32,318 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:25:32,412 - INFO - ✅ Updated Article ID: 67fa76c9eaa4fb525afeb4c5 with 10 nodes and combined text.

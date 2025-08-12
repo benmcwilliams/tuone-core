@@ -1,0 +1,123 @@
+2025-08-08 18:05:34,561 - INFO - 🔍 Text length: 1288 characters
+2025-08-08 18:05:34,562 - INFO - 📌 Processing Article ID: 689227f219278e1655b84a6d — NHPC accepting bids to build 1.2 GW of solar in India
+2025-08-08 18:05:34,562 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:05:39,542 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:05:39,542 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nhpc",
+        "type": "company",
+        "name": "NHPC"
+      },
+      {
+        "id": "company_uttar_pradesh_new_and_renewable_energy_development_agency",
+        "type": "company",
+        "name": "Uttar Pradesh New and Renewable Energy Development Agency"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_bundelkhand_saur_urja_ltd",
+        "type": "joint_venture",
+        "name": "Bundelkhand Saur Urja Ltd"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jalaun_solar_power_park",
+        "type": "factory",
+        "name": "Jalaun Solar Power Park",
+        "location": {
+          "city": "Jalaun",
+          "country": "India"
+        }
+      }
+    ]
+  }
+}
+2025-08-08 18:05:39,542 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:05:39,542 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 18:05:39,542 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 18:05:40,933 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:05:40,934 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 18:05:40,934 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:05:40,934 - INFO - Node ID is capacity_1_2_gw_announced
+2025-08-08 18:05:40,934 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_announced' in capacity nodes
+2025-08-08 18:05:40,934 - INFO -   ➕ Set status: announced
+2025-08-08 18:05:40,934 - INFO -   ➕ Set phase: greenfield
+2025-08-08 18:05:40,934 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:05:40,934 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:05:40,934 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:05:40,934 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:05:44,183 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:05:44,183 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nhpc",
+      "type": "forms",
+      "target": "joint_venture_bundelkhand_saur_urja_ltd"
+    },
+    {
+      "source": "company_uttar_pradesh_new_and_renewable_energy_development_agency",
+      "type": "forms",
+      "target": "joint_venture_bundelkhand_saur_urja_ltd"
+    },
+    {
+      "source": "joint_venture_bundelkhand_saur_urja_ltd",
+      "type": "owns",
+      "target": "factory_jalaun_solar_power_park"
+    }
+  ]
+}
+2025-08-08 18:05:44,183 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:05:44,183 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:05:44,183 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:05:47,180 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:05:47,180 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_2_gw_announced",
+      "target": "factory_jalaun_solar_power_park",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_jalaun_solar_power_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_2_gw_announced",
+      "target": "factory_jalaun_solar_power_park",
+      "type": "at"
+    }
+  ]
+}
+2025-08-08 18:05:47,180 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:05:47,180 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:05:47,180 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:05:47,265 - INFO - ✅ Updated Article ID: 689227f219278e1655b84a6d with 6 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-08-08 17:57:55,091 - INFO - 🔍 Text length: 4004 characters
+2025-08-08 17:57:55,091 - INFO - 📌 Processing Article ID: 6894b27d145ca1c7ffcd101d — Agrivoltaics on rice fields, not a lost cause
+2025-08-08 17:57:55,091 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:57:59,718 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:59,718 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_university_of_tokyo",
+        "type": "company",
+        "name": "University of Tokyo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_miyada_mura_nagano_prefecture_japan",
+        "type": "factory",
+        "name": "Miyada-mura Agrivoltaic Facility",
+        "location": {
+          "city": "Miyada-mura, Nagano Prefecture",
+          "country": "Japan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_352_panels_130_w",
+        "type": "capacity",
+        "name": "",
+        "amount": "352 panels, 130 W",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_agrivoltaic_system",
+        "type": "product",
+        "name": "agrivoltaic system"
+      },
+      {
+        "id": "product_pv_panels",
+        "type": "product",
+        "name": "PV panels"
+      }
+    ]
+  }
+}
+2025-08-08 17:57:59,718 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:59,719 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:57:59,719 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:58:02,585 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:02,586 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_352_panels_130_w",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 17:58:02,586 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:02,586 - INFO - Node ID is capacity_352_panels_130_w
+2025-08-08 17:58:02,586 - INFO - ✅ Match found for capacity_ID 'capacity_352_panels_130_w' in capacity nodes
+2025-08-08 17:58:02,586 - INFO -   ➕ Set status: operational
+2025-08-08 17:58:02,586 - INFO -   ➕ Set phase: unclear
+2025-08-08 17:58:02,586 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:58:02,586 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:58:02,586 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:58:02,586 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:58:04,838 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:04,838 - INFO - {
+  "relationships": [
+    {
+      "source": "company_university_of_tokyo",
+      "type": "owns",
+      "target": "factory_miyada_mura_nagano_prefecture_japan"
+    }
+  ]
+}
+2025-08-08 17:58:04,839 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:04,839 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:58:04,839 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:58:07,500 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:07,500 - INFO - {
+  "relationships": [
+    {
+      "source": "product_agrivoltaic_system",
+      "target": "factory_miyada_mura_nagano_prefecture_japan",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_352_panels_130_w",
+      "target": "product_pv_panels",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-08 17:58:07,501 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:07,501 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:58:07,501 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:58:07,579 - INFO - ✅ Updated Article ID: 6894b27d145ca1c7ffcd101d with 5 nodes and combined text.

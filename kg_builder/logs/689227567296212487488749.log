@@ -1,0 +1,95 @@
+2025-08-08 17:45:14,767 - INFO - 🔍 Text length: 4234 characters
+2025-08-08 17:45:14,767 - INFO - 📌 Processing Article ID: 689227567296212487488749 — New BMW iX3 is cleaner than an ICE after just 20,000 km
+2025-08-08 17:45:14,767 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:45:18,881 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:18,881 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_steyr_austria",
+        "type": "factory",
+        "name": "Steyr Plant",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        }
+      },
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ix3",
+        "type": "product",
+        "name": "iX3"
+      },
+      {
+        "id": "product_gen6_battery_cells",
+        "type": "product",
+        "name": "Gen6 Battery Cells"
+      },
+      {
+        "id": "product_high_voltage_storage_system",
+        "type": "product",
+        "name": "High-Voltage Storage System"
+      }
+    ]
+  }
+}
+2025-08-08 17:45:18,881 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:18,881 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:45:18,881 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:45:18,881 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:45:18,881 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:45:18,881 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:45:20,478 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:20,479 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_steyr_austria"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-08-08 17:45:20,479 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:20,479 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:45:20,479 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:45:22,874 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:22,875 - INFO - {
+  "relationships": [
+    {
+      "source": "product_gen6_battery_cells",
+      "target": "factory_steyr_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ix3",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:45:22,875 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:22,875 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:45:22,875 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:45:22,957 - INFO - ✅ Updated Article ID: 689227567296212487488749 with 6 nodes and combined text.

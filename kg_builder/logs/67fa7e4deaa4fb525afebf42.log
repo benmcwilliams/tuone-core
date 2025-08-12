@@ -1,0 +1,179 @@
+2025-08-12 13:11:09,229 - INFO - 🔍 Text length: 2282 characters
+2025-08-12 13:11:09,229 - INFO - 📌 Processing Article ID: 67fa7e4deaa4fb525afebf42 — Higher gas prices drive some European electricity prices upwards
+2025-08-12 13:11:09,229 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:11:12,502 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:12,502 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_emirates_water_and_electricity_co",
+        "type": "company",
+        "name": "Emirates Water and Electricity Co."
+      },
+      {
+        "id": "company_trina_solar",
+        "type": "company",
+        "name": "Trina Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_romania_solar_panel",
+        "type": "factory",
+        "name": "Romania Solar Panel Factory",
+        "location": {
+          "city": "northeastern part of the country",
+          "country": "Romania"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_croatia_renewable_energy_decarbonization",
+        "type": "investment",
+        "name": "Croatia Renewable Energy and Decarbonization Package",
+        "amount": "\u20ac652 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_5_gw_solar",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.5 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      },
+      {
+        "id": "product_heat_pumps",
+        "type": "product",
+        "name": "heat pumps"
+      },
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      },
+      {
+        "id": "product_minigrids",
+        "type": "product",
+        "name": "minigrids"
+      }
+    ]
+  }
+}
+2025-08-12 13:11:12,502 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:12,503 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:11:12,503 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:11:15,044 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:15,044 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_5_gw_solar",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:11:15,044 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:15,044 - INFO - Node ID is capacity_1_5_gw_solar
+2025-08-12 13:11:15,044 - INFO - ✅ Match found for capacity_ID 'capacity_1_5_gw_solar' in capacity nodes
+2025-08-12 13:11:15,044 - INFO -   ➕ Set status: announced
+2025-08-12 13:11:15,044 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:11:15,045 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 13:11:15,045 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 13:11:16,462 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:16,462 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_croatia_renewable_energy_decarbonization",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 13:11:16,462 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:16,462 - INFO - Node ID is investment_croatia_renewable_energy_decarbonization
+2025-08-12 13:11:16,463 - INFO - ✅ Match found for investment_ID 'investment_croatia_renewable_energy_decarbonization' in investment nodes
+2025-08-12 13:11:16,463 - INFO -   ➕ Set status: announced
+2025-08-12 13:11:16,463 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:11:16,463 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:11:16,463 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:11:16,463 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:11:17,559 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:17,559 - INFO - {
+  "relationships": [
+    {
+      "source": "company_trina_solar",
+      "type": "owns",
+      "target": "factory_romania_solar_panel"
+    }
+  ]
+}
+2025-08-12 13:11:17,559 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:17,559 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:11:17,559 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:11:21,756 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:21,757 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_5_gw_solar",
+      "target": "factory_romania_solar_panel",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_5_gw_solar",
+      "target": "product_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_romania_solar_panel",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:11:21,757 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:21,757 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 13:11:21,757 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 13:11:22,714 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:22,714 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:11:22,714 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:22,715 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 13:11:22,715 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 13:11:25,853 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:25,853 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_croatia_renewable_energy_decarbonization",
+      "target": "product_solar_panels",
+      "type": "targets"
+    },
+    {
+      "source": "investment_croatia_renewable_energy_decarbonization",
+      "target": "product_heat_pumps",
+      "type": "targets"
+    },
+    {
+      "source": "investment_croatia_renewable_energy_decarbonization",
+      "target": "product_battery_storage",
+      "type": "targets"
+    },
+    {
+      "source": "factory_romania_solar_panel",
+      "target": "capacity_1_5_gw_solar",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-12 13:11:25,853 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:25,938 - INFO - ✅ Updated Article ID: 67fa7e4deaa4fb525afebf42 with 9 nodes and combined text.

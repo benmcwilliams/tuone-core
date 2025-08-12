@@ -1,0 +1,123 @@
+2025-08-12 13:11:40,588 - INFO - 🔍 Text length: 4853 characters
+2025-08-12 13:11:40,589 - INFO - 📌 Processing Article ID: 67fa7e17eaa4fb525afebe64 — Germany hits 62.7% renewables in 2024 electricity mix, with solar contributing 14%
+2025-08-12 13:11:40,589 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:11:43,774 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:43,775 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_9.1_gw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "9.1 GW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_12.1_gw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "12.1 GW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_17.7_gwh_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "17.7 GWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_biomass_power",
+        "type": "product",
+        "name": "biomass power"
+      },
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 13:11:43,775 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:43,775 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:11:43,775 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:11:45,106 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:45,106 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_9.1_gw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_12.1_gw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_17.7_gwh_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 13:11:45,106 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:45,106 - INFO - Node ID is capacity_9.1_gw_operational
+2025-08-12 13:11:45,107 - INFO - ✅ Match found for capacity_ID 'capacity_9.1_gw_operational' in capacity nodes
+2025-08-12 13:11:45,107 - INFO -   ➕ Set status: operational
+2025-08-12 13:11:45,107 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:11:45,107 - INFO - Node ID is capacity_12.1_gw_operational
+2025-08-12 13:11:45,107 - INFO - ✅ Match found for capacity_ID 'capacity_12.1_gw_operational' in capacity nodes
+2025-08-12 13:11:45,107 - INFO -   ➕ Set status: operational
+2025-08-12 13:11:45,107 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:11:45,107 - INFO - Node ID is capacity_17.7_gwh_operational
+2025-08-12 13:11:45,107 - INFO - ✅ Match found for capacity_ID 'capacity_17.7_gwh_operational' in capacity nodes
+2025-08-12 13:11:45,107 - INFO -   ➕ Set status: operational
+2025-08-12 13:11:45,107 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:11:45,107 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:11:45,107 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:11:45,107 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 13:11:45,107 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:11:45,107 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:11:46,758 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:11:46,758 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_9.1_gw_operational",
+      "target": "product_biomass_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_12.1_gw_operational",
+      "target": "product_battery_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_17.7_gwh_operational",
+      "target": "product_battery_storage",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 13:11:46,758 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:11:46,758 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:11:46,758 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:11:46,850 - INFO - ✅ Updated Article ID: 67fa7e17eaa4fb525afebe64 with 6 nodes and combined text.

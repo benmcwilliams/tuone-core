@@ -1,0 +1,180 @@
+2025-08-08 17:58:19,979 - INFO - 🔍 Text length: 3075 characters
+2025-08-08 17:58:19,979 - INFO - 📌 Processing Article ID: 6894b278145ca1c7ffcd101b — Tindo Solar to scale output to 180 MW with Australian government grant
+2025-08-08 17:58:19,979 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:58:28,494 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:28,494 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tindo_solar",
+        "type": "company",
+        "name": "Tindo Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mawson_lakes",
+        "type": "factory",
+        "name": "Mawson Lakes",
+        "location": {
+          "city": "Adelaide",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_aud_34_5_million",
+        "type": "investment",
+        "name": "AUD 34.5 million grant",
+        "amount": "AUD 34.5 million ($22.34 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_180_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "180 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_1_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_n_type_solar_modules",
+        "type": "product",
+        "name": "premium n-type solar modules"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-08-08 17:58:28,494 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:28,494 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:58:28,494 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:58:30,316 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:30,317 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_180_mw",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_1_gw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:58:30,317 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:30,317 - INFO - Node ID is capacity_180_mw
+2025-08-08 17:58:30,317 - INFO - ✅ Match found for capacity_ID 'capacity_180_mw' in capacity nodes
+2025-08-08 17:58:30,317 - INFO -   ➕ Set status: announced
+2025-08-08 17:58:30,317 - INFO -   ➕ Set phase: expansion
+2025-08-08 17:58:30,317 - INFO - Node ID is capacity_1_gw
+2025-08-08 17:58:30,317 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw' in capacity nodes
+2025-08-08 17:58:30,317 - INFO -   ➕ Set status: announced
+2025-08-08 17:58:30,317 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:58:30,317 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:58:30,318 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:58:31,463 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:31,463 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_aud_34_5_million",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-08 17:58:31,464 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:31,464 - INFO - Node ID is investment_aud_34_5_million
+2025-08-08 17:58:31,464 - INFO - ✅ Match found for investment_ID 'investment_aud_34_5_million' in investment nodes
+2025-08-08 17:58:31,464 - INFO -   ➕ Set status: announced
+2025-08-08 17:58:31,464 - INFO -   ➕ Set phase: retrofit
+2025-08-08 17:58:31,464 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:58:31,464 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:58:31,464 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:58:32,384 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:32,384 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tindo_solar",
+      "type": "owns",
+      "target": "factory_mawson_lakes"
+    }
+  ]
+}
+2025-08-08 17:58:32,384 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:32,384 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:58:32,384 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:58:35,741 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:35,741 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_180_mw",
+      "target": "factory_mawson_lakes",
+      "type": "at"
+    },
+    {
+      "source": "capacity_180_mw",
+      "target": "product_n_type_solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_n_type_solar_modules",
+      "target": "factory_mawson_lakes",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:58:35,741 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:35,741 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:58:35,741 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:58:39,965 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:39,965 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:58:39,965 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:39,966 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:58:39,966 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:58:42,214 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:58:42,214 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_aud_34_5_million",
+      "target": "factory_mawson_lakes",
+      "type": "funds"
+    },
+    {
+      "source": "investment_aud_34_5_million",
+      "target": "capacity_180_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_aud_34_5_million",
+      "target": "product_n_type_solar_modules",
+      "type": "targets"
+    },
+    {
+      "source": "investment_aud_34_5_million",
+      "target": "product_solar_panels",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-08 17:58:42,215 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:58:42,297 - INFO - ✅ Updated Article ID: 6894b278145ca1c7ffcd101b with 7 nodes and combined text.

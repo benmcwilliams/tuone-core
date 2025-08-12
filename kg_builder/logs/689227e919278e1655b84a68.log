@@ -1,0 +1,101 @@
+2025-08-08 18:07:13,587 - INFO - 🔍 Text length: 3030 characters
+2025-08-08 18:07:13,588 - INFO - 📌 Processing Article ID: 689227e919278e1655b84a68 — Czechia deploys 357 MW of solar in H1
+2025-08-08 18:07:13,588 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:07:15,857 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:07:15,858 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sol\u00e1rn\u00ed_asociace",
+        "type": "company",
+        "name": "Sol\u00e1rn\u00ed Asociace"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_saxonie_pv_plant",
+        "type": "factory",
+        "name": "Saxonie PV plant",
+        "location": {
+          "city": "northwest Czechia",
+          "country": "Czechia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-08 18:07:15,858 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:07:15,858 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 18:07:15,858 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 18:07:17,189 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:07:17,190 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 18:07:17,190 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:07:17,190 - INFO - Node ID is capacity_50_mw
+2025-08-08 18:07:17,190 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw' in capacity nodes
+2025-08-08 18:07:17,190 - INFO -   ➕ Set status: under construction
+2025-08-08 18:07:17,190 - INFO -   ➕ Set phase: greenfield
+2025-08-08 18:07:17,190 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:07:17,190 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:07:17,190 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:07:17,190 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:07:18,929 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:07:18,929 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sol\u00e1rn\u00ed_asociace",
+      "type": "owns",
+      "target": "factory_saxonie_pv_plant"
+    }
+  ]
+}
+2025-08-08 18:07:18,929 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:07:18,929 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:07:18,929 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:07:20,183 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:07:20,183 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw",
+      "target": "factory_saxonie_pv_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_saxonie_pv_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:07:20,183 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:07:20,183 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:07:20,183 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:07:20,266 - INFO - ✅ Updated Article ID: 689227e919278e1655b84a68 with 4 nodes and combined text.

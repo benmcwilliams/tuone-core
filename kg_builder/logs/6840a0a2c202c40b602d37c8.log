@@ -229,3 +229,150 @@
 }
 2025-07-12 23:43:36,084 - INFO - POST-PROCESSING STARTING.
 2025-07-12 23:43:36,166 - INFO - ✅ Updated Article ID: 6840a0a2c202c40b602d37c8 with 10 nodes and combined text.
+2025-08-08 18:58:23,927 - INFO - 🔍 Text length: 6158 characters
+2025-08-08 18:58:23,927 - INFO - 📌 Processing Article ID: 6840a0a2c202c40b602d37c8 — US delays or cancels US$14 billion in clean energy investments under Trump presidency
+2025-08-08 18:58:23,928 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:58:28,550 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:28,550 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ivanpah",
+        "type": "factory",
+        "name": "Ivanpah",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_arizona",
+        "type": "factory",
+        "name": "Arizona",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_washington",
+        "type": "factory",
+        "name": "Washington",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_500_million_april_2025",
+        "type": "investment",
+        "name": "USD 500 million new solar, EV, and grid facilities",
+        "amount": "US$500 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      },
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      }
+    ]
+  }
+}
+2025-08-08 18:58:28,550 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:28,550 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 18:58:28,550 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 18:58:28,550 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 18:58:31,415 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:31,415 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_500_million_april_2025",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 18:58:31,415 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:31,415 - INFO - Node ID is investment_usd_500_million_april_2025
+2025-08-08 18:58:31,415 - INFO - ✅ Match found for investment_ID 'investment_usd_500_million_april_2025' in investment nodes
+2025-08-08 18:58:31,415 - INFO -   ➕ Set status: announced
+2025-08-08 18:58:31,415 - INFO -   ➕ Set phase: greenfield
+2025-08-08 18:58:31,415 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:58:31,415 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:58:31,415 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:58:34,432 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:34,433 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_arizona"
+    },
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_washington"
+    }
+  ]
+}
+2025-08-08 18:58:34,433 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:34,433 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:58:34,433 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:58:36,332 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:36,332 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_pv",
+      "target": "factory_ivanpah",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_polysilicon",
+      "target": "factory_washington",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:58:36,332 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:36,332 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 18:58:36,332 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 18:58:38,686 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:38,686 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:58:38,686 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:38,686 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 18:58:38,686 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 18:58:41,573 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:58:41,574 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_500_million_april_2025",
+      "target": "product_solar_pv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-08 18:58:41,574 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:58:41,655 - INFO - ✅ Updated Article ID: 6840a0a2c202c40b602d37c8 with 8 nodes and combined text.

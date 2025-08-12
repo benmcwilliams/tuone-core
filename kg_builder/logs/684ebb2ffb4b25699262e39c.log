@@ -120,3 +120,109 @@
 2025-07-12 23:41:04,017 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
 2025-07-12 23:41:04,017 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
 2025-07-12 23:41:04,097 - INFO - ✅ Updated Article ID: 684ebb2ffb4b25699262e39c with 6 nodes and combined text.
+2025-08-08 18:30:01,369 - INFO - 🔍 Text length: 3064 characters
+2025-08-08 18:30:01,369 - INFO - 📌 Processing Article ID: 684ebb2ffb4b25699262e39c — Lodestone Energy begins construction of 28MW solar PV plant in New Zealand
+2025-08-08 18:30:01,369 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:30:05,095 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:30:05,096 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lodestone_energy",
+        "type": "company",
+        "name": "Lodestone Energy"
+      },
+      {
+        "id": "company_ethical_power",
+        "type": "company",
+        "name": "Ethical Power"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_clandeboye_solar_pv_power_plant",
+        "type": "factory",
+        "name": "Clandeboye Solar PV Power Plant",
+        "location": {
+          "city": "South Canterbury",
+          "country": "New Zealand"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_27_7mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "27.7MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "solar PV"
+      }
+    ]
+  }
+}
+2025-08-08 18:30:05,096 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:30:05,096 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 18:30:05,096 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 18:30:08,353 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:30:08,353 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_27_7mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 18:30:08,353 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:30:08,354 - INFO - Node ID is capacity_27_7mw
+2025-08-08 18:30:08,354 - INFO - ✅ Match found for capacity_ID 'capacity_27_7mw' in capacity nodes
+2025-08-08 18:30:08,354 - INFO -   ➕ Set status: under construction
+2025-08-08 18:30:08,354 - INFO -   ➕ Set phase: greenfield
+2025-08-08 18:30:08,354 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:30:08,354 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:30:08,354 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:30:08,354 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:30:09,711 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:30:09,711 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lodestone_energy",
+      "type": "owns",
+      "target": "factory_clandeboye_solar_pv_power_plant"
+    }
+  ]
+}
+2025-08-08 18:30:09,712 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:30:09,712 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:30:09,712 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:30:11,350 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:30:11,350 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_27_7mw",
+      "target": "factory_clandeboye_solar_pv_power_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_27_7mw",
+      "target": "product_solar_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_pv",
+      "target": "factory_clandeboye_solar_pv_power_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:30:11,351 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:30:11,351 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:30:11,351 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:30:11,429 - INFO - ✅ Updated Article ID: 684ebb2ffb4b25699262e39c with 5 nodes and combined text.

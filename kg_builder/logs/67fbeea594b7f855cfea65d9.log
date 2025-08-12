@@ -1,0 +1,162 @@
+2025-08-12 12:46:58,363 - INFO - 🔍 Text length: 2900 characters
+2025-08-12 12:46:58,363 - INFO - 📌 Processing Article ID: 67fbeea594b7f855cfea65d9 — Grids & Integration
+2025-08-12 12:46:58,363 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 12:47:01,939 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:47:01,939 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powernaut",
+        "type": "company",
+        "name": "Powernaut"
+      },
+      {
+        "id": "company_over_easy_solar",
+        "type": "company",
+        "name": "Over Easy Solar"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_huaneng_group",
+        "type": "company",
+        "name": "Huaneng Group"
+      },
+      {
+        "id": "company_hithium",
+        "type": "company",
+        "name": "Hithium"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_megapack",
+        "type": "factory",
+        "name": "Shanghai Megapack",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mw_floating_wind_farm",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_300_mw_floating_pv_plant",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vertical_rooftop_solar_panels",
+        "type": "product",
+        "name": "vertical rooftop solar panels"
+      },
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      },
+      {
+        "id": "product_hydrogen_production_and_storage",
+        "type": "product",
+        "name": "hydrogen production and storage"
+      },
+      {
+        "id": "product_semi_transparent_pv_array",
+        "type": "product",
+        "name": "semi-transparent PV array"
+      },
+      {
+        "id": "megapack",
+        "type": "product",
+        "name": "Megapack",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        ".status": ""
+      }
+    ]
+  }
+}
+2025-08-12 12:47:01,940 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:47:01,940 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 12:47:01,940 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 12:47:02,983 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:47:02,983 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mw_floating_wind_farm",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_300_mw_floating_pv_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 12:47:02,983 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:47:02,983 - INFO - Node ID is capacity_200_mw_floating_wind_farm
+2025-08-12 12:47:02,983 - INFO - ✅ Match found for capacity_ID 'capacity_200_mw_floating_wind_farm' in capacity nodes
+2025-08-12 12:47:02,983 - INFO -   ➕ Set status: announced
+2025-08-12 12:47:02,983 - INFO -   ➕ Set phase: greenfield
+2025-08-12 12:47:02,983 - INFO - Node ID is capacity_300_mw_floating_pv_plant
+2025-08-12 12:47:02,983 - INFO - ✅ Match found for capacity_ID 'capacity_300_mw_floating_pv_plant' in capacity nodes
+2025-08-12 12:47:02,983 - INFO -   ➕ Set status: announced
+2025-08-12 12:47:02,983 - INFO -   ➕ Set phase: greenfield
+2025-08-12 12:47:02,983 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 12:47:02,983 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 12:47:02,983 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 12:47:02,983 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 12:47:06,080 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:47:06,080 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_shanghai_megapack"
+    }
+  ]
+}
+2025-08-12 12:47:06,080 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:47:06,080 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 12:47:06,080 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 12:47:07,836 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:47:07,836 - INFO - {
+  "relationships": [
+    {
+      "source": "megapack",
+      "target": "factory_shanghai_megapack",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_200_mw_floating_wind_farm",
+      "target": "product_battery_energy_storage_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_300_mw_floating_pv_plant",
+      "target": "product_battery_energy_storage_system",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 12:47:07,836 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:47:07,836 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 12:47:07,836 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 12:47:07,919 - INFO - ✅ Updated Article ID: 67fbeea594b7f855cfea65d9 with 13 nodes and combined text.

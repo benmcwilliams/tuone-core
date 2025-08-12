@@ -1,0 +1,76 @@
+2025-08-08 17:45:22,958 - INFO - 🔍 Text length: 2541 characters
+2025-08-08 17:45:22,959 - INFO - 📌 Processing Article ID: 689227567296212487488748 — Neta Auto to pick up production following pause
+2025-08-08 17:45:22,959 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:45:26,355 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:26,356 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_neta",
+        "type": "company",
+        "name": "Neta"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_hozon_auto",
+        "type": "company",
+        "name": "Hozon Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tongxiang_plant",
+        "type": "factory",
+        "name": "Tongxiang Plant",
+        "location": {
+          "city": "Tongxiang",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-08 17:45:26,356 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:26,356 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:45:26,356 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:45:26,356 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:45:26,356 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:45:26,356 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:45:28,509 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:28,510 - INFO - {
+  "relationships": [
+    {
+      "source": "company_neta",
+      "type": "owns",
+      "target": "factory_tongxiang_plant"
+    }
+  ]
+}
+2025-08-08 17:45:28,510 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:28,510 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:45:28,510 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:45:29,465 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:29,465 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_tongxiang_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:45:29,465 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:29,466 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:45:29,466 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:45:29,545 - INFO - ✅ Updated Article ID: 689227567296212487488748 with 5 nodes and combined text.

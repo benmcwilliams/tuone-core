@@ -1,0 +1,101 @@
+2025-08-12 13:05:50,819 - INFO - 🔍 Text length: 3271 characters
+2025-08-12 13:05:50,819 - INFO - 📌 Processing Article ID: 67fa7fbfeaa4fb525afec541 — EWEC issues request for proposals for 1.5 GW solar project
+2025-08-12 13:05:50,819 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:05:52,898 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:05:52,898 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_emirates_water_and_electricity_co",
+        "type": "company",
+        "name": "Emirates Water and Electricity Co."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zarraf_solar_independent_power_producer_project",
+        "type": "factory",
+        "name": "Zarraf Solar Independent Power Producer Project",
+        "location": {
+          "city": "Al Dhafra",
+          "country": "United Arab Emirates"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_5_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.5 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 13:05:52,898 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:05:52,898 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:05:52,899 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:05:54,016 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:05:54,016 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_5_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:05:54,016 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:05:54,016 - INFO - Node ID is capacity_1_5_gw_announced
+2025-08-12 13:05:54,016 - INFO - ✅ Match found for capacity_ID 'capacity_1_5_gw_announced' in capacity nodes
+2025-08-12 13:05:54,016 - INFO -   ➕ Set status: announced
+2025-08-12 13:05:54,016 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:05:54,017 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:05:54,017 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:05:54,017 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:05:54,017 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:05:55,217 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:05:55,218 - INFO - {
+  "relationships": [
+    {
+      "source": "company_emirates_water_and_electricity_co",
+      "type": "owns",
+      "target": "factory_zarraf_solar_independent_power_producer_project"
+    }
+  ]
+}
+2025-08-12 13:05:55,218 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:05:55,218 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:05:55,218 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:05:56,539 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:05:56,539 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_5_gw_announced",
+      "target": "factory_zarraf_solar_independent_power_producer_project",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_5_gw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_zarraf_solar_independent_power_producer_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:05:56,539 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:05:56,539 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:05:56,540 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:05:56,624 - INFO - ✅ Updated Article ID: 67fa7fbfeaa4fb525afec541 with 4 nodes and combined text.

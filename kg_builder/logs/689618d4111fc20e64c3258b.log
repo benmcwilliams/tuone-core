@@ -1,0 +1,161 @@
+2025-08-08 17:38:30,402 - INFO - 🔍 Text length: 2839 characters
+2025-08-08 17:38:30,402 - INFO - 📌 Processing Article ID: 689618d4111fc20e64c3258b — GM to temporarily source CATL batteries for new Chevy Bolt – despite tariffs
+2025-08-08 17:38:30,402 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:38:37,237 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:38:37,237 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ultium_cells",
+        "type": "joint_venture",
+        "name": "Ultium Cells"
+      },
+      {
+        "id": "joint_venture_gm_indiana",
+        "type": "joint_venture",
+        "name": "GM Indiana"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_spring_hill_tennessee",
+        "type": "factory",
+        "name": "Spring Hill Battery Cell Plant",
+        "location": {
+          "city": "Spring Hill",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_fairfax_kansas",
+        "type": "factory",
+        "name": "Fairfax Assembly Plant",
+        "location": {
+          "city": "Fairfax",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_indiana",
+        "type": "factory",
+        "name": "Indiana Factory",
+        "location": {
+          "city": "Indiana",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_chevrolet_bolt",
+        "type": "product",
+        "name": "Chevrolet Bolt"
+      },
+      {
+        "id": "product_lfp_cells",
+        "type": "product",
+        "name": "LFP cells"
+      },
+      {
+        "id": "product_nickel_rich_batteries",
+        "type": "product",
+        "name": "nickel-rich batteries"
+      }
+    ]
+  }
+}
+2025-08-08 17:38:37,237 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:38:37,237 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:38:37,238 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:38:37,238 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:38:37,238 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:38:37,238 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:38:46,534 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:38:46,534 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "joint_venture_ultium_cells",
+      "type": "owns",
+      "target": "factory_spring_hill_tennessee"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_fairfax_kansas"
+    },
+    {
+      "source": "joint_venture_gm_indiana",
+      "type": "owns",
+      "target": "factory_indiana"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_gm_indiana"
+    },
+    {
+      "source": "company_samsung_sdi",
+      "type": "forms",
+      "target": "joint_venture_gm_indiana"
+    }
+  ]
+}
+2025-08-08 17:38:46,534 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:38:46,534 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:38:46,534 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:38:48,202 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:38:48,203 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lfp_cells",
+      "target": "factory_spring_hill_tennessee",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_chevrolet_bolt",
+      "target": "factory_fairfax_kansas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nickel_rich_batteries",
+      "target": "factory_indiana",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:38:48,203 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:38:48,203 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:38:48,203 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:38:48,283 - INFO - ✅ Updated Article ID: 689618d4111fc20e64c3258b with 12 nodes and combined text.

@@ -1,0 +1,164 @@
+2025-08-12 13:25:58,583 - INFO - 🔍 Text length: 4928 characters
+2025-08-12 13:25:58,583 - INFO - 📌 Processing Article ID: 67fa76c8eaa4fb525afeb4bf — REC Silicon shuts down polysilicon operations at U.S. site
+2025-08-12 13:25:58,583 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:26:05,157 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:05,158 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      },
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_moses_lake_washington",
+        "type": "factory",
+        "name": "Moses Lake Facility",
+        "location": {
+          "city": "Moses Lake",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_butte_montana",
+        "type": "factory",
+        "name": "Butte Facility",
+        "location": {
+          "city": "Butte",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      },
+      {
+        "id": "product_silicon_gases",
+        "type": "product",
+        "name": "silicon gases"
+      },
+      {
+        "id": "product_silicon_anode",
+        "type": "product",
+        "name": "Silicon Anode"
+      },
+      {
+        "id": "product_fbr_granular_polysilicon",
+        "type": "product",
+        "name": "FBR granular polysilicon"
+      },
+      {
+        "id": "ingot",
+        "type": "product",
+        "name": "ingot",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "solar_wafer",
+        "type": "product",
+        "name": "solar wafer",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_silicon_gas_assets",
+        "type": "investment",
+        "name": "silicon gas assets",
+        "amount": "null",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-12 13:26:05,158 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:05,158 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 13:26:05,158 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 13:26:05,158 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 13:26:05,996 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:05,996 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_silicon_gas_assets",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 13:26:05,996 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:05,996 - INFO - Node ID is investment_silicon_gas_assets
+2025-08-12 13:26:05,996 - INFO - ✅ Match found for investment_ID 'investment_silicon_gas_assets' in investment nodes
+2025-08-12 13:26:05,996 - INFO -   ➕ Set status: announced
+2025-08-12 13:26:05,996 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:26:05,996 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:26:05,997 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:26:05,997 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:26:10,561 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:10,561 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_moses_lake_washington"
+    },
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_butte_montana"
+    }
+  ]
+}
+2025-08-12 13:26:10,561 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:10,561 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:26:10,561 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:26:11,550 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:11,550 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polysilicon",
+      "target": "factory_moses_lake_washington",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fbr_granular_polysilicon",
+      "target": "factory_moses_lake_washington",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:26:11,550 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:11,550 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 13:26:11,550 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 13:26:13,957 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:13,957 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:26:13,958 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:13,958 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 13:26:13,958 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 13:26:16,174 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:26:16,174 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:26:16,174 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:26:16,258 - INFO - ✅ Updated Article ID: 67fa76c8eaa4fb525afeb4bf with 11 nodes and combined text.

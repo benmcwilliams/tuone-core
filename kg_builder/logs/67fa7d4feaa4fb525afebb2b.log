@@ -1,0 +1,116 @@
+2025-08-12 13:21:07,154 - INFO - 🔍 Text length: 3087 characters
+2025-08-12 13:21:07,154 - INFO - 📌 Processing Article ID: 67fa7d4feaa4fb525afebb2b — Gambia seeking consultants for regional solar plan
+2025-08-12 13:21:07,154 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:21:09,722 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:21:09,722 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nawec",
+        "type": "company",
+        "name": "National Water and Electricity Co."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_regional_solar_park_of_the_gambia",
+        "type": "factory",
+        "name": "Regional Solar Park of The Gambia",
+        "location": {
+          "city": "null",
+          "country": "Gambia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_mw_solar_18_mwh_bess",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW solar, 18 MWh BESS",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-12 13:21:09,722 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:21:09,723 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:21:09,723 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:21:12,208 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:21:12,209 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw_solar_18_mwh_bess",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:21:12,209 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:21:12,209 - INFO - Node ID is capacity_50_mw_solar_18_mwh_bess
+2025-08-12 13:21:12,209 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw_solar_18_mwh_bess' in capacity nodes
+2025-08-12 13:21:12,209 - INFO -   ➕ Set status: announced
+2025-08-12 13:21:12,209 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:21:12,209 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:21:12,209 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:21:12,209 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:21:12,209 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:21:13,254 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:21:13,254 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nawec",
+      "type": "owns",
+      "target": "factory_regional_solar_park_of_the_gambia"
+    }
+  ]
+}
+2025-08-12 13:21:13,254 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:21:13,254 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:21:13,254 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:21:15,762 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:21:15,763 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw_solar_18_mwh_bess",
+      "target": "factory_regional_solar_park_of_the_gambia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50_mw_solar_18_mwh_bess",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50_mw_solar_18_mwh_bess",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_regional_solar_park_of_the_gambia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_regional_solar_park_of_the_gambia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:21:15,763 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:21:15,763 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:21:15,763 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:21:15,853 - INFO - ✅ Updated Article ID: 67fa7d4feaa4fb525afebb2b with 5 nodes and combined text.

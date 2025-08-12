@@ -1,0 +1,159 @@
+2025-08-12 13:08:40,498 - INFO - 🔍 Text length: 2771 characters
+2025-08-12 13:08:40,498 - INFO - 📌 Processing Article ID: 67fa7ee2eaa4fb525afec1ae — Policy
+2025-08-12 13:08:40,498 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:08:42,930 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:42,930 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_convergent",
+        "type": "company",
+        "name": "Convergent"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_puerto_rico",
+        "type": "factory",
+        "name": "Puerto Rico Solar-Plus-Storage",
+        "location": {
+          "city": "Puerto Rico",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_half_a_billion_announced",
+        "type": "investment",
+        "name": "US DOE Loans",
+        "amount": "more than half a billion dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "nearly 1 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_plus_storage",
+        "type": "product",
+        "name": "solar-plus-storage"
+      },
+      {
+        "id": "product_floating_wind_power",
+        "type": "product",
+        "name": "floating wind power"
+      },
+      {
+        "id": "product_floating_pv_power",
+        "type": "product",
+        "name": "floating PV power"
+      }
+    ]
+  }
+}
+2025-08-12 13:08:42,930 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:42,930 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:08:42,931 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:08:44,978 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:44,978 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:08:44,978 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:44,978 - INFO - Node ID is capacity_1_gwh_announced
+2025-08-12 13:08:44,978 - INFO - ✅ Match found for capacity_ID 'capacity_1_gwh_announced' in capacity nodes
+2025-08-12 13:08:44,978 - INFO -   ➕ Set status: announced
+2025-08-12 13:08:44,978 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:08:44,978 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 13:08:44,978 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 13:08:48,562 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:48,563 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_half_a_billion_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:08:48,563 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:48,563 - INFO - Node ID is investment_usd_half_a_billion_announced
+2025-08-12 13:08:48,563 - INFO - ✅ Match found for investment_ID 'investment_usd_half_a_billion_announced' in investment nodes
+2025-08-12 13:08:48,563 - INFO -   ➕ Set status: announced
+2025-08-12 13:08:48,563 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:08:48,563 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:08:48,563 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:08:48,563 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:08:49,409 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:49,409 - INFO - {
+  "relationships": [
+    {
+      "source": "company_convergent",
+      "type": "owns",
+      "target": "factory_puerto_rico"
+    }
+  ]
+}
+2025-08-12 13:08:49,409 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:49,409 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:08:49,409 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:08:51,034 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:51,034 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gwh_announced",
+      "target": "factory_puerto_rico",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gwh_announced",
+      "target": "product_solar_plus_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_plus_storage",
+      "target": "factory_puerto_rico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:08:51,034 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:51,035 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 13:08:51,035 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 13:08:52,351 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:52,351 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:08:52,351 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:52,351 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 13:08:52,351 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 13:08:53,316 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:08:53,316 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_half_a_billion_announced",
+      "target": "factory_puerto_rico",
+      "type": "funds"
+    },
+    {
+      "source": "investment_usd_half_a_billion_announced",
+      "target": "product_solar_plus_storage",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 13:08:53,316 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:08:53,394 - INFO - ✅ Updated Article ID: 67fa7ee2eaa4fb525afec1ae with 7 nodes and combined text.

@@ -1,0 +1,111 @@
+2025-08-12 13:05:56,626 - INFO - 🔍 Text length: 2426 characters
+2025-08-12 13:05:56,626 - INFO - 📌 Processing Article ID: 67fa7fb4eaa4fb525afec513 — Residential PV
+2025-08-12 13:05:56,626 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:06:05,026 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:06:05,026 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aiko_solar",
+        "type": "company",
+        "name": "Aiko Solar"
+      },
+      {
+        "id": "company_solar_edge",
+        "type": "company",
+        "name": "SolarEdge"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jinan",
+        "type": "factory",
+        "name": "Jinan",
+        "location": {
+          "city": "Jinan",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_gw_solar_cell_and_panel",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_n_type_all_back_contact_solar_modules",
+        "type": "product",
+        "name": "n-type all-back-contact solar modules"
+      },
+      {
+        "id": "product_solar_edge_ems",
+        "type": "product",
+        "name": "SolarEdge EMS"
+      }
+    ]
+  }
+}
+2025-08-12 13:06:05,026 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:06:05,026 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:06:05,026 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:06:05,845 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:06:05,845 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_gw_solar_cell_and_panel",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:06:05,845 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:06:05,845 - INFO - Node ID is capacity_30_gw_solar_cell_and_panel
+2025-08-12 13:06:05,845 - INFO - ✅ Match found for capacity_ID 'capacity_30_gw_solar_cell_and_panel' in capacity nodes
+2025-08-12 13:06:05,845 - INFO -   ➕ Set status: operational
+2025-08-12 13:06:05,845 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:06:05,845 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:06:05,845 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:06:05,845 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:06:05,846 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:06:10,727 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:06:10,727 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aiko_solar",
+      "type": "owns",
+      "target": "factory_jinan"
+    }
+  ]
+}
+2025-08-12 13:06:10,727 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:06:10,728 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:06:10,728 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:06:11,932 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:06:11,932 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_gw_solar_cell_and_panel",
+      "target": "factory_jinan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_gw_solar_cell_and_panel",
+      "target": "product_n_type_all_back_contact_solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_n_type_all_back_contact_solar_modules",
+      "target": "factory_jinan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:06:11,932 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:06:11,933 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:06:11,933 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:06:12,014 - INFO - ✅ Updated Article ID: 67fa7fb4eaa4fb525afec513 with 6 nodes and combined text.

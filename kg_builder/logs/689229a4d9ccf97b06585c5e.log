@@ -1,0 +1,153 @@
+2025-08-08 18:00:06,758 - INFO - 🔍 Text length: 1006 characters
+2025-08-08 18:00:06,758 - INFO - 📌 Processing Article ID: 689229a4d9ccf97b06585c5e — Lyten to buy Northvolt assets with $200 million for BESS push in Europe
+2025-08-08 18:00:06,759 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:00:11,100 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:11,100 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lyten",
+        "type": "company",
+        "name": "Lyten"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gdansk_poland",
+        "type": "factory",
+        "name": "Gdansk BESS facility",
+        "location": {
+          "city": "Gdansk",
+          "country": "Poland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_200_million_announced",
+        "type": "investment",
+        "name": "200 million equity financing",
+        "amount": "$200 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_6_gwh_bess_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "6 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      },
+      {
+        "id": "product_voltpack_mobile_system",
+        "type": "product",
+        "name": "Voltpack Mobile System"
+      },
+      {
+        "id": "product_voltrack",
+        "type": "product",
+        "name": "Voltrack"
+      }
+    ]
+  }
+}
+2025-08-08 18:00:11,101 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:11,101 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 18:00:11,101 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 18:00:12,207 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:12,207 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_6_gwh_bess_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 18:00:12,207 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:12,207 - INFO - Node ID is capacity_6_gwh_bess_announced
+2025-08-08 18:00:12,207 - INFO - ✅ Match found for capacity_ID 'capacity_6_gwh_bess_announced' in capacity nodes
+2025-08-08 18:00:12,207 - INFO -   ➕ Set status: announced
+2025-08-08 18:00:12,208 - INFO -   ➕ Set phase: unclear
+2025-08-08 18:00:12,208 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 18:00:12,208 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 18:00:13,761 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:13,761 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_200_million_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-08 18:00:13,761 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:13,761 - INFO - Node ID is investment_200_million_announced
+2025-08-08 18:00:13,761 - INFO - ✅ Match found for investment_ID 'investment_200_million_announced' in investment nodes
+2025-08-08 18:00:13,761 - INFO -   ➕ Set status: announced
+2025-08-08 18:00:13,761 - INFO -   ➕ Set phase: expansion
+2025-08-08 18:00:13,761 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:00:13,762 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:00:13,762 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:00:15,047 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:15,047 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lyten",
+      "type": "owns",
+      "target": "factory_gdansk_poland"
+    }
+  ]
+}
+2025-08-08 18:00:15,047 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:15,047 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:00:15,047 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:00:19,394 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:19,395 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_6_gwh_bess_announced",
+      "target": "factory_gdansk_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_6_gwh_bess_announced",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_gdansk_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:00:19,395 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:19,395 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 18:00:19,395 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 18:00:20,724 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:20,724 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:00:20,724 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:20,724 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 18:00:20,724 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 18:00:22,771 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:00:22,772 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:00:22,772 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:00:22,851 - INFO - ✅ Updated Article ID: 689229a4d9ccf97b06585c5e with 8 nodes and combined text.

@@ -77,7 +77,7 @@ def clean_owner_names():
 
     # 4. execute update in batches
     BATCH_SIZE = 500
-    logging.info(len(ops))
+    logging.info(f"{len(ops)} updates to be committed to mongoDB.")
 
     for i in range(0, len(ops), BATCH_SIZE):
         batch = ops[i : i + BATCH_SIZE]

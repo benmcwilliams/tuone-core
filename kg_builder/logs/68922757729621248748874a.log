@@ -1,0 +1,131 @@
+2025-08-08 17:44:54,181 - INFO - 🔍 Text length: 3594 characters
+2025-08-08 17:44:54,181 - INFO - 📌 Processing Article ID: 68922757729621248748874a — Changan Mazda launches series production of the EZ-60
+2025-08-08 17:44:54,181 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:44:57,172 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:44:57,173 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_changan_mazda",
+        "type": "company",
+        "name": "Changan Mazda"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_changan_mazda",
+        "type": "joint_venture",
+        "name": "Changan Mazda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nanjing_plant",
+        "type": "factory",
+        "name": "Nanjing Plant",
+        "location": {
+          "city": "Nanjing",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nanjing_production_line",
+        "type": "investment",
+        "name": "Nanjing Production Line",
+        "amount": "200 million yuan (around 24.1 million euros)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ez_60",
+        "type": "product",
+        "name": "EZ-60"
+      },
+      {
+        "id": "product_ez_6",
+        "type": "product",
+        "name": "EZ-6"
+      },
+      {
+        "id": "product_deepal_s07",
+        "type": "product",
+        "name": "Deepal S07"
+      }
+    ]
+  }
+}
+2025-08-08 17:44:57,173 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:44:57,173 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:44:57,173 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:44:57,173 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:45:03,214 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:03,214 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nanjing_production_line",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-08 17:45:03,214 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:03,214 - INFO - Node ID is investment_nanjing_production_line
+2025-08-08 17:45:03,214 - INFO - ✅ Match found for investment_ID 'investment_nanjing_production_line' in investment nodes
+2025-08-08 17:45:03,214 - INFO -   ➕ Set status: ongoing
+2025-08-08 17:45:03,214 - INFO -   ➕ Set phase: expansion
+2025-08-08 17:45:03,215 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:45:03,215 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:45:03,215 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:45:05,856 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:05,856 - INFO - {
+  "relationships": [
+    {
+      "source": "company_changan_mazda",
+      "type": "forms",
+      "target": "joint_venture_changan_mazda"
+    },
+    {
+      "source": "joint_venture_changan_mazda",
+      "type": "owns",
+      "target": "factory_nanjing_plant"
+    }
+  ]
+}
+2025-08-08 17:45:05,856 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:05,856 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:45:05,856 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:45:08,743 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:08,744 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ez_60",
+      "target": "factory_nanjing_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:45:08,744 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:08,744 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:45:08,744 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:45:10,963 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:10,963 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:45:10,963 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:10,963 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:45:10,963 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:45:14,681 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:45:14,681 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nanjing_production_line",
+      "target": "factory_nanjing_plant",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-08 17:45:14,681 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:45:14,766 - INFO - ✅ Updated Article ID: 68922757729621248748874a with 7 nodes and combined text.

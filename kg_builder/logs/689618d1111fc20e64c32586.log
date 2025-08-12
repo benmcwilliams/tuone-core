@@ -1,0 +1,96 @@
+2025-08-08 17:40:05,243 - INFO - 🔍 Text length: 2862 characters
+2025-08-08 17:40:05,243 - INFO - 📌 Processing Article ID: 689618d1111fc20e64c32586 — EVgo secures $225m to expand US fast charging network
+2025-08-08 17:40:05,243 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:40:09,936 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:40:09,936 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_evgo",
+        "type": "company",
+        "name": "EVgo"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_$225_million_commercial_bank_credit facility",
+        "type": "investment",
+        "name": "$225 million commercial bank credit facility",
+        "amount": "$225 million",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_$1.25_billion_guaranteed_loan facility",
+        "type": "investment",
+        "name": "$1.25 billion guaranteed loan facility",
+        "amount": "$1.25 billion",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_power_fast_charging_stalls",
+        "type": "product",
+        "name": "high-power fast-charging stalls"
+      }
+    ]
+  }
+}
+2025-08-08 17:40:09,936 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:40:09,936 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 17:40:09,936 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:40:09,936 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:40:18,448 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:40:18,449 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_$225_million_commercial_bank_credit facility",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_$1.25_billion_guaranteed_loan facility",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:40:18,449 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:40:18,449 - INFO - Node ID is investment_$225_million_commercial_bank_credit facility
+2025-08-08 17:40:18,449 - INFO - ✅ Match found for investment_ID 'investment_$225_million_commercial_bank_credit facility' in investment nodes
+2025-08-08 17:40:18,449 - INFO -   ➕ Set status: announced
+2025-08-08 17:40:18,449 - INFO -   ➕ Set phase: expansion
+2025-08-08 17:40:18,449 - INFO - Node ID is investment_$1.25_billion_guaranteed_loan facility
+2025-08-08 17:40:18,449 - INFO - ✅ Match found for investment_ID 'investment_$1.25_billion_guaranteed_loan facility' in investment nodes
+2025-08-08 17:40:18,449 - INFO -   ➕ Set status: completed
+2025-08-08 17:40:18,449 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:40:18,449 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:40:18,449 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-08 17:40:18,450 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:40:18,450 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:40:20,985 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:40:20,985 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:40:20,985 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:40:20,985 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:40:20,986 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:40:24,286 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:40:24,286 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:40:24,286 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:40:24,287 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:40:24,287 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:40:31,247 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:40:31,247 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_$225_million_commercial_bank_credit facility",
+      "target": "product_high_power_fast_charging_stalls",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-08 17:40:31,247 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:40:31,322 - INFO - ✅ Updated Article ID: 689618d1111fc20e64c32586 with 4 nodes and combined text.

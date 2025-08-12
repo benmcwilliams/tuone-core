@@ -170,3 +170,149 @@
 }
 2025-07-12 23:42:35,563 - INFO - POST-PROCESSING STARTING.
 2025-07-12 23:42:35,645 - INFO - ✅ Updated Article ID: 6840a0aac202c40b602d37cd with 8 nodes and combined text.
+2025-08-08 18:56:56,995 - INFO - 🔍 Text length: 2552 characters
+2025-08-08 18:56:56,996 - INFO - 📌 Processing Article ID: 6840a0aac202c40b602d37cd — Meyer Burger cuts jobs at US module assembly plant
+2025-08-08 18:56:56,996 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:56:59,474 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:56:59,474 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_d_e_shaw_renewable_investments",
+        "type": "company",
+        "name": "D.E. Shaw Renewable Investments"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goodyear_arizona",
+        "type": "factory",
+        "name": "Goodyear Module Assembly Plant",
+        "location": {
+          "city": "Goodyear",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_freiburg_germany",
+        "type": "factory",
+        "name": "Freiburg Module Assembly Plant",
+        "location": {
+          "city": "Freiburg",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_thalheim_germany",
+        "type": "factory",
+        "name": "Thalheim Solar Cell Production Facility",
+        "location": {
+          "city": "Thalheim",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_meyer_burger_restructuring",
+        "type": "investment",
+        "name": "Meyer Burger Restructuring",
+        "amount": "US$40 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hjt_solar_cells_and_modules",
+        "type": "product",
+        "name": "Heterojunction Technology (HJT) Solar Cells and Modules"
+      }
+    ]
+  }
+}
+2025-08-08 18:56:59,474 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:56:59,475 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 18:56:59,475 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 18:56:59,475 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 18:57:00,278 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:57:00,278 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_meyer_burger_restructuring",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 18:57:00,278 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:57:00,278 - INFO - Node ID is investment_meyer_burger_restructuring
+2025-08-08 18:57:00,278 - INFO - ✅ Match found for investment_ID 'investment_meyer_burger_restructuring' in investment nodes
+2025-08-08 18:57:00,278 - INFO -   ➕ Set status: ongoing
+2025-08-08 18:57:00,278 - INFO -   ➕ Set phase: unclear
+2025-08-08 18:57:00,278 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:57:00,278 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:57:00,278 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:57:02,463 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:57:02,464 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_goodyear_arizona"
+    },
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_freiburg_germany"
+    },
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_thalheim_germany"
+    }
+  ]
+}
+2025-08-08 18:57:02,464 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:57:02,464 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:57:02,464 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:57:04,272 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:57:04,273 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hjt_solar_cells_and_modules",
+      "target": "factory_goodyear_arizona",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hjt_solar_cells_and_modules",
+      "target": "factory_freiburg_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hjt_solar_cells_and_modules",
+      "target": "factory_thalheim_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:57:04,273 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:57:04,273 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 18:57:04,273 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 18:57:06,833 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:57:06,833 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:57:06,833 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:57:06,834 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 18:57:06,834 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 18:57:08,574 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:57:08,574 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:57:08,574 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:57:08,664 - INFO - ✅ Updated Article ID: 6840a0aac202c40b602d37cd with 7 nodes and combined text.

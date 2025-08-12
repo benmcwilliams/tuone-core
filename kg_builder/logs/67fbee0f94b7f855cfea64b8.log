@@ -1,0 +1,116 @@
+2025-08-12 12:55:55,297 - INFO - 🔍 Text length: 4723 characters
+2025-08-12 12:55:55,298 - INFO - 📌 Processing Article ID: 67fbee0f94b7f855cfea64b8 — California winery installs solar with dual-axis tracking
+2025-08-12 12:55:55,298 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 12:55:58,380 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:55:58,380 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_del_dotto_winery",
+        "type": "company",
+        "name": "Del Dotto Winery"
+      },
+      {
+        "id": "company_mechatron_solar",
+        "type": "company",
+        "name": "Mechatron Solar"
+      },
+      {
+        "id": "company_lynxsystems",
+        "type": "company",
+        "name": "LynxSystems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_stockton_california",
+        "type": "factory",
+        "name": "Stockton Factory",
+        "location": {
+          "city": "Stockton",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mw_trackers_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_m18kd_tracker",
+        "type": "product",
+        "name": "M18KD Tracker"
+      },
+      {
+        "id": "product_bifacial_solar_panels",
+        "type": "product",
+        "name": "Bifacial Solar Panels"
+      }
+    ]
+  }
+}
+2025-08-12 12:55:58,380 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:55:58,380 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 12:55:58,380 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 12:56:00,180 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:56:00,180 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mw_trackers_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 12:56:00,180 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:56:00,180 - INFO - Node ID is capacity_200_mw_trackers_operational
+2025-08-12 12:56:00,180 - INFO - ✅ Match found for capacity_ID 'capacity_200_mw_trackers_operational' in capacity nodes
+2025-08-12 12:56:00,180 - INFO -   ➕ Set status: operational
+2025-08-12 12:56:00,180 - INFO -   ➕ Set phase: unclear
+2025-08-12 12:56:00,180 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 12:56:00,180 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 12:56:00,180 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 12:56:00,180 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 12:56:01,069 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:56:01,069 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mechatron_solar",
+      "type": "owns",
+      "target": "factory_stockton_california"
+    }
+  ]
+}
+2025-08-12 12:56:01,069 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:56:01,069 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 12:56:01,070 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 12:56:03,917 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:56:03,917 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_mw_trackers_operational",
+      "target": "factory_stockton_california",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_mw_trackers_operational",
+      "target": "product_m18kd_tracker",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_m18kd_tracker",
+      "target": "factory_stockton_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 12:56:03,917 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:56:03,918 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 12:56:03,918 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 12:56:04,021 - INFO - ✅ Updated Article ID: 67fbee0f94b7f855cfea64b8 with 7 nodes and combined text.

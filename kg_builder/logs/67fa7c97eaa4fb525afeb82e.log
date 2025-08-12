@@ -1,0 +1,179 @@
+2025-08-12 13:23:17,733 - INFO - 🔍 Text length: 4244 characters
+2025-08-12 13:23:17,733 - INFO - 📌 Processing Article ID: 67fa7c97eaa4fb525afeb82e — Oversized solar farm keeps lights on until midnight
+2025-08-12 13:23:17,733 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:23:22,183 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:23:22,183 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_pine_gate_renewables",
+        "type": "company",
+        "name": "Pine Gate Renewables"
+      },
+      {
+        "id": "company_fluence",
+        "type": "company",
+        "name": "Fluence"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunstone_power_plant",
+        "type": "factory",
+        "name": "Sunstone Power Plant",
+        "location": {
+          "city": "northern Oregon",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_4_gw_solar_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.4 GW",
+        "status": "unclear"
+      },
+      {
+        "id": "capacity_7_2_gw_storage_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "7.2 GW",
+        "status": "unclear"
+      },
+      {
+        "id": "capacity_1_2_gw_unclear_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW",
+        "status": "unclear"
+      },
+      {
+        "id": "capacity_1_01_mw_operational_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.01 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_energy_storage",
+        "type": "product",
+        "name": "energy storage"
+      }
+    ]
+  }
+}
+2025-08-12 13:23:22,183 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:23:22,183 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 13:23:22,183 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 13:23:24,071 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:23:24,071 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_4_gw_solar_unclear",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_7_2_gw_storage_unclear",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_1_2_gw_unclear_unclear",
+      "status": "unclear",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_1_01_mw_operational_unclear",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:23:24,071 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:23:24,071 - INFO - Node ID is capacity_2_4_gw_solar_unclear
+2025-08-12 13:23:24,072 - INFO - ✅ Match found for capacity_ID 'capacity_2_4_gw_solar_unclear' in capacity nodes
+2025-08-12 13:23:24,072 - INFO -   ➕ Set status: announced
+2025-08-12 13:23:24,072 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:23:24,072 - INFO - Node ID is capacity_7_2_gw_storage_unclear
+2025-08-12 13:23:24,072 - INFO - ✅ Match found for capacity_ID 'capacity_7_2_gw_storage_unclear' in capacity nodes
+2025-08-12 13:23:24,072 - INFO -   ➕ Set status: announced
+2025-08-12 13:23:24,072 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:23:24,072 - INFO - Node ID is capacity_1_2_gw_unclear_unclear
+2025-08-12 13:23:24,072 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_unclear_unclear' in capacity nodes
+2025-08-12 13:23:24,072 - INFO -   ➕ Set status: unclear
+2025-08-12 13:23:24,072 - INFO -   ➕ Set phase: unclear
+2025-08-12 13:23:24,072 - INFO - Node ID is capacity_1_01_mw_operational_unclear
+2025-08-12 13:23:24,072 - INFO - ✅ Match found for capacity_ID 'capacity_1_01_mw_operational_unclear' in capacity nodes
+2025-08-12 13:23:24,072 - INFO -   ➕ Set status: operational
+2025-08-12 13:23:24,072 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:23:24,072 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 13:23:24,072 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:23:24,072 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:23:24,073 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:23:24,945 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:23:24,945 - INFO - {
+  "relationships": [
+    {
+      "source": "company_pine_gate_renewables",
+      "type": "owns",
+      "target": "factory_sunstone_power_plant"
+    }
+  ]
+}
+2025-08-12 13:23:24,946 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:23:24,946 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:23:24,946 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:23:28,551 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:23:28,551 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_4_gw_solar_unclear",
+      "target": "factory_sunstone_power_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_7_2_gw_storage_unclear",
+      "target": "factory_sunstone_power_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_sunstone_power_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_energy_storage",
+      "target": "factory_sunstone_power_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_2_4_gw_solar_unclear",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_7_2_gw_storage_unclear",
+      "target": "product_energy_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_2_gw_unclear_unclear",
+      "target": "factory_sunstone_power_plant",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 13:23:28,552 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:23:28,552 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 13:23:28,552 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 13:23:28,644 - INFO - ✅ Updated Article ID: 67fa7c97eaa4fb525afeb82e with 9 nodes and combined text.

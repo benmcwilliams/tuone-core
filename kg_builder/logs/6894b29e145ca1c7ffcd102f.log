@@ -1,0 +1,126 @@
+2025-08-08 17:43:23,068 - INFO - 🔍 Text length: 2725 characters
+2025-08-08 17:43:23,068 - INFO - 📌 Processing Article ID: 6894b29e145ca1c7ffcd102f — LiCAP launches 300 MWh dry electrode line in California
+2025-08-08 17:43:23,068 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:43:27,784 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:43:27,785 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_licap_technologies",
+        "type": "company",
+        "name": "LiCAP Technologies"
+      },
+      {
+        "id": "company_duerr",
+        "type": "company",
+        "name": "D\u00fcrr"
+      },
+      {
+        "id": "company_cellforce",
+        "type": "company",
+        "name": "Cellforce"
+      },
+      {
+        "id": "company_siemens",
+        "type": "company",
+        "name": "Siemens"
+      },
+      {
+        "id": "company_bw_papersystems",
+        "type": "company",
+        "name": "BW Papersystems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sacramento_california",
+        "type": "factory",
+        "name": "Sacramento Facility",
+        "location": {
+          "city": "Sacramento",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_mwh_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 MWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dry_electrode",
+        "type": "product",
+        "name": "dry electrode"
+      },
+      {
+        "id": "product_cathode_roll",
+        "type": "product",
+        "name": "cathode roll"
+      }
+    ]
+  }
+}
+2025-08-08 17:43:27,785 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:43:27,785 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:43:27,785 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:43:29,998 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:43:29,999 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_mwh_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:43:29,999 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:43:29,999 - INFO - Node ID is capacity_300_mwh_operational
+2025-08-08 17:43:29,999 - INFO - ✅ Match found for capacity_ID 'capacity_300_mwh_operational' in capacity nodes
+2025-08-08 17:43:29,999 - INFO -   ➕ Set status: operational
+2025-08-08 17:43:29,999 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:43:29,999 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:43:29,999 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:43:29,999 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:43:29,999 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:43:34,048 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:43:34,049 - INFO - {
+  "relationships": [
+    {
+      "source": "company_licap_technologies",
+      "type": "owns",
+      "target": "factory_sacramento_california"
+    }
+  ]
+}
+2025-08-08 17:43:34,049 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:43:34,049 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:43:34,049 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:43:37,168 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:43:37,168 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_mwh_operational",
+      "target": "factory_sacramento_california",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_mwh_operational",
+      "target": "product_dry_electrode",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_dry_electrode",
+      "target": "factory_sacramento_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:43:37,168 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:43:37,168 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:43:37,168 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:43:37,253 - INFO - ✅ Updated Article ID: 6894b29e145ca1c7ffcd102f with 9 nodes and combined text.

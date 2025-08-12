@@ -1,0 +1,152 @@
+2025-08-08 17:41:24,403 - INFO - 🔍 Text length: 2627 characters
+2025-08-08 17:41:24,403 - INFO - 📌 Processing Article ID: 689618cf111fc20e64c32583 — Nissan opens new UK electric truck charging hub
+2025-08-08 17:41:24,403 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:41:30,140 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:30,140 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_gridserve",
+        "type": "company",
+        "name": "Gridserve"
+      },
+      {
+        "id": "company_fergusons",
+        "type": "company",
+        "name": "Fergusons"
+      },
+      {
+        "id": "company_yusen",
+        "type": "company",
+        "name": "Yusen"
+      },
+      {
+        "id": "company_bca",
+        "type": "company",
+        "name": "BCA"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "Sunderland Plant",
+        "location": {
+          "city": "Sunderland",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_zero_emission hgv programme",
+        "type": "investment",
+        "name": "Zero Emission HGV Programme",
+        "amount": "\u00a3200m",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_360kw_announced_greenfield",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "360kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ehgv_charging_station",
+        "type": "product",
+        "name": "eHGV Charging Station"
+      }
+    ]
+  }
+}
+2025-08-08 17:41:30,140 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:30,140 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:41:30,140 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:41:35,237 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:35,237 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_360kw_announced_greenfield",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:41:35,238 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:35,238 - INFO - Node ID is capacity_360kw_announced_greenfield
+2025-08-08 17:41:35,238 - INFO - ✅ Match found for capacity_ID 'capacity_360kw_announced_greenfield' in capacity nodes
+2025-08-08 17:41:35,238 - INFO -   ➕ Set status: announced
+2025-08-08 17:41:35,238 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:41:35,238 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 17:41:35,238 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 17:41:36,844 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:36,844 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_zero_emission hgv programme",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 17:41:36,844 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:36,845 - INFO - Node ID is investment_zero_emission hgv programme
+2025-08-08 17:41:36,845 - INFO - ✅ Match found for investment_ID 'investment_zero_emission hgv programme' in investment nodes
+2025-08-08 17:41:36,845 - INFO -   ➕ Set status: ongoing
+2025-08-08 17:41:36,845 - INFO -   ➕ Set phase: unclear
+2025-08-08 17:41:36,845 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:41:36,845 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:41:36,845 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:41:40,250 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:40,250 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_sunderland_uk"
+    }
+  ]
+}
+2025-08-08 17:41:40,251 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:40,251 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:41:40,251 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:41:45,374 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:45,374 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:41:45,374 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:45,375 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 17:41:45,375 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 17:41:52,030 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:52,030 - INFO - {
+  "relationships": []
+}
+2025-08-08 17:41:52,030 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:52,031 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 17:41:52,031 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 17:41:58,687 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:41:58,687 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_zero_emission hgv programme",
+      "target": "product_ehgv_charging_station",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-08 17:41:58,688 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:41:58,766 - INFO - ✅ Updated Article ID: 689618cf111fc20e64c32583 with 9 nodes and combined text.

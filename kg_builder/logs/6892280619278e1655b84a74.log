@@ -1,0 +1,66 @@
+2025-08-08 18:03:07,530 - INFO - 🔍 Text length: 3898 characters
+2025-08-08 18:03:07,530 - INFO - 📌 Processing Article ID: 6892280619278e1655b84a74 — PV Hardware designs solar trackers for resilience in extreme weather
+2025-08-08 18:03:07,530 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:03:10,402 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:03:10,402 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_pv_hardware",
+        "type": "company",
+        "name": "PV Hardware"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_houston_texas",
+        "type": "factory",
+        "name": "Houston Facility",
+        "location": {
+          "city": "Houston",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_tracker",
+        "type": "product",
+        "name": "solar tracker"
+      }
+    ]
+  }
+}
+2025-08-08 18:03:10,403 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:03:10,403 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 18:03:10,403 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:03:10,403 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:03:10,403 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:03:10,403 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:03:12,553 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:03:12,553 - INFO - {
+  "relationships": [
+    {
+      "source": "company_pv_hardware",
+      "type": "owns",
+      "target": "factory_houston_texas"
+    }
+  ]
+}
+2025-08-08 18:03:12,553 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:03:12,553 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:03:12,553 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:03:13,986 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:03:13,987 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_tracker",
+      "target": "factory_houston_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:03:13,987 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:03:13,987 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:03:13,987 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:03:14,059 - INFO - ✅ Updated Article ID: 6892280619278e1655b84a74 with 3 nodes and combined text.

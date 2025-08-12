@@ -205,3 +205,145 @@
 }
 2025-07-12 23:38:33,191 - INFO - POST-PROCESSING STARTING.
 2025-07-12 23:38:33,277 - INFO - ✅ Updated Article ID: 685f283ccc1182d72e3ae785 with 9 nodes and combined text.
+2025-08-08 18:25:34,025 - INFO - 🔍 Text length: 4279 characters
+2025-08-08 18:25:34,025 - INFO - 📌 Processing Article ID: 685f283ccc1182d72e3ae785 — REC Silicon shareholders order investigation into Hanwha, Moses Lake closure
+2025-08-08 18:25:34,025 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:25:37,759 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:37,759 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      },
+      {
+        "id": "company_hanwha_solutions_corporation",
+        "type": "company",
+        "name": "Hanwha Solutions Corporation"
+      },
+      {
+        "id": "company_hanwha_qcells",
+        "type": "company",
+        "name": "Hanwha Qcells"
+      },
+      {
+        "id": "company_anchor_as",
+        "type": "company",
+        "name": "Anchor AS"
+      },
+      {
+        "id": "company_water_street_capital",
+        "type": "company",
+        "name": "Water Street Capital"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_moses_lake",
+        "type": "factory",
+        "name": "Moses Lake",
+        "location": {
+          "city": "Moses Lake",
+          "country": "USA"
+        }
+      },
+      {
+        "id": "factory_georgia",
+        "type": "factory",
+        "name": "Georgia",
+        "location": {
+          "city": "Georgia",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hanwha_rec_silicon",
+        "type": "investment",
+        "name": "Hanwha REC Silicon",
+        "amount": "US$88.8 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-08-08 18:25:37,760 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:37,760 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 18:25:37,760 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-08 18:25:37,760 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-08 18:25:38,588 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:38,588 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hanwha_rec_silicon",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-08 18:25:38,589 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:38,589 - INFO - Node ID is investment_hanwha_rec_silicon
+2025-08-08 18:25:38,589 - INFO - ✅ Match found for investment_ID 'investment_hanwha_rec_silicon' in investment nodes
+2025-08-08 18:25:38,589 - INFO -   ➕ Set status: announced
+2025-08-08 18:25:38,589 - INFO -   ➕ Set phase: unclear
+2025-08-08 18:25:38,589 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:25:38,589 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:25:38,589 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:25:39,918 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:39,918 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_moses_lake"
+    },
+    {
+      "source": "company_hanwha_qcells",
+      "type": "owns",
+      "target": "factory_georgia"
+    }
+  ]
+}
+2025-08-08 18:25:39,918 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:39,918 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:25:39,918 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:25:43,345 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:43,346 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polysilicon",
+      "target": "factory_moses_lake",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:25:43,346 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:43,346 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-08 18:25:43,346 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-08 18:25:44,054 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:44,054 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:25:44,054 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:44,055 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-08 18:25:44,055 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-08 18:25:44,704 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:25:44,705 - INFO - {
+  "relationships": []
+}
+2025-08-08 18:25:44,705 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:25:44,786 - INFO - ✅ Updated Article ID: 685f283ccc1182d72e3ae785 with 10 nodes and combined text.

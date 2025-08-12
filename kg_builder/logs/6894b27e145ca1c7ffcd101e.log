@@ -1,0 +1,123 @@
+2025-08-08 17:57:39,149 - INFO - 🔍 Text length: 1456 characters
+2025-08-08 17:57:39,150 - INFO - 📌 Processing Article ID: 6894b27e145ca1c7ffcd101e — Bhutan awards 120 MW solar contract
+2025-08-08 17:57:39,150 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:57:45,791 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:45,792 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rigsar_construction",
+        "type": "company",
+        "name": "Rigsar Construction"
+      },
+      {
+        "id": "company_hild_energy_ltd",
+        "type": "company",
+        "name": "HILD Energy Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jamjee_solar_project",
+        "type": "factory",
+        "name": "Jamjee Solar Project",
+        "location": {
+          "city": "Thimphu",
+          "country": "Bhutan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "120 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_rigsar_hild",
+        "type": "joint_venture",
+        "name": "Rigsar-Hild"
+      }
+    ]
+  }
+}
+2025-08-08 17:57:45,792 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:45,792 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:57:45,792 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:57:49,694 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:49,695 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:57:49,695 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:49,695 - INFO - Node ID is capacity_120_mw
+2025-08-08 17:57:49,695 - INFO - ✅ Match found for capacity_ID 'capacity_120_mw' in capacity nodes
+2025-08-08 17:57:49,695 - INFO -   ➕ Set status: announced
+2025-08-08 17:57:49,695 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:57:49,695 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:57:49,695 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:57:49,695 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:57:49,695 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:57:52,551 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:52,551 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rigsar_construction",
+      "type": "forms",
+      "target": "joint_venture_rigsar_hild"
+    },
+    {
+      "source": "company_hild_energy_ltd",
+      "type": "forms",
+      "target": "joint_venture_rigsar_hild"
+    },
+    {
+      "source": "joint_venture_rigsar_hild",
+      "type": "owns",
+      "target": "factory_jamjee_solar_project"
+    }
+  ]
+}
+2025-08-08 17:57:52,551 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:52,552 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:57:52,552 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:57:55,007 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:55,008 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120_mw",
+      "target": "factory_jamjee_solar_project",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_jamjee_solar_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:57:55,008 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:55,008 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:57:55,008 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:57:55,089 - INFO - ✅ Updated Article ID: 6894b27e145ca1c7ffcd101e with 6 nodes and combined text.

@@ -1,0 +1,76 @@
+2025-08-08 18:08:47,106 - INFO - 🔍 Text length: 3455 characters
+2025-08-08 18:08:47,106 - INFO - 📌 Processing Article ID: 689227ca19278e1655b84a5f — Solar hydrogen could be produced at 4.23$/kg in Saudi Arabia
+2025-08-08 18:08:47,107 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 18:08:52,352 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:52,352 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_king_fahd_university_of_petroleum_and_minerals",
+        "type": "company",
+        "name": "King Fahd University of Petroleum and Minerals"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dhahran_saudi_arabia",
+        "type": "factory",
+        "name": "Dhahran PV and CSP Plant",
+        "location": {
+          "city": "Dhahran",
+          "country": "Saudi Arabia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "Green Hydrogen"
+      },
+      {
+        "id": "product_solar_pv",
+        "type": "product",
+        "name": "Solar PV"
+      },
+      {
+        "id": "product_concentrated_solar_power",
+        "type": "product",
+        "name": "Concentrated Solar Power"
+      }
+    ]
+  }
+}
+2025-08-08 18:08:52,352 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:52,352 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-08 18:08:52,352 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 18:08:52,352 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 18:08:52,352 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 18:08:52,352 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 18:08:53,549 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:53,549 - INFO - {
+  "relationships": [
+    {
+      "source": "company_king_fahd_university_of_petroleum_and_minerals",
+      "type": "owns",
+      "target": "factory_dhahran_saudi_arabia"
+    }
+  ]
+}
+2025-08-08 18:08:53,549 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:53,549 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 18:08:53,549 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 18:08:54,372 - INFO - ✅ OpenAI returned output:
+2025-08-08 18:08:54,372 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_dhahran_saudi_arabia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 18:08:54,372 - INFO - POST-PROCESSING STARTING.
+2025-08-08 18:08:54,373 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 18:08:54,373 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 18:08:54,449 - INFO - ✅ Updated Article ID: 689227ca19278e1655b84a5f with 5 nodes and combined text.

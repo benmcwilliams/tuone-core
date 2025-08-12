@@ -1,0 +1,128 @@
+2025-08-12 12:38:19,182 - INFO - 🔍 Text length: 4230 characters
+2025-08-12 12:38:19,182 - INFO - 📌 Processing Article ID: 67fbeed894b7f855cfea66a9 — Energy storage
+2025-08-12 12:38:19,182 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 12:38:23,442 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:38:23,442 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_hubei_china",
+        "type": "factory",
+        "name": "Hubei CAES Power Station",
+        "location": {
+          "city": "Hubei Province",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_gandia_spain",
+        "type": "factory",
+        "name": "Gandia Photovoltaic Installation",
+        "location": {
+          "city": "Gandia",
+          "country": "Spain"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_3_6_gw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "3.6 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_compressed_air_energy_storage",
+        "type": "product",
+        "name": "compressed air energy storage (CAES)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 12:38:23,442 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:38:23,443 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 12:38:23,443 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 12:38:27,885 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:38:27,886 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3_6_gw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 12:38:27,886 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:38:27,886 - INFO - Node ID is capacity_3_6_gw_operational
+2025-08-12 12:38:27,886 - INFO - ✅ Match found for capacity_ID 'capacity_3_6_gw_operational' in capacity nodes
+2025-08-12 12:38:27,886 - INFO -   ➕ Set status: operational
+2025-08-12 12:38:27,886 - INFO -   ➕ Set phase: unclear
+2025-08-12 12:38:27,886 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 12:38:27,886 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 12:38:27,886 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 12:38:27,886 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 12:38:30,394 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:38:30,395 - INFO - {
+  "relationships": [
+    {
+      "source": "company_china",
+      "type": "owns",
+      "target": "factory_hubei_china"
+    },
+    {
+      "source": "company_spain",
+      "type": "owns",
+      "target": "factory_gandia_spain"
+    }
+  ]
+}
+2025-08-12 12:38:30,395 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:38:30,395 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 12:38:30,395 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 12:40:17,086 - INFO - ✅ OpenAI returned output:
+2025-08-12 12:40:17,087 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3_6_gw_operational",
+      "target": "product_compressed_air_energy_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_compressed_air_energy_storage",
+      "target": "factory_hubei_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_3_6_gw_operational",
+      "target": "factory_hubei_china",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 12:40:17,087 - INFO - POST-PROCESSING STARTING.
+2025-08-12 12:40:17,087 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 12:40:17,088 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 12:40:17,181 - INFO - ✅ Updated Article ID: 67fbeed894b7f855cfea66a9 with 5 nodes and combined text.

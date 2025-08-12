@@ -1,0 +1,106 @@
+2025-08-08 17:57:26,013 - INFO - 🔍 Text length: 1987 characters
+2025-08-08 17:57:26,013 - INFO - 📌 Processing Article ID: 6894b281145ca1c7ffcd101f — Argentina authorizes 20 MW solar park to operate in spot market
+2025-08-08 17:57:26,013 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-08 17:57:31,352 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:31,353 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_360energy_solar",
+        "type": "company",
+        "name": "360Energy Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_360energy_colon_solar_park",
+        "type": "factory",
+        "name": "360Energy Col\u00f3n Solar Park",
+        "location": {
+          "city": "Col\u00f3n",
+          "country": "Argentina"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_battery_energy_storage",
+        "type": "product",
+        "name": "battery energy storage"
+      }
+    ]
+  }
+}
+2025-08-08 17:57:31,353 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:31,353 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-08 17:57:31,353 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-08 17:57:32,715 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:32,715 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-08 17:57:32,716 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:32,716 - INFO - Node ID is capacity_20_mw_announced
+2025-08-08 17:57:32,716 - INFO - ✅ Match found for capacity_ID 'capacity_20_mw_announced' in capacity nodes
+2025-08-08 17:57:32,716 - INFO -   ➕ Set status: announced
+2025-08-08 17:57:32,716 - INFO -   ➕ Set phase: greenfield
+2025-08-08 17:57:32,716 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-08 17:57:32,716 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-08 17:57:32,716 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-08 17:57:32,716 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-08 17:57:33,812 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:33,812 - INFO - {
+  "relationships": [
+    {
+      "source": "company_360energy_solar",
+      "type": "owns",
+      "target": "factory_360energy_colon_solar_park"
+    }
+  ]
+}
+2025-08-08 17:57:33,812 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:33,812 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-08 17:57:33,813 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-08 17:57:39,068 - INFO - ✅ OpenAI returned output:
+2025-08-08 17:57:39,068 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_mw_announced",
+      "target": "factory_360energy_colon_solar_park",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_360energy_colon_solar_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-08 17:57:39,068 - INFO - POST-PROCESSING STARTING.
+2025-08-08 17:57:39,068 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-08 17:57:39,069 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-08 17:57:39,148 - INFO - ✅ Updated Article ID: 6894b281145ca1c7ffcd101f with 5 nodes and combined text.

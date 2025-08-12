@@ -1,0 +1,148 @@
+2025-08-12 13:25:32,414 - INFO - 🔍 Text length: 4205 characters
+2025-08-12 13:25:32,414 - INFO - 📌 Processing Article ID: 67fa76c9eaa4fb525afeb4c3 — Hemlock Semiconductor receives $325 million U.S. government funding
+2025-08-12 13:25:32,414 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 13:25:36,890 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:36,891 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hemlock_semiconductor",
+        "type": "company",
+        "name": "Hemlock Semiconductor"
+      },
+      {
+        "id": "company_corning_incorporated",
+        "type": "company",
+        "name": "Corning Incorporated"
+      },
+      {
+        "id": "company_shin_etsu_handotai",
+        "type": "company",
+        "name": "Shin-Etsu Handotai"
+      },
+      {
+        "id": "company_rec_silicon",
+        "type": "company",
+        "name": "REC Silicon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hemlock_michigan",
+        "type": "factory",
+        "name": "Hemlock Michigan Facility",
+        "location": {
+          "city": "Hemlock",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_moses_lake_washington",
+        "type": "factory",
+        "name": "Moses Lake Washington Facility",
+        "location": {
+          "city": "Moses Lake",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hemlock_semiconductor_chips_incentives_program",
+        "type": "investment",
+        "name": "Hemlock Semiconductor CHIPS Incentives Program",
+        "amount": "$325 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hyper_pure_polysilicon",
+        "type": "product",
+        "name": "hyper-pure polysilicon"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "ultra low-carbon solar panels"
+      }
+    ]
+  }
+}
+2025-08-12 13:25:36,891 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:36,891 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 13:25:36,891 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 13:25:36,891 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 13:25:37,657 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:37,657 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hemlock_semiconductor_chips_incentives_program",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 13:25:37,657 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:37,658 - INFO - Node ID is investment_hemlock_semiconductor_chips_incentives_program
+2025-08-12 13:25:37,658 - INFO - ✅ Match found for investment_ID 'investment_hemlock_semiconductor_chips_incentives_program' in investment nodes
+2025-08-12 13:25:37,658 - INFO -   ➕ Set status: announced
+2025-08-12 13:25:37,658 - INFO -   ➕ Set phase: greenfield
+2025-08-12 13:25:37,658 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 13:25:37,658 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 13:25:37,658 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 13:25:39,860 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:39,860 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hemlock_semiconductor",
+      "type": "owns",
+      "target": "factory_hemlock_michigan"
+    },
+    {
+      "source": "company_rec_silicon",
+      "type": "owns",
+      "target": "factory_moses_lake_washington"
+    }
+  ]
+}
+2025-08-12 13:25:39,861 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:39,861 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 13:25:39,861 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 13:25:40,654 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:40,654 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hyper_pure_polysilicon",
+      "target": "factory_hemlock_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 13:25:40,654 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:40,655 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 13:25:40,655 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 13:25:41,395 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:41,395 - INFO - {
+  "relationships": []
+}
+2025-08-12 13:25:41,395 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:41,395 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 13:25:41,395 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 13:25:43,789 - INFO - ✅ OpenAI returned output:
+2025-08-12 13:25:43,789 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hemlock_semiconductor_chips_incentives_program",
+      "target": "factory_hemlock_michigan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hemlock_semiconductor_chips_incentives_program",
+      "target": "product_hyper_pure_polysilicon",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 13:25:43,789 - INFO - POST-PROCESSING STARTING.
+2025-08-12 13:25:43,869 - INFO - ✅ Updated Article ID: 67fa76c9eaa4fb525afeb4c3 with 9 nodes and combined text.
