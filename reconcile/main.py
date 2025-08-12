@@ -29,30 +29,30 @@ def main(update_mongo_metadata=False):
         logging.info("🧸 Classifying products")             # re-updates all products
         classify_products_sync_mongo()
 
-    logging.info("🗞️ Flattening articles...")
-    run_flatten_articles()
+    # logging.info("🗞️ Flattening articles...")
+    # run_flatten_articles()
 
-    logging.info("🉑 Merging nodes and relationships...")
-    merge_nodes_rels()
+    # logging.info("🉑 Merging nodes and relationships...")
+    # merge_nodes_rels()
 
     logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
 
-    logging.info("🫂 Grouping projects...")
-    group_projects()
+    # logging.info("🫂 Grouping projects...")
+    # group_projects()
 
-    logging.info("🏭 Importing facilities")
-    write_facilities()
+    # logging.info("🏭 Importing facilities")
+    # write_facilities()
 
-    logging.info("🧮 Determining phase summaries")
-    determine_phase_summary()
+    # logging.info("🧮 Determining phase summaries")
+    # determine_phase_summary()
 
-    logging.info("Outputting clean capacities summary data")
-    output_capacities_plot()
+    # logging.info("Outputting clean capacities summary data")
+    # output_capacities_plot()
 
     # final timing
     t1_pipeline = time.time()
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True)
+    main(update_mongo_metadata=False)

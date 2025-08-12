@@ -1,19 +1,15 @@
 import sys; sys.path.append("..")
+import json
+from pathlib import Path
 import pandas as pd
 import re
 from numerizer import numerize
 from word2number import w2n
 import math
 import logging
-from src.capacity_mappings import SCALE_MAP, TIME_MAP, METRIC_MAP, UNIT_NORMALIZATION, REGEX_PATTERNS
+from reconcile.src.capacity_constants import SCALE_MAP, TIME_MAP, METRIC_MAP, UNIT_NORMALIZATION, REGEX_PATTERNS, TARGET_UNIT_BY_TECH
+from reconcile.src.capacity_helpers import load_capacity_column, apply_scale, annualize, multiply_vals, has_nan
 from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES
-
-# ========= Load Excel =========
-def load_capacity_column(file_path):
-    df = pd.read_excel(file_path)
-    print(df.head())
-    df["capacity"] = df["capacity"].fillna("")
-    return df
 
 # define overrides as a mapping of (product_lv1, product_lv2, metric) → multiplier
 MULTIPLIER_OVERRIDE_MAP = {
@@ -33,6 +29,66 @@ KEYWORD_MULTIPLIER_MAP = {
     ("bus", "electric bus", "buses", "electric buses"): 350 / 1e6,
 }
 
+def get_explicit_override(product_lv1: str | None, product_lv2: str | None, metric_str: str | None):
+    """
+    Look up (lv1, lv2, metric) in MULTIPLIER_OVERRIDE_MAP.
+    All inputs should already be lowercased or None.
+    """
+    key = (product_lv1 or None, product_lv2 or None, metric_str or None)
+    return MULTIPLIER_OVERRIDE_MAP.get(key), key
+
+def detect_keyword_multiplier(text_lower: str):
+    """
+    Scan KEYWORD_MULTIPLIER_MAP once and return the first match found.
+    Returns (multiplier, matched_keyword, keywords_tuple) or (None, None, None).
+    """
+    for keywords, mult in KEYWORD_MULTIPLIER_MAP.items():
+        for k in keywords:
+            if k in text_lower:
+                return mult, k, keywords
+    return None, None, None
+
+def load_capacity_rule_overrides(path="storage/config/capacity_rules.json"):
+    p = Path(path)
+    if not p.exists():
+        logging.info("No external capacity_rules.json found at %s (skipping overrides).", path)
+        return
+
+    try:
+        data = json.loads(p.read_text())
+    except Exception as e:
+        logging.warning("Failed to read %s: %s", path, e)
+        return
+
+    # 1) multiplier_overrides: list of [lv1, lv2, metric, multiplier]
+    updated = 0
+    for item in data.get("multiplier_overrides", []):
+        if len(item) != 4:
+            continue
+        lv1, lv2, metric, mult = item
+        MULTIPLIER_OVERRIDE_MAP[(lv1, lv2, metric)] = mult
+        updated += 1
+    if updated:
+        logging.info("Applied %d multiplier_overrides from %s.", updated, path)
+
+    # 2) keyword_overrides: list of [[kw1, kw2, ...], multiplier]
+    updated = 0
+    for item in data.get("keyword_overrides", []):
+        if len(item) != 2:
+            continue
+        keywords, mult = item
+        KEYWORD_MULTIPLIER_MAP[tuple(keywords)] = mult
+        updated += 1
+    if updated:
+        logging.info("Applied %d keyword_overrides from %s.", updated, path)
+
+    # 3) target_units: dict of {product_lv1: unit}
+    tu = data.get("target_units", {})
+    if tu:
+        TARGET_UNIT_BY_TECH.update({k.lower(): v for k, v in tu.items()})
+        logging.info("Updated target units for %d technologies.", len(tu))
+
+## ========= 1 Extract Capacity Info =========
 # ========= Capacity Info Extraction =========
 def extract_capacity_info(text):
     if not isinstance(text, str):
@@ -123,8 +179,9 @@ def extract_capacity_info(text):
         try:
             num_str, suffix, remaining = match.groups()
             value = float(num_str.replace(",", ""))
-            if scale:
-                return value, None, remaining.strip()
+            scl = SCALE_MAP.get(suffix.lower())
+            if scl:
+                return value, scl, remaining.strip()
         except Exception:
             pass
 
@@ -161,7 +218,6 @@ def extract_capacity_info(text):
 
     return None, None, text
 
-
 # ========= Time Unit Extraction =========
 def extract_normalized_time_unit(text):
     if not isinstance(text, str):
@@ -173,7 +229,6 @@ def extract_normalized_time_unit(text):
             cleaned = re.sub(rf"(?<![a-zA-Z0-9]){re.escape(pattern)}(?![a-zA-Z0-9])|[-/]{re.escape(pattern)}", "", text, flags=re.IGNORECASE).strip()
             return replacement, cleaned
     return None, text
-
 
 # ========= Metric Unit Extraction =========
 def extract_normalized_metric_unit(text):
@@ -204,80 +259,49 @@ def extract_normalized_metric_unit(text):
     # No match
     return "", text, 1
 
-
+## ========= 2 Apply Capacity Normalisation =========
 # ---------- GWh converter -------------------------------------------------
-def normalize_to_gwh_and_flag(row, conversion=False, *,
-                              multiplier_override: int | None = None):
+def normalize_to_gwh_and_flag(row, conversion=False, *, multiplier_override: int | None = None):
     """
-    Normalises any capacity number(s) to GWh.
-
-    Parameters
-    ----------
-    row : Mapping-like (Pandas Series or dict)
-    conversion : bool
-        If True and multiplier_override is None  -> ×2 (Case 1 default)
-    multiplier_override : {None, 2, 4}
-        • None  -> use default behaviour (×2 when flag is True)  
-        • 2 or 4 -> force that multiplier (lets capacity_logic choose Case 1 vs Case 2)
-
-    Returns
-    -------
-    (capacity_normalised, flag_failed, metric_out, conversion)
+    Normalises capacity to GWh (per year), applying product-specific multipliers when requested.
+    Returns: (capacity_normalised, flag_failed, metric_out, flag_conversion)
     """
     value  = row.get("capacity_value")
     scale  = row.get("capacity_scale", 1)
     metric = row.get("capacity_metric")
     time   = row.get("capacity_time")
 
-    # --------- basic validation ----------
-    if value is None or metric is None:
-        return None, True, None, conversion
+    if value is None or metric is None or not isinstance(metric, str):
+        return None, True, None, bool(conversion)
     if pd.isna(scale):
         scale = 1
-    if not isinstance(metric, str):
-        return None, True, None, conversion
 
-    metric = metric.strip().lower()
-       # default 1-to-1 when unknown
+    # 1) scale
+    scaled = apply_scale(value, scale)
+    if has_nan(scaled):
+        return None, True, None, bool(conversion)
 
-    # --------- conversion helper ----------
-    def _to_gwh(x):
-        try:
-            gwh_val = float(x) * scale 
-        except Exception:
-            return None
+    # 2) annualize (rate → per year)
+    annual = annualize(scaled, time)
+    if has_nan(annual):
+        return None, True, None, bool(conversion)
 
-        # rate → annual energy
-        if isinstance(time, str):
-            t = time.strip().lower()
-            gwh_val *= {"per day": 365, "per week": 52, "per month": 12}.get(t, 1)
-
-        # decide multiplier
-        mult = 1
-        if multiplier_override is not None:
-            mult = multiplier_override                         # 5*1e-6
-        elif conversion:
-            mult = 5*1e-6                                           # 5*1e-6
-
-        return gwh_val * mult
-
-    # --------- scalar vs iterable ----------
-    if isinstance(value, (list, tuple)):
-        converted = [_to_gwh(v) for v in value]
-        if any(v is None or pd.isna(v) for v in converted):
-            return None, True, None, conversion
-        return converted, False, "gigawatt hour", conversion
+    # 3) choose multiplier (single place)
+    if multiplier_override is not None:
+        mult = float(multiplier_override)
     else:
-        result = _to_gwh(value)
-        if result is None or pd.isna(result):
-            return None, True, None, conversion
-        return result, False, "gigawatt hour", conversion
+        mult = 5e-6 if conversion else 1.0
 
-#no need
+    # 4) apply multiplier once
+    out = multiply_vals(annual, mult)
+    if has_nan(out):
+        return None, True, None, bool(conversion)
+
+    return out, False, "gigawatt hour", bool(conversion)
+
 def normalize_to_vehicle_and_flag(row, conversion=False):
     """
-    Converts vehicle counts → vehicle metric.
-    If conversion=True, *2 is applied to the output.
+    Converts capacity → vehicles/year.
     Returns: capacity_normalised, flag_failed, metric_out, conversion
     """
     value  = row.get("capacity_value")
@@ -285,113 +309,61 @@ def normalize_to_vehicle_and_flag(row, conversion=False):
     metric = row.get("capacity_metric")
     time   = row.get("capacity_time")
 
-    if value is None or metric is None:
+    if value is None or metric is None or not isinstance(metric, str):
         return None, True, None, False
     if pd.isna(scale):
         scale = 1
-    if not isinstance(metric, str):
+
+    scaled = apply_scale(value, scale)
+    if has_nan(scaled):
         return None, True, None, False
 
-    def _to_vehicle(x):
-        try:
-            v = float(x) * scale
-        except Exception:
-            return None
+    annual = annualize(scaled, time)
+    if has_nan(annual):
+        return None, True, None, False
 
-        if time == "per day":
-            v *= 365
-        elif time == "per week":
-            v *= 52
-        elif time == "per month":
-            v *= 12
-        elif time == "per year" or time is None:
-            pass
-        else:
-            return None
-
-        return v 
-
-    if isinstance(value, (list, tuple)):
-        converted = [_to_vehicle(v) for v in value]
-        if not converted or any(v is None or pd.isna(v) for v in converted):
-            return None, True, None, conversion
-        return converted, False, "vehicle", conversion
-    else:
-        result = _to_vehicle(value)
-        if result is None or pd.isna(result):
-            return None, True, None, conversion
-        return result, False, "vehicle", conversion
-
+    return annual, False, "vehicle", bool(conversion)
 
 def metric_is_missing(metric):
     """
-    Returns True when metric is:
-      • None
-      • NaN / pd.NA / math.nan
-      • empty string
-      • the string 'nan', 'none', or 'unit' (case-insensitive)
+    True when metric is None/NaN/empty/'nan'/'none'/'unit' (case-insensitive).
     """
     if metric is None:
         return True
-    # NaN detection (works for float('nan'), pd.NA, numpy.nan, etc.)
-    if isinstance(metric, float) and math.isnan(metric):
-        return True
-    if isinstance(metric, (pd._libs.missing.NAType, pd.api.extensions.ExtensionScalarOpsMixin)) and pd.isna(metric):
-        return True
-    if str(metric).strip().lower() in {"", "nan", "none", "unit"}:
-        return True
-    return False
+    try:
+        if pd.isna(metric):
+            return True
+    except Exception:
+        pass
+    return str(metric).strip().lower() in {"", "nan", "none", "unit"}
 
-def normalize_default(row): 
+def normalize_default(row):
     """
-    Converts 'tonne' or 'gigawatt' capacity value to yearly equivalent if time-based.
-    Returns: capacity_normalised, flag_failed, capacity_metric_normalized
+    Annualize a numeric capacity using the row's scale and time.
+    Returns: capacity_normalised, flag_failed, capacity_metric_normalized, flag_conversion(False)
     """
     value  = row.get("capacity_value")
     scale  = row.get("capacity_scale", 1)
     metric = row.get("capacity_metric")
     time   = row.get("capacity_time")
 
-    if value is None or metric is None:
-        return None, True, None
+    # validation
+    if value is None or metric is None or not isinstance(metric, str):
+        return None, True, None, False
     if pd.isna(scale):
         scale = 1
-    if not isinstance(metric, str):
-        return None, True, None
 
-    def _to_annual_scaled(x):
-        try:
-            v = float(x) * scale
-        except Exception:
-            return None
+    # scale then annualize
+    scaled = apply_scale(value, scale)
+    if scaled is None:
+        return None, True, None, False
 
-        if time == "per day":
-            v *= 365
-        elif time == "per week":
-            v *= 52
-        elif time == "per month":
-            v *= 12
-        elif time == "per year" or time is None:
-            pass
-        else:
-            return None
-
-        return v
-
-    if isinstance(value, (list, tuple)):
-        converted = [_to_annual_scaled(v) for v in value]
-        if not converted or any(v is None or pd.isna(v) for v in converted):
-            return None, True, None
-    else:
-        converted = _to_annual_scaled(value)
-        if converted is None or pd.isna(converted):
-            return None, True, None
+    annual = annualize(scaled, time)    
+    if has_nan(annual):
+        return None, True, None, False
 
     metric_lower = metric.strip().lower()
-    if metric_lower in { "gigawatt"}:
-        return converted, False, metric_lower, False
-    else:
-        return converted, False, metric_lower,False
+    return annual, False, metric_lower, False
 
 # ========= Updated Capacity Logic =========
 def capacity_logic(row):
@@ -429,53 +401,68 @@ def capacity_logic(row):
     excludes = ["battery", "batteries", "cell", "cells", "pack", "packs",
                 "module", "modules", "research and development"]
 
-    # -------- TONNE or GIGAWATT always → GWh logic first
+    # ---- 1) Metric explicitly gigawatt → normalize_default (annualize) ----
     if "gigawatt" in metric_str:
-        return normalize_default(row)
+        value, failed, metric_out, conv = normalize_default(row)
+        return value, failed, metric_out, conv, "default:metric-is-gigawatt"
 
-    # -------- Check if a multiplier override applies
-    key = (product_lv1, product_lv2 if product_lv2 else None, metric_str if metric_str else None)
-    mult_override = MULTIPLIER_OVERRIDE_MAP.get(key)
+    # ---- 2) Explicit multiplier override for (lv1, lv2, metric) ----
+    mult_override, key = get_explicit_override(product_lv1, product_lv2, metric_str)
     if mult_override is not None:
-        return normalize_to_gwh_and_flag(row, conversion=False, multiplier_override=mult_override)
+        value, failed, metric_out, conv = normalize_to_gwh_and_flag(
+            row, conversion=False, multiplier_override=mult_override
+        )
+        tag = f"override:{key[0]}/{key[1] or '-'}:{key[2] or '-'}"
+        return value, failed, metric_out, conv, tag
 
-    # -------- VEHICLE rows
+    # ---- 3) VEHICLE rows with missing/placeholder metric ----
     if product_lv1 == "vehicle":
         if metric_is_missing(metric_raw) or metric_str == "unit":
-            return normalize_to_vehicle_and_flag(row, conversion=False)
+            value, failed, metric_out, conv = normalize_to_vehicle_and_flag(row, conversion=False)
+            return value, failed, metric_out, conv, "vehicle:units-or-missing"
 
-    # -------- BATTERY rows
+    # ---- 4) BATTERY special cases ----
+
+    # 4a) battery + eam + missing metric + EV keyword → keyword override
     if product_lv1 == "battery" and product_lv2 == "eam" and metric_is_missing(metric_raw):
         if not any(exc in text for exc in excludes):
-            logging.info(f"CASE 2 triggered: '{capacity_text}'")
+            override, matched, keywords = detect_keyword_multiplier(text)
+            if override is not None:
+                value, failed, metric_out, conv = normalize_to_gwh_and_flag(
+                    row, conversion=True, multiplier_override=override
+                )
+                return value, failed, metric_out, conv, f"battery-keyword:eam:{matched}"
 
-            for keywords, override in KEYWORD_MULTIPLIER_MAP.items():
-                if any(k in text for k in keywords):
-                    return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=override)
-
-    if product_lv1 == "battery" or metric_str == "unit": #could be or
+    # 4b) battery OR metric=='unit' + EV keyword → keyword override
+    if product_lv1 == "battery" or metric_str == "unit":
         if not any(exc in text for exc in excludes):
-            logging.info(f"CASE 2 triggered: '{capacity_text}'")
+            override, matched, keywords = detect_keyword_multiplier(text)
+            if override is not None:
+                value, failed, metric_out, conv = normalize_to_gwh_and_flag(
+                    row, conversion=True, multiplier_override=override
+                )
+                return value, failed, metric_out, conv, f"battery-keyword:{matched}"
 
-            for keywords, override in KEYWORD_MULTIPLIER_MAP.items():
-                if any(k in text for k in keywords):
-                    return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=override)
-
+        # 4c) battery + missing metric → fallback override (Case 1)
         if metric_is_missing(metric_raw):
-            logging.info("CASE 1 triggered")
             fallback_override = MULTIPLIER_OVERRIDE_MAP.get(("battery", None, None))
-            return normalize_to_gwh_and_flag(row, conversion=True, multiplier_override=fallback_override)
+            value, failed, metric_out, conv = normalize_to_gwh_and_flag(
+                row, conversion=True, multiplier_override=fallback_override
+            )
+            return value, failed, metric_out, conv, "battery:fallback-missing-metric"
 
-        return normalize_to_gwh_and_flag(row, conversion=False)
+        # 4d) battery + metric present → to GWh without keyword conversion
+        value, failed, metric_out, conv = normalize_to_gwh_and_flag(row, conversion=False)
+        return value, failed, metric_out, conv, "battery:metric-present"
 
-
-    # -------- Fallback
-    return normalize_default(row)
-
+    # ---- 5) Fallback → normalize_default ----
+    value, failed, metric_out, conv = normalize_default(row)
+    return value, failed, metric_out, conv, "fallback:normalize-default"
 
 # ========= Pipeline Execution =========
 def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
     # EDITED - reading a df not file_path
+    load_capacity_rule_overrides()
     df = load_capacity_column(file_path)
 
     # Extract value, scale (from numbers/words), and raw remainder text
@@ -497,15 +484,31 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
         lambda x: pd.Series(extract_normalized_time_unit(x))
     )
 
-    # Normalize to final metric (GWh, vehicles, tonnes...)
-    df[["capacity_normalized", "flag_failed", "capacity_metric_normalized", "flag_conversion"]] = df.apply(
-        lambda row: pd.Series(capacity_logic(row)), axis=1
-    )
+    # 4) Normalize (now returns FIVE values incl. normalization_case)
+    df[[
+        "capacity_normalized",
+        "flag_failed",
+        "capacity_metric_normalized",
+        "flag_conversion",
+        "normalization_case"
+    ]] = df.apply(lambda row: pd.Series(capacity_logic(row)), axis=1)
 
-    df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES)
+    # ---- Logging summary (add it right here) ----
+    total = len(df)
+    failed = int(df["flag_failed"].fillna(False).sum())
+    pct = (failed / total * 100.0) if total else 0.0
+    logging.info("Capacity rows: %d | failed: %d (%.1f%%)", total, failed, pct)
+
+    # Which branches fired
+    logging.info(df["normalization_case"].value_counts(dropna=False).to_string())
+
+    columns_capacity_debug = ["capacity", "product", "product_lv1", "product_lv2", "capacity_value", "capacity_scale", "capacity_text",
+               "capacity_metric", "capacity_time", "capacity_normalized", "capacity_metric_normalized",
+               "flag_failed", "flag_conversion", "normalization_case"]
+    
+    df[columns_capacity_debug].to_excel(FACTORY_TECH_CLEAN_CAPACITIES)
 
     return df
-
 
 # ========= Main Run Block =========
 if __name__ == "__main__":
