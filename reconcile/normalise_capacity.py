@@ -15,7 +15,7 @@ def load_capacity_column(file_path):
     df["capacity"] = df["capacity"].fillna("")
     return df
 
-# Define overrides as a mapping of (product_lv1, product_lv2, metric) → multiplier
+# define overrides as a mapping of (product_lv1, product_lv2, metric) → multiplier
 MULTIPLIER_OVERRIDE_MAP = {
     # For 1 tonne EAM = 1 kWh → GWh
     ("battery", "eam", "tonne"): 1 / 1e3,  # 1 kWh per kg → 1 MWh per tonne → 0.001 GWh
@@ -393,31 +393,29 @@ def normalize_default(row):
     else:
         return converted, False, metric_lower,False
 
-# ========= Multiplier Override Mapping =========
-MULTIPLIER_OVERRIDE_MAP = {
-    # 1 tonne EAM = 1 kWh → 0.001 GWh
-    ("battery", "eam", "tonne"): 1 / 1e3,
-
-    # EV estimate: 50 kWh per vehicle → 0.00005 GWh
-    ("battery", None, None): 50 / 1e6,
-}
-
-
 # ========= Updated Capacity Logic =========
 def capacity_logic(row):
     """
     Determines how to normalize capacity based on product type and metric.
 
     Priority:
-    1. If capacity_metric is tonne or gigawatt → normalize as GWh (via scale × time)
-    2. If product = battery and capacity_text includes EV/cars but not battery/etc → Case 2
-    3. If product = battery and metric is missing → Case 1
-    4. If product = vehicle and metric is missing → convert to vehicle count
-    5. Default: use normalize_to_gwh_and_flag
+    1. If capacity_metric contains 'gigawatt' → normalize_default (annualize, keep metric)
+    2. If an explicit multiplier override exists for (product_lv1, product_lv2, metric) → use it
+    3. VEHICLE rows with missing/placeholder metric → normalize to vehicles/year
+    4. BATTERY special cases:
+        4a. battery + eam + missing metric + EV keyword → keyword override (Case 2)
+        4b. battery OR metric=='unit' + EV keyword → keyword override (Case 2)
+        4c. battery + missing metric → fallback override (Case 1)
+        4d. battery + metric present → to GWh (no extra conversion)
+    5. Fallback → normalize_default
+    Returns:
+        value, flag_failed, metric_out, flag_conversion, normalization_case
     """
     product_lv1 = str(row.get("product_lv1", "")).strip().lower()
     product_lv2 = str(row.get("product_lv2", "")).strip().lower()
-    capacity_text = str(row.get("capacity_text", "")).lower()
+    capacity_text_raw = str(row.get("capacity_text", "") or "")
+    capacity_text = capacity_text_raw.lower()
+
     metric_raw = row.get("capacity_metric")
     metric_str = str(metric_raw).strip().lower() if isinstance(metric_raw, str) else ""
 

@@ -29,41 +29,36 @@ if not logger.hasHandlers():
 
 def classify_products_sync_mongo():
 
-    # read existing product excel dictionary
+    # read existing product excel dictionary & filter for cases that have at least level 1 mapped
     df = pd.read_excel(PRODUCT_CLASSIFICATION)
     existing_products = df["product"].tolist() 
+    df_lv1 = df[~df['product_lv1'].isna()].copy()         
+    updates = df_lv1.set_index("product").to_dict(orient="index") # dictionary used for perfoming updates
 
-    # filter df to products that have at least level 1 mapped (these will be written to the mongodb)
-    df_lv1 = df[~df['product_lv1'].isna()].copy()          
-    updates = df_lv1.set_index("product").to_dict(orient="index")
-
-    # compare to all products (that are used to QUANTIFY a capacity) in mongoDB
+    # return all product nodes (that are used to QUANTIFY a capacity) in mongoDB
     pipeline = [
-        # 1) explode the nodes array
-        {"$unwind": "$nodes"},
-        # 2) explode the relationships array
-        {"$unwind": "$relationships"},
+        {"$unwind": "$nodes"},          # explode the nodes array
+        {"$unwind": "$relationships"},  # explode the relationships array
         # 3) keep only product‐type nodes AND only QUANTIFY relationships where the node’s id is either the source or the target
         {"$match": {
-            "nodes.type": "product",
-            "relationships.type": "quantifies",
+            "nodes.type": "product",                                        # only nodes with type == product
+            "relationships.type": "quantifies",                             # only relationships with type == quantifies
             "$expr": {
                 "$or": [
-                    {"$eq": ["$relationships.source", "$nodes.id"]},
-                    {"$eq": ["$relationships.target", "$nodes.id"]}
+                    {"$eq": ["$relationships.source", "$nodes.id"]},        # only cases where one of the above nodes or 
+                    {"$eq": ["$relationships.target", "$nodes.id"]}         # relationship are linked
                 ]
             }
         }},
-        # 4) group back by product name to get uniqueness
-        {"$group": {"_id": "$nodes.name"}},
-        # 5) reshape for a clean output
-        {"$project": {"_id": 0, "name": "$_id"}}
+        {"$group": {"_id": "$nodes.name"}},             # group back on nodes
+        {"$project": {"_id": 0, "name": "$_id"}}        # reshape for a clean output
     ]
 
     cursor = articles_collection.aggregate(pipeline)
     product_mongo = [doc["name"] for doc in cursor]
+    logging.info(f"🔎 Found {len(product_mongo)} products with attached capacities.")
 
-    # 3 - output those products that are not yet mapped & should be 
+    # output fresh product excel, including any new products 
 
     new_products = [p for p in product_mongo if p not in existing_products]
 
@@ -75,17 +70,19 @@ def classify_products_sync_mongo():
 
     df_out = pd.concat([df,new_products_df])
     df_out.sort_values(by="product",inplace=True)
-
-    # concat the dataframes and output back to the same dataframe. We can update from here. 
     df_out.to_excel(PRODUCT_CLASSIFICATION,index=False)
 
-    # 4 - update all product values in mongodb
+    # update ALL product values in mongodb
     processed = 0
     bulk_ops = []
 
     for product_name, payload in updates.items():
         processed += 1
-        filter_ = {"nodes": {"$elemMatch": {"type": "product", "name": product_name}}}
+        filter_ = {"nodes": 
+                   {"$elemMatch": 
+                        {"type": "product", 
+                        "name": product_name}}
+                    }
 
         ## DEBUGGING CODE BELOW (in case anything strange happening during update)
 
@@ -151,7 +148,7 @@ def classify_products_sync_mongo():
             f"submitted={len(batch)}, matched={matched}, modified={modified}"
         )
 
-    # 3) Final summary across all batches to be written to main logging file.
+    # final summary across all batches to be written to main logging file.
     system_logger.info(
         f"🎉 All done: processed={processed}, "
         f"total_matched={total_matched}, total_modified={total_modified}"

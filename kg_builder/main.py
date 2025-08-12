@@ -8,20 +8,14 @@ from kg_builder.src.process_articles import setup_logger, print_article_stats, s
 from utils import ping_openai
 from kg_builder.src.model_dictionary import model_dictionary
 from kg_builder.src.inputs import nodes_by_group_prompt, characteristic_node_types, required_node_types
-from mongo_client import mongo_client, articles_collection
+from mongo_client import mongo_client, articles_collection, test_mongo_connection
 
 from datetime import datetime, timezone
 from bson import json_util
-import re
+#import re
 
-try:
-    mongo_client.admin.command("ping")
-    print("✅ Connected to MongoDB Atlas!")
-except Exception as e:
-    print(f"❌ MongoDB Connection Error: {e}")
-    raise
-
-# establish openai client 
+# establish / test connections
+test_mongo_connection()
 ping_openai() 
 
 def run_extraction(
@@ -250,14 +244,14 @@ def process_articles(articles_to_process, model_dictionary):
 
 #n_articles = 200
 offset_articles = 0
-category = "electrive"
+categories = ["electrive", "pvmagazine"]
 
 cutoff_date = datetime(2025, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
         {"meta.date": {"$gt": cutoff_date},
-         "meta.category": category},  
+         "meta.category": {"$in": categories}},  
         {"_id": 1, "meta": 1, "title": 1, "validation": 1, "llm_processed": 1,  "paragraphs": 1}       
     )
     .sort("_id", -1)            # sort by MongoDB ObjectId (descending)
