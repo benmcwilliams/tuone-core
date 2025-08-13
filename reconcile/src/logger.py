@@ -6,13 +6,16 @@ import os
 from datetime import datetime
 
 def setup_logger():
+    # Ensure log directory exists and force reconfigure root logger even if configured elsewhere
+    os.makedirs('logs', exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
             logging.FileHandler(f'logs/full_pipeline_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
             logging.StreamHandler(sys.stdout)
-        ]
+        ],
+        force=True,
     )
 
 def setup_city_logger(country, city, logs_dir="logs/logs_geonames"):

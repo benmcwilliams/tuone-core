@@ -1,6 +1,6 @@
 import pandas as pd
 import sys; sys.path.append("..")
-from src.capacity_constants import MULTIPLIER_OVERRIDE_MAP, KEYWORD_MULTIPLIER_MAP
+from src.capacity_constants import KEYWORD_MULTIPLIER_MAP, DEFAULT_UNIT_MAP
 
 # ========= Load Excel =========
 def load_capacity_column(file_path):
@@ -8,13 +8,23 @@ def load_capacity_column(file_path):
     df["capacity"] = df["capacity"].fillna("")
     return df
 
-def get_explicit_override(product_lv1: str | None, product_lv2: str | None, metric_str: str | None):
+def get_default_unit(product_lv1: str | None, product_lv2: str | None) -> str:
     """
-    Look up (lv1, lv2, metric) in MULTIPLIER_OVERRIDE_MAP.
-    All inputs should already be lowercased or None.
+    Returns the configured default unit for a product category.
+    Lookup tries (lv1, lv2) first, then (lv1, None). Falls back to 'gigawatt hour'.
     """
-    key = (product_lv1 or None, product_lv2 or None, metric_str or None)
-    return MULTIPLIER_OVERRIDE_MAP.get(key), key
+    lv1 = (product_lv1 or None)
+    if isinstance(lv1, str):
+        lv1 = lv1.strip().lower() or None
+    lv2 = (product_lv2 or None)
+    if isinstance(lv2, str):
+        lv2 = lv2.strip().lower() or None
+
+    return (
+        DEFAULT_UNIT_MAP.get((lv1, lv2))
+        or DEFAULT_UNIT_MAP.get((lv1, None))
+        or "gigawatt hour"
+    )
 
 def detect_keyword_multiplier(text_lower: str):
     """

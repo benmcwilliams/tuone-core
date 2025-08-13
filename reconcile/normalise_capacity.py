@@ -1,18 +1,23 @@
 import sys; sys.path.append("..")
-from pathlib import Path
+#from pathlib import Path
 import pandas as pd
 
 import logging
 from reconcile.src.parse_capacity_text import parse_capacity_text
 from reconcile.src.normalise_time_units import extract_normalized_time_unit
 from reconcile.src.normalise_capacity_units import normalise_capacity_unit
-from reconcile.src.capacity_constants import MULTIPLIER_OVERRIDE_MAP, KEYWORD_MULTIPLIER_MAP
-from reconcile.src.capacity_helpers import load_capacity_column, apply_scale, annualize, multiply_vals, has_nan, get_explicit_override, detect_keyword_multiplier, metric_is_missing
-from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES
-
-# Avoid duplicate handlers if this file is re-imported
-if not logging.getLogger().handlers:
-    logging.basicConfig(level=logging.DEBUG, format="%(levelname)s:%(message)s")
+from reconcile.src.capacity_constants import MULTIPLIER_OVERRIDE_MAP
+from reconcile.src.capacity_helpers import (
+    load_capacity_column,
+    apply_scale,
+    annualize,
+    multiply_vals,
+    has_nan,
+    detect_keyword_multiplier,
+    metric_is_missing,
+    get_default_unit,
+)
+from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES, CAPACITIES_DEBUG
 
 # ---------- GWh converter -------------------------------------------------
 def normalize_to_gwh_and_flag(row, conversion=False, *, multiplier_override: int | None = None):
@@ -141,30 +146,23 @@ def capacity_logic(row):
 
     excludes = ["battery", "batteries", "cell", "cells", "pack", "packs",
                 "module", "modules", "research and development"]
-
-    # ---- 1) Metric explicitly gigawatt → normalize_default (annualize) ----
-    if "gigawatt" in metric_str:
+    
+    # ---- 1) If metric matches the default unit for (lv1, lv2) → normalize_default ----
+    default_unit = get_default_unit(product_lv1, product_lv2)
+    if default_unit and metric_str == default_unit:
         value, failed, metric_out, conv = normalize_default(row)
-        return value, failed, metric_out, conv, "default:metric-is-gigawatt"
-
-    # ---- 2) Explicit multiplier override for (lv1, lv2, metric) ----
-    mult_override, key = get_explicit_override(product_lv1, product_lv2, metric_str)
-    if mult_override is not None:
-        value, failed, metric_out, conv = normalize_to_gwh_and_flag(
-            row, conversion=False, multiplier_override=mult_override
-        )
-        tag = f"override:{key[0]}/{key[1] or '-'}:{key[2] or '-'}"
+        tag = f"default:metric-is-{default_unit.replace(' ', '-')}"
         return value, failed, metric_out, conv, tag
 
-    # ---- 3) VEHICLE rows with missing/placeholder metric ----
+    # ---- 2) VEHICLE rows with missing/placeholder metric ----
     if product_lv1 == "vehicle":
         if metric_is_missing(metric_raw) or metric_str == "unit":
             value, failed, metric_out, conv = normalize_to_vehicle_and_flag(row, conversion=False)
             return value, failed, metric_out, conv, "vehicle:units-or-missing"
 
-    # ---- 4) BATTERY special cases ----
+    # ---- 3) BATTERY special cases ----
 
-    # 4a) battery + eam + missing metric + EV keyword → keyword override
+    # 3a) battery + eam + missing metric + EV keyword → keyword override
     if product_lv1 == "battery" and product_lv2 == "eam" and metric_is_missing(metric_raw):
         if not any(exc in text for exc in excludes):
             override, matched, keywords = detect_keyword_multiplier(text)
@@ -174,7 +172,7 @@ def capacity_logic(row):
                 )
                 return value, failed, metric_out, conv, f"battery-keyword:eam:{matched}"
 
-    # 4b) battery OR metric=='unit' + EV keyword → keyword override
+    # 3b) battery OR metric=='unit' + EV keyword → keyword override
     if product_lv1 == "battery" or metric_str == "unit":
         if not any(exc in text for exc in excludes):
             override, matched, keywords = detect_keyword_multiplier(text)
@@ -184,7 +182,7 @@ def capacity_logic(row):
                 )
                 return value, failed, metric_out, conv, f"battery-keyword:{matched}"
 
-        # 4c) battery + missing metric → fallback override (Case 1)
+        # 3c) battery + missing metric → fallback override (Case 1)
         if metric_is_missing(metric_raw):
             fallback_override = MULTIPLIER_OVERRIDE_MAP.get(("battery", None, None))
             value, failed, metric_out, conv = normalize_to_gwh_and_flag(
@@ -196,7 +194,7 @@ def capacity_logic(row):
         value, failed, metric_out, conv = normalize_to_gwh_and_flag(row, conversion=False)
         return value, failed, metric_out, conv, "battery:metric-present"
 
-    # ---- 5) Fallback → normalize_default ----
+    # ---- Fallback → normalize_default ----
     value, failed, metric_out, conv = normalize_default(row)
     return value, failed, metric_out, conv, "fallback:normalize-default"
 
@@ -233,13 +231,13 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
         "normalization_case"
     ]] = df.apply(lambda row: pd.Series(capacity_logic(row)), axis=1)
 
-    # ---- Logging summary (add it right here) ----
+    # ---- Logging summary ----
     total = len(df)
     failed = int(df["flag_failed"].fillna(False).sum())
     pct = (failed / total * 100.0) if total else 0.0
     logging.info("Capacity rows: %d | failed: %d (%.1f%%)", total, failed, pct)
 
-    # Which branches fired
+    # which branches fired
     logging.info(df["normalization_case"].value_counts(dropna=False).to_string())
 
     debug_cols = ["capacity", "raw_value", "unit", "product", "product_lv1", "product_lv2", 
@@ -247,7 +245,9 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
                   "capacity_text","capacity_time", "capacity_normalized", "capacity_metric_normalized",
                 "flag_failed", "flag_conversion", "normalization_case"
     ]
-    df[debug_cols].to_excel(FACTORY_TECH_CLEAN_CAPACITIES)
+    
+    df[debug_cols].to_excel(CAPACITIES_DEBUG)
+    df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES)
     return df
 
 # debug helper
@@ -270,21 +270,21 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
     row = df.iloc[row_idx].to_dict()
 
     # A. Raw input
-    logging.info("===== TRACE row %d =====", row_idx)
-    logging.info("product_lv1=%r product_lv2=%r", row.get("product_lv1"), row.get("product_lv2"))
-    logging.info("raw capacity=%r", row.get("capacity"))
+    print("===== TRACE row %d =====", row_idx)
+    print("product_lv1=%r product_lv2=%r", row.get("product_lv1"), row.get("product_lv2"))
+    print("raw capacity=%r", row.get("capacity"))
 
     # B. Parse numeric + remainder
     val, scale, rem = parse_capacity_text(row.get("capacity"))
-    logging.info("parse_capacity_text -> value=%s scale=%s rem=%r", val, scale, rem)
+    print("parse_capacity_text -> value=%s scale=%s rem=%r", val, scale, rem)
 
     # C. Metric (+metric_scale) from remainder
     metric, rem2, metric_scale = normalise_capacity_unit(rem)
-    logging.info("extract_normalized_metric_unit -> metric=%r metric_scale=%s rem=%r", metric, metric_scale, rem2)
+    print("extract_normalized_metric_unit -> metric=%r metric_scale=%s rem=%r", metric, metric_scale, rem2)
 
     # D. Time unit from remainder
     time_unit, rem3 = extract_normalized_time_unit(rem2)
-    logging.info("extract_normalized_time_unit -> time=%r rem=%r", time_unit, rem3)
+    print("extract_normalized_time_unit -> time=%r rem=%r", time_unit, rem3)
 
     # E. Build the row exactly like the pipeline does (including merged scale)
     merged_scale = (1 if scale is None else scale) * (1 if metric_scale is None else metric_scale)
@@ -303,18 +303,18 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
     # G. Pretty log of the result (works whether you return a tuple or a dataclass)
     try:
         value, failed, metric_out, conversion, case = out
-        logging.info(
+        print(
             "capacity_logic -> value=%s failed=%s metric_out=%r conversion=%s case=%r",
             value, failed, metric_out, conversion, case
         )
     except Exception:
-        logging.info("capacity_logic -> %r", out)
+        print("capacity_logic -> %r", out)
 
     return out
 
 # ========= Main Run Block =========
 if __name__ == "__main__":
-    trace_one(78, 'storage/output/factory-technological.xlsx')
+    trace_one(1244, 'storage/output/factory-technological.xlsx')
     # file_path = 'storage/output/clean_output_ben.xlsx'
     # df_result = run_capacity_normalisation_pipeline(file_path)
     # output_path = 'storage/output/clean_output_capacity.xlsx'
