@@ -1,6 +1,11 @@
 def combine_paragraphs(article):
     title = article.get("title", "").strip()
     paragraphs = article.get('paragraphs', [])
+    
+    # If it's a dict, wrap in a list so the loop still works
+    if isinstance(paragraphs, dict):
+        paragraphs = [paragraphs]
+    
     # Handle missing or empty paragraphs
     if not paragraphs:
         print("⚠️ No paragraphs found in the article.")
