@@ -6,7 +6,6 @@ MULTIPLIER_OVERRIDE_MAP = {
     # For EV/cars implied capacity
     ("battery", None, None): 50 / 1e6,     # 50 kWh per car → 0.00005 GWh
 
-    # You can add more specific or fallback mappings here
 }
 
 KEYWORD_MULTIPLIER_MAP = {
@@ -14,4 +13,24 @@ KEYWORD_MULTIPLIER_MAP = {
     ("van","vans"): 80 / 1e6,
     ("truck", "electric truck", "trucks", "fret truck", "fret trucks", "electric heavy-duty vehicles", "heavy-duty vehicles", "heavy-duty"): 300 / 1e6,
     ("bus", "electric bus", "buses", "electric buses"): 350 / 1e6,
+}
+
+# Default output unit mapping per (product_lv1, product_lv2)
+# If an exact (lv1, lv2) key is not found, code will try (lv1, None).
+# Allowed target units currently: "gigawatt hour", "gigawatt", "tonne", "vehicle".
+DEFAULT_UNIT_MAP = {
+    #batteries
+    ("battery", "recycling"): "tonne",
+    ("battery", "eam"): "tonne",
+    ("battery", "cell"): "gigawatt hour",
+    ("battery", "module_pack"): "gigawatt hour",
+    #solar
+    ("solar", "polysilicon"): "tonne",
+    ("solar", "ingot_wafer"): "gigawatt",
+    ("solar", "cell"): "gigawatt",
+    ("solar", "module"): "gigawatt",
+    ("solar", "deployment"): "gigawatt",
+    #vehicle
+    ("vehicle", "electric"): "vehicle",
+    ("vehicle", "fossil"): "vehicle"
 }

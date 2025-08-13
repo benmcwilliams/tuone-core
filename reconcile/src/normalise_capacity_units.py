@@ -9,6 +9,12 @@ UNIT_NORMALIZATION = {
     "gigawatt hour":    ("gigawatt hour", 1),
     "terawatt hour":    ("gigawatt hour", 1e3),
 
+    "watt":        ("gigawatt", 1e-9),
+    "kilowatt":    ("gigawatt", 1e-6),
+    "megawatt":    ("gigawatt", 1e-3),
+    "gigawatt":    ("gigawatt", 1),
+    "terawatt":    ("gigawatt", 1e3),
+
     "tonne":            ("tonne", 1),
     "kilotonne":        ("tonne", 1e3),
     "megatonne":        ("tonne", 1e6),
