@@ -6,7 +6,7 @@ test_mongo_connection()
 
 # filters
 categories = ["electrive", "pvmagazine"]
-cutoff_date = datetime(2021, 1, 1)
+cutoff_date = datetime(2023, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
