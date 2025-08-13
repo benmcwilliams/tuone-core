@@ -8,6 +8,15 @@ MULTIPLIER_OVERRIDE_MAP = {
 
 }
 
+# If source is mass EAM and target is energy, apply multiplier:
+PRODUCT_CONVERSIONS = {
+    ("battery", "eam"): {
+        "from": "tonne",
+        "to":   "gigawatt hour",
+        "multiplier": 1e-3,  # 1 kWh/kg → 1 MWh/tonne → 0.001 GWh/tonne (example)
+    },
+}
+
 KEYWORD_MULTIPLIER_MAP = {
     ("ev", "car", "vehicle", "electric vehicle", "electric car", "vehicle electric", "evs", "bevs", "phevs", "phev"): 50 / 1e6,
     ("van","vans"): 80 / 1e6,
