@@ -1,0 +1,184 @@
+2025-08-12 19:45:55,867 - INFO - 🔍 Text length: 3413 characters
+2025-08-12 19:45:55,867 - INFO - 📌 Processing Article ID: 67fbeea594b7f855cfea65dc — Works begin on 1.4 GWh Inner Mongolia project combining lithium-ion, redox flow storage technologies
+2025-08-12 19:45:55,867 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:45:59,582 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:45:59,582 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_inner_mongolia_energy_group",
+        "type": "company",
+        "name": "Inner Mongolia Energy Group"
+      },
+      {
+        "id": "company_xuji_electric",
+        "type": "company",
+        "name": "Xuji Electric"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dengkou_renewable_energy_storage_project",
+        "type": "factory",
+        "name": "Dengkou Renewable Energy Storage Project",
+        "location": {
+          "city": "Bayannur City",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dengkou_renewable_energy_storage_project_phase_1",
+        "type": "investment",
+        "name": "Dengkou Renewable Energy Storage Project Phase 1",
+        "amount": "RMB2.1 billion ($295 million)",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_605_mw_1_410_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "605 MW/1,410 MWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_battery_storage",
+        "type": "product",
+        "name": "lithium iron phosphate battery storage"
+      },
+      {
+        "id": "product_all_vanadium_liquid_flow_battery_energy_storage",
+        "type": "product",
+        "name": "all-vanadium liquid flow battery energy storage"
+      }
+    ]
+  }
+}
+2025-08-12 19:45:59,582 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:45:59,582 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:45:59,582 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:46:00,486 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:00,487 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_605_mw_1_410_mwh",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:46:00,487 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:00,487 - INFO - Node ID is capacity_605_mw_1_410_mwh
+2025-08-12 19:46:00,487 - INFO - ✅ Match found for capacity_ID 'capacity_605_mw_1_410_mwh' in capacity nodes
+2025-08-12 19:46:00,487 - INFO -   ➕ Set status: under construction
+2025-08-12 19:46:00,487 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:46:00,487 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:46:00,487 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:46:01,876 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:01,876 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dengkou_renewable_energy_storage_project_phase_1",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:46:01,876 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:01,876 - INFO - Node ID is investment_dengkou_renewable_energy_storage_project_phase_1
+2025-08-12 19:46:01,876 - INFO - ✅ Match found for investment_ID 'investment_dengkou_renewable_energy_storage_project_phase_1' in investment nodes
+2025-08-12 19:46:01,876 - INFO -   ➕ Set status: ongoing
+2025-08-12 19:46:01,876 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:46:01,876 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:46:01,876 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:46:01,876 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:46:03,067 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:03,067 - INFO - {
+  "relationships": [
+    {
+      "source": "company_inner_mongolia_energy_group",
+      "type": "owns",
+      "target": "factory_dengkou_renewable_energy_storage_project"
+    }
+  ]
+}
+2025-08-12 19:46:03,067 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:03,067 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:46:03,067 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:46:09,110 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:09,110 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_605_mw_1_410_mwh",
+      "target": "factory_dengkou_renewable_energy_storage_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_battery_storage",
+      "target": "capacity_605_mw_1_410_mwh",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_all_vanadium_liquid_flow_battery_energy_storage",
+      "target": "capacity_605_mw_1_410_mwh",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_605_mw_1_410_mwh",
+      "target": "factory_dengkou_renewable_energy_storage_project",
+      "type": "at"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_battery_storage",
+      "target": "factory_dengkou_renewable_energy_storage_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_all_vanadium_liquid_flow_battery_energy_storage",
+      "target": "factory_dengkou_renewable_energy_storage_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:46:09,110 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:09,110 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:46:09,110 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:46:09,648 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:09,649 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:46:09,649 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:09,649 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:46:09,649 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:46:11,977 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:46:11,977 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dengkou_renewable_energy_storage_project_phase_1",
+      "type": "funds",
+      "target": "factory_dengkou_renewable_energy_storage_project"
+    },
+    {
+      "source": "investment_dengkou_renewable_energy_storage_project_phase_1",
+      "type": "enables",
+      "target": "capacity_605_mw_1_410_mwh"
+    },
+    {
+      "source": "investment_dengkou_renewable_energy_storage_project_phase_1",
+      "type": "targets",
+      "target": "product_lithium_iron_phosphate_battery_storage"
+    },
+    {
+      "source": "investment_dengkou_renewable_energy_storage_project_phase_1",
+      "type": "targets",
+      "target": "product_all_vanadium_liquid_flow_battery_energy_storage"
+    }
+  ]
+}
+2025-08-12 19:46:11,977 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:46:12,071 - INFO - ✅ Updated Article ID: 67fbeea594b7f855cfea65dc with 7 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-08-12 21:00:36,684 - INFO - 🔍 Text length: 2733 characters
+2025-08-12 21:00:36,685 - INFO - 📌 Processing Article ID: 67fa7ee3eaa4fb525afec1b2 — Kuwait tenders 1.1 GW solar project
+2025-08-12 21:00:36,685 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:00:38,443 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:00:38,443 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kuwait_authority_for_partnership_projects",
+        "type": "company",
+        "name": "Kuwait Authority for Partnership Projects"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_al_shaqaya_al_jahra_governorate",
+        "type": "factory",
+        "name": "Al-Shaqaya Solar Project",
+        "location": {
+          "city": "Al-Shaqaya, Al-Jahra Governorate",
+          "country": "Kuwait"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_1_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,100 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar electricity"
+      }
+    ]
+  }
+}
+2025-08-12 21:00:38,443 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:00:38,443 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:00:38,444 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:00:39,568 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:00:39,568 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_1_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:00:39,569 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:00:39,569 - INFO - Node ID is capacity_1_1_gw_announced
+2025-08-12 21:00:39,569 - INFO - ✅ Match found for capacity_ID 'capacity_1_1_gw_announced' in capacity nodes
+2025-08-12 21:00:39,569 - INFO -   ➕ Set status: announced
+2025-08-12 21:00:39,569 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:00:39,569 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:00:39,569 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:00:39,569 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:00:39,569 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:00:41,309 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:00:41,309 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kuwait_authority_for_partnership_projects",
+      "type": "owns",
+      "target": "factory_al_shaqaya_al_jahra_governorate"
+    }
+  ]
+}
+2025-08-12 21:00:41,309 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:00:41,309 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:00:41,309 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:00:45,492 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:00:45,492 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_1_gw_announced",
+      "target": "factory_al_shaqaya_al_jahra_governorate",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_1_gw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_al_shaqaya_al_jahra_governorate",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:00:45,492 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:00:45,492 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:00:45,492 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:00:45,571 - INFO - ✅ Updated Article ID: 67fa7ee3eaa4fb525afec1b2 with 4 nodes and combined text.

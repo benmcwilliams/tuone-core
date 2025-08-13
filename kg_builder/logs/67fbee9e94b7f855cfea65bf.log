@@ -1,0 +1,191 @@
+2025-08-12 19:52:06,335 - INFO - 🔍 Text length: 9729 characters
+2025-08-12 19:52:06,335 - INFO - 📌 Processing Article ID: 67fbee9e94b7f855cfea65bf — Australia has 7.8 GW of utility-scale batteries under construction
+2025-08-12 19:52:06,335 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:52:16,412 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:52:16,413 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_agl",
+        "type": "company",
+        "name": "AGL"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_sungrow",
+        "type": "company",
+        "name": "Sungrow"
+      },
+      {
+        "id": "company_clean_energy finance corporation",
+        "type": "company",
+        "name": "Clean Energy Finance Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_liddell_battery_project",
+        "type": "factory",
+        "name": "Liddell Battery Project",
+        "location": {
+          "city": "New South Wales",
+          "country": "Australia"
+        }
+      },
+      {
+        "id": "factory_stanwell_clean_energy_hub",
+        "type": "factory",
+        "name": "Stanwell Clean Energy Hub",
+        "location": {
+          "city": "Queensland",
+          "country": "Australia"
+        }
+      },
+      {
+        "id": "factory_collie_battery",
+        "type": "factory",
+        "name": "Collie Battery",
+        "location": {
+          "city": "Western Australia",
+          "country": "Australia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500_mw_1_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "500 MW/1 GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_300_mw_1_2_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 MW/1.2 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_1_gw_4_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW/4 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-12 19:52:16,413 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:52:16,413 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:52:16,413 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:52:18,665 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:52:18,665 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500_mw_1_gwh",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_300_mw_1_2_gwh",
+      "status": "under construction",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_1_gw_4_gwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:52:18,666 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:52:18,666 - INFO - Node ID is capacity_500_mw_1_gwh
+2025-08-12 19:52:18,666 - INFO - ✅ Match found for capacity_ID 'capacity_500_mw_1_gwh' in capacity nodes
+2025-08-12 19:52:18,666 - INFO -   ➕ Set status: under construction
+2025-08-12 19:52:18,666 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:52:18,666 - INFO - Node ID is capacity_300_mw_1_2_gwh
+2025-08-12 19:52:18,666 - INFO - ✅ Match found for capacity_ID 'capacity_300_mw_1_2_gwh' in capacity nodes
+2025-08-12 19:52:18,666 - INFO -   ➕ Set status: under construction
+2025-08-12 19:52:18,666 - INFO -   ➕ Set phase: expansion
+2025-08-12 19:52:18,666 - INFO - Node ID is capacity_1_gw_4_gwh
+2025-08-12 19:52:18,666 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_4_gwh' in capacity nodes
+2025-08-12 19:52:18,666 - INFO -   ➕ Set status: announced
+2025-08-12 19:52:18,666 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:52:18,666 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:52:18,666 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:52:18,666 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:52:18,666 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:52:21,759 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:52:21,760 - INFO - {
+  "relationships": [
+    {
+      "source": "company_agl",
+      "type": "owns",
+      "target": "factory_liddell_battery_project"
+    },
+    {
+      "source": "company_agl",
+      "type": "owns",
+      "target": "factory_stanwell_clean_energy_hub"
+    },
+    {
+      "source": "company_agl",
+      "type": "owns",
+      "target": "factory_collie_battery"
+    }
+  ]
+}
+2025-08-12 19:52:21,760 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:52:21,760 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:52:21,760 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:52:25,012 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:52:25,012 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500_mw_1_gwh",
+      "target": "factory_liddell_battery_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_300_mw_1_2_gwh",
+      "target": "factory_stanwell_clean_energy_hub",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_gw_4_gwh",
+      "target": "factory_collie_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_liddell_battery_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_stanwell_clean_energy_hub",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_collie_battery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:52:25,012 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:52:25,012 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:52:25,012 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:52:25,093 - INFO - ✅ Updated Article ID: 67fbee9e94b7f855cfea65bf with 11 nodes and combined text.

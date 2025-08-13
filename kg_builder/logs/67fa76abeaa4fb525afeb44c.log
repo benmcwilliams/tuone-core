@@ -1,0 +1,105 @@
+2025-08-12 22:50:19,493 - INFO - 🔍 Text length: 7755 characters
+2025-08-12 22:50:19,493 - INFO - 📌 Processing Article ID: 67fa76abeaa4fb525afeb44c — Powering adventure with solar
+2025-08-12 22:50:19,494 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:50:22,225 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:22,226 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_briter_products",
+        "type": "company",
+        "name": "Briter Products"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_south_bend_indiana",
+        "type": "factory",
+        "name": "Briter Products Headquarters",
+        "location": {
+          "city": "South Bend",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      },
+      {
+        "id": "product_lithium_ferro_phosphate_batteries",
+        "type": "product",
+        "name": "lithium ferro-phosphate (LFP) 12 V, 100 A batteries"
+      },
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      },
+      {
+        "id": "product_inverters",
+        "type": "product",
+        "name": "inverters"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2k_w_2k_w_rooftop_array",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 kW to 2 kW",
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-08-12 22:50:22,226 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:22,226 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:50:22,226 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:50:24,290 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:24,290 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2k_w_2k_w_rooftop_array",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:50:24,290 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:24,290 - INFO - Node ID is capacity_1_2k_w_2k_w_rooftop_array
+2025-08-12 22:50:24,290 - INFO - ✅ Match found for capacity_ID 'capacity_1_2k_w_2k_w_rooftop_array' in capacity nodes
+2025-08-12 22:50:24,290 - INFO -   ➕ Set status: operational
+2025-08-12 22:50:24,290 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:50:24,290 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:50:24,290 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:50:24,290 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:50:24,290 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:50:26,689 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:26,689 - INFO - {
+  "relationships": [
+    {
+      "source": "company_briter_products",
+      "type": "owns",
+      "target": "factory_south_bend_indiana"
+    }
+  ]
+}
+2025-08-12 22:50:26,689 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:26,689 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:50:26,690 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:50:27,918 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:27,918 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_modules",
+      "target": "factory_south_bend_indiana"
+    }
+  ]
+}
+2025-08-12 22:50:27,918 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:27,918 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:50:27,918 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:50:28,000 - INFO - ✅ Updated Article ID: 67fa76abeaa4fb525afeb44c with 7 nodes and combined text.

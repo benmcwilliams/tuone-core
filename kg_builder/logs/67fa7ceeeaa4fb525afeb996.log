@@ -1,0 +1,132 @@
+2025-08-12 21:57:50,638 - INFO - 🔍 Text length: 4388 characters
+2025-08-12 21:57:50,638 - INFO - 📌 Processing Article ID: 67fa7ceeeaa4fb525afeb996 — Largest US solar and storage project wins regulatory approval
+2025-08-12 21:57:50,638 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:57:54,393 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:57:54,394 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_pine_gate_renewables",
+        "type": "company",
+        "name": "Pine Gate Renewables"
+      },
+      {
+        "id": "company_gallatin_power_partners",
+        "type": "company",
+        "name": "Gallatin Power Partners"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunstone_solar",
+        "type": "factory",
+        "name": "Sunstone Solar",
+        "location": {
+          "city": "Morrow County",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_gw_solar_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_1_2_gw_battery_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW, 7.2 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_battery_energy_storage",
+        "type": "product",
+        "name": "battery energy storage"
+      }
+    ]
+  }
+}
+2025-08-12 21:57:54,394 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:57:54,394 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:57:54,394 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:57:55,827 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:57:55,827 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_gw_solar_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_1_2_gw_battery_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:57:55,827 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:57:55,827 - INFO - Node ID is capacity_1_2_gw_solar_announced
+2025-08-12 21:57:55,828 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_solar_announced' in capacity nodes
+2025-08-12 21:57:55,828 - INFO -   ➕ Set status: announced
+2025-08-12 21:57:55,828 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:57:55,828 - INFO - Node ID is capacity_1_2_gw_battery_announced
+2025-08-12 21:57:55,828 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_battery_announced' in capacity nodes
+2025-08-12 21:57:55,828 - INFO -   ➕ Set status: announced
+2025-08-12 21:57:55,828 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:57:55,828 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:57:55,828 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:57:55,828 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:57:55,828 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:57:57,159 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:57:57,159 - INFO - {
+  "relationships": [
+    {
+      "source": "company_pine_gate_renewables",
+      "type": "owns",
+      "target": "factory_sunstone_solar"
+    }
+  ]
+}
+2025-08-12 21:57:57,159 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:57:57,159 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:57:57,159 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:57:59,309 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:57:59,309 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_2_gw_solar_announced",
+      "target": "factory_sunstone_solar",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_2_gw_battery_announced",
+      "target": "factory_sunstone_solar",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_sunstone_solar",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_energy_storage",
+      "target": "factory_sunstone_solar",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:57:59,309 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:57:59,309 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:57:59,309 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:57:59,399 - INFO - ✅ Updated Article ID: 67fa7ceeeaa4fb525afeb996 with 7 nodes and combined text.

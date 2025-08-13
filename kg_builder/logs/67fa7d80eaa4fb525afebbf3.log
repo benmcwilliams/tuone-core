@@ -1,0 +1,127 @@
+2025-08-12 21:43:34,492 - INFO - 🔍 Text length: 5440 characters
+2025-08-12 21:43:34,492 - INFO - 📌 Processing Article ID: 67fa7d80eaa4fb525afebbf3 — New research analyzes performance ratios of bifacial PV
+2025-08-12 21:43:34,492 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:43:37,059 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:37,059 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bui_power_authority",
+        "type": "company",
+        "name": "Bui Power Authority"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bui_dam",
+        "type": "factory",
+        "name": "Bui Dam",
+        "location": {
+          "city": "Bui",
+          "country": "Ghana"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_400_kw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "400 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_photovoltaic_panels",
+        "type": "product",
+        "name": "floating photovoltaic panels"
+      },
+      {
+        "id": "product_ground_mounted_pv",
+        "type": "product",
+        "name": "ground-mounted PV"
+      }
+    ]
+  }
+}
+2025-08-12 21:43:37,060 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:37,060 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:43:37,060 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:43:38,436 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:38,436 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_400_kw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 21:43:38,436 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:38,436 - INFO - Node ID is capacity_50_mw_operational
+2025-08-12 21:43:38,436 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw_operational' in capacity nodes
+2025-08-12 21:43:38,436 - INFO -   ➕ Set status: operational
+2025-08-12 21:43:38,436 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:43:38,436 - INFO - Node ID is capacity_400_kw_operational
+2025-08-12 21:43:38,436 - INFO - ✅ Match found for capacity_ID 'capacity_400_kw_operational' in capacity nodes
+2025-08-12 21:43:38,436 - INFO -   ➕ Set status: operational
+2025-08-12 21:43:38,436 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:43:38,436 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:43:38,436 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:43:38,436 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:43:38,436 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:43:39,721 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:39,722 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bui_power_authority",
+      "type": "owns",
+      "target": "factory_bui_dam"
+    }
+  ]
+}
+2025-08-12 21:43:39,722 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:39,722 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:43:39,722 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:43:41,454 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:41,454 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw_operational",
+      "target": "factory_bui_dam",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_400_kw_operational",
+      "target": "factory_bui_dam",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_photovoltaic_panels",
+      "target": "factory_bui_dam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ground_mounted_pv",
+      "target": "factory_bui_dam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:43:41,455 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:41,455 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:43:41,455 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:43:41,533 - INFO - ✅ Updated Article ID: 67fa7d80eaa4fb525afebbf3 with 6 nodes and combined text.

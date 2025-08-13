@@ -1,0 +1,76 @@
+2025-08-12 18:48:56,829 - INFO - 🔍 Text length: 2763 characters
+2025-08-12 18:48:56,829 - INFO - 📌 Processing Article ID: 67fbeee194b7f855cfea66cf — Solarwatt shuts down battery factory in Germany
+2025-08-12 18:48:56,829 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:49:00,005 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:49:00,005 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solarwatt",
+        "type": "company",
+        "name": "Solarwatt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dresden_germany",
+        "type": "factory",
+        "name": "Dresden Facility",
+        "location": {
+          "city": "Dresden",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_storage_systems",
+        "type": "product",
+        "name": "battery storage systems"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-08-12 18:49:00,005 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:49:00,006 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 18:49:00,006 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:49:00,006 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:49:00,006 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:49:00,006 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:49:01,349 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:49:01,349 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solarwatt",
+      "type": "owns",
+      "target": "factory_dresden_germany"
+    }
+  ]
+}
+2025-08-12 18:49:01,349 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:49:01,349 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:49:01,349 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:49:03,094 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:49:03,094 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_storage_systems",
+      "target": "factory_dresden_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_dresden_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:49:03,094 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:49:03,094 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:49:03,094 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:49:03,172 - INFO - ✅ Updated Article ID: 67fbeee194b7f855cfea66cf with 4 nodes and combined text.

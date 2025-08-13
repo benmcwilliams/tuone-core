@@ -1,0 +1,105 @@
+2025-08-12 19:29:32,506 - INFO - 🔍 Text length: 2192 characters
+2025-08-12 19:29:32,506 - INFO - 📌 Processing Article ID: 67fbeeb994b7f855cfea662d — Energy Storage
+2025-08-12 19:29:32,506 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:29:36,134 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:36,135 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_xing_mobility",
+        "type": "company",
+        "name": "Xing Mobility"
+      },
+      {
+        "id": "company_plug_power",
+        "type": "company",
+        "name": "Plug Power"
+      },
+      {
+        "id": "company_cph2",
+        "type": "company",
+        "name": "CPH2"
+      },
+      {
+        "id": "company_mga_thermal",
+        "type": "company",
+        "name": "MGA Thermal"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_australian_renewable_energy_agency",
+        "type": "investment",
+        "name": "Australian Renewable Energy Agency",
+        "amount": "$2.48 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_immersi_xe50_battery_system",
+        "type": "product",
+        "name": "Immersi XE50 battery system"
+      },
+      {
+        "id": "product_powerwall_3",
+        "type": "product",
+        "name": "Powerwall 3"
+      }
+    ]
+  }
+}
+2025-08-12 19:29:36,135 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:36,135 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:29:36,135 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:29:36,135 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:29:36,867 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:36,867 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_australian_renewable_energy_agency",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:29:36,867 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:36,867 - INFO - Node ID is investment_australian_renewable_energy_agency
+2025-08-12 19:29:36,867 - INFO - ✅ Match found for investment_ID 'investment_australian_renewable_energy_agency' in investment nodes
+2025-08-12 19:29:36,867 - INFO -   ➕ Set status: completed
+2025-08-12 19:29:36,867 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:29:36,867 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:29:36,867 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 19:29:36,867 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:29:36,867 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:29:37,569 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:37,570 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:29:37,570 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:37,570 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:29:37,570 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:29:38,284 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:38,285 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:29:38,285 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:38,285 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:29:38,285 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:29:39,821 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:39,821 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_australian_renewable_energy_agency",
+      "target": "product_immersi_xe50_battery_system",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 19:29:39,821 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:39,908 - INFO - ✅ Updated Article ID: 67fbeeb994b7f855cfea662d with 8 nodes and combined text.

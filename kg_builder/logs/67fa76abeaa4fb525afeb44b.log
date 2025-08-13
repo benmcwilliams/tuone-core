@@ -1,0 +1,135 @@
+2025-08-12 22:50:28,002 - INFO - 🔍 Text length: 4492 characters
+2025-08-12 22:50:28,002 - INFO - 📌 Processing Article ID: 67fa76abeaa4fb525afeb44b — Nexwafe claims 24.4% efficiency for heterojunction solar cell built with its ultrathin wafers
+2025-08-12 22:50:28,002 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:50:34,607 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:34,607 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nexwafe_gmbh",
+        "type": "company",
+        "name": "NexWafe GmbH"
+      },
+      {
+        "id": "company_csem",
+        "type": "company",
+        "name": "Swiss Center for Electronics and Microtechnology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_freiburg_germany",
+        "type": "factory",
+        "name": "Freiburg Pilot Line",
+        "location": {
+          "city": "Freiburg",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_bitterfeld_germany",
+        "type": "factory",
+        "name": "Bitterfeld Epitaxial Facility",
+        "location": {
+          "city": "Bitterfeld",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_epitaxial_facility_bitterfeld",
+        "type": "capacity",
+        "name": "Bitterfeld Epitaxial Facility",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heterojunction_solar_cell",
+        "type": "product",
+        "name": "heterojunction (HJT) solar cell"
+      },
+      {
+        "id": "product_epiwafer",
+        "type": "product",
+        "name": "EpiWafers"
+      },
+      {
+        "id": "product_perovskite_silicon_tandem_solar_cell",
+        "type": "product",
+        "name": "perovskite-silicon tandem solar cell"
+      },
+      {
+        "id": "product_monocrystalline_silicon_wafers",
+        "type": "product",
+        "name": "monocrystalline silicon wafers"
+      }
+    ]
+  }
+}
+2025-08-12 22:50:34,607 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:34,607 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:50:34,607 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:50:36,110 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:36,110 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_epitaxial_facility_bitterfeld",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:50:36,110 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:36,110 - INFO - Node ID is capacity_epitaxial_facility_bitterfeld
+2025-08-12 22:50:36,110 - INFO - ✅ Match found for capacity_ID 'capacity_epitaxial_facility_bitterfeld' in capacity nodes
+2025-08-12 22:50:36,110 - INFO -   ➕ Set status: under construction
+2025-08-12 22:50:36,110 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:50:36,110 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:50:36,111 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:50:36,111 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:50:36,111 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:50:37,868 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:37,868 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nexwafe_gmbh",
+      "type": "owns",
+      "target": "factory_freiburg_germany"
+    },
+    {
+      "source": "company_nexwafe_gmbh",
+      "type": "owns",
+      "target": "factory_bitterfeld_germany"
+    }
+  ]
+}
+2025-08-12 22:50:37,868 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:37,868 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:50:37,868 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:50:40,720 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:50:40,720 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_epitaxial_facility_bitterfeld",
+      "target": "product_monocrystalline_silicon_wafers",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_monocrystalline_silicon_wafers",
+      "target": "factory_freiburg_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_monocrystalline_silicon_wafers",
+      "target": "factory_bitterfeld_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:50:40,720 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:50:40,720 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:50:40,720 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:50:40,804 - INFO - ✅ Updated Article ID: 67fa76abeaa4fb525afeb44b with 9 nodes and combined text.

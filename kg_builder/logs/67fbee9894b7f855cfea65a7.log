@@ -1,0 +1,60 @@
+2025-08-12 19:57:01,586 - INFO - 🔍 Text length: 4568 characters
+2025-08-12 19:57:01,587 - INFO - 📌 Processing Article ID: 67fbee9894b7f855cfea65a7 — Battery fire shuts down California highway
+2025-08-12 19:57:01,587 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:57:04,159 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:04,159 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lathrop_california",
+        "type": "factory",
+        "name": "Lathrop California Megafactory",
+        "location": {
+          "city": "Lathrop",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "industrial grade lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-12 19:57:04,160 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:04,160 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:57:04,160 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:57:04,160 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:57:04,160 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:57:04,160 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:57:04,980 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:04,980 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_lathrop_california"
+    }
+  ]
+}
+2025-08-12 19:57:04,981 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:04,981 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:57:04,981 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:57:05,640 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:05,640 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:57:05,640 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:05,640 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:57:05,640 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:57:05,721 - INFO - ✅ Updated Article ID: 67fbee9894b7f855cfea65a7 with 3 nodes and combined text.

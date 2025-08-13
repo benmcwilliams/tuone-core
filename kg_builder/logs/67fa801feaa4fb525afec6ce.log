@@ -1,0 +1,71 @@
+2025-08-12 20:28:02,205 - INFO - 🔍 Text length: 5990 characters
+2025-08-12 20:28:02,206 - INFO - 📌 Processing Article ID: 67fa801feaa4fb525afec6ce — Fixing faulty inverters in PV plants via root cause analysis
+2025-08-12 20:28:02,206 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:28:04,004 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:04,004 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kiwa_pi_berlin",
+        "type": "company",
+        "name": "Kiwa PI Berlin"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_south_africa_pv_plant",
+        "type": "factory",
+        "name": "South Africa PV Plant",
+        "location": {
+          "city": "null",
+          "country": "South Africa"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_insulated_gate_bipolar_transistor",
+        "type": "product",
+        "name": "Insulated Gate Bipolar Transistor (IGBT)"
+      },
+      {
+        "id": "product_field_replaceable_unit",
+        "type": "product",
+        "name": "Field Replaceable Unit (FRU)"
+      }
+    ]
+  }
+}
+2025-08-12 20:28:04,004 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:04,004 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 20:28:04,004 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:28:04,004 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:28:04,004 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:28:04,004 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:28:04,804 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:04,804 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kiwa_pi_berlin",
+      "type": "owns",
+      "target": "factory_south_africa_pv_plant"
+    }
+  ]
+}
+2025-08-12 20:28:04,804 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:04,804 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:28:04,804 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:28:06,201 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:06,202 - INFO - {
+  "relationships": [
+    {
+      "source": "product_field_replaceable_unit",
+      "target": "factory_south_africa_pv_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:28:06,202 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:06,202 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:28:06,202 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:28:06,287 - INFO - ✅ Updated Article ID: 67fa801feaa4fb525afec6ce with 4 nodes and combined text.

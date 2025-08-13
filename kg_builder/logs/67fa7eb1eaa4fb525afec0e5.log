@@ -1,0 +1,111 @@
+2025-08-12 21:07:15,312 - INFO - 🔍 Text length: 3526 characters
+2025-08-12 21:07:15,313 - INFO - 📌 Processing Article ID: 67fa7eb1eaa4fb525afec0e5 — RWE testing agrivoltaics on former opencast mine
+2025-08-12 21:07:15,313 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:07:17,424 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:07:17,424 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rwe",
+        "type": "company",
+        "name": "RWE"
+      },
+      {
+        "id": "company_fraunhofer_institute_for_solar_energy_systems_ise",
+        "type": "company",
+        "name": "Fraunhofer Institute for Solar Energy Systems ISE"
+      },
+      {
+        "id": "company_institute_of_plant_sciences_at_the_julich_research_center",
+        "type": "company",
+        "name": "Institute of Plant Sciences at the J\u00fclich Research Center"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_garzweiler_opencast_mine",
+        "type": "factory",
+        "name": "Garzweiler Opencast Mine",
+        "location": {
+          "city": "Bedburg",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3_2_mw_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "3.2 MW",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_agrivoltaic_systems",
+        "type": "product",
+        "name": "agrivoltaic systems"
+      }
+    ]
+  }
+}
+2025-08-12 21:07:17,424 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:07:17,424 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:07:17,424 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:07:18,602 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:07:18,603 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3_2_mw_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:07:18,603 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:07:18,603 - INFO - Node ID is capacity_3_2_mw_completed
+2025-08-12 21:07:18,603 - INFO - ✅ Match found for capacity_ID 'capacity_3_2_mw_completed' in capacity nodes
+2025-08-12 21:07:18,603 - INFO -   ➕ Set status: operational
+2025-08-12 21:07:18,603 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:07:18,603 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:07:18,603 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:07:18,603 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:07:18,603 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:07:19,966 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:07:19,967 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rwe",
+      "type": "owns",
+      "target": "factory_garzweiler_opencast_mine"
+    }
+  ]
+}
+2025-08-12 21:07:19,967 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:07:19,967 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:07:19,967 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:07:21,676 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:07:21,676 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3_2_mw_completed",
+      "target": "factory_garzweiler_opencast_mine",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_2_mw_completed",
+      "target": "product_agrivoltaic_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_agrivoltaic_systems",
+      "target": "factory_garzweiler_opencast_mine",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:07:21,676 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:07:21,676 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:07:21,676 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:07:21,766 - INFO - ✅ Updated Article ID: 67fa7eb1eaa4fb525afec0e5 with 6 nodes and combined text.

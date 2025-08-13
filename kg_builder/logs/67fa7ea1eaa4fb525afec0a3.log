@@ -1,0 +1,96 @@
+2025-08-12 21:08:36,924 - INFO - 🔍 Text length: 2580 characters
+2025-08-12 21:08:36,925 - INFO - 📌 Processing Article ID: 67fa7ea1eaa4fb525afec0a3 — Utility Scale PV
+2025-08-12 21:08:36,925 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:08:41,097 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:41,097 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_caipeng_pv_plant",
+        "type": "factory",
+        "name": "Caipeng PV plant",
+        "location": {
+          "city": "Tibet",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_50_mw_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      },
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:08:41,097 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:41,097 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:08:41,097 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:08:41,987 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:41,987 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:08:41,987 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:41,987 - INFO - Node ID is capacity_50_mw_completed
+2025-08-12 21:08:41,987 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw_completed' in capacity nodes
+2025-08-12 21:08:41,987 - INFO -   ➕ Set status: operational
+2025-08-12 21:08:41,987 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:08:41,987 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:08:41,987 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:08:41,987 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:08:41,987 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:08:42,574 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:42,574 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_caipeng_pv_plant",
+      "type": "owns"
+    }
+  ]
+}
+2025-08-12 21:08:42,574 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:42,574 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:08:42,574 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:08:44,376 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:44,376 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw_completed",
+      "target": "factory_caipeng_pv_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_caipeng_pv_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:08:44,376 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:44,376 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:08:44,376 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:08:44,453 - INFO - ✅ Updated Article ID: 67fa7ea1eaa4fb525afec0a3 with 4 nodes and combined text.

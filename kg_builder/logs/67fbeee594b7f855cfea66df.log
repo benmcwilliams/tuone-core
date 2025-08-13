@@ -1,0 +1,133 @@
+2025-08-12 18:43:56,813 - INFO - 🔍 Text length: 2648 characters
+2025-08-12 18:43:56,813 - INFO - 📌 Processing Article ID: 67fbeee594b7f855cfea66df — Ireland in line for 1 GWh iron-air battery storage project
+2025-08-12 18:43:56,813 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:44:00,498 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:00,498 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_futurenergy_ireland",
+        "type": "company",
+        "name": "FuturEnergy Ireland"
+      },
+      {
+        "id": "company_coillte",
+        "type": "company",
+        "name": "Coillte"
+      },
+      {
+        "id": "company_esb",
+        "type": "company",
+        "name": "ESB"
+      },
+      {
+        "id": "company_form_energy",
+        "type": "company",
+        "name": "Form Energy"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_coillte_esb",
+        "type": "joint_venture",
+        "name": "Coillte ESB"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ballynahone_energy_storage",
+        "type": "factory",
+        "name": "Ballynahone Energy Storage",
+        "location": {
+          "city": "Buncrana",
+          "country": "Ireland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "10 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_iron_air_battery_technology",
+        "type": "product",
+        "name": "iron-air battery technology"
+      }
+    ]
+  }
+}
+2025-08-12 18:44:00,498 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:00,499 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:44:00,499 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:44:02,127 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:02,128 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:44:02,128 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:02,128 - INFO - Node ID is capacity_10_mw_announced
+2025-08-12 18:44:02,128 - INFO - ✅ Match found for capacity_ID 'capacity_10_mw_announced' in capacity nodes
+2025-08-12 18:44:02,128 - INFO -   ➕ Set status: announced
+2025-08-12 18:44:02,128 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:44:02,128 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:44:02,128 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:44:02,128 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:44:02,128 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:44:03,394 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:03,394 - INFO - {
+  "relationships": [
+    {
+      "source": "company_coillte",
+      "type": "forms",
+      "target": "joint_venture_coillte_esb"
+    },
+    {
+      "source": "company_esb",
+      "type": "forms",
+      "target": "joint_venture_coillte_esb"
+    },
+    {
+      "source": "joint_venture_coillte_esb",
+      "type": "owns",
+      "target": "factory_ballynahone_energy_storage"
+    }
+  ]
+}
+2025-08-12 18:44:03,394 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:03,395 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:44:03,395 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:44:04,991 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:04,992 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10_mw_announced",
+      "target": "factory_ballynahone_energy_storage",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_mw_announced",
+      "target": "product_iron_air_battery_technology",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_iron_air_battery_technology",
+      "target": "factory_ballynahone_energy_storage",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:44:04,992 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:04,992 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:44:04,992 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:44:05,076 - INFO - ✅ Updated Article ID: 67fbeee594b7f855cfea66df with 8 nodes and combined text.

@@ -1,0 +1,80 @@
+2025-08-12 19:21:38,400 - INFO - 🔍 Text length: 2610 characters
+2025-08-12 19:21:38,400 - INFO - 📌 Processing Article ID: 67fbeec194b7f855cfea664c — Romania opens €150 million pot for co-located battery storage
+2025-08-12 19:21:38,400 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:21:41,197 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:21:41,197 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_romanian_ministry_of_energy",
+        "type": "company",
+        "name": "Romanian Ministry of Energy"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_romanian_battery_storage_subsidy",
+        "type": "investment",
+        "name": "Romanian Battery Storage Subsidy",
+        "amount": "\u20ac150 million ($158 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-12 19:21:41,197 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:21:41,197 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:21:41,197 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:21:41,197 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:21:42,418 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:21:42,418 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_romanian_battery_storage_subsidy",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:21:42,418 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:21:42,418 - INFO - Node ID is investment_romanian_battery_storage_subsidy
+2025-08-12 19:21:42,418 - INFO - ✅ Match found for investment_ID 'investment_romanian_battery_storage_subsidy' in investment nodes
+2025-08-12 19:21:42,419 - INFO -   ➕ Set status: announced
+2025-08-12 19:21:42,419 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:21:42,419 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:21:42,419 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 19:21:42,419 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:21:42,419 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:21:43,483 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:21:43,483 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:21:43,483 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:21:43,483 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:21:43,483 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:21:44,316 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:21:44,316 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:21:44,316 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:21:44,316 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:21:44,316 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:21:46,953 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:21:46,953 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_romanian_battery_storage_subsidy",
+      "target": "product_battery_energy_storage_systems",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 19:21:46,953 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:21:47,029 - INFO - ✅ Updated Article ID: 67fbeec194b7f855cfea664c with 3 nodes and combined text.

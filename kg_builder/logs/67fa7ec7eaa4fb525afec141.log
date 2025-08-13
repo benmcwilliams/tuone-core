@@ -1,0 +1,142 @@
+2025-08-12 21:03:48,584 - INFO - 🔍 Text length: 4982 characters
+2025-08-12 21:03:48,584 - INFO - 📌 Processing Article ID: 67fa7ec7eaa4fb525afec141 — French developer testing 150 kW electrolyzer at 12 MW solar plant
+2025-08-12 21:03:48,585 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:03:53,825 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:03:53,826 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_corsica_sole",
+        "type": "company",
+        "name": "Corsica Sole"
+      },
+      {
+        "id": "company_hensodlt_nexeya_france",
+        "type": "company",
+        "name": "Hensodlt Nexeya France"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_folelli_corsica",
+        "type": "factory",
+        "name": "Folelli Solar Power Plant",
+        "location": {
+          "city": "Folelli",
+          "country": "France"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_12_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "12 MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_150_kw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "150 kW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "Green Hydrogen"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "": ""
+      }
+    ]
+  }
+}
+2025-08-12 21:03:53,826 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:03:53,826 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:03:53,826 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:03:55,257 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:03:55,258 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_12_mw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_150_kw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:03:55,258 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:03:55,258 - INFO - Node ID is capacity_12_mw_operational
+2025-08-12 21:03:55,258 - INFO - ✅ Match found for capacity_ID 'capacity_12_mw_operational' in capacity nodes
+2025-08-12 21:03:55,258 - INFO -   ➕ Set status: operational
+2025-08-12 21:03:55,258 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:03:55,258 - INFO - Node ID is capacity_150_kw_announced
+2025-08-12 21:03:55,258 - INFO - ✅ Match found for capacity_ID 'capacity_150_kw_announced' in capacity nodes
+2025-08-12 21:03:55,258 - INFO -   ➕ Set status: announced
+2025-08-12 21:03:55,258 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:03:55,258 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:03:55,258 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:03:55,258 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:03:55,258 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:03:56,998 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:03:56,998 - INFO - {
+  "relationships": [
+    {
+      "source": "company_corsica_sole",
+      "type": "owns",
+      "target": "factory_folelli_corsica"
+    }
+  ]
+}
+2025-08-12 21:03:56,998 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:03:56,999 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:03:56,999 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:04:01,913 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:04:01,914 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_12_mw_operational",
+      "target": "factory_folelli_corsica",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150_kw_announced",
+      "target": "factory_folelli_corsica",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150_kw_announced",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_folelli_corsica",
+      "type": "produced_at"
+    },
+    {
+      "source": "solar_power",
+      "target": "capacity_12_mw_operational",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 21:04:01,914 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:04:01,914 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:04:01,914 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:04:01,992 - INFO - ✅ Updated Article ID: 67fa7ec7eaa4fb525afec141 with 7 nodes and combined text.

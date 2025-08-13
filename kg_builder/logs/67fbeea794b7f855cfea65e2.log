@@ -1,0 +1,66 @@
+2025-08-12 19:45:06,625 - INFO - 🔍 Text length: 3763 characters
+2025-08-12 19:45:06,626 - INFO - 📌 Processing Article ID: 67fbeea794b7f855cfea65e2 — Australian lithium-sulfur battery player claims to have nailed safety standards
+2025-08-12 19:45:06,626 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:45:08,183 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:45:08,183 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_s_energy",
+        "type": "company",
+        "name": "Li-S Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_geelong_victoria",
+        "type": "factory",
+        "name": "Geelong Production Facility",
+        "location": {
+          "city": "Geelong",
+          "country": "Australia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_sulfur_battery",
+        "type": "product",
+        "name": "semi-solid-state lithium-sulfur battery"
+      }
+    ]
+  }
+}
+2025-08-12 19:45:08,183 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:45:08,183 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:45:08,183 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:45:08,183 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:45:08,183 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:45:08,183 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:45:09,101 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:45:09,101 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_s_energy",
+      "type": "owns",
+      "target": "factory_geelong_victoria"
+    }
+  ]
+}
+2025-08-12 19:45:09,101 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:45:09,101 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:45:09,101 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:45:09,887 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:45:09,887 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_sulfur_battery",
+      "target": "factory_geelong_victoria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:45:09,887 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:45:09,887 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:45:09,887 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:45:09,960 - INFO - ✅ Updated Article ID: 67fbeea794b7f855cfea65e2 with 3 nodes and combined text.

@@ -1,0 +1,126 @@
+2025-08-12 19:47:42,374 - INFO - 🔍 Text length: 4545 characters
+2025-08-12 19:47:42,374 - INFO - 📌 Processing Article ID: 67fbeea394b7f855cfea65d2 — XNO ultra-fast charging technology aims to decarbonize mining sector vehicles
+2025-08-12 19:47:42,374 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:47:45,138 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:45,138 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_switch_technologies",
+        "type": "company",
+        "name": "Switch Technologies"
+      },
+      {
+        "id": "company_echion_technologies",
+        "type": "company",
+        "name": "Echion Technologies"
+      },
+      {
+        "id": "company_cbmm",
+        "type": "company",
+        "name": "CBMM"
+      },
+      {
+        "id": "company_li_fun",
+        "type": "company",
+        "name": "Li-FUN"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brazil_cbmm",
+        "type": "factory",
+        "name": "CBMM Facility",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "2,000 tons per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_xno_anode_material",
+        "type": "product",
+        "name": "XNO anode material"
+      },
+      {
+        "id": "product_xno_cell",
+        "type": "product",
+        "name": "XNO cell"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-12 19:47:45,138 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:45,138 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:47:45,138 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:47:46,063 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:46,063 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2k_tons_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:47:46,063 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:46,063 - INFO - Node ID is capacity_2k_tons_per_year
+2025-08-12 19:47:46,063 - INFO - ✅ Match found for capacity_ID 'capacity_2k_tons_per_year' in capacity nodes
+2025-08-12 19:47:46,063 - INFO -   ➕ Set status: operational
+2025-08-12 19:47:46,063 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:47:46,063 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:47:46,063 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:47:46,063 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:47:46,063 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:47:47,096 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:47,096 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cbmm",
+      "type": "owns",
+      "target": "factory_brazil_cbmm"
+    }
+  ]
+}
+2025-08-12 19:47:47,096 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:47,096 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:47:47,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:47:49,872 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:49,872 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2k_tons_per_year",
+      "target": "factory_brazil_cbmm",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2k_tons_per_year",
+      "target": "product_xno_anode_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_xno_anode_material",
+      "target": "factory_brazil_cbmm",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:47:49,872 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:49,872 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:47:49,872 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:47:49,954 - INFO - ✅ Updated Article ID: 67fbeea394b7f855cfea65d2 with 9 nodes and combined text.

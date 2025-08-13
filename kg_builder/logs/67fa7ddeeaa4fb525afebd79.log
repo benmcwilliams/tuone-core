@@ -1,0 +1,169 @@
+2025-08-12 21:33:08,291 - INFO - 🔍 Text length: 3168 characters
+2025-08-12 21:33:08,291 - INFO - 📌 Processing Article ID: 67fa7ddeeaa4fb525afebd79 — Q Energy secures €50.4 million for Europe’s biggest floating PV project
+2025-08-12 21:33:08,291 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:33:11,902 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:11,903 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_q_energy",
+        "type": "company",
+        "name": "Q Energy"
+      },
+      {
+        "id": "company_credit_agricole_transitions_&_energies",
+        "type": "company",
+        "name": "Cr\u00e9dit Agricole Transitions & Energies"
+      },
+      {
+        "id": "company_unifergie",
+        "type": "company",
+        "name": "Unifergie"
+      },
+      {
+        "id": "company_bpifrance",
+        "type": "company",
+        "name": "Bpifrance"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_haute_marne_france",
+        "type": "factory",
+        "name": "Haute-Marne Floating Solar Plant",
+        "location": {
+          "city": "Haute-Marne",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_q_energy_haute_marne_floating_solar_plant",
+        "type": "investment",
+        "name": "Q Energy Haute-Marne Floating Solar Plant",
+        "amount": "\u20ac50.4 million ($55.7 million)",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_74.3_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "74.3 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_solar_power",
+        "type": "product",
+        "name": "floating solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:33:11,903 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:11,903 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:33:11,903 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:33:12,926 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:12,926 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_74.3_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:33:12,926 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:12,926 - INFO - Node ID is capacity_74.3_mw
+2025-08-12 21:33:12,926 - INFO - ✅ Match found for capacity_ID 'capacity_74.3_mw' in capacity nodes
+2025-08-12 21:33:12,926 - INFO -   ➕ Set status: under construction
+2025-08-12 21:33:12,926 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:33:12,926 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 21:33:12,926 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 21:33:14,110 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:14,110 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_q_energy_haute_marne_floating_solar_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:33:14,110 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:14,110 - INFO - Node ID is investment_q_energy_haute_marne_floating_solar_plant
+2025-08-12 21:33:14,110 - INFO - ✅ Match found for investment_ID 'investment_q_energy_haute_marne_floating_solar_plant' in investment nodes
+2025-08-12 21:33:14,110 - INFO -   ➕ Set status: ongoing
+2025-08-12 21:33:14,110 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:33:14,110 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:33:14,111 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:33:14,111 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:33:14,990 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:14,990 - INFO - {
+  "relationships": [
+    {
+      "source": "company_q_energy",
+      "type": "owns",
+      "target": "factory_haute_marne_france"
+    }
+  ]
+}
+2025-08-12 21:33:14,990 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:14,990 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:33:14,990 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:33:17,535 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:17,535 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_74.3_mw",
+      "target": "factory_haute_marne_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_74.3_mw",
+      "target": "product_floating_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_solar_power",
+      "target": "factory_haute_marne_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:33:17,535 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:17,535 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 21:33:17,535 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 21:33:18,221 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:18,222 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:33:18,222 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:18,222 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 21:33:18,222 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 21:33:19,583 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:19,583 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_q_energy_haute_marne_floating_solar_plant",
+      "target": "capacity_74.3_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_q_energy_haute_marne_floating_solar_plant",
+      "target": "product_floating_solar_power",
+      "type": "targets"
+    },
+    {
+      "source": "investment_q_energy_haute_marne_floating_solar_plant",
+      "target": "factory_haute_marne_france",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-12 21:33:19,583 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:19,659 - INFO - ✅ Updated Article ID: 67fa7ddeeaa4fb525afebd79 with 8 nodes and combined text.

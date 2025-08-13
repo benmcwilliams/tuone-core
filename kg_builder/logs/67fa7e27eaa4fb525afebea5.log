@@ -1,0 +1,106 @@
+2025-08-12 21:21:08,325 - INFO - 🔍 Text length: 5735 characters
+2025-08-12 21:21:08,325 - INFO - 📌 Processing Article ID: 67fa7e27eaa4fb525afebea5 — New research finds solar module anti-reflective coatings may reduce LCOE by over 2%
+2025-08-12 21:21:08,325 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:21:12,452 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:21:12,453 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mohammed_first_university",
+        "type": "company",
+        "name": "Mohammed First University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_green_energy_park",
+        "type": "factory",
+        "name": "Green Energy Park",
+        "location": {
+          "city": "Benguerir",
+          "country": "Morocco"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40_mw",
+        "type": "capacity",
+        "name": null,
+        "amount": "40 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_anti_reflective_coating",
+        "type": "product",
+        "name": "Anti-Reflective Coating"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "": ""
+      }
+    ]
+  }
+}
+2025-08-12 21:21:12,453 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:21:12,453 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:21:12,453 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:21:13,523 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:21:13,523 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40_mw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 21:21:13,523 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:21:13,523 - INFO - Node ID is capacity_40_mw
+2025-08-12 21:21:13,523 - INFO - ✅ Match found for capacity_ID 'capacity_40_mw' in capacity nodes
+2025-08-12 21:21:13,523 - INFO -   ➕ Set status: operational
+2025-08-12 21:21:13,523 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:21:13,523 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:21:13,523 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:21:13,523 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:21:13,523 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:21:14,617 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:21:14,618 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mohammed_first_university",
+      "type": "owns",
+      "target": "factory_green_energy_park"
+    }
+  ]
+}
+2025-08-12 21:21:14,618 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:21:14,618 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:21:14,618 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:21:16,387 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:21:16,387 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40_mw",
+      "target": "solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "solar_power",
+      "target": "factory_green_energy_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:21:16,387 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:21:16,387 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:21:16,387 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:21:16,470 - INFO - ✅ Updated Article ID: 67fa7e27eaa4fb525afebea5 with 5 nodes and combined text.

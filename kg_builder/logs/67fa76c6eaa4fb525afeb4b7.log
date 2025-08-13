@@ -1,0 +1,126 @@
+2025-08-12 22:31:00,381 - INFO - 🔍 Text length: 2903 characters
+2025-08-12 22:31:00,381 - INFO - 📌 Processing Article ID: 67fa76c6eaa4fb525afeb4b7 — Ecoprogetti expands solar production line to 1 GW in Morocco
+2025-08-12 22:31:00,381 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:31:04,739 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:04,739 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecoprogetti",
+        "type": "company",
+        "name": "Ecoprogetti"
+      },
+      {
+        "id": "company_almaden_morocco",
+        "type": "company",
+        "name": "Almaden Morocco"
+      },
+      {
+        "id": "company_sael",
+        "type": "company",
+        "name": "SAEL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_al_hoceima_morocco",
+        "type": "factory",
+        "name": "Al Hoceima PV Production Line",
+        "location": {
+          "city": "Al Hoceima",
+          "country": "Morocco"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_g12_18bb_half_cut_cells",
+        "type": "product",
+        "name": "TOPCon G12 18BB half-cut cells"
+      },
+      {
+        "id": "product_glass_glass_solar_panels",
+        "type": "product",
+        "name": "glass-glass solar panels"
+      },
+      {
+        "id": "solar_modules",
+        "type": "product",
+        "name": "solar modules",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "": ""
+      }
+    ]
+  }
+}
+2025-08-12 22:31:04,739 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:04,739 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:31:04,739 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:31:05,899 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:05,899 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw_operational",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-12 22:31:05,899 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:05,899 - INFO - Node ID is capacity_1_gw_operational
+2025-08-12 22:31:05,899 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_operational' in capacity nodes
+2025-08-12 22:31:05,899 - INFO -   ➕ Set status: operational
+2025-08-12 22:31:05,899 - INFO -   ➕ Set phase: expansion
+2025-08-12 22:31:05,899 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:31:05,899 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:31:05,899 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:31:05,899 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:31:06,792 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:06,792 - INFO - {
+  "relationships": [
+    {
+      "source": "company_almaden_morocco",
+      "type": "owns",
+      "target": "factory_al_hoceima_morocco"
+    }
+  ]
+}
+2025-08-12 22:31:06,792 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:06,792 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:31:06,792 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:31:08,840 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:08,840 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw_operational",
+      "target": "factory_al_hoceima_morocco",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gw_operational",
+      "target": "solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "solar_modules",
+      "target": "factory_al_hoceima_morocco",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:31:08,840 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:08,840 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:31:08,840 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:31:08,926 - INFO - ✅ Updated Article ID: 67fa76c6eaa4fb525afeb4b7 with 8 nodes and combined text.

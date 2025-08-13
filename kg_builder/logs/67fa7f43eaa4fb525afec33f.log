@@ -1,0 +1,150 @@
+2025-08-12 20:50:49,742 - INFO - 🔍 Text length: 3266 characters
+2025-08-12 20:50:49,742 - INFO - 📌 Processing Article ID: 67fa7f43eaa4fb525afec33f — Utility Scale PV
+2025-08-12 20:50:49,742 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:50:55,150 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:55,151 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bangladesh_power_development_board",
+        "type": "company",
+        "name": "Bangladesh Power Development Board"
+      },
+      {
+        "id": "company_china_huadian_corp",
+        "type": "company",
+        "name": "China Huadian Corp"
+      },
+      {
+        "id": "company_asahi_kasei",
+        "type": "company",
+        "name": "Asahi Kasei"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bangladesh_solar",
+        "type": "factory",
+        "name": "Bangladesh Solar Facility",
+        "location": {
+          "city": "null",
+          "country": "Bangladesh"
+        }
+      },
+      {
+        "id": "factory_alkaline_water_electrolyzer",
+        "type": "factory",
+        "name": "Alkaline Water Electrolyzer Testing Facility",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        }
+      },
+      {
+        "id": "factory_liquid_hydrogen_system",
+        "type": "factory",
+        "name": "Vehicle-Mounted Liquid Hydrogen System Facility",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_160_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "160 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_100_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_power",
+        "type": "product",
+        "name": "PV Power"
+      },
+      {
+        "id": "product_alkaline_water_electrolyzer",
+        "type": "product",
+        "name": "Alkaline Water Electrolyzer"
+      },
+      {
+        "id": "product_liquid_hydrogen_system",
+        "type": "product",
+        "name": "Vehicle-Mounted Liquid Hydrogen System"
+      }
+    ]
+  }
+}
+2025-08-12 20:50:55,151 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:55,151 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:50:55,151 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:50:57,770 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:57,770 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_160_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:50:57,770 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:57,770 - INFO - Node ID is capacity_160_mw_announced
+2025-08-12 20:50:57,770 - INFO - ✅ Match found for capacity_ID 'capacity_160_mw_announced' in capacity nodes
+2025-08-12 20:50:57,770 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:57,770 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:50:57,770 - INFO - Node ID is capacity_100_mw_announced
+2025-08-12 20:50:57,770 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_announced' in capacity nodes
+2025-08-12 20:50:57,770 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:57,770 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:50:57,770 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:50:57,770 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:50:57,770 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:50:57,770 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:50:58,640 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:58,640 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bangladesh_power_development_board",
+      "type": "owns",
+      "target": "factory_bangladesh_solar"
+    }
+  ]
+}
+2025-08-12 20:50:58,640 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:58,640 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:50:58,640 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:51:00,221 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:00,222 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_160_mw_announced",
+      "target": "factory_bangladesh_solar",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100_mw_announced",
+      "target": "factory_bangladesh_solar",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:51:00,222 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:00,222 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:51:00,222 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:51:00,304 - INFO - ✅ Updated Article ID: 67fa7f43eaa4fb525afec33f with 11 nodes and combined text.

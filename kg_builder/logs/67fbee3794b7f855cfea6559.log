@@ -134,3 +134,163 @@
   ]
 }
 2025-06-26 16:55:28,034 - INFO - ✅ Updated Article ID: 67fbee3794b7f855cfea6559 with 6 nodes and combined text.
+2025-08-12 20:01:25,674 - INFO - 🔍 Text length: 4602 characters
+2025-08-12 20:01:25,675 - INFO - 📌 Processing Article ID: 67fbee3794b7f855cfea6559 — Nexans offers low-carbon PV cables
+2025-08-12 20:01:25,675 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:01:27,947 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:27,947 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nexans",
+        "type": "company",
+        "name": "Nexans"
+      },
+      {
+        "id": "company_suez",
+        "type": "company",
+        "name": "Suez"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_recycables",
+        "type": "joint_venture",
+        "name": "Recyc\u00e2bles"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jeumont",
+        "type": "factory",
+        "name": "Jeumont",
+        "location": {
+          "city": "Jeumont",
+          "country": "France"
+        }
+      },
+      {
+        "id": "factory_bourg_en_bresse",
+        "type": "factory",
+        "name": "Bourg-en-Bresse",
+        "location": {
+          "city": "Bourg-en-Bresse",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nexans_eu15m_completed",
+        "type": "investment",
+        "name": "Nexans \u20ac15 million investment",
+        "amount": "\u20ac15 million ($16.4 million)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_low_carbon_cables",
+        "type": "product",
+        "name": "low-carbon cables"
+      },
+      {
+        "id": "product_recycled_cables",
+        "type": "product",
+        "name": "recycled cables"
+      }
+    ]
+  }
+}
+2025-08-12 20:01:27,947 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:27,947 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 20:01:27,947 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:01:27,947 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:01:28,914 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:28,914 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nexans_eu15m_completed",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:01:28,914 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:28,914 - INFO - Node ID is investment_nexans_eu15m_completed
+2025-08-12 20:01:28,914 - INFO - ✅ Match found for investment_ID 'investment_nexans_eu15m_completed' in investment nodes
+2025-08-12 20:01:28,914 - INFO -   ➕ Set status: completed
+2025-08-12 20:01:28,914 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:01:28,914 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:01:28,914 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:01:28,914 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:01:32,166 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:32,166 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nexans",
+      "type": "owns",
+      "target": "factory_jeumont"
+    },
+    {
+      "source": "company_nexans",
+      "type": "owns",
+      "target": "factory_bourg_en_bresse"
+    },
+    {
+      "source": "company_nexans",
+      "type": "forms",
+      "target": "joint_venture_recycables"
+    },
+    {
+      "source": "company_suez",
+      "type": "forms",
+      "target": "joint_venture_recycables"
+    }
+  ]
+}
+2025-08-12 20:01:32,167 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:32,167 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:01:32,167 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:01:33,681 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:33,681 - INFO - {
+  "relationships": [
+    {
+      "source": "product_low_carbon_cables",
+      "target": "factory_jeumont",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_low_carbon_cables",
+      "target": "factory_bourg_en_bresse",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:01:33,681 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:33,681 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:01:33,681 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:01:34,501 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:34,501 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:01:34,501 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:34,501 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:01:34,501 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:01:35,626 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:01:35,626 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nexans_eu15m_completed",
+      "target": "factory_jeumont",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nexans_eu15m_completed",
+      "target": "factory_bourg_en_bresse",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-12 20:01:35,626 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:01:35,715 - INFO - ✅ Updated Article ID: 67fbee3794b7f855cfea6559 with 8 nodes and combined text.

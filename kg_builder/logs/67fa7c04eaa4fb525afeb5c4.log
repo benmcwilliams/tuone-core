@@ -1,0 +1,94 @@
+2025-08-12 22:22:20,639 - INFO - 🔍 Text length: 3524 characters
+2025-08-12 22:22:20,639 - INFO - 📌 Processing Article ID: 67fa7c04eaa4fb525afeb5c4 — Italy allocates 357.2 MW of PV in latest renewables auction
+2025-08-12 22:22:20,639 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:22:23,114 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:22:23,114 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gse",
+        "type": "company",
+        "name": "Gestore dei Servizi Energetici"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_357_2_mw_solar_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "357.2 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_643_9_mw_wind_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "643.9 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_wind_power",
+        "type": "product",
+        "name": "wind power"
+      }
+    ]
+  }
+}
+2025-08-12 22:22:23,114 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:22:23,114 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:22:23,114 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:22:24,341 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:22:24,342 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_357_2_mw_solar_announced",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_643_9_mw_wind_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:22:24,342 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:22:24,342 - INFO - Node ID is capacity_357_2_mw_solar_announced
+2025-08-12 22:22:24,342 - INFO - ✅ Match found for capacity_ID 'capacity_357_2_mw_solar_announced' in capacity nodes
+2025-08-12 22:22:24,342 - INFO -   ➕ Set status: announced
+2025-08-12 22:22:24,342 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:22:24,342 - INFO - Node ID is capacity_643_9_mw_wind_announced
+2025-08-12 22:22:24,342 - INFO - ✅ Match found for capacity_ID 'capacity_643_9_mw_wind_announced' in capacity nodes
+2025-08-12 22:22:24,342 - INFO -   ➕ Set status: announced
+2025-08-12 22:22:24,342 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:22:24,342 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:22:24,342 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:22:24,342 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 22:22:24,342 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:22:24,342 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:22:26,391 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:22:26,392 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_357_2_mw_solar_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_643_9_mw_wind_announced",
+      "target": "product_wind_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:22:26,392 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:22:26,392 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:22:26,392 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:22:26,479 - INFO - ✅ Updated Article ID: 67fa7c04eaa4fb525afeb5c4 with 5 nodes and combined text.

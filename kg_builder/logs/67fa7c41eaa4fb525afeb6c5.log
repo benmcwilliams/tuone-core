@@ -1,0 +1,90 @@
+2025-08-12 22:15:48,359 - INFO - 🔍 Text length: 6655 characters
+2025-08-12 22:15:48,359 - INFO - 📌 Processing Article ID: 67fa7c41eaa4fb525afeb6c5 — Overhead vs. vertical agrivoltaics
+2025-08-12 22:15:48,359 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:15:51,348 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:51,348 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_wageningen_university_research",
+        "type": "company",
+        "name": "Wageningen University & Research"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wadenoijen_netherlands",
+        "type": "factory",
+        "name": "Wadenoijen Agrivoltaic Farm",
+        "location": {
+          "city": "Wadenoijen",
+          "country": "Netherlands"
+        }
+      },
+      {
+        "id": "factory_culemborg_netherlands",
+        "type": "factory",
+        "name": "Culemborg Agrivoltaic Farm",
+        "location": {
+          "city": "Culemborg",
+          "country": "Netherlands"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vertical_agrivoltaic_array",
+        "type": "product",
+        "name": "vertical agrivoltaic array"
+      },
+      {
+        "id": "product_overhead_agrivoltaic_array",
+        "type": "product",
+        "name": "overhead agrivoltaic array"
+      }
+    ]
+  }
+}
+2025-08-12 22:15:51,348 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:51,348 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:15:51,348 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:15:51,348 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:15:51,348 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:15:51,348 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:15:55,444 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:55,444 - INFO - {
+  "relationships": [
+    {
+      "source": "company_wageningen_university_research",
+      "type": "owns",
+      "target": "factory_wadenoijen_netherlands"
+    },
+    {
+      "source": "company_wageningen_university_research",
+      "type": "owns",
+      "target": "factory_culemborg_netherlands"
+    }
+  ]
+}
+2025-08-12 22:15:55,444 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:55,444 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:15:55,444 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:15:57,771 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:57,771 - INFO - {
+  "relationships": [
+    {
+      "source": "product_overhead_agrivoltaic_array",
+      "target": "factory_wadenoijen_netherlands",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vertical_agrivoltaic_array",
+      "target": "factory_culemborg_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:15:57,771 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:57,771 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:15:57,771 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:15:57,846 - INFO - ✅ Updated Article ID: 67fa7c41eaa4fb525afeb6c5 with 5 nodes and combined text.

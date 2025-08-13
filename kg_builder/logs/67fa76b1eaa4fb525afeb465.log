@@ -1,0 +1,124 @@
+2025-08-12 22:44:57,388 - INFO - 🔍 Text length: 4697 characters
+2025-08-12 22:44:57,388 - INFO - 📌 Processing Article ID: 67fa76b1eaa4fb525afeb465 — Meyer Burger loses biggest customer, questions business viability
+2025-08-12 22:44:57,388 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:45:01,239 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:45:01,239 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger",
+        "type": "company",
+        "name": "Meyer Burger"
+      },
+      {
+        "id": "company_d_e_shaw_renewable_investments",
+        "type": "company",
+        "name": "D.E. Shaw Renewable Investments"
+      },
+      {
+        "id": "company_invenergy",
+        "type": "company",
+        "name": "Invenergy"
+      },
+      {
+        "id": "company_longi",
+        "type": "company",
+        "name": "LONGi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goodyear_arizona",
+        "type": "factory",
+        "name": "Goodyear Facility",
+        "location": {
+          "city": "Goodyear",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_colorado_springs_colorado",
+        "type": "factory",
+        "name": "Colorado Springs Facility",
+        "location": {
+          "city": "Colorado Springs",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_ohio",
+        "type": "factory",
+        "name": "Ohio Facility",
+        "location": {
+          "city": "Ohio",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      },
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:45:01,239 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:45:01,239 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:45:01,239 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:45:01,240 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:45:01,240 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:45:01,240 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:45:03,922 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:45:03,922 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_goodyear_arizona"
+    },
+    {
+      "source": "company_meyer_burger",
+      "type": "owns",
+      "target": "factory_colorado_springs_colorado"
+    },
+    {
+      "source": "company_invenergy",
+      "type": "forms",
+      "target": "joint_venture_invenergy_longi"
+    },
+    {
+      "source": "company_longi",
+      "type": "forms",
+      "target": "joint_venture_invenergy_longi"
+    },
+    {
+      "source": "joint_venture_invenergy_longi",
+      "type": "owns",
+      "target": "factory_ohio"
+    }
+  ]
+}
+2025-08-12 22:45:03,922 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:45:03,922 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:45:03,923 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:45:04,669 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:45:04,670 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_modules",
+      "target": "factory_goodyear_arizona",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:45:04,670 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:45:04,670 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:45:04,670 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:45:04,747 - INFO - ✅ Updated Article ID: 67fa76b1eaa4fb525afeb465 with 9 nodes and combined text.

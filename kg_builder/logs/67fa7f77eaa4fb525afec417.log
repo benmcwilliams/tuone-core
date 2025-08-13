@@ -1,0 +1,146 @@
+2025-08-12 20:46:25,515 - INFO - 🔍 Text length: 8950 characters
+2025-08-12 20:46:25,515 - INFO - 📌 Processing Article ID: 67fa7f77eaa4fb525afec417 — The Hydrogen Stream: Europe prioritizes PEM electrolysis
+2025-08-12 20:46:25,515 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:46:28,982 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:46:28,983 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_edison_energy",
+        "type": "company",
+        "name": "Edison Energy"
+      },
+      {
+        "id": "company_thenergy",
+        "type": "company",
+        "name": "THEnergy"
+      },
+      {
+        "id": "company_ecoclean",
+        "type": "company",
+        "name": "Ecoclean"
+      },
+      {
+        "id": "company_lhyfe",
+        "type": "company",
+        "name": "Lhyfe"
+      },
+      {
+        "id": "company_edp_renewables",
+        "type": "company",
+        "name": "EDP Renewables"
+      },
+      {
+        "id": "company_thyssenkrupp_steel_europe",
+        "type": "company",
+        "name": "Thyssenkrupp Steel Europe"
+      },
+      {
+        "id": "company_masdar",
+        "type": "company",
+        "name": "Masdar"
+      },
+      {
+        "id": "company_daimler_truck",
+        "type": "company",
+        "name": "Daimler Truck"
+      },
+      {
+        "id": "company_kronos_solar_edpr",
+        "type": "company",
+        "name": "Kronos Solar EDPR"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_duisburg_germany",
+        "type": "factory",
+        "name": "Thyssenkrupp Steel Europe plant",
+        "location": {
+          "city": "Duisburg",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_135_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "135 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_modular_ael_electrolyzers",
+        "type": "product",
+        "name": "modular AEL electrolyzers"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      },
+      {
+        "id": "product_mercedes_benz_genh2_truck",
+        "type": "product",
+        "name": "Mercedes-Benz GenH2 Truck"
+      }
+    ]
+  }
+}
+2025-08-12 20:46:28,983 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:46:28,983 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:46:28,983 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:46:30,159 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:46:30,159 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_135_mw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:46:30,160 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:46:30,160 - INFO - Node ID is capacity_135_mw
+2025-08-12 20:46:30,160 - INFO - ✅ Match found for capacity_ID 'capacity_135_mw' in capacity nodes
+2025-08-12 20:46:30,160 - INFO -   ➕ Set status: operational
+2025-08-12 20:46:30,160 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:46:30,160 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:46:30,160 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:46:30,160 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:46:30,160 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:46:30,951 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:46:30,952 - INFO - {
+  "relationships": [
+    {
+      "source": "company_thyssenkrupp_steel_europe",
+      "type": "owns",
+      "target": "factory_duisburg_germany"
+    }
+  ]
+}
+2025-08-12 20:46:30,952 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:46:30,952 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:46:30,952 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:46:33,190 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:46:33,191 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_duisburg_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_135_mw",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:46:33,191 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:46:33,191 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:46:33,191 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:46:33,270 - INFO - ✅ Updated Article ID: 67fa7f77eaa4fb525afec417 with 14 nodes and combined text.

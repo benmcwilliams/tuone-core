@@ -1,0 +1,101 @@
+2025-08-12 22:30:49,674 - INFO - 🔍 Text length: 5978 characters
+2025-08-12 22:30:49,674 - INFO - 📌 Processing Article ID: 67fa76c6eaa4fb525afeb4b9 — Ultra-short-term PV power forecast based on dung beetle algorithm
+2025-08-12 22:30:49,674 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:30:53,480 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:30:53,480 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hubei_university_of_technology",
+        "type": "company",
+        "name": "Hubei University of Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shaanxi_china",
+        "type": "factory",
+        "name": "Shaanxi PV Power Plant",
+        "location": {
+          "city": "Shaanxi Province",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_mw_pv_power_plant",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dbo_satcn_bilstm_model",
+        "type": "product",
+        "name": "DBO-SATCN-BiLSTM model"
+      }
+    ]
+  }
+}
+2025-08-12 22:30:53,480 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:30:53,480 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:30:53,480 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:30:54,503 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:30:54,504 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_mw_pv_power_plant",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:30:54,504 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:30:54,504 - INFO - Node ID is capacity_30_mw_pv_power_plant
+2025-08-12 22:30:54,504 - INFO - ✅ Match found for capacity_ID 'capacity_30_mw_pv_power_plant' in capacity nodes
+2025-08-12 22:30:54,504 - INFO -   ➕ Set status: operational
+2025-08-12 22:30:54,504 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:30:54,504 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:30:54,504 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:30:54,504 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:30:54,504 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:30:55,836 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:30:55,836 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hubei_university_of_technology",
+      "type": "owns",
+      "target": "factory_shaanxi_china"
+    }
+  ]
+}
+2025-08-12 22:30:55,836 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:30:55,836 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:30:55,836 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:30:57,782 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:30:57,782 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_mw_pv_power_plant",
+      "target": "factory_shaanxi_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_mw_pv_power_plant",
+      "target": "product_dbo_satcn_bilstm_model",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_dbo_satcn_bilstm_model",
+      "target": "factory_shaanxi_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:30:57,782 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:30:57,782 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:30:57,782 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:30:57,865 - INFO - ✅ Updated Article ID: 67fa76c6eaa4fb525afeb4b9 with 4 nodes and combined text.

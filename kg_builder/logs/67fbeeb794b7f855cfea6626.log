@@ -1,0 +1,170 @@
+2025-08-12 19:30:41,088 - INFO - 🔍 Text length: 4163 characters
+2025-08-12 19:30:41,088 - INFO - 📌 Processing Article ID: 67fbeeb794b7f855cfea6626 — Bee Solar, Huasun sign MoU to develop gigawatt-scale European supply chain
+2025-08-12 19:30:41,088 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:30:43,591 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:43,591 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bee_solar",
+        "type": "company",
+        "name": "Bee Solar"
+      },
+      {
+        "id": "company_huasun_energy",
+        "type": "company",
+        "name": "Huasun Energy"
+      },
+      {
+        "id": "company_futurasun",
+        "type": "company",
+        "name": "FuturaSun"
+      },
+      {
+        "id": "company_dongfeng_motor",
+        "type": "company",
+        "name": "Dongfeng Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_industrial_site_italy",
+        "type": "factory",
+        "name": "industrial site",
+        "location": {
+          "city": "null",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_mou_bee_solar_huasun_energy",
+        "type": "investment",
+        "name": "MOU Bee Solar Huasun Energy",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_wafers",
+        "type": "product",
+        "name": "wafers"
+      },
+      {
+        "id": "product_cells",
+        "type": "product",
+        "name": "cells"
+      },
+      {
+        "id": "product_photovoltaic_modules",
+        "type": "product",
+        "name": "photovoltaic modules"
+      },
+      {
+        "id": "solar_cells",
+        "type": "product",
+        "name": "solar cells",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "solar_panels",
+        "type": "product",
+        "name": "solar panels",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 19:30:43,592 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:43,592 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:30:43,592 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:30:43,592 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:30:45,153 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:45,153 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_mou_bee_solar_huasun_energy",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:30:45,154 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:45,154 - INFO - Node ID is investment_mou_bee_solar_huasun_energy
+2025-08-12 19:30:45,154 - INFO - ✅ Match found for investment_ID 'investment_mou_bee_solar_huasun_energy' in investment nodes
+2025-08-12 19:30:45,154 - INFO -   ➕ Set status: announced
+2025-08-12 19:30:45,154 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:30:45,154 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:30:45,154 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:30:45,154 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:30:46,756 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:46,756 - INFO - {
+  "relationships": [
+    {
+      "source": "company_futurasun",
+      "type": "owns",
+      "target": "factory_industrial_site_italy"
+    }
+  ]
+}
+2025-08-12 19:30:46,756 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:46,756 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:30:46,756 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:30:49,221 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:49,221 - INFO - {
+  "relationships": [
+    {
+      "source": "product_wafers",
+      "target": "factory_industrial_site_italy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cells",
+      "target": "factory_industrial_site_italy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_photovoltaic_modules",
+      "target": "factory_industrial_site_italy",
+      "type": "produced_at"
+    },
+    {
+      "source": "solar_cells",
+      "target": "factory_industrial_site_italy",
+      "type": "produced_at"
+    },
+    {
+      "source": "solar_panels",
+      "target": "factory_industrial_site_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:30:49,221 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:49,221 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:30:49,221 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:30:49,927 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:49,927 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:30:49,927 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:49,927 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:30:49,927 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:30:51,093 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:30:51,093 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:30:51,093 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:30:51,180 - INFO - ✅ Updated Article ID: 67fbeeb794b7f855cfea6626 with 11 nodes and combined text.

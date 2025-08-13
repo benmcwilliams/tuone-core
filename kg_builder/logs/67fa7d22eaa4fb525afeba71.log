@@ -1,0 +1,176 @@
+2025-08-12 21:52:57,573 - INFO - 🔍 Text length: 2852 characters
+2025-08-12 21:52:57,573 - INFO - 📌 Processing Article ID: 67fa7d22eaa4fb525afeba71 — Work begins on 200 MW solar park in Congo
+2025-08-12 21:52:57,574 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:53:02,695 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:02,695 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_soleos_energy",
+        "type": "company",
+        "name": "Soleos Energy"
+      },
+      {
+        "id": "company_melci_holdings",
+        "type": "company",
+        "name": "Melci Holdings"
+      },
+      {
+        "id": "company_soci\u00e9t\u00e9_nationale_d\u2019\u00e9lectricit\u00e9",
+        "type": "company",
+        "name": "Soci\u00e9t\u00e9 Nationale d\u2019\u00c9lectricit\u00e9"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_soleos_energy_melci_holdings",
+        "type": "joint_venture",
+        "name": "Soleos Energy and Melci Holdings"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_solar_park_drc",
+        "type": "factory",
+        "name": "solar park",
+        "location": {
+          "city": "null",
+          "country": "Democratic Republic of the Congo"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_solar_park_drc",
+        "type": "investment",
+        "name": "solar park DRC",
+        "amount": "$200 million",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:53:02,695 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:02,695 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:53:02,695 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:53:03,446 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:03,446 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:53:03,446 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:03,446 - INFO - Node ID is capacity_200_mw
+2025-08-12 21:53:03,446 - INFO - ✅ Match found for capacity_ID 'capacity_200_mw' in capacity nodes
+2025-08-12 21:53:03,446 - INFO -   ➕ Set status: under construction
+2025-08-12 21:53:03,446 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:53:03,446 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 21:53:03,446 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 21:53:04,700 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:04,700 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_solar_park_drc",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:53:04,700 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:04,700 - INFO - Node ID is investment_solar_park_drc
+2025-08-12 21:53:04,700 - INFO - ✅ Match found for investment_ID 'investment_solar_park_drc' in investment nodes
+2025-08-12 21:53:04,700 - INFO -   ➕ Set status: ongoing
+2025-08-12 21:53:04,700 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:53:04,700 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:53:04,700 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:53:04,700 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:53:08,387 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:08,388 - INFO - {
+  "relationships": [
+    {
+      "source": "company_soleos_energy",
+      "type": "forms",
+      "target": "joint_venture_soleos_energy_melci_holdings"
+    },
+    {
+      "source": "company_melci_holdings",
+      "type": "forms",
+      "target": "joint_venture_soleos_energy_melci_holdings"
+    },
+    {
+      "source": "joint_venture_soleos_energy_melci_holdings",
+      "type": "owns",
+      "target": "factory_solar_park_drc"
+    }
+  ]
+}
+2025-08-12 21:53:08,388 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:08,388 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:53:08,388 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:53:10,024 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:10,024 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_mw",
+      "target": "factory_solar_park_drc",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_solar_park_drc",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:53:10,024 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:10,024 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 21:53:10,024 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 21:53:10,538 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:10,538 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:53:10,538 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:10,538 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 21:53:10,538 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 21:53:12,892 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:53:12,892 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_solar_park_drc",
+      "target": "capacity_200_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_solar_park_drc",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 21:53:12,892 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:53:12,976 - INFO - ✅ Updated Article ID: 67fa7d22eaa4fb525afeba71 with 8 nodes and combined text.

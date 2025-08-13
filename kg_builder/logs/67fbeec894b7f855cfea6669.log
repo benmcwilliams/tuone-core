@@ -1,0 +1,96 @@
+2025-08-12 19:14:47,157 - INFO - 🔍 Text length: 3533 characters
+2025-08-12 19:14:47,157 - INFO - 📌 Processing Article ID: 67fbeec894b7f855cfea6669 — UK startup unveils industrial heat pump for hot water, steam generation
+2025-08-12 19:14:47,157 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:14:51,492 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:14:51,492 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_futraheat",
+        "type": "company",
+        "name": "Futraheat"
+      },
+      {
+        "id": "company_hepworth_brewery",
+        "type": "company",
+        "name": "Hepworth Brewery"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hepworth_brewery",
+        "type": "factory",
+        "name": "Hepworth Brewery",
+        "location": {
+          "city": "Sussex",
+          "country": "UK"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_w_prototype",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heat_pump",
+        "type": "product",
+        "name": "heat pump"
+      }
+    ]
+  }
+}
+2025-08-12 19:14:51,492 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:14:51,492 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:14:51,492 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:14:52,895 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:14:52,895 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_w_prototype",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:14:52,895 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:14:52,895 - INFO - Node ID is capacity_300k_w_prototype
+2025-08-12 19:14:52,895 - INFO - ✅ Match found for capacity_ID 'capacity_300k_w_prototype' in capacity nodes
+2025-08-12 19:14:52,895 - INFO -   ➕ Set status: operational
+2025-08-12 19:14:52,895 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:14:52,895 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:14:52,895 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:14:52,895 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:14:52,895 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:14:53,663 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:14:53,663 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hepworth_brewery",
+      "type": "owns",
+      "target": "factory_hepworth_brewery"
+    }
+  ]
+}
+2025-08-12 19:14:53,663 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:14:53,663 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:14:53,663 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:14:54,677 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:14:54,678 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_w_prototype",
+      "target": "factory_hepworth_brewery",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 19:14:54,678 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:14:54,678 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:14:54,678 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:14:54,755 - INFO - ✅ Updated Article ID: 67fbeec894b7f855cfea6669 with 5 nodes and combined text.

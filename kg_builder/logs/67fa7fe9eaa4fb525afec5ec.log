@@ -1,0 +1,157 @@
+2025-08-12 20:33:01,062 - INFO - 🔍 Text length: 3334 characters
+2025-08-12 20:33:01,062 - INFO - 📌 Processing Article ID: 67fa7fe9eaa4fb525afec5ec — Brazilian islands to have 85% solar and battery storage by 2027
+2025-08-12 20:33:01,062 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:33:04,966 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:04,966 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_neoenergia",
+        "type": "company",
+        "name": "Neoenergia"
+      },
+      {
+        "id": "company_compesa",
+        "type": "company",
+        "name": "Compesa"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_noronha_verde",
+        "type": "factory",
+        "name": "Noronha Verde",
+        "location": {
+          "city": "Fernando de Noronha",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_noronha_i",
+        "type": "factory",
+        "name": "Noronha I",
+        "location": {
+          "city": "Fernando de Noronha",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_noronha_ii",
+        "type": "factory",
+        "name": "Noronha II",
+        "location": {
+          "city": "Fernando de Noronha",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_noronha_verde",
+        "type": "investment",
+        "name": "Noronha Verde",
+        "amount": "BRL 300 million ($52.1 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      }
+    ]
+  }
+}
+2025-08-12 20:33:04,966 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:04,966 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 20:33:04,966 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:33:04,966 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:33:06,340 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:06,340 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_noronha_verde",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-12 20:33:06,340 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:06,340 - INFO - Node ID is investment_noronha_verde
+2025-08-12 20:33:06,340 - INFO - ✅ Match found for investment_ID 'investment_noronha_verde' in investment nodes
+2025-08-12 20:33:06,340 - INFO -   ➕ Set status: announced
+2025-08-12 20:33:06,340 - INFO -   ➕ Set phase: expansion
+2025-08-12 20:33:06,340 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:33:06,340 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:33:06,340 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:33:08,241 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:08,242 - INFO - {
+  "relationships": [
+    {
+      "source": "company_neoenergia",
+      "type": "owns",
+      "target": "factory_noronha_verde"
+    },
+    {
+      "source": "company_neoenergia",
+      "type": "owns",
+      "target": "factory_noronha_i"
+    },
+    {
+      "source": "company_neoenergia",
+      "type": "owns",
+      "target": "factory_noronha_ii"
+    }
+  ]
+}
+2025-08-12 20:33:08,242 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:08,242 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:33:08,242 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:33:09,366 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:09,367 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_power",
+      "target": "factory_noronha_i",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_noronha_ii",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:33:09,367 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:09,367 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:33:09,367 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:33:10,069 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:10,069 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:33:10,069 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:10,069 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:33:10,069 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:33:11,415 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:11,415 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_noronha_verde",
+      "target": "product_solar_power",
+      "type": "targets"
+    },
+    {
+      "source": "investment_noronha_verde",
+      "target": "product_battery_storage",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 20:33:11,415 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:11,500 - INFO - ✅ Updated Article ID: 67fa7fe9eaa4fb525afec5ec with 8 nodes and combined text.

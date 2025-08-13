@@ -1,0 +1,175 @@
+2025-08-12 20:38:49,106 - INFO - 🔍 Text length: 2694 characters
+2025-08-12 20:38:49,106 - INFO - 📌 Processing Article ID: 67fa7fb9eaa4fb525afec526 — Utility Scale PV
+2025-08-12 20:38:49,106 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:38:54,956 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:54,956 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_recom_technologies",
+        "type": "company",
+        "name": "Recom Technologies"
+      },
+      {
+        "id": "company_w\u00e4rtsil\u00e4",
+        "type": "company",
+        "name": "W\u00e4rtsil\u00e4"
+      },
+      {
+        "id": "company_nhpc",
+        "type": "company",
+        "name": "NHPC"
+      },
+      {
+        "id": "company_tmk_hydroenergy_power",
+        "type": "company",
+        "name": "TMK Hydroenergy Power"
+      },
+      {
+        "id": "company_solar_energy_corp_of_india",
+        "type": "company",
+        "name": "Solar Energy Corp. of India"
+      },
+      {
+        "id": "company_gold_hydrogen",
+        "type": "company",
+        "name": "Gold Hydrogen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ramsay_project",
+        "type": "factory",
+        "name": "Ramsay Project",
+        "location": {
+          "city": "Yorke Peninsula",
+          "country": "Australia"
+        }
+      },
+      {
+        "id": "factory_caras_severin_county",
+        "type": "factory",
+        "name": "Caras Severin Floating Solar Project",
+        "location": {
+          "city": "Caras Severin county",
+          "country": "Romania"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_12_mw_solar_carport",
+        "type": "capacity",
+        "name": "",
+        "amount": "12 MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_2.4_gw_announced_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "2.4 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      },
+      {
+        "id": "product_floating_solar_power",
+        "type": "product",
+        "name": "floating solar power"
+      },
+      {
+        "id": "product_hydrogen",
+        "type": "product",
+        "name": "hydrogen"
+      }
+    ]
+  }
+}
+2025-08-12 20:38:54,956 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:54,956 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:38:54,956 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:38:56,302 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:56,302 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_12_mw_solar_carport",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_2.4_gw_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:38:56,302 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:56,302 - INFO - Node ID is capacity_12_mw_solar_carport
+2025-08-12 20:38:56,302 - INFO - ✅ Match found for capacity_ID 'capacity_12_mw_solar_carport' in capacity nodes
+2025-08-12 20:38:56,302 - INFO -   ➕ Set status: announced
+2025-08-12 20:38:56,302 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:38:56,302 - INFO - Node ID is capacity_2.4_gw_announced_unclear
+2025-08-12 20:38:56,302 - INFO - ✅ Match found for capacity_ID 'capacity_2.4_gw_announced_unclear' in capacity nodes
+2025-08-12 20:38:56,302 - INFO -   ➕ Set status: announced
+2025-08-12 20:38:56,302 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:38:56,302 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:38:56,302 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:38:56,302 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:38:56,302 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:38:59,565 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:59,566 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tmk_hydroenergy_power",
+      "type": "owns",
+      "target": "factory_caras_severin_county"
+    },
+    {
+      "source": "company_gold_hydrogen",
+      "type": "owns",
+      "target": "factory_ramsay_project"
+    }
+  ]
+}
+2025-08-12 20:38:59,566 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:59,566 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:38:59,566 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:39:01,190 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:39:01,190 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_12_mw_solar_carport",
+      "target": "product_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_solar_power",
+      "target": "factory_caras_severin_county",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen",
+      "target": "factory_ramsay_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_2.4_gw_announced_unclear",
+      "target": "product_hydrogen",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:39:01,190 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:39:01,190 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:39:01,190 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:39:01,272 - INFO - ✅ Updated Article ID: 67fa7fb9eaa4fb525afec526 with 13 nodes and combined text.

@@ -1,0 +1,119 @@
+2025-08-12 20:15:47,476 - INFO - 🔍 Text length: 3613 characters
+2025-08-12 20:15:47,476 - INFO - 📌 Processing Article ID: 67fbee1394b7f855cfea64c6 — Caillau acquires majority stake in B&K Solare Zukunft
+2025-08-12 20:15:47,476 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:15:53,078 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:15:53,078 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_caillau",
+        "type": "company",
+        "name": "Caillau"
+      },
+      {
+        "id": "company_bk_solare_zukunft",
+        "type": "company",
+        "name": "B&K Solare Zukunft"
+      },
+      {
+        "id": "company_adiwatt",
+        "type": "company",
+        "name": "AdiWatt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_guetersloh_germany",
+        "type": "factory",
+        "name": "G\u00fctersloh",
+        "location": {
+          "city": "G\u00fctersloh",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_pegow_poland",
+        "type": "factory",
+        "name": "P\u0119g\u00f3w",
+        "location": {
+          "city": "P\u0119g\u00f3w",
+          "country": "Poland"
+        }
+      },
+      {
+        "id": "factory_romorantin_france",
+        "type": "factory",
+        "name": "Romorantin",
+        "location": {
+          "city": "Romorantin",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mounting_systems",
+        "type": "product",
+        "name": "mounting systems"
+      },
+      {
+        "id": "product_fastening_systems",
+        "type": "product",
+        "name": "fastening systems"
+      }
+    ]
+  }
+}
+2025-08-12 20:15:53,078 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:15:53,078 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 20:15:53,079 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:15:53,079 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:15:53,079 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:15:53,079 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:15:55,135 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:15:55,135 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bk_solare_zukunft",
+      "type": "owns",
+      "target": "factory_guetersloh_germany"
+    },
+    {
+      "source": "company_bk_solare_zukunft",
+      "type": "owns",
+      "target": "factory_pegow_poland"
+    },
+    {
+      "source": "company_caillau",
+      "type": "owns",
+      "target": "factory_romorantin_france"
+    }
+  ]
+}
+2025-08-12 20:15:55,135 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:15:55,135 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:15:55,135 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:15:57,854 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:15:57,855 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mounting_systems",
+      "target": "factory_guetersloh_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mounting_systems",
+      "target": "factory_pegow_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fastening_systems",
+      "target": "factory_romorantin_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:15:57,855 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:15:57,855 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:15:57,855 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:15:57,937 - INFO - ✅ Updated Article ID: 67fbee1394b7f855cfea64c6 with 8 nodes and combined text.

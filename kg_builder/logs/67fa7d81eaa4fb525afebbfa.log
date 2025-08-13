@@ -1,0 +1,151 @@
+2025-08-12 21:43:18,578 - INFO - 🔍 Text length: 3359 characters
+2025-08-12 21:43:18,579 - INFO - 📌 Processing Article ID: 67fa7d81eaa4fb525afebbfa — Gambia launches tender for 50 MW solar-plus-storage project
+2025-08-12 21:43:18,579 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:43:21,804 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:21,805 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nawec",
+        "type": "company",
+        "name": "Nawec"
+      },
+      {
+        "id": "company_ministry_of_petroleum_and_energy_gambia",
+        "type": "company",
+        "name": "Ministry of Petroleum and Energy Gambia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_soma_gambia",
+        "type": "factory",
+        "name": "Soma PV Facility",
+        "location": {
+          "city": "Soma",
+          "country": "Gambia"
+        }
+      },
+      {
+        "id": "factory_jambur_gambia",
+        "type": "factory",
+        "name": "Jambur Solar Plant",
+        "location": {
+          "city": "Jambur",
+          "country": "Gambia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_23_mw_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "23 MW",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      },
+      {
+        "id": "product_pv_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:43:21,805 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:21,805 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:43:21,805 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:43:23,348 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:23,349 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_23_mw_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:43:23,349 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:23,349 - INFO - Node ID is capacity_50_mw_announced
+2025-08-12 21:43:23,349 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw_announced' in capacity nodes
+2025-08-12 21:43:23,349 - INFO -   ➕ Set status: announced
+2025-08-12 21:43:23,349 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:43:23,349 - INFO - Node ID is capacity_23_mw_completed
+2025-08-12 21:43:23,349 - INFO - ✅ Match found for capacity_ID 'capacity_23_mw_completed' in capacity nodes
+2025-08-12 21:43:23,349 - INFO -   ➕ Set status: operational
+2025-08-12 21:43:23,349 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:43:23,349 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:43:23,349 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:43:23,349 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:43:23,349 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:43:25,217 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:25,217 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nawec",
+      "type": "owns",
+      "target": "factory_soma_gambia"
+    },
+    {
+      "source": "company_nawec",
+      "type": "owns",
+      "target": "factory_jambur_gambia"
+    }
+  ]
+}
+2025-08-12 21:43:25,217 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:25,217 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:43:25,217 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:43:34,406 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:43:34,407 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw_announced",
+      "type": "at",
+      "target": "factory_soma_gambia"
+    },
+    {
+      "source": "capacity_50_mw_announced",
+      "type": "quantifies",
+      "target": "product_pv_power"
+    },
+    {
+      "source": "product_pv_power",
+      "type": "produced_at",
+      "target": "factory_soma_gambia"
+    },
+    {
+      "source": "capacity_23_mw_completed",
+      "type": "quantifies",
+      "target": "product_pv_power"
+    },
+    {
+      "source": "product_pv_power",
+      "type": "produced_at",
+      "target": "factory_jambur_gambia"
+    }
+  ]
+}
+2025-08-12 21:43:34,407 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:43:34,407 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:43:34,407 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:43:34,491 - INFO - ✅ Updated Article ID: 67fa7d81eaa4fb525afebbfa with 8 nodes and combined text.

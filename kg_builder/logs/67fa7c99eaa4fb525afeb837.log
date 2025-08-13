@@ -1,0 +1,149 @@
+2025-08-12 22:06:17,863 - INFO - 🔍 Text length: 6672 characters
+2025-08-12 22:06:17,863 - INFO - 📌 Processing Article ID: 67fa7c99eaa4fb525afeb837 — Drones vs. aircrafts for PV plant inspection
+2025-08-12 22:06:17,863 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:06:26,170 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:06:26,171 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_universita_degli_studi_di_genova",
+        "type": "company",
+        "name": "Universit\u00e0 degli Studi di Genova"
+      },
+      {
+        "id": "company_wesii",
+        "type": "company",
+        "name": "Wesiih"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_system_1",
+        "type": "factory",
+        "name": "System 1",
+        "location": {
+          "city": "northern Italy",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_system_2",
+        "type": "factory",
+        "name": "System 2",
+        "location": {
+          "city": "northern Italy",
+          "country": "Italy"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dji_mavic_2_enterprise_advanced_uav",
+        "type": "product",
+        "name": "DJI Mavic 2 Enterprise Advanced UAV"
+      },
+      {
+        "id": "product_p2006t_smp_airplane",
+        "type": "product",
+        "name": "P2006T SMP Airplane"
+      },
+      {
+        "id": "product_dji_m2ea_thermal_camera",
+        "type": "product",
+        "name": "DJI M2EA Thermal Camera"
+      },
+      {
+        "id": "product_flir_a8580_cooled_sensor",
+        "type": "product",
+        "name": "FLIR A8580 Cooled Sensor"
+      },
+      {
+        "id": "product_flir_x8581_insb_cooled_sensor",
+        "type": "product",
+        "name": "FLIR X8581 InSb Cooled Sensor"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 MW",
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-08-12 22:06:26,171 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:06:26,171 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:06:26,171 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:06:27,296 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:06:27,297 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_mw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:06:27,297 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:06:27,297 - INFO - Node ID is capacity_2_mw_operational
+2025-08-12 22:06:27,297 - INFO - ✅ Match found for capacity_ID 'capacity_2_mw_operational' in capacity nodes
+2025-08-12 22:06:27,297 - INFO -   ➕ Set status: operational
+2025-08-12 22:06:27,297 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:06:27,297 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:06:27,297 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:06:27,297 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:06:27,297 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:06:28,217 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:06:28,217 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:06:28,217 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:06:28,217 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:06:28,217 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:06:31,749 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:06:31,749 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_mw_operational",
+      "target": "factory_system_1",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2_mw_operational",
+      "target": "factory_system_2",
+      "type": "quantifies"
+    },
+    {
+      "source": "factory_system_1",
+      "target": "product_dji_mavic_2_enterprise_advanced_uav",
+      "type": "produced_at"
+    },
+    {
+      "source": "factory_system_2",
+      "target": "product_p2006t_smp_airplane",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_dji_m2ea_thermal_camera",
+      "target": "factory_system_1",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_flir_a8580_cooled_sensor",
+      "target": "factory_system_2",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_flir_x8581_insb_cooled_sensor",
+      "target": "factory_system_2",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:06:31,749 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:06:31,749 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:06:31,749 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:06:31,827 - INFO - ✅ Updated Article ID: 67fa7c99eaa4fb525afeb837 with 10 nodes and combined text.

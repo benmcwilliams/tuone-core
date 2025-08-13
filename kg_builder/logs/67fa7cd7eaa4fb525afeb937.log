@@ -1,0 +1,176 @@
+2025-08-12 22:01:10,137 - INFO - 🔍 Text length: 3143 characters
+2025-08-12 22:01:10,137 - INFO - 📌 Processing Article ID: 67fa7cd7eaa4fb525afeb937 — New Zealand venture moves forward with 400 MW solar project
+2025-08-12 22:01:10,138 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:01:12,614 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:12,614 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nova_energy",
+        "type": "company",
+        "name": "Nova Energy"
+      },
+      {
+        "id": "company_meridian_energy",
+        "type": "company",
+        "name": "Meridian Energy"
+      },
+      {
+        "id": "company_todd_corp",
+        "type": "company",
+        "name": "Todd Corp"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_nova_energy_meridian_energy",
+        "type": "joint_venture",
+        "name": "Nova Energy and Meridian Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_te_rahui_solar_farm",
+        "type": "factory",
+        "name": "Te Rahui Solar Farm",
+        "location": {
+          "city": "null",
+          "country": "New Zealand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_te_rahui_solar_farm",
+        "type": "investment",
+        "name": "Te Rahui Solar Farm",
+        "amount": "NZD 542 million ($338.9 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_400_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "400 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:01:12,614 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:12,614 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:01:12,614 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:01:13,975 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:13,976 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_400_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:01:13,976 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:13,976 - INFO - Node ID is capacity_400_mw
+2025-08-12 22:01:13,976 - INFO - ✅ Match found for capacity_ID 'capacity_400_mw' in capacity nodes
+2025-08-12 22:01:13,976 - INFO -   ➕ Set status: announced
+2025-08-12 22:01:13,976 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:01:13,976 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:01:13,976 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:01:15,103 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:15,103 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_te_rahui_solar_farm",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:01:15,103 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:15,103 - INFO - Node ID is investment_te_rahui_solar_farm
+2025-08-12 22:01:15,103 - INFO - ✅ Match found for investment_ID 'investment_te_rahui_solar_farm' in investment nodes
+2025-08-12 22:01:15,103 - INFO -   ➕ Set status: announced
+2025-08-12 22:01:15,103 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:01:15,104 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:01:15,104 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:01:15,104 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:01:16,945 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:16,945 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nova_energy",
+      "type": "forms",
+      "target": "joint_venture_nova_energy_meridian_energy"
+    },
+    {
+      "source": "company_meridian_energy",
+      "type": "forms",
+      "target": "joint_venture_nova_energy_meridian_energy"
+    },
+    {
+      "source": "joint_venture_nova_energy_meridian_energy",
+      "type": "owns",
+      "target": "factory_te_rahui_solar_farm"
+    }
+  ]
+}
+2025-08-12 22:01:16,945 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:16,946 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:01:16,946 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:01:18,992 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:18,992 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_400_mw",
+      "target": "factory_te_rahui_solar_farm",
+      "type": "at"
+    },
+    {
+      "source": "capacity_400_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_te_rahui_solar_farm",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:01:18,992 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:18,992 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:01:18,992 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:01:19,710 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:19,710 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:01:19,710 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:19,710 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:01:19,710 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:01:21,256 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:01:21,257 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_te_rahui_solar_farm",
+      "target": "capacity_400_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_te_rahui_solar_farm",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:01:21,257 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:01:21,341 - INFO - ✅ Updated Article ID: 67fa7cd7eaa4fb525afeb937 with 8 nodes and combined text.

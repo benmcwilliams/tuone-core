@@ -1,0 +1,111 @@
+2025-08-12 21:33:19,660 - INFO - 🔍 Text length: 3317 characters
+2025-08-12 21:33:19,660 - INFO - 📌 Processing Article ID: 67fa7ddceaa4fb525afebd6f — Spanish companies to collaborate on 49 MW of solar in Portugal
+2025-08-12 21:33:19,661 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:33:21,323 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:21,323 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bnz",
+        "type": "company",
+        "name": "BNZ"
+      },
+      {
+        "id": "company_grs",
+        "type": "company",
+        "name": "GRS"
+      },
+      {
+        "id": "company_triple_watt",
+        "type": "company",
+        "name": "Triple Watt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vila_nova_de_famalicao_portugal",
+        "type": "factory",
+        "name": "Vila Nova de Famalic\u00e3o Solar Plant",
+        "location": {
+          "city": "Vila Nova de Famalic\u00e3o",
+          "country": "Portugal"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_49_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "49 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:33:21,323 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:21,323 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:33:21,323 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:33:22,756 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:22,756 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_49_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:33:22,756 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:22,756 - INFO - Node ID is capacity_49_mw
+2025-08-12 21:33:22,756 - INFO - ✅ Match found for capacity_ID 'capacity_49_mw' in capacity nodes
+2025-08-12 21:33:22,757 - INFO -   ➕ Set status: under construction
+2025-08-12 21:33:22,757 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:33:22,757 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:33:22,757 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:33:22,757 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:33:22,757 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:33:23,883 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:23,884 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bnz",
+      "type": "owns",
+      "target": "factory_vila_nova_de_famalicao_portugal"
+    }
+  ]
+}
+2025-08-12 21:33:23,884 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:23,884 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:33:23,884 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:33:25,828 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:33:25,829 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_49_mw",
+      "target": "factory_vila_nova_de_famalicao_portugal",
+      "type": "at"
+    },
+    {
+      "source": "capacity_49_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_vila_nova_de_famalicao_portugal",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:33:25,829 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:33:25,829 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:33:25,829 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:33:25,903 - INFO - ✅ Updated Article ID: 67fa7ddceaa4fb525afebd6f with 6 nodes and combined text.

@@ -1,0 +1,111 @@
+2025-08-12 19:55:34,235 - INFO - 🔍 Text length: 2867 characters
+2025-08-12 19:55:34,235 - INFO - 📌 Processing Article ID: 67fbee9a94b7f855cfea65ad — Energy Storage
+2025-08-12 19:55:34,235 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:55:40,811 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:55:40,811 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solarwatt",
+        "type": "company",
+        "name": "Solarwatt"
+      },
+      {
+        "id": "company_rajasthan_vidyut_utpadan_nigam_ltd",
+        "type": "company",
+        "name": "Rajasthan Vidyut Utpadan Nigam Ltd"
+      },
+      {
+        "id": "company_wondrwall",
+        "type": "company",
+        "name": "Wondrwall"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_solar_module_plant_germany",
+        "type": "factory",
+        "name": "solar module plant",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500_mw_1_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "500 MW/1 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      },
+      {
+        "id": "product_heat_pump",
+        "type": "product",
+        "name": "heat pump"
+      },
+      {
+        "id": "product_sodium_ion_devices",
+        "type": "product",
+        "name": "sodium-ion devices"
+      }
+    ]
+  }
+}
+2025-08-12 19:55:40,811 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:55:40,811 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:55:40,811 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:55:41,521 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:55:41,522 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500_mw_1_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:55:41,522 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:55:41,522 - INFO - Node ID is capacity_500_mw_1_gwh_announced
+2025-08-12 19:55:41,522 - INFO - ✅ Match found for capacity_ID 'capacity_500_mw_1_gwh_announced' in capacity nodes
+2025-08-12 19:55:41,522 - INFO -   ➕ Set status: announced
+2025-08-12 19:55:41,522 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:55:41,522 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:55:41,522 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:55:41,522 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:55:41,522 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:55:42,655 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:55:42,656 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solarwatt",
+      "type": "owns",
+      "target": "factory_solar_module_plant_germany"
+    }
+  ]
+}
+2025-08-12 19:55:42,656 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:55:42,656 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:55:42,656 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:55:43,980 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:55:43,981 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500_mw_1_gwh_announced",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 19:55:43,981 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:55:43,981 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:55:43,981 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:55:44,065 - INFO - ✅ Updated Article ID: 67fbee9a94b7f855cfea65ad with 8 nodes and combined text.

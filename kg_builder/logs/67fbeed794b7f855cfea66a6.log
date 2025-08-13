@@ -1,0 +1,116 @@
+2025-08-12 18:57:17,415 - INFO - 🔍 Text length: 5586 characters
+2025-08-12 18:57:17,416 - INFO - 📌 Processing Article ID: 67fbeed794b7f855cfea66a6 — Key takeaways from World Hydrogen 2024 in Rotterdam
+2025-08-12 18:57:17,416 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:57:19,944 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:57:19,945 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_oci",
+        "type": "company",
+        "name": "OCI"
+      },
+      {
+        "id": "company_linde",
+        "type": "company",
+        "name": "Linde"
+      },
+      {
+        "id": "company_uniper",
+        "type": "company",
+        "name": "Uniper"
+      },
+      {
+        "id": "company_fortescue_energy",
+        "type": "company",
+        "name": "Fortescue Energy"
+      },
+      {
+        "id": "company_bp",
+        "type": "company",
+        "name": "bp"
+      },
+      {
+        "id": "company_shell",
+        "type": "company",
+        "name": "Shell"
+      },
+      {
+        "id": "company_equnor",
+        "type": "company",
+        "name": "Equinor"
+      },
+      {
+        "id": "company_horisont_energi",
+        "type": "company",
+        "name": "Horisont Energi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_blue_ammonia_texas",
+        "type": "factory",
+        "name": "blue ammonia facility",
+        "location": {
+          "city": "Texas",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_clean_hydrogen",
+        "type": "product",
+        "name": "clean hydrogen"
+      },
+      {
+        "id": "product_nitrogen",
+        "type": "product",
+        "name": "nitrogen"
+      },
+      {
+        "id": "product_blue_ammonia",
+        "type": "product",
+        "name": "blue ammonia"
+      },
+      {
+        "id": "product_methylcyclohexane",
+        "type": "product",
+        "name": "methylcyclohexane"
+      }
+    ]
+  }
+}
+2025-08-12 18:57:19,945 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:57:19,945 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 18:57:19,945 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:57:19,945 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:57:19,945 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:57:19,945 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:57:22,632 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:57:22,632 - INFO - {
+  "relationships": [
+    {
+      "source": "company_oci",
+      "type": "owns",
+      "target": "factory_blue_ammonia_texas"
+    }
+  ]
+}
+2025-08-12 18:57:22,632 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:57:22,633 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:57:22,633 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:57:23,676 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:57:23,677 - INFO - {
+  "relationships": [
+    {
+      "source": "product_blue_ammonia",
+      "target": "factory_blue_ammonia_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:57:23,677 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:57:23,677 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:57:23,677 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:57:23,762 - INFO - ✅ Updated Article ID: 67fbeed794b7f855cfea66a6 with 13 nodes and combined text.

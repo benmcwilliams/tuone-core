@@ -1,0 +1,151 @@
+2025-08-12 19:22:02,277 - INFO - 🔍 Text length: 3833 characters
+2025-08-12 19:22:02,277 - INFO - 📌 Processing Article ID: 67fbeec094b7f855cfea664a — The Hydrogen Stream: India launches green ammonia auction
+2025-08-12 19:22:02,277 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:22:11,093 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:11,094 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_seci",
+        "type": "company",
+        "name": "SECI"
+      },
+      {
+        "id": "company_yara",
+        "type": "company",
+        "name": "Yara"
+      },
+      {
+        "id": "company_totalenergies",
+        "type": "company",
+        "name": "TotalEnergies"
+      },
+      {
+        "id": "company_air_products",
+        "type": "company",
+        "name": "Air Products"
+      },
+      {
+        "id": "company_abs",
+        "type": "company",
+        "name": "ABS"
+      },
+      {
+        "id": "company_hydrus_engineering_s_a",
+        "type": "company",
+        "name": "Hydrus Engineering S.A."
+      },
+      {
+        "id": "company_technische_universitat_dresden",
+        "type": "company",
+        "name": "Technische Universitat Dresden"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_heroya_norway",
+        "type": "factory",
+        "name": "Her\u00f8ya Renewable Hydrogen Plant",
+        "location": {
+          "city": "Her\u00f8ya",
+          "country": "Norway"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_24_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "24 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_ammonia",
+        "type": "product",
+        "name": "green ammonia"
+      },
+      {
+        "id": "product_renewable_hydrogen",
+        "type": "product",
+        "name": "renewable hydrogen"
+      },
+      {
+        "id": "product_low_carbon_ammonia",
+        "type": "product",
+        "name": "low-carbon ammonia"
+      },
+      {
+        "id": "product_liquid_hydrogen",
+        "type": "product",
+        "name": "liquid hydrogen"
+      },
+      {
+        "id": "product_fertilizers",
+        "type": "product",
+        "name": "fertilizers"
+      }
+    ]
+  }
+}
+2025-08-12 19:22:11,094 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:11,094 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:22:11,094 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:22:12,528 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:12,528 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_24_mw_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:22:12,529 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:12,529 - INFO - Node ID is capacity_24_mw_operational
+2025-08-12 19:22:12,529 - INFO - ✅ Match found for capacity_ID 'capacity_24_mw_operational' in capacity nodes
+2025-08-12 19:22:12,529 - INFO -   ➕ Set status: operational
+2025-08-12 19:22:12,529 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:22:12,529 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:22:12,529 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:22:12,529 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:22:12,529 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:22:14,064 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:14,065 - INFO - {
+  "relationships": [
+    {
+      "source": "company_yara",
+      "type": "owns",
+      "target": "factory_heroya_norway"
+    }
+  ]
+}
+2025-08-12 19:22:14,065 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:14,065 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:22:14,065 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:22:16,326 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:16,326 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_24_mw_operational",
+      "target": "product_renewable_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_renewable_hydrogen",
+      "target": "product_green_ammonia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_ammonia",
+      "target": "product_fertilizers",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:22:16,326 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:16,327 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:22:16,327 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:22:16,404 - INFO - ✅ Updated Article ID: 67fbeec094b7f855cfea664a with 14 nodes and combined text.

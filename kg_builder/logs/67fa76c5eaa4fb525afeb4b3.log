@@ -1,0 +1,95 @@
+2025-08-12 22:31:28,277 - INFO - 🔍 Text length: 2913 characters
+2025-08-12 22:31:28,277 - INFO - 📌 Processing Article ID: 67fa76c5eaa4fb525afeb4b3 — Sino-American Silicon to halt production at solar cell factory
+2025-08-12 22:31:28,277 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:31:30,654 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:30,655 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sino_american_silicon",
+        "type": "company",
+        "name": "Sino-American Silicon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_yilan_taiwan",
+        "type": "factory",
+        "name": "Yilan Solar Cell Factory",
+        "location": {
+          "city": "Yilan County",
+          "country": "Taiwan"
+        }
+      },
+      {
+        "id": "factory_chunan_taiwan",
+        "type": "factory",
+        "name": "Chunan Wafer Factory",
+        "location": {
+          "city": "Chunan",
+          "country": "Taiwan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_cell",
+        "type": "product",
+        "name": "solar cell"
+      },
+      {
+        "id": "product_solar_ingot_and_wafer",
+        "type": "product",
+        "name": "solar ingot and wafer"
+      },
+      {
+        "id": "product_solar_module",
+        "type": "product",
+        "name": "solar module"
+      }
+    ]
+  }
+}
+2025-08-12 22:31:30,655 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:30,655 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:31:30,655 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:31:30,655 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:31:30,655 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:31:30,655 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:31:32,546 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:32,546 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sino_american_silicon",
+      "type": "owns",
+      "target": "factory_yilan_taiwan"
+    },
+    {
+      "source": "company_sino_american_silicon",
+      "type": "owns",
+      "target": "factory_chunan_taiwan"
+    }
+  ]
+}
+2025-08-12 22:31:32,546 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:32,546 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:31:32,546 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:31:33,621 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:33,621 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_cell",
+      "target": "factory_yilan_taiwan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_ingot_and_wafer",
+      "target": "factory_chunan_taiwan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:31:33,622 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:33,622 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:31:33,622 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:31:33,705 - INFO - ✅ Updated Article ID: 67fa76c5eaa4fb525afeb4b3 with 6 nodes and combined text.

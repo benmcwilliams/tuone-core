@@ -1,0 +1,116 @@
+2025-08-12 22:31:33,706 - INFO - 🔍 Text length: 4854 characters
+2025-08-12 22:31:33,706 - INFO - 📌 Processing Article ID: 67fa76c5eaa4fb525afeb4b2 — French startup unveils new floating PV tech based on aluminum
+2025-08-12 22:31:33,707 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:31:36,182 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:36,183 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_enercoop_aura",
+        "type": "company",
+        "name": "Enercoop Aura"
+      },
+      {
+        "id": "company_araymond",
+        "type": "company",
+        "name": "Araymond"
+      },
+      {
+        "id": "company_helioslite",
+        "type": "company",
+        "name": "Helioslite"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_coeur_de_savoie_floating_solar_power_plant",
+        "type": "factory",
+        "name": "Coeur de Savoie floating solar power plant",
+        "location": {
+          "city": "southern France",
+          "country": "France"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_260_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "260 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aluminum_floating_structure",
+        "type": "product",
+        "name": "aluminum floating structure"
+      },
+      {
+        "id": "product_floating_photovoltaics",
+        "type": "product",
+        "name": "floating photovoltaics"
+      }
+    ]
+  }
+}
+2025-08-12 22:31:36,183 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:36,183 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:31:36,183 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:31:37,512 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:37,512 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_260_kw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:31:37,512 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:37,512 - INFO - Node ID is capacity_260_kw
+2025-08-12 22:31:37,512 - INFO - ✅ Match found for capacity_ID 'capacity_260_kw' in capacity nodes
+2025-08-12 22:31:37,513 - INFO -   ➕ Set status: operational
+2025-08-12 22:31:37,513 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:31:37,513 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:31:37,513 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:31:37,513 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:31:37,513 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:31:38,434 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:38,434 - INFO - {
+  "relationships": [
+    {
+      "source": "company_enercoop_aura",
+      "type": "owns",
+      "target": "factory_coeur_de_savoie_floating_solar_power_plant"
+    }
+  ]
+}
+2025-08-12 22:31:38,434 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:38,434 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:31:38,434 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:31:40,894 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:40,894 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_260_kw",
+      "target": "factory_coeur_de_savoie_floating_solar_power_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_photovoltaics",
+      "target": "factory_coeur_de_savoie_floating_solar_power_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_260_kw",
+      "target": "product_floating_photovoltaics",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:31:40,894 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:40,894 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:31:40,894 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:31:40,971 - INFO - ✅ Updated Article ID: 67fa76c5eaa4fb525afeb4b2 with 7 nodes and combined text.

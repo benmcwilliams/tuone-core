@@ -1,0 +1,149 @@
+2025-08-12 20:33:51,532 - INFO - 🔍 Text length: 3141 characters
+2025-08-12 20:33:51,532 - INFO - 📌 Processing Article ID: 67fa7fdfeaa4fb525afec5c5 — Janom Investments enters Croatian solar market with 30 MW plant
+2025-08-12 20:33:51,532 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:33:53,274 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:53,274 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_janom_investments",
+        "type": "company",
+        "name": "Janom Investments"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_slavonia_croatia",
+        "type": "factory",
+        "name": "Slavonia Solar Plant",
+        "location": {
+          "city": "Slavonia",
+          "country": "Croatia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_slavonia_solar_plant",
+        "type": "investment",
+        "name": "Slavonia Solar Plant",
+        "amount": "\u20ac300 million ($323.3 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 20:33:53,274 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:53,274 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:33:53,274 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:33:54,399 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:54,399 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:33:54,399 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:54,399 - INFO - Node ID is capacity_30_mw_announced
+2025-08-12 20:33:54,399 - INFO - ✅ Match found for capacity_ID 'capacity_30_mw_announced' in capacity nodes
+2025-08-12 20:33:54,399 - INFO -   ➕ Set status: announced
+2025-08-12 20:33:54,399 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:33:54,399 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:33:54,399 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:33:55,345 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:55,345 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_slavonia_solar_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:33:55,346 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:55,346 - INFO - Node ID is investment_slavonia_solar_plant
+2025-08-12 20:33:55,346 - INFO - ✅ Match found for investment_ID 'investment_slavonia_solar_plant' in investment nodes
+2025-08-12 20:33:55,346 - INFO -   ➕ Set status: announced
+2025-08-12 20:33:55,346 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:33:55,346 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:33:55,346 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:33:55,346 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:33:56,472 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:56,472 - INFO - {
+  "relationships": [
+    {
+      "source": "company_janom_investments",
+      "type": "owns",
+      "target": "factory_slavonia_croatia"
+    }
+  ]
+}
+2025-08-12 20:33:56,472 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:56,472 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:33:56,472 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:33:59,134 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:59,134 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_mw_announced",
+      "target": "factory_slavonia_croatia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_slavonia_croatia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:33:59,134 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:59,134 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:33:59,134 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:33:59,851 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:33:59,851 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:33:59,851 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:33:59,851 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:33:59,851 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:34:03,230 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:34:03,230 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_slavonia_solar_plant",
+      "target": "capacity_30_mw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_slavonia_solar_plant",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 20:34:03,230 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:34:03,318 - INFO - ✅ Updated Article ID: 67fa7fdfeaa4fb525afec5c5 with 5 nodes and combined text.

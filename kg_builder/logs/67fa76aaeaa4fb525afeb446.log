@@ -1,0 +1,136 @@
+2025-08-12 22:51:15,997 - INFO - 🔍 Text length: 9941 characters
+2025-08-12 22:51:15,997 - INFO - 📌 Processing Article ID: 67fa76aaeaa4fb525afeb446 — A tumultuous year for solar and batteries
+2025-08-12 22:51:15,997 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:51:20,213 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:51:20,213 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_longi",
+        "type": "company",
+        "name": "Longi"
+      },
+      {
+        "id": "company_aiko",
+        "type": "company",
+        "name": "Aiko"
+      },
+      {
+        "id": "company_utmolight",
+        "type": "company",
+        "name": "Utmolight"
+      },
+      {
+        "id": "company_oxford_pv",
+        "type": "company",
+        "name": "Oxford PV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_india",
+        "type": "factory",
+        "name": "null",
+        "location": {
+          "city": "null",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_65_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "65 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_cell",
+        "type": "product",
+        "name": "TOPCon cell"
+      },
+      {
+        "id": "product_perovskite_silicon_tandem_module",
+        "type": "product",
+        "name": "perovskite-silicon tandem module"
+      },
+      {
+        "id": "product_bc_solar",
+        "type": "product",
+        "name": "back-contact solar"
+      },
+      {
+        "id": "product_abc_module",
+        "type": "product",
+        "name": "all back-contact module"
+      }
+    ]
+  }
+}
+2025-08-12 22:51:20,213 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:51:20,213 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:51:20,213 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:51:21,404 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:51:21,404 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_65_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:51:21,404 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:51:21,404 - INFO - Node ID is capacity_65_gw_announced
+2025-08-12 22:51:21,404 - INFO - ✅ Match found for capacity_ID 'capacity_65_gw_announced' in capacity nodes
+2025-08-12 22:51:21,404 - INFO -   ➕ Set status: announced
+2025-08-12 22:51:21,404 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:51:21,404 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:51:21,404 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:51:21,404 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:51:21,404 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:51:22,636 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:51:22,636 - INFO - {
+  "relationships": [
+    {
+      "source": "company_longi",
+      "type": "owns",
+      "target": "factory_india"
+    },
+    {
+      "source": "company_aiko",
+      "type": "owns",
+      "target": "factory_india"
+    },
+    {
+      "source": "company_utmolight",
+      "type": "owns",
+      "target": "factory_india"
+    },
+    {
+      "source": "company_oxford_pv",
+      "type": "owns",
+      "target": "factory_india"
+    }
+  ]
+}
+2025-08-12 22:51:22,636 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:51:22,637 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:51:22,637 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:51:24,017 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:51:24,017 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_65_gw_announced",
+      "target": "factory_india",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 22:51:24,017 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:51:24,017 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:51:24,017 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:51:24,099 - INFO - ✅ Updated Article ID: 67fa76aaeaa4fb525afeb446 with 10 nodes and combined text.

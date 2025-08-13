@@ -1,0 +1,105 @@
+2025-08-12 22:31:40,972 - INFO - 🔍 Text length: 5774 characters
+2025-08-12 22:31:40,972 - INFO - 📌 Processing Article ID: 67fa76c4eaa4fb525afeb4b1 — JinkoSolar, Trina say TOPCon modules outperform p-type back-contact panels
+2025-08-12 22:31:40,973 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:31:44,681 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:44,681 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jinkosolar",
+        "type": "company",
+        "name": "JinkoSolar"
+      },
+      {
+        "id": "company_trina_solar",
+        "type": "company",
+        "name": "Trina Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kagoshima_japan",
+        "type": "factory",
+        "name": "Kagoshima Facility",
+        "location": {
+          "city": "Kagoshima",
+          "country": "Japan"
+        }
+      },
+      {
+        "id": "factory_changzhou_china",
+        "type": "factory",
+        "name": "Changzhou Testing Field",
+        "location": {
+          "city": "Changzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_solar_modules",
+        "type": "product",
+        "name": "TOPCon solar modules"
+      },
+      {
+        "id": "product_p_type_back_contact_pv_modules",
+        "type": "product",
+        "name": "p-type back-contact PV modules"
+      },
+      {
+        "id": "product_n_type_back_contact_pv_modules",
+        "type": "product",
+        "name": "n-type back-contact PV modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:31:44,681 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:44,682 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:31:44,682 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:31:44,682 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:31:44,682 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:31:44,682 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:31:46,728 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:46,728 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jinkosolar",
+      "type": "owns",
+      "target": "factory_kagoshima_japan"
+    },
+    {
+      "source": "company_trina_solar",
+      "type": "owns",
+      "target": "factory_changzhou_china"
+    }
+  ]
+}
+2025-08-12 22:31:46,728 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:46,729 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:31:46,729 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:31:48,571 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:48,572 - INFO - {
+  "relationships": [
+    {
+      "source": "product_topcon_solar_modules",
+      "target": "factory_kagoshima_japan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_p_type_back_contact_pv_modules",
+      "target": "factory_changzhou_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_back_contact_pv_modules",
+      "target": "factory_changzhou_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:31:48,572 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:48,572 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:31:48,572 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:31:48,655 - INFO - ✅ Updated Article ID: 67fa76c4eaa4fb525afeb4b1 with 7 nodes and combined text.

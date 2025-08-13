@@ -1,0 +1,143 @@
+2025-08-12 23:01:41,023 - INFO - 🔍 Text length: 4703 characters
+2025-08-12 23:01:41,023 - INFO - 📌 Processing Article ID: 67fa769eeaa4fb525afeb416 — 3Sun earns TÜV Rheinland certification, clearing way for PV module sales
+2025-08-12 23:01:41,023 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 23:01:42,727 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:42,728 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_3sun",
+        "type": "company",
+        "name": "3Sun"
+      },
+      {
+        "id": "company_enel",
+        "type": "company",
+        "name": "Enel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_catania_italy",
+        "type": "factory",
+        "name": "Catania Factory",
+        "location": {
+          "city": "Catania",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_enel_2025_27_plan",
+        "type": "investment",
+        "name": "Enel 2025-27 Plan",
+        "amount": "\u20ac43 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "3 GW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heterojunction_panels",
+        "type": "product",
+        "name": "heterojunction panels"
+      }
+    ]
+  }
+}
+2025-08-12 23:01:42,728 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:42,728 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 23:01:42,728 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 23:01:45,882 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:45,882 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3_gw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 23:01:45,882 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:45,882 - INFO - Node ID is capacity_3_gw
+2025-08-12 23:01:45,882 - INFO - ✅ Match found for capacity_ID 'capacity_3_gw' in capacity nodes
+2025-08-12 23:01:45,882 - INFO -   ➕ Set status: operational
+2025-08-12 23:01:45,882 - INFO -   ➕ Set phase: greenfield
+2025-08-12 23:01:45,883 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 23:01:45,883 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 23:01:46,772 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:46,772 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_enel_2025_27_plan",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 23:01:46,772 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:46,772 - INFO - Node ID is investment_enel_2025_27_plan
+2025-08-12 23:01:46,772 - INFO - ✅ Match found for investment_ID 'investment_enel_2025_27_plan' in investment nodes
+2025-08-12 23:01:46,772 - INFO -   ➕ Set status: announced
+2025-08-12 23:01:46,772 - INFO -   ➕ Set phase: unclear
+2025-08-12 23:01:46,772 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 23:01:46,772 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 23:01:46,772 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 23:01:47,538 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:47,538 - INFO - {
+  "relationships": [
+    {
+      "source": "company_3sun",
+      "type": "owns",
+      "target": "factory_catania_italy"
+    }
+  ]
+}
+2025-08-12 23:01:47,538 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:47,538 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 23:01:47,538 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 23:01:51,789 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:51,789 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3_gw",
+      "target": "factory_catania_italy",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_gw",
+      "target": "product_heterojunction_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_heterojunction_panels",
+      "target": "factory_catania_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 23:01:51,789 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:51,789 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 23:01:51,789 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 23:01:52,610 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:52,610 - INFO - {
+  "relationships": []
+}
+2025-08-12 23:01:52,610 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:52,610 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 23:01:52,610 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 23:01:53,224 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:53,224 - INFO - {
+  "relationships": []
+}
+2025-08-12 23:01:53,224 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:53,306 - INFO - ✅ Updated Article ID: 67fa769eeaa4fb525afeb416 with 6 nodes and combined text.

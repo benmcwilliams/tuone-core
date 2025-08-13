@@ -1,0 +1,176 @@
+2025-08-12 21:13:23,314 - INFO - 🔍 Text length: 2978 characters
+2025-08-12 21:13:23,314 - INFO - 📌 Processing Article ID: 67fa7e6deaa4fb525afebfc9 — Vena Energy moves ahead with 550 MW of solar in the Philippines
+2025-08-12 21:13:23,314 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:13:25,724 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:25,724 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vena_energy",
+        "type": "company",
+        "name": "Vena Energy"
+      },
+      {
+        "id": "company_mgen_renewable_energy",
+        "type": "company",
+        "name": "MGen Renewable Energy"
+      },
+      {
+        "id": "company_manila_electric_co",
+        "type": "company",
+        "name": "Manila Electric Co"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_vena_mgen",
+        "type": "joint_venture",
+        "name": "Vena MGen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bugallon_philippines",
+        "type": "factory",
+        "name": "Bugallon Solar Plant",
+        "location": {
+          "city": "Bugallon",
+          "country": "Philippines"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vena_mgen_bugallon_solar_plant",
+        "type": "investment",
+        "name": "Vena MGen Bugallon Solar Plant",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_550_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "550 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:13:25,724 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:25,724 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:13:25,724 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:13:26,778 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:26,778 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_550_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:13:26,778 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:26,778 - INFO - Node ID is capacity_550_mw_announced
+2025-08-12 21:13:26,778 - INFO - ✅ Match found for capacity_ID 'capacity_550_mw_announced' in capacity nodes
+2025-08-12 21:13:26,778 - INFO -   ➕ Set status: announced
+2025-08-12 21:13:26,778 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:13:26,778 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 21:13:26,778 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 21:13:28,575 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:28,575 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vena_mgen_bugallon_solar_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:13:28,575 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:28,575 - INFO - Node ID is investment_vena_mgen_bugallon_solar_plant
+2025-08-12 21:13:28,575 - INFO - ✅ Match found for investment_ID 'investment_vena_mgen_bugallon_solar_plant' in investment nodes
+2025-08-12 21:13:28,575 - INFO -   ➕ Set status: announced
+2025-08-12 21:13:28,575 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:13:28,576 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:13:28,576 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:13:28,576 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:13:30,492 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:30,492 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vena_energy",
+      "type": "forms",
+      "target": "joint_venture_vena_mgen"
+    },
+    {
+      "source": "company_mgen_renewable_energy",
+      "type": "forms",
+      "target": "joint_venture_vena_mgen"
+    },
+    {
+      "source": "joint_venture_vena_mgen",
+      "type": "owns",
+      "target": "factory_bugallon_philippines"
+    }
+  ]
+}
+2025-08-12 21:13:30,492 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:30,492 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:13:30,492 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:13:32,788 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:32,788 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_550_mw_announced",
+      "target": "factory_bugallon_philippines",
+      "type": "at"
+    },
+    {
+      "source": "capacity_550_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_bugallon_philippines",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:13:32,788 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:32,788 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 21:13:32,788 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 21:13:33,709 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:33,709 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:13:33,710 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:33,710 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 21:13:33,710 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 21:13:36,316 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:36,317 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_vena_mgen_bugallon_solar_plant",
+      "target": "capacity_550_mw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_vena_mgen_bugallon_solar_plant",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 21:13:36,317 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:36,392 - INFO - ✅ Updated Article ID: 67fa7e6deaa4fb525afebfc9 with 8 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-08-12 20:41:06,632 - INFO - 🔍 Text length: 2850 characters
+2025-08-12 20:41:06,633 - INFO - 📌 Processing Article ID: 67fa7fa8eaa4fb525afec4e3 — Lebanon launches tender for 8 MW solar plant
+2025-08-12 20:41:06,633 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:41:08,223 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:41:08,223 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_electricite_du_liban",
+        "type": "company",
+        "name": "Electricit\u00e9 du Liban"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_beirut_river_solar_snake",
+        "type": "factory",
+        "name": "Beirut River Solar Snake",
+        "location": {
+          "city": "Beirut River",
+          "country": "Lebanon"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_8_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "8 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 20:41:08,223 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:41:08,223 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:41:08,223 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:41:09,183 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:41:09,184 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_8_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:41:09,184 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:41:09,184 - INFO - Node ID is capacity_8_mw
+2025-08-12 20:41:09,184 - INFO - ✅ Match found for capacity_ID 'capacity_8_mw' in capacity nodes
+2025-08-12 20:41:09,184 - INFO -   ➕ Set status: announced
+2025-08-12 20:41:09,184 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:41:09,184 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:41:09,184 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:41:09,184 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:41:09,184 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:41:11,524 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:41:11,524 - INFO - {
+  "relationships": [
+    {
+      "source": "company_electricite_du_liban",
+      "type": "owns",
+      "target": "factory_beirut_river_solar_snake"
+    }
+  ]
+}
+2025-08-12 20:41:11,524 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:41:11,524 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:41:11,524 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:41:13,506 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:41:13,506 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_8_mw",
+      "target": "factory_beirut_river_solar_snake",
+      "type": "at"
+    },
+    {
+      "source": "capacity_8_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_beirut_river_solar_snake",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:41:13,506 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:41:13,506 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:41:13,506 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:41:13,600 - INFO - ✅ Updated Article ID: 67fa7fa8eaa4fb525afec4e3 with 4 nodes and combined text.

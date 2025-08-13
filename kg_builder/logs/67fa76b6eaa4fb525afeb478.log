@@ -1,0 +1,101 @@
+2025-08-12 22:40:12,981 - INFO - 🔍 Text length: 5939 characters
+2025-08-12 22:40:12,981 - INFO - 📌 Processing Article ID: 67fa76b6eaa4fb525afeb478 — How much shade is enough?
+2025-08-12 22:40:12,981 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:40:15,663 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:15,663 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aligarh_muslim_university",
+        "type": "company",
+        "name": "Aligarh Muslim University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_aligarh_muslim_university_solar_plant",
+        "type": "factory",
+        "name": "Aligarh Muslim University Solar Plant",
+        "location": {
+          "city": "Aligarh",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_119_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "119 KW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_modules",
+        "type": "product",
+        "name": "Photovoltaic Modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:40:15,663 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:15,663 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:40:15,663 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:40:18,185 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:18,185 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_119_kw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:40:18,186 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:18,186 - INFO - Node ID is capacity_119_kw
+2025-08-12 22:40:18,186 - INFO - ✅ Match found for capacity_ID 'capacity_119_kw' in capacity nodes
+2025-08-12 22:40:18,186 - INFO -   ➕ Set status: operational
+2025-08-12 22:40:18,186 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:40:18,186 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:40:18,186 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:40:18,186 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:40:18,186 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:40:19,553 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:19,554 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aligarh_muslim_university",
+      "type": "owns",
+      "target": "factory_aligarh_muslim_university_solar_plant"
+    }
+  ]
+}
+2025-08-12 22:40:19,554 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:19,554 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:40:19,554 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:40:21,507 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:21,507 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_119_kw",
+      "target": "factory_aligarh_muslim_university_solar_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_119_kw",
+      "target": "product_photovoltaic_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_photovoltaic_modules",
+      "target": "factory_aligarh_muslim_university_solar_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:40:21,507 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:21,507 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:40:21,507 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:40:21,591 - INFO - ✅ Updated Article ID: 67fa76b6eaa4fb525afeb478 with 4 nodes and combined text.

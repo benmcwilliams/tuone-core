@@ -1,0 +1,101 @@
+2025-08-12 19:22:50,197 - INFO - 🔍 Text length: 3101 characters
+2025-08-12 19:22:50,197 - INFO - 📌 Processing Article ID: 67fbeec094b7f855cfea6647 — Enerpoly opens zinc-ion battery factory in Sweden
+2025-08-12 19:22:50,197 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:22:52,594 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:52,594 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_enerpoly",
+        "type": "company",
+        "name": "Enerpoly"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_epic_sweden",
+        "type": "factory",
+        "name": "Enerpoly Production Innovation Center (EPIC)",
+        "location": {
+          "city": "northern Sweden",
+          "country": "Sweden"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mwh_annually_by_2026",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MWh annually",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_zinc_ion_battery_cell",
+        "type": "product",
+        "name": "zinc-ion battery cell"
+      }
+    ]
+  }
+}
+2025-08-12 19:22:52,594 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:52,594 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:22:52,594 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:22:53,693 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:53,693 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mwh_annually_by_2026",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:22:53,693 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:53,693 - INFO - Node ID is capacity_100_mwh_annually_by_2026
+2025-08-12 19:22:53,693 - INFO - ✅ Match found for capacity_ID 'capacity_100_mwh_annually_by_2026' in capacity nodes
+2025-08-12 19:22:53,693 - INFO -   ➕ Set status: under construction
+2025-08-12 19:22:53,693 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:22:53,693 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:22:53,693 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:22:53,693 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:22:53,693 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:22:54,717 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:22:54,717 - INFO - {
+  "relationships": [
+    {
+      "source": "company_enerpoly",
+      "type": "owns",
+      "target": "factory_epic_sweden"
+    }
+  ]
+}
+2025-08-12 19:22:54,717 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:22:54,717 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:22:54,717 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:23:00,349 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:23:00,349 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mwh_annually_by_2026",
+      "target": "factory_epic_sweden",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mwh_annually_by_2026",
+      "target": "product_zinc_ion_battery_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_zinc_ion_battery_cell",
+      "target": "factory_epic_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:23:00,349 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:23:00,349 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:23:00,349 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:23:00,437 - INFO - ✅ Updated Article ID: 67fbeec094b7f855cfea6647 with 4 nodes and combined text.

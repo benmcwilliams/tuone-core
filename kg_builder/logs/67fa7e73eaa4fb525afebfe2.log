@@ -1,0 +1,146 @@
+2025-08-12 21:12:52,000 - INFO - 🔍 Text length: 4660 characters
+2025-08-12 21:12:52,000 - INFO - 📌 Processing Article ID: 67fa7e73eaa4fb525afebfe2 — US government nuclear sites going solar
+2025-08-12 21:12:52,000 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:12:54,080 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:12:54,081 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hecate_energy",
+        "type": "company",
+        "name": "Hecate Energy"
+      },
+      {
+        "id": "company_nextera",
+        "type": "company",
+        "name": "NextEra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hanford_site",
+        "type": "factory",
+        "name": "Hanford Site",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_waste_isolation_pilot_plant",
+        "type": "factory",
+        "name": "Waste Isolation Pilot Plant",
+        "location": {
+          "city": "Carlsbad",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_150_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "150 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_energy_storage",
+        "type": "product",
+        "name": "energy storage"
+      }
+    ]
+  }
+}
+2025-08-12 21:12:54,081 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:12:54,081 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:12:54,081 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:12:55,027 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:12:55,027 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_150_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:12:55,027 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:12:55,027 - INFO - Node ID is capacity_1_gw_announced
+2025-08-12 21:12:55,028 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_announced' in capacity nodes
+2025-08-12 21:12:55,028 - INFO -   ➕ Set status: announced
+2025-08-12 21:12:55,028 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:12:55,028 - INFO - Node ID is capacity_150_mw_announced
+2025-08-12 21:12:55,028 - INFO - ✅ Match found for capacity_ID 'capacity_150_mw_announced' in capacity nodes
+2025-08-12 21:12:55,028 - INFO -   ➕ Set status: announced
+2025-08-12 21:12:55,028 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:12:55,028 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:12:55,028 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:12:55,028 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:12:55,028 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:12:56,444 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:12:56,444 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hecate_energy",
+      "type": "owns",
+      "target": "factory_hanford_site"
+    },
+    {
+      "source": "company_nextera",
+      "type": "owns",
+      "target": "factory_waste_isolation_pilot_plant"
+    }
+  ]
+}
+2025-08-12 21:12:56,444 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:12:56,444 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:12:56,444 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:13:01,500 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:13:01,500 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw_announced",
+      "target": "factory_hanford_site",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150_mw_announced",
+      "target": "factory_waste_isolation_pilot_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_hanford_site",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_energy_storage",
+      "target": "factory_waste_isolation_pilot_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:13:01,500 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:13:01,500 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:13:01,500 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:13:01,572 - INFO - ✅ Updated Article ID: 67fa7e73eaa4fb525afebfe2 with 8 nodes and combined text.

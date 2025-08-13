@@ -1,0 +1,133 @@
+2025-08-12 22:05:09,882 - INFO - 🔍 Text length: 3755 characters
+2025-08-12 22:05:09,882 - INFO - 📌 Processing Article ID: 67fa7cabeaa4fb525afeb87f — Partners to develop 540 MW floating wind-solar plant in Italy
+2025-08-12 22:05:09,882 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:05:12,571 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:05:12,571 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solarduck",
+        "type": "company",
+        "name": "SolarDuck"
+      },
+      {
+        "id": "company_green_arrow_capital",
+        "type": "company",
+        "name": "Green Arrow Capital"
+      },
+      {
+        "id": "company_new_developments",
+        "type": "company",
+        "name": "New Developments"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gulf_of_taranto",
+        "type": "factory",
+        "name": "Gulf of Taranto",
+        "location": {
+          "city": "Corigliano-Rossano",
+          "country": "Italy"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_540_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "540 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_pv",
+        "type": "product",
+        "name": "floating PV"
+      },
+      {
+        "id": "product_floating_wind",
+        "type": "product",
+        "name": "floating wind"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "green_arrow_infrastructure of the future fund",
+        "type": "joint_venture",
+        "name": "Green Arrow Infrastructure of the Future Fund",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 22:05:12,571 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:05:12,571 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:05:12,571 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:05:13,566 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:05:13,566 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_540_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:05:13,567 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:05:13,567 - INFO - Node ID is capacity_540_mw_announced
+2025-08-12 22:05:13,567 - INFO - ✅ Match found for capacity_ID 'capacity_540_mw_announced' in capacity nodes
+2025-08-12 22:05:13,567 - INFO -   ➕ Set status: announced
+2025-08-12 22:05:13,567 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:05:13,567 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:05:13,567 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:05:13,567 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:05:13,567 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:05:14,056 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:05:14,056 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:05:14,056 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:05:14,056 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:05:14,056 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:05:16,169 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:05:16,170 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_540_mw_announced",
+      "target": "factory_gulf_of_taranto",
+      "type": "at"
+    },
+    {
+      "source": "capacity_540_mw_announced",
+      "target": "product_floating_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_540_mw_announced",
+      "target": "product_floating_wind",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_pv",
+      "target": "factory_gulf_of_taranto",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_floating_wind",
+      "target": "factory_gulf_of_taranto",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:05:16,170 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:05:16,170 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:05:16,170 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:05:16,246 - INFO - ✅ Updated Article ID: 67fa7cabeaa4fb525afeb87f with 8 nodes and combined text.

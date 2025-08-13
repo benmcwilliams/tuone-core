@@ -1,0 +1,123 @@
+2025-08-12 19:20:00,334 - INFO - 🔍 Text length: 4718 characters
+2025-08-12 19:20:00,334 - INFO - 📌 Processing Article ID: 67fbeec394b7f855cfea6655 — Ecop Technologies launches 700 kW industrial heat pump with output temperatures of up to 200 C
+2025-08-12 19:20:00,334 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:20:02,431 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:02,431 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecop_technologies",
+        "type": "company",
+        "name": "Ecop Technologies"
+      },
+      {
+        "id": "company_eit_innoenergy",
+        "type": "company",
+        "name": "EIT Innoenergy"
+      },
+      {
+        "id": "company_fill",
+        "type": "company",
+        "name": "Fill"
+      },
+      {
+        "id": "company_fsp_ventures",
+        "type": "company",
+        "name": "FSP Ventures"
+      },
+      {
+        "id": "company_upper_austrian_high_tech_fund",
+        "type": "company",
+        "name": "Upper Austrian High-Tech Fund"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_meldorf_germany",
+        "type": "factory",
+        "name": "Meldorf Underground Storage Facility",
+        "location": {
+          "city": "Meldorf",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eic_accelerator",
+        "type": "investment",
+        "name": "EIC Accelerator",
+        "amount": "\u20ac8.5 million ($9.2 million)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heat_pump",
+        "type": "product",
+        "name": "heat pump"
+      }
+    ]
+  }
+}
+2025-08-12 19:20:02,431 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:02,432 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:20:02,432 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:20:02,432 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:20:04,625 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:04,625 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eic_accelerator",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:20:04,626 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:04,626 - INFO - Node ID is investment_eic_accelerator
+2025-08-12 19:20:04,626 - INFO - ✅ Match found for investment_ID 'investment_eic_accelerator' in investment nodes
+2025-08-12 19:20:04,626 - INFO -   ➕ Set status: completed
+2025-08-12 19:20:04,626 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:20:04,626 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:20:04,626 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:20:04,626 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:20:05,958 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:05,958 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecop_technologies",
+      "type": "owns",
+      "target": "factory_meldorf_germany"
+    }
+  ]
+}
+2025-08-12 19:20:05,958 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:05,958 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:20:05,958 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:20:07,145 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:07,145 - INFO - {
+  "relationships": [
+    {
+      "source": "product_heat_pump",
+      "target": "factory_meldorf_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:20:07,145 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:07,145 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:20:07,145 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:20:07,800 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:07,801 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:20:07,801 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:07,801 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:20:07,801 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:20:10,465 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:20:10,466 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:20:10,466 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:20:10,555 - INFO - ✅ Updated Article ID: 67fbeec394b7f855cfea6655 with 8 nodes and combined text.

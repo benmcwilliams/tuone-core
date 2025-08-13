@@ -1,0 +1,132 @@
+2025-08-12 22:13:34,287 - INFO - 🔍 Text length: 2744 characters
+2025-08-12 22:13:34,287 - INFO - 📌 Processing Article ID: 67fa7c52eaa4fb525afeb70c — Colombia assigns 4.4 GW of solar for $0.0182/kWh in latest energy auction
+2025-08-12 22:13:34,287 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:13:37,681 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:37,681 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_colombia",
+        "type": "factory",
+        "name": "solar plants",
+        "location": {
+          "city": "Colombia",
+          "country": "Colombia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_reliability_charge_auction",
+        "type": "investment",
+        "name": "Reliability Charge Auction",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_4_4_gw_announced",
+        "type": "capacity",
+        "amount": "4.4 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:13:37,682 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:37,682 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:13:37,682 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:13:38,526 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:38,526 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_4_4_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:13:38,526 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:38,526 - INFO - Node ID is capacity_4_4_gw_announced
+2025-08-12 22:13:38,526 - INFO - ✅ Match found for capacity_ID 'capacity_4_4_gw_announced' in capacity nodes
+2025-08-12 22:13:38,526 - INFO -   ➕ Set status: announced
+2025-08-12 22:13:38,526 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:13:38,526 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:13:38,526 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:13:39,368 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:39,368 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_reliability_charge_auction",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:13:39,368 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:39,368 - INFO - Node ID is investment_reliability_charge_auction
+2025-08-12 22:13:39,368 - INFO - ✅ Match found for investment_ID 'investment_reliability_charge_auction' in investment nodes
+2025-08-12 22:13:39,368 - INFO -   ➕ Set status: announced
+2025-08-12 22:13:39,368 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:13:39,368 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:13:39,368 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:13:39,368 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:13:40,083 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:40,084 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_colombia",
+      "type": "owns"
+    }
+  ]
+}
+2025-08-12 22:13:40,084 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:40,084 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:13:40,084 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:13:40,912 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:40,912 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_4_4_gw_announced",
+      "target": "product_pv_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:13:40,912 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:40,912 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:13:40,912 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:13:41,578 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:41,578 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:13:41,578 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:41,578 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:13:41,578 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:13:43,472 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:13:43,472 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_reliability_charge_auction",
+      "target": "capacity_4_4_gw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_reliability_charge_auction",
+      "target": "product_pv_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:13:43,472 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:13:43,555 - INFO - ✅ Updated Article ID: 67fa7c52eaa4fb525afeb70c with 4 nodes and combined text.

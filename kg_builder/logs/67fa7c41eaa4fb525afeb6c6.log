@@ -1,0 +1,106 @@
+2025-08-12 22:15:39,969 - INFO - 🔍 Text length: 4804 characters
+2025-08-12 22:15:39,969 - INFO - 📌 Processing Article ID: 67fa7c41eaa4fb525afeb6c6 — First Solar to power Indian module factory with wind, solar under PPA
+2025-08-12 22:15:39,969 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:15:43,332 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:43,332 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_first_solar",
+        "type": "company",
+        "name": "First Solar"
+      },
+      {
+        "id": "company_cleantech_solar",
+        "type": "company",
+        "name": "Cleantech Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tamil_nadu_india",
+        "type": "factory",
+        "name": "Tamil Nadu Solar Manufacturing Facility",
+        "location": {
+          "city": "Tamil Nadu",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3.3_gw_announced_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "3.3 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_series_7_thin_film_solar_panels",
+        "type": "product",
+        "name": "Series 7 thin-film solar panels"
+      }
+    ]
+  }
+}
+2025-08-12 22:15:43,332 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:43,332 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:15:43,332 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:15:44,255 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:44,255 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3.3_gw_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:15:44,255 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:44,255 - INFO - Node ID is capacity_3.3_gw_announced_unclear
+2025-08-12 22:15:44,255 - INFO - ✅ Match found for capacity_ID 'capacity_3.3_gw_announced_unclear' in capacity nodes
+2025-08-12 22:15:44,255 - INFO -   ➕ Set status: announced
+2025-08-12 22:15:44,256 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:15:44,256 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:15:44,256 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:15:44,256 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:15:44,256 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:15:45,073 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:45,073 - INFO - {
+  "relationships": [
+    {
+      "source": "company_first_solar",
+      "type": "owns",
+      "target": "factory_tamil_nadu_india"
+    }
+  ]
+}
+2025-08-12 22:15:45,073 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:45,073 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:15:45,073 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:15:48,278 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:15:48,279 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3.3_gw_announced_unclear",
+      "target": "factory_tamil_nadu_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3.3_gw_announced_unclear",
+      "target": "product_series_7_thin_film_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_series_7_thin_film_solar_panels",
+      "target": "factory_tamil_nadu_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:15:48,279 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:15:48,279 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:15:48,279 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:15:48,357 - INFO - ✅ Updated Article ID: 67fa7c41eaa4fb525afeb6c6 with 5 nodes and combined text.

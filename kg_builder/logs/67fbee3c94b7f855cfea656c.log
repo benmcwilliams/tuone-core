@@ -1,0 +1,87 @@
+2025-08-12 20:00:55,294 - INFO - 🔍 Text length: 3008 characters
+2025-08-12 20:00:55,294 - INFO - 📌 Processing Article ID: 67fbee3c94b7f855cfea656c — Solar cells built on dots and dashes of silver
+2025-08-12 20:00:55,294 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:00:56,934 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:00:56,935 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_unsw",
+        "type": "company",
+        "name": "University of New South Wales"
+      },
+      {
+        "id": "company_boundary_power",
+        "type": "company",
+        "name": "Boundary Power"
+      },
+      {
+        "id": "company_elexsys_energy",
+        "type": "company",
+        "name": "EleXsys Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_aldoga_australia",
+        "type": "factory",
+        "name": "Aldoga Renewable Energy Infrastructure Manufacturing Facility",
+        "location": {
+          "city": "Aldoga",
+          "country": "Australia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_solar_cells",
+        "type": "product",
+        "name": "tunnel oxide passivated contact (TOPCon) solar cells"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 20:00:56,935 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:00:56,935 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 20:00:56,935 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:00:56,935 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:00:56,935 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:00:56,935 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:00:58,369 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:00:58,369 - INFO - {
+  "relationships": [
+    {
+      "source": "company_boundary_power",
+      "type": "owns",
+      "target": "factory_aldoga_australia"
+    }
+  ]
+}
+2025-08-12 20:00:58,369 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:00:58,369 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:00:58,369 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:00:59,704 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:00:59,704 - INFO - {
+  "relationships": [
+    {
+      "source": "solar_power",
+      "target": "factory_aldoga_australia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:00:59,704 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:00:59,704 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:00:59,704 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:00:59,783 - INFO - ✅ Updated Article ID: 67fbee3c94b7f855cfea656c with 6 nodes and combined text.

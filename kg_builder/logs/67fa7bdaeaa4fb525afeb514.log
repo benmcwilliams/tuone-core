@@ -1,0 +1,91 @@
+2025-08-12 22:27:19,958 - INFO - 🔍 Text length: 6165 characters
+2025-08-12 22:27:19,958 - INFO - 📌 Processing Article ID: 67fa7bdaeaa4fb525afeb514 — Renewables-powered high temperature heat pumps are cheapest option for industrial steam
+2025-08-12 22:27:19,959 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:27:23,718 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:23,718 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_johannes_kepler_university_linz",
+        "type": "company",
+        "name": "Johannes Kepler University Linz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_steel_plant_spain",
+        "type": "factory",
+        "name": "steel plant",
+        "location": {
+          "city": "null",
+          "country": "Spain"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_250_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "250 kW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_temperature_heat_pump",
+        "type": "product",
+        "name": "high-temperature heat pump"
+      }
+    ]
+  }
+}
+2025-08-12 22:27:23,718 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:23,718 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:27:23,718 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:27:24,786 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:24,787 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_250_kw",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:27:24,787 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:24,787 - INFO - Node ID is capacity_250_kw
+2025-08-12 22:27:24,787 - INFO - ✅ Match found for capacity_ID 'capacity_250_kw' in capacity nodes
+2025-08-12 22:27:24,787 - INFO -   ➕ Set status: unclear
+2025-08-12 22:27:24,787 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:27:24,787 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:27:24,787 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:27:24,787 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:27:24,787 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:27:25,913 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:25,914 - INFO - {
+  "relationships": [
+    {
+      "source": "company_johannes_kepler_university_linz",
+      "type": "owns",
+      "target": "factory_steel_plant_spain"
+    }
+  ]
+}
+2025-08-12 22:27:25,914 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:25,914 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:27:25,914 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:27:27,038 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:27,039 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_250_kw",
+      "target": "product_high_temperature_heat_pump",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:27:27,039 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:27,039 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:27:27,039 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:27:27,127 - INFO - ✅ Updated Article ID: 67fa7bdaeaa4fb525afeb514 with 4 nodes and combined text.

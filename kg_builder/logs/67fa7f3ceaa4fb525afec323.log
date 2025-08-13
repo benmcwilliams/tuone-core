@@ -1,0 +1,126 @@
+2025-08-12 20:52:23,103 - INFO - 🔍 Text length: 4471 characters
+2025-08-12 20:52:23,103 - INFO - 📌 Processing Article ID: 67fa7f3ceaa4fb525afec323 — The Hydrogen Stream: Mibgas, DH2 Energy launch Iberian H2 auction
+2025-08-12 20:52:23,103 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:52:27,116 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:52:27,116 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mibgas_derivatives",
+        "type": "company",
+        "name": "Mibgas Derivatives"
+      },
+      {
+        "id": "company_dh2_energy",
+        "type": "company",
+        "name": "DH2 Energy"
+      },
+      {
+        "id": "company_compagnie_maritime_monegasque_zero_emission",
+        "type": "company",
+        "name": "Compagnie Maritime Monegasque Zero Emission"
+      },
+      {
+        "id": "company_air_liquide",
+        "type": "company",
+        "name": "Air Liquide"
+      },
+      {
+        "id": "company_limak_cement_group",
+        "type": "company",
+        "name": "Limak Cement Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_polatli_anka",
+        "type": "factory",
+        "name": "Polatl\u0131 Anka facility",
+        "location": {
+          "city": "Ankara",
+          "country": "T\u00fcrkiye"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_180k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "180,000 tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_renewable_hydrogen",
+        "type": "product",
+        "name": "renewable hydrogen"
+      },
+      {
+        "id": "product_hydrogen_blended_fuel",
+        "type": "product",
+        "name": "hydrogen-blended fuel"
+      },
+      {
+        "id": "product_proton_exchange_membrane_electrolyzers",
+        "type": "product",
+        "name": "proton exchange membrane electrolyzers"
+      }
+    ]
+  }
+}
+2025-08-12 20:52:27,116 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:52:27,116 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:52:27,116 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:52:28,251 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:52:28,251 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_180k_tonnes_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:52:28,251 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:52:28,251 - INFO - Node ID is capacity_180k_tonnes_per_year
+2025-08-12 20:52:28,251 - INFO - ✅ Match found for capacity_ID 'capacity_180k_tonnes_per_year' in capacity nodes
+2025-08-12 20:52:28,251 - INFO -   ➕ Set status: announced
+2025-08-12 20:52:28,251 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:52:28,251 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:52:28,251 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:52:28,252 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:52:28,252 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:52:29,267 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:52:29,267 - INFO - {
+  "relationships": [
+    {
+      "source": "company_limak_cement_group",
+      "type": "owns",
+      "target": "factory_polatli_anka"
+    }
+  ]
+}
+2025-08-12 20:52:29,267 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:52:29,267 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:52:29,267 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:52:31,007 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:52:31,007 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_180k_tonnes_per_year",
+      "target": "product_renewable_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_hydrogen_blended_fuel",
+      "target": "factory_polatli_anka",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:52:31,007 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:52:31,007 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:52:31,007 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:52:31,094 - INFO - ✅ Updated Article ID: 67fa7f3ceaa4fb525afec323 with 10 nodes and combined text.

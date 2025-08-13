@@ -1,0 +1,154 @@
+2025-08-12 22:24:23,990 - INFO - 🔍 Text length: 3133 characters
+2025-08-12 22:24:23,990 - INFO - 📌 Processing Article ID: 67fa7bf6eaa4fb525afeb589 — Philippines gives green light to 65 MW of solar
+2025-08-12 22:24:23,990 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:24:29,272 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:29,272 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_burgos_pangasinan_solar_energy_corp",
+        "type": "company",
+        "name": "Burgos Pangasinan Solar Energy Corp."
+      },
+      {
+        "id": "company_rising_renewables_holdings",
+        "type": "company",
+        "name": "Rising Renewables Holdings"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_burgos_pangasinan_philippines",
+        "type": "factory",
+        "name": "Burgos Pangasinan Solar Power Plant",
+        "location": {
+          "city": "Burgos",
+          "country": "Philippines"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_burgos_pangasinan_solar_power_plant",
+        "type": "investment",
+        "name": "Burgos Pangasinan Solar Power Plant",
+        "amount": "PHP 2.7 billion ($48 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_65_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "65 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ground_mount_solar_power",
+        "type": "product",
+        "name": "ground-mount solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:24:29,273 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:29,273 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:24:29,273 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:24:30,304 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:30,304 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_65_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:24:30,304 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:30,304 - INFO - Node ID is capacity_65_mw
+2025-08-12 22:24:30,304 - INFO - ✅ Match found for capacity_ID 'capacity_65_mw' in capacity nodes
+2025-08-12 22:24:30,304 - INFO -   ➕ Set status: announced
+2025-08-12 22:24:30,304 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:24:30,304 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:24:30,304 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:24:31,933 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:31,933 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_burgos_pangasinan_solar_power_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:24:31,933 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:31,933 - INFO - Node ID is investment_burgos_pangasinan_solar_power_plant
+2025-08-12 22:24:31,933 - INFO - ✅ Match found for investment_ID 'investment_burgos_pangasinan_solar_power_plant' in investment nodes
+2025-08-12 22:24:31,933 - INFO -   ➕ Set status: announced
+2025-08-12 22:24:31,934 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:24:31,934 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:24:31,934 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:24:31,934 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:24:33,469 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:33,469 - INFO - {
+  "relationships": [
+    {
+      "source": "company_burgos_pangasinan_solar_energy_corp",
+      "type": "owns",
+      "target": "factory_burgos_pangasinan_philippines"
+    }
+  ]
+}
+2025-08-12 22:24:33,469 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:33,469 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:24:33,470 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:24:34,908 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:34,909 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_65_mw",
+      "target": "factory_burgos_pangasinan_philippines",
+      "type": "at"
+    },
+    {
+      "source": "capacity_65_mw",
+      "target": "product_ground_mount_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ground_mount_solar_power",
+      "target": "factory_burgos_pangasinan_philippines",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:24:34,909 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:34,909 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:24:34,909 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:24:35,612 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:35,612 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:24:35,612 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:35,612 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:24:35,612 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:24:37,669 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:24:37,669 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_burgos_pangasinan_solar_power_plant",
+      "target": "capacity_65_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_burgos_pangasinan_solar_power_plant",
+      "target": "product_ground_mount_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:24:37,669 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:24:37,747 - INFO - ✅ Updated Article ID: 67fa7bf6eaa4fb525afeb589 with 6 nodes and combined text.

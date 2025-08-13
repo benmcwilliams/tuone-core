@@ -1,0 +1,171 @@
+2025-08-12 22:07:37,758 - INFO - 🔍 Text length: 3193 characters
+2025-08-12 22:07:37,758 - INFO - 📌 Processing Article ID: 67fa7c8aeaa4fb525afeb7f8 — PowerChina finalizes construction of 480 MW PV plant in Chile
+2025-08-12 22:07:37,758 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:07:41,228 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:41,228 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powerchina",
+        "type": "company",
+        "name": "PowerChina"
+      },
+      {
+        "id": "company_enel_green_power_chile",
+        "type": "company",
+        "name": "Enel Green Power Chile"
+      },
+      {
+        "id": "company_ame",
+        "type": "company",
+        "name": "AME"
+      },
+      {
+        "id": "company_edf",
+        "type": "company",
+        "name": "EDF"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_generadora_metropolitana",
+        "type": "joint_venture",
+        "name": "Generadora Metropolitana"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maria_elena_chile",
+        "type": "factory",
+        "name": "Maria Elena Solar Plant",
+        "location": {
+          "city": "Mar\u00eda Elena",
+          "country": "Chile"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_generadora_metropolitana",
+        "type": "investment",
+        "name": "Generadora Metropolitana Financing",
+        "amount": "$980 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_480_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "480 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:07:41,228 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:41,228 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:07:41,228 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:07:42,047 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:42,047 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_480_mw_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:07:42,047 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:42,048 - INFO - Node ID is capacity_480_mw_operational
+2025-08-12 22:07:42,048 - INFO - ✅ Match found for capacity_ID 'capacity_480_mw_operational' in capacity nodes
+2025-08-12 22:07:42,048 - INFO -   ➕ Set status: operational
+2025-08-12 22:07:42,048 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:07:42,048 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:07:42,048 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:07:43,176 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:43,176 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_generadora_metropolitana",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:07:43,176 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:43,176 - INFO - Node ID is investment_generadora_metropolitana
+2025-08-12 22:07:43,176 - INFO - ✅ Match found for investment_ID 'investment_generadora_metropolitana' in investment nodes
+2025-08-12 22:07:43,176 - INFO -   ➕ Set status: completed
+2025-08-12 22:07:43,176 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:07:43,177 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:07:43,177 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:07:43,177 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:07:44,018 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:44,018 - INFO - {
+  "relationships": [
+    {
+      "source": "company_powerchina",
+      "type": "owns",
+      "target": "factory_maria_elena_chile"
+    }
+  ]
+}
+2025-08-12 22:07:44,019 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:44,019 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:07:44,019 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:07:46,761 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:46,761 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_480_mw_operational",
+      "target": "factory_maria_elena_chile",
+      "type": "at"
+    },
+    {
+      "source": "capacity_480_mw_operational",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_maria_elena_chile",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:07:46,761 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:46,761 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:07:46,761 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:07:47,474 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:47,475 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:07:47,475 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:47,475 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:07:47,475 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:07:49,200 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:49,200 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_generadora_metropolitana",
+      "target": "capacity_480_mw_operational",
+      "type": "enables"
+    },
+    {
+      "source": "investment_generadora_metropolitana",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:07:49,200 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:49,278 - INFO - ✅ Updated Article ID: 67fa7c8aeaa4fb525afeb7f8 with 9 nodes and combined text.

@@ -1,0 +1,86 @@
+2025-08-12 22:31:15,795 - INFO - 🔍 Text length: 6706 characters
+2025-08-12 22:31:15,795 - INFO - 📌 Processing Article ID: 67fa76c5eaa4fb525afeb4b5 — Combining hybrid wind-solar with pumped hydro in rural electrification
+2025-08-12 22:31:15,795 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:31:17,449 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:17,449 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rabat_school_of_mines",
+        "type": "company",
+        "name": "Rabat School of Mines"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tazarine_morocco",
+        "type": "factory",
+        "name": "Tazarine Hybrid Energy System",
+        "location": {
+          "city": "Tazarine",
+          "country": "Morocco"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_monocrystalline_solar_panels",
+        "type": "product",
+        "name": "monocrystalline solar panels"
+      },
+      {
+        "id": "product_wind_turbines",
+        "type": "product",
+        "name": "wind turbines"
+      },
+      {
+        "id": "product_pumped_hydro_storage",
+        "type": "product",
+        "name": "pumped hydro storage"
+      }
+    ]
+  }
+}
+2025-08-12 22:31:17,449 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:17,449 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:31:17,449 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:31:17,449 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:31:17,449 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:31:17,449 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:31:18,364 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:18,364 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rabat_school_of_mines",
+      "type": "owns",
+      "target": "factory_tazarine_morocco"
+    }
+  ]
+}
+2025-08-12 22:31:18,364 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:18,364 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:31:18,364 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:31:20,002 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:31:20,002 - INFO - {
+  "relationships": [
+    {
+      "source": "product_monocrystalline_solar_panels",
+      "target": "factory_tazarine_morocco",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_wind_turbines",
+      "target": "factory_tazarine_morocco",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pumped_hydro_storage",
+      "target": "factory_tazarine_morocco",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:31:20,002 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:31:20,002 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:31:20,002 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:31:20,086 - INFO - ✅ Updated Article ID: 67fa76c5eaa4fb525afeb4b5 with 5 nodes and combined text.

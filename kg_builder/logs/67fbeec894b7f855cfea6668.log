@@ -1,0 +1,120 @@
+2025-08-12 19:14:54,756 - INFO - 🔍 Text length: 3369 characters
+2025-08-12 19:14:54,756 - INFO - 📌 Processing Article ID: 67fbeec894b7f855cfea6668 — EP Produzione secures 170 MW battery storage in Italian capacity market auction
+2025-08-12 19:14:54,756 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:15:00,381 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:15:00,381 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ep_produzione",
+        "type": "company",
+        "name": "EP Produzione"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fiume_santo_coal_fired_power_plant",
+        "type": "factory",
+        "name": "Fiume Santo Coal-Fired Power Plant",
+        "location": {
+          "city": "Sardinia",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_ferrara_energy_center",
+        "type": "factory",
+        "name": "Ferrara Energy Center",
+        "location": {
+          "city": "Emilia-Romagna",
+          "country": "Italy"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_170_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "170 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-12 19:15:00,381 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:15:00,381 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:15:00,381 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:15:01,304 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:15:01,304 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_170_mw_announced",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-12 19:15:01,304 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:15:01,304 - INFO - Node ID is capacity_170_mw_announced
+2025-08-12 19:15:01,304 - INFO - ✅ Match found for capacity_ID 'capacity_170_mw_announced' in capacity nodes
+2025-08-12 19:15:01,304 - INFO -   ➕ Set status: announced
+2025-08-12 19:15:01,304 - INFO -   ➕ Set phase: retrofit
+2025-08-12 19:15:01,304 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:15:01,304 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:15:01,304 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:15:01,304 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:15:03,045 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:15:03,045 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ep_produzione",
+      "type": "owns",
+      "target": "factory_fiume_santo_coal_fired_power_plant"
+    },
+    {
+      "source": "company_ep_produzione",
+      "type": "owns",
+      "target": "factory_ferrara_energy_center"
+    }
+  ]
+}
+2025-08-12 19:15:03,045 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:15:03,045 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:15:03,045 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:15:05,808 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:15:05,809 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_170_mw_announced",
+      "target": "factory_fiume_santo_coal_fired_power_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_170_mw_announced",
+      "target": "factory_ferrara_energy_center",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_fiume_santo_coal_fired_power_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_ferrara_energy_center",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:15:05,809 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:15:05,809 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:15:05,809 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:15:05,896 - INFO - ✅ Updated Article ID: 67fbeec894b7f855cfea6668 with 5 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-08-12 21:15:39,073 - INFO - 🔍 Text length: 6239 characters
+2025-08-12 21:15:39,073 - INFO - 📌 Processing Article ID: 67fa7e54eaa4fb525afebf5e — How to combine off-grid agrivoltaics with large-scale hydrogen production
+2025-08-12 21:15:39,073 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:15:42,940 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:15:42,940 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_university_of_exeter",
+        "type": "company",
+        "name": "University of Exeter"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_agrivoltaic_hydrogen_simulation",
+        "type": "factory",
+        "name": "agrivoltaic hydrogen simulation",
+        "location": {
+          "city": "null",
+          "country": "Australia, California, China, Nigeria, Spain"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_fuel_electric_cell_vehicles",
+        "type": "product",
+        "name": "hydrogen fuel electric cell vehicles"
+      },
+      {
+        "id": "product_bifacial_monocrystalline_solar_modules",
+        "type": "product",
+        "name": "bifacial monocrystalline solar modules"
+      },
+      {
+        "id": "product_proton_exchange_membrane_electrolyzers",
+        "type": "product",
+        "name": "proton exchange membrane electrolyzers"
+      }
+    ]
+  }
+}
+2025-08-12 21:15:42,941 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:15:42,941 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:15:42,941 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:15:44,887 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:15:44,887 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 21:15:44,887 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:15:44,887 - INFO - Node ID is capacity_1_gw
+2025-08-12 21:15:44,887 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw' in capacity nodes
+2025-08-12 21:15:44,888 - INFO -   ➕ Set status: announced
+2025-08-12 21:15:44,888 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:15:44,888 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:15:44,888 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:15:44,888 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:15:44,888 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:15:45,924 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:15:45,924 - INFO - {
+  "relationships": [
+    {
+      "source": "company_university_of_exeter",
+      "type": "owns",
+      "target": "factory_agrivoltaic_hydrogen_simulation"
+    }
+  ]
+}
+2025-08-12 21:15:45,924 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:15:45,924 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:15:45,924 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:15:46,935 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:15:46,936 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw",
+      "target": "product_hydrogen_fuel_electric_cell_vehicles",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 21:15:46,936 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:15:46,936 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:15:46,936 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:15:47,016 - INFO - ✅ Updated Article ID: 67fa7e54eaa4fb525afebf5e with 6 nodes and combined text.

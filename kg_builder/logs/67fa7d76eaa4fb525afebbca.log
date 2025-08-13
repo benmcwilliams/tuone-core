@@ -1,0 +1,121 @@
+2025-08-12 21:46:09,302 - INFO - 🔍 Text length: 3519 characters
+2025-08-12 21:46:09,302 - INFO - 📌 Processing Article ID: 67fa7d76eaa4fb525afebbca — Neoen partners with Vinci to build 79 MW PV plant in Ireland
+2025-08-12 21:46:09,302 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:46:11,447 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:11,447 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_neoen",
+        "type": "company",
+        "name": "Neoen"
+      },
+      {
+        "id": "company_vinci",
+        "type": "company",
+        "name": "Vinci"
+      },
+      {
+        "id": "company_omexom",
+        "type": "company",
+        "name": "Omexom"
+      },
+      {
+        "id": "company_tli_group",
+        "type": "company",
+        "name": "TLI Group"
+      },
+      {
+        "id": "company_eirgrid",
+        "type": "company",
+        "name": "EirGrid"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ballinknockane_solar_farm",
+        "type": "factory",
+        "name": "Ballinknockane Solar Farm",
+        "location": {
+          "city": "County Limerick",
+          "country": "Ireland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_79_mwp",
+        "type": "capacity",
+        "name": "",
+        "amount": "79 MWp",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:46:11,447 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:11,447 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:46:11,447 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:46:12,168 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:12,168 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_79_mwp",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:46:12,168 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:12,168 - INFO - Node ID is capacity_79_mwp
+2025-08-12 21:46:12,168 - INFO - ✅ Match found for capacity_ID 'capacity_79_mwp' in capacity nodes
+2025-08-12 21:46:12,168 - INFO -   ➕ Set status: announced
+2025-08-12 21:46:12,168 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:46:12,168 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:46:12,168 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:46:12,168 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:46:12,168 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:46:14,449 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:14,449 - INFO - {
+  "relationships": [
+    {
+      "source": "company_neoen",
+      "type": "owns",
+      "target": "factory_ballinknockane_solar_farm"
+    }
+  ]
+}
+2025-08-12 21:46:14,449 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:14,449 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:46:14,450 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:46:16,326 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:16,327 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_79_mwp",
+      "target": "factory_ballinknockane_solar_farm",
+      "type": "at"
+    },
+    {
+      "source": "capacity_79_mwp",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_ballinknockane_solar_farm",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:46:16,327 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:16,327 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:46:16,327 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:46:16,402 - INFO - ✅ Updated Article ID: 67fa7d76eaa4fb525afebbca with 8 nodes and combined text.

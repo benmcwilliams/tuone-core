@@ -1,0 +1,99 @@
+2025-08-12 22:35:30,254 - INFO - 🔍 Text length: 4713 characters
+2025-08-12 22:35:30,254 - INFO - 📌 Processing Article ID: 67fa76bdeaa4fb525afeb497 — France’s Carbon involved in patent case with JA Solar
+2025-08-12 22:35:30,254 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:35:32,319 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:35:32,319 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_carbon",
+        "type": "company",
+        "name": "Carbon"
+      },
+      {
+        "id": "company_ja_solar",
+        "type": "company",
+        "name": "JA Solar"
+      },
+      {
+        "id": "company_astronergy",
+        "type": "company",
+        "name": "Astronergy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fos_sur_mer_france",
+        "type": "factory",
+        "name": "Fos-sur-Mer Factory",
+        "location": {
+          "city": "Fos-sur-Mer",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_topcon_solar_products",
+        "type": "product",
+        "name": "TOPCon solar products"
+      },
+      {
+        "id": "product_silicon_oxide_layers",
+        "type": "product",
+        "name": "tunneling silicon oxide (SiO2) layers"
+      },
+      {
+        "id": "product_doped_polysilicon_layers",
+        "type": "product",
+        "name": "doped polysilicon layers"
+      },
+      {
+        "id": "product_electrodes",
+        "type": "product",
+        "name": "electrodes"
+      },
+      {
+        "id": "product_ibc_solar_module",
+        "type": "product",
+        "name": "IBC solar module"
+      }
+    ]
+  }
+}
+2025-08-12 22:35:32,319 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:35:32,319 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:35:32,320 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:35:32,320 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:35:32,320 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:35:32,320 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:35:33,344 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:35:33,344 - INFO - {
+  "relationships": [
+    {
+      "source": "company_carbon",
+      "type": "owns",
+      "target": "factory_fos_sur_mer_france"
+    }
+  ]
+}
+2025-08-12 22:35:33,344 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:35:33,344 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:35:33,344 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:35:35,902 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:35:35,902 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ibc_solar_module",
+      "target": "factory_fos_sur_mer_france"
+    },
+    {
+      "source": "product_topcon_solar_products",
+      "target": "factory_fos_sur_mer_france"
+    }
+  ]
+}
+2025-08-12 22:35:35,902 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:35:35,902 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:35:35,902 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:35:35,984 - INFO - ✅ Updated Article ID: 67fa76bdeaa4fb525afeb497 with 9 nodes and combined text.

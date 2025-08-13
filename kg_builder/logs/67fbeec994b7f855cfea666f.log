@@ -1,0 +1,127 @@
+2025-08-12 19:13:42,116 - INFO - 🔍 Text length: 3058 characters
+2025-08-12 19:13:42,116 - INFO - 📌 Processing Article ID: 67fbeec994b7f855cfea666f — China switches on first large-scale sodium-ion battery
+2025-08-12 19:13:42,116 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:13:46,223 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:13:46,223 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_china_southern_power_grid",
+        "type": "company",
+        "name": "China Southern Power Grid"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nanning_china",
+        "type": "factory",
+        "name": "Nanning Sodium-Ion Battery Storage Station",
+        "location": {
+          "city": "Nanning",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10_mwh_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "10 MWh",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_100_mwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sodium_ion_battery",
+        "type": "product",
+        "name": "sodium-ion battery"
+      }
+    ]
+  }
+}
+2025-08-12 19:13:46,223 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:13:46,223 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:13:46,223 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:13:47,471 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:13:47,471 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10_mwh_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100_mwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:13:47,471 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:13:47,471 - INFO - Node ID is capacity_10_mwh_operational
+2025-08-12 19:13:47,471 - INFO - ✅ Match found for capacity_ID 'capacity_10_mwh_operational' in capacity nodes
+2025-08-12 19:13:47,471 - INFO -   ➕ Set status: operational
+2025-08-12 19:13:47,471 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:13:47,471 - INFO - Node ID is capacity_100_mwh_announced
+2025-08-12 19:13:47,471 - INFO - ✅ Match found for capacity_ID 'capacity_100_mwh_announced' in capacity nodes
+2025-08-12 19:13:47,471 - INFO -   ➕ Set status: announced
+2025-08-12 19:13:47,471 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:13:47,471 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:13:47,472 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:13:47,472 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:13:47,472 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:13:48,851 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:13:48,852 - INFO - {
+  "relationships": [
+    {
+      "source": "company_china_southern_power_grid",
+      "type": "owns",
+      "target": "factory_nanning_china"
+    }
+  ]
+}
+2025-08-12 19:13:48,852 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:13:48,852 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:13:48,852 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:13:50,851 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:13:50,851 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10_mwh_operational",
+      "target": "factory_nanning_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_mwh_operational",
+      "target": "product_sodium_ion_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_sodium_ion_battery",
+      "target": "factory_nanning_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_100_mwh_announced",
+      "target": "factory_nanning_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mwh_announced",
+      "target": "product_sodium_ion_battery",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 19:13:50,851 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:13:50,851 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:13:50,852 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:13:50,935 - INFO - ✅ Updated Article ID: 67fbeec994b7f855cfea666f with 5 nodes and combined text.

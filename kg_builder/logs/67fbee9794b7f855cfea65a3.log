@@ -1,0 +1,81 @@
+2025-08-12 19:57:31,479 - INFO - 🔍 Text length: 3751 characters
+2025-08-12 19:57:31,479 - INFO - 📌 Processing Article ID: 67fbee9794b7f855cfea65a3 — Nova Scotia gold mine could host PV-plus-pumped hydro storage energy hub
+2025-08-12 19:57:31,479 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:57:34,088 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:34,089 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_atlantic_mining",
+        "type": "company",
+        "name": "Atlantic Mining"
+      },
+      {
+        "id": "company_natural_forces",
+        "type": "company",
+        "name": "Natural Forces"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_touqoy_gold_mine",
+        "type": "factory",
+        "name": "Touqoy Gold Mine",
+        "location": {
+          "city": "Moose River",
+          "country": "Canada"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_closed_loop_pumped_hydro_energy_storage",
+        "type": "product",
+        "name": "closed-loop pumped hydro energy storage"
+      },
+      {
+        "id": "product_solar_photovoltaic_panels",
+        "type": "product",
+        "name": "solar photovoltaic panels"
+      }
+    ]
+  }
+}
+2025-08-12 19:57:34,089 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:34,089 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:57:34,089 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:57:34,089 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:57:34,089 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:57:34,089 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:57:35,495 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:35,495 - INFO - {
+  "relationships": [
+    {
+      "source": "company_atlantic_mining",
+      "type": "owns",
+      "target": "factory_touqoy_gold_mine"
+    }
+  ]
+}
+2025-08-12 19:57:35,495 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:35,496 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:57:35,496 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:57:38,362 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:57:38,362 - INFO - {
+  "relationships": [
+    {
+      "source": "product_closed_loop_pumped_hydro_energy_storage",
+      "target": "factory_touqoy_gold_mine",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_photovoltaic_panels",
+      "target": "factory_touqoy_gold_mine",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:57:38,362 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:57:38,362 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:57:38,362 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:57:38,446 - INFO - ✅ Updated Article ID: 67fbee9794b7f855cfea65a3 with 5 nodes and combined text.

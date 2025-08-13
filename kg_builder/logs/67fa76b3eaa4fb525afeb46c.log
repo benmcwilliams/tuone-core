@@ -1,0 +1,149 @@
+2025-08-12 22:42:59,402 - INFO - 🔍 Text length: 3284 characters
+2025-08-12 22:42:59,402 - INFO - 📌 Processing Article ID: 67fa76b3eaa4fb525afeb46c — Perovskia Solar raises $2.36 million, secures 10 IoT clients
+2025-08-12 22:42:59,402 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:43:03,014 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:03,014 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_perovskia_solar",
+        "type": "company",
+        "name": "Perovskia Solar"
+      },
+      {
+        "id": "company_switzerland_federal_laboratories_for_materials_science_and_technology",
+        "type": "company",
+        "name": "Swiss Federal Laboratories for Materials Science and Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_switzerland",
+        "type": "factory",
+        "name": "Swiss Factory",
+        "location": {
+          "city": "null",
+          "country": "Switzerland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_seed_funding",
+        "type": "investment",
+        "name": "Seed Funding",
+        "amount": "CHF 2 million ($2.36 million)",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1m_perovskite_elements_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "one million perovskite elements per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_perovskite_solar_cells",
+        "type": "product",
+        "name": "perovskite solar cells"
+      }
+    ]
+  }
+}
+2025-08-12 22:43:03,014 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:03,014 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:43:03,014 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:43:04,140 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:04,140 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1m_perovskite_elements_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:43:04,140 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:04,140 - INFO - Node ID is capacity_1m_perovskite_elements_per_year
+2025-08-12 22:43:04,141 - INFO - ✅ Match found for capacity_ID 'capacity_1m_perovskite_elements_per_year' in capacity nodes
+2025-08-12 22:43:04,141 - INFO -   ➕ Set status: announced
+2025-08-12 22:43:04,141 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:43:04,141 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:43:04,141 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:43:04,953 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:04,953 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_seed_funding",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:43:04,953 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:04,953 - INFO - Node ID is investment_seed_funding
+2025-08-12 22:43:04,953 - INFO - ✅ Match found for investment_ID 'investment_seed_funding' in investment nodes
+2025-08-12 22:43:04,953 - INFO -   ➕ Set status: completed
+2025-08-12 22:43:04,953 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:43:04,954 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:43:04,954 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:43:04,954 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:43:05,632 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:05,632 - INFO - {
+  "relationships": [
+    {
+      "source": "company_perovskia_solar",
+      "type": "owns",
+      "target": "factory_switzerland"
+    }
+  ]
+}
+2025-08-12 22:43:05,632 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:05,632 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:43:05,632 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:43:10,707 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:10,707 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1m_perovskite_elements_per_year",
+      "target": "factory_switzerland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1m_perovskite_elements_per_year",
+      "target": "product_perovskite_solar_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_perovskite_solar_cells",
+      "target": "factory_switzerland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:43:10,708 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:10,708 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:43:10,708 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:43:11,341 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:11,341 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:43:11,341 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:11,341 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:43:11,341 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:43:12,294 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:12,295 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_seed_funding",
+      "target": "capacity_1m_perovskite_elements_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-12 22:43:12,295 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:12,382 - INFO - ✅ Updated Article ID: 67fa76b3eaa4fb525afeb46c with 6 nodes and combined text.

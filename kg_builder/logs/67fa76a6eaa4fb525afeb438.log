@@ -1,0 +1,144 @@
+2025-08-12 22:53:50,020 - INFO - 🔍 Text length: 4748 characters
+2025-08-12 22:53:50,020 - INFO - 📌 Processing Article ID: 67fa76a6eaa4fb525afeb438 — Maxeon Solar pivots business to focus exclusively on U.S. market
+2025-08-12 22:53:50,020 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:53:54,069 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:53:54,069 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_maxeon_solar_technologies",
+        "type": "company",
+        "name": "Maxeon Solar Technologies"
+      },
+      {
+        "id": "company_tcl_technology_group",
+        "type": "company",
+        "name": "TCL Technology Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_albuquerque_new_mexico",
+        "type": "factory",
+        "name": "Albuquerque Factory",
+        "location": {
+          "city": "Albuquerque",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_ensenada_mexico",
+        "type": "factory",
+        "name": "Ensenada Factory",
+        "location": {
+          "city": "Ensenada",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_philippines",
+        "type": "factory",
+        "name": "Philippines Factory",
+        "location": {
+          "city": "null",
+          "country": "Philippines"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_gw_solar_panel_manufacturing_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 GW solar panel manufacturing",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-08-12 22:53:54,069 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:53:54,069 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:53:54,069 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:53:56,024 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:53:56,025 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_gw_solar_panel_manufacturing_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:53:56,025 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:53:56,025 - INFO - Node ID is capacity_2_gw_solar_panel_manufacturing_announced
+2025-08-12 22:53:56,025 - INFO - ✅ Match found for capacity_ID 'capacity_2_gw_solar_panel_manufacturing_announced' in capacity nodes
+2025-08-12 22:53:56,025 - INFO -   ➕ Set status: announced
+2025-08-12 22:53:56,025 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:53:56,025 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:53:56,025 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:53:56,025 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:53:56,025 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:53:59,759 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:53:59,760 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maxeon_solar_technologies",
+      "type": "owns",
+      "target": "factory_albuquerque_new_mexico"
+    },
+    {
+      "source": "company_maxeon_solar_technologies",
+      "type": "owns",
+      "target": "factory_ensenada_mexico"
+    },
+    {
+      "source": "company_maxeon_solar_technologies",
+      "type": "owns",
+      "target": "factory_philippines"
+    }
+  ]
+}
+2025-08-12 22:53:59,760 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:53:59,760 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:53:59,760 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:54:02,251 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:54:02,252 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_gw_solar_panel_manufacturing_announced",
+      "target": "factory_albuquerque_new_mexico",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_gw_solar_panel_manufacturing_announced",
+      "target": "product_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_albuquerque_new_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_ensenada_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_philippines",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:54:02,252 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:54:02,252 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:54:02,252 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:54:02,333 - INFO - ✅ Updated Article ID: 67fa76a6eaa4fb525afeb438 with 7 nodes and combined text.

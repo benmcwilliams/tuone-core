@@ -1,0 +1,154 @@
+2025-08-12 20:38:06,044 - INFO - 🔍 Text length: 3188 characters
+2025-08-12 20:38:06,044 - INFO - 📌 Processing Article ID: 67fa7fbbeaa4fb525afec52e — Grenergy secures PPA for 260 MW-1,100 MWh of solar-plus-storage in Chile
+2025-08-12 20:38:06,044 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:38:09,983 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:09,983 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_grenergy",
+        "type": "company",
+        "name": "Grenergy"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oasis_de_atacama_chile",
+        "type": "factory",
+        "name": "Oasis de Atacama",
+        "location": {
+          "city": "Quillagua",
+          "country": "Chile"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_oasis_de_atacama",
+        "type": "investment",
+        "name": "Oasis de Atacama",
+        "amount": "$1.4 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_260_mw_1_100_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "260 MW/1,100 MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_plus_storage",
+        "type": "product",
+        "name": "solar-plus-storage"
+      }
+    ]
+  }
+}
+2025-08-12 20:38:09,984 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:09,984 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:38:09,984 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:38:12,152 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:12,152 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_260_mw_1_100_mwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:38:12,152 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:12,152 - INFO - Node ID is capacity_260_mw_1_100_mwh
+2025-08-12 20:38:12,152 - INFO - ✅ Match found for capacity_ID 'capacity_260_mw_1_100_mwh' in capacity nodes
+2025-08-12 20:38:12,152 - INFO -   ➕ Set status: announced
+2025-08-12 20:38:12,152 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:38:12,152 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:38:12,153 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:38:15,633 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:15,633 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_oasis_de_atacama",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:38:15,633 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:15,633 - INFO - Node ID is investment_oasis_de_atacama
+2025-08-12 20:38:15,634 - INFO - ✅ Match found for investment_ID 'investment_oasis_de_atacama' in investment nodes
+2025-08-12 20:38:15,634 - INFO -   ➕ Set status: announced
+2025-08-12 20:38:15,634 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:38:15,634 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:38:15,634 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:38:15,634 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:38:16,322 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:16,322 - INFO - {
+  "relationships": [
+    {
+      "source": "company_grenergy",
+      "type": "owns",
+      "target": "factory_oasis_de_atacama_chile"
+    }
+  ]
+}
+2025-08-12 20:38:16,322 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:16,322 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:38:16,322 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:38:19,523 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:19,523 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_260_mw_1_100_mwh",
+      "target": "factory_oasis_de_atacama_chile",
+      "type": "at"
+    },
+    {
+      "source": "capacity_260_mw_1_100_mwh",
+      "target": "product_solar_plus_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_plus_storage",
+      "target": "factory_oasis_de_atacama_chile",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:38:19,523 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:19,523 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:38:19,523 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:38:20,711 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:20,711 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:38:20,711 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:20,711 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:38:20,711 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:38:24,965 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:38:24,965 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_oasis_de_atacama",
+      "type": "enables",
+      "target": "capacity_260_mw_1_100_mwh"
+    },
+    {
+      "source": "investment_oasis_de_atacama",
+      "type": "targets",
+      "target": "product_solar_plus_storage"
+    }
+  ]
+}
+2025-08-12 20:38:24,965 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:38:25,046 - INFO - ✅ Updated Article ID: 67fa7fbbeaa4fb525afec52e with 6 nodes and combined text.

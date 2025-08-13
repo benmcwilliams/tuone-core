@@ -1,0 +1,84 @@
+2025-08-12 19:53:41,185 - INFO - 🔍 Text length: 7024 characters
+2025-08-12 19:53:41,185 - INFO - 📌 Processing Article ID: 67fbee9d94b7f855cfea65b8 — Photovoltaics for cold climate data centers
+2025-08-12 19:53:41,185 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:53:42,940 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:53:42,940 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aalto_university",
+        "type": "company",
+        "name": "Aalto University"
+      },
+      {
+        "id": "company_hokkaido_university",
+        "type": "company",
+        "name": "Hokkaido University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_helsinki_finland",
+        "type": "factory",
+        "name": "Helsinki Data Center",
+        "location": {
+          "city": "Helsinki",
+          "country": "Finland"
+        }
+      },
+      {
+        "id": "factory_sapporo_japan",
+        "type": "factory",
+        "name": "Sapporo Data Center",
+        "location": {
+          "city": "Sapporo",
+          "country": "Japan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_pv_system",
+        "type": "product",
+        "name": "solar PV system"
+      },
+      {
+        "id": "product_lithium_ion_battery",
+        "type": "product",
+        "name": "lithium-ion battery"
+      }
+    ]
+  }
+}
+2025-08-12 19:53:42,940 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:53:42,940 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:53:42,941 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:53:42,941 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:53:42,941 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:53:42,941 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:53:44,374 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:53:44,374 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aalto_university",
+      "type": "owns",
+      "target": "factory_helsinki_finland"
+    },
+    {
+      "source": "company_hokkaido_university",
+      "type": "owns",
+      "target": "factory_sapporo_japan"
+    }
+  ]
+}
+2025-08-12 19:53:44,374 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:53:44,374 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:53:44,375 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:53:44,918 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:53:44,919 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:53:44,919 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:53:44,919 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:53:44,919 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:53:45,004 - INFO - ✅ Updated Article ID: 67fbee9d94b7f855cfea65b8 with 6 nodes and combined text.

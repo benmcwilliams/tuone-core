@@ -1,0 +1,129 @@
+2025-08-12 22:19:46,302 - INFO - 🔍 Text length: 2266 characters
+2025-08-12 22:19:46,302 - INFO - 📌 Processing Article ID: 67fa7c1ceaa4fb525afeb62a — Jimmy Carter’s clean energy legacy
+2025-08-12 22:19:46,302 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:19:48,480 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:19:48,480 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_doral_renewables",
+        "type": "company",
+        "name": "Doral Renewables"
+      },
+      {
+        "id": "company_origami_solar",
+        "type": "company",
+        "name": "Origami Solar"
+      },
+      {
+        "id": "company_catalina_energy_capital",
+        "type": "company",
+        "name": "Catalina Energy Capital"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_albuquerque_new_mexico",
+        "type": "factory",
+        "name": "Albuquerque Factory",
+        "location": {
+          "city": "Albuquerque",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_project_icebrick",
+        "type": "investment",
+        "name": "Project IceBrick",
+        "amount": "$305 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panel",
+        "type": "product",
+        "name": "solar panel"
+      },
+      {
+        "id": "product_solar_edge_home_battery_usa_edition",
+        "type": "product",
+        "name": "SolarEdge Home Battery \u2018USA Edition\u2019"
+      },
+      {
+        "id": "product_cold_thermal_energy_storage_systems",
+        "type": "product",
+        "name": "cold thermal energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-12 22:19:48,480 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:19:48,480 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:19:48,480 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:19:48,480 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:19:50,118 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:19:50,119 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_project_icebrick",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:19:50,119 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:19:50,119 - INFO - Node ID is investment_project_icebrick
+2025-08-12 22:19:50,119 - INFO - ✅ Match found for investment_ID 'investment_project_icebrick' in investment nodes
+2025-08-12 22:19:50,119 - INFO -   ➕ Set status: announced
+2025-08-12 22:19:50,119 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:19:50,119 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:19:50,119 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:19:50,119 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:19:50,937 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:19:50,937 - INFO - {
+  "relationships": [
+    {
+      "source": "company_origami_solar",
+      "type": "owns",
+      "target": "factory_albuquerque_new_mexico"
+    }
+  ]
+}
+2025-08-12 22:19:50,937 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:19:50,938 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:19:50,938 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:19:59,129 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:19:59,130 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_panel",
+      "target": "factory_albuquerque_new_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:19:59,130 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:19:59,130 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:19:59,130 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:19:59,846 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:19:59,846 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:19:59,846 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:19:59,846 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:19:59,846 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:20:01,280 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:20:01,280 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_project_icebrick",
+      "target": "product_cold_thermal_energy_storage_systems",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:20:01,280 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:20:01,369 - INFO - ✅ Updated Article ID: 67fa7c1ceaa4fb525afeb62a with 8 nodes and combined text.

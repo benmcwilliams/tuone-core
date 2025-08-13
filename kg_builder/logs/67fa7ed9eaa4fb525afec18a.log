@@ -1,0 +1,101 @@
+2025-08-12 21:01:52,868 - INFO - 🔍 Text length: 3126 characters
+2025-08-12 21:01:52,868 - INFO - 📌 Processing Article ID: 67fa7ed9eaa4fb525afec18a — Bahrain launches 100 MW PV tender
+2025-08-12 21:01:52,868 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:01:55,346 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:01:55,346 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_electricity_and_water_authority",
+        "type": "company",
+        "name": "Electricity and Water Authority"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_al_dur_bahrain",
+        "type": "factory",
+        "name": "Al Dur PV Plant",
+        "location": {
+          "city": "Al Dur",
+          "country": "Bahrain"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:01:55,347 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:01:55,347 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:01:55,347 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:01:58,724 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:01:58,724 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:01:58,724 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:01:58,724 - INFO - Node ID is capacity_100_mw_announced
+2025-08-12 21:01:58,725 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_announced' in capacity nodes
+2025-08-12 21:01:58,725 - INFO -   ➕ Set status: announced
+2025-08-12 21:01:58,725 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:01:58,725 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:01:58,725 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:01:58,725 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:01:58,725 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:02:00,547 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:02:00,547 - INFO - {
+  "relationships": [
+    {
+      "source": "company_electricity_and_water_authority",
+      "type": "owns",
+      "target": "factory_al_dur_bahrain"
+    }
+  ]
+}
+2025-08-12 21:02:00,547 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:02:00,547 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:02:00,547 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:02:02,000 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:02:02,000 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mw_announced",
+      "target": "factory_al_dur_bahrain",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_al_dur_bahrain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:02:02,000 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:02:02,000 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:02:02,000 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:02:02,082 - INFO - ✅ Updated Article ID: 67fa7ed9eaa4fb525afec18a with 4 nodes and combined text.

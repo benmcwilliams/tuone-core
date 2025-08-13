@@ -1,0 +1,111 @@
+2025-08-12 22:28:38,088 - INFO - 🔍 Text length: 4615 characters
+2025-08-12 22:28:38,088 - INFO - 📌 Processing Article ID: 67fa7bd5eaa4fb525afeb4ff — Ciel & Terre, Hexa Renewables round off 440 MW floating PV array
+2025-08-12 22:28:38,088 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:28:41,997 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:41,997 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ciel_terre",
+        "type": "company",
+        "name": "Ciel & Terre"
+      },
+      {
+        "id": "company_hexa_renewables",
+        "type": "company",
+        "name": "Hexa Renewables"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_changhua_taiwan",
+        "type": "factory",
+        "name": "Changhua Floating PV Array",
+        "location": {
+          "city": "Changhua",
+          "country": "Taiwan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_440_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "440 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_pv_system",
+        "type": "product",
+        "name": "floating PV system"
+      }
+    ]
+  }
+}
+2025-08-12 22:28:41,997 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:41,997 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:28:41,997 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:28:43,022 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:43,022 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_440_mw_operational",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-12 22:28:43,022 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:43,023 - INFO - Node ID is capacity_440_mw_operational
+2025-08-12 22:28:43,023 - INFO - ✅ Match found for capacity_ID 'capacity_440_mw_operational' in capacity nodes
+2025-08-12 22:28:43,023 - INFO -   ➕ Set status: operational
+2025-08-12 22:28:43,023 - INFO -   ➕ Set phase: expansion
+2025-08-12 22:28:43,023 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:28:43,023 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:28:43,023 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:28:43,023 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:28:44,094 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:44,094 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ciel_terre",
+      "type": "owns",
+      "target": "factory_changhua_taiwan"
+    },
+    {
+      "source": "company_hexa_renewables",
+      "type": "owns",
+      "target": "factory_changhua_taiwan"
+    }
+  ]
+}
+2025-08-12 22:28:44,095 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:44,095 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:28:44,095 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:28:46,810 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:46,811 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_440_mw_operational",
+      "target": "factory_changhua_taiwan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_440_mw_operational",
+      "target": "product_floating_pv_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_pv_system",
+      "target": "factory_changhua_taiwan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:28:46,811 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:46,811 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:28:46,811 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:28:46,896 - INFO - ✅ Updated Article ID: 67fa7bd5eaa4fb525afeb4ff with 5 nodes and combined text.

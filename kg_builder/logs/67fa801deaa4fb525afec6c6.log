@@ -1,0 +1,159 @@
+2025-08-12 20:28:06,289 - INFO - 🔍 Text length: 3132 characters
+2025-08-12 20:28:06,289 - INFO - 📌 Processing Article ID: 67fa801deaa4fb525afec6c6 — IFC, Raiffeisen Bank provide €90 million for 225 MW of solar in Bulgaria
+2025-08-12 20:28:06,289 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:28:08,919 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:08,919 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ifc",
+        "type": "company",
+        "name": "International Finance Corp."
+      },
+      {
+        "id": "company_raiffeisen_bank_international",
+        "type": "company",
+        "name": "Raiffeisen Bank International"
+      },
+      {
+        "id": "company_rezlov_energy",
+        "type": "company",
+        "name": "Rezlov Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_silistra_bulgaria",
+        "type": "factory",
+        "name": "Silistra Solar Plant",
+        "location": {
+          "city": "Silistra",
+          "country": "Bulgaria"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ifc_raiffeisen_debt_package",
+        "type": "investment",
+        "name": "IFC and Raiffeisen Debt Package",
+        "amount": "\u20ac90 million ($97.8 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_225_mw",
+        "type": "capacity",
+        "name": null,
+        "amount": "225 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 20:28:08,919 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:08,919 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:28:08,919 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:28:12,093 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:12,093 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_225_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:28:12,093 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:12,093 - INFO - Node ID is capacity_225_mw
+2025-08-12 20:28:12,093 - INFO - ✅ Match found for capacity_ID 'capacity_225_mw' in capacity nodes
+2025-08-12 20:28:12,093 - INFO -   ➕ Set status: announced
+2025-08-12 20:28:12,093 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:28:12,093 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:28:12,093 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:28:13,015 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:13,015 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ifc_raiffeisen_debt_package",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:28:13,015 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:13,015 - INFO - Node ID is investment_ifc_raiffeisen_debt_package
+2025-08-12 20:28:13,015 - INFO - ✅ Match found for investment_ID 'investment_ifc_raiffeisen_debt_package' in investment nodes
+2025-08-12 20:28:13,015 - INFO -   ➕ Set status: announced
+2025-08-12 20:28:13,015 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:28:13,015 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:28:13,015 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:28:13,015 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:28:13,979 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:13,979 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rezlov_energy",
+      "type": "owns",
+      "target": "factory_silistra_bulgaria"
+    }
+  ]
+}
+2025-08-12 20:28:13,979 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:13,979 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:28:13,979 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:28:15,930 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:15,930 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_225_mw",
+      "target": "factory_silistra_bulgaria",
+      "type": "at"
+    },
+    {
+      "source": "capacity_225_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_silistra_bulgaria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:28:15,930 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:15,930 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:28:15,930 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:28:17,316 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:17,316 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:28:17,316 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:17,316 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:28:17,316 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:28:25,611 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:28:25,612 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ifc_raiffeisen_debt_package",
+      "type": "enables",
+      "target": "capacity_225_mw"
+    },
+    {
+      "source": "investment_ifc_raiffeisen_debt_package",
+      "type": "targets",
+      "target": "product_solar_power"
+    }
+  ]
+}
+2025-08-12 20:28:25,612 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:28:25,697 - INFO - ✅ Updated Article ID: 67fa801deaa4fb525afec6c6 with 7 nodes and combined text.

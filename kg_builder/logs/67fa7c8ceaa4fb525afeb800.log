@@ -1,0 +1,95 @@
+2025-08-12 22:07:31,590 - INFO - 🔍 Text length: 6321 characters
+2025-08-12 22:07:31,590 - INFO - 📌 Processing Article ID: 67fa7c8ceaa4fb525afeb800 — LCOE not correct optimization parameter of PV plants, say researchers
+2025-08-12 22:07:31,590 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:07:34,674 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:34,674 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_polytechnic_university_of_milan",
+        "type": "company",
+        "name": "Polytechnic University of Milan"
+      },
+      {
+        "id": "company_queensland_university_of_technology",
+        "type": "company",
+        "name": "Queensland University of Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_south_australia_pv",
+        "type": "factory",
+        "name": "South Australia PV Plant",
+        "location": {
+          "city": "South Australia",
+          "country": "Australia"
+        }
+      },
+      {
+        "id": "factory_southern_california_csp",
+        "type": "factory",
+        "name": "Southern California CSP Facility",
+        "location": {
+          "city": "Southern California",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_power",
+        "type": "product",
+        "name": "Photovoltaic Power (PV)"
+      },
+      {
+        "id": "product_concentrated_solar_power",
+        "type": "product",
+        "name": "Concentrated Solar Power (CSP)"
+      }
+    ]
+  }
+}
+2025-08-12 22:07:34,675 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:34,675 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:07:34,675 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:07:34,675 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:07:34,675 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:07:34,675 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:07:35,905 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:35,905 - INFO - {
+  "relationships": [
+    {
+      "source": "company_polytechnic_university_of_milan",
+      "type": "owns",
+      "target": "factory_south_australia_pv"
+    },
+    {
+      "source": "company_polytechnic_university_of_milan",
+      "type": "owns",
+      "target": "factory_southern_california_csp"
+    }
+  ]
+}
+2025-08-12 22:07:35,905 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:35,905 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:07:35,905 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:07:37,671 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:07:37,671 - INFO - {
+  "relationships": [
+    {
+      "source": "product_photovoltaic_power",
+      "target": "factory_south_australia_pv",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_concentrated_solar_power",
+      "target": "factory_southern_california_csp",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:07:37,671 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:07:37,671 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:07:37,671 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:07:37,756 - INFO - ✅ Updated Article ID: 67fa7c8ceaa4fb525afeb800 with 6 nodes and combined text.

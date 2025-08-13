@@ -1,0 +1,106 @@
+2025-08-12 19:46:59,475 - INFO - 🔍 Text length: 3230 characters
+2025-08-12 19:46:59,475 - INFO - 📌 Processing Article ID: 67fbeea494b7f855cfea65d6 — Engie breaks ground on 800 MWh battery in Belgium
+2025-08-12 19:46:59,475 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:47:09,675 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:09,675 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_engie",
+        "type": "company",
+        "name": "Engie"
+      },
+      {
+        "id": "company_elia",
+        "type": "company",
+        "name": "Elia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vilvoorde_belgium",
+        "type": "factory",
+        "name": "Vilvoorde BESS",
+        "location": {
+          "city": "Vilvoorde",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mw_800_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 MW/800 MWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage system"
+      }
+    ]
+  }
+}
+2025-08-12 19:47:09,675 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:09,675 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:47:09,675 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:47:10,754 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:10,755 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mw_800_mwh",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:47:10,755 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:10,755 - INFO - Node ID is capacity_200_mw_800_mwh
+2025-08-12 19:47:10,755 - INFO - ✅ Match found for capacity_ID 'capacity_200_mw_800_mwh' in capacity nodes
+2025-08-12 19:47:10,755 - INFO -   ➕ Set status: under construction
+2025-08-12 19:47:10,755 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:47:10,755 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:47:10,755 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:47:10,755 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:47:10,755 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:47:11,996 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:11,996 - INFO - {
+  "relationships": [
+    {
+      "source": "company_engie",
+      "type": "owns",
+      "target": "factory_vilvoorde_belgium"
+    }
+  ]
+}
+2025-08-12 19:47:11,996 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:11,996 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:47:11,996 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:47:13,418 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:47:13,418 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_mw_800_mwh",
+      "target": "factory_vilvoorde_belgium",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_mw_800_mwh",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_vilvoorde_belgium",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:47:13,419 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:47:13,419 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:47:13,419 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:47:13,504 - INFO - ✅ Updated Article ID: 67fbeea494b7f855cfea65d6 with 5 nodes and combined text.

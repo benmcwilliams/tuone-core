@@ -1,0 +1,121 @@
+2025-08-12 21:30:35,169 - INFO - 🔍 Text length: 5740 characters
+2025-08-12 21:30:35,169 - INFO - 📌 Processing Article ID: 67fa7df7eaa4fb525afebddf — Large-scale PV has positive environmental effect on desert areas
+2025-08-12 21:30:35,169 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:30:37,174 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:30:37,174 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_state_power_investment_group",
+        "type": "company",
+        "name": "State Power Investment Group"
+      },
+      {
+        "id": "company_xi_an_university_of_technology",
+        "type": "company",
+        "name": "Xi\u2019an University of Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_qinghai_gonghe_photovoltaic_park",
+        "type": "factory",
+        "name": "Qinghai Gonghe Photovoltaic Park",
+        "location": {
+          "city": "Talatan, Qinghai Province",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_monocrystalline_silicon_pv_panels",
+        "type": "product",
+        "name": "monocrystalline silicon PV panels"
+      },
+      {
+        "id": "product_polycrystalline_silicon_pv_panels",
+        "type": "product",
+        "name": "polycrystalline silicon PV panels"
+      }
+    ]
+  }
+}
+2025-08-12 21:30:37,174 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:30:37,174 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:30:37,174 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:30:37,891 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:30:37,891 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:30:37,891 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:30:37,891 - INFO - Node ID is capacity_1_gw
+2025-08-12 21:30:37,892 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw' in capacity nodes
+2025-08-12 21:30:37,892 - INFO -   ➕ Set status: operational
+2025-08-12 21:30:37,892 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:30:37,892 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:30:37,892 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:30:37,892 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:30:37,892 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:30:39,324 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:30:39,324 - INFO - {
+  "relationships": [
+    {
+      "source": "company_state_power_investment_group",
+      "type": "owns",
+      "target": "factory_qinghai_gonghe_photovoltaic_park"
+    }
+  ]
+}
+2025-08-12 21:30:39,325 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:30:39,325 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:30:39,325 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:30:42,147 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:30:42,147 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw",
+      "target": "factory_qinghai_gonghe_photovoltaic_park",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gw",
+      "target": "product_monocrystalline_silicon_pv_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_gw",
+      "target": "product_polycrystalline_silicon_pv_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_monocrystalline_silicon_pv_panels",
+      "target": "factory_qinghai_gonghe_photovoltaic_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_polycrystalline_silicon_pv_panels",
+      "target": "factory_qinghai_gonghe_photovoltaic_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:30:42,147 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:30:42,147 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:30:42,147 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:30:42,296 - INFO - ✅ Updated Article ID: 67fa7df7eaa4fb525afebddf with 6 nodes and combined text.

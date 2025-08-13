@@ -1,0 +1,136 @@
+2025-08-12 20:27:44,329 - INFO - 🔍 Text length: 6697 characters
+2025-08-12 20:27:44,330 - INFO - 📌 Processing Article ID: 67fa8023eaa4fb525afec6dd — Solar-plus-storage dominates future US power grid
+2025-08-12 20:27:44,330 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:27:47,306 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:27:47,307 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_blythe_solar_ii",
+        "type": "company",
+        "name": "Blythe Solar II"
+      },
+      {
+        "id": "company_meyersdale_windpower",
+        "type": "company",
+        "name": "Meyersdale Windpower"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_blythe_solar_ii",
+        "type": "factory",
+        "name": "Blythe Solar II",
+        "location": {
+          "city": "Blythe",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_meyersdale_windpower",
+        "type": "factory",
+        "name": "Meyersdale Windpower",
+        "location": {
+          "city": "Meyersdale",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_131_mw_ac_solar_plant_with_115_mw_528_mwh_storage",
+        "type": "capacity",
+        "name": "",
+        "amount": "131 MW (AC) solar plant with 115 MW/528 MWh storage",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_30_mw_wind_facility_with_18_mw_12_1_mwh_battery",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 MW wind facility with 18 MW/12.1 MWh battery",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_plus_storage",
+        "type": "product",
+        "name": "solar-plus-storage"
+      },
+      {
+        "id": "product_wind_power",
+        "type": "product",
+        "name": "wind power"
+      }
+    ]
+  }
+}
+2025-08-12 20:27:47,307 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:27:47,307 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:27:47,307 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:27:49,156 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:27:49,157 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_131_mw_ac_solar_plant_with_115_mw_528_mwh_storage",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_30_mw_wind_facility_with_18_mw_12_1_mwh_battery",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:27:49,157 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:27:49,157 - INFO - Node ID is capacity_131_mw_ac_solar_plant_with_115_mw_528_mwh_storage
+2025-08-12 20:27:49,157 - INFO - ✅ Match found for capacity_ID 'capacity_131_mw_ac_solar_plant_with_115_mw_528_mwh_storage' in capacity nodes
+2025-08-12 20:27:49,157 - INFO -   ➕ Set status: operational
+2025-08-12 20:27:49,157 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:27:49,157 - INFO - Node ID is capacity_30_mw_wind_facility_with_18_mw_12_1_mwh_battery
+2025-08-12 20:27:49,157 - INFO - ✅ Match found for capacity_ID 'capacity_30_mw_wind_facility_with_18_mw_12_1_mwh_battery' in capacity nodes
+2025-08-12 20:27:49,157 - INFO -   ➕ Set status: operational
+2025-08-12 20:27:49,157 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:27:49,157 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:27:49,157 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:27:49,157 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:27:49,157 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:27:51,163 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:27:51,163 - INFO - {
+  "relationships": [
+    {
+      "source": "company_blythe_solar_ii",
+      "type": "owns",
+      "target": "factory_blythe_solar_ii"
+    },
+    {
+      "source": "company_meyersdale_windpower",
+      "type": "owns",
+      "target": "factory_meyersdale_windpower"
+    }
+  ]
+}
+2025-08-12 20:27:51,163 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:27:51,163 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:27:51,163 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:27:53,555 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:27:53,555 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_131_mw_ac_solar_plant_with_115_mw_528_mwh_storage",
+      "target": "factory_blythe_solar_ii",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_30_mw_wind_facility_with_18_mw_12_1_mwh_battery",
+      "target": "factory_meyersdale_windpower",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:27:53,555 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:27:53,555 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:27:53,555 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:27:53,638 - INFO - ✅ Updated Article ID: 67fa8023eaa4fb525afec6dd with 8 nodes and combined text.

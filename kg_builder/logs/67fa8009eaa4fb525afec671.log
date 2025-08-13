@@ -1,0 +1,96 @@
+2025-08-12 20:29:26,528 - INFO - 🔍 Text length: 4718 characters
+2025-08-12 20:29:26,528 - INFO - 📌 Processing Article ID: 67fa8009eaa4fb525afec671 — Photovoltaics may increase safety in nuclear power plants
+2025-08-12 20:29:26,528 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:29:30,328 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:29:30,328 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_islamic_azad_university",
+        "type": "company",
+        "name": "Islamic Azad University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tehran_research_reactor",
+        "type": "factory",
+        "name": "Tehran Research Reactor",
+        "location": {
+          "city": "Tehran",
+          "country": "Iran"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_kW_announced_greenfield",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 kW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_system",
+        "type": "product",
+        "name": "photovoltaic system"
+      },
+      {
+        "id": "product_battery_storage",
+        "type": "product",
+        "name": "battery storage"
+      }
+    ]
+  }
+}
+2025-08-12 20:29:30,328 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:29:30,329 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:29:30,329 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:29:32,274 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:29:32,274 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_kW_announced_greenfield",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:29:32,274 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:29:32,274 - INFO - Node ID is capacity_100_kW_announced_greenfield
+2025-08-12 20:29:32,274 - INFO - ✅ Match found for capacity_ID 'capacity_100_kW_announced_greenfield' in capacity nodes
+2025-08-12 20:29:32,274 - INFO -   ➕ Set status: announced
+2025-08-12 20:29:32,274 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:29:32,274 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:29:32,274 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:29:32,274 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:29:32,274 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:29:33,298 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:29:33,298 - INFO - {
+  "relationships": [
+    {
+      "source": "company_islamic_azad_university",
+      "type": "owns",
+      "target": "factory_tehran_research_reactor"
+    }
+  ]
+}
+2025-08-12 20:29:33,298 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:29:33,298 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:29:33,298 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:29:34,168 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:29:34,168 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_kW_announced_greenfield",
+      "target": "product_photovoltaic_system",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:29:34,168 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:29:34,169 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:29:34,169 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:29:34,244 - INFO - ✅ Updated Article ID: 67fa8009eaa4fb525afec671 with 5 nodes and combined text.

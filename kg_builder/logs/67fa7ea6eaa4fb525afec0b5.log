@@ -1,0 +1,137 @@
+2025-08-12 21:08:22,765 - INFO - 🔍 Text length: 3232 characters
+2025-08-12 21:08:22,765 - INFO - 📌 Processing Article ID: 67fa7ea6eaa4fb525afec0b5 — Grenada seeking bids for 15.1 MW of airport solar
+2025-08-12 21:08:22,765 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:08:25,981 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:25,981 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_grenlec",
+        "type": "company",
+        "name": "Grenlec"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maurice_bishop_international_airport",
+        "type": "factory",
+        "name": "Maurice Bishop International Airport",
+        "location": {
+          "city": "null",
+          "country": "Grenada"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_15_1_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "15.1 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_10_6_mw_21_2_mwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "10.6 MW/21.2 MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      }
+    ]
+  }
+}
+2025-08-12 21:08:25,981 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:25,981 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:08:25,981 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:08:29,206 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:29,207 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_15_1_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_10_6_mw_21_2_mwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:08:29,207 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:29,207 - INFO - Node ID is capacity_15_1_mw_announced
+2025-08-12 21:08:29,207 - INFO - ✅ Match found for capacity_ID 'capacity_15_1_mw_announced' in capacity nodes
+2025-08-12 21:08:29,207 - INFO -   ➕ Set status: announced
+2025-08-12 21:08:29,207 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:08:29,207 - INFO - Node ID is capacity_10_6_mw_21_2_mwh_announced
+2025-08-12 21:08:29,207 - INFO - ✅ Match found for capacity_ID 'capacity_10_6_mw_21_2_mwh_announced' in capacity nodes
+2025-08-12 21:08:29,207 - INFO -   ➕ Set status: announced
+2025-08-12 21:08:29,207 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:08:29,207 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:08:29,207 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:08:29,207 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:08:29,207 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:08:30,498 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:30,498 - INFO - {
+  "relationships": [
+    {
+      "source": "company_grenlec",
+      "type": "owns",
+      "target": "factory_maurice_bishop_international_airport"
+    }
+  ]
+}
+2025-08-12 21:08:30,498 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:30,498 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:08:30,498 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:08:33,306 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:08:33,307 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_15_1_mw_announced",
+      "target": "factory_maurice_bishop_international_airport",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_6_mw_21_2_mwh_announced",
+      "target": "factory_maurice_bishop_international_airport",
+      "type": "at"
+    },
+    {
+      "source": "capacity_15_1_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_maurice_bishop_international_airport",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_10_6_mw_21_2_mwh_announced",
+      "target": "product_battery_energy_storage_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_system",
+      "target": "factory_maurice_bishop_international_airport",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:08:33,307 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:08:33,307 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:08:33,307 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:08:33,397 - INFO - ✅ Updated Article ID: 67fa7ea6eaa4fb525afec0b5 with 6 nodes and combined text.

@@ -1,0 +1,149 @@
+2025-08-12 22:18:14,910 - INFO - 🔍 Text length: 2470 characters
+2025-08-12 22:18:14,910 - INFO - 📌 Processing Article ID: 67fa7c2beaa4fb525afeb666 — India’s NTPC seeking 1.5 GW of bifacial PV modules
+2025-08-12 22:18:14,910 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:18:17,583 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:17,583 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ntpc",
+        "type": "company",
+        "name": "NTPC"
+      },
+      {
+        "id": "company_ntpc_renewable_energy_ltd",
+        "type": "company",
+        "name": "NTPC Renewable Energy Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_khavda_solar_project",
+        "type": "factory",
+        "name": "Khavda Solar Project",
+        "location": {
+          "city": "Kutch",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_khavda_solar_project",
+        "type": "investment",
+        "name": "Khavda Solar Project",
+        "amount": "$2.26 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bifacial_pv_modules",
+        "type": "product",
+        "name": "bifacial PV modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:18:17,583 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:17,583 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:18:17,584 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:18:18,983 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:18,983 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_gw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:18:18,983 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:18,983 - INFO - Node ID is capacity_1_2_gw
+2025-08-12 22:18:18,983 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw' in capacity nodes
+2025-08-12 22:18:18,983 - INFO -   ➕ Set status: announced
+2025-08-12 22:18:18,983 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:18:18,983 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:18:18,983 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:18:22,146 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:22,146 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_khavda_solar_project",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:18:22,146 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:22,146 - INFO - Node ID is investment_khavda_solar_project
+2025-08-12 22:18:22,146 - INFO - ✅ Match found for investment_ID 'investment_khavda_solar_project' in investment nodes
+2025-08-12 22:18:22,146 - INFO -   ➕ Set status: announced
+2025-08-12 22:18:22,146 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:18:22,146 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:18:22,146 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:18:22,146 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:18:24,410 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:24,411 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ntpc",
+      "type": "owns",
+      "target": "factory_khavda_solar_project"
+    }
+  ]
+}
+2025-08-12 22:18:24,411 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:24,411 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:18:24,411 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:18:27,481 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:27,481 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_2_gw",
+      "target": "factory_khavda_solar_project",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_2_gw",
+      "target": "product_bifacial_pv_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bifacial_pv_modules",
+      "target": "factory_khavda_solar_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:18:27,481 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:27,481 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:18:27,481 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:18:28,662 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:28,663 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:18:28,663 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:28,663 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:18:28,663 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:18:29,519 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:18:29,519 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_khavda_solar_project",
+      "target": "capacity_1_2_gw",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:18:29,519 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:18:29,603 - INFO - ✅ Updated Article ID: 67fa7c2beaa4fb525afeb666 with 6 nodes and combined text.

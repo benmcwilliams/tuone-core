@@ -1,0 +1,66 @@
+2025-08-12 19:35:05,292 - INFO - 🔍 Text length: 3281 characters
+2025-08-12 19:35:05,292 - INFO - 📌 Processing Article ID: 67fbeeb394b7f855cfea6615 — Solimpeks presents air-to-water heat pump for residential, commercial applications
+2025-08-12 19:35:05,292 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:35:08,726 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:35:08,726 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solimpeks",
+        "type": "company",
+        "name": "Solimpeks"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_konya_turkey",
+        "type": "factory",
+        "name": "Konya Factory",
+        "location": {
+          "city": "Konya",
+          "country": "Turkey"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_varm_bcp_heat_pump",
+        "type": "product",
+        "name": "Varm BCP Heat Pump"
+      }
+    ]
+  }
+}
+2025-08-12 19:35:08,726 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:35:08,726 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:35:08,726 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:35:08,726 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:35:08,726 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:35:08,726 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:35:09,902 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:35:09,902 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solimpeks",
+      "type": "owns",
+      "target": "factory_konya_turkey"
+    }
+  ]
+}
+2025-08-12 19:35:09,902 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:35:09,903 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:35:09,903 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:35:12,102 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:35:12,102 - INFO - {
+  "relationships": [
+    {
+      "source": "product_varm_bcp_heat_pump",
+      "target": "factory_konya_turkey",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:35:12,102 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:35:12,102 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:35:12,102 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:35:12,179 - INFO - ✅ Updated Article ID: 67fbeeb394b7f855cfea6615 with 3 nodes and combined text.

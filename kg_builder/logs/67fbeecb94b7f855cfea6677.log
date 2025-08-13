@@ -1,0 +1,116 @@
+2025-08-12 19:12:04,335 - INFO - 🔍 Text length: 3255 characters
+2025-08-12 19:12:04,336 - INFO - 📌 Processing Article ID: 67fbeecb94b7f855cfea6677 — Fire brigade extinguishes fire at new hydrogen refueling station in Germany
+2025-08-12 19:12:04,336 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:12:08,017 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:12:08,017 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tyczka_hydrogen",
+        "type": "company",
+        "name": "Tyczka Hydrogen"
+      },
+      {
+        "id": "company_maximator_hydrogen",
+        "type": "company",
+        "name": "Maximator Hydrogen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gersthofen_germany",
+        "type": "factory",
+        "name": "Gersthofen Hydrogen Filling Station",
+        "location": {
+          "city": "Gersthofen",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500_kg_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "500 kg per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_filling_station",
+        "type": "product",
+        "name": "hydrogen filling station"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-08-12 19:12:08,017 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:12:08,017 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:12:08,017 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:12:15,515 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:12:15,515 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500_kg_per_day",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:12:15,515 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:12:15,515 - INFO - Node ID is capacity_500_kg_per_day
+2025-08-12 19:12:15,515 - INFO - ✅ Match found for capacity_ID 'capacity_500_kg_per_day' in capacity nodes
+2025-08-12 19:12:15,515 - INFO -   ➕ Set status: operational
+2025-08-12 19:12:15,515 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:12:15,515 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:12:15,515 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:12:15,515 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:12:15,515 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:12:17,041 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:12:17,042 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tyczka_hydrogen",
+      "type": "owns",
+      "target": "factory_gersthofen_germany"
+    }
+  ]
+}
+2025-08-12 19:12:17,042 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:12:17,042 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:12:17,042 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:12:18,424 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:12:18,424 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500_kg_per_day",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "product_hydrogen_filling_station",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_500_kg_per_day",
+      "target": "factory_gersthofen_germany",
+      "type": "at"
+    },
+    {
+      "source": "product_hydrogen_filling_station",
+      "target": "factory_gersthofen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:12:18,424 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:12:18,424 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:12:18,424 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:12:18,501 - INFO - ✅ Updated Article ID: 67fbeecb94b7f855cfea6677 with 6 nodes and combined text.

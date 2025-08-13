@@ -1,0 +1,126 @@
+2025-08-12 20:54:03,974 - INFO - 🔍 Text length: 4121 characters
+2025-08-12 20:54:03,974 - INFO - 📌 Processing Article ID: 67fa7f27eaa4fb525afec2ca — Utility-scale solar additions hit 46.8 GW since start of 2023, says Wiki-Solar
+2025-08-12 20:54:03,974 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:54:06,550 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:54:06,550 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acwa_power",
+        "type": "company",
+        "name": "ACWA Power"
+      },
+      {
+        "id": "company_spic",
+        "type": "company",
+        "name": "State Power Investment Corp."
+      },
+      {
+        "id": "company_nextera_energy",
+        "type": "company",
+        "name": "NextEra Energy"
+      },
+      {
+        "id": "company_florida_power_light",
+        "type": "company",
+        "name": "Florida Power & Light"
+      },
+      {
+        "id": "company_engie",
+        "type": "company",
+        "name": "Engie"
+      },
+      {
+        "id": "company_adani_green_energy",
+        "type": "company",
+        "name": "Adani Green Energy"
+      },
+      {
+        "id": "company_tata_power",
+        "type": "company",
+        "name": "Tata Power"
+      },
+      {
+        "id": "company_enel",
+        "type": "company",
+        "name": "Enel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_florida_power_light",
+        "type": "factory",
+        "name": "Florida Power & Light",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_146_7_gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "146.7 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_utility_scale_solar_power",
+        "type": "product",
+        "name": "utility-scale solar power"
+      }
+    ]
+  }
+}
+2025-08-12 20:54:06,550 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:54:06,550 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:54:06,550 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:54:07,486 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:54:07,486 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_146_7_gw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:54:07,486 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:54:07,486 - INFO - Node ID is capacity_146_7_gw
+2025-08-12 20:54:07,486 - INFO - ✅ Match found for capacity_ID 'capacity_146_7_gw' in capacity nodes
+2025-08-12 20:54:07,486 - INFO -   ➕ Set status: operational
+2025-08-12 20:54:07,486 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:54:07,486 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:54:07,486 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:54:07,486 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:54:07,486 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:54:08,289 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:54:08,289 - INFO - {
+  "relationships": [
+    {
+      "source": "company_florida_power_light",
+      "type": "owns",
+      "target": "factory_florida_power_light"
+    }
+  ]
+}
+2025-08-12 20:54:08,289 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:54:08,289 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:54:08,289 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:54:09,313 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:54:09,313 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_146_7_gw",
+      "target": "product_utility_scale_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 20:54:09,313 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:54:09,313 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:54:09,314 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:54:09,414 - INFO - ✅ Updated Article ID: 67fa7f27eaa4fb525afec2ca with 11 nodes and combined text.

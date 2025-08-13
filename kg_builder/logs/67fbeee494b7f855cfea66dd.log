@@ -1,0 +1,214 @@
+2025-08-12 18:44:29,147 - INFO - 🔍 Text length: 3363 characters
+2025-08-12 18:44:29,147 - INFO - 📌 Processing Article ID: 67fbeee494b7f855cfea66dd — Bulgaria backed by EIB for 1.6 GW of pumped storage
+2025-08-12 18:44:29,147 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:44:33,771 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:33,771 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eib",
+        "type": "company",
+        "name": "European Investment Bank"
+      },
+      {
+        "id": "company_nek",
+        "type": "company",
+        "name": "Natsionalna Elektricheska Kompania EAD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_batak_bulgaria",
+        "type": "factory",
+        "name": "Batak Pumped Storage Hydropower Plant",
+        "location": {
+          "city": "Batak",
+          "country": "Bulgaria"
+        }
+      },
+      {
+        "id": "factory_dospat_bulgaria",
+        "type": "factory",
+        "name": "Dospat Pumped Storage Hydropower Plant",
+        "location": {
+          "city": "Dospat",
+          "country": "Bulgaria"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_batak_dospat_plants",
+        "type": "investment",
+        "name": "Batak and Dospat Plants",
+        "amount": "\u20ac900 million ($964 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_800_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "800 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_800_mw_announced_2",
+        "type": "capacity",
+        "name": "",
+        "amount": "800 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pumped_storage_hydropower",
+        "type": "product",
+        "name": "pumped storage hydropower"
+      }
+    ]
+  }
+}
+2025-08-12 18:44:33,771 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:33,772 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:44:33,772 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:44:35,054 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:35,055 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_800_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_800_mw_announced_2",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:44:35,055 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:35,055 - INFO - Node ID is capacity_800_mw_announced
+2025-08-12 18:44:35,055 - INFO - ✅ Match found for capacity_ID 'capacity_800_mw_announced' in capacity nodes
+2025-08-12 18:44:35,055 - INFO -   ➕ Set status: announced
+2025-08-12 18:44:35,055 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:44:35,055 - INFO - Node ID is capacity_800_mw_announced_2
+2025-08-12 18:44:35,055 - INFO - ✅ Match found for capacity_ID 'capacity_800_mw_announced_2' in capacity nodes
+2025-08-12 18:44:35,055 - INFO -   ➕ Set status: announced
+2025-08-12 18:44:35,055 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:44:35,055 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 18:44:35,055 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 18:44:36,945 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:36,946 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_batak_dospat_plants",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:44:36,946 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:36,946 - INFO - Node ID is investment_batak_dospat_plants
+2025-08-12 18:44:36,946 - INFO - ✅ Match found for investment_ID 'investment_batak_dospat_plants' in investment nodes
+2025-08-12 18:44:36,946 - INFO -   ➕ Set status: announced
+2025-08-12 18:44:36,946 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:44:36,946 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:44:36,946 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:44:36,946 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:44:39,794 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:39,794 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nek",
+      "type": "owns",
+      "target": "factory_batak_bulgaria"
+    },
+    {
+      "source": "company_nek",
+      "type": "owns",
+      "target": "factory_dospat_bulgaria"
+    }
+  ]
+}
+2025-08-12 18:44:39,795 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:39,795 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:44:39,795 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:44:44,989 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:44,989 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_800_mw_announced",
+      "target": "factory_batak_bulgaria",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_800_mw_announced_2",
+      "target": "factory_dospat_bulgaria",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pumped_storage_hydropower",
+      "target": "factory_batak_bulgaria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pumped_storage_hydropower",
+      "target": "factory_dospat_bulgaria",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_800_mw_announced",
+      "target": "factory_batak_bulgaria",
+      "type": "at"
+    },
+    {
+      "source": "capacity_800_mw_announced_2",
+      "target": "factory_dospat_bulgaria",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 18:44:44,989 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:44,990 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 18:44:44,990 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 18:44:47,906 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:44:47,906 - INFO - {
+  "relationships": []
+}
+2025-08-12 18:44:47,906 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:44:47,906 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 18:44:47,906 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 18:45:05,617 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:45:05,617 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_batak_dospat_plants",
+      "target": "capacity_800_mw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_batak_dospat_plants",
+      "target": "capacity_800_mw_announced_2",
+      "type": "enables"
+    },
+    {
+      "source": "investment_batak_dospat_plants",
+      "target": "product_pumped_storage_hydropower",
+      "type": "targets"
+    },
+    {
+      "source": "investment_batak_dospat_plants",
+      "target": "factory_batak_bulgaria",
+      "type": "funds"
+    },
+    {
+      "source": "investment_batak_dospat_plants",
+      "target": "factory_dospat_bulgaria",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-12 18:45:05,617 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:45:05,703 - INFO - ✅ Updated Article ID: 67fbeee494b7f855cfea66dd with 8 nodes and combined text.

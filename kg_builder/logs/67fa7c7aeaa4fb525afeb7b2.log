@@ -1,0 +1,172 @@
+2025-08-12 22:09:29,353 - INFO - 🔍 Text length: 4513 characters
+2025-08-12 22:09:29,353 - INFO - 📌 Processing Article ID: 67fa7c7aeaa4fb525afeb7b2 — Adani Green starts generating at world’s largest planned renewables park
+2025-08-12 22:09:29,353 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:09:32,506 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:32,507 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_adani_green_energy_ltd",
+        "type": "company",
+        "name": "Adani Green Energy Ltd."
+      },
+      {
+        "id": "company_adani_group",
+        "type": "company",
+        "name": "Adani Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_khavda_renewables_park",
+        "type": "factory",
+        "name": "Khavda Renewables Park",
+        "location": {
+          "city": "Khavda",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 GW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_551_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "551 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bifacial_solar_pv_modules",
+        "type": "product",
+        "name": "bifacial solar PV modules"
+      },
+      {
+        "id": "product_horizontal_single_axis_tracker_systems",
+        "type": "product",
+        "name": "horizontal single-axis tracker systems"
+      },
+      {
+        "id": "product_onshore_wind_turbine_generator",
+        "type": "product",
+        "name": "onshore wind turbine generator"
+      }
+    ]
+  }
+}
+2025-08-12 22:09:32,507 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:32,507 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:09:32,507 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:09:34,222 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:34,222 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_551_mw_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:09:34,222 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:34,222 - INFO - Node ID is capacity_30_gw_announced
+2025-08-12 22:09:34,222 - INFO - ✅ Match found for capacity_ID 'capacity_30_gw_announced' in capacity nodes
+2025-08-12 22:09:34,222 - INFO -   ➕ Set status: announced
+2025-08-12 22:09:34,222 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:09:34,222 - INFO - Node ID is capacity_551_mw_operational
+2025-08-12 22:09:34,222 - INFO - ✅ Match found for capacity_ID 'capacity_551_mw_operational' in capacity nodes
+2025-08-12 22:09:34,222 - INFO -   ➕ Set status: operational
+2025-08-12 22:09:34,222 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:09:34,222 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:09:34,222 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:09:34,222 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:09:34,222 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:09:36,649 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:36,649 - INFO - {
+  "relationships": [
+    {
+      "source": "company_adani_green_energy_ltd",
+      "type": "owns",
+      "target": "factory_khavda_renewables_park"
+    }
+  ]
+}
+2025-08-12 22:09:36,649 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:36,649 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:09:36,649 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:09:39,971 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:39,971 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_gw_announced",
+      "target": "factory_khavda_renewables_park",
+      "type": "at"
+    },
+    {
+      "source": "capacity_551_mw_operational",
+      "target": "factory_khavda_renewables_park",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_gw_announced",
+      "target": "product_bifacial_solar_pv_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_30_gw_announced",
+      "target": "product_horizontal_single_axis_tracker_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_30_gw_announced",
+      "target": "product_onshore_wind_turbine_generator",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_551_mw_operational",
+      "target": "product_bifacial_solar_pv_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_551_mw_operational",
+      "target": "product_horizontal_single_axis_tracker_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_551_mw_operational",
+      "target": "product_onshore_wind_turbine_generator",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bifacial_solar_pv_modules",
+      "target": "factory_khavda_renewables_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_horizontal_single_axis_tracker_systems",
+      "target": "factory_khavda_renewables_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_onshore_wind_turbine_generator",
+      "target": "factory_khavda_renewables_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:09:39,971 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:39,971 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:09:39,971 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:09:40,049 - INFO - ✅ Updated Article ID: 67fa7c7aeaa4fb525afeb7b2 with 8 nodes and combined text.

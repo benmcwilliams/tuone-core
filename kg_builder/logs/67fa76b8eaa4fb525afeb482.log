@@ -1,0 +1,116 @@
+2025-08-12 22:38:43,025 - INFO - 🔍 Text length: 4905 characters
+2025-08-12 22:38:43,025 - INFO - 📌 Processing Article ID: 67fa76b8eaa4fb525afeb482 — Australian university testing 20 kW agrivoltaic system on vineyard
+2025-08-12 22:38:43,025 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:38:46,163 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:38:46,163 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_greenwood",
+        "type": "company",
+        "name": "Greenwood"
+      },
+      {
+        "id": "company_university_of_melbourne",
+        "type": "company",
+        "name": "University of Melbourne"
+      },
+      {
+        "id": "company_enhar",
+        "type": "company",
+        "name": "Enhar"
+      },
+      {
+        "id": "company_agrifutures",
+        "type": "company",
+        "name": "AgriFutures"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dookie_campus_vineyard",
+        "type": "factory",
+        "name": "Dookie Campus Vineyard",
+        "location": {
+          "city": "Dookie",
+          "country": "Australia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_agrivoltaics",
+        "type": "product",
+        "name": "agrivoltaics"
+      },
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:38:46,163 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:38:46,163 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:38:46,163 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:38:47,394 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:38:47,394 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_kw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:38:47,394 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:38:47,394 - INFO - Node ID is capacity_20_kw
+2025-08-12 22:38:47,394 - INFO - ✅ Match found for capacity_ID 'capacity_20_kw' in capacity nodes
+2025-08-12 22:38:47,394 - INFO -   ➕ Set status: operational
+2025-08-12 22:38:47,394 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:38:47,394 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:38:47,394 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:38:47,394 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:38:47,394 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:38:48,698 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:38:48,698 - INFO - {
+  "relationships": [
+    {
+      "source": "company_university_of_melbourne",
+      "type": "owns",
+      "target": "factory_dookie_campus_vineyard"
+    }
+  ]
+}
+2025-08-12 22:38:48,698 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:38:48,698 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:38:48,698 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:38:49,938 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:38:49,938 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_kw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_dookie_campus_vineyard",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:38:49,938 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:38:49,938 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:38:49,938 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:38:50,033 - INFO - ✅ Updated Article ID: 67fa76b8eaa4fb525afeb482 with 8 nodes and combined text.

@@ -1,0 +1,183 @@
+2025-08-12 20:51:25,355 - INFO - 🔍 Text length: 3366 characters
+2025-08-12 20:51:25,355 - INFO - 📌 Processing Article ID: 67fa7f40eaa4fb525afec333 — EBRD, EU finance 126 MW solar plant in Uzbekistan
+2025-08-12 20:51:25,355 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:51:32,399 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:32,400 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ebrd",
+        "type": "company",
+        "name": "European Bank for Reconstruction and Development"
+      },
+      {
+        "id": "company_european_union",
+        "type": "company",
+        "name": "European Union"
+      },
+      {
+        "id": "company_voltalia",
+        "type": "company",
+        "name": "Voltalia"
+      },
+      {
+        "id": "company_sarimay_solar",
+        "type": "company",
+        "name": "Sarimay Solar"
+      },
+      {
+        "id": "company_abu_dhabi_future_energy_co",
+        "type": "company",
+        "name": "Abu Dhabi Future Energy Co"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_khorezm_uzbekistan",
+        "type": "factory",
+        "name": "Khorezm Solar Plant",
+        "location": {
+          "city": "Khorezm",
+          "country": "Uzbekistan"
+        }
+      },
+      {
+        "id": "factory_tashkent_uzbekistan",
+        "type": "factory",
+        "name": "Tashkent Solar Plant",
+        "location": {
+          "city": "Tashkent",
+          "country": "Uzbekistan"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ebrd_eu_khorezm_solar",
+        "type": "investment",
+        "name": "EBRD and EU Khorezm Solar Investment",
+        "amount": "$61.6 million",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_126_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "126 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 20:51:32,400 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:32,400 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:51:32,400 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:51:34,265 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:34,265 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_126_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:51:34,265 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:34,265 - INFO - Node ID is capacity_126_mw
+2025-08-12 20:51:34,265 - INFO - ✅ Match found for capacity_ID 'capacity_126_mw' in capacity nodes
+2025-08-12 20:51:34,265 - INFO -   ➕ Set status: under construction
+2025-08-12 20:51:34,265 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:51:34,265 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:51:34,265 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:51:35,276 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:35,277 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ebrd_eu_khorezm_solar",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:51:35,277 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:35,277 - INFO - Node ID is investment_ebrd_eu_khorezm_solar
+2025-08-12 20:51:35,277 - INFO - ✅ Match found for investment_ID 'investment_ebrd_eu_khorezm_solar' in investment nodes
+2025-08-12 20:51:35,277 - INFO -   ➕ Set status: ongoing
+2025-08-12 20:51:35,277 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:51:35,277 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:51:35,277 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:51:35,277 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:51:39,436 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:39,436 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sarimay_solar",
+      "type": "owns",
+      "target": "factory_khorezm_uzbekistan"
+    }
+  ]
+}
+2025-08-12 20:51:39,437 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:39,437 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:51:39,437 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:51:41,895 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:41,896 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_126_mw",
+      "target": "factory_khorezm_uzbekistan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_126_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_khorezm_uzbekistan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_tashkent_uzbekistan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:51:41,896 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:41,896 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:51:41,896 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:51:42,750 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:42,750 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:51:42,750 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:42,750 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:51:42,750 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:51:45,233 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:51:45,234 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ebrd_eu_khorezm_solar",
+      "target": "capacity_126_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_ebrd_eu_khorezm_solar",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 20:51:45,234 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:51:45,315 - INFO - ✅ Updated Article ID: 67fa7f40eaa4fb525afec333 with 10 nodes and combined text.

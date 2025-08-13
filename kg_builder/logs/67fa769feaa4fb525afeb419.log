@@ -1,0 +1,193 @@
+2025-08-12 23:01:04,114 - INFO - 🔍 Text length: 7924 characters
+2025-08-12 23:01:04,114 - INFO - 📌 Processing Article ID: 67fa769feaa4fb525afeb419 — The shifting sands of PV module supply
+2025-08-12 23:01:04,114 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 23:01:07,653 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:07,654 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_china_ministry_of_industry_and_information_technology",
+        "type": "company",
+        "name": "China Ministry of Industry and Information Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cambodia",
+        "type": "factory",
+        "name": "null",
+        "location": {
+          "city": "null",
+          "country": "Cambodia"
+        }
+      },
+      {
+        "id": "factory_malaysia",
+        "type": "factory",
+        "name": "null",
+        "location": {
+          "city": "null",
+          "country": "Malaysia"
+        }
+      },
+      {
+        "id": "factory_thailand",
+        "type": "factory",
+        "name": "null",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        }
+      },
+      {
+        "id": "factory_vietnam",
+        "type": "factory",
+        "name": "null",
+        "location": {
+          "city": "null",
+          "country": "Vietnam"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      },
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      }
+    ]
+  }
+}
+2025-08-12 23:01:07,654 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:07,654 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 23:01:07,654 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 23:01:09,497 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:09,497 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 23:01:09,497 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:09,497 - INFO - Node ID is capacity_100_gw_idle_cell_and_module_annual_production_capacity
+2025-08-12 23:01:09,497 - INFO - ✅ Match found for capacity_ID 'capacity_100_gw_idle_cell_and_module_annual_production_capacity' in capacity nodes
+2025-08-12 23:01:09,497 - INFO -   ➕ Set status: operational
+2025-08-12 23:01:09,497 - INFO -   ➕ Set phase: unclear
+2025-08-12 23:01:09,497 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 23:01:09,497 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 23:01:09,497 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 23:01:09,497 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 23:01:12,059 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:12,059 - INFO - {
+  "relationships": [
+    {
+      "source": "company_china_ministry_of_industry_and_information_technology",
+      "type": "owns",
+      "target": "factory_cambodia"
+    },
+    {
+      "source": "company_china_ministry_of_industry_and_information_technology",
+      "type": "owns",
+      "target": "factory_malaysia"
+    },
+    {
+      "source": "company_china_ministry_of_industry_and_information_technology",
+      "type": "owns",
+      "target": "factory_thailand"
+    },
+    {
+      "source": "company_china_ministry_of_industry_and_information_technology",
+      "type": "owns",
+      "target": "factory_vietnam"
+    }
+  ]
+}
+2025-08-12 23:01:12,059 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:12,059 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 23:01:12,059 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 23:01:17,185 - INFO - ✅ OpenAI returned output:
+2025-08-12 23:01:17,185 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+      "target": "factory_cambodia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+      "target": "factory_malaysia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+      "target": "factory_thailand",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gw_idle_cell_and_module_annual_production_capacity",
+      "target": "factory_vietnam",
+      "type": "at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_cambodia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_vietnam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_cambodia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_vietnam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 23:01:17,185 - INFO - POST-PROCESSING STARTING.
+2025-08-12 23:01:17,185 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 23:01:17,185 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 23:01:17,261 - INFO - ✅ Updated Article ID: 67fa769feaa4fb525afeb419 with 8 nodes and combined text.

@@ -1,0 +1,146 @@
+2025-08-12 21:46:51,223 - INFO - 🔍 Text length: 2724 characters
+2025-08-12 21:46:51,223 - INFO - 📌 Processing Article ID: 67fa7d6ceaa4fb525afebba0 — Utility Scale PV
+2025-08-12 21:46:51,223 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:46:55,409 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:55,410 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cleantech_solar",
+        "type": "company",
+        "name": "Cleantech Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_india_solar",
+        "type": "factory",
+        "name": "India Solar",
+        "location": {
+          "city": "null",
+          "country": "India"
+        }
+      },
+      {
+        "id": "factory_philippines_solar",
+        "type": "factory",
+        "name": "Philippines Solar",
+        "location": {
+          "city": "null",
+          "country": "Philippines"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_24_mw_solar",
+        "type": "capacity",
+        "name": "",
+        "amount": "24 MW",
+        "status": "completed"
+      },
+      {
+        "id": "capacity_65_mw_solar",
+        "type": "capacity",
+        "name": "",
+        "amount": "65 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:46:55,410 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:55,410 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:46:55,410 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:46:56,333 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:56,333 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_24_mw_solar",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_65_mw_solar",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:46:56,333 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:56,333 - INFO - Node ID is capacity_24_mw_solar
+2025-08-12 21:46:56,333 - INFO - ✅ Match found for capacity_ID 'capacity_24_mw_solar' in capacity nodes
+2025-08-12 21:46:56,333 - INFO -   ➕ Set status: operational
+2025-08-12 21:46:56,333 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:46:56,333 - INFO - Node ID is capacity_65_mw_solar
+2025-08-12 21:46:56,333 - INFO - ✅ Match found for capacity_ID 'capacity_65_mw_solar' in capacity nodes
+2025-08-12 21:46:56,333 - INFO -   ➕ Set status: announced
+2025-08-12 21:46:56,333 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:46:56,333 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:46:56,333 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:46:56,333 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:46:56,333 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:46:58,117 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:58,117 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cleantech_solar",
+      "type": "owns",
+      "target": "factory_india_solar"
+    },
+    {
+      "source": "company_cleantech_solar",
+      "type": "owns",
+      "target": "factory_philippines_solar"
+    }
+  ]
+}
+2025-08-12 21:46:58,117 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:58,117 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:46:58,117 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:46:59,825 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:46:59,825 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_24_mw_solar",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_65_mw_solar",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_india_solar",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_philippines_solar",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_24_mw_solar",
+      "target": "factory_india_solar",
+      "type": "at"
+    },
+    {
+      "source": "capacity_65_mw_solar",
+      "target": "factory_philippines_solar",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 21:46:59,825 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:46:59,825 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:46:59,825 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:46:59,904 - INFO - ✅ Updated Article ID: 67fa7d6ceaa4fb525afebba0 with 6 nodes and combined text.

@@ -1,0 +1,151 @@
+2025-08-12 22:28:46,898 - INFO - 🔍 Text length: 3022 characters
+2025-08-12 22:28:46,898 - INFO - 📌 Processing Article ID: 67fa7bd0eaa4fb525afeb4eb — Eskom runs tender for 19.5 MW of solar in South Africa
+2025-08-12 22:28:46,898 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:28:52,134 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:52,134 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eskom",
+        "type": "company",
+        "name": "Eskom"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sere_wind_farm",
+        "type": "factory",
+        "name": "Sere Wind Farm",
+        "location": {
+          "city": "Western Cape",
+          "country": "South Africa"
+        }
+      },
+      {
+        "id": "factory_skaapvlei_substation",
+        "type": "factory",
+        "name": "Skaapvlei Substation",
+        "location": {
+          "city": "null",
+          "country": "South Africa"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_19_5_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "19.5 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_600_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "600 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_wind_power",
+        "type": "product",
+        "name": "wind power"
+      }
+    ]
+  }
+}
+2025-08-12 22:28:52,134 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:52,134 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:28:52,135 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:28:53,569 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:53,570 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_19_5_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_600_mw_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-12 22:28:53,570 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:53,570 - INFO - Node ID is capacity_19_5_mw_announced
+2025-08-12 22:28:53,570 - INFO - ✅ Match found for capacity_ID 'capacity_19_5_mw_announced' in capacity nodes
+2025-08-12 22:28:53,570 - INFO -   ➕ Set status: announced
+2025-08-12 22:28:53,570 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:28:53,570 - INFO - Node ID is capacity_600_mw_announced
+2025-08-12 22:28:53,570 - INFO - ✅ Match found for capacity_ID 'capacity_600_mw_announced' in capacity nodes
+2025-08-12 22:28:53,570 - INFO -   ➕ Set status: announced
+2025-08-12 22:28:53,570 - INFO -   ➕ Set phase: expansion
+2025-08-12 22:28:53,570 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:28:53,570 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:28:53,570 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:28:53,570 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:28:55,413 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:55,413 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eskom",
+      "type": "owns",
+      "target": "factory_sere_wind_farm"
+    },
+    {
+      "source": "company_eskom",
+      "type": "owns",
+      "target": "factory_skaapvlei_substation"
+    }
+  ]
+}
+2025-08-12 22:28:55,413 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:55,413 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:28:55,413 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:28:58,279 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:28:58,279 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_19_5_mw_announced",
+      "target": "factory_sere_wind_farm",
+      "type": "at"
+    },
+    {
+      "source": "capacity_19_5_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_sere_wind_farm",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_wind_power",
+      "target": "factory_sere_wind_farm",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_600_mw_announced",
+      "target": "factory_sere_wind_farm",
+      "type": "at"
+    },
+    {
+      "source": "capacity_600_mw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:28:58,279 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:28:58,279 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:28:58,279 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:28:58,366 - INFO - ✅ Updated Article ID: 67fa7bd0eaa4fb525afeb4eb with 7 nodes and combined text.

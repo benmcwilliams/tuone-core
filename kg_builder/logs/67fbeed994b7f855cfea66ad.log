@@ -1,0 +1,164 @@
+2025-08-12 18:55:58,737 - INFO - 🔍 Text length: 5311 characters
+2025-08-12 18:55:58,737 - INFO - 📌 Processing Article ID: 67fbeed994b7f855cfea66ad — Powerchina switches on 100 MW solar tower in South Africa
+2025-08-12 18:55:58,737 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:56:02,388 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:02,389 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powerchina",
+        "type": "company",
+        "name": "PowerChina"
+      },
+      {
+        "id": "company_acwa_power",
+        "type": "company",
+        "name": "ACWA Power"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_redstone_csp",
+        "type": "factory",
+        "name": "Redstone CSP",
+        "location": {
+          "city": "Postmasburg",
+          "country": "South Africa"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_redstone_csp",
+        "type": "investment",
+        "name": "Redstone CSP",
+        "amount": "$724 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_concentrated_solar_power",
+        "type": "product",
+        "name": "concentrated solar power"
+      }
+    ]
+  }
+}
+2025-08-12 18:56:02,389 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:02,389 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:56:02,389 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:56:05,235 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:05,236 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mw_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:56:05,236 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:05,236 - INFO - Node ID is capacity_100_mw_operational
+2025-08-12 18:56:05,236 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_operational' in capacity nodes
+2025-08-12 18:56:05,236 - INFO -   ➕ Set status: operational
+2025-08-12 18:56:05,236 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:56:05,236 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 18:56:05,236 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 18:56:06,568 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:06,569 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_redstone_csp",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:56:06,569 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:06,569 - INFO - Node ID is investment_redstone_csp
+2025-08-12 18:56:06,569 - INFO - ✅ Match found for investment_ID 'investment_redstone_csp' in investment nodes
+2025-08-12 18:56:06,569 - INFO -   ➕ Set status: completed
+2025-08-12 18:56:06,569 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:56:06,569 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:56:06,569 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:56:06,569 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:56:09,536 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:09,536 - INFO - {
+  "relationships": [
+    {
+      "source": "company_powerchina",
+      "type": "owns",
+      "target": "factory_redstone_csp"
+    },
+    {
+      "source": "company_acwa_power",
+      "type": "owns",
+      "target": "factory_redstone_csp"
+    }
+  ]
+}
+2025-08-12 18:56:09,537 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:09,537 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:56:09,537 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:56:11,379 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:11,380 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mw_operational",
+      "target": "factory_redstone_csp",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mw_operational",
+      "target": "product_concentrated_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_concentrated_solar_power",
+      "target": "factory_redstone_csp",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:56:11,380 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:11,380 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 18:56:11,380 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 18:56:13,120 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:13,120 - INFO - {
+  "relationships": []
+}
+2025-08-12 18:56:13,121 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:13,121 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 18:56:13,121 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 18:56:14,865 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:56:14,866 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_redstone_csp",
+      "target": "factory_redstone_csp",
+      "type": "funds"
+    },
+    {
+      "source": "investment_redstone_csp",
+      "target": "capacity_100_mw_operational",
+      "type": "enables"
+    },
+    {
+      "source": "investment_redstone_csp",
+      "target": "product_concentrated_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 18:56:14,866 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:56:14,946 - INFO - ✅ Updated Article ID: 67fbeed994b7f855cfea66ad with 6 nodes and combined text.

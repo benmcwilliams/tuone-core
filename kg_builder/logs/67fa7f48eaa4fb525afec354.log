@@ -1,0 +1,178 @@
+2025-08-12 20:50:14,172 - INFO - 🔍 Text length: 4585 characters
+2025-08-12 20:50:14,173 - INFO - 📌 Processing Article ID: 67fa7f48eaa4fb525afec354 — The Hydrogen Stream: US government, ABI Research predict lower H2 costs
+2025-08-12 20:50:14,173 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:50:19,366 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:19,366 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_evoloh",
+        "type": "company",
+        "name": "Evoloh"
+      },
+      {
+        "id": "company_vng_ag",
+        "type": "company",
+        "name": "VNG AG"
+      },
+      {
+        "id": "company_hycc",
+        "type": "company",
+        "name": "HyCC"
+      },
+      {
+        "id": "company_skw_piesteritz",
+        "type": "company",
+        "name": "SKW Piesteritz"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_vng_ag_hycc",
+        "type": "joint_venture",
+        "name": "VNG AG and HyCC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_santa_clara_california",
+        "type": "factory",
+        "name": "Santa Clara Pilot Testing Facility",
+        "location": {
+          "city": "Santa Clara",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_lutherstadt_wittenberg_germany",
+        "type": "factory",
+        "name": "Lutherstadt Wittenberg Electrolyzer",
+        "location": {
+          "city": "Lutherstadt Wittenberg",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "500 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_0_5_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "0.5 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrolyzer_stacks",
+        "type": "product",
+        "name": "electrolyzer stacks"
+      },
+      {
+        "id": "product_nautilus_stacks_and_modules",
+        "type": "product",
+        "name": "Nautilus stacks and modules"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-08-12 20:50:19,366 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:19,366 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:50:19,366 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:50:20,762 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:20,762 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_0_5_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:50:20,762 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:20,763 - INFO - Node ID is capacity_500_mw_announced
+2025-08-12 20:50:20,763 - INFO - ✅ Match found for capacity_ID 'capacity_500_mw_announced' in capacity nodes
+2025-08-12 20:50:20,763 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:20,763 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:50:20,763 - INFO - Node ID is capacity_0_5_gw_announced
+2025-08-12 20:50:20,763 - INFO - ✅ Match found for capacity_ID 'capacity_0_5_gw_announced' in capacity nodes
+2025-08-12 20:50:20,763 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:20,763 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:50:20,763 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:50:20,763 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:50:20,763 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:50:20,763 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:50:22,077 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:22,077 - INFO - {
+  "relationships": [
+    {
+      "source": "company_evoloh",
+      "type": "owns",
+      "target": "factory_santa_clara_california"
+    },
+    {
+      "source": "joint_venture_vng_ag_hycc",
+      "type": "owns",
+      "target": "factory_lutherstadt_wittenberg_germany"
+    },
+    {
+      "source": "company_vng_ag",
+      "type": "forms",
+      "target": "joint_venture_vng_ag_hycc"
+    },
+    {
+      "source": "company_hycc",
+      "type": "forms",
+      "target": "joint_venture_vng_ag_hycc"
+    }
+  ]
+}
+2025-08-12 20:50:22,077 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:22,077 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:50:22,077 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:50:24,638 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:24,638 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500_mw_announced",
+      "target": "factory_lutherstadt_wittenberg_germany",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_lutherstadt_wittenberg_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_0_5_gw_announced",
+      "target": "factory_santa_clara_california",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electrolyzer_stacks",
+      "target": "factory_santa_clara_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:50:24,638 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:24,639 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:50:24,639 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:50:24,722 - INFO - ✅ Updated Article ID: 67fa7f48eaa4fb525afec354 with 12 nodes and combined text.

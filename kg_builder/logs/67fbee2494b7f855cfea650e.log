@@ -1,0 +1,160 @@
+2025-08-12 20:13:30,454 - INFO - 🔍 Text length: 2847 characters
+2025-08-12 20:13:30,454 - INFO - 📌 Processing Article ID: 67fbee2494b7f855cfea650e — Balance of Systems
+2025-08-12 20:13:30,454 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:13:44,689 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:13:44,690 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_shoals_technologies_group",
+        "type": "company",
+        "name": "Shoals Technologies Group"
+      },
+      {
+        "id": "company_gamechange_solar",
+        "type": "company",
+        "name": "GameChange Solar"
+      },
+      {
+        "id": "company_autarco",
+        "type": "company",
+        "name": "Autarco"
+      },
+      {
+        "id": "company_s_5",
+        "type": "company",
+        "name": "S-5!"
+      },
+      {
+        "id": "company_valmont_solar",
+        "type": "company",
+        "name": "Valmont Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_us_manufacturing_and_distribution_center",
+        "type": "factory",
+        "name": "US manufacturing and distribution center",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_brazil_production_facility",
+        "type": "factory",
+        "name": "Brazil production facility",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_35_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "35 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrical_balance_of_systems",
+        "type": "product",
+        "name": "electrical balance-of-systems"
+      },
+      {
+        "id": "product_solar_trackers",
+        "type": "product",
+        "name": "solar trackers"
+      },
+      {
+        "id": "product_heliosea_system",
+        "type": "product",
+        "name": "HelioSea system"
+      },
+      {
+        "id": "product_module_level_power_electronics_mount",
+        "type": "product",
+        "name": "module-level power electronics mount"
+      },
+      {
+        "id": "product_tracker_control_system",
+        "type": "product",
+        "name": "tracker control system"
+      }
+    ]
+  }
+}
+2025-08-12 20:13:44,690 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:13:44,690 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:13:44,690 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:13:47,247 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:13:47,248 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_35_gw_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-12 20:13:47,248 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:13:47,248 - INFO - Node ID is capacity_35_gw_announced
+2025-08-12 20:13:47,248 - INFO - ✅ Match found for capacity_ID 'capacity_35_gw_announced' in capacity nodes
+2025-08-12 20:13:47,248 - INFO -   ➕ Set status: announced
+2025-08-12 20:13:47,248 - INFO -   ➕ Set phase: expansion
+2025-08-12 20:13:47,248 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:13:47,248 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:13:47,248 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:13:47,248 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:13:48,389 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:13:48,389 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valmont_solar",
+      "type": "owns",
+      "target": "factory_brazil_production_facility"
+    },
+    {
+      "source": "company_shoals_technologies_group",
+      "type": "owns",
+      "target": "factory_us_manufacturing_and_distribution_center"
+    }
+  ]
+}
+2025-08-12 20:13:48,389 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:13:48,389 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:13:48,389 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:13:50,380 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:13:50,381 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_35_gw_announced",
+      "target": "factory_us_manufacturing_and_distribution_center",
+      "type": "at"
+    },
+    {
+      "source": "capacity_35_gw_announced",
+      "target": "product_solar_trackers",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_trackers",
+      "target": "factory_us_manufacturing_and_distribution_center",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tracker_control_system",
+      "target": "factory_brazil_production_facility",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:13:50,381 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:13:50,381 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:13:50,381 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:13:50,465 - INFO - ✅ Updated Article ID: 67fbee2494b7f855cfea650e with 13 nodes and combined text.

@@ -1,0 +1,182 @@
+2025-08-12 20:42:48,003 - INFO - 🔍 Text length: 2685 characters
+2025-08-12 20:42:48,003 - INFO - 📌 Processing Article ID: 67fa7f9beaa4fb525afec4ac — Utility Scale PV
+2025-08-12 20:42:48,003 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:42:52,938 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:42:52,938 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_waaree",
+        "type": "company",
+        "name": "Waaree"
+      },
+      {
+        "id": "company_nawec",
+        "type": "company",
+        "name": "Nawec"
+      },
+      {
+        "id": "company_sun_ways",
+        "type": "company",
+        "name": "Sun-ways"
+      },
+      {
+        "id": "company_volue",
+        "type": "company",
+        "name": "Volue"
+      },
+      {
+        "id": "company_jakson_solar",
+        "type": "company",
+        "name": "Jakson Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_soma_gambia",
+        "type": "factory",
+        "name": "Soma PV Facility",
+        "location": {
+          "city": "Soma",
+          "country": "Gambia"
+        }
+      },
+      {
+        "id": "factory_neuchatel_switzerland",
+        "type": "factory",
+        "name": "Neuch\u00e2tel Pilot PV System",
+        "location": {
+          "city": "Neuch\u00e2tel",
+          "country": "Switzerland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_mw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 MW",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_18_kw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "18 kW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_n_type_dual_glass_photovoltaic_panel",
+        "type": "product",
+        "name": "n-type dual-glass photovoltaic panel"
+      },
+      {
+        "id": "product_helia_nxt_r_series_pv_modules",
+        "type": "product",
+        "name": "Helia NXT R series PV modules"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 20:42:52,938 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:42:52,938 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:42:52,938 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:42:54,246 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:42:54,246 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_mw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_18_kw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:42:54,246 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:42:54,246 - INFO - Node ID is capacity_50_mw_announced
+2025-08-12 20:42:54,246 - INFO - ✅ Match found for capacity_ID 'capacity_50_mw_announced' in capacity nodes
+2025-08-12 20:42:54,246 - INFO -   ➕ Set status: announced
+2025-08-12 20:42:54,246 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:42:54,246 - INFO - Node ID is capacity_18_kw_announced
+2025-08-12 20:42:54,246 - INFO - ✅ Match found for capacity_ID 'capacity_18_kw_announced' in capacity nodes
+2025-08-12 20:42:54,246 - INFO -   ➕ Set status: announced
+2025-08-12 20:42:54,246 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:42:54,246 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:42:54,246 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:42:54,246 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:42:54,247 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:42:55,602 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:42:55,602 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nawec",
+      "type": "owns",
+      "target": "factory_soma_gambia"
+    },
+    {
+      "source": "company_sun_ways",
+      "type": "owns",
+      "target": "factory_neuchatel_switzerland"
+    }
+  ]
+}
+2025-08-12 20:42:55,602 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:42:55,602 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:42:55,602 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:42:57,855 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:42:57,855 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_mw_announced",
+      "target": "solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_18_kw_announced",
+      "target": "solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "solar_power",
+      "target": "factory_soma_gambia",
+      "type": "produced_at"
+    },
+    {
+      "source": "solar_power",
+      "target": "factory_neuchatel_switzerland",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_50_mw_announced",
+      "target": "factory_soma_gambia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_18_kw_announced",
+      "target": "factory_neuchatel_switzerland",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 20:42:57,855 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:42:57,856 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:42:57,856 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:42:57,943 - INFO - ✅ Updated Article ID: 67fa7f9beaa4fb525afec4ac with 12 nodes and combined text.

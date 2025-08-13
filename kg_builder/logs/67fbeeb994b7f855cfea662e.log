@@ -1,0 +1,164 @@
+2025-08-12 19:29:09,608 - INFO - 🔍 Text length: 4660 characters
+2025-08-12 19:29:09,608 - INFO - 📌 Processing Article ID: 67fbeeb994b7f855cfea662e — Livoltek set to commission Brazilian inverter factory
+2025-08-12 19:29:09,608 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:29:17,294 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:17,294 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_livoltek",
+        "type": "company",
+        "name": "Livoltek"
+      },
+      {
+        "id": "company_hexing_group",
+        "type": "company",
+        "name": "Hexing Group"
+      },
+      {
+        "id": "company_eletra_energy_solutions",
+        "type": "company",
+        "name": "Eletra Energy Solutions"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_manaus_brazil",
+        "type": "factory",
+        "name": "Livoltek Inverter Factory",
+        "location": {
+          "city": "Manaus",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_livoltek_manaus_factory",
+        "type": "investment",
+        "name": "Livoltek Manaus Factory",
+        "amount": "BRL 70 million ($13.2 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_inverter",
+        "type": "product",
+        "name": "inverter"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      },
+      {
+        "id": "product_electric_vehicle_rechargers",
+        "type": "product",
+        "name": "electric-vehicle rechargers"
+      },
+      {
+        "id": "product_printed_circuit_boards",
+        "type": "product",
+        "name": "printed circuit boards"
+      }
+    ]
+  }
+}
+2025-08-12 19:29:17,294 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:17,294 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:29:17,294 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:29:17,294 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:29:19,274 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:19,274 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_livoltek_manaus_factory",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:29:19,274 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:19,274 - INFO - Node ID is investment_livoltek_manaus_factory
+2025-08-12 19:29:19,274 - INFO - ✅ Match found for investment_ID 'investment_livoltek_manaus_factory' in investment nodes
+2025-08-12 19:29:19,274 - INFO -   ➕ Set status: completed
+2025-08-12 19:29:19,274 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:29:19,275 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:29:19,275 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:29:19,275 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:29:23,642 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:23,642 - INFO - {
+  "relationships": [
+    {
+      "source": "company_livoltek",
+      "type": "owns",
+      "target": "factory_manaus_brazil"
+    }
+  ]
+}
+2025-08-12 19:29:23,642 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:23,642 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:29:23,642 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:29:25,382 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:25,382 - INFO - {
+  "relationships": [
+    {
+      "source": "product_inverter",
+      "target": "factory_manaus_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_manaus_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_vehicle_rechargers",
+      "target": "factory_manaus_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:29:25,382 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:25,382 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:29:25,382 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:29:27,081 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:27,081 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:29:27,081 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:27,081 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:29:27,081 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:29:32,422 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:29:32,422 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_livoltek_manaus_factory",
+      "target": "factory_manaus_brazil",
+      "type": "funds"
+    },
+    {
+      "source": "investment_livoltek_manaus_factory",
+      "target": "product_inverter",
+      "type": "targets"
+    },
+    {
+      "source": "investment_livoltek_manaus_factory",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_livoltek_manaus_factory",
+      "target": "product_electric_vehicle_rechargers",
+      "type": "targets"
+    },
+    {
+      "source": "investment_livoltek_manaus_factory",
+      "target": "product_printed_circuit_boards",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 19:29:32,422 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:29:32,504 - INFO - ✅ Updated Article ID: 67fbeeb994b7f855cfea662e with 9 nodes and combined text.

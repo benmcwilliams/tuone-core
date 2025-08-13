@@ -1,0 +1,168 @@
+2025-08-12 21:19:39,503 - INFO - 🔍 Text length: 2876 characters
+2025-08-12 21:19:39,503 - INFO - 📌 Processing Article ID: 67fa7e36eaa4fb525afebee5 — Eneco secures 10-year solar PPA from Air Products
+2025-08-12 21:19:39,503 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:19:42,944 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:42,945 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eneco",
+        "type": "company",
+        "name": "Eneco"
+      },
+      {
+        "id": "company_air_products",
+        "type": "company",
+        "name": "Air Products"
+      },
+      {
+        "id": "company_mitsubishi",
+        "type": "company",
+        "name": "Mitsubishi"
+      },
+      {
+        "id": "company_stedin_holding_nv",
+        "type": "company",
+        "name": "Stedin Holding NV"
+      },
+      {
+        "id": "company_eneco_groep_nv",
+        "type": "company",
+        "name": "Eneco Groep NV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vlagtwedde_netherlands",
+        "type": "factory",
+        "name": "Vlagtwedde Solar Farm",
+        "location": {
+          "city": "Vlagtwedde",
+          "country": "Netherlands"
+        }
+      },
+      {
+        "id": "factory_port_of_rotterdam",
+        "type": "factory",
+        "name": "Port of Rotterdam Blue Hydrogen Facility",
+        "location": {
+          "city": "Port of Rotterdam",
+          "country": "Netherlands"
+        }
+      },
+      {
+        "id": "factory_ahaus_germany",
+        "type": "factory",
+        "name": "Ahaus Compressed Air Energy Storage Project",
+        "location": {
+          "city": "Ahaus",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_belgium_battery",
+        "type": "factory",
+        "name": "Belgium Battery Project",
+        "location": {
+          "city": "Belgium",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_liquid_nitrogen",
+        "type": "product",
+        "name": "liquid nitrogen"
+      },
+      {
+        "id": "product_liquid_oxygen",
+        "type": "product",
+        "name": "liquid oxygen"
+      },
+      {
+        "id": "product_blue_hydrogen",
+        "type": "product",
+        "name": "blue hydrogen"
+      },
+      {
+        "id": "product_compressed_air_energy_storage",
+        "type": "product",
+        "name": "compressed air energy storage"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-08-12 21:19:42,945 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:42,945 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 21:19:42,945 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:19:42,945 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:19:42,945 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:19:42,945 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:19:46,156 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:46,156 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eneco",
+      "type": "owns",
+      "target": "factory_vlagtwedde_netherlands"
+    },
+    {
+      "source": "company_air_products",
+      "type": "owns",
+      "target": "factory_port_of_rotterdam"
+    },
+    {
+      "source": "company_eneco",
+      "type": "owns",
+      "target": "factory_ahaus_germany"
+    },
+    {
+      "source": "company_eneco",
+      "type": "owns",
+      "target": "factory_belgium_battery"
+    }
+  ]
+}
+2025-08-12 21:19:46,156 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:46,156 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:19:46,156 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:19:48,255 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:48,255 - INFO - {
+  "relationships": [
+    {
+      "source": "product_liquid_nitrogen",
+      "target": "factory_vlagtwedde_netherlands",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_liquid_oxygen",
+      "target": "factory_vlagtwedde_netherlands",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_blue_hydrogen",
+      "target": "factory_port_of_rotterdam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_compressed_air_energy_storage",
+      "target": "factory_ahaus_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_belgium_battery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:19:48,255 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:48,255 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:19:48,255 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:19:48,346 - INFO - ✅ Updated Article ID: 67fa7e36eaa4fb525afebee5 with 14 nodes and combined text.

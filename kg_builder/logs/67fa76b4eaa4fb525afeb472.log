@@ -1,0 +1,96 @@
+2025-08-12 22:41:51,393 - INFO - 🔍 Text length: 3083 characters
+2025-08-12 22:41:51,393 - INFO - 📌 Processing Article ID: 67fa76b4eaa4fb525afeb472 — Trina Solar supplies more than 1 GW of panels for project in China
+2025-08-12 22:41:51,393 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:41:53,660 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:41:53,660 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_trina_solar",
+        "type": "company",
+        "name": "Trina Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jinsha_river_project",
+        "type": "factory",
+        "name": "Jinsha River Project",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vertex_n_720w_series_modules",
+        "type": "product",
+        "name": "Vertex N 720W series modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:41:53,660 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:41:53,661 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:41:53,661 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:41:54,786 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:41:54,786 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:41:54,786 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:41:54,786 - INFO - Node ID is capacity_1_gw_announced
+2025-08-12 22:41:54,786 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_announced' in capacity nodes
+2025-08-12 22:41:54,786 - INFO -   ➕ Set status: announced
+2025-08-12 22:41:54,786 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:41:54,786 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:41:54,786 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:41:54,786 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:41:54,786 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:41:55,756 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:41:55,756 - INFO - {
+  "relationships": [
+    {
+      "source": "company_trina_solar",
+      "type": "owns",
+      "target": "factory_jinsha_river_project"
+    }
+  ]
+}
+2025-08-12 22:41:55,756 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:41:55,756 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:41:55,756 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:41:58,096 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:41:58,096 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw_announced",
+      "target": "factory_jinsha_river_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_vertex_n_720w_series_modules",
+      "target": "factory_jinsha_river_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:41:58,096 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:41:58,096 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:41:58,096 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:41:58,182 - INFO - ✅ Updated Article ID: 67fa76b4eaa4fb525afeb472 with 4 nodes and combined text.

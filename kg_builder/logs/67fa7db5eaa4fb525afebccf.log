@@ -1,0 +1,154 @@
+2025-08-12 21:37:49,488 - INFO - 🔍 Text length: 2536 characters
+2025-08-12 21:37:49,489 - INFO - 📌 Processing Article ID: 67fa7db5eaa4fb525afebccf — Construction begins on 263 MW solar plant in Uzbekistan
+2025-08-12 21:37:49,489 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:37:52,482 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:52,482 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_china_datang",
+        "type": "company",
+        "name": "China Datang"
+      },
+      {
+        "id": "company_jsc_uzbekenergo",
+        "type": "company",
+        "name": "JSC Uzbekenergo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_buka_uzbekistan",
+        "type": "factory",
+        "name": "Buka Solar Power Plant",
+        "location": {
+          "city": "Buka",
+          "country": "Uzbekistan"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_buka_solar_power_plant",
+        "type": "investment",
+        "name": "Buka Solar Power Plant",
+        "amount": "$150 million",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_263_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "263 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:37:52,482 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:52,482 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:37:52,482 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:37:53,709 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:53,709 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_263_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:37:53,709 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:53,709 - INFO - Node ID is capacity_263_mw
+2025-08-12 21:37:53,709 - INFO - ✅ Match found for capacity_ID 'capacity_263_mw' in capacity nodes
+2025-08-12 21:37:53,709 - INFO -   ➕ Set status: under construction
+2025-08-12 21:37:53,709 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:37:53,709 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 21:37:53,709 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 21:37:55,040 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:55,040 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_buka_solar_power_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:37:55,040 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:55,040 - INFO - Node ID is investment_buka_solar_power_plant
+2025-08-12 21:37:55,040 - INFO - ✅ Match found for investment_ID 'investment_buka_solar_power_plant' in investment nodes
+2025-08-12 21:37:55,040 - INFO -   ➕ Set status: ongoing
+2025-08-12 21:37:55,040 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:37:55,040 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:37:55,041 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:37:55,041 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:37:55,963 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:55,963 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jsc_uzbekenergo",
+      "type": "owns",
+      "target": "factory_buka_uzbekistan"
+    }
+  ]
+}
+2025-08-12 21:37:55,963 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:55,963 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:37:55,963 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:37:57,907 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:57,907 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_263_mw",
+      "target": "factory_buka_uzbekistan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_263_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_buka_uzbekistan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:37:57,908 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:57,908 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 21:37:57,908 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 21:37:58,624 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:58,624 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:37:58,624 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:58,624 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 21:37:58,624 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 21:37:59,546 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:37:59,546 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_buka_solar_power_plant",
+      "target": "capacity_263_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_buka_solar_power_plant",
+      "target": "product_solar_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 21:37:59,546 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:37:59,627 - INFO - ✅ Updated Article ID: 67fa7db5eaa4fb525afebccf with 6 nodes and combined text.

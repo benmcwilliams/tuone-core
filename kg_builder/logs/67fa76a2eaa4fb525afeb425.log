@@ -1,0 +1,122 @@
+2025-08-12 22:58:33,415 - INFO - 🔍 Text length: 3449 characters
+2025-08-12 22:58:33,415 - INFO - 📌 Processing Article ID: 67fa76a2eaa4fb525afeb425 — UtmoLight unveils 450 W perovskite solar module with 16.1% efficiency
+2025-08-12 22:58:33,415 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:58:36,112 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:58:36,112 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_utmolight",
+        "type": "company",
+        "name": "UtmoLight"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wuxi_china",
+        "type": "factory",
+        "name": "Wuxi Factory",
+        "location": {
+          "city": "Wuxi",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_gigawatt_scale",
+        "type": "capacity",
+        "name": "",
+        "amount": "gigawatt-scale",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_150_mw_pilot_line",
+        "type": "capacity",
+        "name": "",
+        "amount": "150 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_perovskite_solar_module",
+        "type": "product",
+        "name": "perovskite solar module"
+      }
+    ]
+  }
+}
+2025-08-12 22:58:36,112 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:58:36,112 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:58:36,112 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:58:37,199 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:58:37,200 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_gigawatt_scale",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_150_mw_pilot_line",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:58:37,200 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:58:37,200 - INFO - Node ID is capacity_gigawatt_scale
+2025-08-12 22:58:37,200 - INFO - ✅ Match found for capacity_ID 'capacity_gigawatt_scale' in capacity nodes
+2025-08-12 22:58:37,200 - INFO -   ➕ Set status: operational
+2025-08-12 22:58:37,200 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:58:37,200 - INFO - Node ID is capacity_150_mw_pilot_line
+2025-08-12 22:58:37,200 - INFO - ✅ Match found for capacity_ID 'capacity_150_mw_pilot_line' in capacity nodes
+2025-08-12 22:58:37,200 - INFO -   ➕ Set status: operational
+2025-08-12 22:58:37,200 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:58:37,200 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:58:37,200 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:58:37,200 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:58:37,200 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:58:38,128 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:58:38,128 - INFO - {
+  "relationships": [
+    {
+      "source": "company_utmolight",
+      "type": "owns",
+      "target": "factory_wuxi_china"
+    }
+  ]
+}
+2025-08-12 22:58:38,128 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:58:38,128 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:58:38,128 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:58:40,401 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:58:40,401 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_gigawatt_scale",
+      "target": "factory_wuxi_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_gigawatt_scale",
+      "target": "product_perovskite_solar_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_perovskite_solar_module",
+      "target": "factory_wuxi_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150_mw_pilot_line",
+      "target": "product_perovskite_solar_module",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:58:40,402 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:58:40,402 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:58:40,402 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:58:40,484 - INFO - ✅ Updated Article ID: 67fa76a2eaa4fb525afeb425 with 5 nodes and combined text.

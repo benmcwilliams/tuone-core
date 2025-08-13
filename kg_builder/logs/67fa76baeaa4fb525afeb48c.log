@@ -1,0 +1,111 @@
+2025-08-12 22:37:25,925 - INFO - 🔍 Text length: 3782 characters
+2025-08-12 22:37:25,925 - INFO - 📌 Processing Article ID: 67fa76baeaa4fb525afeb48c — New US solar manufacturer to open 2.5 GW HJT factory
+2025-08-12 22:37:25,926 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:37:28,178 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:37:28,178 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nuvision_solar",
+        "type": "company",
+        "name": "NuVision Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nuvision_solar",
+        "type": "factory",
+        "name": "NuVision Solar Facility",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_5_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.5 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heterojunction_solar_cells",
+        "type": "product",
+        "name": "Heterojunction Solar Cells"
+      },
+      {
+        "id": "product_bifacial_solar_modules",
+        "type": "product",
+        "name": "Bifacial Solar Modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:37:28,178 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:37:28,178 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:37:28,178 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:37:29,773 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:37:29,774 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_5_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:37:29,774 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:37:29,774 - INFO - Node ID is capacity_2_5_gw_announced
+2025-08-12 22:37:29,774 - INFO - ✅ Match found for capacity_ID 'capacity_2_5_gw_announced' in capacity nodes
+2025-08-12 22:37:29,774 - INFO -   ➕ Set status: announced
+2025-08-12 22:37:29,774 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:37:29,774 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:37:29,774 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:37:29,774 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:37:29,774 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:37:30,592 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:37:30,592 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nuvision_solar",
+      "type": "owns",
+      "target": "factory_nuvision_solar"
+    }
+  ]
+}
+2025-08-12 22:37:30,592 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:37:30,592 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:37:30,592 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:37:32,027 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:37:32,028 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_5_gw_announced",
+      "target": "factory_nuvision_solar",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_5_gw_announced",
+      "target": "product_heterojunction_solar_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_heterojunction_solar_cells",
+      "target": "factory_nuvision_solar",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bifacial_solar_modules",
+      "target": "factory_nuvision_solar",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:37:32,028 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:37:32,028 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:37:32,028 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:37:32,113 - INFO - ✅ Updated Article ID: 67fa76baeaa4fb525afeb48c with 5 nodes and combined text.

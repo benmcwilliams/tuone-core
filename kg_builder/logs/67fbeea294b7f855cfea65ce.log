@@ -1,0 +1,66 @@
+2025-08-12 19:48:34,805 - INFO - 🔍 Text length: 2925 characters
+2025-08-12 19:48:34,805 - INFO - 📌 Processing Article ID: 67fbeea294b7f855cfea65ce — Fire at South Korea primary lithium battery factory kills 22
+2025-08-12 19:48:34,805 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:48:37,732 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:48:37,732 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aricell",
+        "type": "company",
+        "name": "Aricell"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hwaseong_south_korea",
+        "type": "factory",
+        "name": "Hwaseong Factory",
+        "location": {
+          "city": "Hwaseong",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_primary_lithium_battery",
+        "type": "product",
+        "name": "non-rechargeable lithium batteries"
+      }
+    ]
+  }
+}
+2025-08-12 19:48:37,732 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:48:37,732 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:48:37,732 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:48:37,732 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:48:37,732 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:48:37,732 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:48:39,182 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:48:39,182 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aricell",
+      "type": "owns",
+      "target": "factory_hwaseong_south_korea"
+    }
+  ]
+}
+2025-08-12 19:48:39,182 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:48:39,182 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:48:39,182 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:48:40,287 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:48:40,288 - INFO - {
+  "relationships": [
+    {
+      "source": "product_primary_lithium_battery",
+      "target": "factory_hwaseong_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:48:40,288 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:48:40,288 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:48:40,288 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:48:40,357 - INFO - ✅ Updated Article ID: 67fbeea294b7f855cfea65ce with 3 nodes and combined text.

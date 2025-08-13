@@ -1,0 +1,85 @@
+2025-08-12 22:40:02,964 - INFO - 🔍 Text length: 6566 characters
+2025-08-12 22:40:02,964 - INFO - 📌 Processing Article ID: 67fa76b6eaa4fb525afeb479 — Flood precautions for rooftop PV, ground-mounted solar
+2025-08-12 22:40:02,964 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:40:07,071 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:07,071 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kiwa_pi_berlin",
+        "type": "company",
+        "name": "Kiwa PI Berlin"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_valencian_community_spain",
+        "type": "factory",
+        "name": "Valencian Community PV Plant",
+        "location": {
+          "city": "Valencian Community",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_castilla_la_mancha_spain",
+        "type": "factory",
+        "name": "Castilla-La Mancha PV Plant",
+        "location": {
+          "city": "Castilla-La Mancha",
+          "country": "Spain"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_systems",
+        "type": "product",
+        "name": "PV systems"
+      }
+    ]
+  }
+}
+2025-08-12 22:40:07,071 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:07,071 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:40:07,071 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:40:07,071 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:40:07,071 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:40:07,071 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:40:11,566 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:11,566 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kiwa_pi_berlin",
+      "type": "owns",
+      "target": "factory_valencian_community_spain"
+    },
+    {
+      "source": "company_kiwa_pi_berlin",
+      "type": "owns",
+      "target": "factory_castilla_la_mancha_spain"
+    }
+  ]
+}
+2025-08-12 22:40:11,566 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:11,566 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:40:11,566 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:40:12,897 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:40:12,897 - INFO - {
+  "relationships": [
+    {
+      "source": "product_pv_systems",
+      "target": "factory_valencian_community_spain",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pv_systems",
+      "target": "factory_castilla_la_mancha_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:40:12,897 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:40:12,897 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:40:12,897 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:40:12,980 - INFO - ✅ Updated Article ID: 67fa76b6eaa4fb525afeb479 with 4 nodes and combined text.

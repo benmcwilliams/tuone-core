@@ -1,0 +1,101 @@
+2025-08-12 18:51:52,272 - INFO - 🔍 Text length: 4752 characters
+2025-08-12 18:51:52,272 - INFO - 📌 Processing Article ID: 67fbeedd94b7f855cfea66c1 — Australian developer reveals plans for giant 3.4 GWh battery project
+2025-08-12 18:51:52,272 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:51:55,275 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:51:55,275 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_libra_energy",
+        "type": "company",
+        "name": "Libra Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bremer_battery",
+        "type": "factory",
+        "name": "Bremer Battery",
+        "location": {
+          "city": "Rosewood",
+          "country": "Australia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_850_mw_3,400_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "850 MW / 3,400 MWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_system",
+        "type": "product",
+        "name": "battery energy storage system"
+      }
+    ]
+  }
+}
+2025-08-12 18:51:55,275 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:51:55,275 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:51:55,275 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:51:56,501 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:51:56,502 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_850_mw_3,400_mwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:51:56,502 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:51:56,502 - INFO - Node ID is capacity_850_mw_3,400_mwh
+2025-08-12 18:51:56,502 - INFO - ✅ Match found for capacity_ID 'capacity_850_mw_3,400_mwh' in capacity nodes
+2025-08-12 18:51:56,502 - INFO -   ➕ Set status: announced
+2025-08-12 18:51:56,502 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:51:56,502 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:51:56,502 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:51:56,502 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:51:56,502 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:51:58,677 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:51:58,677 - INFO - {
+  "relationships": [
+    {
+      "source": "company_libra_energy",
+      "type": "owns",
+      "target": "factory_bremer_battery"
+    }
+  ]
+}
+2025-08-12 18:51:58,678 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:51:58,678 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:51:58,678 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:52:00,184 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:52:00,185 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_850_mw_3,400_mwh",
+      "target": "factory_bremer_battery",
+      "type": "at"
+    },
+    {
+      "source": "capacity_850_mw_3,400_mwh",
+      "target": "product_battery_energy_storage_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_system",
+      "target": "factory_bremer_battery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:52:00,185 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:52:00,185 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:52:00,185 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:52:00,264 - INFO - ✅ Updated Article ID: 67fbeedd94b7f855cfea66c1 with 4 nodes and combined text.

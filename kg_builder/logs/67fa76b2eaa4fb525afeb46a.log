@@ -1,0 +1,100 @@
+2025-08-12 22:43:14,184 - INFO - 🔍 Text length: 4728 characters
+2025-08-12 22:43:14,184 - INFO - 📌 Processing Article ID: 67fa76b2eaa4fb525afeb46a — Maxeon solar panels shipped from Mexico denied entry to U.S.
+2025-08-12 22:43:14,184 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:43:17,672 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:17,673 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_maxeon_solar",
+        "type": "company",
+        "name": "Maxeon Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ensenada_mexico",
+        "type": "factory",
+        "name": "Ensenada Module Factory",
+        "location": {
+          "city": "Ensenada",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_mexicali_mexico",
+        "type": "factory",
+        "name": "Mexicali Module Factory",
+        "location": {
+          "city": "Mexicali",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_maxeon_3",
+        "type": "product",
+        "name": "Maxeon 3"
+      },
+      {
+        "id": "product_maxeon_6",
+        "type": "product",
+        "name": "Maxeon 6"
+      },
+      {
+        "id": "product_performance_line",
+        "type": "product",
+        "name": "Performance Line"
+      }
+    ]
+  }
+}
+2025-08-12 22:43:17,673 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:17,673 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:43:17,673 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:43:17,673 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:43:17,673 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:43:17,673 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:43:19,061 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:19,062 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maxeon_solar",
+      "type": "owns",
+      "target": "factory_ensenada_mexico"
+    },
+    {
+      "source": "company_maxeon_solar",
+      "type": "owns",
+      "target": "factory_mexicali_mexico"
+    }
+  ]
+}
+2025-08-12 22:43:19,062 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:19,062 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:43:19,062 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:43:21,827 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:43:21,827 - INFO - {
+  "relationships": [
+    {
+      "source": "product_maxeon_3",
+      "target": "factory_ensenada_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_maxeon_6",
+      "target": "factory_ensenada_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_performance_line",
+      "target": "factory_mexicali_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:43:21,827 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:43:21,827 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:43:21,828 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:43:21,907 - INFO - ✅ Updated Article ID: 67fa76b2eaa4fb525afeb46a with 6 nodes and combined text.

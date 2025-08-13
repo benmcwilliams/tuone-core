@@ -1,0 +1,123 @@
+2025-08-12 21:54:23,012 - INFO - 🔍 Text length: 3028 characters
+2025-08-12 21:54:23,013 - INFO - 📌 Processing Article ID: 67fa7d18eaa4fb525afeba44 — Masdar, Sarawak Energy, Gentari plan large-scale floating solar in Malaysia
+2025-08-12 21:54:23,013 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:54:25,497 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:54:25,497 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_masdar",
+        "type": "company",
+        "name": "Masdar"
+      },
+      {
+        "id": "company_sarawak_energy",
+        "type": "company",
+        "name": "Sarawak Energy"
+      },
+      {
+        "id": "company_gentari",
+        "type": "company",
+        "name": "Gentari"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_masdar_sarawak_energy_gentari",
+        "type": "joint_venture",
+        "name": "Masdar Sarawak Energy Gentari"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_murum_hydroelectric_plant",
+        "type": "factory",
+        "name": "Murum Hydroelectric Plant",
+        "location": {
+          "city": "Murum Reservoir, Sarawak",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "10 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_solar_power",
+        "type": "product",
+        "name": "floating solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:54:25,497 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:54:25,497 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:54:25,497 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:54:27,525 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:54:27,525 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 21:54:27,525 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:54:27,525 - INFO - Node ID is capacity_10_gw_announced
+2025-08-12 21:54:27,525 - INFO - ✅ Match found for capacity_ID 'capacity_10_gw_announced' in capacity nodes
+2025-08-12 21:54:27,525 - INFO -   ➕ Set status: announced
+2025-08-12 21:54:27,525 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:54:27,525 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:54:27,525 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:54:27,525 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:54:27,525 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:54:29,078 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:54:29,079 - INFO - {
+  "relationships": [
+    {
+      "source": "company_masdar",
+      "type": "forms",
+      "target": "joint_venture_masdar_sarawak_energy_gentari"
+    },
+    {
+      "source": "company_sarawak_energy",
+      "type": "forms",
+      "target": "joint_venture_masdar_sarawak_energy_gentari"
+    },
+    {
+      "source": "company_gentari",
+      "type": "forms",
+      "target": "joint_venture_masdar_sarawak_energy_gentari"
+    },
+    {
+      "source": "company_sarawak_energy",
+      "type": "owns",
+      "target": "factory_murum_hydroelectric_plant"
+    }
+  ]
+}
+2025-08-12 21:54:29,079 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:54:29,079 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:54:29,079 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:54:30,411 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:54:30,412 - INFO - {
+  "relationships": [
+    {
+      "source": "product_floating_solar_power",
+      "target": "factory_murum_hydroelectric_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:54:30,412 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:54:30,412 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:54:30,412 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:54:30,496 - INFO - ✅ Updated Article ID: 67fa7d18eaa4fb525afeba44 with 7 nodes and combined text.

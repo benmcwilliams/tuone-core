@@ -1,0 +1,90 @@
+2025-08-12 19:51:11,275 - INFO - 🔍 Text length: 5952 characters
+2025-08-12 19:51:11,275 - INFO - 📌 Processing Article ID: 67fbee9f94b7f855cfea65c2 — Using surplus PV power for seasonal underground thermal storage
+2025-08-12 19:51:11,275 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:51:14,004 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:51:14,004 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_university_of_nairobi",
+        "type": "company",
+        "name": "University of Nairobi"
+      },
+      {
+        "id": "company_korea_institute_of_energy_research",
+        "type": "company",
+        "name": "Korea Institute of Energy Research"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_seoul_south_korea",
+        "type": "factory",
+        "name": "Seoul School Facility",
+        "location": {
+          "city": "Seoul",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_160_kw_heating_cooling",
+        "type": "capacity",
+        "name": "",
+        "amount": "160 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_underground_thermal_energy_storage",
+        "type": "product",
+        "name": "Underground Thermal Energy Storage (UTES)"
+      }
+    ]
+  }
+}
+2025-08-12 19:51:14,004 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:51:14,004 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:51:14,004 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:51:14,770 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:51:14,771 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_160_kw_heating_cooling",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:51:14,771 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:51:14,771 - INFO - Node ID is capacity_160_kw_heating_cooling
+2025-08-12 19:51:14,771 - INFO - ✅ Match found for capacity_ID 'capacity_160_kw_heating_cooling' in capacity nodes
+2025-08-12 19:51:14,771 - INFO -   ➕ Set status: unclear
+2025-08-12 19:51:14,771 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:51:14,771 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:51:14,771 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:51:14,771 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:51:14,771 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:51:16,023 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:51:16,023 - INFO - {
+  "relationships": [
+    {
+      "source": "company_korea_institute_of_energy_research",
+      "type": "owns",
+      "target": "factory_seoul_south_korea"
+    }
+  ]
+}
+2025-08-12 19:51:16,023 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:51:16,023 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:51:16,023 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:51:17,121 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:51:17,122 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:51:17,122 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:51:17,122 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:51:17,122 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:51:17,204 - INFO - ✅ Updated Article ID: 67fbee9f94b7f855cfea65c2 with 5 nodes and combined text.

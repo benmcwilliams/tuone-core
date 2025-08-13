@@ -1,0 +1,133 @@
+2025-08-12 21:09:47,947 - INFO - 🔍 Text length: 2827 characters
+2025-08-12 21:09:47,947 - INFO - 📌 Processing Article ID: 67fa7e91eaa4fb525afec05d — JCM Power wins 240 MW hybrid PV-wind project in Pakistan with $0.031/kWh bid
+2025-08-12 21:09:47,947 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:09:51,955 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:09:51,955 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jcm_power",
+        "type": "company",
+        "name": "JCM Power"
+      },
+      {
+        "id": "company_burj_capital",
+        "type": "company",
+        "name": "Burj Capital"
+      },
+      {
+        "id": "company_gharo_solar_limited",
+        "type": "company",
+        "name": "Gharo Solar Limited"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_jcm_power_burj_capital_gharo_solar_limited",
+        "type": "joint_venture",
+        "name": "JCM Power, Burj Capital, and Gharo Solar Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dhabeji_pakistan",
+        "type": "factory",
+        "name": "Dhabeji Hybrid Wind-Solar Project",
+        "location": {
+          "city": "Dhabeji",
+          "country": "Pakistan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_240_mw_ac",
+        "type": "capacity",
+        "name": "",
+        "amount": "240 MW (AC)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrid_wind_solar_power",
+        "type": "product",
+        "name": "hybrid wind-solar electricity"
+      }
+    ]
+  }
+}
+2025-08-12 21:09:51,955 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:09:51,956 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:09:51,956 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:09:52,687 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:09:52,687 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_240_mw_ac",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:09:52,687 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:09:52,687 - INFO - Node ID is capacity_240_mw_ac
+2025-08-12 21:09:52,687 - INFO - ✅ Match found for capacity_ID 'capacity_240_mw_ac' in capacity nodes
+2025-08-12 21:09:52,687 - INFO -   ➕ Set status: announced
+2025-08-12 21:09:52,687 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:09:52,687 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:09:52,687 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:09:52,687 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:09:52,687 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:09:54,615 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:09:54,615 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jcm_power",
+      "type": "forms",
+      "target": "joint_venture_jcm_power_burj_capital_gharo_solar_limited"
+    },
+    {
+      "source": "company_burj_capital",
+      "type": "forms",
+      "target": "joint_venture_jcm_power_burj_capital_gharo_solar_limited"
+    },
+    {
+      "source": "company_gharo_solar_limited",
+      "type": "forms",
+      "target": "joint_venture_jcm_power_burj_capital_gharo_solar_limited"
+    },
+    {
+      "source": "joint_venture_jcm_power_burj_capital_gharo_solar_limited",
+      "type": "owns",
+      "target": "factory_dhabeji_pakistan"
+    }
+  ]
+}
+2025-08-12 21:09:54,615 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:09:54,615 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:09:54,615 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:09:56,825 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:09:56,825 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_240_mw_ac",
+      "target": "factory_dhabeji_pakistan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_240_mw_ac",
+      "target": "product_hybrid_wind_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_hybrid_wind_solar_power",
+      "target": "factory_dhabeji_pakistan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:09:56,825 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:09:56,825 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:09:56,825 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:09:56,902 - INFO - ✅ Updated Article ID: 67fa7e91eaa4fb525afec05d with 7 nodes and combined text.

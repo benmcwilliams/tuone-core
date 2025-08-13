@@ -1,0 +1,111 @@
+2025-08-12 21:04:37,967 - INFO - 🔍 Text length: 3108 characters
+2025-08-12 21:04:37,968 - INFO - 📌 Processing Article ID: 67fa7ec3eaa4fb525afec12e — Austrian utility building 164 MW agrivoltaic plant
+2025-08-12 21:04:37,968 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:04:40,714 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:04:40,714 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_burgenland_energie",
+        "type": "company",
+        "name": "Burgenland Energie"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tadten_wallern_austria",
+        "type": "factory",
+        "name": "Tadten-Wallern Agrivoltaic Facility",
+        "location": {
+          "city": "Tadten-Wallern",
+          "country": "Austria"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_164_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "164 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_agrivoltaic_power",
+        "type": "product",
+        "name": "agrivoltaic power"
+      },
+      {
+        "id": "product_potatoes",
+        "type": "product",
+        "name": "potatoes"
+      },
+      {
+        "id": "product_chickpeas",
+        "type": "product",
+        "name": "chickpeas"
+      }
+    ]
+  }
+}
+2025-08-12 21:04:40,714 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:04:40,714 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:04:40,715 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:04:42,935 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:04:42,935 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_164_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:04:42,935 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:04:42,935 - INFO - Node ID is capacity_164_mw
+2025-08-12 21:04:42,935 - INFO - ✅ Match found for capacity_ID 'capacity_164_mw' in capacity nodes
+2025-08-12 21:04:42,935 - INFO -   ➕ Set status: under construction
+2025-08-12 21:04:42,935 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:04:42,935 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:04:42,935 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:04:42,935 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:04:42,935 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:04:44,206 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:04:44,206 - INFO - {
+  "relationships": [
+    {
+      "source": "company_burgenland_energie",
+      "type": "owns",
+      "target": "factory_tadten_wallern_austria"
+    }
+  ]
+}
+2025-08-12 21:04:44,206 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:04:44,206 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:04:44,206 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:04:48,097 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:04:48,097 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_164_mw",
+      "target": "factory_tadten_wallern_austria",
+      "type": "at"
+    },
+    {
+      "source": "capacity_164_mw",
+      "target": "product_agrivoltaic_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_agrivoltaic_power",
+      "target": "factory_tadten_wallern_austria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 21:04:48,097 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:04:48,097 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:04:48,097 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:04:48,176 - INFO - ✅ Updated Article ID: 67fa7ec3eaa4fb525afec12e with 6 nodes and combined text.

@@ -1,0 +1,168 @@
+2025-08-12 21:14:12,427 - INFO - 🔍 Text length: 4864 characters
+2025-08-12 21:14:12,427 - INFO - 📌 Processing Article ID: 67fa7e61eaa4fb525afebf94 — UK planning reform targets solar development dead zone
+2025-08-12 21:14:12,427 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:14:15,080 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:15,080 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solar_energy_uk",
+        "type": "company",
+        "name": "Solar Energy UK"
+      },
+      {
+        "id": "company_pinsent_masons",
+        "type": "company",
+        "name": "Pinsent Masons"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cottam_solar_project",
+        "type": "factory",
+        "name": "Cottam Solar Project",
+        "location": {
+          "city": "Cottam",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_planning_departments_funding",
+        "type": "investment",
+        "name": "Planning Departments Funding",
+        "amount": "\u00a3100 million [$127 million]",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_600_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "600 MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_34_mw",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "34 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-08-12 21:14:15,080 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:15,080 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:14:15,080 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:14:18,592 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:18,592 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_600_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_34_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:14:18,592 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:18,592 - INFO - Node ID is capacity_600_mw
+2025-08-12 21:14:18,592 - INFO - ✅ Match found for capacity_ID 'capacity_600_mw' in capacity nodes
+2025-08-12 21:14:18,592 - INFO -   ➕ Set status: announced
+2025-08-12 21:14:18,592 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:14:18,592 - INFO - Node ID is capacity_34_mw
+2025-08-12 21:14:18,592 - INFO - ✅ Match found for capacity_ID 'capacity_34_mw' in capacity nodes
+2025-08-12 21:14:18,592 - INFO -   ➕ Set status: announced
+2025-08-12 21:14:18,592 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:14:18,592 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 21:14:18,592 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 21:14:19,467 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:19,467 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_planning_departments_funding",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 21:14:19,467 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:19,467 - INFO - Node ID is investment_planning_departments_funding
+2025-08-12 21:14:19,468 - INFO - ✅ Match found for investment_ID 'investment_planning_departments_funding' in investment nodes
+2025-08-12 21:14:19,468 - INFO -   ➕ Set status: announced
+2025-08-12 21:14:19,468 - INFO -   ➕ Set phase: unclear
+2025-08-12 21:14:19,468 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:14:19,468 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:14:19,468 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:14:29,683 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:29,683 - INFO - {
+  "relationships": [
+    {
+      "source": "company_pinsent_masons",
+      "type": "owns",
+      "target": "factory_cottam_solar_project"
+    }
+  ]
+}
+2025-08-12 21:14:29,683 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:29,683 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:14:29,683 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:14:31,158 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:31,159 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_600_mw",
+      "target": "factory_cottam_solar_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_power",
+      "target": "factory_cottam_solar_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_600_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_34_mw",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 21:14:31,159 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:31,159 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 21:14:31,159 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 21:14:31,840 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:31,840 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:14:31,840 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:31,840 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 21:14:31,840 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 21:14:32,488 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:14:32,488 - INFO - {
+  "relationships": []
+}
+2025-08-12 21:14:32,488 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:14:32,566 - INFO - ✅ Updated Article ID: 67fa7e61eaa4fb525afebf94 with 7 nodes and combined text.

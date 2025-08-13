@@ -1,0 +1,106 @@
+2025-08-12 18:58:37,592 - INFO - 🔍 Text length: 3413 characters
+2025-08-12 18:58:37,592 - INFO - 📌 Processing Article ID: 67fbeed594b7f855cfea669f — Colbún proposes 800 MW desalinated water-powered pumped storage project in Chile
+2025-08-12 18:58:37,593 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:58:39,217 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:39,217 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_colbun",
+        "type": "company",
+        "name": "Colb\u00fan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_paposo_pumping_central",
+        "type": "factory",
+        "name": "Paposo Pumping Central",
+        "location": {
+          "city": "null",
+          "country": "Chile"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_800_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "800 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_desalinated_water",
+        "type": "product",
+        "name": "desalinated water"
+      },
+      {
+        "id": "product_pumped_storage_hydropower",
+        "type": "product",
+        "name": "pumped storage hydropower"
+      }
+    ]
+  }
+}
+2025-08-12 18:58:39,217 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:39,217 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:58:39,217 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:58:41,705 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:41,706 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_800_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:58:41,706 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:41,706 - INFO - Node ID is capacity_800_mw
+2025-08-12 18:58:41,706 - INFO - ✅ Match found for capacity_ID 'capacity_800_mw' in capacity nodes
+2025-08-12 18:58:41,706 - INFO -   ➕ Set status: announced
+2025-08-12 18:58:41,706 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:58:41,706 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:58:41,706 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:58:41,706 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:58:41,706 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:58:44,164 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:44,164 - INFO - {
+  "relationships": [
+    {
+      "source": "company_colbun",
+      "type": "owns",
+      "target": "factory_paposo_pumping_central"
+    }
+  ]
+}
+2025-08-12 18:58:44,165 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:44,165 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:58:44,165 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:58:46,419 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:46,419 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_800_mw",
+      "target": "factory_paposo_pumping_central",
+      "type": "at"
+    },
+    {
+      "source": "capacity_800_mw",
+      "target": "product_pumped_storage_hydropower",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pumped_storage_hydropower",
+      "target": "factory_paposo_pumping_central",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:58:46,419 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:46,420 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:58:46,420 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:58:46,503 - INFO - ✅ Updated Article ID: 67fbeed594b7f855cfea669f with 5 nodes and combined text.

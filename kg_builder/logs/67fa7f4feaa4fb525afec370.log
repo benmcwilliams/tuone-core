@@ -1,0 +1,176 @@
+2025-08-12 20:50:01,783 - INFO - 🔍 Text length: 2810 characters
+2025-08-12 20:50:01,783 - INFO - 📌 Processing Article ID: 67fa7f4feaa4fb525afec370 — Italy’s regional governments approve 5.1 GW of utility-scale PV projects in January-September period
+2025-08-12 20:50:01,784 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:50:05,302 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:05,302 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_sicily",
+        "type": "factory",
+        "name": "Sicily Solar Projects",
+        "location": {
+          "city": "Sicily",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_puglia",
+        "type": "factory",
+        "name": "Puglia Solar Projects",
+        "location": {
+          "city": "Puglia",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_lazio",
+        "type": "factory",
+        "name": "Lazio Solar Projects",
+        "location": {
+          "city": "Lazio",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_5.1_gw_solar_projects",
+        "type": "investment",
+        "name": "5.1 GW Solar Projects",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5.1_gw_announced",
+        "type": "capacity",
+        "amount": "5.1 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_utility_scale_solar",
+        "type": "product",
+        "name": "utility-scale solar"
+      }
+    ]
+  }
+}
+2025-08-12 20:50:05,303 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:05,303 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:50:05,303 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:50:06,814 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:06,814 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5.1_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 20:50:06,814 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:06,814 - INFO - Node ID is capacity_5.1_gw_announced
+2025-08-12 20:50:06,814 - INFO - ✅ Match found for capacity_ID 'capacity_5.1_gw_announced' in capacity nodes
+2025-08-12 20:50:06,814 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:06,814 - INFO -   ➕ Set phase: unclear
+2025-08-12 20:50:06,814 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 20:50:06,814 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 20:50:07,744 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:07,744 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_5.1_gw_solar_projects",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:50:07,744 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:07,744 - INFO - Node ID is investment_5.1_gw_solar_projects
+2025-08-12 20:50:07,744 - INFO - ✅ Match found for investment_ID 'investment_5.1_gw_solar_projects' in investment nodes
+2025-08-12 20:50:07,744 - INFO -   ➕ Set status: announced
+2025-08-12 20:50:07,744 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:50:07,744 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:50:07,744 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:50:07,745 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:50:08,964 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:08,964 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sicily",
+      "type": "owns",
+      "target": "factory_sicily"
+    },
+    {
+      "source": "company_puglia",
+      "type": "owns",
+      "target": "factory_puglia"
+    },
+    {
+      "source": "company_lazio",
+      "type": "owns",
+      "target": "factory_lazio"
+    }
+  ]
+}
+2025-08-12 20:50:08,964 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:08,965 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:50:08,965 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:50:11,423 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:11,424 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5.1_gw_announced",
+      "target": "product_utility_scale_solar",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_utility_scale_solar",
+      "target": "factory_sicily",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_utility_scale_solar",
+      "target": "factory_puglia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_utility_scale_solar",
+      "target": "factory_lazio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:50:11,424 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:11,424 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 20:50:11,424 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 20:50:12,458 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:12,458 - INFO - {
+  "relationships": []
+}
+2025-08-12 20:50:12,458 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:12,458 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 20:50:12,458 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 20:50:14,084 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:50:14,085 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_5.1_gw_solar_projects",
+      "target": "capacity_5.1_gw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_5.1_gw_solar_projects",
+      "target": "product_utility_scale_solar",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 20:50:14,085 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:50:14,171 - INFO - ✅ Updated Article ID: 67fa7f4feaa4fb525afec370 with 6 nodes and combined text.

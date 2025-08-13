@@ -1,0 +1,149 @@
+2025-08-12 22:09:49,727 - INFO - 🔍 Text length: 3181 characters
+2025-08-12 22:09:49,727 - INFO - 📌 Processing Article ID: 67fa7c68eaa4fb525afeb768 — DMEGC Solar energizes 940 MW solar-fishery project
+2025-08-12 22:09:49,727 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:09:51,776 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:51,777 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_dmegc_solar",
+        "type": "company",
+        "name": "DMEGC Solar"
+      },
+      {
+        "id": "company_huawei",
+        "type": "company",
+        "name": "Huawei"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lianyungang",
+        "type": "factory",
+        "name": "Lianyungang Factory",
+        "location": {
+          "city": "Lianyungang",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_940_mw_solar_array",
+        "type": "investment",
+        "name": "940 MW Solar Array",
+        "amount": "RMB 5.43 billion ($749.8 million)",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_940_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "940 MW",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_infinity_series_n_type_solar_modules",
+        "type": "product",
+        "name": "Infinity Series N-Type Solar Modules"
+      },
+      {
+        "id": "product_inverters",
+        "type": "product",
+        "name": "Inverters"
+      }
+    ]
+  }
+}
+2025-08-12 22:09:51,777 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:51,777 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:09:51,777 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:09:53,019 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:53,020 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_940_mw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:09:53,020 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:53,020 - INFO - Node ID is capacity_940_mw
+2025-08-12 22:09:53,020 - INFO - ✅ Match found for capacity_ID 'capacity_940_mw' in capacity nodes
+2025-08-12 22:09:53,020 - INFO -   ➕ Set status: operational
+2025-08-12 22:09:53,020 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:09:53,020 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:09:53,020 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:09:54,040 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:54,040 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_940_mw_solar_array",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:09:54,040 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:54,040 - INFO - Node ID is investment_940_mw_solar_array
+2025-08-12 22:09:54,040 - INFO - ✅ Match found for investment_ID 'investment_940_mw_solar_array' in investment nodes
+2025-08-12 22:09:54,040 - INFO -   ➕ Set status: completed
+2025-08-12 22:09:54,040 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:09:54,040 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:09:54,040 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:09:54,040 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:09:54,869 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:54,870 - INFO - {
+  "relationships": [
+    {
+      "source": "company_dmegc_solar",
+      "type": "owns",
+      "target": "factory_lianyungang"
+    }
+  ]
+}
+2025-08-12 22:09:54,870 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:54,870 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:09:54,870 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:09:56,418 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:56,418 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_940_mw",
+      "target": "factory_lianyungang",
+      "type": "at"
+    },
+    {
+      "source": "product_infinity_series_n_type_solar_modules",
+      "target": "factory_lianyungang",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:09:56,418 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:56,418 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:09:56,418 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:09:58,753 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:09:58,753 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:09:58,753 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:09:58,753 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:09:58,753 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:10:00,488 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:10:00,488 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_940_mw_solar_array",
+      "target": "capacity_940_mw",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-12 22:10:00,488 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:10:00,578 - INFO - ✅ Updated Article ID: 67fa7c68eaa4fb525afeb768 with 7 nodes and combined text.

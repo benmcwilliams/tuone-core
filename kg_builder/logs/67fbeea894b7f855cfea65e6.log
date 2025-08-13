@@ -1,0 +1,156 @@
+2025-08-12 19:44:25,354 - INFO - 🔍 Text length: 3890 characters
+2025-08-12 19:44:25,354 - INFO - 📌 Processing Article ID: 67fbeea894b7f855cfea65e6 — SolarEdge U.S.-made home battery now available
+2025-08-12 19:44:25,354 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:44:31,519 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:31,520 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solaredge",
+        "type": "company",
+        "name": "SolarEdge"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_seminole_florida",
+        "type": "factory",
+        "name": "Seminole Facility",
+        "location": {
+          "city": "Seminole",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_austin_texas",
+        "type": "factory",
+        "name": "Austin Facility",
+        "location": {
+          "city": "Austin",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2m_units_per_quarter",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 million units per quarter",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_50k_units_per_quarter",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 units per quarter",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_home_battery_usa_edition",
+        "type": "product",
+        "name": "Home Battery \u2018USA Edition\u2019"
+      },
+      {
+        "id": "product_power_optimizers",
+        "type": "product",
+        "name": "power optimizers"
+      },
+      {
+        "id": "product_home_hub_inverter",
+        "type": "product",
+        "name": "Home Hub Inverter"
+      }
+    ]
+  }
+}
+2025-08-12 19:44:31,520 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:31,520 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:44:31,520 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:44:33,686 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:33,686 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2m_units_per_quarter",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_50k_units_per_quarter",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:44:33,686 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:33,686 - INFO - Node ID is capacity_2m_units_per_quarter
+2025-08-12 19:44:33,686 - INFO - ✅ Match found for capacity_ID 'capacity_2m_units_per_quarter' in capacity nodes
+2025-08-12 19:44:33,686 - INFO -   ➕ Set status: operational
+2025-08-12 19:44:33,687 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:44:33,687 - INFO - Node ID is capacity_50k_units_per_quarter
+2025-08-12 19:44:33,687 - INFO - ✅ Match found for capacity_ID 'capacity_50k_units_per_quarter' in capacity nodes
+2025-08-12 19:44:33,687 - INFO -   ➕ Set status: operational
+2025-08-12 19:44:33,687 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:44:33,687 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:44:33,687 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:44:33,687 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:44:33,687 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:44:35,930 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:35,931 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solaredge",
+      "type": "owns",
+      "target": "factory_seminole_florida"
+    },
+    {
+      "source": "company_solaredge",
+      "type": "owns",
+      "target": "factory_austin_texas"
+    }
+  ]
+}
+2025-08-12 19:44:35,931 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:35,931 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:44:35,931 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:44:40,917 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:40,917 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2m_units_per_quarter",
+      "target": "factory_seminole_florida",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2m_units_per_quarter",
+      "target": "product_power_optimizers",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_power_optimizers",
+      "target": "factory_seminole_florida",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_50k_units_per_quarter",
+      "target": "factory_austin_texas",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_units_per_quarter",
+      "target": "product_home_hub_inverter",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_home_hub_inverter",
+      "target": "factory_austin_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:44:40,917 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:40,918 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:44:40,918 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:44:41,005 - INFO - ✅ Updated Article ID: 67fbeea894b7f855cfea65e6 with 8 nodes and combined text.

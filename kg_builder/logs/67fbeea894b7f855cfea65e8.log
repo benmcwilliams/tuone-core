@@ -1,0 +1,102 @@
+2025-08-12 19:44:17,688 - INFO - 🔍 Text length: 6207 characters
+2025-08-12 19:44:17,688 - INFO - 📌 Processing Article ID: 67fbeea894b7f855cfea65e8 — New method to calculate levelized cost of hydrogen
+2025-08-12 19:44:17,688 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:44:21,113 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:21,113 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_griffith_university",
+        "type": "company",
+        "name": "Griffith University"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      },
+      {
+        "id": "product_grey_hydrogen",
+        "type": "product",
+        "name": "grey hydrogen"
+      },
+      {
+        "id": "product_desalinated_water",
+        "type": "product",
+        "name": "desalinated water"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_350_t_day",
+        "type": "capacity",
+        "amount": "350 t/day",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_2_1_gw",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "2.1 GW",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-12 19:44:21,114 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:21,114 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:44:21,114 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:44:23,821 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:23,821 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_350_t_day",
+      "status": "unclear",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_2_1_gw",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:44:23,821 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:23,821 - INFO - Node ID is capacity_350_t_day
+2025-08-12 19:44:23,822 - INFO - ✅ Match found for capacity_ID 'capacity_350_t_day' in capacity nodes
+2025-08-12 19:44:23,822 - INFO -   ➕ Set status: unclear
+2025-08-12 19:44:23,822 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:44:23,822 - INFO - Node ID is capacity_2_1_gw
+2025-08-12 19:44:23,822 - INFO - ✅ Match found for capacity_ID 'capacity_2_1_gw' in capacity nodes
+2025-08-12 19:44:23,822 - INFO -   ➕ Set status: unclear
+2025-08-12 19:44:23,822 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:44:23,822 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:44:23,822 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:44:23,822 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 19:44:23,822 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:44:23,822 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:44:25,273 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:25,273 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_350_t_day",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2_1_gw",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 19:44:25,273 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:25,273 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:44:25,273 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:44:25,352 - INFO - ✅ Updated Article ID: 67fbeea894b7f855cfea65e8 with 6 nodes and combined text.

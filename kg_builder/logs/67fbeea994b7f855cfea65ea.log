@@ -1,0 +1,80 @@
+2025-08-12 19:43:53,408 - INFO - 🔍 Text length: 3348 characters
+2025-08-12 19:43:53,408 - INFO - 📌 Processing Article ID: 67fbeea994b7f855cfea65ea — US DOE allocates $100 million for non-lithium, long-duration energy storage pilots
+2025-08-12 19:43:53,408 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:43:55,781 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:43:55,781 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_us_department_of_energy",
+        "type": "company",
+        "name": "US Department of Energy"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_100_million_announced_unclear",
+        "type": "investment",
+        "name": "US $100 million investment",
+        "amount": "$100 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_long_duration_energy_storage",
+        "type": "product",
+        "name": "long-duration energy storage"
+      }
+    ]
+  }
+}
+2025-08-12 19:43:55,781 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:43:55,782 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:43:55,782 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 19:43:55,782 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 19:43:58,138 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:43:58,138 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_100_million_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 19:43:58,138 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:43:58,138 - INFO - Node ID is investment_usd_100_million_announced_unclear
+2025-08-12 19:43:58,138 - INFO - ✅ Match found for investment_ID 'investment_usd_100_million_announced_unclear' in investment nodes
+2025-08-12 19:43:58,138 - INFO -   ➕ Set status: announced
+2025-08-12 19:43:58,138 - INFO -   ➕ Set phase: unclear
+2025-08-12 19:43:58,138 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:43:58,138 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-12 19:43:58,138 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:43:58,138 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:43:58,751 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:43:58,751 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:43:58,751 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:43:58,751 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 19:43:58,751 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 19:43:59,366 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:43:59,366 - INFO - {
+  "relationships": []
+}
+2025-08-12 19:43:59,366 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:43:59,366 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 19:43:59,367 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 19:44:00,346 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:44:00,346 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_100_million_announced_unclear",
+      "target": "product_long_duration_energy_storage",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 19:44:00,346 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:44:00,419 - INFO - ✅ Updated Article ID: 67fbeea994b7f855cfea65ea with 3 nodes and combined text.

@@ -1,0 +1,133 @@
+2025-08-12 20:45:45,776 - INFO - 🔍 Text length: 4165 characters
+2025-08-12 20:45:45,776 - INFO - 📌 Processing Article ID: 67fa7f7feaa4fb525afec439 — South African property company signs offtake deal for wind, solar, hydro
+2025-08-12 20:45:45,776 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:45:48,508 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:45:48,508 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_growthpoint_properties",
+        "type": "company",
+        "name": "Growthpoint Properties"
+      },
+      {
+        "id": "company_etana_energy",
+        "type": "company",
+        "name": "Etana Energy"
+      },
+      {
+        "id": "company_serengeti_energy",
+        "type": "company",
+        "name": "Serengeti Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ash_river_hydroelectric_power_plant",
+        "type": "factory",
+        "name": "Ash River Hydroelectric Power Plant",
+        "location": {
+          "city": "Clarens",
+          "country": "South Africa"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5_mw_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "5 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydroelectric_power",
+        "type": "product",
+        "name": "hydroelectric power"
+      },
+      {
+        "id": "wind_power",
+        "type": "product",
+        "name": "wind power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 20:45:48,508 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:45:48,508 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:45:48,508 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:45:50,913 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:45:50,913 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_mw_under_construction",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:45:50,913 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:45:50,914 - INFO - Node ID is capacity_5_mw_under_construction
+2025-08-12 20:45:50,914 - INFO - ✅ Match found for capacity_ID 'capacity_5_mw_under_construction' in capacity nodes
+2025-08-12 20:45:50,914 - INFO -   ➕ Set status: under construction
+2025-08-12 20:45:50,914 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:45:50,914 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:45:50,914 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:45:50,914 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:45:50,914 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:45:51,780 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:45:51,780 - INFO - {
+  "relationships": [
+    {
+      "source": "company_serengeti_energy",
+      "type": "owns",
+      "target": "factory_ash_river_hydroelectric_power_plant"
+    }
+  ]
+}
+2025-08-12 20:45:51,780 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:45:51,780 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:45:51,781 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:45:53,371 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:45:53,371 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_mw_under_construction",
+      "target": "factory_ash_river_hydroelectric_power_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_mw_under_construction",
+      "target": "product_hydroelectric_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_hydroelectric_power",
+      "target": "factory_ash_river_hydroelectric_power_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:45:53,371 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:45:53,371 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:45:53,371 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:45:53,452 - INFO - ✅ Updated Article ID: 67fa7f7feaa4fb525afec439 with 8 nodes and combined text.

@@ -1,0 +1,168 @@
+2025-08-12 21:19:08,027 - INFO - 🔍 Text length: 4754 characters
+2025-08-12 21:19:08,027 - INFO - 📌 Processing Article ID: 67fa7e3aeaa4fb525afebef4 — The Hydrogen Stream: 20 GW of electrolysis project reached final investment decision
+2025-08-12 21:19:08,027 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 21:19:11,022 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:11,022 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mitsubishi_power",
+        "type": "company",
+        "name": "Mitsubishi Power"
+      },
+      {
+        "id": "company_yara_international",
+        "type": "company",
+        "name": "Yara International"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kuching_malaysia",
+        "type": "factory",
+        "name": "Kuching Green Hydrogen Production Plant",
+        "location": {
+          "city": "Kuching",
+          "country": "Malaysia"
+        }
+      },
+      {
+        "id": "factory_bintulu_malaysia_1",
+        "type": "factory",
+        "name": "Bintulu Plant 1",
+        "location": {
+          "city": "Bintulu",
+          "country": "Malaysia"
+        }
+      },
+      {
+        "id": "factory_bintulu_malaysia_2",
+        "type": "factory",
+        "name": "Bintulu Plant 2",
+        "location": {
+          "city": "Bintulu",
+          "country": "Malaysia"
+        }
+      },
+      {
+        "id": "factory_brunsbuettel_germany",
+        "type": "factory",
+        "name": "Brunsb\u00fcttel Ammonia Import Terminal",
+        "location": {
+          "city": "Brunsb\u00fcttel",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3m_tonnes_low_emission ammonia",
+        "type": "capacity",
+        "name": "",
+        "amount": "3 million tonnes per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_co_firing_gas_turbine",
+        "type": "product",
+        "name": "30% Hydrogen Co-firing Gas Turbine"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "Green Hydrogen"
+      },
+      {
+        "id": "product_low_emission_ammonia",
+        "type": "product",
+        "name": "Low-Emission Ammonia"
+      }
+    ]
+  }
+}
+2025-08-12 21:19:11,022 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:11,022 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 21:19:11,022 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 21:19:11,848 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:11,849 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3m_tonnes_low_emission ammonia",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 21:19:11,849 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:11,849 - INFO - Node ID is capacity_3m_tonnes_low_emission ammonia
+2025-08-12 21:19:11,849 - INFO - ✅ Match found for capacity_ID 'capacity_3m_tonnes_low_emission ammonia' in capacity nodes
+2025-08-12 21:19:11,849 - INFO -   ➕ Set status: operational
+2025-08-12 21:19:11,849 - INFO -   ➕ Set phase: greenfield
+2025-08-12 21:19:11,849 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 21:19:11,849 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 21:19:11,849 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 21:19:11,849 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 21:19:13,769 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:13,769 - INFO - {
+  "relationships": [
+    {
+      "source": "company_yara_international",
+      "type": "owns",
+      "target": "factory_brunsbuettel_germany"
+    },
+    {
+      "source": "company_yara_international",
+      "type": "owns",
+      "target": "factory_kuching_malaysia"
+    },
+    {
+      "source": "company_yara_international",
+      "type": "owns",
+      "target": "factory_bintulu_malaysia_1"
+    },
+    {
+      "source": "company_yara_international",
+      "type": "owns",
+      "target": "factory_bintulu_malaysia_2"
+    }
+  ]
+}
+2025-08-12 21:19:13,769 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:13,769 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 21:19:13,769 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 21:19:16,070 - INFO - ✅ OpenAI returned output:
+2025-08-12 21:19:16,071 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_kuching_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_bintulu_malaysia_1",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_bintulu_malaysia_2",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_low_emission_ammonia",
+      "target": "factory_brunsbuettel_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_3m_tonnes_low_emission ammonia",
+      "target": "factory_brunsbuettel_germany",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 21:19:16,071 - INFO - POST-PROCESSING STARTING.
+2025-08-12 21:19:16,071 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 21:19:16,071 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 21:19:16,150 - INFO - ✅ Updated Article ID: 67fa7e3aeaa4fb525afebef4 with 10 nodes and combined text.

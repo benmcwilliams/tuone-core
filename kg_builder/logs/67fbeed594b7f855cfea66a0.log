@@ -1,0 +1,132 @@
+2025-08-12 18:58:25,065 - INFO - 🔍 Text length: 10044 characters
+2025-08-12 18:58:25,065 - INFO - 📌 Processing Article ID: 67fbeed594b7f855cfea66a0 — Are batteries the best option for energy storage?
+2025-08-12 18:58:25,065 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 18:58:29,305 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:29,305 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iec",
+        "type": "company",
+        "name": "International Electrotechnical Commission"
+      },
+      {
+        "id": "company_idtechex",
+        "type": "company",
+        "name": "IDTechEx"
+      },
+      {
+        "id": "company_moss_landing",
+        "type": "company",
+        "name": "Moss Landing"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_moss_landing",
+        "type": "factory",
+        "name": "Moss Landing Energy Storage Facility",
+        "location": {
+          "city": "Moss Landing",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_750_mw_3_000_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "750 MW/3,000 MWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      },
+      {
+        "id": "product_solid_state_batteries",
+        "type": "product",
+        "name": "solid-state batteries"
+      },
+      {
+        "id": "product_hybrid_semi_solid_batteries",
+        "type": "product",
+        "name": "hybrid semi-solid batteries"
+      },
+      {
+        "id": "pumped_hydro",
+        "type": "product",
+        "name": "pumped hydro",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-12 18:58:29,305 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:29,305 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 18:58:29,305 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 18:58:31,600 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:31,600 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_750_mw_3_000_mwh",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 18:58:31,600 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:31,600 - INFO - Node ID is capacity_750_mw_3_000_mwh
+2025-08-12 18:58:31,600 - INFO - ✅ Match found for capacity_ID 'capacity_750_mw_3_000_mwh' in capacity nodes
+2025-08-12 18:58:31,600 - INFO -   ➕ Set status: operational
+2025-08-12 18:58:31,600 - INFO -   ➕ Set phase: greenfield
+2025-08-12 18:58:31,600 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 18:58:31,600 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 18:58:31,601 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 18:58:31,601 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 18:58:35,965 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:35,966 - INFO - {
+  "relationships": [
+    {
+      "source": "company_moss_landing",
+      "type": "owns",
+      "target": "factory_moss_landing"
+    }
+  ]
+}
+2025-08-12 18:58:35,966 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:35,966 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 18:58:35,966 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 18:58:37,508 - INFO - ✅ OpenAI returned output:
+2025-08-12 18:58:37,509 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_750_mw_3_000_mwh",
+      "target": "factory_moss_landing",
+      "type": "at"
+    },
+    {
+      "source": "capacity_750_mw_3_000_mwh",
+      "target": "pumped_hydro",
+      "type": "quantifies"
+    },
+    {
+      "source": "pumped_hydro",
+      "target": "factory_moss_landing",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 18:58:37,509 - INFO - POST-PROCESSING STARTING.
+2025-08-12 18:58:37,509 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 18:58:37,509 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 18:58:37,591 - INFO - ✅ Updated Article ID: 67fbeed594b7f855cfea66a0 with 9 nodes and combined text.

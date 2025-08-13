@@ -1,0 +1,143 @@
+2025-08-12 22:52:49,255 - INFO - 🔍 Text length: 3447 characters
+2025-08-12 22:52:49,255 - INFO - 📌 Processing Article ID: 67fa76a7eaa4fb525afeb43c — Tokuyama plans polysilicon factory in Vietnam
+2025-08-12 22:52:49,255 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:52:53,151 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:53,152 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tokuyama",
+        "type": "company",
+        "name": "Tokuyama"
+      },
+      {
+        "id": "company_thanh_binh_phu_my_jsc",
+        "type": "company",
+        "name": "Thanh Binh Phu My JSC"
+      },
+      {
+        "id": "company_oci",
+        "type": "company",
+        "name": "OCI"
+      },
+      {
+        "id": "company_ocim_sdn_bhd",
+        "type": "company",
+        "name": "OCIM Sdn Bhd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_phu_my_3_industrial_park",
+        "type": "factory",
+        "name": "Phu My 3 Industrial Park",
+        "location": {
+          "city": "Ba Ria-Vung Tau",
+          "country": "Vietnam"
+        }
+      },
+      {
+        "id": "factory_samalaju_industrial_park",
+        "type": "factory",
+        "name": "Samalaju Industrial Park",
+        "location": {
+          "city": "Sarawak",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tokuyama_phu_my_3",
+        "type": "investment",
+        "name": "Tokuyama Phu My 3",
+        "amount": "$30 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polycrystalline_polysilicon",
+        "type": "product",
+        "name": "polycrystalline polysilicon"
+      }
+    ]
+  }
+}
+2025-08-12 22:52:53,152 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:53,152 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 22:52:53,152 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-12 22:52:53,152 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-12 22:52:54,101 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:54,101 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tokuyama_phu_my_3",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:52:54,101 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:54,101 - INFO - Node ID is investment_tokuyama_phu_my_3
+2025-08-12 22:52:54,101 - INFO - ✅ Match found for investment_ID 'investment_tokuyama_phu_my_3' in investment nodes
+2025-08-12 22:52:54,101 - INFO -   ➕ Set status: announced
+2025-08-12 22:52:54,101 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:52:54,101 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:52:54,101 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:52:54,101 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:52:56,235 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:56,235 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tokuyama",
+      "type": "owns",
+      "target": "factory_phu_my_3_industrial_park"
+    },
+    {
+      "source": "company_ocim_sdn_bhd",
+      "type": "owns",
+      "target": "factory_samalaju_industrial_park"
+    }
+  ]
+}
+2025-08-12 22:52:56,235 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:56,235 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:52:56,235 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:52:58,153 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:58,153 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polycrystalline_polysilicon",
+      "target": "factory_phu_my_3_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:52:58,153 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:58,153 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-12 22:52:58,153 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-12 22:52:58,642 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:58,643 - INFO - {
+  "relationships": []
+}
+2025-08-12 22:52:58,643 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:58,643 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-12 22:52:58,643 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-12 22:52:59,610 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:59,611 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tokuyama_phu_my_3",
+      "target": "factory_phu_my_3_industrial_park",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tokuyama_phu_my_3",
+      "target": "product_polycrystalline_polysilicon",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-12 22:52:59,611 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:59,701 - INFO - ✅ Updated Article ID: 67fa76a7eaa4fb525afeb43c with 8 nodes and combined text.

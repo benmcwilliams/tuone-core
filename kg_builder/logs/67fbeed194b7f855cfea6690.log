@@ -1,0 +1,109 @@
+2025-08-12 19:01:35,060 - INFO - 🔍 Text length: 4104 characters
+2025-08-12 19:01:35,060 - INFO - 📌 Processing Article ID: 67fbeed194b7f855cfea6690 — Daikin launches air-to-water heat pumps for single-family homes
+2025-08-12 19:01:35,060 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:01:40,397 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:01:40,397 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daikin",
+        "type": "company",
+        "name": "Daikin"
+      },
+      {
+        "id": "company_daikin_europe_nv",
+        "type": "company",
+        "name": "Daikin Europe NV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lodz_poland",
+        "type": "factory",
+        "name": "Lodz Factory",
+        "location": {
+          "city": "Lodz",
+          "country": "Poland"
+        }
+      },
+      {
+        "id": "factory_czech_republic",
+        "type": "factory",
+        "name": "Czech Republic Factory",
+        "location": {
+          "city": "null",
+          "country": "Czech Republic"
+        }
+      },
+      {
+        "id": "factory_germany",
+        "type": "factory",
+        "name": "Germany Factory",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_daikin_altherma_4_h",
+        "type": "product",
+        "name": "Daikin Altherma 4 H"
+      }
+    ]
+  }
+}
+2025-08-12 19:01:40,397 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:01:40,397 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-12 19:01:40,398 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:01:40,398 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:01:40,398 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:01:40,398 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:01:44,312 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:01:44,313 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daikin",
+      "type": "owns",
+      "target": "factory_lodz_poland"
+    },
+    {
+      "source": "company_daikin",
+      "type": "owns",
+      "target": "factory_czech_republic"
+    },
+    {
+      "source": "company_daikin",
+      "type": "owns",
+      "target": "factory_germany"
+    }
+  ]
+}
+2025-08-12 19:01:44,313 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:01:44,313 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:01:44,313 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:01:46,358 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:01:46,359 - INFO - {
+  "relationships": [
+    {
+      "source": "product_daikin_altherma_4_h",
+      "target": "factory_lodz_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_daikin_altherma_4_h",
+      "target": "factory_czech_republic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_daikin_altherma_4_h",
+      "target": "factory_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:01:46,359 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:01:46,359 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:01:46,359 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:01:46,438 - INFO - ✅ Updated Article ID: 67fbeed194b7f855cfea6690 with 6 nodes and combined text.

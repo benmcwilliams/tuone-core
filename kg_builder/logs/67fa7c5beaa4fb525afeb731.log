@@ -1,0 +1,183 @@
+2025-08-12 22:12:13,396 - INFO - 🔍 Text length: 4472 characters
+2025-08-12 22:12:13,396 - INFO - 📌 Processing Article ID: 67fa7c5beaa4fb525afeb731 — BayWa, Ampt add solar to wind-flow battery project without own inverters
+2025-08-12 22:12:13,396 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:12:17,826 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:12:17,826 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_baywa_re",
+        "type": "company",
+        "name": "BayWa re"
+      },
+      {
+        "id": "company_ampt",
+        "type": "company",
+        "name": "Ampt"
+      },
+      {
+        "id": "company_fraunhofer_institute_for_chemical_technology",
+        "type": "company",
+        "name": "Fraunhofer Institute for Chemical Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fraunhofer_ict_campus",
+        "type": "factory",
+        "name": "Fraunhofer ICT Campus",
+        "location": {
+          "city": "Pfinztal",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_rooftop_pv",
+        "type": "product",
+        "name": "rooftop PV"
+      },
+      {
+        "id": "product_ground_mounted_pv",
+        "type": "product",
+        "name": "ground-mounted PV"
+      },
+      {
+        "id": "product_wind_turbine",
+        "type": "product",
+        "name": "wind turbine"
+      },
+      {
+        "id": "product_flow_battery_energy_storage_system",
+        "type": "product",
+        "name": "flow battery energy storage system"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_690_kwp",
+        "type": "capacity",
+        "name": "",
+        "amount": "690 kWp",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_2_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 MW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_10_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "10 MWh",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-12 22:12:17,827 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:12:17,827 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:12:17,827 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:12:20,066 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:12:20,066 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_690_kwp",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_2_mw",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_10_mwh",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:12:20,066 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:12:20,066 - INFO - Node ID is capacity_690_kwp
+2025-08-12 22:12:20,066 - INFO - ✅ Match found for capacity_ID 'capacity_690_kwp' in capacity nodes
+2025-08-12 22:12:20,066 - INFO -   ➕ Set status: operational
+2025-08-12 22:12:20,066 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:12:20,066 - INFO - Node ID is capacity_2_mw
+2025-08-12 22:12:20,066 - INFO - ✅ Match found for capacity_ID 'capacity_2_mw' in capacity nodes
+2025-08-12 22:12:20,066 - INFO -   ➕ Set status: operational
+2025-08-12 22:12:20,066 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:12:20,066 - INFO - Node ID is capacity_10_mwh
+2025-08-12 22:12:20,066 - INFO - ✅ Match found for capacity_ID 'capacity_10_mwh' in capacity nodes
+2025-08-12 22:12:20,066 - INFO -   ➕ Set status: operational
+2025-08-12 22:12:20,066 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:12:20,066 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:12:20,066 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:12:20,066 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:12:20,067 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:12:22,188 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:12:22,189 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fraunhofer_institute_for_chemical_technology",
+      "type": "owns",
+      "target": "factory_fraunhofer_ict_campus"
+    }
+  ]
+}
+2025-08-12 22:12:22,189 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:12:22,189 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:12:22,189 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:12:26,517 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:12:26,517 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_690_kwp",
+      "target": "product_rooftop_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_690_kwp",
+      "target": "product_ground_mounted_pv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_2_mw",
+      "target": "product_wind_turbine",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_10_mwh",
+      "target": "product_flow_battery_energy_storage_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_rooftop_pv",
+      "target": "factory_fraunhofer_ict_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ground_mounted_pv",
+      "target": "factory_fraunhofer_ict_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_wind_turbine",
+      "target": "factory_fraunhofer_ict_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_flow_battery_energy_storage_system",
+      "target": "factory_fraunhofer_ict_campus",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:12:26,517 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:12:26,518 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:12:26,518 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:12:26,595 - INFO - ✅ Updated Article ID: 67fa7c5beaa4fb525afeb731 with 11 nodes and combined text.

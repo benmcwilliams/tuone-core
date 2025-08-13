@@ -43,3 +43,114 @@
   }
 }
 2025-06-26 16:56:29,903 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:11:55,774 - INFO - 🔍 Text length: 3738 characters
+2025-08-12 20:11:55,775 - INFO - 📌 Processing Article ID: 67fbee3294b7f855cfea6545 — Vertical agrivoltaics for forage crops, animal grazing
+2025-08-12 20:11:55,775 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 20:11:59,062 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:11:59,062 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sunstall",
+        "type": "company",
+        "name": "Sunstall"
+      },
+      {
+        "id": "company_rutgers_university",
+        "type": "company",
+        "name": "Rutgers University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vertical_agrivoltaic_facility",
+        "type": "factory",
+        "name": "vertical agrivoltaic facility",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_170_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "170 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bifacial_solar_modules",
+        "type": "product",
+        "name": "bifacial solar modules"
+      },
+      {
+        "id": "product_agrivoltaic_system",
+        "type": "product",
+        "name": "agrivoltaic system"
+      }
+    ]
+  }
+}
+2025-08-12 20:11:59,062 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:11:59,062 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 20:11:59,062 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 20:12:00,393 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:12:00,393 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_170_kw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 20:12:00,393 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:12:00,394 - INFO - Node ID is capacity_170_kw
+2025-08-12 20:12:00,394 - INFO - ✅ Match found for capacity_ID 'capacity_170_kw' in capacity nodes
+2025-08-12 20:12:00,394 - INFO -   ➕ Set status: operational
+2025-08-12 20:12:00,394 - INFO -   ➕ Set phase: greenfield
+2025-08-12 20:12:00,394 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 20:12:00,394 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 20:12:00,394 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 20:12:00,394 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 20:12:01,166 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:12:01,166 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sunstall",
+      "type": "owns",
+      "target": "factory_vertical_agrivoltaic_facility"
+    }
+  ]
+}
+2025-08-12 20:12:01,166 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:12:01,166 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 20:12:01,166 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 20:12:05,281 - INFO - ✅ OpenAI returned output:
+2025-08-12 20:12:05,281 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_170_kw",
+      "target": "factory_vertical_agrivoltaic_facility",
+      "type": "at"
+    },
+    {
+      "source": "capacity_170_kw",
+      "target": "product_agrivoltaic_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_agrivoltaic_system",
+      "target": "factory_vertical_agrivoltaic_facility",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 20:12:05,281 - INFO - POST-PROCESSING STARTING.
+2025-08-12 20:12:05,281 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 20:12:05,281 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 20:12:05,365 - INFO - ✅ Updated Article ID: 67fbee3294b7f855cfea6545 with 6 nodes and combined text.

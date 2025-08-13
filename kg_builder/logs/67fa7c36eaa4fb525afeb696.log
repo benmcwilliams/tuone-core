@@ -1,0 +1,111 @@
+2025-08-12 22:17:16,395 - INFO - 🔍 Text length: 3223 characters
+2025-08-12 22:17:16,395 - INFO - 📌 Processing Article ID: 67fa7c36eaa4fb525afeb696 — ‘Typhoon-resistant’ offshore PV project nears completion in China
+2025-08-12 22:17:16,395 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:17:19,281 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:17:19,282 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_china_three_gorges_corp",
+        "type": "company",
+        "name": "China Three Gorges Corp."
+      },
+      {
+        "id": "company_powerchina",
+        "type": "company",
+        "name": "PowerChina"
+      },
+      {
+        "id": "company_shanghai_electric",
+        "type": "company",
+        "name": "Shanghai Electric"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dongshan_xingchen_offshore_photovoltaic_power_station",
+        "type": "factory",
+        "name": "Dongshan Xingchen Offshore Photovoltaic Power Station",
+        "location": {
+          "city": "Zhangzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_180_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "180 MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_offshore_solar_power",
+        "type": "product",
+        "name": "offshore solar power"
+      }
+    ]
+  }
+}
+2025-08-12 22:17:19,282 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:17:19,282 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:17:19,282 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:17:20,273 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:17:20,273 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_180_mw",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:17:20,273 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:17:20,273 - INFO - Node ID is capacity_180_mw
+2025-08-12 22:17:20,273 - INFO - ✅ Match found for capacity_ID 'capacity_180_mw' in capacity nodes
+2025-08-12 22:17:20,273 - INFO -   ➕ Set status: under construction
+2025-08-12 22:17:20,273 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:17:20,273 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:17:20,273 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:17:20,273 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:17:20,273 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:17:21,345 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:17:21,345 - INFO - {
+  "relationships": [
+    {
+      "source": "company_china_three_gorges_corp",
+      "type": "owns",
+      "target": "factory_dongshan_xingchen_offshore_photovoltaic_power_station"
+    }
+  ]
+}
+2025-08-12 22:17:21,345 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:17:21,345 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:17:21,345 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:17:24,299 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:17:24,299 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_180_mw",
+      "target": "factory_dongshan_xingchen_offshore_photovoltaic_power_station",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_offshore_solar_power",
+      "target": "factory_dongshan_xingchen_offshore_photovoltaic_power_station",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_180_mw",
+      "target": "product_offshore_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-12 22:17:24,300 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:17:24,300 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:17:24,300 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:17:24,385 - INFO - ✅ Updated Article ID: 67fa7c36eaa4fb525afeb696 with 6 nodes and combined text.

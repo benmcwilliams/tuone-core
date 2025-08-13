@@ -1,0 +1,91 @@
+2025-08-12 22:52:02,788 - INFO - 🔍 Text length: 3913 characters
+2025-08-12 22:52:02,788 - INFO - 📌 Processing Article ID: 67fa76a8eaa4fb525afeb441 — Longi debuts HPBC 2.0 modules in China’s first distributed solar project
+2025-08-12 22:52:02,788 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:52:06,244 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:06,244 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_longi",
+        "type": "company",
+        "name": "Longi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_longfei_wood_products",
+        "type": "factory",
+        "name": "Longfei Wood Products Factory",
+        "location": {
+          "city": "Yichun",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_2_mw_solar_plant",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.2 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hpbc_2_0_dual_glass_modules",
+        "type": "product",
+        "name": "HPBC 2.0 dual-glass PV modules"
+      }
+    ]
+  }
+}
+2025-08-12 22:52:06,244 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:06,244 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:52:06,244 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:52:07,549 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:07,549 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_2_mw_solar_plant",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 22:52:07,549 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:07,549 - INFO - Node ID is capacity_2_2_mw_solar_plant
+2025-08-12 22:52:07,549 - INFO - ✅ Match found for capacity_ID 'capacity_2_2_mw_solar_plant' in capacity nodes
+2025-08-12 22:52:07,549 - INFO -   ➕ Set status: operational
+2025-08-12 22:52:07,549 - INFO -   ➕ Set phase: greenfield
+2025-08-12 22:52:07,549 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:52:07,549 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:52:07,549 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:52:07,549 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:52:08,639 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:08,639 - INFO - {
+  "relationships": [
+    {
+      "source": "company_longi",
+      "type": "owns",
+      "target": "factory_longfei_wood_products"
+    }
+  ]
+}
+2025-08-12 22:52:08,639 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:08,639 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:52:08,639 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:52:09,679 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:52:09,679 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_2_mw_solar_plant",
+      "target": "factory_longfei_wood_products",
+      "type": "at"
+    }
+  ]
+}
+2025-08-12 22:52:09,679 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:52:09,679 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:52:09,679 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:52:09,760 - INFO - ✅ Updated Article ID: 67fa76a8eaa4fb525afeb441 with 4 nodes and combined text.

@@ -1,0 +1,127 @@
+2025-08-12 22:27:27,128 - INFO - 🔍 Text length: 6593 characters
+2025-08-12 22:27:27,128 - INFO - 📌 Processing Article ID: 67fa7bd9eaa4fb525afeb50f — Overhead agrivoltaics could disrupt global navigation satellite systems used for precision agriculture
+2025-08-12 22:27:27,128 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 22:27:31,752 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:31,752 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fraunhofer_ise",
+        "type": "company",
+        "name": "Fraunhofer Institute for Solar Energy Systems"
+      },
+      {
+        "id": "company_university_of_freiburg",
+        "type": "company",
+        "name": "University of Freiburg"
+      },
+      {
+        "id": "company_spanish_national_research_council",
+        "type": "company",
+        "name": "Spanish National Research Council"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kressbronn_am_bodensee_germany",
+        "type": "factory",
+        "name": "Kressbronn am Bodensee Agrivoltaic Facility",
+        "location": {
+          "city": "Kressbronn am Bodensee",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_147_kw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "147 kW",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_95_kw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "95 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_agrivoltaic_system",
+        "type": "product",
+        "name": "agrivoltaic system"
+      }
+    ]
+  }
+}
+2025-08-12 22:27:31,752 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:31,752 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 22:27:31,752 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 22:27:33,287 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:33,287 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_147_kw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_95_kw_operational",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-12 22:27:33,287 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:33,287 - INFO - Node ID is capacity_147_kw_operational
+2025-08-12 22:27:33,287 - INFO - ✅ Match found for capacity_ID 'capacity_147_kw_operational' in capacity nodes
+2025-08-12 22:27:33,287 - INFO -   ➕ Set status: operational
+2025-08-12 22:27:33,287 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:27:33,287 - INFO - Node ID is capacity_95_kw_operational
+2025-08-12 22:27:33,287 - INFO - ✅ Match found for capacity_ID 'capacity_95_kw_operational' in capacity nodes
+2025-08-12 22:27:33,287 - INFO -   ➕ Set status: operational
+2025-08-12 22:27:33,287 - INFO -   ➕ Set phase: unclear
+2025-08-12 22:27:33,288 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 22:27:33,288 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 22:27:33,288 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 22:27:33,288 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 22:27:34,309 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:34,310 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fraunhofer_ise",
+      "type": "owns",
+      "target": "factory_kressbronn_am_bodensee_germany"
+    }
+  ]
+}
+2025-08-12 22:27:34,310 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:34,310 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 22:27:34,310 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 22:27:36,154 - INFO - ✅ OpenAI returned output:
+2025-08-12 22:27:36,154 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_147_kw_operational",
+      "target": "product_agrivoltaic_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_95_kw_operational",
+      "target": "product_agrivoltaic_system",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_agrivoltaic_system",
+      "target": "factory_kressbronn_am_bodensee_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 22:27:36,154 - INFO - POST-PROCESSING STARTING.
+2025-08-12 22:27:36,154 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 22:27:36,154 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 22:27:36,237 - INFO - ✅ Updated Article ID: 67fa7bd9eaa4fb525afeb50f with 7 nodes and combined text.

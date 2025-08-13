@@ -1,0 +1,160 @@
+2025-08-12 19:40:36,695 - INFO - 🔍 Text length: 3921 characters
+2025-08-12 19:40:36,695 - INFO - 📌 Processing Article ID: 67fbeeac94b7f855cfea65f7 — Enel, Energy Vault build 18 MW/36 MWh of US gravity storage
+2025-08-12 19:40:36,695 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-12 19:40:39,683 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:40:39,683 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_enel",
+        "type": "company",
+        "name": "Enel"
+      },
+      {
+        "id": "company_enel_green_power",
+        "type": "company",
+        "name": "Enel Green Power"
+      },
+      {
+        "id": "company_energy_vault",
+        "type": "company",
+        "name": "Energy Vault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_solutions_excellence_center",
+        "type": "factory",
+        "name": "Solutions Excellence Center",
+        "location": {
+          "city": "Texas",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_china_gravity_storage",
+        "type": "factory",
+        "name": "China Gravity Storage",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_switzerland_pilot",
+        "type": "factory",
+        "name": "Switzerland Pilot",
+        "location": {
+          "city": "null",
+          "country": "Switzerland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_18_mw_36_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "18 MW/36 MWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_25_mw_100_mwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "25 MW/100 MWh",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gravity_storage",
+        "type": "product",
+        "name": "gravity storage"
+      }
+    ]
+  }
+}
+2025-08-12 19:40:39,683 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:40:39,683 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-12 19:40:39,683 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-12 19:40:41,729 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:40:41,729 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_18_mw_36_mwh",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_25_mw_100_mwh",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-12 19:40:41,730 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:40:41,730 - INFO - Node ID is capacity_18_mw_36_mwh
+2025-08-12 19:40:41,730 - INFO - ✅ Match found for capacity_ID 'capacity_18_mw_36_mwh' in capacity nodes
+2025-08-12 19:40:41,730 - INFO -   ➕ Set status: announced
+2025-08-12 19:40:41,730 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:40:41,730 - INFO - Node ID is capacity_25_mw_100_mwh
+2025-08-12 19:40:41,730 - INFO - ✅ Match found for capacity_ID 'capacity_25_mw_100_mwh' in capacity nodes
+2025-08-12 19:40:41,730 - INFO -   ➕ Set status: operational
+2025-08-12 19:40:41,730 - INFO -   ➕ Set phase: greenfield
+2025-08-12 19:40:41,730 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-12 19:40:41,730 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-12 19:40:41,730 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-12 19:40:41,730 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-12 19:40:43,450 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:40:43,450 - INFO - {
+  "relationships": [
+    {
+      "source": "company_enel",
+      "type": "owns",
+      "target": "factory_solutions_excellence_center"
+    },
+    {
+      "source": "company_energy_vault",
+      "type": "owns",
+      "target": "factory_china_gravity_storage"
+    },
+    {
+      "source": "company_energy_vault",
+      "type": "owns",
+      "target": "factory_switzerland_pilot"
+    }
+  ]
+}
+2025-08-12 19:40:43,450 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:40:43,450 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-12 19:40:43,450 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-12 19:40:47,321 - INFO - ✅ OpenAI returned output:
+2025-08-12 19:40:47,321 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_18_mw_36_mwh",
+      "target": "factory_solutions_excellence_center",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_25_mw_100_mwh",
+      "target": "factory_china_gravity_storage",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_gravity_storage",
+      "target": "factory_china_gravity_storage",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gravity_storage",
+      "target": "factory_solutions_excellence_center",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-12 19:40:47,322 - INFO - POST-PROCESSING STARTING.
+2025-08-12 19:40:47,322 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-12 19:40:47,322 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-12 19:40:47,396 - INFO - ✅ Updated Article ID: 67fbeeac94b7f855cfea65f7 with 9 nodes and combined text.
