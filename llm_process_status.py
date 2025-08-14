@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 test_mongo_connection()
 
 # filters
-categories = ["user"]
+categories = ["user", "manual", "electrive", "justauto", "pvmagazine", "pvtech"]
 cutoff_date = datetime(2021, 1, 1)
 
 articles_to_process = list(
