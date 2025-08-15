@@ -24,7 +24,7 @@ def main(update_mongo_metadata=False):
         clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=20000,skip=0)
+        query_geonames_new_cities(limit=25000,skip=0)
 
         logging.info("🧸 Classifying products")             # re-updates all products
         classify_products_sync_mongo()
