@@ -17,6 +17,28 @@ Country = str
 CityKey = str
 Key = Tuple[Country, CityKey]
 
+# For ("AT", "rainbach"), override the GeoNames query to "Rainbach im Mühlkreis", but store under "rainbach"
+# LHS has the normalised city_key (direct from failures category), RHS is what to search geonames API for
+# check whether - should be replaced with spaces (think correct)
+CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
+    ("AT", "rainbach"): "Rainbach im Mühlkreis",
+    ("AT", "vallach"): "Villach",
+    ("BE", "foret"): "Forest",
+    ("FR", "flins"): "Flins-sur-Seine",
+    ("FR", "douvrai"): "Douvrin",
+    ("FR", "burgundyfranchecomté"): "Bourgogne-Franche-Comté",
+    ("FR", "dunkerque"): "Dunkirk",
+    ("FR", "grand_poitiers"): "Grand-Pont",
+    ("BG", "lowetsch"): "Lovech",
+    ("BG", "silistra_municipality"): "Silistra",
+    ("HU", "györ"): "Győr",
+    ("HU", "györ"): "Győr",
+    ("HU", "kekscemet"): "Kecskemét",
+    ("HU", "goed"): "Göd",
+    ("HU", "kömlöd"): "Kömlőd",
+    ("HU", "lukacshaza"): "Lukácsháza"
+}
+
 # ---------- Data access ----------
 
 def load_existing_pairs(include_failures: bool = True, failure_backoff_days: Optional[int] = 7) -> Set[Key]:
@@ -57,13 +79,11 @@ def load_existing_pairs(include_failures: bool = True, failure_backoff_days: Opt
     system_logger.info(f"📦 Loaded {len(existing)} existing (country, city_key) pairs from MongoDB.")
     return existing
 
-
 def iter_factory_articles(limit: Optional[int] = 100, skip: int = 0) -> Iterator[dict]:
     query = {
-        "meta.category": "pvtech",
         "nodes": {"$elemMatch": {"type": "factory"}},
     }
-    projection = {"nodes": 1}  # _id automatically included
+    projection = {"nodes": 1}  
     cursor = articles_collection.find(query, projection).skip(skip)
     if limit:
         cursor = cursor.limit(limit)
@@ -101,7 +121,6 @@ def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, sk
             if key in existing_pairs:
                 continue
 
-            # Only track European ISO2s later; keep metadata for logging now
             entry = metadata.setdefault(
                 key,
                 {
@@ -131,7 +150,6 @@ def build_failure_update(std_country: str, city_key: str) -> UpdateOne:
         upsert=True,
     )
 
-
 def build_success_update(std_country: str, iso2: str, city_key: str, payload: dict) -> UpdateOne:
     return UpdateOne(
         {"ctry_standard": std_country},
@@ -143,7 +161,6 @@ def build_success_update(std_country: str, iso2: str, city_key: str, payload: di
         },
         upsert=True,
     )
-
 
 # ---------- Core job ----------
 
@@ -163,10 +180,16 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
         original_city = meta["original_city"]
         article_ids = sorted(meta["article_ids"])
 
-        logger.info(f"🗺️ Starting GeoNames lookup for city='{original_city}', country='{original_country}'")
+        # ---- override hook (only affects the query string) ----
+        override_q = CITY_QUERY_OVERRIDES.get((iso2, city_key))
+        query_city = override_q if override_q else original_city
+        if override_q:
+            logger.info(f"🔁 Override: '{original_city}' → '{query_city}' for {iso2}")
+
+        logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
         logger.info(f"📍 Location is present in the following articles: {article_ids}")
 
-        name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(original_city, iso2, logger=logger)
+        name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(query_city, iso2, logger=logger)
 
         if failed or not name:
             logger.warning(f"❌ Lookup failed for city='{city_key}', iso2='{iso2}'")
