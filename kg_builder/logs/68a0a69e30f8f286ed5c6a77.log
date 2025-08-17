@@ -1,0 +1,181 @@
+2025-08-16 22:05:46,623 - INFO - 🔍 Text length: 2522 characters
+2025-08-16 22:05:46,623 - INFO - 📌 Processing Article ID: 68a0a69e30f8f286ed5c6a77 — The groundbreaking ceremony of Finland's first cathode active material plant was held in Kotka
+2025-08-16 22:05:46,624 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 22:05:49,490 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:49,491 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_easpring_finland_oy",
+        "type": "company",
+        "name": "Easpring Finland Oy"
+      },
+      {
+        "id": "company_finnish_minerals_group",
+        "type": "company",
+        "name": "Finnish Minerals Group"
+      },
+      {
+        "id": "company_beijing_easpring_material_technology",
+        "type": "company",
+        "name": "Beijing Easpring Material Technology"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_finnish_minerals_group_beijing_easpring_material_technology",
+        "type": "joint_venture",
+        "name": "Finnish Minerals Group & Beijing Easpring Material Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kotka_finland",
+        "type": "factory",
+        "name": "Kotka Plant",
+        "location": {
+          "city": "Kotka",
+          "country": "Finland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_kotka_plant",
+        "type": "investment",
+        "name": "Kotka Plant",
+        "amount": "EUR 800 million",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60k_tons",
+        "type": "capacity",
+        "name": null,
+        "amount": "60,000 tons",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nmc_cathode_active_material",
+        "type": "product",
+        "name": "NMC cathode active material"
+      }
+    ]
+  }
+}
+2025-08-16 22:05:49,491 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:49,491 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 22:05:49,491 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 22:05:50,761 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:50,762 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60k_tons",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 22:05:50,762 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:50,762 - INFO - Node ID is capacity_60k_tons
+2025-08-16 22:05:50,762 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tons' in capacity nodes
+2025-08-16 22:05:50,762 - INFO -   ➕ Set status: under construction
+2025-08-16 22:05:50,762 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:05:50,762 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-16 22:05:50,762 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-16 22:05:51,635 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:51,636 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_kotka_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 22:05:51,636 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:51,636 - INFO - Node ID is investment_kotka_plant
+2025-08-16 22:05:51,636 - INFO - ✅ Match found for investment_ID 'investment_kotka_plant' in investment nodes
+2025-08-16 22:05:51,636 - INFO -   ➕ Set status: ongoing
+2025-08-16 22:05:51,636 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:05:51,636 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 22:05:51,636 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 22:05:51,636 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 22:05:54,910 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:54,910 - INFO - {
+  "relationships": [
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "forms",
+      "target": "joint_venture_finnish_minerals_group_beijing_easpring_material_technology"
+    },
+    {
+      "source": "company_beijing_easpring_material_technology",
+      "type": "forms",
+      "target": "joint_venture_finnish_minerals_group_beijing_easpring_material_technology"
+    },
+    {
+      "source": "joint_venture_finnish_minerals_group_beijing_easpring_material_technology",
+      "type": "owns",
+      "target": "factory_kotka_finland"
+    }
+  ]
+}
+2025-08-16 22:05:54,910 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:54,910 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 22:05:54,911 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 22:05:56,614 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:56,615 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60k_tons",
+      "target": "factory_kotka_finland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tons",
+      "target": "product_nmc_cathode_active_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_nmc_cathode_active_material",
+      "target": "factory_kotka_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 22:05:56,615 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:56,615 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-16 22:05:56,615 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-16 22:05:57,176 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:57,177 - INFO - {
+  "relationships": []
+}
+2025-08-16 22:05:57,177 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:57,177 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-16 22:05:57,177 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-16 22:05:58,254 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:58,255 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_kotka_plant",
+      "target": "factory_kotka_finland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_kotka_plant",
+      "target": "capacity_60k_tons",
+      "type": "enables"
+    },
+    {
+      "source": "investment_kotka_plant",
+      "target": "product_nmc_cathode_active_material",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-16 22:05:58,255 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:58,341 - INFO - ✅ Updated Article ID: 68a0a69e30f8f286ed5c6a77 with 8 nodes and combined text.

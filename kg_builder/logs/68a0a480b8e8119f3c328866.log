@@ -1,0 +1,177 @@
+2025-08-16 22:06:16,812 - INFO - 🔍 Text length: 3619 characters
+2025-08-16 22:06:16,812 - INFO - 📌 Processing Article ID: 68a0a480b8e8119f3c328866 — Estonian battery manufacturer Skeleton Technologies expands to Finland
+2025-08-16 22:06:16,812 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 22:06:20,986 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:20,987 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skeleton_technologies",
+        "type": "company",
+        "name": "Skeleton Technologies"
+      },
+      {
+        "id": "company_european_batteries_oy",
+        "type": "company",
+        "name": "European Batteries Oy"
+      },
+      {
+        "id": "company_keski_savon_teollisuuskyl\u00e4",
+        "type": "company",
+        "name": "Keski-Savon Teollisuuskyl\u00e4"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_varkaus_finland",
+        "type": "factory",
+        "name": "Varkaus Plant",
+        "location": {
+          "city": "Varkaus",
+          "country": "Finland"
+        }
+      },
+      {
+        "id": "factory_dresden_germany",
+        "type": "factory",
+        "name": "Dresden Plant",
+        "location": {
+          "city": "Dresden",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_leipzig_germany",
+        "type": "factory",
+        "name": "Leipzig Factory",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_leipzig_factory",
+        "type": "investment",
+        "name": "Leipzig Factory",
+        "amount": "\u20ac220M",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_supercapacitor",
+        "type": "product",
+        "name": "Supercapacitor"
+      },
+      {
+        "id": "product_superbattery",
+        "type": "product",
+        "name": "SuperBattery"
+      },
+      {
+        "id": "product_lithium_iron_phosphate_batteries",
+        "type": "product",
+        "name": "Lithium Iron Phosphate (LFP) batteries"
+      },
+      {
+        "id": "product_curved_graphene",
+        "type": "product",
+        "name": "Curved Graphene"
+      }
+    ]
+  }
+}
+2025-08-16 22:06:20,987 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:20,987 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 22:06:20,987 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-16 22:06:20,987 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-16 22:06:21,908 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:21,908 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_leipzig_factory",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 22:06:21,908 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:21,908 - INFO - Node ID is investment_leipzig_factory
+2025-08-16 22:06:21,909 - INFO - ✅ Match found for investment_ID 'investment_leipzig_factory' in investment nodes
+2025-08-16 22:06:21,909 - INFO -   ➕ Set status: ongoing
+2025-08-16 22:06:21,909 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:06:21,909 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 22:06:21,909 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 22:06:21,909 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 22:06:23,035 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:23,035 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skeleton_technologies",
+      "type": "owns",
+      "target": "factory_varkaus_finland"
+    },
+    {
+      "source": "company_skeleton_technologies",
+      "type": "owns",
+      "target": "factory_dresden_germany"
+    },
+    {
+      "source": "company_skeleton_technologies",
+      "type": "owns",
+      "target": "factory_leipzig_germany"
+    }
+  ]
+}
+2025-08-16 22:06:23,036 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:23,036 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 22:06:23,036 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 22:06:24,131 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:24,132 - INFO - {
+  "relationships": [
+    {
+      "source": "product_superbattery",
+      "target": "factory_varkaus_finland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_supercapacitor",
+      "target": "factory_dresden_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_supercapacitor",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 22:06:24,132 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:24,132 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-16 22:06:24,132 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-16 22:06:24,778 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:24,778 - INFO - {
+  "relationships": []
+}
+2025-08-16 22:06:24,778 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:24,778 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-16 22:06:24,778 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-16 22:06:26,210 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:26,211 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_leipzig_factory",
+      "type": "funds",
+      "target": "factory_leipzig_germany"
+    },
+    {
+      "source": "investment_leipzig_factory",
+      "type": "targets",
+      "target": "product_supercapacitor"
+    }
+  ]
+}
+2025-08-16 22:06:26,211 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:26,290 - INFO - ✅ Updated Article ID: 68a0a480b8e8119f3c328866 with 11 nodes and combined text.

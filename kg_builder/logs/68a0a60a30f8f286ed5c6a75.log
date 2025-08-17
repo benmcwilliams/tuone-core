@@ -1,0 +1,180 @@
+2025-08-16 22:05:58,342 - INFO - 🔍 Text length: 2462 characters
+2025-08-16 22:05:58,343 - INFO - 📌 Processing Article ID: 68a0a60a30f8f286ed5c6a75 — Finnish Minerals Group to prepare for cell production plant’s EIA procedure
+2025-08-16 22:05:58,343 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 22:06:01,735 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:01,735 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_finnish_minerals_group",
+        "type": "company",
+        "name": "Finnish Minerals Group"
+      },
+      {
+        "id": "company_finnish_battery_chemicals_oy",
+        "type": "company",
+        "name": "Finnish Battery Chemicals Oy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kotka_finland",
+        "type": "factory",
+        "name": "cell production plant",
+        "location": {
+          "city": "Kotka",
+          "country": "Finland"
+        }
+      },
+      {
+        "id": "factory_vaasa_finland",
+        "type": "factory",
+        "name": "battery material plant",
+        "location": {
+          "city": "Vaasa",
+          "country": "Finland"
+        }
+      },
+      {
+        "id": "factory_kymenlaakso_finland",
+        "type": "factory",
+        "name": "battery material plant",
+        "location": {
+          "city": "Kymenlaakso",
+          "country": "Finland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_27_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "27 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_40_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_battery_materials",
+        "type": "product",
+        "name": "battery materials"
+      }
+    ]
+  }
+}
+2025-08-16 22:06:01,735 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:01,735 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 22:06:01,735 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 22:06:02,861 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:02,861 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_27_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_40_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 22:06:02,861 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:02,861 - INFO - Node ID is capacity_27_gwh_announced
+2025-08-16 22:06:02,862 - INFO - ✅ Match found for capacity_ID 'capacity_27_gwh_announced' in capacity nodes
+2025-08-16 22:06:02,862 - INFO -   ➕ Set status: announced
+2025-08-16 22:06:02,862 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:06:02,862 - INFO - Node ID is capacity_40_gwh_announced
+2025-08-16 22:06:02,862 - INFO - ✅ Match found for capacity_ID 'capacity_40_gwh_announced' in capacity nodes
+2025-08-16 22:06:02,862 - INFO -   ➕ Set status: announced
+2025-08-16 22:06:02,862 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:06:02,862 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 22:06:02,862 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 22:06:02,862 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 22:06:02,862 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 22:06:05,115 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:05,116 - INFO - {
+  "relationships": [
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "owns",
+      "target": "factory_kotka_finland"
+    },
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "owns",
+      "target": "factory_vaasa_finland"
+    },
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "owns",
+      "target": "factory_kymenlaakso_finland"
+    },
+    {
+      "source": "company_finnish_battery_chemicals_oy",
+      "type": "owns",
+      "target": "factory_kotka_finland"
+    }
+  ]
+}
+2025-08-16 22:06:05,116 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:05,116 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 22:06:05,116 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 22:06:07,264 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:06:07,265 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_27_gwh_announced",
+      "target": "factory_kotka_finland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40_gwh_announced",
+      "target": "factory_kotka_finland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_27_gwh_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_40_gwh_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_kotka_finland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_materials",
+      "target": "factory_vaasa_finland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_materials",
+      "target": "factory_kymenlaakso_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 22:06:07,265 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:06:07,265 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 22:06:07,265 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 22:06:07,349 - INFO - ✅ Updated Article ID: 68a0a60a30f8f286ed5c6a75 with 9 nodes and combined text.

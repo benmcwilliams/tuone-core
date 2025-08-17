@@ -1,0 +1,142 @@
+2025-08-16 14:51:44,136 - INFO - 🔍 Text length: 2805 characters
+2025-08-16 14:51:44,136 - INFO - 📌 Processing Article ID: 68a07266a1e07e58a5c364d2 — Avesta Holding Announces Plans for a new 20 GWh LFP Battery Cell Gigafactory
+2025-08-16 14:51:44,136 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:51:46,255 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:46,256 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_avesta_holding",
+        "type": "company",
+        "name": "Avesta Holding"
+      },
+      {
+        "id": "company_avesta_battery_energy_engineering",
+        "type": "company",
+        "name": "Avesta Battery & Energy Engineering"
+      },
+      {
+        "id": "company_be_volt",
+        "type": "company",
+        "name": "BE-Volt"
+      },
+      {
+        "id": "company_bulgapower",
+        "type": "company",
+        "name": "BulgaPower"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gigafactory",
+        "type": "factory",
+        "name": "gigafactory",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "5 gigawatt hours (GWh) annually",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_20_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_battery_cells",
+        "type": "product",
+        "name": "Advanced Lithium Iron Phosphate (LFP) battery cells"
+      }
+    ]
+  }
+}
+2025-08-16 14:51:46,256 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:46,256 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 14:51:46,256 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 14:51:47,487 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:47,487 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_20_gwh_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-16 14:51:47,487 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:47,487 - INFO - Node ID is capacity_5_gwh_announced
+2025-08-16 14:51:47,487 - INFO - ✅ Match found for capacity_ID 'capacity_5_gwh_announced' in capacity nodes
+2025-08-16 14:51:47,487 - INFO -   ➕ Set status: announced
+2025-08-16 14:51:47,487 - INFO -   ➕ Set phase: greenfield
+2025-08-16 14:51:47,487 - INFO - Node ID is capacity_20_gwh_announced
+2025-08-16 14:51:47,488 - INFO - ✅ Match found for capacity_ID 'capacity_20_gwh_announced' in capacity nodes
+2025-08-16 14:51:47,488 - INFO -   ➕ Set status: announced
+2025-08-16 14:51:47,488 - INFO -   ➕ Set phase: expansion
+2025-08-16 14:51:47,488 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:51:47,488 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:51:47,488 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:51:47,488 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:51:49,127 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:49,127 - INFO - {
+  "relationships": [
+    {
+      "source": "company_avesta_holding",
+      "type": "owns",
+      "target": "factory_gigafactory"
+    }
+  ]
+}
+2025-08-16 14:51:49,127 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:49,127 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:51:49,127 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:51:51,705 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:51,705 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "factory_gigafactory",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20_gwh_announced",
+      "target": "factory_gigafactory",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "product_lfp_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_20_gwh_announced",
+      "target": "product_lfp_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lfp_battery_cells",
+      "target": "factory_gigafactory",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 14:51:51,705 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:51,705 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:51:51,705 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:51:51,794 - INFO - ✅ Updated Article ID: 68a07266a1e07e58a5c364d2 with 8 nodes and combined text.

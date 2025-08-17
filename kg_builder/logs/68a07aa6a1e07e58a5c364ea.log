@@ -1,0 +1,66 @@
+2025-08-16 14:50:27,086 - INFO - 🔍 Text length: 708 characters
+2025-08-16 14:50:27,086 - INFO - 📌 Processing Article ID: 68a07aa6a1e07e58a5c364ea —  Final approval of the MES factory in Horní Suchá
+2025-08-16 14:50:27,086 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:50:29,317 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:29,317 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_magna_energy_storage",
+        "type": "company",
+        "name": "Magna Energy Storage"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_horni_sucha",
+        "type": "factory",
+        "name": "Magna Energy Storage factory",
+        "location": {
+          "city": "Horn\u00ed Such\u00e1",
+          "country": "Czech Republic"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_energy_storage",
+        "type": "product",
+        "name": "energy storage"
+      }
+    ]
+  }
+}
+2025-08-16 14:50:29,317 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:29,317 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 14:50:29,317 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:50:29,318 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:50:29,318 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:50:29,318 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:50:30,366 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:30,366 - INFO - {
+  "relationships": [
+    {
+      "source": "company_magna_energy_storage",
+      "type": "owns",
+      "target": "factory_horni_sucha"
+    }
+  ]
+}
+2025-08-16 14:50:30,366 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:30,366 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:50:30,366 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:50:31,612 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:31,612 - INFO - {
+  "relationships": [
+    {
+      "source": "product_energy_storage",
+      "target": "factory_horni_sucha",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 14:50:31,612 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:31,613 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:50:31,613 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:50:31,685 - INFO - ✅ Updated Article ID: 68a07aa6a1e07e58a5c364ea with 3 nodes and combined text.

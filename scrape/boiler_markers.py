@@ -72,6 +72,11 @@ BOILER_STRINGS = {
     "E-Mail-Adresse",
     "Greg Morris has been editor of Glass International and organiser of the Glassman conferences since 2012, specialising in glass packaging. Prior to this he spent five years working in newspaper journalism.",
     "Greg Morris has been editor of Glass International and organiser of the Glassman conferences since 2012, specialising in glass packaging. Prior to this he spent five years working in newspaper journalism.",
-    "© All rights reserved."
+    "© All rights reserved.",
+    "Just Auto : Just Auto Focus (monthly)",
+    "Automotive Industry News & Analysis | Market Research - Just Auto",
+    "By clicking here, you agree to ourTerms and Conditionsand consent to us collection your details for the purposes of your enquiry",
+    "Gain the recognition you deserve! TheJust Auto Excellence Awardscelebrate innovation, leadership, and impact. By entering, you showcase your achievements, elevate your industry profile, and position yourself among top leaders driving automotive industry advancements. Don’t miss your chance to stand out—submit your entry today!",
+    "Don’t let policy changes catch you off guard. Stay proactive with real-time data and expert analysis."
     # …add any other exact lines you see
 }

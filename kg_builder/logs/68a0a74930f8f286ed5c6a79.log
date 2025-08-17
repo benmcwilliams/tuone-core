@@ -1,0 +1,167 @@
+2025-08-16 22:05:37,293 - INFO - 🔍 Text length: 3103 characters
+2025-08-16 22:05:37,293 - INFO - 📌 Processing Article ID: 68a0a74930f8f286ed5c6a79 — Freyr Continues With Plans for One of Two Factories in Finland
+2025-08-16 22:05:37,293 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 22:05:40,334 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:40,334 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_freyr_battery",
+        "type": "company",
+        "name": "Freyr Battery"
+      },
+      {
+        "id": "company_freyr_battery_finland",
+        "type": "company",
+        "name": "FREYR Battery Finland"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_giga_arctic",
+        "type": "factory",
+        "name": "Giga Arctic",
+        "location": {
+          "city": "Mo i Rana",
+          "country": "Norway"
+        }
+      },
+      {
+        "id": "factory_giga_america",
+        "type": "factory",
+        "name": "Giga America",
+        "location": {
+          "city": "Georgia",
+          "country": "USA"
+        }
+      },
+      {
+        "id": "factory_giga_vasa",
+        "type": "factory",
+        "name": "Giga Vasa",
+        "location": {
+          "city": "Vasa",
+          "country": "Finland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_giga_vasa",
+        "type": "investment",
+        "name": "Giga Vasa",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cell",
+        "type": "product",
+        "name": "battery cell"
+      },
+      {
+        "id": "product_cathode",
+        "type": "product",
+        "name": "cathode"
+      }
+    ]
+  }
+}
+2025-08-16 22:05:40,334 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:40,334 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 22:05:40,335 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-16 22:05:40,335 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-16 22:05:41,153 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:41,153 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_giga_vasa",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 22:05:41,153 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:41,153 - INFO - Node ID is investment_giga_vasa
+2025-08-16 22:05:41,154 - INFO - ✅ Match found for investment_ID 'investment_giga_vasa' in investment nodes
+2025-08-16 22:05:41,154 - INFO -   ➕ Set status: announced
+2025-08-16 22:05:41,154 - INFO -   ➕ Set phase: greenfield
+2025-08-16 22:05:41,154 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 22:05:41,154 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 22:05:41,154 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 22:05:42,880 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:42,881 - INFO - {
+  "relationships": [
+    {
+      "source": "company_freyr_battery",
+      "type": "owns",
+      "target": "factory_giga_arctic"
+    },
+    {
+      "source": "company_freyr_battery",
+      "type": "owns",
+      "target": "factory_giga_america"
+    },
+    {
+      "source": "company_freyr_battery",
+      "type": "owns",
+      "target": "factory_giga_vasa"
+    }
+  ]
+}
+2025-08-16 22:05:42,881 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:42,881 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 22:05:42,881 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 22:05:44,318 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:44,318 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cell",
+      "target": "factory_giga_arctic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cell",
+      "target": "factory_giga_america",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cathode",
+      "target": "factory_giga_vasa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 22:05:44,318 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:44,318 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-16 22:05:44,318 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-16 22:05:45,133 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:45,134 - INFO - {
+  "relationships": []
+}
+2025-08-16 22:05:45,134 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:45,134 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-16 22:05:45,134 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-16 22:05:46,540 - INFO - ✅ OpenAI returned output:
+2025-08-16 22:05:46,541 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_giga_vasa",
+      "target": "factory_giga_vasa",
+      "type": "funds"
+    },
+    {
+      "source": "investment_giga_vasa",
+      "target": "product_battery_cell",
+      "type": "targets"
+    },
+    {
+      "source": "investment_giga_vasa",
+      "target": "product_cathode",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-16 22:05:46,541 - INFO - POST-PROCESSING STARTING.
+2025-08-16 22:05:46,622 - INFO - ✅ Updated Article ID: 68a0a74930f8f286ed5c6a79 with 8 nodes and combined text.

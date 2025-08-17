@@ -1,0 +1,96 @@
+2025-08-16 11:55:14,397 - INFO - 🔍 Text length: 3708 characters
+2025-08-16 11:55:14,397 - INFO - 📌 Processing Article ID: 68a05452d15a40f63f26b828 — Acura RSX Prototype: Honda teases first model on new electric platform
+2025-08-16 11:55:14,397 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 11:55:17,178 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:17,179 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_acura",
+        "type": "company",
+        "name": "Acura"
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_honda_ev_hub",
+        "type": "factory",
+        "name": "Honda EV Hub",
+        "location": {
+          "city": "Marysville",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_acura_rsx_prototype",
+        "type": "product",
+        "name": "Acura RSX Prototype"
+      },
+      {
+        "id": "product_acura_integra",
+        "type": "product",
+        "name": "Acura Integra"
+      },
+      {
+        "id": "product_honda_prologue",
+        "type": "product",
+        "name": "Honda Prologue"
+      },
+      {
+        "id": "product_acura_zdx",
+        "type": "product",
+        "name": "Acura ZDX"
+      }
+    ]
+  }
+}
+2025-08-16 11:55:17,179 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:17,179 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 11:55:17,179 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 11:55:17,179 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 11:55:17,179 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 11:55:17,179 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 11:55:17,996 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:17,996 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_honda_ev_hub"
+    }
+  ]
+}
+2025-08-16 11:55:17,996 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:17,996 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 11:55:17,996 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 11:55:19,634 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:19,634 - INFO - {
+  "relationships": [
+    {
+      "source": "product_acura_rsx_prototype",
+      "target": "factory_honda_ev_hub",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_acura_integra",
+      "target": "factory_honda_ev_hub",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 11:55:19,634 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:19,634 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 11:55:19,634 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 11:55:19,716 - INFO - ✅ Updated Article ID: 68a05452d15a40f63f26b828 with 8 nodes and combined text.

@@ -1,0 +1,67 @@
+2025-08-16 11:56:22,507 - INFO - 🔍 Text length: 3523 characters
+2025-08-16 11:56:22,507 - INFO - 📌 Processing Article ID: 68a05442d15a40f63f26b81f — Ukraine adds 500 MW of solar in H1
+2025-08-16 11:56:22,507 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 11:56:24,097 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:24,097 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ukrenergo",
+        "type": "company",
+        "name": "Ukrenergo"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      },
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      }
+    ]
+  }
+}
+2025-08-16 11:56:24,097 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:24,097 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 11:56:24,097 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 11:56:25,582 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:25,583 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-16 11:56:25,583 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:25,583 - INFO - Node ID is capacity_1_gw_announced
+2025-08-16 11:56:25,583 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_announced' in capacity nodes
+2025-08-16 11:56:25,583 - INFO -   ➕ Set status: announced
+2025-08-16 11:56:25,583 - INFO -   ➕ Set phase: unclear
+2025-08-16 11:56:25,583 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 11:56:25,583 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 11:56:25,583 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-16 11:56:25,583 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 11:56:25,583 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 11:56:26,196 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:26,196 - INFO - {
+  "relationships": []
+}
+2025-08-16 11:56:26,196 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:26,197 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 11:56:26,197 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 11:56:26,275 - INFO - ✅ Updated Article ID: 68a05442d15a40f63f26b81f with 4 nodes and combined text.

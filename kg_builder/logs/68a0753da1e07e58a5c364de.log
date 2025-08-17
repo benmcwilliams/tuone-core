@@ -1,0 +1,127 @@
+2025-08-16 14:50:50,115 - INFO - 🔍 Text length: 965 characters
+2025-08-16 14:50:50,115 - INFO - 📌 Processing Article ID: 68a0753da1e07e58a5c364de — IPS talks ‘first cell-to-system’ BESS manufacturing facility in Europe
+2025-08-16 14:50:50,115 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:50:52,323 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:52,323 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_international_power_supply",
+        "type": "company",
+        "name": "International Power Supply"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sofia_bulgaria",
+        "type": "factory",
+        "name": "Sofia BESS Manufacturing Facility",
+        "location": {
+          "city": "Sofia",
+          "country": "Bulgaria"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_4gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "4GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_3gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "3GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bess",
+        "type": "product",
+        "name": "BESS"
+      }
+    ]
+  }
+}
+2025-08-16 14:50:52,323 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:52,323 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 14:50:52,323 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 14:50:53,622 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:53,623 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_4gwh_announced",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_3gwh_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-16 14:50:53,623 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:53,623 - INFO - Node ID is capacity_4gwh_announced
+2025-08-16 14:50:53,623 - INFO - ✅ Match found for capacity_ID 'capacity_4gwh_announced' in capacity nodes
+2025-08-16 14:50:53,623 - INFO -   ➕ Set status: under construction
+2025-08-16 14:50:53,623 - INFO -   ➕ Set phase: greenfield
+2025-08-16 14:50:53,623 - INFO - Node ID is capacity_3gwh_announced
+2025-08-16 14:50:53,623 - INFO - ✅ Match found for capacity_ID 'capacity_3gwh_announced' in capacity nodes
+2025-08-16 14:50:53,623 - INFO -   ➕ Set status: announced
+2025-08-16 14:50:53,623 - INFO -   ➕ Set phase: expansion
+2025-08-16 14:50:53,623 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:50:53,623 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:50:53,623 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:50:53,624 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:50:54,887 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:54,888 - INFO - {
+  "relationships": [
+    {
+      "source": "company_international_power_supply",
+      "type": "owns",
+      "target": "factory_sofia_bulgaria"
+    }
+  ]
+}
+2025-08-16 14:50:54,888 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:54,888 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:50:54,888 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:50:56,922 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:56,922 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_4gwh_announced",
+      "target": "factory_sofia_bulgaria",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3gwh_announced",
+      "target": "factory_sofia_bulgaria",
+      "type": "at"
+    },
+    {
+      "source": "product_bess",
+      "target": "factory_sofia_bulgaria",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_4gwh_announced",
+      "target": "product_bess",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_3gwh_announced",
+      "target": "product_bess",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-16 14:50:56,922 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:56,922 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:50:56,922 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:50:57,004 - INFO - ✅ Updated Article ID: 68a0753da1e07e58a5c364de with 5 nodes and combined text.
