@@ -1,0 +1,91 @@
+2025-08-16 14:51:03,335 - INFO - 🔍 Text length: 3363 characters
+2025-08-16 14:51:03,335 - INFO - 📌 Processing Article ID: 68a07488a1e07e58a5c364da — Bulgarian battery factory Exeron X-BESS gets EU strategic status
+2025-08-16 14:51:03,335 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:51:06,519 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:06,519 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_international_power_supply",
+        "type": "company",
+        "name": "International Power Supply"
+      },
+      {
+        "id": "company_power_technology_investment_group",
+        "type": "company",
+        "name": "Power Technology Investment Group"
+      },
+      {
+        "id": "company_sil_energy_invest",
+        "type": "company",
+        "name": "SIL Energy Invest"
+      },
+      {
+        "id": "company_capital_investments_fund",
+        "type": "company",
+        "name": "Capital Investments Fund"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hemus_high_tech_industrial_park",
+        "type": "factory",
+        "name": "Hemus High-Tech Industrial Park",
+        "location": {
+          "city": "Kremikovtzi (Kremikovtsi)",
+          "country": "Bulgaria"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage systems"
+      },
+      {
+        "id": "product_lithium_iron_phosphate_battery_cells",
+        "type": "product",
+        "name": "lithium-iron-phosphate battery cells"
+      },
+      {
+        "id": "product_battery_management_system",
+        "type": "product",
+        "name": "battery management system"
+      }
+    ]
+  }
+}
+2025-08-16 14:51:06,520 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:06,520 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 14:51:06,520 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:51:06,520 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:51:06,520 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:51:06,520 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:51:07,401 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:07,402 - INFO - {
+  "relationships": [
+    {
+      "source": "company_international_power_supply",
+      "type": "owns",
+      "target": "factory_hemus_high_tech_industrial_park"
+    }
+  ]
+}
+2025-08-16 14:51:07,402 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:07,402 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:51:07,402 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:51:08,368 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:51:08,369 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_hemus_high_tech_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 14:51:08,369 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:51:08,369 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:51:08,369 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:51:08,454 - INFO - ✅ Updated Article ID: 68a07488a1e07e58a5c364da with 8 nodes and combined text.

@@ -1,0 +1,66 @@
+2025-08-16 11:56:16,496 - INFO - 🔍 Text length: 1186 characters
+2025-08-16 11:56:16,496 - INFO - 📌 Processing Article ID: 68a05444d15a40f63f26b821 — Why this storage investor is choosing execution risk over technology risk
+2025-08-16 11:56:16,497 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 11:56:18,781 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:18,781 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_s2g_investments",
+        "type": "company",
+        "name": "S2G Investments"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_camilla_battery_storage",
+        "type": "factory",
+        "name": "Camilla Battery Storage facility",
+        "location": {
+          "city": "Fife",
+          "country": "Scotland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_energy_storage_hardware",
+        "type": "product",
+        "name": "energy storage hardware"
+      }
+    ]
+  }
+}
+2025-08-16 11:56:18,781 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:18,781 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 11:56:18,781 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 11:56:18,781 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 11:56:18,782 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 11:56:18,782 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 11:56:19,669 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:19,669 - INFO - {
+  "relationships": [
+    {
+      "source": "company_s2g_investments",
+      "type": "owns",
+      "target": "factory_camilla_battery_storage"
+    }
+  ]
+}
+2025-08-16 11:56:19,669 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:19,669 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 11:56:19,669 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 11:56:20,563 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:56:20,563 - INFO - {
+  "relationships": [
+    {
+      "source": "product_energy_storage_hardware",
+      "target": "factory_camilla_battery_storage",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 11:56:20,564 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:56:20,564 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 11:56:20,564 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 11:56:20,637 - INFO - ✅ Updated Article ID: 68a05444d15a40f63f26b821 with 3 nodes and combined text.

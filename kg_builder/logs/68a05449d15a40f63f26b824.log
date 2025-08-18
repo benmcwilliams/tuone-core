@@ -1,0 +1,153 @@
+2025-08-16 11:55:40,296 - INFO - 🔍 Text length: 2614 characters
+2025-08-16 11:55:40,296 - INFO - 📌 Processing Article ID: 68a05449d15a40f63f26b824 — T1 Energy, Corning sign ‘landmark’ US-made solar poly, wafer, cell supply deal
+2025-08-16 11:55:40,296 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 11:55:44,094 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:44,094 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_t1_energy",
+        "type": "company",
+        "name": "T1 Energy"
+      },
+      {
+        "id": "company_corning",
+        "type": "company",
+        "name": "Corning"
+      },
+      {
+        "id": "company_hemlock_semiconductor",
+        "type": "company",
+        "name": "Hemlock Semiconductor"
+      },
+      {
+        "id": "company_highland_materials",
+        "type": "company",
+        "name": "Highland Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_michigan",
+        "type": "factory",
+        "name": "Corning Manufacturing Campus",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_austin_texas",
+        "type": "factory",
+        "name": "T1 Energy Solar Cell Manufacturing Facility",
+        "location": {
+          "city": "Austin",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_dallas_texas",
+        "type": "factory",
+        "name": "T1 Energy Module Production Facility",
+        "location": {
+          "city": "Dallas",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_tennessee",
+        "type": "factory",
+        "name": "Highland Materials Polysilicon Production Facility",
+        "location": {
+          "city": "Tennessee",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polysilicon",
+        "type": "product",
+        "name": "polysilicon"
+      },
+      {
+        "id": "product_wafers",
+        "type": "product",
+        "name": "wafers"
+      },
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      },
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      }
+    ]
+  }
+}
+2025-08-16 11:55:44,094 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:44,095 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 11:55:44,095 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 11:55:44,095 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 11:55:44,095 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 11:55:44,095 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 11:55:45,440 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:45,440 - INFO - {
+  "relationships": [
+    {
+      "source": "company_corning",
+      "type": "owns",
+      "target": "factory_michigan"
+    },
+    {
+      "source": "company_t1_energy",
+      "type": "owns",
+      "target": "factory_austin_texas"
+    },
+    {
+      "source": "company_t1_energy",
+      "type": "owns",
+      "target": "factory_dallas_texas"
+    },
+    {
+      "source": "company_hemlock_semiconductor",
+      "type": "owns",
+      "target": "factory_tennessee"
+    }
+  ]
+}
+2025-08-16 11:55:45,440 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:45,440 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 11:55:45,440 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 11:55:47,282 - INFO - ✅ OpenAI returned output:
+2025-08-16 11:55:47,282 - INFO - {
+  "relationships": [
+    {
+      "source": "product_wafers",
+      "target": "factory_michigan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_austin_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_dallas_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_polysilicon",
+      "target": "factory_tennessee",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 11:55:47,282 - INFO - POST-PROCESSING STARTING.
+2025-08-16 11:55:47,282 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 11:55:47,282 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 11:55:47,364 - INFO - ✅ Updated Article ID: 68a05449d15a40f63f26b824 with 12 nodes and combined text.

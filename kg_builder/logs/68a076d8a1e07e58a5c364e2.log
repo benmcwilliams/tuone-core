@@ -1,0 +1,71 @@
+2025-08-16 14:50:42,883 - INFO - 🔍 Text length: 1317 characters
+2025-08-16 14:50:42,883 - INFO - 📌 Processing Article ID: 68a076d8a1e07e58a5c364e2 — Verne breaks ground on Croatia’s first autonomous EV factory, a milestone for digital and green manufacturing at VGP Park Zagreb
+2025-08-16 14:50:42,883 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:50:45,033 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:45,033 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_verne",
+        "type": "company",
+        "name": "Verne"
+      },
+      {
+        "id": "company_vgp",
+        "type": "company",
+        "name": "VGP"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vgp_park_zagreb",
+        "type": "factory",
+        "name": "VGP Park Zagreb",
+        "location": {
+          "city": "Lu\u010dko",
+          "country": "Croatia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_driverless_electric_vehicles",
+        "type": "product",
+        "name": "driverless electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-16 14:50:45,033 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:45,033 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-16 14:50:45,033 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:50:45,033 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:50:45,033 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:50:45,033 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:50:46,043 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:46,043 - INFO - {
+  "relationships": [
+    {
+      "source": "company_verne",
+      "type": "owns",
+      "target": "factory_vgp_park_zagreb"
+    }
+  ]
+}
+2025-08-16 14:50:46,043 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:46,043 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:50:46,043 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:50:47,267 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:47,268 - INFO - {
+  "relationships": [
+    {
+      "source": "product_driverless_electric_vehicles",
+      "target": "factory_vgp_park_zagreb",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 14:50:47,268 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:47,268 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:50:47,268 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:50:47,352 - INFO - ✅ Updated Article ID: 68a076d8a1e07e58a5c364e2 with 4 nodes and combined text.

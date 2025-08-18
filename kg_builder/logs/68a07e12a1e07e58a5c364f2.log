@@ -1,0 +1,123 @@
+2025-08-16 14:50:19,576 - INFO - 🔍 Text length: 2153 characters
+2025-08-16 14:50:19,577 - INFO - 📌 Processing Article ID: 68a07e12a1e07e58a5c364f2 — Aarhus-based Battery Factory 100% Danish-Owned
+2025-08-16 14:50:19,577 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-16 14:50:22,500 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:22,501 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_promovec_group_a_s",
+        "type": "company",
+        "name": "Promovec Group A/S"
+      },
+      {
+        "id": "company_viridus_manufacturing_a_s",
+        "type": "company",
+        "name": "Viridus Manufacturing A/S"
+      },
+      {
+        "id": "company_greenway",
+        "type": "company",
+        "name": "Greenway"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_promovec_greenway",
+        "type": "joint_venture",
+        "name": "Promovec Greenway"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_viridus_manufacturing_aarhus",
+        "type": "factory",
+        "name": "Viridus Manufacturing Aarhus",
+        "location": {
+          "city": "Aarhus",
+          "country": "Denmark"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40k_batteries_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "40,000 batteries annually",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_solutions",
+        "type": "product",
+        "name": "lithium-ion battery solutions"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      }
+    ]
+  }
+}
+2025-08-16 14:50:22,501 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:22,501 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-16 14:50:22,501 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-16 14:50:23,262 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:23,262 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40k_batteries_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-16 14:50:23,262 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:23,262 - INFO - Node ID is capacity_40k_batteries_per_year
+2025-08-16 14:50:23,262 - INFO - ✅ Match found for capacity_ID 'capacity_40k_batteries_per_year' in capacity nodes
+2025-08-16 14:50:23,263 - INFO -   ➕ Set status: operational
+2025-08-16 14:50:23,263 - INFO -   ➕ Set phase: greenfield
+2025-08-16 14:50:23,263 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-16 14:50:23,263 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-16 14:50:23,263 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-16 14:50:23,263 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-16 14:50:24,846 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:24,846 - INFO - {
+  "relationships": [
+    {
+      "source": "company_viridus_manufacturing_a_s",
+      "type": "owns",
+      "target": "factory_viridus_manufacturing_aarhus"
+    }
+  ]
+}
+2025-08-16 14:50:24,847 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:24,847 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-16 14:50:24,847 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-16 14:50:26,997 - INFO - ✅ OpenAI returned output:
+2025-08-16 14:50:26,997 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40k_batteries_per_year",
+      "target": "factory_viridus_manufacturing_aarhus",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40k_batteries_per_year",
+      "target": "product_lithium_ion_battery_solutions",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_battery_solutions",
+      "target": "factory_viridus_manufacturing_aarhus",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-16 14:50:26,997 - INFO - POST-PROCESSING STARTING.
+2025-08-16 14:50:26,997 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-16 14:50:26,997 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-16 14:50:27,084 - INFO - ✅ Updated Article ID: 68a07e12a1e07e58a5c364f2 with 8 nodes and combined text.
