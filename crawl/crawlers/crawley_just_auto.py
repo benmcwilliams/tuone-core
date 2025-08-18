@@ -69,6 +69,7 @@ def fetch_urls_from_sitemap(sitemap_url):
 def just_auto_crawler():
     category = "justauto"
     sitemap_url = "https://www.just-auto.com/post-sitemap.xml"
+    #sitemap_url = "https://www.just-auto.com/post-sitemap4.xml"
     collection = get_mongo_collection()
 
     logging.info(f'\n--- 🚀 Starting crawl for {category} ---')
