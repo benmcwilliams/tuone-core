@@ -1,0 +1,106 @@
+2025-08-18 15:54:29,408 - INFO - 🔍 Text length: 7093 characters
+2025-08-18 15:54:29,408 - INFO - 📌 Processing Article ID: 68a2f4d4ae25fce6f06384ee — The copper standard: could new cell manufacturing processes replace silver?
+2025-08-18 15:54:29,408 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-18 15:54:31,917 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:54:31,918 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aiko",
+        "type": "company",
+        "name": "AIKO"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jinan",
+        "type": "factory",
+        "name": "Jinan Factory",
+        "location": {
+          "city": "Jinan",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10gw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "10GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_abc_modules",
+        "type": "product",
+        "name": "ABC Modules"
+      },
+      {
+        "id": "product_copper_electroplating_process",
+        "type": "product",
+        "name": "Copper Electroplating Process"
+      }
+    ]
+  }
+}
+2025-08-18 15:54:31,918 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:54:31,918 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-18 15:54:31,918 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-18 15:54:33,421 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:54:33,421 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10gw_operational",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-18 15:54:33,421 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:54:33,422 - INFO - Node ID is capacity_10gw_operational
+2025-08-18 15:54:33,422 - INFO - ✅ Match found for capacity_ID 'capacity_10gw_operational' in capacity nodes
+2025-08-18 15:54:33,422 - INFO -   ➕ Set status: operational
+2025-08-18 15:54:33,422 - INFO -   ➕ Set phase: expansion
+2025-08-18 15:54:33,422 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-18 15:54:33,422 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-18 15:54:33,422 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-18 15:54:33,422 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-18 15:54:34,170 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:54:34,170 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aiko",
+      "type": "owns",
+      "target": "factory_jinan"
+    }
+  ]
+}
+2025-08-18 15:54:34,170 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:54:34,170 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-18 15:54:34,170 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-18 15:54:38,053 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:54:38,054 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10gw_operational",
+      "target": "factory_jinan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10gw_operational",
+      "target": "product_abc_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_abc_modules",
+      "target": "factory_jinan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-18 15:54:38,054 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:54:38,054 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-18 15:54:38,054 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-18 15:54:38,126 - INFO - ✅ Updated Article ID: 68a2f4d4ae25fce6f06384ee with 5 nodes and combined text.

@@ -1,0 +1,172 @@
+2025-08-18 15:41:39,830 - INFO - 🔍 Text length: 721 characters
+2025-08-18 15:41:39,830 - INFO - 📌 Processing Article ID: 68a1e744fddcb571b6b03a59 — Teverola 1 and 2
+2025-08-18 15:41:39,830 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-18 15:41:43,202 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:43,202 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_teverola_1",
+        "type": "factory",
+        "name": "Teverola 1",
+        "location": {
+          "city": "Teverola",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_teverola_2",
+        "type": "factory",
+        "name": "Teverola 2",
+        "location": {
+          "city": "Teverola",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_0_3_gwh_year_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "0.3 GWh/year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_8_gwh_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": ">8GWh/year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_battery_cells_modules_packs",
+        "type": "product",
+        "name": "lithium battery cells, modules, and packs"
+      },
+      {
+        "id": "product_cathode_material_lfp",
+        "type": "product",
+        "name": "cathode material (LFP)"
+      },
+      {
+        "id": "product_end_of_life_battery_recycling",
+        "type": "product",
+        "name": "end-of-life battery recycling"
+      },
+      {
+        "id": "product_active_material_recovery",
+        "type": "product",
+        "name": "active material recovery"
+      }
+    ]
+  }
+}
+2025-08-18 15:41:43,202 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:43,202 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-18 15:41:43,202 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-18 15:41:44,399 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:44,400 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_0_3_gwh_year_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_8_gwh_year_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-18 15:41:44,400 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:44,400 - INFO - Node ID is capacity_0_3_gwh_year_operational
+2025-08-18 15:41:44,400 - INFO - ✅ Match found for capacity_ID 'capacity_0_3_gwh_year_operational' in capacity nodes
+2025-08-18 15:41:44,400 - INFO -   ➕ Set status: operational
+2025-08-18 15:41:44,400 - INFO -   ➕ Set phase: greenfield
+2025-08-18 15:41:44,400 - INFO - Node ID is capacity_8_gwh_year_announced
+2025-08-18 15:41:44,400 - INFO - ✅ Match found for capacity_ID 'capacity_8_gwh_year_announced' in capacity nodes
+2025-08-18 15:41:44,400 - INFO -   ➕ Set status: announced
+2025-08-18 15:41:44,400 - INFO -   ➕ Set phase: greenfield
+2025-08-18 15:41:44,400 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-18 15:41:44,400 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-18 15:41:44,400 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-18 15:41:44,400 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-18 15:41:46,019 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:46,019 - INFO - {
+  "relationships": [
+    {
+      "source": "company",
+      "type": "owns",
+      "target": "factory_teverola_1"
+    },
+    {
+      "source": "company",
+      "type": "owns",
+      "target": "factory_teverola_2"
+    }
+  ]
+}
+2025-08-18 15:41:46,019 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:46,019 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-18 15:41:46,019 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-18 15:41:52,497 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:52,498 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_0_3_gwh_year_operational",
+      "type": "at",
+      "target": "factory_teverola_1"
+    },
+    {
+      "source": "capacity_0_3_gwh_year_operational",
+      "type": "quantifies",
+      "target": "product_lithium_battery_cells_modules_packs"
+    },
+    {
+      "source": "product_lithium_battery_cells_modules_packs",
+      "type": "produced_at",
+      "target": "factory_teverola_1"
+    },
+    {
+      "source": "capacity_8_gwh_year_announced",
+      "type": "at",
+      "target": "factory_teverola_2"
+    },
+    {
+      "source": "capacity_8_gwh_year_announced",
+      "type": "quantifies",
+      "target": "product_lithium_battery_cells_modules_packs"
+    },
+    {
+      "source": "product_lithium_battery_cells_modules_packs",
+      "type": "produced_at",
+      "target": "factory_teverola_2"
+    },
+    {
+      "source": "product_cathode_material_lfp",
+      "type": "produced_at",
+      "target": "factory_teverola_1"
+    },
+    {
+      "source": "product_end_of_life_battery_recycling",
+      "type": "produced_at",
+      "target": "factory_teverola_2"
+    },
+    {
+      "source": "product_active_material_recovery",
+      "type": "produced_at",
+      "target": "factory_teverola_2"
+    }
+  ]
+}
+2025-08-18 15:41:52,498 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:52,498 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-18 15:41:52,498 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-18 15:41:52,590 - INFO - ✅ Updated Article ID: 68a1e744fddcb571b6b03a59 with 8 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-08-18 15:41:29,158 - INFO - 🔍 Text length: 376 characters
+2025-08-18 15:41:29,159 - INFO - 📌 Processing Article ID: 68a1e78afddcb571b6b03a5b — FAAM
+2025-08-18 15:41:29,159 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-18 15:41:34,074 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:34,074 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_faam_fib_s_p_a",
+        "type": "company",
+        "name": "FAAM - FIB S.p.A."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_teverola_italy",
+        "type": "factory",
+        "name": "Teverola Factory",
+        "location": {
+          "city": "Teverola",
+          "country": "Italy"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_0_35gwh_pilot_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "0.35GWh",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cells_modules_li_ion_batteries",
+        "type": "product",
+        "name": "cells, modules, and li-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-18 15:41:34,074 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:34,074 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-18 15:41:34,075 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-18 15:41:35,604 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:35,604 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_0_35gwh_pilot_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-18 15:41:35,604 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:35,604 - INFO - Node ID is capacity_0_35gwh_pilot_completed
+2025-08-18 15:41:35,604 - INFO - ✅ Match found for capacity_ID 'capacity_0_35gwh_pilot_completed' in capacity nodes
+2025-08-18 15:41:35,604 - INFO -   ➕ Set status: operational
+2025-08-18 15:41:35,604 - INFO -   ➕ Set phase: greenfield
+2025-08-18 15:41:35,604 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-18 15:41:35,605 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-18 15:41:35,605 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-18 15:41:35,605 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-18 15:41:37,371 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:37,371 - INFO - {
+  "relationships": [
+    {
+      "source": "company_faam_fib_s_p_a",
+      "type": "owns",
+      "target": "factory_teverola_italy"
+    }
+  ]
+}
+2025-08-18 15:41:37,371 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:37,371 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-18 15:41:37,371 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-18 15:41:39,742 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:39,742 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_0_35gwh_pilot_completed",
+      "target": "factory_teverola_italy",
+      "type": "at"
+    },
+    {
+      "source": "capacity_0_35gwh_pilot_completed",
+      "target": "product_cells_modules_li_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cells_modules_li_ion_batteries",
+      "target": "factory_teverola_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-18 15:41:39,742 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:39,742 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-18 15:41:39,743 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-18 15:41:39,828 - INFO - ✅ Updated Article ID: 68a1e78afddcb571b6b03a5b with 4 nodes and combined text.

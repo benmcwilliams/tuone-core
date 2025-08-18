@@ -1,0 +1,151 @@
+2025-08-18 15:53:26,564 - INFO - 🔍 Text length: 1482 characters
+2025-08-18 15:53:26,564 - INFO - 📌 Processing Article ID: 68a2f4e3ae25fce6f06384f4 — Hyundai to build assembly plant in Algeria
+2025-08-18 15:53:26,564 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-18 15:53:30,167 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:30,168 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_company",
+        "type": "company",
+        "name": "Hyundai Motor Company"
+      },
+      {
+        "id": "company_sarl_hyundai_motors_manufacturing_algeria",
+        "type": "company",
+        "name": "SARL Hyundai Motors Manufacturing Algeria"
+      },
+      {
+        "id": "company_saudi_bahwan_group",
+        "type": "company",
+        "name": "Saud Bahwan Group"
+      },
+      {
+        "id": "company_gb_auto",
+        "type": "company",
+        "name": "GB Auto"
+      },
+      {
+        "id": "company_global_group",
+        "type": "company",
+        "name": "Global Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_sarl_hyundai_motors_manufacturing_algeria_saudi_bahwan_group",
+        "type": "joint_venture",
+        "name": "SARL Hyundai Motors Manufacturing Algeria & Saud Bahwan Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vehicle_assembly_plant_algeria",
+        "type": "factory",
+        "name": "vehicle assembly plant",
+        "location": {
+          "city": "Sidi Khettab, Relizane Province",
+          "country": "Algeria"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_algeria_plant",
+        "type": "investment",
+        "name": "Hyundai Algeria Plant",
+        "amount": "US$ 400 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_compact_hatchbacks_and_suvs",
+        "type": "product",
+        "name": "compact hatchbacks and SUVs"
+      }
+    ]
+  }
+}
+2025-08-18 15:53:30,168 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:30,168 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-18 15:53:30,168 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-18 15:53:30,168 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-18 15:53:31,093 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:31,094 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_algeria_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-18 15:53:31,094 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:31,094 - INFO - Node ID is investment_hyundai_algeria_plant
+2025-08-18 15:53:31,094 - INFO - ✅ Match found for investment_ID 'investment_hyundai_algeria_plant' in investment nodes
+2025-08-18 15:53:31,094 - INFO -   ➕ Set status: announced
+2025-08-18 15:53:31,094 - INFO -   ➕ Set phase: greenfield
+2025-08-18 15:53:31,094 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-18 15:53:31,094 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-18 15:53:31,094 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-18 15:53:33,160 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:33,160 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "forms",
+      "target": "joint_venture_sarl_hyundai_motors_manufacturing_algeria_saudi_bahwan_group"
+    },
+    {
+      "source": "company_saudi_bahwan_group",
+      "type": "forms",
+      "target": "joint_venture_sarl_hyundai_motors_manufacturing_algeria_saudi_bahwan_group"
+    },
+    {
+      "source": "joint_venture_sarl_hyundai_motors_manufacturing_algeria_saudi_bahwan_group",
+      "type": "owns",
+      "target": "factory_vehicle_assembly_plant_algeria"
+    }
+  ]
+}
+2025-08-18 15:53:33,160 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:33,161 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-18 15:53:33,161 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-18 15:53:34,595 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:34,595 - INFO - {
+  "relationships": [
+    {
+      "source": "product_compact_hatchbacks_and_suvs",
+      "target": "factory_vehicle_assembly_plant_algeria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-18 15:53:34,595 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:34,595 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-18 15:53:34,595 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-18 15:53:35,347 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:35,348 - INFO - {
+  "relationships": []
+}
+2025-08-18 15:53:35,348 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:35,348 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-18 15:53:35,348 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-18 15:53:37,594 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:53:37,595 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_algeria_plant",
+      "target": "factory_vehicle_assembly_plant_algeria",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hyundai_algeria_plant",
+      "target": "product_compact_hatchbacks_and_suvs",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-18 15:53:37,595 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:53:37,676 - INFO - ✅ Updated Article ID: 68a2f4e3ae25fce6f06384f4 with 9 nodes and combined text.

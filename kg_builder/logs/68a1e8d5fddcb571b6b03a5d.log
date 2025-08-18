@@ -1,0 +1,123 @@
+2025-08-18 15:41:17,537 - INFO - 🔍 Text length: 2175 characters
+2025-08-18 15:41:17,537 - INFO - 📌 Processing Article ID: 68a1e8d5fddcb571b6b03a5d — Pylontech’s First Overseas Factory Put into Operation
+2025-08-18 15:41:17,537 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-18 15:41:20,681 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:20,681 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_pylontech",
+        "type": "company",
+        "name": "Pylontech"
+      },
+      {
+        "id": "company_energy_spa",
+        "type": "company",
+        "name": "Energy S.p.A."
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_pylon_lifeeu_srl",
+        "type": "joint_venture",
+        "name": "Pylon LiFeEU S.r.l."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sant_angelo_di_piove_di_sacco",
+        "type": "factory",
+        "name": "Sant'Angelo di Piove di Sacco",
+        "location": {
+          "city": "Sant'Angelo di Piove di Sacco",
+          "country": "Italy"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_400_mwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "400 MWh per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_models",
+        "type": "product",
+        "name": "battery models"
+      }
+    ]
+  }
+}
+2025-08-18 15:41:20,681 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:20,681 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-18 15:41:20,681 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-18 15:41:21,909 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:21,910 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_400_mwh_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-18 15:41:21,910 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:21,910 - INFO - Node ID is capacity_400_mwh_per_year
+2025-08-18 15:41:21,910 - INFO - ✅ Match found for capacity_ID 'capacity_400_mwh_per_year' in capacity nodes
+2025-08-18 15:41:21,910 - INFO -   ➕ Set status: operational
+2025-08-18 15:41:21,910 - INFO -   ➕ Set phase: greenfield
+2025-08-18 15:41:21,910 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-18 15:41:21,910 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-18 15:41:21,910 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-18 15:41:21,910 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-18 15:41:26,773 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:26,774 - INFO - {
+  "relationships": [
+    {
+      "source": "company_pylontech",
+      "type": "forms",
+      "target": "joint_venture_pylon_lifeeu_srl"
+    },
+    {
+      "source": "company_energy_spa",
+      "type": "forms",
+      "target": "joint_venture_pylon_lifeeu_srl"
+    },
+    {
+      "source": "joint_venture_pylon_lifeeu_srl",
+      "type": "owns",
+      "target": "factory_sant_angelo_di_piove_di_sacco"
+    }
+  ]
+}
+2025-08-18 15:41:26,774 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:26,774 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-18 15:41:26,774 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-18 15:41:29,077 - INFO - ✅ OpenAI returned output:
+2025-08-18 15:41:29,077 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_400_mwh_per_year",
+      "target": "factory_sant_angelo_di_piove_di_sacco",
+      "type": "at"
+    },
+    {
+      "source": "capacity_400_mwh_per_year",
+      "target": "product_battery_models",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_models",
+      "target": "factory_sant_angelo_di_piove_di_sacco",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-18 15:41:29,077 - INFO - POST-PROCESSING STARTING.
+2025-08-18 15:41:29,077 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-18 15:41:29,077 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-18 15:41:29,157 - INFO - ✅ Updated Article ID: 68a1e8d5fddcb571b6b03a5d with 6 nodes and combined text.
