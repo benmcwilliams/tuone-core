@@ -20,11 +20,11 @@ def main(update_mongo_metadata=False):
 
     if update_mongo_metadata:
 
-        logging.info("🕴️Normalising companies...")          # only updates nodes with missing name_canon
-        clean_owner_names()
+        # logging.info("🕴️Normalising companies...")          # only updates nodes with missing name_canon
+        # clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=20,skip=0)
+        query_geonames_new_cities(limit=5000,skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
