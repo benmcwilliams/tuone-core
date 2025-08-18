@@ -189,7 +189,7 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
         logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
         logger.info(f"📍 Location is present in the following articles: {article_ids}")
 
-        name, adm1, adm2, adm3, adm4, bbox, failed = get_adm_level(query_city, iso2, logger=logger)
+        name, adm1, adm2, adm3, adm4, bbox, failed, lat, lon = get_adm_level(query_city, iso2, logger=logger)
 
         if failed or not name:
             logger.warning(f"❌ Lookup failed for city='{city_key}', iso2='{iso2}'")
@@ -203,7 +203,9 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
             "adm2": adm2,
             "adm3": adm3,
             "adm4": adm4,
-            "bbox": bbox,
+            "lat": float(lat) if lat is not None else None,
+            "lon": float(lon) if lon is not None else None,
+            "bbox": bbox
         }
         updates.append(build_success_update(std_country, iso2, city_key, payload))
 

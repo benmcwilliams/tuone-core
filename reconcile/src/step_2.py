@@ -103,7 +103,7 @@ def get_adm_level(city: str, iso2: str | None, logger,
             js = resp.json()
         except Exception as exc:
             logging.error(f"[get_adm_level] request error “{city}” → {exc}")
-            return None, None, None, None, None, None, True
+            return None, None, None, None, None, None, True, None, None
 
         # ── handle GeoNames error payloads ────────────────────────────────
         if "status" in js:                               # request was *rejected*
@@ -119,12 +119,12 @@ def get_adm_level(city: str, iso2: str | None, logger,
                 continue
 
             # any other status code is fatal for this lookup
-            return None, None, None, None, None, None, True
+            return None, None, None, None, None, None, True, None, None
 
         data = js.get("geonames", [])
         if not data:    # no hits
             logger.warning(f"⚠️ GeoNames returned empty result for city={city}")
-            return None, None, None, None, None, None, True
+            return None, None, None, None, None, None, True, None, None
 
         # ── choose best candidate ───────────────────────────────────────── 
         # loop through all the records in the geonames returned data
@@ -145,20 +145,23 @@ def get_adm_level(city: str, iso2: str | None, logger,
             adm4 = rec.get("adminName4", "")
 
             bbox = rec.get("bbox", {}) or {}
+            lat = rec.get("lat", "")
+            lon = rec.get("lng", "")
 
             logger.info(
                 f"📄 Index {idx} | Name: {name} | fcl: {fcl}, fcode: {fcode} | "
                 f"ADM1: {adm1}, ADM2: {adm2}, ADM3: {adm3}, ADM4: {adm4} | "
+                f"Latitude: {lat}, Longitude: {lon} | "
                 f"Score: {score:.2f}, Population: {pop} | Fuzzy match: {match_score}"
             )
 
             if match_score > 80:
                 logger.info(f"✅ Accepted fuzzy match at index {idx}: {name} (match_score={match_score})")
-                return name, adm1, adm2, adm3, adm4, bbox, False 
+                return name, adm1, adm2, adm3, adm4, bbox, False, lat, lon 
 
     # If no match found
     logger.warning(f"❌ No match found with fuzzy score > 80 for city: {city}")
-    return None, None, None, None, None, None, True
+    return None, None, None, None, None, None, True, None, None
 
 
 
