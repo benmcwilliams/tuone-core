@@ -9,7 +9,7 @@ from mongo_client import articles_collection, geonames_collection
 from src.step_2 import standardize_country, get_adm_level
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.logger import setup_city_logger
-from src.inputs import EUROPEAN_COUNTRIES
+from src.inputs import EUROPEAN_COUNTRIES, VAGUE_CITY_NAMES
 
 system_logger = logging.getLogger("main")
 
@@ -36,7 +36,8 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("HU", "kekscemet"): "Kecskemét",
     ("HU", "goed"): "Göd",
     ("HU", "kömlöd"): "Kömlőd",
-    ("HU", "lukacshaza"): "Lukácsháza"
+    ("HU", "lukacshaza"): "Lukácsháza",
+    ("DE", "port_of_hamburg"): "Hamburg",
 }
 
 # ---------- Data access ----------
@@ -176,6 +177,11 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
             logger.info(f"⏭️ Skipping {iso2} - {std_country} (non-Europe).")
             continue
 
+        # ---- don't query vague city names, like North of France ----
+        if city_key in VAGUE_CITY_NAMES:
+            logger.info(f"⏭️ Skipping {iso2} - {city_key} (too vague).")
+            continue
+
         original_country = meta["original_country"]
         original_city = meta["original_city"]
         article_ids = sorted(meta["article_ids"])
@@ -232,7 +238,7 @@ def commit_updates(updates: List[UpdateOne], batch_size: int = 1000) -> None:
 # ---------- Entry point ----------
 
 def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0) -> None:
-    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=7)
+    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=2)
     candidates, metadata = collect_candidates(existing_pairs, limit=limit, skip=skip)
     updates = process_candidates(candidates, metadata, european_only=True)
     commit_updates(updates)

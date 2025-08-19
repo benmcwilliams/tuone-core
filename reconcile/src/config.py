@@ -19,6 +19,7 @@ ALL_RELS = "storage/output/all_rels.xlsx"
 FACTORY_TECH = "storage/output/factory-technological.xlsx"
 FACTORY_TECH_CLEAN_CAPACITIES = "storage/output/factory-technological-clean-capacities.xlsx"
 CAPACITIES_DEBUG = "storage/output/capacities-debug.xlsx"
+GEO_LOOKUP_JSON = "storage/output/geo_lookup.json"
 
 GRPD_PROJECTS = "./storage/output/all_projects.xlsx"
 GRPD_PROJECTS_FILTER = "storage/output/filtered_projects.xlsx"

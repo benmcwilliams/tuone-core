@@ -20,35 +20,35 @@ def main(update_mongo_metadata=False):
 
     if update_mongo_metadata:
 
-        # logging.info("🕴️Normalising companies...")          # only updates nodes with missing name_canon
-        # clean_owner_names()
+        logging.info("🕴️Normalising companies...")          # only updates nodes with missing name_canon
+        clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=5000,skip=0)
+        query_geonames_new_cities(limit=18000,skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
 
-    # logging.info("🗞️ Flattening articles...")
-    # run_flatten_articles()
+    logging.info("🗞️ Flattening articles...")
+    run_flatten_articles()
 
-    # logging.info("🉑 Merging nodes and relationships...")
-    # merge_nodes_rels()
+    logging.info("🉑 Merging nodes and relationships...")
+    merge_nodes_rels()
 
-    # logging.info("Normalising capacities")
-    # run_capacity_normalisation_pipeline()
+    logging.info("Normalising capacities")
+    run_capacity_normalisation_pipeline()
 
-    # logging.info("🫂 Grouping projects...")
-    # group_projects()
+    logging.info("🫂 Grouping projects...")
+    group_projects()
 
-    # logging.info("🏭 Importing facilities")
-    # write_facilities()
+    logging.info("🏭 Importing facilities")
+    write_facilities()
 
-    # logging.info("🧮 Determining phase summaries")
-    # determine_phase_summary()
+    logging.info("🧮 Determining phase summaries")
+    determine_phase_summary()
 
-    # logging.info("Outputting clean capacities summary data")
-    # output_capacities_plot()
+    logging.info("Outputting clean capacities summary data")
+    output_capacities_plot()
 
     # final timing
     t1_pipeline = time.time()

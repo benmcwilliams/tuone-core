@@ -31,3 +31,29 @@ EUROPEAN_COUNTRIES = [
     "GB",  # United Kingdom,
     "UK",  # United Kingdom,
 ]
+
+VAGUE_CITY_NAMES = [
+    "off_the_coast_of_belgium",
+    "north_sea",
+    "unspecified",
+    "off_the_belgian_coast",
+    "near_an_aquaculture_farm",
+    "central_germany",
+    "eastern_germany",
+    "northern_germany",
+    "offshore",
+    "southern_germany",
+    "various",
+    "various_locations",
+    "south_germany",
+    "northwest_hungary",
+    "south_poland",
+    "northwestern_poland",
+    "northern_austria",
+    "northeastern_bulgaria",
+    "southeastern_bulgaria",
+    "southwestern_croatia",
+    "czech_republic",
+    "southeastern_finland",
+    "southwestern_finland"
+]

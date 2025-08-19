@@ -23,7 +23,8 @@ def fuzzy_match_score(a, b):
     return fuzz.token_sort_ratio(a.lower(), b.lower())
 
 # ──────────────────────────────── Configuration ────────────────────────────────
-GEONAMES_USERNAME   = "chiarastrama"
+#GEONAMES_USERNAME   = "chiarastrama" 
+GEONAMES_USERNAME   = "benmcwilliams"
 VALID_FEATURE_CODES = {"PPL", "PPLA", "PPLA2", "PPLC", "PPLG"}      # populated-place codes
 FEATURE_CLASSES     = ["A", "P"]                                    # admin + populated
 RATE_LIMIT_SECONDS  = 4                                             # polite delay
