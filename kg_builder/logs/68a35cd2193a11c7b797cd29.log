@@ -1,0 +1,106 @@
+2025-08-19 10:20:32,428 - INFO - 🔍 Text length: 1202 characters
+2025-08-19 10:20:32,428 - INFO - 📌 Processing Article ID: 68a35cd2193a11c7b797cd29 — Ford to axe 1,600 more Valencia jobs
+2025-08-19 10:20:32,428 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:34,526 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:34,526 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_valencia_spain",
+        "type": "factory",
+        "name": "Valencia Assembly Plant",
+        "location": {
+          "city": "Valencia",
+          "country": "Spain"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300,000 units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrid_passenger_car",
+        "type": "product",
+        "name": "hybrid passenger car"
+      },
+      {
+        "id": "product_kuga_compact_suv",
+        "type": "product",
+        "name": "Kuga compact sports utility vehicle"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:34,526 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:34,526 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:20:34,526 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:20:35,292 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:35,292 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:20:35,292 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:35,292 - INFO - Node ID is capacity_300k_units_per_year
+2025-08-19 10:20:35,292 - INFO - ✅ Match found for capacity_ID 'capacity_300k_units_per_year' in capacity nodes
+2025-08-19 10:20:35,292 - INFO -   ➕ Set status: announced
+2025-08-19 10:20:35,292 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:20:35,292 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:20:35,292 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:35,292 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:35,292 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:36,468 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:36,468 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_valencia_spain"
+    }
+  ]
+}
+2025-08-19 10:20:36,469 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:36,469 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:36,469 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:38,402 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:38,402 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_units_per_year",
+      "target": "factory_valencia_spain",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_units_per_year",
+      "target": "product_hybrid_passenger_car",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_hybrid_passenger_car",
+      "target": "factory_valencia_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:38,402 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:38,403 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:20:38,403 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:20:38,481 - INFO - ✅ Updated Article ID: 68a35cd2193a11c7b797cd29 with 5 nodes and combined text.

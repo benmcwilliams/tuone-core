@@ -1,0 +1,114 @@
+2025-08-19 11:55:54,289 - INFO - 🔍 Text length: 3556 characters
+2025-08-19 11:55:54,289 - INFO - 📌 Processing Article ID: 68a3510f55f8a4c6a03cb133 — Renault 4 E-Tech shown at Paris Motor Show
+2025-08-19 11:55:54,289 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:56,685 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:56,686 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maubeuge",
+        "type": "factory",
+        "name": "Maubeuge",
+        "location": {
+          "city": "Maubeuge",
+          "country": "France"
+        }
+      },
+      {
+        "id": "factory_cleon",
+        "type": "factory",
+        "name": "Cl\u00e9on",
+        "location": {
+          "city": "Cl\u00e9on",
+          "country": "France"
+        }
+      },
+      {
+        "id": "factory_ruitz",
+        "type": "factory",
+        "name": "Ruitz",
+        "location": {
+          "city": "Ruitz",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_renault_4_etech",
+        "type": "product",
+        "name": "Renault 4 E-Tech 100% electric"
+      },
+      {
+        "id": "product_electric_motor",
+        "type": "product",
+        "name": "electric motor"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:56,686 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:56,686 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:56,686 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:55:56,686 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:56,686 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:56,686 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:58,086 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:58,086 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_maubeuge"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_cleon"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_ruitz"
+    }
+  ]
+}
+2025-08-19 11:55:58,086 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:58,087 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:58,087 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:59,715 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:59,715 - INFO - {
+  "relationships": [
+    {
+      "source": "product_renault_4_etech",
+      "target": "factory_maubeuge",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_motor",
+      "target": "factory_cleon",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_ruitz",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:59,715 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:59,715 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:55:59,715 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:55:59,796 - INFO - ✅ Updated Article ID: 68a3510f55f8a4c6a03cb133 with 7 nodes and combined text.

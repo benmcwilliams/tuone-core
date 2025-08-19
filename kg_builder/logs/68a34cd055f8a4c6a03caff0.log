@@ -1,0 +1,131 @@
+2025-08-19 15:26:46,004 - INFO - 🔍 Text length: 2191 characters
+2025-08-19 15:26:46,004 - INFO - 📌 Processing Article ID: 68a34cd055f8a4c6a03caff0 — Stellantis, Leapmotor scrap plans for second EV model in Poland
+2025-08-19 15:26:46,004 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:26:51,453 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:51,454 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_leapmotor",
+        "type": "company",
+        "name": "Leapmotor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_leapmotor",
+        "type": "joint_venture",
+        "name": "Stellantis Leapmotor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy_poland",
+        "type": "factory",
+        "name": "Tychy plant",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        }
+      },
+      {
+        "id": "factory_eisenach_germany",
+        "type": "factory",
+        "name": "Eisenach factory",
+        "location": {
+          "city": "Eisenach",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_trnava_slovakia",
+        "type": "factory",
+        "name": "Trnava plant",
+        "location": {
+          "city": "Trnava",
+          "country": "Slovakia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_b10_electric_crossover",
+        "type": "product",
+        "name": "B10 electric crossover"
+      },
+      {
+        "id": "product_t03_compact_ev",
+        "type": "product",
+        "name": "T03 compact EV"
+      }
+    ]
+  }
+}
+2025-08-19 15:26:51,454 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:51,454 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:26:51,454 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:26:51,454 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:26:51,454 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:26:51,454 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:26:53,987 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:53,988 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_leapmotor"
+    },
+    {
+      "source": "company_leapmotor",
+      "type": "forms",
+      "target": "joint_venture_stellantis_leapmotor"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy_poland"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_eisenach_germany"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_trnava_slovakia"
+    }
+  ]
+}
+2025-08-19 15:26:53,988 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:53,988 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:26:53,988 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:26:57,085 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:57,085 - INFO - {
+  "relationships": [
+    {
+      "source": "product_t03_compact_ev",
+      "target": "factory_tychy_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_b10_electric_crossover",
+      "target": "factory_eisenach_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_b10_electric_crossover",
+      "target": "factory_trnava_slovakia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:26:57,085 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:57,085 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:26:57,085 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:26:57,164 - INFO - ✅ Updated Article ID: 68a34cd055f8a4c6a03caff0 with 8 nodes and combined text.

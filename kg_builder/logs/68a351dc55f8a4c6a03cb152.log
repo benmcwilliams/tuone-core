@@ -1,0 +1,106 @@
+2025-08-19 11:51:48,743 - INFO - 🔍 Text length: 1750 characters
+2025-08-19 11:51:48,743 - INFO - 📌 Processing Article ID: 68a351dc55f8a4c6a03cb152 — LGES signs 10-year battery deal with Mercedes-Benz
+2025-08-19 11:51:48,743 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:51:51,012 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:51,012 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution_ltd",
+        "type": "company",
+        "name": "LG Energy Solution Ltd"
+      },
+      {
+        "id": "company_mercedes_benz_ag",
+        "type": "company",
+        "name": "Mercedes-Benz AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_queen_creek_arizona",
+        "type": "factory",
+        "name": "Queen Creek Facility",
+        "location": {
+          "city": "Queen Creek",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_4680_cylindrical_battery_cells",
+        "type": "product",
+        "name": "4680 Cylindrical Battery Cells"
+      }
+    ]
+  }
+}
+2025-08-19 11:51:51,013 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:51,013 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:51:51,013 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:51:51,972 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:51,972 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_gwh_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:51:51,972 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:51,972 - INFO - Node ID is capacity_50_gwh_announced
+2025-08-19 11:51:51,972 - INFO - ✅ Match found for capacity_ID 'capacity_50_gwh_announced' in capacity nodes
+2025-08-19 11:51:51,972 - INFO -   ➕ Set status: announced
+2025-08-19 11:51:51,972 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:51:51,972 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:51:51,972 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:51:51,973 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:51:51,973 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:51:53,052 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:53,052 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution_ltd",
+      "type": "owns",
+      "target": "factory_queen_creek_arizona"
+    }
+  ]
+}
+2025-08-19 11:51:53,052 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:53,052 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:51:53,052 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:51:54,574 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:54,574 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_gwh_announced",
+      "target": "factory_queen_creek_arizona",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50_gwh_announced",
+      "target": "product_4680_cylindrical_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_4680_cylindrical_battery_cells",
+      "target": "factory_queen_creek_arizona",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:51:54,574 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:54,574 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:51:54,574 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:51:54,654 - INFO - ✅ Updated Article ID: 68a351dc55f8a4c6a03cb152 with 5 nodes and combined text.

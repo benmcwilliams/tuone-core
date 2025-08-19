@@ -1,0 +1,150 @@
+2025-08-19 10:19:59,459 - INFO - 🔍 Text length: 495 characters
+2025-08-19 10:19:59,459 - INFO - 📌 Processing Article ID: 68a35cef193a11c7b797cd2e — Toyota adds drivetrain parts in Texas
+2025-08-19 10:19:59,459 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:01,915 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:01,915 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_san_antonio_texas",
+        "type": "factory",
+        "name": "San Antonio Plant",
+        "location": {
+          "city": "San Antonio",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_texas_expansion",
+        "type": "investment",
+        "name": "Toyota Texas Expansion",
+        "amount": "US$531m",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_toyota_texas_total",
+        "type": "investment",
+        "name": "Toyota Texas Total",
+        "amount": "$4.7bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_drivetrain_parts",
+        "type": "product",
+        "name": "drivetrain parts"
+      },
+      {
+        "id": "product_tundra_trucks",
+        "type": "product",
+        "name": "Tundra trucks"
+      },
+      {
+        "id": "product_sequoia_suvs",
+        "type": "product",
+        "name": "Sequoia SUVs"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:01,915 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:01,916 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:20:01,916 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:20:01,916 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:20:03,034 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:03,035 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_texas_expansion",
+      "status": "ongoing",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_toyota_texas_total",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:20:03,035 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:03,035 - INFO - Node ID is investment_toyota_texas_expansion
+2025-08-19 10:20:03,035 - INFO - ✅ Match found for investment_ID 'investment_toyota_texas_expansion' in investment nodes
+2025-08-19 10:20:03,035 - INFO -   ➕ Set status: ongoing
+2025-08-19 10:20:03,035 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:20:03,035 - INFO - Node ID is investment_toyota_texas_total
+2025-08-19 10:20:03,035 - INFO - ✅ Match found for investment_ID 'investment_toyota_texas_total' in investment nodes
+2025-08-19 10:20:03,035 - INFO -   ➕ Set status: ongoing
+2025-08-19 10:20:03,035 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:20:03,035 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:03,035 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:03,035 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:03,741 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:03,741 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_san_antonio_texas"
+    }
+  ]
+}
+2025-08-19 10:20:03,741 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:03,741 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:03,741 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:06,187 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:06,187 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tundra_trucks",
+      "target": "factory_san_antonio_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sequoia_suvs",
+      "target": "factory_san_antonio_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_drivetrain_parts",
+      "target": "factory_san_antonio_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:06,187 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:06,187 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:20:06,187 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:20:06,830 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:06,830 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:20:06,830 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:06,830 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:20:06,830 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:20:08,857 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:08,858 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_texas_expansion",
+      "target": "factory_san_antonio_texas",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_texas_expansion",
+      "target": "product_drivetrain_parts",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:20:08,858 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:08,938 - INFO - ✅ Updated Article ID: 68a35cef193a11c7b797cd2e with 7 nodes and combined text.

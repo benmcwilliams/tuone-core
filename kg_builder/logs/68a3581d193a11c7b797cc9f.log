@@ -1,0 +1,162 @@
+2025-08-19 10:50:22,266 - INFO - 🔍 Text length: 2097 characters
+2025-08-19 10:50:22,266 - INFO - 📌 Processing Article ID: 68a3581d193a11c7b797cc9f — BYD to announce EV plant in Turkey
+2025-08-19 10:50:22,266 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:50:26,138 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:26,139 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd_auto",
+        "type": "company",
+        "name": "BYD Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_turkey_ev_assembly_plant",
+        "type": "factory",
+        "name": "Turkey EV Assembly Plant",
+        "location": {
+          "city": "Manisa province",
+          "country": "Turkey"
+        }
+      },
+      {
+        "id": "factory_thailand_erv_assembly_plant",
+        "type": "factory",
+        "name": "Thailand ERV Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        }
+      },
+      {
+        "id": "factory_hungary_plant",
+        "type": "factory",
+        "name": "Hungary Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_turkey_ev_assembly_plant",
+        "type": "investment",
+        "name": "Turkey EV Assembly Plant",
+        "amount": "US$1bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      },
+      {
+        "id": "product_hybrid_vehicles",
+        "type": "product",
+        "name": "hybrid vehicles"
+      },
+      {
+        "id": "product_seagull_passenger_car",
+        "type": "product",
+        "name": "Seagull passenger car"
+      }
+    ]
+  }
+}
+2025-08-19 10:50:26,139 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:26,139 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:50:26,139 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:50:26,139 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:50:26,900 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:26,900 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_turkey_ev_assembly_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:50:26,900 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:26,900 - INFO - Node ID is investment_turkey_ev_assembly_plant
+2025-08-19 10:50:26,900 - INFO - ✅ Match found for investment_ID 'investment_turkey_ev_assembly_plant' in investment nodes
+2025-08-19 10:50:26,900 - INFO -   ➕ Set status: announced
+2025-08-19 10:50:26,901 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:50:26,901 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:50:26,901 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:50:26,901 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:50:28,437 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:28,438 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_turkey_ev_assembly_plant"
+    },
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_thailand_erv_assembly_plant"
+    },
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_hungary_plant"
+    }
+  ]
+}
+2025-08-19 10:50:28,438 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:28,438 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:50:28,438 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:50:29,667 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:29,667 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_turkey_ev_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hybrid_vehicles",
+      "target": "factory_turkey_ev_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:50:29,667 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:29,667 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:50:29,667 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:50:30,381 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:30,381 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:50:30,381 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:30,381 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:50:30,381 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:50:31,540 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:31,540 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_turkey_ev_assembly_plant",
+      "target": "factory_turkey_ev_assembly_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_turkey_ev_assembly_plant",
+      "target": "product_electric_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_turkey_ev_assembly_plant",
+      "target": "product_hybrid_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:50:31,540 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:31,613 - INFO - ✅ Updated Article ID: 68a3581d193a11c7b797cc9f with 8 nodes and combined text.

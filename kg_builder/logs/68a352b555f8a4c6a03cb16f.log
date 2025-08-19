@@ -1,0 +1,172 @@
+2025-08-19 11:47:26,245 - INFO - 🔍 Text length: 2512 characters
+2025-08-19 11:47:26,246 - INFO - 📌 Processing Article ID: 68a352b555f8a4c6a03cb16f — Brembo agrees to acquire suspension technology company Öhlins Racing for $405m
+2025-08-19 11:47:26,246 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:47:31,228 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:31,228 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_brembo",
+        "type": "company",
+        "name": "Brembo"
+      },
+      {
+        "id": "company_ohlins_racing",
+        "type": "company",
+        "name": "\u00d6hlins Racing"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_upplands_vasby_sweden",
+        "type": "factory",
+        "name": "\u00d6hlins Racing Production Facility",
+        "location": {
+          "city": "Upplands V\u00e4sby",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_thailand",
+        "type": "factory",
+        "name": "\u00d6hlins Racing Production Facility",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_brembo_ohlins_acquisition",
+        "type": "investment",
+        "name": "Brembo \u00d6hlins Acquisition",
+        "amount": "$405m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_shock_absorbers",
+        "type": "product",
+        "name": "shock absorbers"
+      },
+      {
+        "id": "product_front_forks",
+        "type": "product",
+        "name": "front forks"
+      },
+      {
+        "id": "product_steering_dampers",
+        "type": "product",
+        "name": "steering dampers"
+      },
+      {
+        "id": "product_software",
+        "type": "product",
+        "name": "software"
+      },
+      {
+        "id": "product_algorithms",
+        "type": "product",
+        "name": "algorithms"
+      },
+      {
+        "id": "product_accessories",
+        "type": "product",
+        "name": "accessories"
+      }
+    ]
+  }
+}
+2025-08-19 11:47:31,228 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:31,228 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:47:31,229 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:47:31,229 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:47:33,684 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:33,684 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_brembo_ohlins_acquisition",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:47:33,684 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:33,684 - INFO - Node ID is investment_brembo_ohlins_acquisition
+2025-08-19 11:47:33,685 - INFO - ✅ Match found for investment_ID 'investment_brembo_ohlins_acquisition' in investment nodes
+2025-08-19 11:47:33,685 - INFO -   ➕ Set status: announced
+2025-08-19 11:47:33,685 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:47:33,685 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:47:33,685 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:47:33,685 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:47:34,780 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:34,780 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ohlins_racing",
+      "type": "owns",
+      "target": "factory_upplands_vasby_sweden"
+    },
+    {
+      "source": "company_ohlins_racing",
+      "type": "owns",
+      "target": "factory_thailand"
+    }
+  ]
+}
+2025-08-19 11:47:34,781 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:34,781 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:47:34,781 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:47:37,525 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:37,525 - INFO - {
+  "relationships": [
+    {
+      "source": "product_shock_absorbers",
+      "target": "factory_upplands_vasby_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_front_forks",
+      "target": "factory_upplands_vasby_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_steering_dampers",
+      "target": "factory_upplands_vasby_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_shock_absorbers",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_front_forks",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_steering_dampers",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:47:37,525 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:37,525 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:47:37,525 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:47:38,607 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:38,608 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:47:38,608 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:38,608 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:47:38,608 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:47:39,178 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:39,178 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:47:39,178 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:39,267 - INFO - ✅ Updated Article ID: 68a352b555f8a4c6a03cb16f with 11 nodes and combined text.

@@ -1,0 +1,126 @@
+2025-08-19 11:42:13,240 - INFO - 🔍 Text length: 1168 characters
+2025-08-19 11:42:13,241 - INFO - 📌 Processing Article ID: 68a3535f55f8a4c6a03cb190 — Schaeffler to add 5,000 worldwide charging points by 2030
+2025-08-19 11:42:13,241 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:42:15,725 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:15,725 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_schaeffler",
+        "type": "company",
+        "name": "Schaeffler"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_herzogenaurach_germany",
+        "type": "factory",
+        "name": "Herzogenaurach",
+        "location": {
+          "city": "Herzogenaurach",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_schweinfurt_germany",
+        "type": "factory",
+        "name": "Schweinfurt",
+        "location": {
+          "city": "Schweinfurt",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_245_charging_points_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "245 charging points",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_122_charging_points_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "122 charging points",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_charging_points",
+        "type": "product",
+        "name": "EV Charging Points"
+      }
+    ]
+  }
+}
+2025-08-19 11:42:15,725 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:15,726 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:42:15,726 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:42:16,817 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:16,818 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_245_charging_points_announced",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_122_charging_points_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:42:16,818 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:16,818 - INFO - Node ID is capacity_245_charging_points_announced
+2025-08-19 11:42:16,818 - INFO - ✅ Match found for capacity_ID 'capacity_245_charging_points_announced' in capacity nodes
+2025-08-19 11:42:16,818 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:16,818 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:42:16,818 - INFO - Node ID is capacity_122_charging_points_announced
+2025-08-19 11:42:16,818 - INFO - ✅ Match found for capacity_ID 'capacity_122_charging_points_announced' in capacity nodes
+2025-08-19 11:42:16,818 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:16,818 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:42:16,818 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:42:16,818 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:42:16,818 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:42:16,818 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:42:18,258 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:18,259 - INFO - {
+  "relationships": [
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_herzogenaurach_germany"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_schweinfurt_germany"
+    }
+  ]
+}
+2025-08-19 11:42:18,259 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:18,259 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:42:18,259 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:42:19,821 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:19,821 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_245_charging_points_announced",
+      "target": "factory_herzogenaurach_germany",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_122_charging_points_announced",
+      "target": "factory_schweinfurt_germany",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 11:42:19,822 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:19,822 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:42:19,822 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:42:19,900 - INFO - ✅ Updated Article ID: 68a3535f55f8a4c6a03cb190 with 6 nodes and combined text.

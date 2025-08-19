@@ -1,0 +1,188 @@
+2025-08-19 10:35:13,738 - INFO - 🔍 Text length: 1575 characters
+2025-08-19 10:35:13,738 - INFO - 📌 Processing Article ID: 68a35916193a11c7b797ccc0 — Toyota invests $1.4bn to build electric SUV in US
+2025-08-19 10:35:13,739 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:35:17,622 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:17,622 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_toyota_battery_manufacturing_north_carolina",
+        "type": "company",
+        "name": "Toyota Battery Manufacturing North Carolina"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toyota_indiana",
+        "type": "factory",
+        "name": "Toyota Indiana",
+        "location": {
+          "city": "Princeton",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_toyota_kentucky",
+        "type": "factory",
+        "name": "Toyota Kentucky",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_toyota_battery_manufacturing_north_carolina",
+        "type": "factory",
+        "name": "Toyota Battery Manufacturing North Carolina",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_indiana_2023",
+        "type": "investment",
+        "name": "Toyota Indiana 2023",
+        "amount": "$1.4 billion",
+        "status": "announced"
+      },
+      {
+        "id": "investment_toyota_kentucky_2023",
+        "type": "investment",
+        "name": "Toyota Kentucky 2023",
+        "amount": "$1.3 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_suv",
+        "type": "product",
+        "name": "battery electric SUV"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-19 10:35:17,622 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:17,623 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:35:17,623 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:35:17,623 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:35:18,971 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:18,972 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_indiana_2023",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_toyota_kentucky_2023",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:35:18,972 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:18,972 - INFO - Node ID is investment_toyota_indiana_2023
+2025-08-19 10:35:18,972 - INFO - ✅ Match found for investment_ID 'investment_toyota_indiana_2023' in investment nodes
+2025-08-19 10:35:18,972 - INFO -   ➕ Set status: announced
+2025-08-19 10:35:18,972 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:35:18,972 - INFO - Node ID is investment_toyota_kentucky_2023
+2025-08-19 10:35:18,972 - INFO - ✅ Match found for investment_ID 'investment_toyota_kentucky_2023' in investment nodes
+2025-08-19 10:35:18,972 - INFO -   ➕ Set status: completed
+2025-08-19 10:35:18,972 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:35:18,972 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:35:18,972 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:35:18,972 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:35:20,340 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:20,341 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_indiana"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_kentucky"
+    },
+    {
+      "source": "company_toyota_battery_manufacturing_north_carolina",
+      "type": "owns",
+      "target": "factory_toyota_battery_manufacturing_north_carolina"
+    }
+  ]
+}
+2025-08-19 10:35:20,341 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:20,341 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:35:20,341 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:35:22,072 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:22,072 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_suv",
+      "target": "factory_toyota_indiana",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_electric_suv",
+      "target": "factory_toyota_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_toyota_battery_manufacturing_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:35:22,072 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:22,072 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:35:22,072 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:35:22,744 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:22,745 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:35:22,745 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:22,745 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:35:22,745 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:35:24,007 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:35:24,008 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_indiana_2023",
+      "target": "factory_toyota_indiana",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_indiana_2023",
+      "target": "product_battery_electric_suv",
+      "type": "targets"
+    },
+    {
+      "source": "investment_toyota_kentucky_2023",
+      "target": "factory_toyota_kentucky",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_kentucky_2023",
+      "target": "product_battery_electric_suv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:35:24,008 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:35:24,096 - INFO - ✅ Updated Article ID: 68a35916193a11c7b797ccc0 with 9 nodes and combined text.

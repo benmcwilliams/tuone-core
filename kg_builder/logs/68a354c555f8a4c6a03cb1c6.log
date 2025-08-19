@@ -1,0 +1,111 @@
+2025-08-19 11:06:44,025 - INFO - 🔍 Text length: 1454 characters
+2025-08-19 11:06:44,025 - INFO - 📌 Processing Article ID: 68a354c555f8a4c6a03cb1c6 — Nio steps up swapping network rollout
+2025-08-19 11:06:44,025 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:06:47,102 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:47,102 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nio_inc",
+        "type": "company",
+        "name": "Nio Inc"
+      },
+      {
+        "id": "company_changan_auto",
+        "type": "company",
+        "name": "Changan Auto"
+      },
+      {
+        "id": "company_geely_auto",
+        "type": "company",
+        "name": "Geely Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wuhan_optical_valley_digital_economy_industrial_park",
+        "type": "factory",
+        "name": "Wuhan Optical Valley Digital Economy Industrial Park",
+        "location": {
+          "city": "Wuhan",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "more than 1,000 per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_swapping_stations",
+        "type": "product",
+        "name": "battery-swapping stations"
+      }
+    ]
+  }
+}
+2025-08-19 11:06:47,102 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:47,103 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:06:47,103 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:06:48,635 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:48,635 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:06:48,636 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:48,636 - INFO - Node ID is capacity_1k_units_per_year
+2025-08-19 11:06:48,636 - INFO - ✅ Match found for capacity_ID 'capacity_1k_units_per_year' in capacity nodes
+2025-08-19 11:06:48,636 - INFO -   ➕ Set status: announced
+2025-08-19 11:06:48,636 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:06:48,636 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:06:48,636 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:06:48,636 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:06:48,636 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:06:49,555 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:49,555 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nio_inc",
+      "type": "owns",
+      "target": "factory_wuhan_optical_valley_digital_economy_industrial_park"
+    }
+  ]
+}
+2025-08-19 11:06:49,555 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:49,555 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:06:49,556 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:06:51,322 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:51,322 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1k_units_per_year",
+      "target": "factory_wuhan_optical_valley_digital_economy_industrial_park",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1k_units_per_year",
+      "target": "product_battery_swapping_stations",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_swapping_stations",
+      "target": "factory_wuhan_optical_valley_digital_economy_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:06:51,322 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:51,322 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:06:51,322 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:06:51,408 - INFO - ✅ Updated Article ID: 68a354c555f8a4c6a03cb1c6 with 6 nodes and combined text.

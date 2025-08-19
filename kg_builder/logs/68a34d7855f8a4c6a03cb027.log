@@ -1,0 +1,121 @@
+2025-08-19 12:31:43,671 - INFO - 🔍 Text length: 1331 characters
+2025-08-19 12:31:43,671 - INFO - 📌 Processing Article ID: 68a34d7855f8a4c6a03cb027 — Deepway starts building new truck plant in Huzhou
+2025-08-19 12:31:43,671 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:31:46,560 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:46,560 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_anhui_deepway_technology_company",
+        "type": "company",
+        "name": "Anhui DeepWay Technology Company"
+      },
+      {
+        "id": "company_baidu",
+        "type": "company",
+        "name": "Baidu"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_huzhou_china",
+        "type": "factory",
+        "name": "Huzhou Heavy-Duty Truck Plant",
+        "location": {
+          "city": "Huzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_trucks_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 trucks per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_powered_heavy_trucks",
+        "type": "product",
+        "name": "battery-powered heavy trucks"
+      },
+      {
+        "id": "product_battery_pack_assembly",
+        "type": "product",
+        "name": "battery pack assembly"
+      },
+      {
+        "id": "product_electric_drive_axles",
+        "type": "product",
+        "name": "electric drive axles"
+      },
+      {
+        "id": "product_electronic_controllers",
+        "type": "product",
+        "name": "electronic controllers"
+      }
+    ]
+  }
+}
+2025-08-19 12:31:46,560 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:46,561 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:31:46,561 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:31:47,891 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:47,891 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_trucks_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:31:47,891 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:47,891 - INFO - Node ID is capacity_50k_trucks_per_year
+2025-08-19 12:31:47,891 - INFO - ✅ Match found for capacity_ID 'capacity_50k_trucks_per_year' in capacity nodes
+2025-08-19 12:31:47,891 - INFO -   ➕ Set status: under construction
+2025-08-19 12:31:47,892 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:31:47,892 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:31:47,892 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:31:47,892 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:31:47,892 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:31:49,119 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:49,120 - INFO - {
+  "relationships": [
+    {
+      "source": "company_anhui_deepway_technology_company",
+      "type": "owns",
+      "target": "factory_huzhou_china"
+    }
+  ]
+}
+2025-08-19 12:31:49,120 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:49,120 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:31:49,120 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:31:50,867 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:50,867 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_trucks_per_year",
+      "target": "factory_huzhou_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_trucks_per_year",
+      "target": "product_battery_powered_heavy_trucks",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_powered_heavy_trucks",
+      "target": "factory_huzhou_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:31:50,867 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:50,867 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:31:50,867 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:31:50,950 - INFO - ✅ Updated Article ID: 68a34d7855f8a4c6a03cb027 with 8 nodes and combined text.

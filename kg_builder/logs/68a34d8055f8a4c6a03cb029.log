@@ -1,0 +1,224 @@
+2025-08-19 12:31:23,198 - INFO - 🔍 Text length: 6642 characters
+2025-08-19 12:31:23,198 - INFO - 📌 Processing Article ID: 68a34d8055f8a4c6a03cb029 — Stellantis plans to close Luton plant in UK
+2025-08-19 12:31:23,198 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:31:27,309 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:27,309 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_luton",
+        "type": "factory",
+        "name": "Luton",
+        "location": {
+          "city": "Luton",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_ellesmere_port",
+        "type": "factory",
+        "name": "Ellesmere Port",
+        "location": {
+          "city": "Ellesmere Port",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_100_million_completed",
+        "type": "investment",
+        "name": "\u00a3100 million investment",
+        "amount": "\u00a3100 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_50_million_announced",
+        "type": "investment",
+        "name": "\u00a350 million investment",
+        "amount": "\u00a350 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_citroen_berlingo",
+        "type": "product",
+        "name": "Citro\u00ebn \u00eb-Berlingo"
+      },
+      {
+        "id": "product_vauxhall_combo_electric",
+        "type": "product",
+        "name": "Vauxhall Combo Electric"
+      },
+      {
+        "id": "product_opel_combo_electric",
+        "type": "product",
+        "name": "Opel Combo Electric"
+      },
+      {
+        "id": "product_peugeot_e_partner",
+        "type": "product",
+        "name": "Peugeot E-Partner"
+      },
+      {
+        "id": "product_fiat_professional_e_doblo",
+        "type": "product",
+        "name": "Fiat Professional E-Doblo"
+      },
+      {
+        "id": "product_vivaro_commercial_van",
+        "type": "product",
+        "name": "Vivaro commercial van"
+      }
+    ]
+  }
+}
+2025-08-19 12:31:27,310 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:27,310 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:31:27,310 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:31:27,310 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:31:28,435 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:28,435 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_100_million_completed",
+      "status": "completed",
+      "phase": "retrofit"
+    },
+    {
+      "investment_ID": "investment_50_million_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:31:28,435 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:28,435 - INFO - Node ID is investment_100_million_completed
+2025-08-19 12:31:28,435 - INFO - ✅ Match found for investment_ID 'investment_100_million_completed' in investment nodes
+2025-08-19 12:31:28,435 - INFO -   ➕ Set status: completed
+2025-08-19 12:31:28,435 - INFO -   ➕ Set phase: retrofit
+2025-08-19 12:31:28,435 - INFO - Node ID is investment_50_million_announced
+2025-08-19 12:31:28,436 - INFO - ✅ Match found for investment_ID 'investment_50_million_announced' in investment nodes
+2025-08-19 12:31:28,436 - INFO -   ➕ Set status: announced
+2025-08-19 12:31:28,436 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:31:28,436 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:31:28,436 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:31:28,436 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:31:29,664 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:29,664 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_luton"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_ellesmere_port"
+    }
+  ]
+}
+2025-08-19 12:31:29,664 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:29,664 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:31:29,664 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:31:32,320 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:32,320 - INFO - {
+  "relationships": [
+    {
+      "source": "product_citroen_berlingo",
+      "target": "factory_ellesmere_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vauxhall_combo_electric",
+      "target": "factory_ellesmere_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_opel_combo_electric",
+      "target": "factory_ellesmere_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_peugeot_e_partner",
+      "target": "factory_ellesmere_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fiat_professional_e_doblo",
+      "target": "factory_ellesmere_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vivaro_commercial_van",
+      "target": "factory_luton",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:31:32,320 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:32,320 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:31:32,320 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:31:33,044 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:33,045 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:31:33,045 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:33,045 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:31:33,045 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:31:35,808 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:35,809 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_100_million_completed",
+      "target": "factory_ellesmere_port",
+      "type": "funds"
+    },
+    {
+      "source": "investment_50_million_announced",
+      "target": "factory_ellesmere_port",
+      "type": "funds"
+    },
+    {
+      "source": "investment_100_million_completed",
+      "target": "product_citroen_berlingo",
+      "type": "targets"
+    },
+    {
+      "source": "investment_100_million_completed",
+      "target": "product_vauxhall_combo_electric",
+      "type": "targets"
+    },
+    {
+      "source": "investment_100_million_completed",
+      "target": "product_opel_combo_electric",
+      "type": "targets"
+    },
+    {
+      "source": "investment_100_million_completed",
+      "target": "product_peugeot_e_partner",
+      "type": "targets"
+    },
+    {
+      "source": "investment_100_million_completed",
+      "target": "product_fiat_professional_e_doblo",
+      "type": "targets"
+    },
+    {
+      "source": "investment_50_million_announced",
+      "target": "product_vivaro_commercial_van",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:31:35,809 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:35,890 - INFO - ✅ Updated Article ID: 68a34d8055f8a4c6a03cb029 with 11 nodes and combined text.

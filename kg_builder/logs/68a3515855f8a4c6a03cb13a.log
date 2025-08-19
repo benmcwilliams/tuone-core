@@ -1,0 +1,166 @@
+2025-08-19 11:55:24,012 - INFO - 🔍 Text length: 2038 characters
+2025-08-19 11:55:24,012 - INFO - 📌 Processing Article ID: 68a3515855f8a4c6a03cb13a — M&M denies auto JV with China – report
+2025-08-19 11:55:24,013 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:26,541 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:26,542 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mahindra_&_mahindra",
+        "type": "company",
+        "name": "Mahindra & Mahindra"
+      },
+      {
+        "id": "company_shaanxi_automobile_group",
+        "type": "company",
+        "name": "Shaanxi Automobile Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_mahindra_shaanxi",
+        "type": "joint_venture",
+        "name": "Mahindra Shaanxi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gujarat_india",
+        "type": "factory",
+        "name": "Gujarat Car Manufacturing Plant",
+        "location": {
+          "city": "Gujarat",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_3bn_announced_unclear",
+        "type": "investment",
+        "name": "3bn investment",
+        "amount": "US$3bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_assembled_cars",
+        "type": "product",
+        "name": "assembled cars"
+      },
+      {
+        "id": "product_engines",
+        "type": "product",
+        "name": "engines"
+      },
+      {
+        "id": "product_car_batteries",
+        "type": "product",
+        "name": "car batteries"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:26,542 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:26,542 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:26,542 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:55:26,542 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:55:27,491 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:27,491 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_3bn_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:55:27,491 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:27,491 - INFO - Node ID is investment_3bn_announced_unclear
+2025-08-19 11:55:27,491 - INFO - ✅ Match found for investment_ID 'investment_3bn_announced_unclear' in investment nodes
+2025-08-19 11:55:27,491 - INFO -   ➕ Set status: announced
+2025-08-19 11:55:27,491 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:55:27,491 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:27,491 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:27,491 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:29,306 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:29,306 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mahindra_&_mahindra",
+      "type": "forms",
+      "target": "joint_venture_mahindra_shaanxi"
+    },
+    {
+      "source": "company_shaanxi_automobile_group",
+      "type": "forms",
+      "target": "joint_venture_mahindra_shaanxi"
+    },
+    {
+      "source": "joint_venture_mahindra_shaanxi",
+      "type": "owns",
+      "target": "factory_gujarat_india"
+    }
+  ]
+}
+2025-08-19 11:55:29,306 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:29,306 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:29,306 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:30,465 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:30,465 - INFO - {
+  "relationships": [
+    {
+      "source": "product_assembled_cars",
+      "target": "factory_gujarat_india",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_engines",
+      "target": "factory_gujarat_india",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_car_batteries",
+      "target": "factory_gujarat_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:30,465 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:30,466 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:55:30,466 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:55:31,057 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:31,058 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:55:31,058 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:31,058 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:55:31,058 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:55:32,750 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:32,751 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_3bn_announced_unclear",
+      "target": "factory_gujarat_india",
+      "type": "funds"
+    },
+    {
+      "source": "investment_3bn_announced_unclear",
+      "target": "product_assembled_cars",
+      "type": "targets"
+    },
+    {
+      "source": "investment_3bn_announced_unclear",
+      "target": "product_engines",
+      "type": "targets"
+    },
+    {
+      "source": "investment_3bn_announced_unclear",
+      "target": "product_car_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:55:32,751 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:32,818 - INFO - ✅ Updated Article ID: 68a3515855f8a4c6a03cb13a with 8 nodes and combined text.

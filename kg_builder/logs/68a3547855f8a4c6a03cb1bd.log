@@ -1,0 +1,168 @@
+2025-08-19 11:08:30,699 - INFO - 🔍 Text length: 6855 characters
+2025-08-19 11:08:30,699 - INFO - 📌 Processing Article ID: 68a3547855f8a4c6a03cb1bd — Nissan to launch V2G technology in Europe from 2026
+2025-08-19 11:08:30,699 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:08:50,717 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:50,718 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_edf",
+        "type": "company",
+        "name": "EDF"
+      },
+      {
+        "id": "company_nuvvef",
+        "type": "company",
+        "name": "NUVVEF"
+      },
+      {
+        "id": "company_enovates",
+        "type": "company",
+        "name": "Enovates"
+      },
+      {
+        "id": "university_of_nottingham",
+        "type": "company",
+        "name": "University of Nottingham",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "apc",
+        "type": "company",
+        "name": "APC",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_dreev",
+        "type": "joint_venture",
+        "name": "Dreev"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_university_of_nottingham",
+        "type": "factory",
+        "name": "University of Nottingham",
+        "location": {
+          "city": "Nottingham",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_v2g_uk_trial",
+        "type": "investment",
+        "name": "V2G UK Trial",
+        "amount": "null",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ac_bi_directional_charger",
+        "type": "product",
+        "name": "AC bi-directional charger"
+      },
+      {
+        "id": "product_v2g_technology",
+        "type": "product",
+        "name": "V2G technology"
+      },
+      {
+        "id": "product_wall_box_evse",
+        "type": "product",
+        "name": "wall box (EVSE)"
+      }
+    ]
+  }
+}
+2025-08-19 11:08:50,718 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:50,718 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:08:50,718 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:08:50,718 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:08:51,619 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:51,619 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_v2g_uk_trial",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:08:51,619 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:51,619 - INFO - Node ID is investment_v2g_uk_trial
+2025-08-19 11:08:51,619 - INFO - ✅ Match found for investment_ID 'investment_v2g_uk_trial' in investment nodes
+2025-08-19 11:08:51,619 - INFO -   ➕ Set status: completed
+2025-08-19 11:08:51,619 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:08:51,619 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:08:51,619 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:08:51,619 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:08:54,282 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:54,283 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "forms",
+      "target": "joint_venture_dreev"
+    },
+    {
+      "source": "company_edf",
+      "type": "forms",
+      "target": "joint_venture_dreev"
+    },
+    {
+      "source": "company_nuvvef",
+      "type": "forms",
+      "target": "joint_venture_dreev"
+    },
+    {
+      "source": "university_of_nottingham",
+      "type": "owns",
+      "target": "factory_university_of_nottingham"
+    }
+  ]
+}
+2025-08-19 11:08:54,283 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:54,283 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:08:54,283 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:08:54,916 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:54,917 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:08:54,917 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:54,917 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:08:54,917 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:08:55,559 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:55,559 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:08:55,559 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:55,559 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:08:55,559 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:08:56,838 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:56,838 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_v2g_uk_trial",
+      "target": "product_v2g_technology",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:08:56,839 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:56,923 - INFO - ✅ Updated Article ID: 68a3547855f8a4c6a03cb1bd with 12 nodes and combined text.

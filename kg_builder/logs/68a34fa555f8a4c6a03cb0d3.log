@@ -1,0 +1,136 @@
+2025-08-19 12:09:00,221 - INFO - 🔍 Text length: 2672 characters
+2025-08-19 12:09:00,221 - INFO - 📌 Processing Article ID: 68a34fa555f8a4c6a03cb0d3 — GM increases quarterly dividend, plans $6bn share buyback
+2025-08-19 12:09:00,221 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:09:03,548 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:03,548 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_battery_cell_manufacturing",
+        "type": "joint_venture",
+        "name": "battery cell manufacturing"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shenyang_plant",
+        "type": "factory",
+        "name": "Shenyang plant",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_accelerated_share_repurchase_programme",
+        "type": "investment",
+        "name": "accelerated share repurchase programme",
+        "amount": "$2bn",
+        "status": "announced"
+      },
+      {
+        "id": "investment_capital_expenditure_2025",
+        "type": "investment",
+        "name": "capital expenditure 2025",
+        "amount": "$10bn to $11bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_buick_gl8_minivan",
+        "type": "product",
+        "name": "Buick GL8 minivan"
+      },
+      {
+        "id": "product_chevrolet_tracker_suv",
+        "type": "product",
+        "name": "Chevrolet Tracker SUV"
+      }
+    ]
+  }
+}
+2025-08-19 12:09:03,549 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:03,549 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:09:03,549 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:09:03,549 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:09:04,679 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:04,679 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_accelerated_share_repurchase_programme",
+      "status": "ongoing",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_capital_expenditure_2025",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:09:04,679 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:04,679 - INFO - Node ID is investment_accelerated_share_repurchase_programme
+2025-08-19 12:09:04,679 - INFO - ✅ Match found for investment_ID 'investment_accelerated_share_repurchase_programme' in investment nodes
+2025-08-19 12:09:04,679 - INFO -   ➕ Set status: ongoing
+2025-08-19 12:09:04,679 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:09:04,679 - INFO - Node ID is investment_capital_expenditure_2025
+2025-08-19 12:09:04,679 - INFO - ✅ Match found for investment_ID 'investment_capital_expenditure_2025' in investment nodes
+2025-08-19 12:09:04,679 - INFO -   ➕ Set status: announced
+2025-08-19 12:09:04,679 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:09:04,679 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:09:04,680 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:09:04,680 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:09:05,605 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:05,605 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_shenyang_plant"
+    }
+  ]
+}
+2025-08-19 12:09:05,605 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:05,605 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:09:05,605 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:09:06,576 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:06,576 - INFO - {
+  "relationships": [
+    {
+      "source": "product_buick_gl8_minivan",
+      "target": "factory_shenyang_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_chevrolet_tracker_suv",
+      "target": "factory_shenyang_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:09:06,577 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:06,577 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:09:06,577 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:09:07,110 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:07,110 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:09:07,110 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:07,110 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:09:07,110 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:09:07,784 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:07,784 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:09:07,784 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:07,860 - INFO - ✅ Updated Article ID: 68a34fa555f8a4c6a03cb0d3 with 7 nodes and combined text.

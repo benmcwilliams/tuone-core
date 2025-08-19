@@ -1,0 +1,103 @@
+2025-08-19 12:11:06,467 - INFO - 🔍 Text length: 4011 characters
+2025-08-19 12:11:06,467 - INFO - 📌 Processing Article ID: 68a34f7c55f8a4c6a03cb0c4 — Tavascan – driving the new Cupra EV
+2025-08-19 12:11:06,467 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:11:08,877 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:08,877 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cupra",
+        "type": "company",
+        "name": "Cupra"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      },
+      {
+        "id": "company_jac",
+        "type": "company",
+        "name": "JAC"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_vw_anhui",
+        "type": "joint_venture",
+        "name": "VW Anhui"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hefei_china",
+        "type": "factory",
+        "name": "Hefei Plant",
+        "location": {
+          "city": "Hefei",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tavascan",
+        "type": "product",
+        "name": "Tavascan"
+      },
+      {
+        "id": "product_id_unyx",
+        "type": "product",
+        "name": "ID.Unyx"
+      }
+    ]
+  }
+}
+2025-08-19 12:11:08,877 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:08,877 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:11:08,878 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:11:08,878 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:11:08,878 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:11:08,878 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:11:10,772 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:10,772 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_group",
+      "type": "forms",
+      "target": "joint_venture_vw_anhui"
+    },
+    {
+      "source": "company_jac",
+      "type": "forms",
+      "target": "joint_venture_vw_anhui"
+    },
+    {
+      "source": "joint_venture_vw_anhui",
+      "type": "owns",
+      "target": "factory_hefei_china"
+    }
+  ]
+}
+2025-08-19 12:11:10,772 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:10,772 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:11:10,772 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:11:12,818 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:12,818 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tavascan",
+      "target": "factory_hefei_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id_unyx",
+      "target": "factory_hefei_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:11:12,818 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:12,818 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:11:12,818 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:11:12,900 - INFO - ✅ Updated Article ID: 68a34f7c55f8a4c6a03cb0c4 with 7 nodes and combined text.

@@ -1,0 +1,139 @@
+2025-08-19 11:46:28,194 - INFO - 🔍 Text length: 3335 characters
+2025-08-19 11:46:28,195 - INFO - 📌 Processing Article ID: 68a352c655f8a4c6a03cb174 — Vietnam market jumps 33% in September
+2025-08-19 11:46:28,195 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:46:31,322 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:31,323 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_tasco_auto",
+        "type": "company",
+        "name": "Tasco Auto"
+      },
+      {
+        "id": "company_truong_hai_thaco_group",
+        "type": "company",
+        "name": "Truong Hai (Thaco) group"
+      },
+      {
+        "id": "company_vinfast",
+        "type": "company",
+        "name": "VinFast"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_assembly_plant_vietnam",
+        "type": "factory",
+        "name": "assembly plant",
+        "location": {
+          "city": "null",
+          "country": "Vietnam"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_75k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "75,000 unit/year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_new_energy_vehicles",
+        "type": "product",
+        "name": "new energy vehicles"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "geely_tasco_auto",
+        "type": "joint_venture",
+        "name": "Geely Tasco Auto",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 11:46:31,323 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:31,323 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:46:31,323 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:46:32,270 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:32,270 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_75k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:46:32,270 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:32,270 - INFO - Node ID is capacity_75k_units_per_year
+2025-08-19 11:46:32,271 - INFO - ✅ Match found for capacity_ID 'capacity_75k_units_per_year' in capacity nodes
+2025-08-19 11:46:32,271 - INFO -   ➕ Set status: announced
+2025-08-19 11:46:32,271 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:46:32,271 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:46:32,271 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:46:32,271 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:46:32,271 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:46:33,915 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:33,915 - INFO - {
+  "relationships": [
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "geely_tasco_auto"
+    },
+    {
+      "source": "company_tasco_auto",
+      "type": "forms",
+      "target": "geely_tasco_auto"
+    },
+    {
+      "source": "geely_tasco_auto",
+      "type": "owns",
+      "target": "factory_assembly_plant_vietnam"
+    }
+  ]
+}
+2025-08-19 11:46:33,915 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:33,916 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:46:33,916 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:46:35,237 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:35,238 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_75k_units_per_year",
+      "target": "factory_assembly_plant_vietnam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_75k_units_per_year",
+      "target": "product_new_energy_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_new_energy_vehicles",
+      "target": "factory_assembly_plant_vietnam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:46:35,238 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:35,238 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:46:35,238 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:46:35,324 - INFO - ✅ Updated Article ID: 68a352c655f8a4c6a03cb174 with 8 nodes and combined text.

@@ -1,0 +1,204 @@
+2025-08-19 15:19:55,862 - INFO - 🔍 Text length: 2246 characters
+2025-08-19 15:19:55,862 - INFO - 📌 Processing Article ID: 68a34d5d55f8a4c6a03cb01d — VW warns of impact from proposed US tariffs on Mexican imports
+2025-08-19 15:19:55,862 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:20:02,640 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:02,640 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_rivian",
+        "type": "company",
+        "name": "Rivian"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_volkswagen_rivian",
+        "type": "joint_venture",
+        "name": "Volkswagen Rivian"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_puebla_mexico",
+        "type": "factory",
+        "name": "Puebla Factory",
+        "location": {
+          "city": "Puebla",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_chattanooga_tennessee_us",
+        "type": "factory",
+        "name": "Chattanooga Plant",
+        "location": {
+          "city": "Chattanooga",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_us_market",
+        "type": "investment",
+        "name": "Volkswagen US Market",
+        "amount": "$10bn",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_350k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "350,000 cars per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tiguan",
+        "type": "product",
+        "name": "Tiguan"
+      },
+      {
+        "id": "product_jetta",
+        "type": "product",
+        "name": "Jetta"
+      },
+      {
+        "id": "product_taos",
+        "type": "product",
+        "name": "Taos"
+      }
+    ]
+  }
+}
+2025-08-19 15:20:02,641 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:02,641 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:20:02,641 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:20:03,893 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:03,894 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_350k_cars_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:20:03,894 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:03,894 - INFO - Node ID is capacity_350k_cars_per_year
+2025-08-19 15:20:03,894 - INFO - ✅ Match found for capacity_ID 'capacity_350k_cars_per_year' in capacity nodes
+2025-08-19 15:20:03,894 - INFO -   ➕ Set status: operational
+2025-08-19 15:20:03,894 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:20:03,894 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 15:20:03,894 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 15:20:05,285 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:05,285 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_us_market",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:20:05,286 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:05,286 - INFO - Node ID is investment_volkswagen_us_market
+2025-08-19 15:20:05,286 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_us_market' in investment nodes
+2025-08-19 15:20:05,286 - INFO -   ➕ Set status: announced
+2025-08-19 15:20:05,286 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:20:05,286 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:20:05,286 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:20:05,286 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:20:07,332 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:07,332 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_puebla_mexico"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "forms",
+      "target": "joint_venture_volkswagen_rivian"
+    },
+    {
+      "source": "company_rivian",
+      "type": "forms",
+      "target": "joint_venture_volkswagen_rivian"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_chattanooga_tennessee_us"
+    }
+  ]
+}
+2025-08-19 15:20:07,332 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:07,333 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:20:07,333 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:20:10,565 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:10,566 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_350k_cars_per_year",
+      "target": "factory_puebla_mexico",
+      "type": "at"
+    },
+    {
+      "source": "capacity_350k_cars_per_year",
+      "target": "product_tiguan",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_350k_cars_per_year",
+      "target": "product_jetta",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_350k_cars_per_year",
+      "target": "product_taos",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_tiguan",
+      "target": "factory_puebla_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_jetta",
+      "target": "factory_puebla_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_taos",
+      "target": "factory_puebla_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:20:10,566 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:10,566 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 15:20:10,566 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 15:20:11,213 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:11,214 - INFO - {
+  "relationships": []
+}
+2025-08-19 15:20:11,214 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:11,214 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 15:20:11,214 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 15:20:12,069 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:12,069 - INFO - {
+  "relationships": []
+}
+2025-08-19 15:20:12,069 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:12,157 - INFO - ✅ Updated Article ID: 68a34d5d55f8a4c6a03cb01d with 10 nodes and combined text.

@@ -1,0 +1,140 @@
+2025-08-19 10:50:14,798 - INFO - 🔍 Text length: 1148 characters
+2025-08-19 10:50:14,799 - INFO - 📌 Processing Article ID: 68a35829193a11c7b797cca0 — Novares completes China plant relocation
+2025-08-19 10:50:14,799 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:50:17,323 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:17,323 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_novares",
+        "type": "company",
+        "name": "Novares"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pinghu_china",
+        "type": "factory",
+        "name": "Pinghu Plant",
+        "location": {
+          "city": "Pinghu",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_novares_pinghu_plant",
+        "type": "investment",
+        "name": "Novares Pinghu Plant",
+        "amount": "CNY110m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_interior_parts",
+        "type": "product",
+        "name": "decorated interior parts"
+      },
+      {
+        "id": "product_mechanisms",
+        "type": "product",
+        "name": "mechanisms"
+      },
+      {
+        "id": "product_injection_machines",
+        "type": "product",
+        "name": "injection machines"
+      },
+      {
+        "id": "solar_panels",
+        "type": "product",
+        "name": "solar panels",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 10:50:17,323 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:17,323 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:50:17,323 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:50:17,323 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:50:18,092 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:18,093 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_novares_pinghu_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:50:18,093 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:18,093 - INFO - Node ID is investment_novares_pinghu_plant
+2025-08-19 10:50:18,093 - INFO - ✅ Match found for investment_ID 'investment_novares_pinghu_plant' in investment nodes
+2025-08-19 10:50:18,093 - INFO -   ➕ Set status: completed
+2025-08-19 10:50:18,093 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:50:18,093 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:50:18,093 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:50:18,093 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:50:19,427 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:19,427 - INFO - {
+  "relationships": [
+    {
+      "source": "company_novares",
+      "type": "owns",
+      "target": "factory_pinghu_china"
+    }
+  ]
+}
+2025-08-19 10:50:19,427 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:19,428 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:50:19,428 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:50:20,860 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:20,860 - INFO - {
+  "relationships": [
+    {
+      "source": "product_interior_parts",
+      "target": "factory_pinghu_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mechanisms",
+      "target": "factory_pinghu_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_injection_machines",
+      "target": "factory_pinghu_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:50:20,860 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:20,860 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:50:20,860 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:50:21,379 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:21,379 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:50:21,379 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:21,379 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:50:21,379 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:50:22,190 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:22,190 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_novares_pinghu_plant",
+      "target": "factory_pinghu_china",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:50:22,190 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:22,264 - INFO - ✅ Updated Article ID: 68a35829193a11c7b797cca0 with 7 nodes and combined text.

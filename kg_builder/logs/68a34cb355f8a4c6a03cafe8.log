@@ -1,0 +1,76 @@
+2025-08-19 15:27:50,920 - INFO - 🔍 Text length: 2337 characters
+2025-08-19 15:27:50,921 - INFO - 📌 Processing Article ID: 68a34cb355f8a4c6a03cafe8 — Toyota to source BEV from Suzuki India
+2025-08-19 15:27:50,921 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:27:52,666 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:52,667 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_suzuki_motor_corporation",
+        "type": "company",
+        "name": "Suzuki Motor Corporation"
+      },
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_maruti_suzuki_india",
+        "type": "company",
+        "name": "Maruti Suzuki India"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gujarat_plant",
+        "type": "factory",
+        "name": "Gujarat plant",
+        "location": {
+          "city": "Gujarat",
+          "country": "India"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_powered_suv",
+        "type": "product",
+        "name": "battery-powered SUV"
+      }
+    ]
+  }
+}
+2025-08-19 15:27:52,667 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:52,667 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:27:52,667 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:27:52,667 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:27:52,667 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:27:52,667 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:27:53,414 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:53,415 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maruti_suzuki_india",
+      "type": "owns",
+      "target": "factory_gujarat_plant"
+    }
+  ]
+}
+2025-08-19 15:27:53,415 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:53,415 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:27:53,415 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:27:54,943 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:54,944 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_powered_suv",
+      "target": "factory_gujarat_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:27:54,944 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:54,944 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:27:54,944 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:27:55,026 - INFO - ✅ Updated Article ID: 68a34cb355f8a4c6a03cafe8 with 5 nodes and combined text.

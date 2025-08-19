@@ -1,0 +1,93 @@
+2025-08-19 10:56:44,028 - INFO - 🔍 Text length: 1770 characters
+2025-08-19 10:56:44,028 - INFO - 📌 Processing Article ID: 68a356a6cf6fecdbde0bef20 — UK ZF Foxconn plant marks 20 years
+2025-08-19 10:56:44,028 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:56:45,891 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:45,891 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_zf_friedrichshafen",
+        "type": "company",
+        "name": "ZF Friedrichshafen"
+      },
+      {
+        "id": "company_foxconn_hon_hai_technology_group",
+        "type": "company",
+        "name": "Foxconn (Hon Hai Technology Group)"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_zf_foxconn_chassis_modules",
+        "type": "joint_venture",
+        "name": "ZF Foxconn Chassis Modules"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_solihull",
+        "type": "factory",
+        "name": "Solihull",
+        "location": {
+          "city": "Solihull",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_chassis_modules",
+        "type": "product",
+        "name": "chassis modules"
+      }
+    ]
+  }
+}
+2025-08-19 10:56:45,891 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:45,891 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:56:45,892 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:56:45,892 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:56:45,892 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:56:45,892 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:56:47,733 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:47,733 - INFO - {
+  "relationships": [
+    {
+      "source": "company_zf_friedrichshafen",
+      "type": "forms",
+      "target": "joint_venture_zf_foxconn_chassis_modules"
+    },
+    {
+      "source": "company_foxconn_hon_hai_technology_group",
+      "type": "forms",
+      "target": "joint_venture_zf_foxconn_chassis_modules"
+    },
+    {
+      "source": "joint_venture_zf_foxconn_chassis_modules",
+      "type": "owns",
+      "target": "factory_solihull"
+    }
+  ]
+}
+2025-08-19 10:56:47,734 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:47,734 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:56:47,734 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:56:48,655 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:48,655 - INFO - {
+  "relationships": [
+    {
+      "source": "product_chassis_modules",
+      "target": "factory_solihull",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:56:48,655 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:48,656 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:56:48,656 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:56:48,739 - INFO - ✅ Updated Article ID: 68a356a6cf6fecdbde0bef20 with 6 nodes and combined text.

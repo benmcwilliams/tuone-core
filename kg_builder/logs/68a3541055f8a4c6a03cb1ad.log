@@ -1,0 +1,103 @@
+2025-08-19 11:11:16,801 - INFO - 🔍 Text length: 3444 characters
+2025-08-19 11:11:16,801 - INFO - 📌 Processing Article ID: 68a3541055f8a4c6a03cb1ad — Italy wants Dongfeng cybersecurity agreement
+2025-08-19 11:11:16,801 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:11:20,052 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:20,052 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_dongfeng_motor",
+        "type": "company",
+        "name": "Dongfeng Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_new_plant_italy",
+        "type": "factory",
+        "name": "new plant",
+        "location": {
+          "city": "null",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_public_incentives",
+        "type": "investment",
+        "name": "public incentives",
+        "amount": "several hundred million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_infotainment_units",
+        "type": "product",
+        "name": "infotainment units"
+      }
+    ]
+  }
+}
+2025-08-19 11:11:20,052 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:20,052 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:11:20,052 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:11:20,052 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:11:21,127 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:21,127 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_public_incentives",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:11:21,128 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:21,128 - INFO - Node ID is investment_public_incentives
+2025-08-19 11:11:21,128 - INFO - ✅ Match found for investment_ID 'investment_public_incentives' in investment nodes
+2025-08-19 11:11:21,128 - INFO -   ➕ Set status: announced
+2025-08-19 11:11:21,128 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:11:21,128 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:11:21,128 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:11:21,128 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:11:22,151 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:22,152 - INFO - {
+  "relationships": [
+    {
+      "source": "company_dongfeng_motor",
+      "type": "owns",
+      "target": "factory_new_plant_italy"
+    }
+  ]
+}
+2025-08-19 11:11:22,152 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:22,152 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:11:22,152 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:11:22,660 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:22,661 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:11:22,661 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:22,661 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:11:22,661 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:11:23,277 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:23,278 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:11:23,278 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:23,278 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:11:23,278 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:11:24,814 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:24,815 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_public_incentives",
+      "target": "factory_new_plant_italy",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:11:24,815 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:24,887 - INFO - ✅ Updated Article ID: 68a3541055f8a4c6a03cb1ad with 4 nodes and combined text.

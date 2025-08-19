@@ -1,0 +1,71 @@
+2025-08-19 11:00:26,346 - INFO - 🔍 Text length: 3379 characters
+2025-08-19 11:00:26,346 - INFO - 📌 Processing Article ID: 68a3561bcf6fecdbde0bef06 — Porsche hit by multiple challenges
+2025-08-19 11:00:26,346 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:00:27,800 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:27,800 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_porsche",
+        "type": "company",
+        "name": "Porsche"
+      },
+      {
+        "id": "company_novelis",
+        "type": "company",
+        "name": "Novelis"
+      },
+      {
+        "id": "company_hindalco_industries",
+        "type": "company",
+        "name": "Hindalco Industries"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_porsche_novelis",
+        "type": "joint_venture",
+        "name": "Porsche Novelis"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aluminium_alloy",
+        "type": "product",
+        "name": "aluminium alloy"
+      }
+    ]
+  }
+}
+2025-08-19 11:00:27,800 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:27,801 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:00:27,801 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:00:27,801 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:00:27,801 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:00:27,801 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:00:29,129 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:29,130 - INFO - {
+  "relationships": [
+    {
+      "source": "company_porsche",
+      "type": "forms",
+      "target": "joint_venture_porsche_novelis"
+    },
+    {
+      "source": "company_novelis",
+      "type": "forms",
+      "target": "joint_venture_porsche_novelis"
+    }
+  ]
+}
+2025-08-19 11:00:29,130 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:29,130 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:00:29,130 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:00:29,640 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:29,640 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:00:29,640 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:29,640 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:00:29,640 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:00:29,723 - INFO - ✅ Updated Article ID: 68a3561bcf6fecdbde0bef06 with 5 nodes and combined text.

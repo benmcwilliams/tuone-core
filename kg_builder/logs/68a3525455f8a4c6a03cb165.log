@@ -1,0 +1,177 @@
+2025-08-19 11:48:50,046 - INFO - 🔍 Text length: 4525 characters
+2025-08-19 11:48:50,046 - INFO - 📌 Processing Article ID: 68a3525455f8a4c6a03cb165 — Uber-Cruise deal, EU tariffs, Ford 3-row EV SUV canned – the week
+2025-08-19 11:48:50,047 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:48:54,279 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:54,279 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_taiwan_semiconductor_manufacturing_company",
+        "type": "company",
+        "name": "Taiwan Semiconductor Manufacturing Company"
+      },
+      {
+        "id": "company_porsche",
+        "type": "company",
+        "name": "Porsche"
+      },
+      {
+        "id": "company_varta",
+        "type": "company",
+        "name": "Varta"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_uber_technologies_inc",
+        "type": "company",
+        "name": "Uber Technologies, Inc."
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_nio",
+        "type": "company",
+        "name": "Nio"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dresden_germany",
+        "type": "factory",
+        "name": "Dresden Plant",
+        "location": {
+          "city": "Dresden",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dresden_plant",
+        "type": "investment",
+        "name": "Dresden Plant",
+        "amount": "\u20ac10 billion",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_state_subsidies_tsmc",
+        "type": "investment",
+        "name": "State Subsidies for TSMC",
+        "amount": "\u20ac5 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automotive_chips",
+        "type": "product",
+        "name": "automotive chips"
+      },
+      {
+        "id": "product_chevy_bolt_autonomous_vehicles",
+        "type": "product",
+        "name": "Chevy Bolt-based autonomous vehicles"
+      },
+      {
+        "id": "product_battery_swapping",
+        "type": "product",
+        "name": "battery swapping"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "uber_cruise",
+        "type": "joint_venture",
+        "name": "Uber-Cruise"
+      }
+    ]
+  }
+}
+2025-08-19 11:48:54,279 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:54,280 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:48:54,280 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:48:54,280 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:48:55,398 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:55,399 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dresden_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    },
+    {
+      "investment_ID": "investment_state_subsidies_tsmc",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:48:55,399 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:55,399 - INFO - Node ID is investment_dresden_plant
+2025-08-19 11:48:55,399 - INFO - ✅ Match found for investment_ID 'investment_dresden_plant' in investment nodes
+2025-08-19 11:48:55,399 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:48:55,399 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:48:55,399 - INFO - Node ID is investment_state_subsidies_tsmc
+2025-08-19 11:48:55,399 - INFO - ✅ Match found for investment_ID 'investment_state_subsidies_tsmc' in investment nodes
+2025-08-19 11:48:55,399 - INFO -   ➕ Set status: announced
+2025-08-19 11:48:55,399 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:48:55,399 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:48:55,399 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:48:55,399 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:48:56,219 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:56,219 - INFO - {
+  "relationships": [
+    {
+      "source": "company_taiwan_semiconductor_manufacturing_company",
+      "type": "owns",
+      "target": "factory_dresden_germany"
+    }
+  ]
+}
+2025-08-19 11:48:56,219 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:56,220 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:48:56,220 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:48:57,356 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:57,357 - INFO - {
+  "relationships": [
+    {
+      "source": "product_automotive_chips",
+      "target": "factory_dresden_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:48:57,357 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:57,357 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:48:57,357 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:48:57,919 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:57,919 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:48:57,919 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:57,919 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:48:57,919 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:48:58,986 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:58,986 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dresden_plant",
+      "target": "factory_dresden_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_dresden_plant",
+      "target": "product_automotive_chips",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:48:58,986 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:59,074 - INFO - ✅ Updated Article ID: 68a3525455f8a4c6a03cb165 with 14 nodes and combined text.

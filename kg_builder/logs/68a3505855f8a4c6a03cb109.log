@@ -1,0 +1,149 @@
+2025-08-19 12:01:58,249 - INFO - 🔍 Text length: 2475 characters
+2025-08-19 12:01:58,249 - INFO - 📌 Processing Article ID: 68a3505855f8a4c6a03cb109 — Endera secures $49m to expand electric bus production in Ohio
+2025-08-19 12:01:58,249 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:02:00,565 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:00,565 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_endera",
+        "type": "company",
+        "name": "Endera"
+      },
+      {
+        "id": "company_magnetar",
+        "type": "company",
+        "name": "Magnetar"
+      },
+      {
+        "id": "company_pulse_fund",
+        "type": "company",
+        "name": "Pulse Fund"
+      },
+      {
+        "id": "company_pritchard_auto_company",
+        "type": "company",
+        "name": "Pritchard Auto Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ohio_manufacturing_facility",
+        "type": "factory",
+        "name": "Ohio Manufacturing Facility",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_$49m_completed_unclear",
+        "type": "investment",
+        "name": "$49m funding",
+        "amount": "$49m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_internal_combustion_engine_shuttles",
+        "type": "product",
+        "name": "internal combustion engine shuttles"
+      },
+      {
+        "id": "product_electric_shuttles",
+        "type": "product",
+        "name": "electric shuttles"
+      },
+      {
+        "id": "product_school_buses",
+        "type": "product",
+        "name": "school buses"
+      },
+      {
+        "id": "product_fleet_management_software",
+        "type": "product",
+        "name": "fleet management software"
+      }
+    ]
+  }
+}
+2025-08-19 12:02:00,565 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:00,565 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:02:00,565 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:02:00,566 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:02:01,534 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:01,534 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_$49m_completed_unclear",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:02:01,534 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:01,534 - INFO - Node ID is investment_$49m_completed_unclear
+2025-08-19 12:02:01,534 - INFO - ✅ Match found for investment_ID 'investment_$49m_completed_unclear' in investment nodes
+2025-08-19 12:02:01,534 - INFO -   ➕ Set status: completed
+2025-08-19 12:02:01,534 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:02:01,534 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:02:01,535 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:02:01,535 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:02:02,878 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:02,878 - INFO - {
+  "relationships": [
+    {
+      "source": "company_endera",
+      "type": "owns",
+      "target": "factory_ohio_manufacturing_facility"
+    }
+  ]
+}
+2025-08-19 12:02:02,879 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:02,879 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:02:02,879 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:02:04,989 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:04,989 - INFO - {
+  "relationships": [
+    {
+      "source": "product_internal_combustion_engine_shuttles",
+      "target": "factory_ohio_manufacturing_facility",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_shuttles",
+      "target": "factory_ohio_manufacturing_facility",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_school_buses",
+      "target": "factory_ohio_manufacturing_facility",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:02:04,990 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:04,990 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:02:04,990 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:02:05,849 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:05,849 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:02:05,849 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:05,849 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:02:05,849 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:02:06,730 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:06,730 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_$49m_completed_unclear",
+      "target": "factory_ohio_manufacturing_facility",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:02:06,730 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:06,808 - INFO - ✅ Updated Article ID: 68a3505855f8a4c6a03cb109 with 10 nodes and combined text.

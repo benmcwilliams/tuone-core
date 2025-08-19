@@ -1,0 +1,119 @@
+2025-08-19 11:10:26,000 - INFO - 🔍 Text length: 1178 characters
+2025-08-19 11:10:26,000 - INFO - 📌 Processing Article ID: 68a3541d55f8a4c6a03cb1b2 — Xiaomi to build second BEV plant
+2025-08-19 11:10:26,000 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:10:28,434 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:28,435 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_xiaomi_auto",
+        "type": "company",
+        "name": "Xiaomi Auto"
+      },
+      {
+        "id": "company_xiaomi_jingxi_technology",
+        "type": "company",
+        "name": "Xiaomi Jingxi Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_yizhuang_china",
+        "type": "factory",
+        "name": "Yizhuang Vehicle Assembly Plant",
+        "location": {
+          "city": "Yizhuang",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_10bn_announced",
+        "type": "investment",
+        "name": "US$10bn investment plan",
+        "amount": "US$10bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_su7_passenger_car",
+        "type": "product",
+        "name": "SU7 passenger car"
+      },
+      {
+        "id": "product_high_end_smart_bev_model",
+        "type": "product",
+        "name": "high end smart BEV model"
+      }
+    ]
+  }
+}
+2025-08-19 11:10:28,435 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:28,435 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:10:28,435 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:10:28,435 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:10:29,313 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:29,313 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_10bn_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:10:29,313 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:29,313 - INFO - Node ID is investment_usd_10bn_announced
+2025-08-19 11:10:29,313 - INFO - ✅ Match found for investment_ID 'investment_usd_10bn_announced' in investment nodes
+2025-08-19 11:10:29,313 - INFO -   ➕ Set status: announced
+2025-08-19 11:10:29,313 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:10:29,314 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:10:29,314 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:10:29,314 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:10:30,640 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:30,640 - INFO - {
+  "relationships": [
+    {
+      "source": "company_xiaomi_auto",
+      "type": "owns",
+      "target": "factory_yizhuang_china"
+    }
+  ]
+}
+2025-08-19 11:10:30,640 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:30,641 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:10:30,641 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:10:31,566 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:31,566 - INFO - {
+  "relationships": [
+    {
+      "source": "product_su7_passenger_car",
+      "target": "factory_yizhuang_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:10:31,566 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:31,567 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:10:31,567 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:10:32,526 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:32,527 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:10:32,527 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:32,527 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:10:32,527 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:10:33,510 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:33,510 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_10bn_announced",
+      "target": "product_high_end_smart_bev_model",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:10:33,510 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:33,597 - INFO - ✅ Updated Article ID: 68a3541d55f8a4c6a03cb1b2 with 6 nodes and combined text.

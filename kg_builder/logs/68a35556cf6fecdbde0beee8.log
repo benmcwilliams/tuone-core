@@ -1,0 +1,174 @@
+2025-08-19 11:05:01,709 - INFO - 🔍 Text length: 6593 characters
+2025-08-19 11:05:01,709 - INFO - 📌 Processing Article ID: 68a35556cf6fecdbde0beee8 — Why ICEs will be relevant well into the 21st century
+2025-08-19 11:05:01,709 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:05:04,900 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:04,901 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_horse_powertrain_solutions",
+        "type": "joint_venture",
+        "name": "HORSE Powertrain Solutions"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cleon",
+        "type": "factory",
+        "name": "Cl\u00e9on",
+        "location": {
+          "city": "Cl\u00e9on",
+          "country": "France"
+        }
+      },
+      {
+        "id": "factory_valladolid_motores",
+        "type": "factory",
+        "name": "Valladolid Motores",
+        "location": {
+          "city": "Valladolid",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_novo_mesto_vehicle_plant",
+        "type": "factory",
+        "name": "Novo Mesto vehicle plant",
+        "location": {
+          "city": "Novo Mesto",
+          "country": "Slovenia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eu_alternative_fuels_infrastructure",
+        "type": "investment",
+        "name": "EU alternative fuels infrastructure",
+        "amount": "\u20ac352 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bioethanol_ice",
+        "type": "product",
+        "name": "bioethanol ICE"
+      },
+      {
+        "id": "product_range_extender_powertrains",
+        "type": "product",
+        "name": "range extender powertrains"
+      }
+    ]
+  }
+}
+2025-08-19 11:05:04,901 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:04,901 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:05:04,901 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:05:04,901 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:05:06,098 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:06,099 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eu_alternative_fuels_infrastructure",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:05:06,099 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:06,099 - INFO - Node ID is investment_eu_alternative_fuels_infrastructure
+2025-08-19 11:05:06,099 - INFO - ✅ Match found for investment_ID 'investment_eu_alternative_fuels_infrastructure' in investment nodes
+2025-08-19 11:05:06,099 - INFO -   ➕ Set status: completed
+2025-08-19 11:05:06,099 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:05:06,099 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:05:06,099 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:05:06,099 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:05:10,540 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:10,541 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_horse_powertrain_solutions"
+    },
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_horse_powertrain_solutions"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_cleon"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_valladolid_motores"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_novo_mesto_vehicle_plant"
+    }
+  ]
+}
+2025-08-19 11:05:10,541 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:10,541 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:05:10,541 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:05:12,119 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:12,120 - INFO - {
+  "relationships": [
+    {
+      "source": "product_range_extender_powertrains",
+      "target": "factory_cleon",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_extender_powertrains",
+      "target": "factory_valladolid_motores",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_extender_powertrains",
+      "target": "factory_novo_mesto_vehicle_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:05:12,120 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:12,120 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:05:12,120 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:05:12,886 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:12,887 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:05:12,887 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:12,887 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:05:12,887 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:05:13,949 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:13,949 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_eu_alternative_fuels_infrastructure",
+      "target": "product_bioethanol_ice",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:05:13,949 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:14,033 - INFO - ✅ Updated Article ID: 68a35556cf6fecdbde0beee8 with 9 nodes and combined text.

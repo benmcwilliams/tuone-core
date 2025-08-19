@@ -1,0 +1,136 @@
+2025-08-19 10:48:27,696 - INFO - 🔍 Text length: 1202 characters
+2025-08-19 10:48:27,696 - INFO - 📌 Processing Article ID: 68a35897193a11c7b797ccb0 — Mobase to build parts plant in US
+2025-08-19 10:48:27,696 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:48:30,367 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:30,367 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mobase_electronics",
+        "type": "company",
+        "name": "Mobase Electronics"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mexico",
+        "type": "factory",
+        "name": "Mobase Mexico Factory",
+        "location": {
+          "city": "null",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_georgia",
+        "type": "factory",
+        "name": "Georgia Assembly Plant",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_alabama",
+        "type": "factory",
+        "name": "Alabama Assembly Plant",
+        "location": {
+          "city": "Alabama",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_supply_deal_hmg",
+        "type": "investment",
+        "name": "Supply Deal with HMG",
+        "amount": "KRW1bn (US$730m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_body_domain_controllers",
+        "type": "product",
+        "name": "body domain controllers"
+      }
+    ]
+  }
+}
+2025-08-19 10:48:30,368 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:30,368 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:48:30,368 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:48:30,368 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:48:31,185 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:31,185 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_supply_deal_hmg",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:48:31,185 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:31,185 - INFO - Node ID is investment_supply_deal_hmg
+2025-08-19 10:48:31,185 - INFO - ✅ Match found for investment_ID 'investment_supply_deal_hmg' in investment nodes
+2025-08-19 10:48:31,185 - INFO -   ➕ Set status: announced
+2025-08-19 10:48:31,185 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:48:31,186 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:48:31,186 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:48:31,186 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:48:32,618 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:32,618 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mobase_electronics",
+      "type": "owns",
+      "target": "factory_mexico"
+    },
+    {
+      "source": "company_mobase_electronics",
+      "type": "owns",
+      "target": "factory_georgia"
+    },
+    {
+      "source": "company_mobase_electronics",
+      "type": "owns",
+      "target": "factory_alabama"
+    }
+  ]
+}
+2025-08-19 10:48:32,618 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:32,619 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:48:32,619 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:48:33,845 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:33,845 - INFO - {
+  "relationships": [
+    {
+      "source": "product_body_domain_controllers",
+      "target": "factory_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:48:33,845 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:33,845 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:48:33,845 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:48:34,387 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:34,387 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:48:34,387 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:34,387 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:48:34,388 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:48:34,934 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:48:34,935 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:48:34,935 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:48:35,012 - INFO - ✅ Updated Article ID: 68a35897193a11c7b797ccb0 with 7 nodes and combined text.

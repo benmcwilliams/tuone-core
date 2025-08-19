@@ -1,0 +1,149 @@
+2025-08-19 12:18:03,688 - INFO - 🔍 Text length: 5859 characters
+2025-08-19 12:18:03,688 - INFO - 📌 Processing Article ID: 68a34ece55f8a4c6a03cb091 — Volkswagen and IG Metall strike agreement on Germany cost cuts
+2025-08-19 12:18:03,688 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:18:05,632 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:05,633 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_ag",
+        "type": "company",
+        "name": "Volkswagen AG"
+      },
+      {
+        "id": "company_ig_metall",
+        "type": "company",
+        "name": "IG Metall"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_germany",
+        "type": "factory",
+        "name": "Volkswagen AG German Locations",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_zukunft_volkswagen",
+        "type": "investment",
+        "name": "Zukunft Volkswagen",
+        "amount": "\u20ac15 billion per year",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_734k_units_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "734,000 units",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_volkswagen_passenger_cars",
+        "type": "product",
+        "name": "Volkswagen Passenger Cars"
+      }
+    ]
+  }
+}
+2025-08-19 12:18:05,633 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:05,633 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:18:05,633 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:18:06,627 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:06,627 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_734k_units_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:18:06,627 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:06,627 - INFO - Node ID is capacity_734k_units_announced
+2025-08-19 12:18:06,627 - INFO - ✅ Match found for capacity_ID 'capacity_734k_units_announced' in capacity nodes
+2025-08-19 12:18:06,627 - INFO -   ➕ Set status: announced
+2025-08-19 12:18:06,627 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:18:06,627 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:18:06,628 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:18:07,747 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:07,747 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_zukunft_volkswagen",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:18:07,747 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:07,747 - INFO - Node ID is investment_zukunft_volkswagen
+2025-08-19 12:18:07,747 - INFO - ✅ Match found for investment_ID 'investment_zukunft_volkswagen' in investment nodes
+2025-08-19 12:18:07,747 - INFO -   ➕ Set status: announced
+2025-08-19 12:18:07,748 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:18:07,748 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:18:07,748 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:18:07,748 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:18:08,668 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:08,669 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_ag",
+      "type": "owns",
+      "target": "factory_germany"
+    }
+  ]
+}
+2025-08-19 12:18:08,669 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:08,669 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:18:08,669 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:18:10,512 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:10,512 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_734k_units_announced",
+      "target": "factory_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_734k_units_announced",
+      "target": "product_volkswagen_passenger_cars",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_volkswagen_passenger_cars",
+      "target": "factory_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:18:10,512 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:10,512 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:18:10,512 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:18:11,228 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:11,229 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:18:11,229 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:11,229 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:18:11,229 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:18:12,151 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:12,151 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_zukunft_volkswagen",
+      "target": "capacity_734k_units_announced",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-19 12:18:12,152 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:12,240 - INFO - ✅ Updated Article ID: 68a34ece55f8a4c6a03cb091 with 6 nodes and combined text.

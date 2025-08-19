@@ -1,0 +1,96 @@
+2025-08-19 10:46:53,838 - INFO - 🔍 Text length: 11373 characters
+2025-08-19 10:46:53,839 - INFO - 📌 Processing Article ID: 68a358f8193a11c7b797ccba — Talking sealants with Sunstar Engineering: Securing success
+2025-08-19 10:46:53,839 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:46:57,182 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:46:57,182 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sunstar_engineering",
+        "type": "company",
+        "name": "Sunstar Engineering"
+      },
+      {
+        "id": "company_sunstar",
+        "type": "company",
+        "name": "Sunstar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunstar_engineering",
+        "type": "factory",
+        "name": "Sunstar Engineering Factory",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_adhesives",
+        "type": "product",
+        "name": "adhesives"
+      },
+      {
+        "id": "product_sealants",
+        "type": "product",
+        "name": "sealants"
+      },
+      {
+        "id": "product_lightweighting_sealants",
+        "type": "product",
+        "name": "lightweighting sealants"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-08-19 10:46:57,182 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:46:57,182 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:46:57,182 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:46:57,183 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:46:57,183 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:46:57,183 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:46:58,203 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:46:58,203 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sunstar_engineering",
+      "type": "owns",
+      "target": "factory_sunstar_engineering"
+    }
+  ]
+}
+2025-08-19 10:46:58,203 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:46:58,203 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:46:58,203 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:47:00,250 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:00,251 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lightweighting_sealants",
+      "target": "factory_sunstar_engineering",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_adhesives",
+      "target": "factory_sunstar_engineering",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sealants",
+      "target": "factory_sunstar_engineering",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:47:00,251 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:00,251 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:47:00,251 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:47:00,325 - INFO - ✅ Updated Article ID: 68a358f8193a11c7b797ccba with 7 nodes and combined text.

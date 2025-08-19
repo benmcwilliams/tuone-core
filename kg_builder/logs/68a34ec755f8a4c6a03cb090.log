@@ -1,0 +1,85 @@
+2025-08-19 12:18:12,242 - INFO - 🔍 Text length: 2599 characters
+2025-08-19 12:18:12,243 - INFO - 📌 Processing Article ID: 68a34ec755f8a4c6a03cb090 — Geely Auto enters Indonesian market with pre-sale of electric SUV EX5
+2025-08-19 12:18:12,243 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:18:14,913 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:14,913 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geely_auto",
+        "type": "company",
+        "name": "Geely Auto"
+      },
+      {
+        "id": "company_pt_handal_indonesia_motor",
+        "type": "company",
+        "name": "PT Handal Indonesia Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bekasi_phase_ii",
+        "type": "factory",
+        "name": "Bekasi Phase II",
+        "location": {
+          "city": "Bekasi",
+          "country": "Indonesia"
+        }
+      },
+      {
+        "id": "factory_egypt_assembly_plant",
+        "type": "factory",
+        "name": "Egypt Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Egypt"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_geely_ex5",
+        "type": "product",
+        "name": "Geely EX5"
+      }
+    ]
+  }
+}
+2025-08-19 12:18:14,913 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:14,914 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:18:14,914 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:18:14,914 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:18:14,914 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:18:14,914 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:18:16,095 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:16,095 - INFO - {
+  "relationships": [
+    {
+      "source": "company_geely_auto",
+      "type": "owns",
+      "target": "factory_bekasi_phase_ii"
+    },
+    {
+      "source": "company_geely_auto",
+      "type": "owns",
+      "target": "factory_egypt_assembly_plant"
+    }
+  ]
+}
+2025-08-19 12:18:16,095 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:16,095 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:18:16,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:18:17,166 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:17,167 - INFO - {
+  "relationships": [
+    {
+      "source": "product_geely_ex5",
+      "target": "factory_bekasi_phase_ii",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:18:17,167 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:17,167 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:18:17,167 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:18:17,248 - INFO - ✅ Updated Article ID: 68a34ec755f8a4c6a03cb090 with 5 nodes and combined text.

@@ -1,0 +1,104 @@
+2025-08-19 11:10:33,599 - INFO - 🔍 Text length: 1022 characters
+2025-08-19 11:10:33,599 - INFO - 📌 Processing Article ID: 68a3541a55f8a4c6a03cb1b1 — LS Cable build EV parts plant in Mexico
+2025-08-19 11:10:33,599 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:10:36,354 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:36,354 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ls_cable_system",
+        "type": "company",
+        "name": "LS Cable & System"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_queretaro_mexico_ev_battery_wiring_harnesses",
+        "type": "factory",
+        "name": "Queretaro Mexico EV Battery Wiring Harnesses",
+        "location": {
+          "city": "Queretaro",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_queretaro_mexico_bus_ducts",
+        "type": "factory",
+        "name": "Queretaro Mexico Bus Ducts",
+        "location": {
+          "city": "Queretaro",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_poland",
+        "type": "factory",
+        "name": "Poland",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_wiring_harnesses",
+        "type": "product",
+        "name": "EV battery wiring harnesses"
+      },
+      {
+        "id": "product_bus_ducts",
+        "type": "product",
+        "name": "bus ducts"
+      }
+    ]
+  }
+}
+2025-08-19 11:10:36,354 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:36,354 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:10:36,354 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:10:36,354 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:10:36,354 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:10:36,354 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:10:39,041 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:39,041 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ls_cable_system",
+      "type": "owns",
+      "target": "factory_queretaro_mexico_ev_battery_wiring_harnesses"
+    },
+    {
+      "source": "company_ls_cable_system",
+      "type": "owns",
+      "target": "factory_queretaro_mexico_bus_ducts"
+    },
+    {
+      "source": "company_ls_cable_system",
+      "type": "owns",
+      "target": "factory_poland"
+    }
+  ]
+}
+2025-08-19 11:10:39,041 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:39,041 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:10:39,041 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:10:41,068 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:41,068 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_wiring_harnesses",
+      "target": "factory_queretaro_mexico_ev_battery_wiring_harnesses",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bus_ducts",
+      "target": "factory_queretaro_mexico_bus_ducts",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:10:41,068 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:41,068 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:10:41,068 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:10:41,133 - INFO - ✅ Updated Article ID: 68a3541a55f8a4c6a03cb1b1 with 6 nodes and combined text.

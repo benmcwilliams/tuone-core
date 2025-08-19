@@ -1,0 +1,134 @@
+2025-08-19 10:50:06,424 - INFO - 🔍 Text length: 1345 characters
+2025-08-19 10:50:06,424 - INFO - 📌 Processing Article ID: 68a3582e193a11c7b797cca1 — FCA Serbia EV production close
+2025-08-19 10:50:06,424 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:50:09,390 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:09,390 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fiat_chrysler_automobiles",
+        "type": "company",
+        "name": "Fiat Chrysler Automobiles"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_fca_serbia",
+        "type": "company",
+        "name": "FCA Serbia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kragujevac_serbia",
+        "type": "factory",
+        "name": "Kragujevac Plant",
+        "location": {
+          "city": "Kragujevac",
+          "country": "Serbia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_serbia_eur190m_usd204m",
+        "type": "investment",
+        "name": "Stellantis Serbia EUR190m (USD204m) Investment",
+        "amount": "EUR190m (US$204m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      },
+      {
+        "id": "product_fiat_500l",
+        "type": "product",
+        "name": "Fiat 500L"
+      },
+      {
+        "id": "product_panda_suv",
+        "type": "product",
+        "name": "Panda SUV"
+      }
+    ]
+  }
+}
+2025-08-19 10:50:09,390 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:09,390 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:50:09,390 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:50:09,390 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:50:10,311 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:10,311 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_serbia_eur190m_usd204m",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:50:10,312 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:10,312 - INFO - Node ID is investment_stellantis_serbia_eur190m_usd204m
+2025-08-19 10:50:10,312 - INFO - ✅ Match found for investment_ID 'investment_stellantis_serbia_eur190m_usd204m' in investment nodes
+2025-08-19 10:50:10,312 - INFO -   ➕ Set status: announced
+2025-08-19 10:50:10,312 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:50:10,312 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:50:10,312 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:50:10,312 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:50:11,168 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:11,169 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fca_serbia",
+      "type": "owns",
+      "target": "factory_kragujevac_serbia"
+    }
+  ]
+}
+2025-08-19 10:50:11,169 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:11,169 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:50:11,169 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:50:12,667 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:12,667 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_kragujevac_serbia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:50:12,668 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:12,668 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:50:12,668 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:50:13,265 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:13,265 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:50:13,265 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:13,265 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:50:13,265 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:50:14,715 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:14,715 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_serbia_eur190m_usd204m",
+      "type": "funds",
+      "target": "factory_kragujevac_serbia"
+    },
+    {
+      "source": "investment_stellantis_serbia_eur190m_usd204m",
+      "type": "targets",
+      "target": "product_electric_vehicles"
+    }
+  ]
+}
+2025-08-19 10:50:14,715 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:14,797 - INFO - ✅ Updated Article ID: 68a3582e193a11c7b797cca1 with 8 nodes and combined text.

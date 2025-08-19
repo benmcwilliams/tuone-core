@@ -1,0 +1,168 @@
+2025-08-19 10:31:55,371 - INFO - 🔍 Text length: 3880 characters
+2025-08-19 10:31:55,371 - INFO - 📌 Processing Article ID: 68a35990193a11c7b797ccd4 — 2024 future product report: Lincoln
+2025-08-19 10:31:55,371 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:31:59,462 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:59,463 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford_motor_company",
+        "type": "company",
+        "name": "Ford Motor Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_louisville_assembly",
+        "type": "factory",
+        "name": "Louisville Assembly",
+        "location": {
+          "city": "Louisville",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_chicago_main",
+        "type": "factory",
+        "name": "Chicago Main",
+        "location": {
+          "city": "Chicago",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_kentucky_truck",
+        "type": "factory",
+        "name": "Kentucky Truck",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_hangzhou",
+        "type": "factory",
+        "name": "Hangzhou",
+        "location": {
+          "city": "Hangzhou",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_oakville",
+        "type": "factory",
+        "name": "Oakville",
+        "location": {
+          "city": "Oakville",
+          "country": "Canada"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_navigator",
+        "type": "product",
+        "name": "Navigator"
+      },
+      {
+        "id": "product_nautilus",
+        "type": "product",
+        "name": "Nautilus"
+      },
+      {
+        "id": "product_corsair",
+        "type": "product",
+        "name": "Corsair"
+      },
+      {
+        "id": "product_aviator",
+        "type": "product",
+        "name": "Aviator"
+      },
+      {
+        "id": "ford_edge",
+        "type": "product",
+        "name": "Ford Edge",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 10:31:59,463 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:59,463 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:31:59,463 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:31:59,463 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:31:59,463 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:31:59,463 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:32:01,068 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:32:01,068 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_louisville_assembly"
+    },
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_chicago_main"
+    },
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_kentucky_truck"
+    },
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_hangzhou"
+    },
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_oakville"
+    }
+  ]
+}
+2025-08-19 10:32:01,069 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:32:01,069 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:32:01,069 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:32:03,486 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:32:03,487 - INFO - {
+  "relationships": [
+    {
+      "source": "product_corsair",
+      "type": "produced_at",
+      "target": "factory_louisville_assembly"
+    },
+    {
+      "source": "product_aviator",
+      "type": "produced_at",
+      "target": "factory_chicago_main"
+    },
+    {
+      "source": "product_navigator",
+      "type": "produced_at",
+      "target": "factory_kentucky_truck"
+    },
+    {
+      "source": "product_nautilus",
+      "type": "produced_at",
+      "target": "factory_hangzhou"
+    },
+    {
+      "source": "ford_edge",
+      "type": "produced_at",
+      "target": "factory_oakville"
+    }
+  ]
+}
+2025-08-19 10:32:03,487 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:32:03,487 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:32:03,487 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:32:03,569 - INFO - ✅ Updated Article ID: 68a35990193a11c7b797ccd4 with 11 nodes and combined text.

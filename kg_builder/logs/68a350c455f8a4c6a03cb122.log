@@ -1,0 +1,188 @@
+2025-08-19 11:58:31,469 - INFO - 🔍 Text length: 2900 characters
+2025-08-19 11:58:31,470 - INFO - 📌 Processing Article ID: 68a350c455f8a4c6a03cb122 — Hyundai displays hydrogen eco-system technologies in Seoul
+2025-08-19 11:58:31,470 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:58:38,275 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:58:38,276 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      },
+      {
+        "id": "company_hyundai_glovis",
+        "type": "company",
+        "name": "Hyundai Glovis"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_htwo_logistics",
+        "type": "joint_venture",
+        "name": "HTWO Logistics"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hmg_metaplant_america",
+        "type": "factory",
+        "name": "HMG Metaplant America",
+        "location": {
+          "city": "Georgia",
+          "country": "US"
+        }
+      },
+      {
+        "id": "factory_chungju",
+        "type": "factory",
+        "name": "Chungju W2H Facility",
+        "location": {
+          "city": "Chungju",
+          "country": "South Korea"
+        }
+      },
+      {
+        "id": "factory_buan",
+        "type": "factory",
+        "name": "Buan PEM Electrolysis Production Facility",
+        "location": {
+          "city": "Buan",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_fuel_cell_system",
+        "type": "product",
+        "name": "hydrogen fuel cell system"
+      },
+      {
+        "id": "product_waste_to_hydrogen",
+        "type": "product",
+        "name": "Waste-to-Hydrogen (W2H)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "product_plastic_to_hydrogen",
+        "type": "product",
+        "name": "Plastic-to-Hydrogen (P2H)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "product_class_8_xcient_hydrogen_fuel_cell_trucks",
+        "type": "product",
+        "name": "Class 8 Xcient hydrogen fuel cell powered trucks"
+      }
+    ],
+    "capacity": [
+      {
+        "id": "capacity_hmg_metaplant_america",
+        "type": "capacity",
+        "name": "HMG Metaplant America",
+        "amount": "null",
+        "status": "under construction"
+      }
+    ]
+  }
+}
+2025-08-19 11:58:38,276 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:58:38,276 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:58:38,276 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:58:39,173 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:58:39,173 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_hmg_metaplant_america",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:58:39,173 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:58:39,173 - INFO - Node ID is capacity_hmg_metaplant_america
+2025-08-19 11:58:39,174 - INFO - ✅ Match found for capacity_ID 'capacity_hmg_metaplant_america' in capacity nodes
+2025-08-19 11:58:39,174 - INFO -   ➕ Set status: under construction
+2025-08-19 11:58:39,174 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:58:39,174 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:58:39,174 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:58:39,174 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:58:39,174 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:58:41,968 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:58:41,969 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "forms",
+      "target": "joint_venture_htwo_logistics"
+    },
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_hmg_metaplant_america"
+    },
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_chungju"
+    },
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_buan"
+    }
+  ]
+}
+2025-08-19 11:58:41,969 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:58:41,969 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:58:41,969 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:58:44,147 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:58:44,147 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_hmg_metaplant_america",
+      "target": "factory_hmg_metaplant_america",
+      "type": "at"
+    },
+    {
+      "source": "capacity_hmg_metaplant_america",
+      "target": "product_class_8_xcient_hydrogen_fuel_cell_trucks",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_waste_to_hydrogen",
+      "target": "factory_chungju",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_plastic_to_hydrogen",
+      "target": "factory_chungju",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_class_8_xcient_hydrogen_fuel_cell_trucks",
+      "target": "factory_hmg_metaplant_america",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen_fuel_cell_system",
+      "target": "factory_buan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:58:44,148 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:58:44,148 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:58:44,148 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:58:44,235 - INFO - ✅ Updated Article ID: 68a350c455f8a4c6a03cb122 with 11 nodes and combined text.

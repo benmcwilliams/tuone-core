@@ -1,0 +1,128 @@
+2025-08-19 15:26:57,166 - INFO - 🔍 Text length: 2183 characters
+2025-08-19 15:26:57,166 - INFO - 📌 Processing Article ID: 68a34ccf55f8a4c6a03cafef — Mazda to freeze Mexico investments ahead of Trump policies
+2025-08-19 15:26:57,166 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:27:01,232 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:01,232 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda_motor_corporation",
+        "type": "company",
+        "name": "Mazda Motor Corporation"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_gm",
+        "type": "company",
+        "name": "GM"
+      },
+      {
+        "id": "toyota",
+        "type": "company",
+        "name": "Toyota",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_mazda_toyota",
+        "type": "joint_venture",
+        "name": "Mazda Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_alabama",
+        "type": "factory",
+        "name": "Alabama",
+        "location": {
+          "city": "Alabama",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_210k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "210,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "BEV"
+      }
+    ]
+  }
+}
+2025-08-19 15:27:01,232 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:01,232 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:27:01,233 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:27:03,849 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:03,849 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_210k_vehicles_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:27:03,849 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:03,849 - INFO - Node ID is capacity_210k_vehicles_per_year
+2025-08-19 15:27:03,849 - INFO - ✅ Match found for capacity_ID 'capacity_210k_vehicles_per_year' in capacity nodes
+2025-08-19 15:27:03,849 - INFO -   ➕ Set status: operational
+2025-08-19 15:27:03,850 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:27:03,850 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:27:03,850 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:27:03,850 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:27:03,850 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:27:05,911 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:05,912 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda_motor_corporation",
+      "type": "forms",
+      "target": "joint_venture_mazda_toyota"
+    },
+    {
+      "source": "toyota",
+      "type": "forms",
+      "target": "joint_venture_mazda_toyota"
+    },
+    {
+      "source": "joint_venture_mazda_toyota",
+      "type": "owns",
+      "target": "factory_alabama"
+    }
+  ]
+}
+2025-08-19 15:27:05,912 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:05,912 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:27:05,912 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:27:06,743 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:06,744 - INFO - {
+  "relationships": []
+}
+2025-08-19 15:27:06,744 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:06,744 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:27:06,744 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:27:06,819 - INFO - ✅ Updated Article ID: 68a34ccf55f8a4c6a03cafef with 9 nodes and combined text.

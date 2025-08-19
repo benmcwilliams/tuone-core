@@ -1,0 +1,101 @@
+2025-08-19 12:19:01,944 - INFO - 🔍 Text length: 2521 characters
+2025-08-19 12:19:01,944 - INFO - 📌 Processing Article ID: 68a34eb955f8a4c6a03cb088 — Northvolt to divest heavy industry battery business to Scania
+2025-08-19 12:19:01,944 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:19:04,885 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:04,886 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_scania",
+        "type": "company",
+        "name": "Scania"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_stockholm_sweden",
+        "type": "factory",
+        "name": "Stockholm Facility",
+        "location": {
+          "city": "Stockholm",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_gdansk_poland",
+        "type": "factory",
+        "name": "Gda\u0144sk Facility",
+        "location": {
+          "city": "Gda\u0144sk",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_voltpack_core",
+        "type": "product",
+        "name": "Voltpack Core"
+      },
+      {
+        "id": "battery_modules and systems",
+        "type": "product",
+        "name": "battery modules and systems",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 12:19:04,886 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:04,886 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:19:04,886 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:19:04,886 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:19:04,886 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:19:04,886 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:19:06,234 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:06,234 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_stockholm_sweden"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_gdansk_poland"
+    }
+  ]
+}
+2025-08-19 12:19:06,234 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:06,234 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:19:06,234 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:19:07,343 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:07,343 - INFO - {
+  "relationships": [
+    {
+      "source": "battery_modules and systems",
+      "target": "factory_stockholm_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "battery_modules and systems",
+      "target": "factory_gdansk_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:19:07,344 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:07,344 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:19:07,344 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:19:07,427 - INFO - ✅ Updated Article ID: 68a34eb955f8a4c6a03cb088 with 6 nodes and combined text.

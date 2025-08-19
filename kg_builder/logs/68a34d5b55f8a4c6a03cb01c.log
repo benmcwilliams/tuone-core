@@ -1,0 +1,133 @@
+2025-08-19 15:20:12,158 - INFO - 🔍 Text length: 1891 characters
+2025-08-19 15:20:12,158 - INFO - 📌 Processing Article ID: 68a34d5b55f8a4c6a03cb01c — Nissan Motor to end production of AD compact van – report
+2025-08-19 15:20:12,158 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:20:14,603 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:14,604 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_nissan_shatai",
+        "type": "company",
+        "name": "Nissan Shatai"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_nissan_honda",
+        "type": "joint_venture",
+        "name": "Nissan and Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shonan_plant",
+        "type": "factory",
+        "name": "Shonan Plant",
+        "location": {
+          "city": "Kanagawa",
+          "country": "Japan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ad_compact_van",
+        "type": "product",
+        "name": "AD compact van"
+      },
+      {
+        "id": "product_nv200_vanette_compact_van",
+        "type": "product",
+        "name": "NV200 Vanette compact van"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 vehicles produced",
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-08-19 15:20:14,604 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:14,604 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:20:14,604 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:20:15,285 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:15,285 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_vehicles_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:20:15,285 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:15,285 - INFO - Node ID is capacity_150k_vehicles_per_year
+2025-08-19 15:20:15,285 - INFO - ✅ Match found for capacity_ID 'capacity_150k_vehicles_per_year' in capacity nodes
+2025-08-19 15:20:15,285 - INFO -   ➕ Set status: operational
+2025-08-19 15:20:15,285 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:20:15,286 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:20:15,286 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:20:15,286 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:20:15,286 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:20:17,472 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:17,472 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan_shatai",
+      "type": "owns",
+      "target": "factory_shonan_plant"
+    }
+  ]
+}
+2025-08-19 15:20:17,472 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:17,473 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:20:17,473 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:20:20,571 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:20,571 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "factory_shonan_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_ad_compact_van",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ad_compact_van",
+      "target": "factory_shonan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nv200_vanette_compact_van",
+      "target": "factory_shonan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_nv200_vanette_compact_van",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 15:20:20,571 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:20,571 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:20:20,571 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:20:20,646 - INFO - ✅ Updated Article ID: 68a34d5b55f8a4c6a03cb01c with 8 nodes and combined text.

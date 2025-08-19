@@ -1,0 +1,124 @@
+2025-08-19 12:22:41,241 - INFO - 🔍 Text length: 4081 characters
+2025-08-19 12:22:41,241 - INFO - 📌 Processing Article ID: 68a34e5555f8a4c6a03cb069 — Volvo partners with Waabi to build self-driving trucks
+2025-08-19 12:22:41,241 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:22:43,898 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:43,898 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      },
+      {
+        "id": "company_waabi",
+        "type": "company",
+        "name": "Waabi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_new_river_valley_assembly_plant",
+        "type": "factory",
+        "name": "New River Valley assembly plant",
+        "location": {
+          "city": "null",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volvo_group_venture_capital_waabi",
+        "type": "investment",
+        "name": "Volvo Group Venture Capital Waabi",
+        "amount": "null",
+        "status": "completed"
+      },
+      {
+        "id": "investment_waabi_series_b_funding_round",
+        "type": "investment",
+        "name": "Waabi Series B funding round",
+        "amount": "$200m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_volvo_vnl_autonomous",
+        "type": "product",
+        "name": "Volvo VNL Autonomous"
+      }
+    ]
+  }
+}
+2025-08-19 12:22:43,898 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:43,898 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:22:43,898 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:22:43,898 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:22:44,843 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:44,844 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volvo_group_venture_capital_waabi",
+      "status": "completed",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_waabi_series_b_funding_round",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:22:44,844 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:44,844 - INFO - Node ID is investment_volvo_group_venture_capital_waabi
+2025-08-19 12:22:44,844 - INFO - ✅ Match found for investment_ID 'investment_volvo_group_venture_capital_waabi' in investment nodes
+2025-08-19 12:22:44,844 - INFO -   ➕ Set status: completed
+2025-08-19 12:22:44,844 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:22:44,844 - INFO - Node ID is investment_waabi_series_b_funding_round
+2025-08-19 12:22:44,844 - INFO - ✅ Match found for investment_ID 'investment_waabi_series_b_funding_round' in investment nodes
+2025-08-19 12:22:44,844 - INFO -   ➕ Set status: completed
+2025-08-19 12:22:44,844 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:22:44,844 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:22:44,844 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:22:44,844 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:22:46,121 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:46,121 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo",
+      "type": "owns",
+      "target": "factory_new_river_valley_assembly_plant"
+    }
+  ]
+}
+2025-08-19 12:22:46,121 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:46,121 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:22:46,121 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:22:47,097 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:47,097 - INFO - {
+  "relationships": [
+    {
+      "source": "product_volvo_vnl_autonomous",
+      "target": "factory_new_river_valley_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:22:47,097 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:47,097 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:22:47,098 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:22:47,771 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:47,771 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:22:47,772 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:47,772 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:22:47,772 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:22:48,530 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:48,530 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:22:48,530 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:48,624 - INFO - ✅ Updated Article ID: 68a34e5555f8a4c6a03cb069 with 6 nodes and combined text.

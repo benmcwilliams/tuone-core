@@ -1,0 +1,189 @@
+2025-08-19 11:40:07,181 - INFO - 🔍 Text length: 3168 characters
+2025-08-19 11:40:07,181 - INFO - 📌 Processing Article ID: 68a353ba55f8a4c6a03cb1a0 — Bosch opens two new parts plants in China
+2025-08-19 11:40:07,181 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:40:11,877 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:11,877 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bosch_mobility_solutions",
+        "type": "company",
+        "name": "Bosch Mobility Solutions"
+      },
+      {
+        "id": "company_robert_bosch_gmbh",
+        "type": "company",
+        "name": "Robert Bosch GmbH"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_united_automotive_electronic_systems_company_ltd",
+        "type": "joint_venture",
+        "name": "United Automotive Electronic Systems Company Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_taicang_phase_iii_plant",
+        "type": "factory",
+        "name": "Taicang phase III plant",
+        "location": {
+          "city": "Taicang",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_suzhou_industrial_park",
+        "type": "factory",
+        "name": "Suzhou Industrial Park",
+        "location": {
+          "city": "Suzhou",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_wuxi_national_hi_tech_industrial_development_zone",
+        "type": "factory",
+        "name": "Wuxi National Hi-Tech Industrial Development Zone",
+        "location": {
+          "city": "Wuxi",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_suzhou_industrial_park",
+        "type": "investment",
+        "name": "Suzhou Industrial Park",
+        "amount": "CNY7bn (US$1bn)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_eaxle",
+        "type": "product",
+        "name": "eAxle"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      },
+      {
+        "id": "product_core_components_for_new_energy_passenger_and_commercial_vehicles",
+        "type": "product",
+        "name": "core components for new energy passenger and commercial vehicles"
+      },
+      {
+        "id": "product_automated_driving_systems",
+        "type": "product",
+        "name": "automated driving systems"
+      }
+    ]
+  }
+}
+2025-08-19 11:40:11,877 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:11,877 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:40:11,877 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:40:11,877 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:40:12,844 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:12,844 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_suzhou_industrial_park",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:40:12,844 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:12,844 - INFO - Node ID is investment_suzhou_industrial_park
+2025-08-19 11:40:12,844 - INFO - ✅ Match found for investment_ID 'investment_suzhou_industrial_park' in investment nodes
+2025-08-19 11:40:12,844 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:40:12,844 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:40:12,845 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:40:12,845 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:40:12,845 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:40:14,529 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:14,529 - INFO - {
+  "relationships": [
+    {
+      "source": "joint_venture_united_automotive_electronic_systems_company_ltd",
+      "type": "owns",
+      "target": "factory_taicang_phase_iii_plant"
+    },
+    {
+      "source": "company_robert_bosch_gmbh",
+      "type": "owns",
+      "target": "factory_suzhou_industrial_park"
+    },
+    {
+      "source": "company_robert_bosch_gmbh",
+      "type": "owns",
+      "target": "factory_wuxi_national_hi_tech_industrial_development_zone"
+    }
+  ]
+}
+2025-08-19 11:40:14,529 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:14,529 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:40:14,529 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:40:16,427 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:16,427 - INFO - {
+  "relationships": [
+    {
+      "source": "product_eaxle",
+      "target": "factory_taicang_phase_iii_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_motors",
+      "target": "factory_taicang_phase_iii_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_core_components_for_new_energy_passenger_and_commercial_vehicles",
+      "target": "factory_suzhou_industrial_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_automated_driving_systems",
+      "target": "factory_suzhou_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:40:16,427 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:16,427 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:40:16,427 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:40:16,906 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:16,907 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:40:16,907 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:16,907 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:40:16,907 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:40:18,301 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:18,301 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_suzhou_industrial_park",
+      "target": "factory_suzhou_industrial_park",
+      "type": "funds"
+    },
+    {
+      "source": "investment_suzhou_industrial_park",
+      "target": "product_core_components_for_new_energy_passenger_and_commercial_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_suzhou_industrial_park",
+      "target": "product_automated_driving_systems",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:40:18,301 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:18,378 - INFO - ✅ Updated Article ID: 68a353ba55f8a4c6a03cb1a0 with 11 nodes and combined text.

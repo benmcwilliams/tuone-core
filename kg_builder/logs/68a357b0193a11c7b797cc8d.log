@@ -1,0 +1,117 @@
+2025-08-19 10:53:01,247 - INFO - 🔍 Text length: 1127 characters
+2025-08-19 10:53:01,248 - INFO - 📌 Processing Article ID: 68a357b0193a11c7b797cc8d — Horse JV starts production of 1.2 litre HR12 engine in Romania
+2025-08-19 10:53:01,248 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:53:03,436 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:03,436 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_horse",
+        "type": "company",
+        "name": "Horse"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_renault_geely",
+        "type": "joint_venture",
+        "name": "Renault Geely"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mioveni_romania",
+        "type": "factory",
+        "name": "Mioveni Plant",
+        "location": {
+          "city": "Mioveni",
+          "country": "Romania"
+        }
+      },
+      {
+        "id": "factory_valladolid_spain",
+        "type": "factory",
+        "name": "Valladolid Factory",
+        "location": {
+          "city": "Valladolid",
+          "country": "Spain"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hr12_engine",
+        "type": "product",
+        "name": "HR12 engine"
+      }
+    ]
+  }
+}
+2025-08-19 10:53:03,436 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:03,437 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:53:03,437 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:53:03,437 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:53:03,437 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:53:03,437 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:53:04,897 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:04,897 - INFO - {
+  "relationships": [
+    {
+      "source": "joint_venture_renault_geely",
+      "type": "owns",
+      "target": "factory_mioveni_romania"
+    },
+    {
+      "source": "company_horse",
+      "type": "forms",
+      "target": "joint_venture_renault_geely"
+    },
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_renault_geely"
+    },
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_renault_geely"
+    },
+    {
+      "source": "company_horse",
+      "type": "owns",
+      "target": "factory_valladolid_spain"
+    }
+  ]
+}
+2025-08-19 10:53:04,897 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:04,898 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:53:04,898 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:53:07,100 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:07,100 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hr12_engine",
+      "target": "factory_mioveni_romania",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hr12_engine",
+      "target": "factory_valladolid_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:53:07,100 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:07,100 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:53:07,100 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:53:07,179 - INFO - ✅ Updated Article ID: 68a357b0193a11c7b797cc8d with 7 nodes and combined text.

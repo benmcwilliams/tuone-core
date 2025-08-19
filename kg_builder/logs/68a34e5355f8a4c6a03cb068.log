@@ -1,0 +1,116 @@
+2025-08-19 12:22:48,626 - INFO - 🔍 Text length: 2847 characters
+2025-08-19 12:22:48,626 - INFO - 📌 Processing Article ID: 68a34e5355f8a4c6a03cb068 — Kia signs PBV deal with DHL Korea
+2025-08-19 12:22:48,626 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:22:53,414 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:53,414 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia_corporation",
+        "type": "company",
+        "name": "Kia Corporation"
+      },
+      {
+        "id": "company_dhl_korea_ltd",
+        "type": "company",
+        "name": "DHL Korea Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gyeonggi_province_south_korea",
+        "type": "factory",
+        "name": "Gyeonggi Province Plant",
+        "location": {
+          "city": "Gyeonggi Province",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_pbvs_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 PBVs per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pbv",
+        "type": "product",
+        "name": "PBV"
+      },
+      {
+        "id": "product_pv5",
+        "type": "product",
+        "name": "PV5"
+      },
+      {
+        "id": "product_pv7",
+        "type": "product",
+        "name": "PV7"
+      }
+    ]
+  }
+}
+2025-08-19 12:22:53,414 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:53,414 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:22:53,414 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:22:54,673 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:54,674 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_pbvs_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:22:54,674 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:54,674 - INFO - Node ID is capacity_150k_pbvs_per_year
+2025-08-19 12:22:54,674 - INFO - ✅ Match found for capacity_ID 'capacity_150k_pbvs_per_year' in capacity nodes
+2025-08-19 12:22:54,674 - INFO -   ➕ Set status: under construction
+2025-08-19 12:22:54,674 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:22:54,674 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:22:54,674 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:22:54,674 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:22:54,674 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:22:55,697 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:55,698 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia_corporation",
+      "type": "owns",
+      "target": "factory_gyeonggi_province_south_korea"
+    }
+  ]
+}
+2025-08-19 12:22:55,698 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:55,698 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:22:55,698 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:22:57,644 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:57,645 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_pbvs_per_year",
+      "target": "factory_gyeonggi_province_south_korea",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_pbvs_per_year",
+      "target": "product_pbv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pbv",
+      "target": "factory_gyeonggi_province_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:22:57,645 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:57,645 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:22:57,645 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:22:57,727 - INFO - ✅ Updated Article ID: 68a34e5355f8a4c6a03cb068 with 7 nodes and combined text.

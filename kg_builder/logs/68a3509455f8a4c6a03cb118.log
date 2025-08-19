@@ -1,0 +1,100 @@
+2025-08-19 12:00:01,616 - INFO - 🔍 Text length: 1084 characters
+2025-08-19 12:00:01,616 - INFO - 📌 Processing Article ID: 68a3509455f8a4c6a03cb118 — Chery begins J7 PHEV in Malaysia
+2025-08-19 12:00:01,616 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:00:04,819 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:04,820 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_chery_automobile",
+        "type": "company",
+        "name": "Chery Automobile"
+      },
+      {
+        "id": "company_chery_auto_malaysia_sdn_bhd",
+        "type": "company",
+        "name": "Chery Auto Malaysia Sdn Bhd"
+      },
+      {
+        "id": "company_jaecoo_malaysia",
+        "type": "company",
+        "name": "Jaecoo Malaysia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shah_alam_malaysia",
+        "type": "factory",
+        "name": "Shah Alam Plant",
+        "location": {
+          "city": "Shah Alam",
+          "country": "Malaysia"
+        }
+      },
+      {
+        "id": "factory_chery_corporate_malaysia",
+        "type": "factory",
+        "name": "Chery Corporate Malaysia Factory",
+        "location": {
+          "city": "Shah Alam",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_jaecoo_j7_phev",
+        "type": "product",
+        "name": "Jaecoo J7 PHEV"
+      },
+      {
+        "id": "product_jaecoo_j7_ice",
+        "type": "product",
+        "name": "Jaecoo J7 ICE"
+      }
+    ]
+  }
+}
+2025-08-19 12:00:04,820 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:04,820 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:00:04,820 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:00:04,820 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:00:04,820 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:00:04,820 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:00:08,559 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:08,560 - INFO - {
+  "relationships": [
+    {
+      "source": "company_chery_automobile",
+      "type": "owns",
+      "target": "factory_shah_alam_malaysia"
+    },
+    {
+      "source": "company_chery_automobile",
+      "type": "owns",
+      "target": "factory_chery_corporate_malaysia"
+    }
+  ]
+}
+2025-08-19 12:00:08,560 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:08,560 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:00:08,560 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:00:10,016 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:10,016 - INFO - {
+  "relationships": [
+    {
+      "source": "product_jaecoo_j7_phev",
+      "target": "factory_shah_alam_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_jaecoo_j7_ice",
+      "target": "factory_chery_corporate_malaysia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:00:10,016 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:10,017 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:00:10,017 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:00:10,098 - INFO - ✅ Updated Article ID: 68a3509455f8a4c6a03cb118 with 7 nodes and combined text.

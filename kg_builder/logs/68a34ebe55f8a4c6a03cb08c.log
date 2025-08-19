@@ -1,0 +1,186 @@
+2025-08-19 12:18:37,824 - INFO - 🔍 Text length: 2239 characters
+2025-08-19 12:18:37,824 - INFO - 📌 Processing Article ID: 68a34ebe55f8a4c6a03cb08c — Solus opens second copper foil plant in Hungary
+2025-08-19 12:18:37,824 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:18:41,162 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:41,162 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solus_advanced_materials",
+        "type": "company",
+        "name": "Solus Advanced Materials Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tatabanya_hungary",
+        "type": "factory",
+        "name": "Tatab\u00e1nya Plant",
+        "location": {
+          "city": "Tatab\u00e1nya",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_hungary_2",
+        "type": "factory",
+        "name": "Hungary Plant 2",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_quebec_canada",
+        "type": "factory",
+        "name": "Quebec Plant",
+        "location": {
+          "city": "null",
+          "country": "Canada"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_23k_tons_per_year_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "23,000 tons per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_25k_tons_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "25,000 tons per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_63k_tons_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "63,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_copper_foil",
+        "type": "product",
+        "name": "copper foil"
+      }
+    ]
+  }
+}
+2025-08-19 12:18:41,162 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:41,162 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:18:41,163 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:18:42,985 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:42,986 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_23k_tons_per_year_operational",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_25k_tons_per_year_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_63k_tons_per_year_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:18:42,986 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:42,986 - INFO - Node ID is capacity_23k_tons_per_year_operational
+2025-08-19 12:18:42,986 - INFO - ✅ Match found for capacity_ID 'capacity_23k_tons_per_year_operational' in capacity nodes
+2025-08-19 12:18:42,986 - INFO -   ➕ Set status: operational
+2025-08-19 12:18:42,986 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:18:42,986 - INFO - Node ID is capacity_25k_tons_per_year_announced
+2025-08-19 12:18:42,986 - INFO - ✅ Match found for capacity_ID 'capacity_25k_tons_per_year_announced' in capacity nodes
+2025-08-19 12:18:42,986 - INFO -   ➕ Set status: announced
+2025-08-19 12:18:42,986 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:18:42,986 - INFO - Node ID is capacity_63k_tons_per_year_announced
+2025-08-19 12:18:42,986 - INFO - ✅ Match found for capacity_ID 'capacity_63k_tons_per_year_announced' in capacity nodes
+2025-08-19 12:18:42,986 - INFO -   ➕ Set status: announced
+2025-08-19 12:18:42,986 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:18:42,986 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:18:42,986 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:18:42,986 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:18:42,986 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:18:45,697 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:45,697 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solus_advanced_materials",
+      "type": "owns",
+      "target": "factory_tatabanya_hungary"
+    },
+    {
+      "source": "company_solus_advanced_materials",
+      "type": "owns",
+      "target": "factory_hungary_2"
+    },
+    {
+      "source": "company_solus_advanced_materials",
+      "type": "owns",
+      "target": "factory_quebec_canada"
+    }
+  ]
+}
+2025-08-19 12:18:45,698 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:45,698 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:18:45,698 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:18:48,885 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:48,886 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_23k_tons_per_year_operational",
+      "target": "factory_hungary_2",
+      "type": "at"
+    },
+    {
+      "source": "capacity_23k_tons_per_year_operational",
+      "target": "product_copper_foil",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_copper_foil",
+      "target": "factory_hungary_2",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_25k_tons_per_year_announced",
+      "target": "factory_quebec_canada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_63k_tons_per_year_announced",
+      "target": "factory_quebec_canada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_25k_tons_per_year_announced",
+      "target": "product_copper_foil",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_63k_tons_per_year_announced",
+      "target": "product_copper_foil",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_copper_foil",
+      "target": "factory_quebec_canada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:18:48,886 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:48,886 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:18:48,886 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:18:48,964 - INFO - ✅ Updated Article ID: 68a34ebe55f8a4c6a03cb08c with 8 nodes and combined text.

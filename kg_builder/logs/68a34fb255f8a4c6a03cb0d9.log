@@ -1,0 +1,203 @@
+2025-08-19 12:08:09,977 - INFO - 🔍 Text length: 2842 characters
+2025-08-19 12:08:09,977 - INFO - 📌 Processing Article ID: 68a34fb255f8a4c6a03cb0d9 — Jaguar Land Rover profit hit by supply constraints
+2025-08-19 12:08:09,977 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:08:16,547 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:16,547 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      },
+      {
+        "id": "company_novelis",
+        "type": "company",
+        "name": "Novelis"
+      },
+      {
+        "id": "company_epmc",
+        "type": "company",
+        "name": "EPMC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_halewood_uk",
+        "type": "factory",
+        "name": "Halewood UK facility",
+        "location": {
+          "city": "Halewood",
+          "country": "United Kingdom"
+        }
+      },
+      {
+        "id": "factory_wolverhampton_uk",
+        "type": "factory",
+        "name": "Wolverhampton facility",
+        "location": {
+          "city": "Wolverhampton",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_jlr_ev_production",
+        "type": "investment",
+        "name": "JLR EV Production",
+        "amount": "GBP250m",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_range_rover_sv",
+        "type": "product",
+        "name": "Range Rover SV"
+      },
+      {
+        "id": "product_range_rover_sport_sv",
+        "type": "product",
+        "name": "Range Rover Sport SV"
+      },
+      {
+        "id": "product_range_rover_sport_sv_edition_two",
+        "type": "product",
+        "name": "Range Rover Sport SV Edition Two"
+      },
+      {
+        "id": "product_range_rover_sport_sv_celestial",
+        "type": "product",
+        "name": "Range Rover Sport SV Celestial"
+      },
+      {
+        "id": "product_v8_engines",
+        "type": "product",
+        "name": "V8 engines"
+      },
+      {
+        "id": "product_defender_octa",
+        "type": "product",
+        "name": "Defender OCTA"
+      },
+      {
+        "id": "product_range_rover_electric",
+        "type": "product",
+        "name": "Range Rover Electric"
+      }
+    ]
+  }
+}
+2025-08-19 12:08:16,547 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:16,547 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:08:16,547 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:08:16,547 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:08:17,526 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:17,526 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_jlr_ev_production",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:08:17,526 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:17,526 - INFO - Node ID is investment_jlr_ev_production
+2025-08-19 12:08:17,526 - INFO - ✅ Match found for investment_ID 'investment_jlr_ev_production' in investment nodes
+2025-08-19 12:08:17,527 - INFO -   ➕ Set status: ongoing
+2025-08-19 12:08:17,527 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:08:17,527 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:08:17,527 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:08:17,527 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:08:18,735 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:18,735 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jaguar_land_rover",
+      "type": "owns",
+      "target": "factory_halewood_uk"
+    },
+    {
+      "source": "company_epmc",
+      "type": "owns",
+      "target": "factory_wolverhampton_uk"
+    }
+  ]
+}
+2025-08-19 12:08:18,736 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:18,736 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:08:18,736 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:08:23,855 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:23,855 - INFO - {
+  "relationships": [
+    {
+      "source": "product_range_rover_sv",
+      "target": "factory_wolverhampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_sport_sv",
+      "target": "factory_wolverhampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_v8_engines",
+      "target": "factory_wolverhampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_sv",
+      "target": "factory_halewood_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_sport_sv",
+      "target": "factory_halewood_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_sport_sv_edition_two",
+      "target": "factory_halewood_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_sport_sv_celestial",
+      "target": "factory_halewood_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_range_rover_electric",
+      "target": "factory_halewood_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:08:23,855 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:23,855 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:08:23,856 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:08:24,469 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:24,469 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:08:24,469 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:24,469 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:08:24,469 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:08:25,258 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:08:25,258 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_jlr_ev_production",
+      "type": "funds",
+      "target": "factory_halewood_uk"
+    }
+  ]
+}
+2025-08-19 12:08:25,258 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:08:25,339 - INFO - ✅ Updated Article ID: 68a34fb255f8a4c6a03cb0d9 with 14 nodes and combined text.

@@ -1,0 +1,130 @@
+2025-08-19 12:09:57,277 - INFO - 🔍 Text length: 1356 characters
+2025-08-19 12:09:57,277 - INFO - 📌 Processing Article ID: 68a34f9a55f8a4c6a03cb0ce — Hyundai Wia to expand engine production in Mexico
+2025-08-19 12:09:57,278 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:09:59,864 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:59,865 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_wia",
+        "type": "company",
+        "name": "Hyundai Wia Corporation"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nuevo_leon_mexico",
+        "type": "factory",
+        "name": "Hyundai Wia Plant",
+        "location": {
+          "city": "Monterrey",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_georgia_us",
+        "type": "factory",
+        "name": "Hyundai Motor Group Metaplant America",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200k_engines_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "200,000 engines per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_1_6l_gamma_engine",
+        "type": "product",
+        "name": "1.6L Gamma engine"
+      },
+      {
+        "id": "product_hybrid_electric_vehicles",
+        "type": "product",
+        "name": "hybrid electric vehicles (HEVs)"
+      }
+    ]
+  }
+}
+2025-08-19 12:09:59,865 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:59,865 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:09:59,865 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:10:00,898 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:00,898 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200k_engines_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:10:00,898 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:00,898 - INFO - Node ID is capacity_200k_engines_per_year
+2025-08-19 12:10:00,898 - INFO - ✅ Match found for capacity_ID 'capacity_200k_engines_per_year' in capacity nodes
+2025-08-19 12:10:00,898 - INFO -   ➕ Set status: announced
+2025-08-19 12:10:00,898 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:10:00,898 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:10:00,898 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:10:00,898 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:10:00,898 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:10:02,075 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:02,075 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_wia",
+      "type": "owns",
+      "target": "factory_nuevo_leon_mexico"
+    },
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_georgia_us"
+    }
+  ]
+}
+2025-08-19 12:10:02,075 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:02,075 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:10:02,075 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:10:03,977 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:03,978 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200k_engines_per_year",
+      "target": "factory_nuevo_leon_mexico",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200k_engines_per_year",
+      "target": "product_1_6l_gamma_engine",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_1_6l_gamma_engine",
+      "target": "factory_nuevo_leon_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hybrid_electric_vehicles",
+      "target": "factory_georgia_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:10:03,978 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:03,978 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:10:03,978 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:10:04,056 - INFO - ✅ Updated Article ID: 68a34f9a55f8a4c6a03cb0ce with 7 nodes and combined text.

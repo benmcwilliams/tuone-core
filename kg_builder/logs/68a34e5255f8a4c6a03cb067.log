@@ -1,0 +1,149 @@
+2025-08-19 12:22:57,729 - INFO - 🔍 Text length: 1612 characters
+2025-08-19 12:22:57,729 - INFO - 📌 Processing Article ID: 68a34e5255f8a4c6a03cb067 — Nio deliveries up by almost a third in October
+2025-08-19 12:22:57,729 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:22:59,851 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:22:59,851 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nio_inc",
+        "type": "company",
+        "name": "Nio Inc"
+      },
+      {
+        "id": "company_nio_holding_company",
+        "type": "company",
+        "name": "Nio Holding Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hefei_china",
+        "type": "factory",
+        "name": "Nio Manufacturing Operations",
+        "location": {
+          "city": "Hefei",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_3_3bn_cny_announced",
+        "type": "investment",
+        "name": "CNY3.3bn (US$471m) funding",
+        "amount": "CNY3.3bn (US$471m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1m_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 million vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_onvo_l60",
+        "type": "product",
+        "name": "ONVO L60"
+      }
+    ]
+  }
+}
+2025-08-19 12:22:59,851 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:22:59,851 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:22:59,851 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:23:00,714 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:00,715 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1m_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:23:00,715 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:00,715 - INFO - Node ID is capacity_1m_vehicles_per_year
+2025-08-19 12:23:00,715 - INFO - ✅ Match found for capacity_ID 'capacity_1m_vehicles_per_year' in capacity nodes
+2025-08-19 12:23:00,715 - INFO -   ➕ Set status: announced
+2025-08-19 12:23:00,715 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:23:00,715 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:23:00,715 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:23:01,638 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:01,639 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_3_3bn_cny_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:23:01,639 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:01,639 - INFO - Node ID is investment_3_3bn_cny_announced
+2025-08-19 12:23:01,639 - INFO - ✅ Match found for investment_ID 'investment_3_3bn_cny_announced' in investment nodes
+2025-08-19 12:23:01,639 - INFO -   ➕ Set status: announced
+2025-08-19 12:23:01,639 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:23:01,639 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:23:01,639 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:23:01,639 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:23:02,662 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:02,662 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nio_inc",
+      "type": "owns",
+      "target": "factory_hefei_china"
+    }
+  ]
+}
+2025-08-19 12:23:02,662 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:02,662 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:23:02,663 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:23:04,811 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:04,811 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1m_vehicles_per_year",
+      "target": "factory_hefei_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1m_vehicles_per_year",
+      "target": "product_onvo_l60",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_onvo_l60",
+      "target": "factory_hefei_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:23:04,811 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:04,811 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:23:04,812 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:23:05,427 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:05,428 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:23:05,428 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:05,428 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:23:05,428 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:23:06,271 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:06,271 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_3_3bn_cny_announced",
+      "target": "factory_hefei_china",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:23:06,271 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:06,357 - INFO - ✅ Updated Article ID: 68a34e5255f8a4c6a03cb067 with 6 nodes and combined text.

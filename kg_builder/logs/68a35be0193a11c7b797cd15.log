@@ -1,0 +1,133 @@
+2025-08-19 10:23:33,282 - INFO - 🔍 Text length: 1797 characters
+2025-08-19 10:23:33,283 - INFO - 📌 Processing Article ID: 68a35be0193a11c7b797cd15 — WHW to recycle electrode foil for BASF
+2025-08-19 10:23:33,283 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:23:37,713 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:37,714 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_whw_recycling",
+        "type": "company",
+        "name": "WHW Recycling"
+      },
+      {
+        "id": "company_walch_holding",
+        "type": "company",
+        "name": "Walch Holding"
+      },
+      {
+        "id": "company_stefan_hanigovsky",
+        "type": "company",
+        "name": "Stefan Hanigovsky"
+      },
+      {
+        "id": "company_fecupral",
+        "type": "company",
+        "name": "Fecupral"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_whw_recycling",
+        "type": "joint_venture",
+        "name": "WHW Recycling"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_baudenbach_germany",
+        "type": "factory",
+        "name": "Baudenbach Separation Plants",
+        "location": {
+          "city": "Baudenbach",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_foil",
+        "type": "product",
+        "name": "cathode foil"
+      },
+      {
+        "id": "product_anode_foil",
+        "type": "product",
+        "name": "anode foil"
+      },
+      {
+        "id": "product_cathode_active_material",
+        "type": "product",
+        "name": "cathode active material"
+      },
+      {
+        "id": "product_battery_grade_minerals",
+        "type": "product",
+        "name": "battery grade minerals"
+      },
+      {
+        "id": "product_copper",
+        "type": "product",
+        "name": "copper"
+      },
+      {
+        "id": "product_graphite",
+        "type": "product",
+        "name": "graphite"
+      }
+    ]
+  }
+}
+2025-08-19 10:23:37,714 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:37,714 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:23:37,714 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:23:37,714 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:23:37,714 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:23:37,714 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:39,142 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:39,142 - INFO - {
+  "relationships": [
+    {
+      "source": "company_whw_recycling",
+      "type": "owns",
+      "target": "factory_baudenbach_germany"
+    },
+    {
+      "source": "company_walch_hanigovsky",
+      "type": "forms",
+      "target": "joint_venture_whw_recycling"
+    },
+    {
+      "source": "company_fecupral",
+      "type": "forms",
+      "target": "joint_venture_whw_recycling"
+    }
+  ]
+}
+2025-08-19 10:23:39,142 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:39,142 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:39,142 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:40,983 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:40,983 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cathode_foil",
+      "target": "factory_baudenbach_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_anode_foil",
+      "target": "factory_baudenbach_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:23:40,984 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:40,984 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:23:40,984 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:23:41,064 - INFO - ✅ Updated Article ID: 68a35be0193a11c7b797cd15 with 13 nodes and combined text.

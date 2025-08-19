@@ -1,0 +1,85 @@
+2025-08-19 15:25:29,778 - INFO - 🔍 Text length: 1808 characters
+2025-08-19 15:25:29,779 - INFO - 📌 Processing Article ID: 68a34cf455f8a4c6a03caffc — UTAC appoints new female lead as UK vice president
+2025-08-19 15:25:29,779 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:25:32,763 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:25:32,763 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_utac",
+        "type": "company",
+        "name": "UTAC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_leyland",
+        "type": "factory",
+        "name": "Leyland",
+        "location": {
+          "city": "Leyland",
+          "country": "United Kingdom"
+        }
+      },
+      {
+        "id": "factory_millbrook",
+        "type": "factory",
+        "name": "Millbrook",
+        "location": {
+          "city": "Millbrook",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automotive_testing",
+        "type": "product",
+        "name": "automotive testing"
+      }
+    ]
+  }
+}
+2025-08-19 15:25:32,763 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:25:32,764 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:25:32,764 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:25:32,764 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:25:32,764 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:25:32,764 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:25:34,108 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:25:34,109 - INFO - {
+  "relationships": [
+    {
+      "source": "company_utac",
+      "type": "owns",
+      "target": "factory_leyland"
+    },
+    {
+      "source": "company_utac",
+      "type": "owns",
+      "target": "factory_millbrook"
+    }
+  ]
+}
+2025-08-19 15:25:34,109 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:25:34,109 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:25:34,109 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:25:36,041 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:25:36,042 - INFO - {
+  "relationships": [
+    {
+      "source": "product_automotive_testing",
+      "target": "factory_leyland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_automotive_testing",
+      "target": "factory_millbrook",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:25:36,042 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:25:36,042 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:25:36,042 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:25:36,127 - INFO - ✅ Updated Article ID: 68a34cf455f8a4c6a03caffc with 4 nodes and combined text.

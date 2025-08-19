@@ -1,0 +1,178 @@
+2025-08-19 11:41:55,121 - INFO - 🔍 Text length: 1549 characters
+2025-08-19 11:41:55,122 - INFO - 📌 Processing Article ID: 68a3536655f8a4c6a03cb192 — Toyota plans seven all-electric models for US by 2028
+2025-08-19 11:41:55,122 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:41:59,097 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:41:59,098 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_toyota_motor_north_america",
+        "type": "company",
+        "name": "Toyota Motor North America"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_georgetown_kentucky",
+        "type": "factory",
+        "name": "Georgetown Plant",
+        "location": {
+          "city": "Georgetown",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_princeton_indiana",
+        "type": "factory",
+        "name": "Princeton Factory",
+        "location": {
+          "city": "Princeton",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_north_carolina",
+        "type": "factory",
+        "name": "North Carolina Lithium-Ion Battery Plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_kentucky_retooling",
+        "type": "investment",
+        "name": "Kentucky Retooling",
+        "amount": "US$1.3bn",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_indiana_plant",
+        "type": "investment",
+        "name": "Indiana Plant",
+        "amount": "US$1.4bn",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery electric vehicles (BEVs)"
+      },
+      {
+        "id": "product_lithium_ion_battery",
+        "type": "product",
+        "name": "lithium-ion battery"
+      }
+    ]
+  }
+}
+2025-08-19 11:41:59,098 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:41:59,098 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:41:59,098 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:41:59,098 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:42:00,135 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:00,135 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_kentucky_retooling",
+      "status": "announced",
+      "phase": "retrofit"
+    },
+    {
+      "investment_ID": "investment_indiana_plant",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 11:42:00,135 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:00,135 - INFO - Node ID is investment_kentucky_retooling
+2025-08-19 11:42:00,135 - INFO - ✅ Match found for investment_ID 'investment_kentucky_retooling' in investment nodes
+2025-08-19 11:42:00,135 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:00,135 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:42:00,135 - INFO - Node ID is investment_indiana_plant
+2025-08-19 11:42:00,135 - INFO - ✅ Match found for investment_ID 'investment_indiana_plant' in investment nodes
+2025-08-19 11:42:00,135 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:00,135 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:42:00,136 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:42:00,136 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:42:00,136 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:42:01,712 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:01,712 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_georgetown_kentucky"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_princeton_indiana"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_north_carolina"
+    }
+  ]
+}
+2025-08-19 11:42:01,712 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:01,712 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:42:01,712 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:42:03,577 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:03,578 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_georgetown_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_princeton_indiana",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_ion_battery",
+      "target": "factory_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:42:03,578 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:03,578 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:42:03,578 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:42:04,249 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:04,249 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:42:04,249 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:04,249 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:42:04,249 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:42:05,613 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:05,614 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_kentucky_retooling",
+      "target": "factory_georgetown_kentucky",
+      "type": "funds"
+    },
+    {
+      "source": "investment_indiana_plant",
+      "target": "factory_princeton_indiana",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:42:05,614 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:05,686 - INFO - ✅ Updated Article ID: 68a3536655f8a4c6a03cb192 with 9 nodes and combined text.

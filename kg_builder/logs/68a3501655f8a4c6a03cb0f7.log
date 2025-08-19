@@ -1,0 +1,131 @@
+2025-08-19 12:04:17,745 - INFO - 🔍 Text length: 1746 characters
+2025-08-19 12:04:17,745 - INFO - 📌 Processing Article ID: 68a3501655f8a4c6a03cb0f7 — GWM developing local supply-chain in Thailand
+2025-08-19 12:04:17,745 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:04:20,877 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:20,877 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      },
+      {
+        "id": "company_svolt_energy_technology",
+        "type": "company",
+        "name": "Svolt Energy Technology"
+      },
+      {
+        "id": "company_mind_automotive_parts_company",
+        "type": "company",
+        "name": "Mind Automotive Parts Company"
+      },
+      {
+        "id": "company_hycet_engine_system_company",
+        "type": "company",
+        "name": "Hycet Engine System Company"
+      },
+      {
+        "id": "company_nobo_automotive_systems_company",
+        "type": "company",
+        "name": "Nobo Automotive Systems Company"
+      },
+      {
+        "id": "company_exquisite_automotive_systems_company",
+        "type": "company",
+        "name": "Exquisite Automotive Systems Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rayong_thailand",
+        "type": "factory",
+        "name": "vehicle assembly plant",
+        "location": {
+          "city": "Rayong",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_new_energy_vehicles",
+        "type": "product",
+        "name": "new energy vehicles"
+      },
+      {
+        "id": "product_diesel_engines",
+        "type": "product",
+        "name": "diesel engines"
+      }
+    ]
+  }
+}
+2025-08-19 12:04:20,877 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:20,877 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:04:20,877 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:04:21,900 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:21,900 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_vehicles_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:04:21,900 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:21,900 - INFO - Node ID is capacity_120k_vehicles_per_year
+2025-08-19 12:04:21,900 - INFO - ✅ Match found for capacity_ID 'capacity_120k_vehicles_per_year' in capacity nodes
+2025-08-19 12:04:21,900 - INFO -   ➕ Set status: operational
+2025-08-19 12:04:21,900 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:04:21,901 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:04:21,901 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:04:21,901 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:04:21,901 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:04:23,057 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:23,058 - INFO - {
+  "relationships": [
+    {
+      "source": "company_great_wall_motor",
+      "type": "owns",
+      "target": "factory_rayong_thailand"
+    }
+  ]
+}
+2025-08-19 12:04:23,058 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:23,058 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:04:23,058 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:04:25,281 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:25,281 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "factory_rayong_thailand",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "product_new_energy_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_new_energy_vehicles",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:04:25,281 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:25,281 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:04:25,281 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:04:25,356 - INFO - ✅ Updated Article ID: 68a3501655f8a4c6a03cb0f7 with 10 nodes and combined text.

@@ -1,0 +1,150 @@
+2025-08-19 10:28:28,299 - INFO - 🔍 Text length: 9636 characters
+2025-08-19 10:28:28,299 - INFO - 📌 Processing Article ID: 68a35a94193a11c7b797ccf2 — Quantum batteries, Korea hybrids, ASEAN data – the week
+2025-08-19 10:28:28,299 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:28:31,537 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:31,538 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ev_realty",
+        "type": "company",
+        "name": "EV Realty"
+      },
+      {
+        "id": "company_autobrains",
+        "type": "company",
+        "name": "Autobrains"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_sunstar_engineering",
+        "type": "company",
+        "name": "Sunstar Engineering"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_borlange_sweden",
+        "type": "factory",
+        "name": "Borlange Plant",
+        "location": {
+          "city": "Borlange",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_changzhou_china",
+        "type": "factory",
+        "name": "Changzhou Plant",
+        "location": {
+          "city": "Changzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_130k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "130,000 units annually",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_quantum_batteries",
+        "type": "product",
+        "name": "Quantum Batteries"
+      },
+      {
+        "id": "product_lightweighting_sealants_and_adhesives",
+        "type": "product",
+        "name": "Lightweighting Sealants and Adhesives"
+      },
+      {
+        "id": "product_qashqai_suv",
+        "type": "product",
+        "name": "Qashqai SUV"
+      }
+    ]
+  }
+}
+2025-08-19 10:28:31,538 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:31,538 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:28:31,538 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:28:34,216 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:34,216 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_130k_units_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:28:34,216 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:34,216 - INFO - Node ID is capacity_130k_units_per_year
+2025-08-19 10:28:34,216 - INFO - ✅ Match found for capacity_ID 'capacity_130k_units_per_year' in capacity nodes
+2025-08-19 10:28:34,216 - INFO -   ➕ Set status: operational
+2025-08-19 10:28:34,216 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:28:34,216 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:28:34,216 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:28:34,216 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:28:34,216 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:28:35,294 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:35,294 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_borlange_sweden"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_changzhou_china"
+    }
+  ]
+}
+2025-08-19 10:28:35,294 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:35,294 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:28:35,294 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:28:36,619 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:36,619 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_130k_units_per_year",
+      "target": "factory_changzhou_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_130k_units_per_year",
+      "target": "product_qashqai_suv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_qashqai_suv",
+      "target": "factory_changzhou_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:28:36,619 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:36,619 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:28:36,619 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:28:36,700 - INFO - ✅ Updated Article ID: 68a35a94193a11c7b797ccf2 with 12 nodes and combined text.

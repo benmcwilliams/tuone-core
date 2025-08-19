@@ -1,0 +1,136 @@
+2025-08-19 10:49:36,808 - INFO - 🔍 Text length: 3057 characters
+2025-08-19 10:49:36,809 - INFO - 📌 Processing Article ID: 68a3583c193a11c7b797cca5 — Genesis head says hybrids coming
+2025-08-19 10:49:36,809 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:49:42,941 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:42,941 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_genesis",
+        "type": "company",
+        "name": "Genesis"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ulsan_6_plant",
+        "type": "factory",
+        "name": "Ulsan 6 plant",
+        "location": {
+          "city": "Ulsan",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gv60_magma_concept",
+        "type": "product",
+        "name": "GV60 Magma Concept"
+      },
+      {
+        "id": "product_g80_ev_magma_concept",
+        "type": "product",
+        "name": "G80 EV Magma Concept"
+      },
+      {
+        "id": "product_gv80_coupe_concept",
+        "type": "product",
+        "name": "GV80 Coupe Concept"
+      },
+      {
+        "id": "product_g70_track_taxi_nordschleife",
+        "type": "product",
+        "name": "G70 Track Taxi Nordschleife"
+      },
+      {
+        "id": "product_gv70_hev",
+        "type": "product",
+        "name": "GV70 HEV"
+      },
+      {
+        "id": "product_gv80_hev",
+        "type": "product",
+        "name": "GV80 HEV"
+      },
+      {
+        "id": "product_gv90",
+        "type": "product",
+        "name": "GV90"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_gv90_production",
+        "type": "capacity",
+        "name": "GV90 production",
+        "amount": "null",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 10:49:42,941 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:42,941 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:49:42,941 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:49:43,810 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:43,810 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_gv90_production",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:49:43,810 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:43,811 - INFO - Node ID is capacity_gv90_production
+2025-08-19 10:49:43,811 - INFO - ✅ Match found for capacity_ID 'capacity_gv90_production' in capacity nodes
+2025-08-19 10:49:43,811 - INFO -   ➕ Set status: under construction
+2025-08-19 10:49:43,811 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:49:43,811 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:49:43,811 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:49:43,811 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:49:43,811 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:49:44,814 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:44,814 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_ulsan_6_plant"
+    }
+  ]
+}
+2025-08-19 10:49:44,814 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:44,814 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:49:44,815 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:49:46,861 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:46,861 - INFO - {
+  "relationships": [
+    {
+      "source": "product_gv90",
+      "target": "factory_ulsan_6_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_gv90_production",
+      "target": "factory_ulsan_6_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_gv90_production",
+      "target": "product_gv90",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 10:49:46,861 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:46,862 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:49:46,862 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:49:46,935 - INFO - ✅ Updated Article ID: 68a3583c193a11c7b797cca5 with 11 nodes and combined text.

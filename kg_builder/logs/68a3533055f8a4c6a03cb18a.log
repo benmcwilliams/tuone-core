@@ -1,0 +1,96 @@
+2025-08-19 11:42:57,622 - INFO - 🔍 Text length: 1563 characters
+2025-08-19 11:42:57,622 - INFO - 📌 Processing Article ID: 68a3533055f8a4c6a03cb18a — Bentley makes last W12
+2025-08-19 11:42:57,622 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:43:00,695 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:00,695 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bentley_motors",
+        "type": "company",
+        "name": "Bentley Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_crewe_uk",
+        "type": "factory",
+        "name": "Crewe Headquarters",
+        "location": {
+          "city": "Crewe",
+          "country": "UK"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_w12_engine",
+        "type": "product",
+        "name": "W12 Engine"
+      },
+      {
+        "id": "product_bentayga",
+        "type": "product",
+        "name": "Bentayga"
+      },
+      {
+        "id": "product_continental_gt",
+        "type": "product",
+        "name": "Continental GT"
+      },
+      {
+        "id": "product_flying_spur",
+        "type": "product",
+        "name": "Flying Spur"
+      }
+    ]
+  }
+}
+2025-08-19 11:43:00,695 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:00,695 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:43:00,695 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:43:00,695 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:43:00,695 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:43:00,695 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:43:01,660 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:01,660 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bentley_motors",
+      "type": "owns",
+      "target": "factory_crewe_uk"
+    }
+  ]
+}
+2025-08-19 11:43:01,660 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:01,660 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:43:01,660 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:43:03,651 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:03,652 - INFO - {
+  "relationships": [
+    {
+      "source": "product_w12_engine",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bentayga",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_continental_gt",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_flying_spur",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:43:03,652 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:03,652 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:43:03,652 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:43:03,730 - INFO - ✅ Updated Article ID: 68a3533055f8a4c6a03cb18a with 6 nodes and combined text.

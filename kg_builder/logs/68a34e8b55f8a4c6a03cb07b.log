@@ -1,0 +1,127 @@
+2025-08-19 12:20:14,609 - INFO - 🔍 Text length: 2007 characters
+2025-08-19 12:20:14,609 - INFO - 📌 Processing Article ID: 68a34e8b55f8a4c6a03cb07b — Proma Group to take over Germany’s Recaro Automotive
+2025-08-19 12:20:14,609 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:20:18,103 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:18,104 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_proma_group",
+        "type": "company",
+        "name": "Proma Group"
+      },
+      {
+        "id": "company_recaro_automotive",
+        "type": "company",
+        "name": "Recaro Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_stuttgart_germany",
+        "type": "factory",
+        "name": "Stuttgart Plant",
+        "location": {
+          "city": "Stuttgart",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_italy",
+        "type": "factory",
+        "name": "Italy Plant",
+        "location": {
+          "city": "null",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_proma_group_recaro_automotive",
+        "type": "investment",
+        "name": "Proma Group Recaro Automotive Acquisition",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aftermarket_seats",
+        "type": "product",
+        "name": "aftermarket seats"
+      },
+      {
+        "id": "product_oem_seating",
+        "type": "product",
+        "name": "OEM seating"
+      }
+    ]
+  }
+}
+2025-08-19 12:20:18,104 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:18,104 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:20:18,104 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:20:18,104 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:20:18,924 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:18,925 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_proma_group_recaro_automotive",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:20:18,925 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:18,925 - INFO - Node ID is investment_proma_group_recaro_automotive
+2025-08-19 12:20:18,925 - INFO - ✅ Match found for investment_ID 'investment_proma_group_recaro_automotive' in investment nodes
+2025-08-19 12:20:18,925 - INFO -   ➕ Set status: announced
+2025-08-19 12:20:18,925 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:20:18,925 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:20:18,925 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:20:18,925 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:20:20,075 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:20,076 - INFO - {
+  "relationships": [
+    {
+      "source": "company_recaro_automotive",
+      "type": "owns",
+      "target": "factory_stuttgart_germany"
+    },
+    {
+      "source": "company_proma_group",
+      "type": "owns",
+      "target": "factory_italy"
+    }
+  ]
+}
+2025-08-19 12:20:20,076 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:20,076 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:20:20,076 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:20:21,583 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:21,584 - INFO - {
+  "relationships": [
+    {
+      "source": "product_oem_seating",
+      "target": "factory_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:20:21,584 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:21,584 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:20:21,584 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:20:22,171 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:22,171 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:20:22,171 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:22,171 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:20:22,172 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:20:22,711 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:22,712 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:20:22,712 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:22,792 - INFO - ✅ Updated Article ID: 68a34e8b55f8a4c6a03cb07b with 7 nodes and combined text.

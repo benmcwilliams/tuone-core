@@ -1,0 +1,93 @@
+2025-08-19 11:55:11,320 - INFO - 🔍 Text length: 1632 characters
+2025-08-19 11:55:11,320 - INFO - 📌 Processing Article ID: 68a3516955f8a4c6a03cb13d — China warns on overseas car plants
+2025-08-19 11:55:11,320 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:13,756 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:13,757 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_leapmotor",
+        "type": "company",
+        "name": "Leapmotor"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_leapmotor_stellantis",
+        "type": "joint_venture",
+        "name": "Leapmotor Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_polish_plant",
+        "type": "factory",
+        "name": "Polish plant",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "EV"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:13,757 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:13,757 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:13,757 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:55:13,757 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:13,757 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:13,757 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:15,494 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:15,495 - INFO - {
+  "relationships": [
+    {
+      "source": "company_leapmotor",
+      "type": "forms",
+      "target": "joint_venture_leapmotor_stellantis"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_leapmotor_stellantis"
+    },
+    {
+      "source": "joint_venture_leapmotor_stellantis",
+      "type": "owns",
+      "target": "factory_polish_plant"
+    }
+  ]
+}
+2025-08-19 11:55:15,495 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:15,495 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:15,495 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:16,436 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:16,436 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev",
+      "target": "factory_polish_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:16,436 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:16,437 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:55:16,437 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:55:16,520 - INFO - ✅ Updated Article ID: 68a3516955f8a4c6a03cb13d with 6 nodes and combined text.

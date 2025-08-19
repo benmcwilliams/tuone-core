@@ -1,0 +1,189 @@
+2025-08-19 12:02:06,810 - INFO - 🔍 Text length: 1504 characters
+2025-08-19 12:02:06,810 - INFO - 📌 Processing Article ID: 68a3505555f8a4c6a03cb108 — Skoda to complete car plant in Vietnam in Q1
+2025-08-19 12:02:06,810 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:02:09,190 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:09,191 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda_auto",
+        "type": "company",
+        "name": "Skoda Auto"
+      },
+      {
+        "id": "company_thanh_cong",
+        "type": "company",
+        "name": "Th\u00e0nh C\u00f4ng"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_quang_ninh_vietnam",
+        "type": "factory",
+        "name": "Quang Ninh Vehicle Assembly Plant",
+        "location": {
+          "city": "Qu\u1ea3ng Ninh",
+          "country": "Vietnam"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_quang_ninh_plant",
+        "type": "investment",
+        "name": "Quang Ninh Plant",
+        "amount": "US$500m",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 vehicles per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_internal_combustion_engine_vehicles",
+        "type": "product",
+        "name": "internal combustion engine vehicles"
+      },
+      {
+        "id": "product_slavia_sedan",
+        "type": "product",
+        "name": "Slavia sedan"
+      },
+      {
+        "id": "product_kushaq_compact_suv",
+        "type": "product",
+        "name": "Kushaq compact SUV"
+      }
+    ]
+  }
+}
+2025-08-19 12:02:09,191 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:09,191 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:02:09,191 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:02:10,398 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:10,398 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_vehicles_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:02:10,399 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:10,399 - INFO - Node ID is capacity_120k_vehicles_per_year
+2025-08-19 12:02:10,399 - INFO - ✅ Match found for capacity_ID 'capacity_120k_vehicles_per_year' in capacity nodes
+2025-08-19 12:02:10,399 - INFO -   ➕ Set status: under construction
+2025-08-19 12:02:10,399 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:02:10,399 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:02:10,399 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:02:11,406 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:11,406 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_quang_ninh_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:02:11,406 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:11,406 - INFO - Node ID is investment_quang_ninh_plant
+2025-08-19 12:02:11,406 - INFO - ✅ Match found for investment_ID 'investment_quang_ninh_plant' in investment nodes
+2025-08-19 12:02:11,406 - INFO -   ➕ Set status: announced
+2025-08-19 12:02:11,406 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:02:11,407 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:02:11,407 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:02:11,407 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:02:12,362 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:12,362 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_quang_ninh_vietnam"
+    }
+  ]
+}
+2025-08-19 12:02:12,362 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:12,362 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:02:12,362 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:02:14,103 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:14,103 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "factory_quang_ninh_vietnam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_internal_combustion_engine_vehicles",
+      "target": "factory_quang_ninh_vietnam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_slavia_sedan",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_kushaq_compact_suv",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 12:02:14,103 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:14,103 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:02:14,104 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:02:14,796 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:14,796 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:02:14,797 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:14,797 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:02:14,797 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:02:17,178 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:17,178 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_quang_ninh_plant",
+      "target": "factory_quang_ninh_vietnam",
+      "type": "funds"
+    },
+    {
+      "source": "investment_quang_ninh_plant",
+      "target": "capacity_120k_vehicles_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_quang_ninh_plant",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_quang_ninh_plant",
+      "target": "product_slavia_sedan",
+      "type": "targets"
+    },
+    {
+      "source": "investment_quang_ninh_plant",
+      "target": "product_kushaq_compact_suv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:02:17,178 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:17,263 - INFO - ✅ Updated Article ID: 68a3505555f8a4c6a03cb108 with 8 nodes and combined text.

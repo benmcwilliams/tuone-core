@@ -1,0 +1,114 @@
+2025-08-19 10:28:42,903 - INFO - 🔍 Text length: 2545 characters
+2025-08-19 10:28:42,903 - INFO - 📌 Processing Article ID: 68a35a8d193a11c7b797ccf0 — Rivian posts quarterly loss
+2025-08-19 10:28:42,903 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:28:44,449 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:44,449 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian",
+        "type": "company",
+        "name": "Rivian"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_normal_illinois",
+        "type": "factory",
+        "name": "Normal Factory",
+        "location": {
+          "city": "Normal",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_retooling_upgrade",
+        "type": "investment",
+        "name": "Retooling Upgrade",
+        "amount": "$1,200 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r2",
+        "type": "product",
+        "name": "R2"
+      },
+      {
+        "id": "product_r1",
+        "type": "product",
+        "name": "R1"
+      }
+    ]
+  }
+}
+2025-08-19 10:28:44,449 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:44,449 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:28:44,449 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:28:44,450 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:28:45,477 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:45,477 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_retooling_upgrade",
+      "status": "ongoing",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 10:28:45,477 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:45,477 - INFO - Node ID is investment_retooling_upgrade
+2025-08-19 10:28:45,477 - INFO - ✅ Match found for investment_ID 'investment_retooling_upgrade' in investment nodes
+2025-08-19 10:28:45,477 - INFO -   ➕ Set status: ongoing
+2025-08-19 10:28:45,477 - INFO -   ➕ Set phase: retrofit
+2025-08-19 10:28:45,477 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:28:45,477 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:28:45,478 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:28:46,455 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:46,456 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian",
+      "type": "owns",
+      "target": "factory_normal_illinois"
+    }
+  ]
+}
+2025-08-19 10:28:46,456 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:46,456 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:28:46,456 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:28:47,279 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:47,280 - INFO - {
+  "relationships": [
+    {
+      "source": "product_r2",
+      "target": "factory_normal_illinois",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:28:47,280 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:47,280 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:28:47,280 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:28:47,841 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:47,842 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:28:47,842 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:47,842 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:28:47,842 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:28:48,674 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:48,674 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_retooling_upgrade",
+      "target": "factory_normal_illinois",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:28:48,674 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:48,747 - INFO - ✅ Updated Article ID: 68a35a8d193a11c7b797ccf0 with 5 nodes and combined text.

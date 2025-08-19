@@ -1,0 +1,114 @@
+2025-08-19 10:17:05,753 - INFO - 🔍 Text length: 1932 characters
+2025-08-19 10:17:05,753 - INFO - 📌 Processing Article ID: 68a42ff79853ad45aea804da — India: Omega Seiki Mobility to set up EV factory in the UAE
+2025-08-19 10:17:05,754 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:17:11,192 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:11,192 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_omega_seiki_mobility",
+        "type": "company",
+        "name": "Omega Seiki Mobility"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jebel_ali_free_zone_dubai_uae",
+        "type": "factory",
+        "name": "Jebel Ali Free Zone EV Assembly Plant",
+        "location": {
+          "city": "Dubai",
+          "country": "UAE"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_omega_seiki_mobility_jafza_plant",
+        "type": "investment",
+        "name": "Omega Seiki Mobility Jafza Plant",
+        "amount": "$25 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_three_wheelers",
+        "type": "product",
+        "name": "electric three-wheelers"
+      },
+      {
+        "id": "product_electric_buses",
+        "type": "product",
+        "name": "electric buses"
+      }
+    ]
+  }
+}
+2025-08-19 10:17:11,192 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:11,192 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:17:11,192 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:17:11,192 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:17:12,011 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:12,012 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_omega_seiki_mobility_jafza_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:17:12,012 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:12,012 - INFO - Node ID is investment_omega_seiki_mobility_jafza_plant
+2025-08-19 10:17:12,012 - INFO - ✅ Match found for investment_ID 'investment_omega_seiki_mobility_jafza_plant' in investment nodes
+2025-08-19 10:17:12,012 - INFO -   ➕ Set status: announced
+2025-08-19 10:17:12,012 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:17:12,012 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:17:12,012 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:17:12,012 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:17:13,038 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:13,039 - INFO - {
+  "relationships": [
+    {
+      "source": "company_omega_seiki_mobility",
+      "type": "owns",
+      "target": "factory_jebel_ali_free_zone_dubai_uae"
+    }
+  ]
+}
+2025-08-19 10:17:13,039 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:13,039 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:17:13,039 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:17:14,164 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:14,164 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_three_wheelers",
+      "target": "factory_jebel_ali_free_zone_dubai_uae",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:17:14,164 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:14,164 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:17:14,164 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:17:14,880 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:14,880 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:17:14,880 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:14,880 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:17:14,880 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:17:16,927 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:16,928 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_omega_seiki_mobility_jafza_plant",
+      "target": "factory_jebel_ali_free_zone_dubai_uae",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:17:16,928 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:17,013 - INFO - ✅ Updated Article ID: 68a42ff79853ad45aea804da with 5 nodes and combined text.

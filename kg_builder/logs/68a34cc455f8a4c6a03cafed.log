@@ -1,0 +1,66 @@
+2025-08-19 15:27:09,864 - INFO - 🔍 Text length: 2628 characters
+2025-08-19 15:27:09,864 - INFO - 📌 Processing Article ID: 68a34cc455f8a4c6a03cafed — Audi launches new organisational unit to enhance efficiency
+2025-08-19 15:27:09,864 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:27:11,236 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:11,236 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_audi",
+        "type": "company",
+        "name": "Audi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brussels_belgium",
+        "type": "factory",
+        "name": "Brussels Factory",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_q8_etron",
+        "type": "product",
+        "name": "Q8 e-tron"
+      }
+    ]
+  }
+}
+2025-08-19 15:27:11,236 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:11,236 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:27:11,236 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:27:11,237 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:27:11,237 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:27:11,237 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:27:13,298 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:13,299 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi",
+      "type": "owns",
+      "target": "factory_brussels_belgium"
+    }
+  ]
+}
+2025-08-19 15:27:13,299 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:13,299 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:27:13,299 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:27:14,196 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:14,196 - INFO - {
+  "relationships": [
+    {
+      "source": "product_q8_etron",
+      "target": "factory_brussels_belgium",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:27:14,196 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:14,196 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:27:14,196 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:27:14,279 - INFO - ✅ Updated Article ID: 68a34cc455f8a4c6a03cafed with 3 nodes and combined text.

@@ -1,0 +1,148 @@
+2025-08-19 12:05:34,409 - INFO - 🔍 Text length: 1767 characters
+2025-08-19 12:05:34,409 - INFO - 📌 Processing Article ID: 68a34ff355f8a4c6a03cb0ec — Toyota pushes ahead with investments in Mexico
+2025-08-19 12:05:34,409 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:37,550 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:37,551 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tecate_baja_california",
+        "type": "factory",
+        "name": "Tecate Plant",
+        "location": {
+          "city": "Tecate",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_apaseo_el_grande Guanajuato",
+        "type": "factory",
+        "name": "Apaseo el Grande Plant",
+        "location": {
+          "city": "Apaseo el Grande",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_mexico_upgrade",
+        "type": "investment",
+        "name": "Toyota Mexico Upgrade",
+        "amount": "US$1.45bn",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tacoma_pickup_truck",
+        "type": "product",
+        "name": "Tacoma Pickup Truck"
+      },
+      {
+        "id": "product_corolla_compact_passenger_car",
+        "type": "product",
+        "name": "Corolla Compact Passenger Car"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:37,551 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:37,551 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:37,551 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:05:37,551 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:05:38,237 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:38,237 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_mexico_upgrade",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:05:38,238 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:38,238 - INFO - Node ID is investment_toyota_mexico_upgrade
+2025-08-19 12:05:38,238 - INFO - ✅ Match found for investment_ID 'investment_toyota_mexico_upgrade' in investment nodes
+2025-08-19 12:05:38,238 - INFO -   ➕ Set status: announced
+2025-08-19 12:05:38,238 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:05:38,238 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:38,238 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:38,238 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:39,205 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:39,205 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor_corporation",
+      "type": "owns",
+      "target": "factory_tecate_baja_california"
+    },
+    {
+      "source": "company_toyota_motor_corporation",
+      "type": "owns",
+      "target": "factory_apaseo_el_grande Guanajuato"
+    }
+  ]
+}
+2025-08-19 12:05:39,205 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:39,205 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:39,205 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:40,390 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:40,391 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tacoma_pickup_truck",
+      "target": "factory_tecate_baja_california",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_corolla_compact_passenger_car",
+      "target": "factory_apaseo_el_grande Guanajuato",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:05:40,391 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:40,391 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:05:40,391 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:05:40,866 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:40,866 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:05:40,866 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:40,866 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:05:40,866 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:05:42,080 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:42,080 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_mexico_upgrade",
+      "target": "factory_tecate_baja_california",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_mexico_upgrade",
+      "target": "factory_apaseo_el_grande",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_mexico_upgrade",
+      "target": "product_tacoma_pickup_truck",
+      "type": "targets"
+    },
+    {
+      "source": "investment_toyota_mexico_upgrade",
+      "target": "product_corolla_compact_passenger_car",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:05:42,080 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:42,162 - INFO - ✅ Updated Article ID: 68a34ff355f8a4c6a03cb0ec with 6 nodes and combined text.

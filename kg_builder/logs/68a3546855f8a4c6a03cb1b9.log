@@ -1,0 +1,183 @@
+2025-08-19 11:09:20,656 - INFO - 🔍 Text length: 1282 characters
+2025-08-19 11:09:20,656 - INFO - 📌 Processing Article ID: 68a3546855f8a4c6a03cb1b9 — UAW workers at Stellantis could strike
+2025-08-19 11:09:20,656 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:09:24,696 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:24,696 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_belvidere_illinois",
+        "type": "factory",
+        "name": "Belvidere Battery Plant",
+        "location": {
+          "city": "Belvidere",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_belvidere_mid_size_truck",
+        "type": "factory",
+        "name": "Belvidere Mid-Size Truck Factory",
+        "location": {
+          "city": "Belvidere",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_warren_truck_assembly_plant",
+        "type": "factory",
+        "name": "Warren Truck Assembly Plant",
+        "location": {
+          "city": "Warren",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_battery_plant",
+        "type": "investment",
+        "name": "Battery Plant",
+        "amount": "$3.2 billion",
+        "status": "announced"
+      },
+      {
+        "id": "investment_mid_size_truck_factory",
+        "type": "investment",
+        "name": "Mid-Size Truck Factory",
+        "amount": "$1.5 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      },
+      {
+        "id": "product_mid_size_truck",
+        "type": "product",
+        "name": "mid-size truck"
+      },
+      {
+        "id": "product_ram_1500_classic_truck",
+        "type": "product",
+        "name": "Ram 1500 Classic truck"
+      }
+    ]
+  }
+}
+2025-08-19 11:09:24,696 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:24,696 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:09:24,696 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:09:24,696 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:09:25,610 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:25,610 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_battery_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "investment_ID": "investment_mid_size_truck_factory",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:09:25,611 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:25,611 - INFO - Node ID is investment_battery_plant
+2025-08-19 11:09:25,611 - INFO - ✅ Match found for investment_ID 'investment_battery_plant' in investment nodes
+2025-08-19 11:09:25,611 - INFO -   ➕ Set status: announced
+2025-08-19 11:09:25,611 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:09:25,611 - INFO - Node ID is investment_mid_size_truck_factory
+2025-08-19 11:09:25,611 - INFO - ✅ Match found for investment_ID 'investment_mid_size_truck_factory' in investment nodes
+2025-08-19 11:09:25,611 - INFO -   ➕ Set status: announced
+2025-08-19 11:09:25,611 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:09:25,611 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:09:25,611 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:09:25,611 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:09:27,255 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:27,256 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_belvidere_illinois"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_belvidere_mid_size_truck"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_warren_truck_assembly_plant"
+    }
+  ]
+}
+2025-08-19 11:09:27,256 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:27,256 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:09:27,256 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:09:28,689 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:28,689 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mid_size_truck",
+      "target": "factory_belvidere_mid_size_truck",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ram_1500_classic_truck",
+      "target": "factory_warren_truck_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:09:28,690 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:28,690 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:09:28,690 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:09:30,233 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:30,234 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:09:30,234 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:30,234 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:09:30,234 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:09:31,967 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:31,967 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_battery_plant",
+      "target": "factory_belvidere_illinois",
+      "type": "funds"
+    },
+    {
+      "source": "investment_battery_plant",
+      "target": "product_battery",
+      "type": "targets"
+    },
+    {
+      "source": "investment_mid_size_truck_factory",
+      "target": "factory_belvidere_mid_size_truck",
+      "type": "funds"
+    },
+    {
+      "source": "investment_mid_size_truck_factory",
+      "target": "product_mid_size_truck",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:09:31,968 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:32,047 - INFO - ✅ Updated Article ID: 68a3546855f8a4c6a03cb1b9 with 9 nodes and combined text.

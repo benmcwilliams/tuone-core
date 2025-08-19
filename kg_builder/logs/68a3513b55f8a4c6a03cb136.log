@@ -1,0 +1,81 @@
+2025-08-19 11:55:42,963 - INFO - 🔍 Text length: 3540 characters
+2025-08-19 11:55:42,963 - INFO - 📌 Processing Article ID: 68a3513b55f8a4c6a03cb136 — Toyota OKs US Tundra for Australia sale
+2025-08-19 11:55:42,964 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:46,031 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:46,032 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_toyota_australia",
+        "type": "company",
+        "name": "Toyota Australia"
+      },
+      {
+        "id": "company_walkinshaw_automotive_group",
+        "type": "company",
+        "name": "Walkinshaw Automotive Group"
+      },
+      {
+        "id": "company_toyota_north_america",
+        "type": "company",
+        "name": "Toyota North America"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_walkinshaw_melbourne",
+        "type": "factory",
+        "name": "Walkinshaw Manufacturing Facility",
+        "location": {
+          "city": "Melbourne",
+          "country": "Australia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tundra",
+        "type": "product",
+        "name": "Tundra"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:46,032 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:46,032 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:46,032 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:55:46,032 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:46,032 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:46,032 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:46,911 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:46,911 - INFO - {
+  "relationships": [
+    {
+      "source": "company_walkinshaw_automotive_group",
+      "type": "owns",
+      "target": "factory_walkinshaw_melbourne"
+    }
+  ]
+}
+2025-08-19 11:55:46,911 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:46,911 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:46,911 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:48,022 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:48,023 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tundra",
+      "target": "factory_walkinshaw_melbourne",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:48,023 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:48,023 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:55:48,023 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:55:48,116 - INFO - ✅ Updated Article ID: 68a3513b55f8a4c6a03cb136 with 6 nodes and combined text.

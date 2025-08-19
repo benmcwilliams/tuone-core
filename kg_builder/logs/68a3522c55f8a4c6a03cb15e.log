@@ -1,0 +1,109 @@
+2025-08-19 11:50:01,727 - INFO - 🔍 Text length: 1102 characters
+2025-08-19 11:50:01,728 - INFO - 📌 Processing Article ID: 68a3522c55f8a4c6a03cb15e — Bentley celebrates topping out on new design facility
+2025-08-19 11:50:01,728 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:50:04,805 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:04,805 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bentley_motors",
+        "type": "company",
+        "name": "Bentley Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_crewe_uk",
+        "type": "factory",
+        "name": "Crewe Factory",
+        "location": {
+          "city": "Crewe",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bentley_future_products",
+        "type": "investment",
+        "name": "Bentley Future Products",
+        "amount": "\u00a32.5 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev_models",
+        "type": "product",
+        "name": "BEV models"
+      }
+    ]
+  }
+}
+2025-08-19 11:50:04,805 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:04,805 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:50:04,805 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:50:04,805 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:50:06,059 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:06,059 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bentley_future_products",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:50:06,059 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:06,059 - INFO - Node ID is investment_bentley_future_products
+2025-08-19 11:50:06,059 - INFO - ✅ Match found for investment_ID 'investment_bentley_future_products' in investment nodes
+2025-08-19 11:50:06,059 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:50:06,059 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:50:06,059 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:50:06,060 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:50:06,060 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:50:07,082 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:07,082 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bentley_motors",
+      "type": "owns",
+      "target": "factory_crewe_uk"
+    }
+  ]
+}
+2025-08-19 11:50:07,082 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:07,082 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:50:07,082 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:50:07,853 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:07,854 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bev_models",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:50:07,854 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:07,854 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:50:07,854 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:50:08,474 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:08,474 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:50:08,474 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:08,474 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:50:08,474 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:50:09,366 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:09,367 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bentley_future_products",
+      "target": "factory_crewe_uk",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:50:09,367 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:09,444 - INFO - ✅ Updated Article ID: 68a3522c55f8a4c6a03cb15e with 4 nodes and combined text.

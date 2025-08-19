@@ -1,0 +1,106 @@
+2025-08-19 12:05:52,717 - INFO - 🔍 Text length: 2264 characters
+2025-08-19 12:05:52,718 - INFO - 📌 Processing Article ID: 68a34fec55f8a4c6a03cb0ea — Stellantis advances launch of Ram 1500 Ramcharger
+2025-08-19 12:05:52,718 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:55,701 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:55,701 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sterling_heights_assembly_plant",
+        "type": "factory",
+        "name": "Sterling Heights Assembly plant",
+        "location": {
+          "city": "Sterling Heights",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ram_1500_ramcharger",
+        "type": "product",
+        "name": "Ram 1500 Ramcharger"
+      },
+      {
+        "id": "product_ram_1500_rev",
+        "type": "product",
+        "name": "Ram 1500 REV"
+      },
+      {
+        "id": "product_ram_1500",
+        "type": "product",
+        "name": "Ram 1500"
+      },
+      {
+        "id": "product_heavy_duty_variants",
+        "type": "product",
+        "name": "Heavy Duty variants"
+      },
+      {
+        "id": "product_chassis_cab_models",
+        "type": "product",
+        "name": "Chassis Cab models"
+      },
+      {
+        "id": "product_promaster_vans",
+        "type": "product",
+        "name": "ProMaster vans"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:55,701 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:55,701 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:55,702 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:05:55,702 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:55,702 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:55,702 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:56,519 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:56,519 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_sterling_heights_assembly_plant"
+    }
+  ]
+}
+2025-08-19 12:05:56,519 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:56,519 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:56,519 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:59,210 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:59,210 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ram_1500",
+      "type": "produced_at",
+      "target": "factory_sterling_heights_assembly_plant"
+    },
+    {
+      "source": "product_heavy_duty_variants",
+      "type": "produced_at",
+      "target": "factory_sterling_heights_assembly_plant"
+    },
+    {
+      "source": "product_chassis_cab_models",
+      "type": "produced_at",
+      "target": "factory_sterling_heights_assembly_plant"
+    },
+    {
+      "source": "product_promaster_vans",
+      "type": "produced_at",
+      "target": "factory_sterling_heights_assembly_plant"
+    }
+  ]
+}
+2025-08-19 12:05:59,211 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:59,211 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:05:59,211 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:05:59,294 - INFO - ✅ Updated Article ID: 68a34fec55f8a4c6a03cb0ea with 8 nodes and combined text.

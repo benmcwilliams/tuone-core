@@ -20,8 +20,9 @@ mongo_client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certi
 db = mongo_client[DB_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 facilities_collection = db[FACILITIES_COLLECTION]
-geonames_collection = db["geonames_lookup"]
 geonames_collection = db["geonames_store"]
+
+#geonames_collection = db["geonames_lookup"]
 
 def test_mongo_connection():
     try:

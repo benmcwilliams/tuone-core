@@ -1,0 +1,106 @@
+2025-08-19 12:21:51,579 - INFO - 🔍 Text length: 2921 characters
+2025-08-19 12:21:51,579 - INFO - 📌 Processing Article ID: 68a34e6255f8a4c6a03cb06e — Xiaomi increases EV delivery target to 130,000 units amid surging demand
+2025-08-19 12:21:51,580 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:21:53,849 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:53,849 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_xiaomi",
+        "type": "company",
+        "name": "Xiaomi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_xiaomi",
+        "type": "factory",
+        "name": "Xiaomi Factory",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20k_cars_per_month",
+        "type": "capacity",
+        "name": "",
+        "amount": "20,000 cars per month",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_su7_ultra",
+        "type": "product",
+        "name": "SU7 Ultra"
+      },
+      {
+        "id": "product_su7",
+        "type": "product",
+        "name": "SU7"
+      }
+    ]
+  }
+}
+2025-08-19 12:21:53,849 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:53,850 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:21:53,850 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:21:54,872 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:54,872 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20k_cars_per_month",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:21:54,872 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:54,872 - INFO - Node ID is capacity_20k_cars_per_month
+2025-08-19 12:21:54,872 - INFO - ✅ Match found for capacity_ID 'capacity_20k_cars_per_month' in capacity nodes
+2025-08-19 12:21:54,872 - INFO -   ➕ Set status: operational
+2025-08-19 12:21:54,872 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:21:54,873 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:21:54,873 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:21:54,873 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:21:54,873 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:21:56,205 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:56,205 - INFO - {
+  "relationships": [
+    {
+      "source": "company_xiaomi",
+      "type": "owns",
+      "target": "factory_xiaomi"
+    }
+  ]
+}
+2025-08-19 12:21:56,205 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:56,205 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:21:56,205 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:21:57,747 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:57,747 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20k_cars_per_month",
+      "target": "factory_xiaomi",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20k_cars_per_month",
+      "target": "product_su7",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_su7",
+      "target": "factory_xiaomi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:21:57,747 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:57,747 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:21:57,747 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:21:57,828 - INFO - ✅ Updated Article ID: 68a34e6255f8a4c6a03cb06e with 5 nodes and combined text.

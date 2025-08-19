@@ -1,0 +1,116 @@
+2025-08-19 12:21:44,601 - INFO - 🔍 Text length: 2354 characters
+2025-08-19 12:21:44,602 - INFO - 📌 Processing Article ID: 68a34e6355f8a4c6a03cb06f — China’s Hesai reportedly plans to cut LiDAR prices by half next year
+2025-08-19 12:21:44,602 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:21:47,933 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:47,933 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hesai",
+        "type": "company",
+        "name": "Hesai"
+      },
+      {
+        "id": "company_saic_volkswagen",
+        "type": "company",
+        "name": "SAIC Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hangzhou_plant",
+        "type": "factory",
+        "name": "Hangzhou plant",
+        "location": {
+          "city": "Hangzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_5_million_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.5 million units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lidar",
+        "type": "product",
+        "name": "LiDAR"
+      },
+      {
+        "id": "product_atx",
+        "type": "product",
+        "name": "ATX"
+      },
+      {
+        "id": "product_at128",
+        "type": "product",
+        "name": "AT128"
+      }
+    ]
+  }
+}
+2025-08-19 12:21:47,933 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:47,934 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:21:47,934 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:21:49,036 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:49,036 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_5_million_units_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:21:49,037 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:49,037 - INFO - Node ID is capacity_1_5_million_units_per_year
+2025-08-19 12:21:49,037 - INFO - ✅ Match found for capacity_ID 'capacity_1_5_million_units_per_year' in capacity nodes
+2025-08-19 12:21:49,037 - INFO -   ➕ Set status: announced
+2025-08-19 12:21:49,037 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:21:49,037 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:21:49,037 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:21:49,037 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:21:49,037 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:21:49,734 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:49,734 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hesai",
+      "type": "owns",
+      "target": "factory_hangzhou_plant"
+    }
+  ]
+}
+2025-08-19 12:21:49,734 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:49,734 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:21:49,734 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:21:51,493 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:51,494 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_5_million_units_per_year",
+      "target": "factory_hangzhou_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_5_million_units_per_year",
+      "target": "product_lidar",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lidar",
+      "target": "factory_hangzhou_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:21:51,494 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:51,494 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:21:51,494 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:21:51,578 - INFO - ✅ Updated Article ID: 68a34e6355f8a4c6a03cb06f with 7 nodes and combined text.

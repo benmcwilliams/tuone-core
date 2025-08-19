@@ -1,0 +1,224 @@
+2025-08-19 12:03:49,098 - INFO - 🔍 Text length: 2278 characters
+2025-08-19 12:03:49,098 - INFO - 📌 Processing Article ID: 68a3502655f8a4c6a03cb0fa — Toyota Kentucky invests in new paint facility
+2025-08-19 12:03:49,098 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:03:53,422 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:53,422 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_toyota_kentucky",
+        "type": "company",
+        "name": "Toyota Kentucky"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_advanced_paint_facility",
+        "type": "factory",
+        "name": "Advanced Paint Facility",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_georgetown",
+        "type": "factory",
+        "name": "Georgetown",
+        "location": {
+          "city": "Georgetown",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_advanced_paint_facility",
+        "type": "investment",
+        "name": "Advanced Paint Facility",
+        "amount": "$922 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_georgetown_assembly",
+        "type": "investment",
+        "name": "Georgetown Assembly",
+        "amount": "$1.3 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_million_square_feet_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 million square-feet",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_camry_hybrid",
+        "type": "product",
+        "name": "Camry Hybrid"
+      },
+      {
+        "id": "product_rav4_hybrid",
+        "type": "product",
+        "name": "RAV4 Hybrid"
+      },
+      {
+        "id": "product_battery_electric_suv",
+        "type": "product",
+        "name": "three-row battery electric SUV"
+      },
+      {
+        "id": "paint_technologies",
+        "type": "product",
+        "name": "advanced paint technologies",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "": ""
+      }
+    ]
+  }
+}
+2025-08-19 12:03:53,422 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:53,423 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:03:53,423 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:03:55,201 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:55,202 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_million_square_feet_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:03:55,202 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:55,202 - INFO - Node ID is capacity_1_million_square_feet_announced
+2025-08-19 12:03:55,202 - INFO - ✅ Match found for capacity_ID 'capacity_1_million_square_feet_announced' in capacity nodes
+2025-08-19 12:03:55,202 - INFO -   ➕ Set status: announced
+2025-08-19 12:03:55,202 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:03:55,202 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:03:55,203 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:03:56,095 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:56,095 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_advanced_paint_facility",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "investment_ID": "investment_georgetown_assembly",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:03:56,095 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:56,095 - INFO - Node ID is investment_advanced_paint_facility
+2025-08-19 12:03:56,096 - INFO - ✅ Match found for investment_ID 'investment_advanced_paint_facility' in investment nodes
+2025-08-19 12:03:56,096 - INFO -   ➕ Set status: announced
+2025-08-19 12:03:56,096 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:03:56,096 - INFO - Node ID is investment_georgetown_assembly
+2025-08-19 12:03:56,096 - INFO - ✅ Match found for investment_ID 'investment_georgetown_assembly' in investment nodes
+2025-08-19 12:03:56,096 - INFO -   ➕ Set status: announced
+2025-08-19 12:03:56,096 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:03:56,096 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:03:56,096 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:03:56,096 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:03:57,118 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:57,119 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_kentucky",
+      "type": "owns",
+      "target": "factory_advanced_paint_facility"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_georgetown"
+    }
+  ]
+}
+2025-08-19 12:03:57,119 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:57,119 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:03:57,119 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:03:59,858 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:59,859 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_million_square_feet_announced",
+      "target": "factory_advanced_paint_facility",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_million_square_feet_announced",
+      "target": "paint_technologies",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_electric_suv",
+      "target": "factory_georgetown",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_camry_hybrid",
+      "target": "factory_georgetown",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rav4_hybrid",
+      "target": "factory_georgetown",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:03:59,859 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:59,859 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:03:59,859 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:04:00,396 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:00,396 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:04:00,396 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:00,396 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:04:00,396 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:04:01,975 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:04:01,976 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_advanced_paint_facility",
+      "target": "factory_advanced_paint_facility",
+      "type": "funds"
+    },
+    {
+      "source": "investment_advanced_paint_facility",
+      "target": "capacity_1_million_square_feet_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_georgetown_assembly",
+      "target": "factory_georgetown",
+      "type": "funds"
+    },
+    {
+      "source": "investment_georgetown_assembly",
+      "target": "product_battery_electric_suv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:04:01,976 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:04:02,065 - INFO - ✅ Updated Article ID: 68a3502655f8a4c6a03cb0fa with 11 nodes and combined text.

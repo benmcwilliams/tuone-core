@@ -1,0 +1,163 @@
+2025-08-19 10:47:23,062 - INFO - 🔍 Text length: 4303 characters
+2025-08-19 10:47:23,063 - INFO - 📌 Processing Article ID: 68a358d6193a11c7b797ccb6 — Toyota H2 Hilux project ‘in final phase’
+2025-08-19 10:47:23,063 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:47:26,670 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:26,670 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_tmuk",
+        "type": "company",
+        "name": "Toyota Manufacturing UK (TMUK)"
+      },
+      {
+        "id": "company_tme",
+        "type": "company",
+        "name": "Toyota Motor Europe (TME)"
+      },
+      {
+        "id": "company_ricardo",
+        "type": "company",
+        "name": "Ricardo"
+      },
+      {
+        "id": "company_etl",
+        "type": "company",
+        "name": "ETL"
+      },
+      {
+        "id": "company_d2h",
+        "type": "company",
+        "name": "D2H"
+      },
+      {
+        "id": "company_advanced_technologies",
+        "type": "company",
+        "name": "Advanced Technologies"
+      },
+      {
+        "id": "company_thatcham_research",
+        "type": "company",
+        "name": "Thatcham Research"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_burnaston",
+        "type": "factory",
+        "name": "Burnaston facility",
+        "location": {
+          "city": "Derbyshire",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_hydrogen_factory_europe",
+        "type": "factory",
+        "name": "Hydrogen Factory Europe",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fuel_cell_hilux",
+        "type": "product",
+        "name": "fuel cell Hilux"
+      },
+      {
+        "id": "product_hydrogen_fuel_cell_system",
+        "type": "product",
+        "name": "hydrogen fuel cell system"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hydrogen_fuel_cell_prototype_project",
+        "type": "investment",
+        "name": "Hydrogen Fuel Cell Prototype Project",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ]
+  }
+}
+2025-08-19 10:47:26,671 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:26,671 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:47:26,671 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:47:26,671 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:47:27,796 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:27,797 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hydrogen_fuel_cell_prototype_project",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:47:27,797 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:27,797 - INFO - Node ID is investment_hydrogen_fuel_cell_prototype_project
+2025-08-19 10:47:27,797 - INFO - ✅ Match found for investment_ID 'investment_hydrogen_fuel_cell_prototype_project' in investment nodes
+2025-08-19 10:47:27,797 - INFO -   ➕ Set status: completed
+2025-08-19 10:47:27,797 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:47:27,797 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:47:27,797 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:47:27,797 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:47:29,026 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:29,026 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tmuk",
+      "type": "owns",
+      "target": "factory_burnaston"
+    },
+    {
+      "source": "company_tme",
+      "type": "owns",
+      "target": "factory_hydrogen_factory_europe"
+    }
+  ]
+}
+2025-08-19 10:47:29,026 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:29,027 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:47:29,027 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:47:30,035 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:30,035 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fuel_cell_hilux",
+      "target": "factory_burnaston",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:47:30,036 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:30,036 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:47:30,036 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:47:31,175 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:31,175 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:47:31,176 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:31,176 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:47:31,176 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:47:32,713 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:47:32,713 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hydrogen_fuel_cell_prototype_project",
+      "target": "product_fuel_cell_hilux",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:47:32,714 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:47:32,793 - INFO - ✅ Updated Article ID: 68a358d6193a11c7b797ccb6 with 13 nodes and combined text.

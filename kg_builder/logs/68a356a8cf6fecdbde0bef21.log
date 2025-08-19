@@ -1,0 +1,145 @@
+2025-08-19 10:56:34,386 - INFO - 🔍 Text length: 983 characters
+2025-08-19 10:56:34,386 - INFO - 📌 Processing Article ID: 68a356a8cf6fecdbde0bef21 — Posco starts building EV parts plant in Poland
+2025-08-19 10:56:34,386 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:56:38,486 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:38,486 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_international",
+        "type": "company",
+        "name": "Posco International"
+      },
+      {
+        "id": "company_posco",
+        "type": "company",
+        "name": "Posco"
+      },
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      },
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      },
+      {
+        "id": "company_hyundai_mobis",
+        "type": "company",
+        "name": "Hyundai Mobis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brzeg_poland",
+        "type": "factory",
+        "name": "Brzeg Plant",
+        "location": {
+          "city": "Brzeg",
+          "country": "Poland"
+        }
+      },
+      {
+        "id": "factory_gbelany_slovakia",
+        "type": "factory",
+        "name": "Gbelany Plant",
+        "location": {
+          "city": "Gbelany",
+          "country": "Slovakia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1m_cores_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1m cores per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_traction_motor_cores",
+        "type": "product",
+        "name": "traction motor cores"
+      },
+      {
+        "id": "product_ev_drive_modules",
+        "type": "product",
+        "name": "EV drive modules"
+      }
+    ]
+  }
+}
+2025-08-19 10:56:38,486 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:38,486 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:56:38,486 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:56:40,259 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:40,260 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1m_cores_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:56:40,260 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:40,260 - INFO - Node ID is capacity_1m_cores_per_year
+2025-08-19 10:56:40,260 - INFO - ✅ Match found for capacity_ID 'capacity_1m_cores_per_year' in capacity nodes
+2025-08-19 10:56:40,260 - INFO -   ➕ Set status: under construction
+2025-08-19 10:56:40,260 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:56:40,260 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:56:40,260 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:56:40,260 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:56:40,260 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:56:41,211 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:41,211 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_international",
+      "type": "owns",
+      "target": "factory_brzeg_poland"
+    },
+    {
+      "source": "company_hyundai_mobis",
+      "type": "owns",
+      "target": "factory_gbelany_slovakia"
+    }
+  ]
+}
+2025-08-19 10:56:41,211 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:41,211 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:56:41,212 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:56:43,946 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:56:43,946 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1m_cores_per_year",
+      "type": "at",
+      "target": "factory_brzeg_poland"
+    },
+    {
+      "source": "capacity_1m_cores_per_year",
+      "type": "quantifies",
+      "target": "product_traction_motor_cores"
+    },
+    {
+      "source": "product_traction_motor_cores",
+      "type": "produced_at",
+      "target": "factory_brzeg_poland"
+    },
+    {
+      "source": "product_ev_drive_modules",
+      "type": "produced_at",
+      "target": "factory_gbelany_slovakia"
+    }
+  ]
+}
+2025-08-19 10:56:43,946 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:56:43,947 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:56:43,947 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:56:44,026 - INFO - ✅ Updated Article ID: 68a356a8cf6fecdbde0bef21 with 10 nodes and combined text.

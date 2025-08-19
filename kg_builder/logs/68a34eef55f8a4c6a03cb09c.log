@@ -1,0 +1,148 @@
+2025-08-19 12:16:33,031 - INFO - 🔍 Text length: 2175 characters
+2025-08-19 12:16:33,031 - INFO - 📌 Processing Article ID: 68a34eef55f8a4c6a03cb09c — BMW’s Wackersdorf battery testing centre begins first phase operation
+2025-08-19 12:16:33,031 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:16:34,972 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:34,973 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wackersdorf_battery_testing_centre",
+        "type": "factory",
+        "name": "Wackersdorf Battery Testing Centre",
+        "location": {
+          "city": "Wackersdorf",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_wackersdorf_battery_testing_centre",
+        "type": "investment",
+        "name": "Wackersdorf Battery Testing Centre",
+        "amount": "\u20ac100m ($105m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_high_voltage_components",
+        "type": "product",
+        "name": "high-voltage components"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_several_thousand_battery_cells_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "several thousand battery cells",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 12:16:34,973 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:34,973 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:16:34,973 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:16:36,017 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:36,017 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_several_thousand_battery_cells_announced",
+      "status": "operational",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 12:16:36,017 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:36,017 - INFO - Node ID is capacity_several_thousand_battery_cells_announced
+2025-08-19 12:16:36,017 - INFO - ✅ Match found for capacity_ID 'capacity_several_thousand_battery_cells_announced' in capacity nodes
+2025-08-19 12:16:36,017 - INFO -   ➕ Set status: operational
+2025-08-19 12:16:36,017 - INFO -   ➕ Set phase: retrofit
+2025-08-19 12:16:36,017 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:16:36,018 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:16:36,808 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:36,809 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_wackersdorf_battery_testing_centre",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:16:36,809 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:36,809 - INFO - Node ID is investment_wackersdorf_battery_testing_centre
+2025-08-19 12:16:36,809 - INFO - ✅ Match found for investment_ID 'investment_wackersdorf_battery_testing_centre' in investment nodes
+2025-08-19 12:16:36,809 - INFO -   ➕ Set status: ongoing
+2025-08-19 12:16:36,809 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:16:36,809 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:16:36,809 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:16:36,809 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:16:37,604 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:37,604 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_wackersdorf_battery_testing_centre"
+    }
+  ]
+}
+2025-08-19 12:16:37,604 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:37,604 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:16:37,604 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:16:38,169 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:38,169 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:16:38,169 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:38,169 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:16:38,169 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:16:39,375 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:39,376 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:16:39,376 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:39,376 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:16:39,376 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:16:41,248 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:41,248 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_wackersdorf_battery_testing_centre",
+      "target": "factory_wackersdorf_battery_testing_centre",
+      "type": "funds"
+    },
+    {
+      "source": "investment_wackersdorf_battery_testing_centre",
+      "target": "product_battery_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_wackersdorf_battery_testing_centre",
+      "target": "product_high_voltage_components",
+      "type": "targets"
+    },
+    {
+      "source": "investment_wackersdorf_battery_testing_centre",
+      "target": "capacity_several_thousand_battery_cells_announced",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-19 12:16:41,249 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:41,343 - INFO - ✅ Updated Article ID: 68a34eef55f8a4c6a03cb09c with 6 nodes and combined text.

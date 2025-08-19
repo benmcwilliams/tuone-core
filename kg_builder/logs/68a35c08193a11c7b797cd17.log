@@ -1,0 +1,122 @@
+2025-08-19 10:23:10,213 - INFO - 🔍 Text length: 1943 characters
+2025-08-19 10:23:10,214 - INFO - 📌 Processing Article ID: 68a35c08193a11c7b797cd17 — Škoda Auto launches Simulation Centre for advanced vehicle testing
+2025-08-19 10:23:10,214 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:23:13,744 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:13,745 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda_auto",
+        "type": "company",
+        "name": "\u0160koda Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_simulation_centre",
+        "type": "factory",
+        "name": "Simulation Centre",
+        "location": {
+          "city": "Mlad\u00e1 Boleslav",
+          "country": "Czech Republic"
+        }
+      },
+      {
+        "id": "factory_emissions_centre",
+        "type": "factory",
+        "name": "Emissions Centre",
+        "location": {
+          "city": "Mlad\u00e1 Boleslav",
+          "country": "Czech Republic"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_simulation_centre",
+        "type": "investment",
+        "name": "Simulation Centre",
+        "amount": "\u20ac22 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mqb27_platform",
+        "type": "product",
+        "name": "MQB27 platform"
+      },
+      {
+        "id": "product_ea211_petrol_engines",
+        "type": "product",
+        "name": "EA211 petrol engines"
+      }
+    ]
+  }
+}
+2025-08-19 10:23:13,745 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:13,745 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:23:13,745 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:23:13,745 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:23:14,591 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:14,592 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_simulation_centre",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:23:14,592 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:14,592 - INFO - Node ID is investment_simulation_centre
+2025-08-19 10:23:14,592 - INFO - ✅ Match found for investment_ID 'investment_simulation_centre' in investment nodes
+2025-08-19 10:23:14,592 - INFO -   ➕ Set status: completed
+2025-08-19 10:23:14,592 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:23:14,592 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:23:14,592 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:23:14,592 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:15,589 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:15,589 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_simulation_centre"
+    },
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_emissions_centre"
+    }
+  ]
+}
+2025-08-19 10:23:15,589 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:15,589 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:15,589 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:16,303 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:16,303 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:23:16,303 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:16,303 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:23:16,303 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:23:16,954 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:16,954 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:23:16,954 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:16,954 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:23:16,954 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:23:18,046 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:18,046 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_simulation_centre",
+      "target": "factory_simulation_centre",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:23:18,046 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:18,129 - INFO - ✅ Updated Article ID: 68a35c08193a11c7b797cd17 with 6 nodes and combined text.

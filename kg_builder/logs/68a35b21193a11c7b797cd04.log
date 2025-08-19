@@ -1,0 +1,139 @@
+2025-08-19 10:26:06,575 - INFO - 🔍 Text length: 1387 characters
+2025-08-19 10:26:06,575 - INFO - 📌 Processing Article ID: 68a35b21193a11c7b797cd04 — Euro Manganese Czech project running
+2025-08-19 10:26:06,575 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:26:08,853 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:08,854 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_euro_manganese",
+        "type": "company",
+        "name": "Euro Manganese"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chvaletice_manganese_project",
+        "type": "factory",
+        "name": "Chvaletice Manganese Project",
+        "location": {
+          "city": "Chvaletice",
+          "country": "Czech Republic"
+        }
+      },
+      {
+        "id": "factory_becancour_canada",
+        "type": "factory",
+        "name": "Becancour",
+        "location": {
+          "city": "Becancour",
+          "country": "Canada"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_33kg_hpemm_per_day",
+        "type": "capacity",
+        "amount": "33kg HPEMM per day",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_100kg_hpmsm_per_day",
+        "type": "capacity",
+        "amount": "100kg HPMSM per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_purity_manganese_sulphate_monohydrate",
+        "type": "product",
+        "name": "high purity manganese sulphate monohydrate (HPMSM)"
+      },
+      {
+        "id": "product_high_purity_electrolytic_manganese_metal",
+        "type": "product",
+        "name": "high purity electrolytic manganese metal (HPEMM)"
+      }
+    ]
+  }
+}
+2025-08-19 10:26:08,854 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:08,854 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:26:08,854 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:26:10,492 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:10,492 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_33kg_hpemm_per_day",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100kg_hpmsm_per_day",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:26:10,492 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:10,493 - INFO - Node ID is capacity_33kg_hpemm_per_day
+2025-08-19 10:26:10,493 - INFO - ✅ Match found for capacity_ID 'capacity_33kg_hpemm_per_day' in capacity nodes
+2025-08-19 10:26:10,493 - INFO -   ➕ Set status: operational
+2025-08-19 10:26:10,493 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:26:10,493 - INFO - Node ID is capacity_100kg_hpmsm_per_day
+2025-08-19 10:26:10,493 - INFO - ✅ Match found for capacity_ID 'capacity_100kg_hpmsm_per_day' in capacity nodes
+2025-08-19 10:26:10,493 - INFO -   ➕ Set status: operational
+2025-08-19 10:26:10,493 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:26:10,493 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:26:10,493 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:26:10,493 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:26:10,493 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:26:11,718 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:11,719 - INFO - {
+  "relationships": [
+    {
+      "source": "company_euro_manganese",
+      "type": "owns",
+      "target": "factory_chvaletice_manganese_project"
+    },
+    {
+      "source": "company_euro_manganese",
+      "type": "owns",
+      "target": "factory_becancour_canada"
+    }
+  ]
+}
+2025-08-19 10:26:11,719 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:11,719 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:26:11,719 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:26:13,767 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:13,767 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_33kg_hpemm_per_day",
+      "target": "factory_chvaletice_manganese_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100kg_hpmsm_per_day",
+      "target": "factory_chvaletice_manganese_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_high_purity_manganese_sulphate_monohydrate",
+      "target": "factory_chvaletice_manganese_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_high_purity_electrolytic_manganese_metal",
+      "target": "factory_chvaletice_manganese_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:26:13,767 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:13,767 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:26:13,767 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:26:13,850 - INFO - ✅ Updated Article ID: 68a35b21193a11c7b797cd04 with 7 nodes and combined text.

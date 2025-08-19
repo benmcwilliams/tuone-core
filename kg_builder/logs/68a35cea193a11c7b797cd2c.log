@@ -1,0 +1,95 @@
+2025-08-19 10:20:10,964 - INFO - 🔍 Text length: 1138 characters
+2025-08-19 10:20:10,964 - INFO - 📌 Processing Article ID: 68a35cea193a11c7b797cd2c — Nissan hits brakes on EV sedan development in US
+2025-08-19 10:20:10,964 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:12,909 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:12,909 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_canton_mississippi",
+        "type": "factory",
+        "name": "Canton Factory",
+        "location": {
+          "city": "Canton",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_oakville_ontario",
+        "type": "factory",
+        "name": "Oakville Assembly Plant",
+        "location": {
+          "city": "Oakville",
+          "country": "Canada"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_sedan",
+        "type": "product",
+        "name": "battery-powered sedans"
+      },
+      {
+        "id": "product_ev_suv",
+        "type": "product",
+        "name": "electric SUVs"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:12,909 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:12,909 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:20:12,910 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:20:12,910 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:12,910 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:12,910 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:14,233 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:14,234 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_canton_mississippi"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_oakville_ontario"
+    }
+  ]
+}
+2025-08-19 10:20:14,234 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:14,234 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:14,234 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:15,309 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:15,309 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_suv",
+      "target": "factory_canton_mississippi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:15,310 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:15,310 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:20:15,310 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:20:15,387 - INFO - ✅ Updated Article ID: 68a35cea193a11c7b797cd2c with 7 nodes and combined text.

@@ -1,0 +1,136 @@
+2025-08-19 12:20:56,489 - INFO - 🔍 Text length: 5623 characters
+2025-08-19 12:20:56,489 - INFO - 📌 Processing Article ID: 68a34e7f55f8a4c6a03cb076 — New Mini Aceman – a cosy space, with pace
+2025-08-19 12:20:56,489 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:20:59,985 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:20:59,985 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      },
+      {
+        "id": "company_svolt",
+        "type": "company",
+        "name": "SVOLT"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_spotlight_automotive",
+        "type": "joint_venture",
+        "name": "Spotlight Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zhangjiagang_china",
+        "type": "factory",
+        "name": "Zhangjiagang",
+        "location": {
+          "city": "Zhangjiagang",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_cowley_england",
+        "type": "factory",
+        "name": "Cowley",
+        "location": {
+          "city": "Cowley",
+          "country": "England"
+        }
+      },
+      {
+        "id": "factory_south_carolina_usa",
+        "type": "factory",
+        "name": "South Carolina",
+        "location": {
+          "city": "South Carolina",
+          "country": "USA"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aceman",
+        "type": "product",
+        "name": "Aceman"
+      },
+      {
+        "id": "product_cooper_electric",
+        "type": "product",
+        "name": "Cooper Electric"
+      },
+      {
+        "id": "product_countryman",
+        "type": "product",
+        "name": "Countryman"
+      }
+    ]
+  }
+}
+2025-08-19 12:20:59,986 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:20:59,986 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:20:59,986 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:20:59,986 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:20:59,986 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:20:59,986 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:21:01,839 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:01,840 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "forms",
+      "target": "joint_venture_spotlight_automotive"
+    },
+    {
+      "source": "company_great_wall_motor",
+      "type": "forms",
+      "target": "joint_venture_spotlight_automotive"
+    },
+    {
+      "source": "joint_venture_spotlight_automotive",
+      "type": "owns",
+      "target": "factory_zhangjiagang_china"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_cowley_england"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_south_carolina_usa"
+    }
+  ]
+}
+2025-08-19 12:21:01,840 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:01,840 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:21:01,840 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:21:03,468 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:03,469 - INFO - {
+  "relationships": [
+    {
+      "source": "product_aceman",
+      "target": "factory_zhangjiagang_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_aceman",
+      "target": "factory_cowley_england",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:21:03,469 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:03,469 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:21:03,469 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:21:03,547 - INFO - ✅ Updated Article ID: 68a34e7f55f8a4c6a03cb076 with 10 nodes and combined text.

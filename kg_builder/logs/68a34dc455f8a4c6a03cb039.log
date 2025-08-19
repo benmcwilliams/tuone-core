@@ -1,0 +1,141 @@
+2025-08-19 12:28:51,947 - INFO - 🔍 Text length: 2405 characters
+2025-08-19 12:28:51,947 - INFO - 📌 Processing Article ID: 68a34dc455f8a4c6a03cb039 — ZF plans to withdraw from $3bn chip project with Wolfspeed in Germany
+2025-08-19 12:28:51,947 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:28:54,583 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:54,584 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_zf",
+        "type": "company",
+        "name": "ZF"
+      },
+      {
+        "id": "company_wolfspeed",
+        "type": "company",
+        "name": "Wolfspeed"
+      },
+      {
+        "id": "company_infineon_technologies",
+        "type": "company",
+        "name": "Infineon Technologies"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_zf_wolfspeed",
+        "type": "joint_venture",
+        "name": "ZF Wolfspeed"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_saarland_germany",
+        "type": "factory",
+        "name": "Saarland Facility",
+        "location": {
+          "city": "Saarland",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_zf_saarland",
+        "type": "investment",
+        "name": "ZF Saarland Investment",
+        "amount": "$185m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_microchips",
+        "type": "product",
+        "name": "microchips"
+      }
+    ]
+  }
+}
+2025-08-19 12:28:54,584 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:54,584 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:28:54,584 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:28:54,584 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:28:55,266 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:55,267 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_zf_saarland",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:28:55,267 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:55,267 - INFO - Node ID is investment_zf_saarland
+2025-08-19 12:28:55,267 - INFO - ✅ Match found for investment_ID 'investment_zf_saarland' in investment nodes
+2025-08-19 12:28:55,267 - INFO -   ➕ Set status: announced
+2025-08-19 12:28:55,267 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:28:55,267 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:28:55,267 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:28:55,267 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:28:57,087 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:57,087 - INFO - {
+  "relationships": [
+    {
+      "source": "company_zf",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "company_wolfspeed",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "joint_venture_zf_wolfspeed",
+      "type": "owns",
+      "target": "factory_saarland_germany"
+    }
+  ]
+}
+2025-08-19 12:28:57,087 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:57,087 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:28:57,087 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:28:57,935 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:57,936 - INFO - {
+  "relationships": [
+    {
+      "source": "product_microchips",
+      "target": "factory_saarland_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:28:57,936 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:57,936 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:28:57,936 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:28:58,827 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:58,827 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:28:58,827 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:58,827 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:28:58,827 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:29:00,414 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:29:00,414 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_zf_saarland",
+      "target": "product_microchips",
+      "type": "targets"
+    },
+    {
+      "source": "investment_zf_saarland",
+      "target": "factory_saarland_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:29:00,414 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:29:00,497 - INFO - ✅ Updated Article ID: 68a34dc455f8a4c6a03cb039 with 7 nodes and combined text.

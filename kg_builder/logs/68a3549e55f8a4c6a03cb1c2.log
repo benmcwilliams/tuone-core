@@ -1,0 +1,95 @@
+2025-08-19 11:07:21,791 - INFO - 🔍 Text length: 1913 characters
+2025-08-19 11:07:21,792 - INFO - 📌 Processing Article ID: 68a3549e55f8a4c6a03cb1c2 — Mercedes-Benz and Hydro partner in Brazilian Amazon
+2025-08-19 11:07:21,792 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:07:23,758 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:07:23,758 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_hydro",
+        "type": "company",
+        "name": "Hydro"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_paragominas_bauxite_mine",
+        "type": "factory",
+        "name": "Paragominas Bauxite Mine",
+        "location": {
+          "city": "Paragominas",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_alunorte_alumina_refinery",
+        "type": "factory",
+        "name": "Alunorte Alumina Refinery",
+        "location": {
+          "city": "Barcarena",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bauxite_slurry",
+        "type": "product",
+        "name": "bauxite slurry"
+      },
+      {
+        "id": "product_alumina",
+        "type": "product",
+        "name": "alumina"
+      }
+    ]
+  }
+}
+2025-08-19 11:07:23,758 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:07:23,758 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:07:23,758 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:07:23,758 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:07:23,758 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:07:23,758 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:07:25,101 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:07:25,102 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hydro",
+      "type": "owns",
+      "target": "factory_paragominas_bauxite_mine"
+    },
+    {
+      "source": "company_hydro",
+      "type": "owns",
+      "target": "factory_alunorte_alumina_refinery"
+    }
+  ]
+}
+2025-08-19 11:07:25,102 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:07:25,102 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:07:25,102 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:07:26,080 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:07:26,080 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bauxite_slurry",
+      "target": "factory_paragominas_bauxite_mine",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_alumina",
+      "target": "factory_alunorte_alumina_refinery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:07:26,081 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:07:26,081 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:07:26,081 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:07:26,164 - INFO - ✅ Updated Article ID: 68a3549e55f8a4c6a03cb1c2 with 6 nodes and combined text.

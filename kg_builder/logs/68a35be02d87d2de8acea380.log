@@ -1,0 +1,116 @@
+2025-08-19 10:23:26,558 - INFO - 🔍 Text length: 961 characters
+2025-08-19 10:23:26,559 - INFO - 📌 Processing Article ID: 68a35be02d87d2de8acea380 — Intercel opens largest factory for European custom batteries in the Netherlands
+2025-08-19 10:23:26,559 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:23:28,991 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:28,992 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_intercel",
+        "type": "company",
+        "name": "Intercel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_haarlem_netherlands",
+        "type": "factory",
+        "name": "Haarlem Factory",
+        "location": {
+          "city": "Haarlem",
+          "country": "Netherlands"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_250_advanced_battery_systems_per_month",
+        "type": "capacity",
+        "name": "",
+        "amount": "250 advanced battery systems per month",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_batteries",
+        "type": "product",
+        "name": "lithium batteries"
+      },
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      }
+    ]
+  }
+}
+2025-08-19 10:23:28,992 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:28,992 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:23:28,992 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:23:29,821 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:29,822 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_250_advanced_battery_systems_per_month",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:23:29,822 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:29,822 - INFO - Node ID is capacity_250_advanced_battery_systems_per_month
+2025-08-19 10:23:29,822 - INFO - ✅ Match found for capacity_ID 'capacity_250_advanced_battery_systems_per_month' in capacity nodes
+2025-08-19 10:23:29,822 - INFO -   ➕ Set status: operational
+2025-08-19 10:23:29,822 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:23:29,822 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:23:29,822 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:23:29,822 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:23:29,822 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:30,846 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:30,846 - INFO - {
+  "relationships": [
+    {
+      "source": "company_intercel",
+      "type": "owns",
+      "target": "factory_haarlem_netherlands"
+    }
+  ]
+}
+2025-08-19 10:23:30,846 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:30,846 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:30,847 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:33,201 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:33,201 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_250_advanced_battery_systems_per_month",
+      "target": "factory_haarlem_netherlands",
+      "type": "at"
+    },
+    {
+      "source": "capacity_250_advanced_battery_systems_per_month",
+      "target": "product_battery_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_haarlem_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:23:33,201 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:33,201 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:23:33,201 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:23:33,281 - INFO - ✅ Updated Article ID: 68a35be02d87d2de8acea380 with 7 nodes and combined text.

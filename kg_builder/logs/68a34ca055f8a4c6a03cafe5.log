@@ -1,0 +1,126 @@
+2025-08-19 15:28:04,721 - INFO - 🔍 Text length: 5421 characters
+2025-08-19 15:28:04,722 - INFO - 📌 Processing Article ID: 68a34ca055f8a4c6a03cafe5 — Volkswagen gives first glimpse of entry-level electric model
+2025-08-19 15:28:04,722 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:28:07,022 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:07,023 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_ag",
+        "type": "company",
+        "name": "Volkswagen AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wolfsburg_plant",
+        "type": "factory",
+        "name": "Wolfsburg Plant",
+        "location": {
+          "city": "Wolfsburg",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "500,000 units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ssp_platform",
+        "type": "product",
+        "name": "Scalable Systems Platform (SSP)"
+      },
+      {
+        "id": "product_electric_golf_successor",
+        "type": "product",
+        "name": "Electric Golf Successor"
+      },
+      {
+        "id": "product_electric_t_roc",
+        "type": "product",
+        "name": "Electric T-Roc"
+      },
+      {
+        "id": "product_id_2all",
+        "type": "product",
+        "name": "ID. 2all"
+      }
+    ]
+  }
+}
+2025-08-19 15:28:07,023 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:07,023 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:28:07,023 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:28:07,884 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:07,884 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500k_units_per_year",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:28:07,884 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:07,884 - INFO - Node ID is capacity_500k_units_per_year
+2025-08-19 15:28:07,884 - INFO - ✅ Match found for capacity_ID 'capacity_500k_units_per_year' in capacity nodes
+2025-08-19 15:28:07,884 - INFO -   ➕ Set status: announced
+2025-08-19 15:28:07,884 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:28:07,884 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:28:07,884 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:28:07,885 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:28:07,885 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:28:09,286 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:09,286 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_ag",
+      "type": "owns",
+      "target": "factory_wolfsburg_plant"
+    }
+  ]
+}
+2025-08-19 15:28:09,286 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:09,286 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:28:09,286 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:28:13,066 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:13,066 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500k_units_per_year",
+      "target": "factory_wolfsburg_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500k_units_per_year",
+      "target": "product_electric_golf_successor",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electric_golf_successor",
+      "target": "factory_wolfsburg_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_t_roc",
+      "target": "factory_wolfsburg_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id_2all",
+      "target": "factory_wolfsburg_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:28:13,066 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:13,066 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:28:13,067 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:28:13,145 - INFO - ✅ Updated Article ID: 68a34ca055f8a4c6a03cafe5 with 7 nodes and combined text.

@@ -1,0 +1,88 @@
+2025-08-19 10:31:23,145 - INFO - 🔍 Text length: 1419 characters
+2025-08-19 10:31:23,145 - INFO - 📌 Processing Article ID: 68a359b4193a11c7b797ccd9 — JLR China JV to revive Freelander
+2025-08-19 10:31:23,145 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:31:25,068 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:25,068 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jlr",
+        "type": "company",
+        "name": "JLR"
+      },
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_cjlr",
+        "type": "joint_venture",
+        "name": "CJLR"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_changshu",
+        "type": "factory",
+        "name": "Changshu Factory",
+        "location": {
+          "city": "Changshu",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_freelander",
+        "type": "product",
+        "name": "Freelander"
+      }
+    ]
+  }
+}
+2025-08-19 10:31:25,068 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:25,069 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:31:25,069 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:31:25,069 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:31:25,069 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:31:25,069 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:31:26,568 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:26,568 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jlr",
+      "type": "forms",
+      "target": "joint_venture_cjlr"
+    },
+    {
+      "source": "company_chery",
+      "type": "forms",
+      "target": "joint_venture_cjlr"
+    },
+    {
+      "source": "joint_venture_cjlr",
+      "type": "owns",
+      "target": "factory_changshu"
+    }
+  ]
+}
+2025-08-19 10:31:26,568 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:26,568 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:31:26,568 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:31:27,971 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:27,971 - INFO - {
+  "relationships": [
+    {
+      "source": "product_freelander",
+      "target": "factory_changshu",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:31:27,971 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:27,971 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:31:27,971 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:31:28,048 - INFO - ✅ Updated Article ID: 68a359b4193a11c7b797ccd9 with 5 nodes and combined text.

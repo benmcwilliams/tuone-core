@@ -1,0 +1,86 @@
+2025-08-19 12:03:39,569 - INFO - 🔍 Text length: 1819 characters
+2025-08-19 12:03:39,569 - INFO - 📌 Processing Article ID: 68a3502755f8a4c6a03cb0fc — Honda reportedly plans to launch sub-$30,000 EV in North America by 2026
+2025-08-19 12:03:39,569 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:03:41,451 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:41,451 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda_motor",
+        "type": "company",
+        "name": "Honda Motor"
+      },
+      {
+        "id": "company_american_honda_motor_company",
+        "type": "company",
+        "name": "American Honda Motor Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ohio",
+        "type": "factory",
+        "name": "American Honda Motor Company facility",
+        "location": {
+          "city": "Ohio",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_honda_0_suv",
+        "type": "product",
+        "name": "Honda 0 SUV"
+      },
+      {
+        "id": "product_honda_0_saloon",
+        "type": "product",
+        "name": "Honda 0 Saloon"
+      },
+      {
+        "id": "product_crv_mid_size_suv",
+        "type": "product",
+        "name": "CRV mid-size SUV"
+      }
+    ]
+  }
+}
+2025-08-19 12:03:41,452 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:41,452 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:03:41,452 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:03:41,452 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:03:41,452 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:03:41,452 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:03:42,348 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:42,348 - INFO - {
+  "relationships": [
+    {
+      "source": "company_american_honda_motor_company",
+      "type": "owns",
+      "target": "factory_ohio"
+    }
+  ]
+}
+2025-08-19 12:03:42,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:42,348 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:03:42,348 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:03:43,265 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:43,266 - INFO - {
+  "relationships": [
+    {
+      "source": "product_honda_0_suv",
+      "target": "factory_ohio",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_0_saloon",
+      "target": "factory_ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:03:43,266 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:43,266 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:03:43,266 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:03:43,363 - INFO - ✅ Updated Article ID: 68a3502755f8a4c6a03cb0fc with 6 nodes and combined text.

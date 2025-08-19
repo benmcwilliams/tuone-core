@@ -1,0 +1,103 @@
+2025-08-19 11:46:08,794 - INFO - 🔍 Text length: 1606 characters
+2025-08-19 11:46:08,794 - INFO - 📌 Processing Article ID: 68a352c855f8a4c6a03cb176 — Ford prepares to restart India plant for exports
+2025-08-19 11:46:08,794 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:46:10,839 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:10,840 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chennai_plant",
+        "type": "factory",
+        "name": "Chennai Plant",
+        "location": {
+          "city": "Chennai",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_letter_of_intent",
+        "type": "investment",
+        "name": "Letter of Intent",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cars",
+        "type": "product",
+        "name": "cars"
+      }
+    ]
+  }
+}
+2025-08-19 11:46:10,840 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:10,840 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:46:10,840 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:46:10,840 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:46:11,670 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:11,670 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_letter_of_intent",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 11:46:11,670 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:11,671 - INFO - Node ID is investment_letter_of_intent
+2025-08-19 11:46:11,671 - INFO - ✅ Match found for investment_ID 'investment_letter_of_intent' in investment nodes
+2025-08-19 11:46:11,671 - INFO -   ➕ Set status: announced
+2025-08-19 11:46:11,671 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:46:11,671 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:46:11,671 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:46:11,671 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:46:12,495 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:12,495 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_chennai_plant"
+    }
+  ]
+}
+2025-08-19 11:46:12,495 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:12,496 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:46:12,496 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:46:13,295 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:13,295 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cars",
+      "target": "factory_chennai_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:46:13,295 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:13,295 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:46:13,295 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:46:13,930 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:13,931 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:46:13,931 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:13,931 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:46:13,931 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:46:14,657 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:14,658 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:46:14,658 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:14,727 - INFO - ✅ Updated Article ID: 68a352c855f8a4c6a03cb176 with 4 nodes and combined text.

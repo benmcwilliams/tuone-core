@@ -1,0 +1,102 @@
+2025-08-19 12:05:10,500 - INFO - 🔍 Text length: 7326 characters
+2025-08-19 12:05:10,500 - INFO - 📌 Processing Article ID: 68a34ff755f8a4c6a03cb0f0 — Will Honda be in control if Nissan and Honda merge?
+2025-08-19 12:05:10,500 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:13,199 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:13,200 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_mitsubishi_motors",
+        "type": "company",
+        "name": "Mitsubishi Motors"
+      },
+      {
+        "id": "renault",
+        "type": "company",
+        "name": "Renault",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_nissan_honda_mitsubishi",
+        "type": "joint_venture",
+        "name": "Nissan Honda Mitsubishi"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev_powertrains",
+        "type": "product",
+        "name": "BEV powertrains"
+      },
+      {
+        "id": "product_sdvs",
+        "type": "product",
+        "name": "SDVs"
+      },
+      {
+        "id": "product_hybrid_vehicles",
+        "type": "product",
+        "name": "hybrid vehicles"
+      },
+      {
+        "id": "product_autonomous_driving_technologies",
+        "type": "product",
+        "name": "autonomous driving technologies"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:13,200 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:13,200 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:13,200 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:05:13,200 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:13,200 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:13,200 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:14,946 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:14,946 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "forms",
+      "target": "joint_venture_nissan_honda_mitsubishi"
+    },
+    {
+      "source": "company_honda",
+      "type": "forms",
+      "target": "joint_venture_nissan_honda_mitsubishi"
+    },
+    {
+      "source": "company_mitsubishi_motors",
+      "type": "forms",
+      "target": "joint_venture_nissan_honda_mitsubishi"
+    }
+  ]
+}
+2025-08-19 12:05:14,946 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:14,947 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:14,947 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:15,585 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:15,585 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:05:15,585 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:15,585 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:05:15,585 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:05:15,673 - INFO - ✅ Updated Article ID: 68a34ff755f8a4c6a03cb0f0 with 9 nodes and combined text.

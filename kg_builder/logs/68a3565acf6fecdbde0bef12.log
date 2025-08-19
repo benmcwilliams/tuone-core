@@ -1,0 +1,176 @@
+2025-08-19 10:59:07,995 - INFO - 🔍 Text length: 2141 characters
+2025-08-19 10:59:07,995 - INFO - 📌 Processing Article ID: 68a3565acf6fecdbde0bef12 — Honda launches first dedicated EV plant in China
+2025-08-19 10:59:07,995 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:59:10,475 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:10,476 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_dongfeng_motor",
+        "type": "company",
+        "name": "Dongfeng Motor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_dongfeng_honda",
+        "type": "joint_venture",
+        "name": "Dongfeng Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wuhan_china",
+        "type": "factory",
+        "name": "Wuhan City, Hubei Province Plant",
+        "location": {
+          "city": "Wuhan City, Hubei Province",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_wuhan_plant",
+        "type": "investment",
+        "name": "Wuhan Plant",
+        "amount": "4bn yuan ($565m)",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_models",
+        "type": "product",
+        "name": "e:N Series"
+      },
+      {
+        "id": "product_ev_models_2",
+        "type": "product",
+        "name": "Ye Series"
+      }
+    ]
+  }
+}
+2025-08-19 10:59:10,476 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:10,476 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:59:10,476 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:59:11,612 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:11,613 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_units_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:59:11,613 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:11,613 - INFO - Node ID is capacity_120k_units_per_year
+2025-08-19 10:59:11,613 - INFO - ✅ Match found for capacity_ID 'capacity_120k_units_per_year' in capacity nodes
+2025-08-19 10:59:11,613 - INFO -   ➕ Set status: operational
+2025-08-19 10:59:11,613 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:59:11,613 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:59:11,613 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:59:12,941 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:12,942 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_wuhan_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:59:12,942 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:12,942 - INFO - Node ID is investment_wuhan_plant
+2025-08-19 10:59:12,942 - INFO - ✅ Match found for investment_ID 'investment_wuhan_plant' in investment nodes
+2025-08-19 10:59:12,942 - INFO -   ➕ Set status: completed
+2025-08-19 10:59:12,942 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:59:12,942 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:59:12,942 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:59:12,942 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:59:14,376 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:14,377 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_honda"
+    },
+    {
+      "source": "company_dongfeng_motor",
+      "type": "forms",
+      "target": "joint_venture_dongfeng_honda"
+    },
+    {
+      "source": "joint_venture_dongfeng_honda",
+      "type": "owns",
+      "target": "factory_wuhan_china"
+    }
+  ]
+}
+2025-08-19 10:59:14,377 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:14,377 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:59:14,377 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:59:15,809 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:15,809 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_units_per_year",
+      "target": "factory_wuhan_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_units_per_year",
+      "target": "product_ev_models",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev_models",
+      "target": "factory_wuhan_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:59:15,809 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:15,809 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:59:15,809 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:59:16,524 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:16,524 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:59:16,524 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:16,525 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:59:16,525 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:59:17,651 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:17,651 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_wuhan_plant",
+      "target": "factory_wuhan_china",
+      "type": "funds"
+    },
+    {
+      "source": "investment_wuhan_plant",
+      "target": "capacity_120k_units_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-19 10:59:17,651 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:17,732 - INFO - ✅ Updated Article ID: 68a3565acf6fecdbde0bef12 with 8 nodes and combined text.

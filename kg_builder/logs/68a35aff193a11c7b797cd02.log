@@ -1,0 +1,95 @@
+2025-08-19 10:26:19,485 - INFO - 🔍 Text length: 1789 characters
+2025-08-19 10:26:19,485 - INFO - 📌 Processing Article ID: 68a35aff193a11c7b797cd02 — Nissan and battery recycling firm Ecobat partner in UK
+2025-08-19 10:26:19,485 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:26:22,824 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:22,824 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_ecobat",
+        "type": "company",
+        "name": "Ecobat"
+      },
+      {
+        "id": "company_ecobat_solutions_uk_ltd",
+        "type": "company",
+        "name": "Ecobat Solutions UK Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_darlaston_uk",
+        "type": "factory",
+        "name": "Darlaston Base",
+        "location": {
+          "city": "Darlaston",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_li_ion_recycling_facility_uk",
+        "type": "factory",
+        "name": "Li-Ion Recycling Facility",
+        "location": {
+          "city": "null",
+          "country": "UK"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nissan_leaf_batteries",
+        "type": "product",
+        "name": "Nissan LEAF batteries"
+      },
+      {
+        "id": "product_li_ion_recycling",
+        "type": "product",
+        "name": "Li-Ion recycling"
+      }
+    ]
+  }
+}
+2025-08-19 10:26:22,824 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:22,824 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:26:22,824 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:26:22,824 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:26:22,825 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:26:22,825 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:26:24,114 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:24,114 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecobat",
+      "type": "owns",
+      "target": "factory_darlaston_uk"
+    },
+    {
+      "source": "company_ecobat",
+      "type": "owns",
+      "target": "factory_li_ion_recycling_facility_uk"
+    }
+  ]
+}
+2025-08-19 10:26:24,114 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:24,115 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:26:24,115 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:26:25,175 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:25,176 - INFO - {
+  "relationships": [
+    {
+      "source": "product_li_ion_recycling",
+      "target": "factory_li_ion_recycling_facility_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:26:25,176 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:25,176 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:26:25,176 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:26:25,269 - INFO - ✅ Updated Article ID: 68a35aff193a11c7b797cd02 with 7 nodes and combined text.

@@ -1,0 +1,135 @@
+2025-08-19 10:49:30,237 - INFO - 🔍 Text length: 2076 characters
+2025-08-19 10:49:30,238 - INFO - 📌 Processing Article ID: 68a35841193a11c7b797cca6 — Foxconn to build advanced computing centre in Taiwan
+2025-08-19 10:49:30,238 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:49:33,753 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:33,753 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_foxconn",
+        "type": "company",
+        "name": "Foxconn"
+      },
+      {
+        "id": "company_foxtron",
+        "type": "company",
+        "name": "Foxtron"
+      },
+      {
+        "id": "company_nvidia",
+        "type": "company",
+        "name": "Nvidia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_qiaotou_taiwan",
+        "type": "factory",
+        "name": "Qiaotou Automotive Manufacturing Facilities",
+        "location": {
+          "city": "Qiaotou",
+          "country": "Taiwan"
+        }
+      },
+      {
+        "id": "factory_kaohsiung_taiwan",
+        "type": "factory",
+        "name": "Kaohsiung Advanced Computing Center",
+        "location": {
+          "city": "Kaohsiung",
+          "country": "Taiwan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_64_racks_4,608_gpus_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "64 racks, 4,608 GPUs",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_bus",
+        "type": "product",
+        "name": "Electric Bus"
+      },
+      {
+        "id": "product_ev_adas_platform",
+        "type": "product",
+        "name": "EV ADAS Platform"
+      },
+      {
+        "id": "product_ai_servers",
+        "type": "product",
+        "name": "AI Servers"
+      },
+      {
+        "id": "product_ev_assembly_plants",
+        "type": "product",
+        "name": "EV Assembly Plants"
+      }
+    ]
+  }
+}
+2025-08-19 10:49:33,753 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:33,754 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:49:33,754 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:49:34,424 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:34,424 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_64_racks_4,608_gpus_under_construction",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:49:34,424 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:34,424 - INFO - Node ID is capacity_64_racks_4,608_gpus_under_construction
+2025-08-19 10:49:34,424 - INFO - ✅ Match found for capacity_ID 'capacity_64_racks_4,608_gpus_under_construction' in capacity nodes
+2025-08-19 10:49:34,424 - INFO -   ➕ Set status: under construction
+2025-08-19 10:49:34,424 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:49:34,424 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:49:34,424 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:49:34,424 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:49:34,424 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:49:35,686 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:35,686 - INFO - {
+  "relationships": [
+    {
+      "source": "company_foxtron",
+      "type": "owns",
+      "target": "factory_qiaotou_taiwan"
+    },
+    {
+      "source": "company_foxconn",
+      "type": "owns",
+      "target": "factory_kaohsiung_taiwan"
+    }
+  ]
+}
+2025-08-19 10:49:35,687 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:35,687 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:49:35,687 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:49:36,722 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:36,722 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_bus",
+      "target": "factory_qiaotou_taiwan",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_64_racks_4,608_gpus_under_construction",
+      "target": "factory_kaohsiung_taiwan",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 10:49:36,722 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:36,722 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:49:36,722 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:49:36,807 - INFO - ✅ Updated Article ID: 68a35841193a11c7b797cca6 with 10 nodes and combined text.

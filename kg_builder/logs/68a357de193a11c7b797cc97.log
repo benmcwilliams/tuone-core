@@ -1,0 +1,177 @@
+2025-08-19 10:51:28,528 - INFO - 🔍 Text length: 1121 characters
+2025-08-19 10:51:28,528 - INFO - 📌 Processing Article ID: 68a357de193a11c7b797cc97 — Nissan closes China plant
+2025-08-19 10:51:28,528 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:51:35,090 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:35,090 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan Motor"
+      },
+      {
+        "id": "company_dongfeng_motor",
+        "type": "company",
+        "name": "Dongfeng Motor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_nissan_dongfeng",
+        "type": "joint_venture",
+        "name": "Nissan Dongfeng"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_changzhou_china",
+        "type": "factory",
+        "name": "Changzhou Plant",
+        "location": {
+          "city": "Changzhou",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_dalian_china",
+        "type": "factory",
+        "name": "Dalian Plant",
+        "location": {
+          "city": "Dalian",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_guangzhou_china",
+        "type": "factory",
+        "name": "Guangzhou Plant",
+        "location": {
+          "city": "Guangzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_130k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "130,000 units annually",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_1_6m_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.6m",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_qashqai_suv",
+        "type": "product",
+        "name": "Qashqai SUV"
+      }
+    ]
+  }
+}
+2025-08-19 10:51:35,091 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:35,091 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:51:35,091 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:51:36,225 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:36,226 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_130k_units_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_1_6m_units_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:51:36,226 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:36,226 - INFO - Node ID is capacity_130k_units_per_year
+2025-08-19 10:51:36,226 - INFO - ✅ Match found for capacity_ID 'capacity_130k_units_per_year' in capacity nodes
+2025-08-19 10:51:36,226 - INFO -   ➕ Set status: operational
+2025-08-19 10:51:36,226 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:51:36,226 - INFO - Node ID is capacity_1_6m_units_per_year
+2025-08-19 10:51:36,226 - INFO - ✅ Match found for capacity_ID 'capacity_1_6m_units_per_year' in capacity nodes
+2025-08-19 10:51:36,226 - INFO -   ➕ Set status: operational
+2025-08-19 10:51:36,226 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:51:36,226 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:51:36,226 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:51:36,227 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:51:36,227 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:51:37,840 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:37,840 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "forms",
+      "target": "joint_venture_nissan_dongfeng"
+    },
+    {
+      "source": "company_dongfeng_motor",
+      "type": "forms",
+      "target": "joint_venture_nissan_dongfeng"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_changzhou_china"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_dalian_china"
+    },
+    {
+      "source": "joint_venture_nissan_dongfeng",
+      "type": "owns",
+      "target": "factory_guangzhou_china"
+    }
+  ]
+}
+2025-08-19 10:51:37,840 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:37,840 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:51:37,840 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:51:40,740 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:40,740 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_130k_units_per_year",
+      "target": "factory_changzhou_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_130k_units_per_year",
+      "target": "product_qashqai_suv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_qashqai_suv",
+      "target": "factory_changzhou_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_qashqai_suv",
+      "target": "factory_dalian_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_6m_units_per_year",
+      "target": "factory_guangzhou_china",
+      "type": "at"
+    }
+  ]
+}
+2025-08-19 10:51:40,740 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:40,740 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:51:40,740 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:51:40,817 - INFO - ✅ Updated Article ID: 68a357de193a11c7b797cc97 with 9 nodes and combined text.

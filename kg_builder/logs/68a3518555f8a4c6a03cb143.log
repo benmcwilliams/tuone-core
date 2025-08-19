@@ -1,0 +1,159 @@
+2025-08-19 11:54:14,057 - INFO - 🔍 Text length: 2257 characters
+2025-08-19 11:54:14,057 - INFO - 📌 Processing Article ID: 68a3518555f8a4c6a03cb143 — Thailand BOI approves Conti manufacturing for export plan
+2025-08-19 11:54:14,057 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:54:17,837 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:17,837 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_continental_ag",
+        "type": "company",
+        "name": "Continental AG"
+      },
+      {
+        "id": "company_continental_tyres_thailand_co_ltd",
+        "type": "company",
+        "name": "Continental Tyres (Thailand) Co., Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rayong_thailand",
+        "type": "factory",
+        "name": "Rayong Tyre Plant",
+        "location": {
+          "city": "Rayong Province",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_continental_tyres_thailand_expansion",
+        "type": "investment",
+        "name": "Continental Tyres Thailand Expansion",
+        "amount": "13.4 billion baht (ca. USD400 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_7_8_million_tyres_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "7.8 million tyres per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_performance_radial_tires",
+        "type": "product",
+        "name": "high-performance radial tires"
+      }
+    ]
+  }
+}
+2025-08-19 11:54:17,837 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:17,837 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:54:17,837 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:54:18,872 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:18,873 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_7_8_million_tyres_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:54:18,873 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:18,873 - INFO - Node ID is capacity_7_8_million_tyres_per_year
+2025-08-19 11:54:18,873 - INFO - ✅ Match found for capacity_ID 'capacity_7_8_million_tyres_per_year' in capacity nodes
+2025-08-19 11:54:18,873 - INFO -   ➕ Set status: announced
+2025-08-19 11:54:18,873 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:54:18,873 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:54:18,873 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:54:19,526 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:19,527 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_continental_tyres_thailand_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:54:19,527 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:19,527 - INFO - Node ID is investment_continental_tyres_thailand_expansion
+2025-08-19 11:54:19,527 - INFO - ✅ Match found for investment_ID 'investment_continental_tyres_thailand_expansion' in investment nodes
+2025-08-19 11:54:19,527 - INFO -   ➕ Set status: announced
+2025-08-19 11:54:19,527 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:54:19,527 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:54:19,527 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:54:19,527 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:54:20,449 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:20,449 - INFO - {
+  "relationships": [
+    {
+      "source": "company_continental_tyres_thailand_co_ltd",
+      "type": "owns",
+      "target": "factory_rayong_thailand"
+    }
+  ]
+}
+2025-08-19 11:54:20,449 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:20,449 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:54:20,449 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:54:23,073 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:23,074 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_7_8_million_tyres_per_year",
+      "target": "factory_rayong_thailand",
+      "type": "at"
+    },
+    {
+      "source": "capacity_7_8_million_tyres_per_year",
+      "target": "product_high_performance_radial_tires",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_high_performance_radial_tires",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:54:23,074 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:23,074 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:54:23,074 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:54:23,704 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:23,704 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:54:23,704 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:23,704 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:54:23,704 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:54:25,443 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:25,443 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_continental_tyres_thailand_expansion",
+      "target": "factory_rayong_thailand",
+      "type": "funds"
+    },
+    {
+      "source": "investment_continental_tyres_thailand_expansion",
+      "target": "capacity_7_8_million_tyres_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_continental_tyres_thailand_expansion",
+      "target": "product_high_performance_radial_tires",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:54:25,443 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:25,526 - INFO - ✅ Updated Article ID: 68a3518555f8a4c6a03cb143 with 6 nodes and combined text.

@@ -1,0 +1,111 @@
+2025-08-19 10:17:42,434 - INFO - 🔍 Text length: 2902 characters
+2025-08-19 10:17:42,434 - INFO - 📌 Processing Article ID: 68a42ff59853ad45aea804d7 — CATL selects BasiGo as official service partner in Africa
+2025-08-19 10:17:42,434 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:17:44,348 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:44,348 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_basigo",
+        "type": "company",
+        "name": "BasiGo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_basigo",
+        "type": "factory",
+        "name": "BasiGo factory",
+        "location": {
+          "city": "null",
+          "country": "Kenya"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1k_units_per_year",
+        "type": "capacity",
+        "name": "null",
+        "amount": "1,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_e9_kubwa_electric_bus",
+        "type": "product",
+        "name": "E9 Kubwa electric bus"
+      },
+      {
+        "id": "product_lfp_battery",
+        "type": "product",
+        "name": "LFP battery"
+      }
+    ]
+  }
+}
+2025-08-19 10:17:44,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:44,349 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:17:44,349 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:17:45,944 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:45,944 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:17:45,944 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:45,944 - INFO - Node ID is capacity_1k_units_per_year
+2025-08-19 10:17:45,944 - INFO - ✅ Match found for capacity_ID 'capacity_1k_units_per_year' in capacity nodes
+2025-08-19 10:17:45,944 - INFO -   ➕ Set status: announced
+2025-08-19 10:17:45,945 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:17:45,945 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:17:45,945 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:17:45,945 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:17:45,945 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:17:46,727 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:46,727 - INFO - {
+  "relationships": [
+    {
+      "source": "company_basigo",
+      "type": "owns",
+      "target": "factory_basigo"
+    }
+  ]
+}
+2025-08-19 10:17:46,727 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:46,728 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:17:46,728 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:17:48,971 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:48,971 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1k_units_per_year",
+      "target": "factory_basigo",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1k_units_per_year",
+      "target": "product_e9_kubwa_electric_bus",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_e9_kubwa_electric_bus",
+      "target": "factory_basigo",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:17:48,971 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:48,971 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:17:48,971 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:17:49,051 - INFO - ✅ Updated Article ID: 68a42ff59853ad45aea804d7 with 6 nodes and combined text.

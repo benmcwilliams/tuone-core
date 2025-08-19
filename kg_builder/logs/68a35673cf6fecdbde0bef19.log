@@ -1,0 +1,66 @@
+2025-08-19 10:57:50,583 - INFO - 🔍 Text length: 1114 characters
+2025-08-19 10:57:50,583 - INFO - 📌 Processing Article ID: 68a35673cf6fecdbde0bef19 — Korea exports rise 5% in May
+2025-08-19 10:57:50,583 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:57:51,923 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:51,923 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kia_autoland_gwangmyeong_plant",
+        "type": "factory",
+        "name": "Kia Autoland Gwangmyeong plant",
+        "location": {
+          "city": "Gwangmyeong",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev3",
+        "type": "product",
+        "name": "EV3"
+      }
+    ]
+  }
+}
+2025-08-19 10:57:51,923 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:51,923 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:57:51,923 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:57:51,924 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:57:51,924 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:57:51,924 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:57:52,963 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:52,963 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_kia_autoland_gwangmyeong_plant"
+    }
+  ]
+}
+2025-08-19 10:57:52,964 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:52,964 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:57:52,964 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:57:53,883 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:53,883 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev3",
+      "target": "factory_kia_autoland_gwangmyeong_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:57:53,883 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:53,883 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:57:53,883 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:57:53,953 - INFO - ✅ Updated Article ID: 68a35673cf6fecdbde0bef19 with 3 nodes and combined text.

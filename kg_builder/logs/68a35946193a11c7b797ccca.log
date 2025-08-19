@@ -1,0 +1,136 @@
+2025-08-19 10:33:21,171 - INFO - 🔍 Text length: 1931 characters
+2025-08-19 10:33:21,171 - INFO - 📌 Processing Article ID: 68a35946193a11c7b797ccca — SK Keyfoundry to supply power chips to Tesla
+2025-08-19 10:33:21,171 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:33:24,572 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:33:24,572 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_keyfoundry",
+        "type": "company",
+        "name": "SK Keyfoundry"
+      },
+      {
+        "id": "company_sk_hynix",
+        "type": "company",
+        "name": "SK Hynix"
+      },
+      {
+        "id": "company_hua_hong_semiconductor",
+        "type": "company",
+        "name": "Hua Hong Semiconductor"
+      },
+      {
+        "id": "company_semiconductor_manufacturing_international_corporation",
+        "type": "company",
+        "name": "Semiconductor Manufacturing International Corporation"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_bosch",
+        "type": "company",
+        "name": "Bosch"
+      },
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cheongju_south_korea",
+        "type": "factory",
+        "name": "Cheongju 8-inch Wafer Fab",
+        "location": {
+          "city": "Cheongju",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_8_inch_wafers_per_month",
+        "type": "capacity",
+        "name": "",
+        "amount": "100,000 8-inch wafers per month",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_power_management_integrated_circuits",
+        "type": "product",
+        "name": "Power Management Integrated Circuits"
+      },
+      {
+        "id": "product_power_semiconductors",
+        "type": "product",
+        "name": "power semiconductors"
+      }
+    ]
+  }
+}
+2025-08-19 10:33:24,573 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:33:24,573 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:33:24,573 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:33:26,210 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:33:26,211 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_8_inch_wafers_per_month",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:33:26,211 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:33:26,211 - INFO - Node ID is capacity_100k_8_inch_wafers_per_month
+2025-08-19 10:33:26,211 - INFO - ✅ Match found for capacity_ID 'capacity_100k_8_inch_wafers_per_month' in capacity nodes
+2025-08-19 10:33:26,211 - INFO -   ➕ Set status: operational
+2025-08-19 10:33:26,211 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:33:26,211 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:33:26,211 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:33:26,211 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:33:26,211 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:33:28,974 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:33:28,974 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_keyfoundry",
+      "type": "owns",
+      "target": "factory_cheongju_south_korea"
+    }
+  ]
+}
+2025-08-19 10:33:28,974 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:33:28,974 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:33:28,974 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:33:31,913 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:33:31,913 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_8_inch_wafers_per_month",
+      "target": "factory_cheongju_south_korea",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_8_inch_wafers_per_month",
+      "target": "product_power_management_integrated_circuits",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_power_management_integrated_circuits",
+      "target": "factory_cheongju_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:33:31,914 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:33:31,914 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:33:31,914 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:33:31,991 - INFO - ✅ Updated Article ID: 68a35946193a11c7b797ccca with 11 nodes and combined text.

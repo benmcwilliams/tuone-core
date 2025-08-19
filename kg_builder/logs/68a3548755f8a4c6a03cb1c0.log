@@ -1,0 +1,121 @@
+2025-08-19 11:07:59,496 - INFO - 🔍 Text length: 2668 characters
+2025-08-19 11:07:59,497 - INFO - 📌 Processing Article ID: 68a3548755f8a4c6a03cb1c0 — Volvo Cars starting deliveries of EX90 flagship following software delays
+2025-08-19 11:07:59,497 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:08:01,401 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:01,401 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_nvidia",
+        "type": "company",
+        "name": "Nvidia"
+      },
+      {
+        "id": "company_qualcomm_technologies_inc",
+        "type": "company",
+        "name": "Qualcomm Technologies, Inc."
+      },
+      {
+        "id": "company_luminar",
+        "type": "company",
+        "name": "Luminar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_charleston_south_carolina",
+        "type": "factory",
+        "name": "Charleston Plant",
+        "location": {
+          "city": "Charleston",
+          "country": "USA"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 cars per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ex90",
+        "type": "product",
+        "name": "EX90"
+      }
+    ]
+  }
+}
+2025-08-19 11:08:01,401 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:01,401 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:08:01,401 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:08:02,317 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:02,317 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_cars_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:08:02,317 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:02,317 - INFO - Node ID is capacity_150k_cars_per_year
+2025-08-19 11:08:02,317 - INFO - ✅ Match found for capacity_ID 'capacity_150k_cars_per_year' in capacity nodes
+2025-08-19 11:08:02,317 - INFO -   ➕ Set status: operational
+2025-08-19 11:08:02,317 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:08:02,317 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:08:02,318 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:08:02,318 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:08:02,318 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:08:03,201 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:03,201 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_charleston_south_carolina"
+    }
+  ]
+}
+2025-08-19 11:08:03,201 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:03,201 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:08:03,201 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:08:04,802 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:08:04,802 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_cars_per_year",
+      "target": "factory_charleston_south_carolina",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_cars_per_year",
+      "target": "product_ex90",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ex90",
+      "target": "factory_charleston_south_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:08:04,802 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:08:04,802 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:08:04,802 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:08:04,888 - INFO - ✅ Updated Article ID: 68a3548755f8a4c6a03cb1c0 with 8 nodes and combined text.

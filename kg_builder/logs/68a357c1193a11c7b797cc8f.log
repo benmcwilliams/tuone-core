@@ -1,0 +1,81 @@
+2025-08-19 10:52:45,776 - INFO - 🔍 Text length: 1178 characters
+2025-08-19 10:52:45,777 - INFO - 📌 Processing Article ID: 68a357c1193a11c7b797cc8f — BMW’s robot dog SpOTTO put to work
+2025-08-19 10:52:45,777 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:52:47,436 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:47,436 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      },
+      {
+        "id": "company_boston_dynamics",
+        "type": "company",
+        "name": "Boston Dynamics"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hams_hall_uk",
+        "type": "factory",
+        "name": "Hams Hall Plant",
+        "location": {
+          "city": "Hams Hall",
+          "country": "UK"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_spotto",
+        "type": "product",
+        "name": "SpOTTO"
+      },
+      {
+        "id": "product_spot",
+        "type": "product",
+        "name": "Spot"
+      },
+      {
+        "id": "product_engines",
+        "type": "product",
+        "name": "engines"
+      }
+    ]
+  }
+}
+2025-08-19 10:52:47,437 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:47,437 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:52:47,437 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:52:47,437 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:52:47,437 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:52:47,437 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:52:48,084 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:48,084 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_hams_hall_uk"
+    }
+  ]
+}
+2025-08-19 10:52:48,085 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:48,085 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:52:48,085 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:52:49,406 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:49,406 - INFO - {
+  "relationships": [
+    {
+      "source": "product_engines",
+      "target": "factory_hams_hall_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:52:49,406 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:49,407 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:52:49,407 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:52:49,490 - INFO - ✅ Updated Article ID: 68a357c1193a11c7b797cc8f with 6 nodes and combined text.

@@ -1,0 +1,116 @@
+2025-08-19 10:28:36,702 - INFO - 🔍 Text length: 942 characters
+2025-08-19 10:28:36,702 - INFO - 📌 Processing Article ID: 68a35a91193a11c7b797ccf1 — Volvo US starts building EX90
+2025-08-19 10:28:36,702 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:28:38,586 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:38,586 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_charleston_south_carolina",
+        "type": "factory",
+        "name": "Charleston Factory",
+        "location": {
+          "city": "Charleston",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 cars per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ex90",
+        "type": "product",
+        "name": "EX90"
+      },
+      {
+        "id": "product_s60_sedan",
+        "type": "product",
+        "name": "S60 sedan"
+      },
+      {
+        "id": "product_battery_pack",
+        "type": "product",
+        "name": "battery pack"
+      }
+    ]
+  }
+}
+2025-08-19 10:28:38,586 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:38,586 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:28:38,586 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:28:39,688 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:39,689 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_cars_per_year",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:28:39,689 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:39,689 - INFO - Node ID is capacity_150k_cars_per_year
+2025-08-19 10:28:39,689 - INFO - ✅ Match found for capacity_ID 'capacity_150k_cars_per_year' in capacity nodes
+2025-08-19 10:28:39,689 - INFO -   ➕ Set status: operational
+2025-08-19 10:28:39,689 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:28:39,689 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:28:39,689 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:28:39,689 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:28:39,689 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:28:40,613 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:40,613 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo",
+      "type": "owns",
+      "target": "factory_charleston_south_carolina"
+    }
+  ]
+}
+2025-08-19 10:28:40,613 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:40,613 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:28:40,613 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:28:42,818 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:42,818 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_cars_per_year",
+      "target": "factory_charleston_south_carolina",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_cars_per_year",
+      "target": "product_ex90",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ex90",
+      "target": "factory_charleston_south_carolina",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_s60_sedan",
+      "target": "factory_charleston_south_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:28:42,818 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:42,818 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:28:42,818 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:28:42,901 - INFO - ✅ Updated Article ID: 68a35a91193a11c7b797ccf1 with 6 nodes and combined text.

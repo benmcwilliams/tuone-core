@@ -1,0 +1,145 @@
+2025-08-19 12:26:43,835 - INFO - 🔍 Text length: 2167 characters
+2025-08-19 12:26:43,835 - INFO - 📌 Processing Article ID: 68a34df755f8a4c6a03cb049 — Bosch gears up for electric steering production in Hungary
+2025-08-19 12:26:43,835 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:26:46,121 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:46,121 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bosch",
+        "type": "company",
+        "name": "Bosch"
+      },
+      {
+        "id": "company_mercedes",
+        "type": "company",
+        "name": "Mercedes"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maklar_hungary",
+        "type": "factory",
+        "name": "Maklar Production Base",
+        "location": {
+          "city": "Heves County",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bosch_hungary_expansion",
+        "type": "investment",
+        "name": "Bosch Hungary Expansion",
+        "amount": "$117m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_state_hungary_bosch",
+        "type": "investment",
+        "name": "State Investment in Bosch",
+        "amount": "$27m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_steering_gear",
+        "type": "product",
+        "name": "electric steering gear"
+      }
+    ]
+  }
+}
+2025-08-19 12:26:46,122 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:46,122 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:26:46,122 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:26:46,122 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:26:47,446 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:47,446 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bosch_hungary_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_state_hungary_bosch",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:26:47,446 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:47,446 - INFO - Node ID is investment_bosch_hungary_expansion
+2025-08-19 12:26:47,446 - INFO - ✅ Match found for investment_ID 'investment_bosch_hungary_expansion' in investment nodes
+2025-08-19 12:26:47,447 - INFO -   ➕ Set status: announced
+2025-08-19 12:26:47,447 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:26:47,447 - INFO - Node ID is investment_state_hungary_bosch
+2025-08-19 12:26:47,447 - INFO - ✅ Match found for investment_ID 'investment_state_hungary_bosch' in investment nodes
+2025-08-19 12:26:47,447 - INFO -   ➕ Set status: announced
+2025-08-19 12:26:47,447 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:26:47,447 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:26:47,447 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:26:47,447 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:26:48,368 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:48,369 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bosch",
+      "type": "owns",
+      "target": "factory_maklar_hungary"
+    }
+  ]
+}
+2025-08-19 12:26:48,369 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:48,369 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:26:48,369 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:26:49,288 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:49,288 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_steering_gear",
+      "target": "factory_maklar_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:26:49,289 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:49,289 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:26:49,289 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:26:49,903 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:49,903 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:26:49,903 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:49,903 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:26:49,903 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:26:51,058 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:51,059 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bosch_hungary_expansion",
+      "target": "product_electric_steering_gear",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bosch_hungary_expansion",
+      "target": "factory_maklar_hungary",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:26:51,059 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:51,140 - INFO - ✅ Updated Article ID: 68a34df755f8a4c6a03cb049 with 8 nodes and combined text.

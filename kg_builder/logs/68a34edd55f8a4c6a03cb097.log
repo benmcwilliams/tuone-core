@@ -1,0 +1,176 @@
+2025-08-19 12:17:05,061 - INFO - 🔍 Text length: 2144 characters
+2025-08-19 12:17:05,061 - INFO - 📌 Processing Article ID: 68a34edd55f8a4c6a03cb097 — Stellantis, CATL form JV for EV battery factory in Spain
+2025-08-19 12:17:05,062 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:17:08,354 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:08,354 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "Contemporary Amperex Technology (CATL)"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_catl",
+        "type": "joint_venture",
+        "name": "Stellantis CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zaragoza_spain",
+        "type": "factory",
+        "name": "Zaragoza LFP Battery Plant",
+        "location": {
+          "city": "Zaragoza",
+          "country": "Spain"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_catl_zaragoza_lfp_battery_plant",
+        "type": "investment",
+        "name": "Stellantis CATL Zaragoza LFP Battery Plant",
+        "amount": "\u20ac4.1bn ($4.3bn)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "50GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_battery_cells_and_modules",
+        "type": "product",
+        "name": "LFP battery cells and modules"
+      }
+    ]
+  }
+}
+2025-08-19 12:17:08,354 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:08,354 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:17:08,354 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:17:09,273 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:09,273 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50gwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:17:09,273 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:09,273 - INFO - Node ID is capacity_50gwh
+2025-08-19 12:17:09,273 - INFO - ✅ Match found for capacity_ID 'capacity_50gwh' in capacity nodes
+2025-08-19 12:17:09,273 - INFO -   ➕ Set status: announced
+2025-08-19 12:17:09,273 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:17:09,273 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:17:09,273 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:17:10,798 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:10,799 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_catl_zaragoza_lfp_battery_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:17:10,799 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:10,799 - INFO - Node ID is investment_stellantis_catl_zaragoza_lfp_battery_plant
+2025-08-19 12:17:10,799 - INFO - ✅ Match found for investment_ID 'investment_stellantis_catl_zaragoza_lfp_battery_plant' in investment nodes
+2025-08-19 12:17:10,799 - INFO -   ➕ Set status: announced
+2025-08-19 12:17:10,799 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:17:10,799 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:17:10,799 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:17:10,799 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:17:11,913 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:11,913 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_catl"
+    },
+    {
+      "source": "company_catl",
+      "type": "forms",
+      "target": "joint_venture_stellantis_catl"
+    },
+    {
+      "source": "joint_venture_stellantis_catl",
+      "type": "owns",
+      "target": "factory_zaragoza_spain"
+    }
+  ]
+}
+2025-08-19 12:17:11,913 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:11,913 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:17:11,913 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:17:13,587 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:13,587 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50gwh",
+      "target": "factory_zaragoza_spain",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50gwh",
+      "target": "product_lfp_battery_cells_and_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lfp_battery_cells_and_modules",
+      "target": "factory_zaragoza_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:17:13,587 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:13,587 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:17:13,587 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:17:14,080 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:14,080 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:17:14,080 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:14,080 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:17:14,080 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:17:16,443 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:17:16,443 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_catl_zaragoza_lfp_battery_plant",
+      "target": "factory_zaragoza_spain",
+      "type": "funds"
+    },
+    {
+      "source": "investment_stellantis_catl_zaragoza_lfp_battery_plant",
+      "target": "capacity_50gwh",
+      "type": "enables"
+    },
+    {
+      "source": "investment_stellantis_catl_zaragoza_lfp_battery_plant",
+      "target": "product_lfp_battery_cells_and_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:17:16,443 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:17:16,524 - INFO - ✅ Updated Article ID: 68a34edd55f8a4c6a03cb097 with 7 nodes and combined text.

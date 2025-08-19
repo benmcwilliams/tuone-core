@@ -1,0 +1,171 @@
+2025-08-19 12:09:37,945 - INFO - 🔍 Text length: 2180 characters
+2025-08-19 12:09:37,946 - INFO - 📌 Processing Article ID: 68a34fa055f8a4c6a03cb0d0 — Renault-Geely JV starts production of eMotor in Portugal
+2025-08-19 12:09:37,946 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:09:40,711 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:40,711 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_horse",
+        "type": "joint_venture",
+        "name": "HORSE"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_aveiro_portugal",
+        "type": "factory",
+        "name": "Aveiro Facility",
+        "location": {
+          "city": "Aveiro",
+          "country": "Portugal"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_aveiro_plant_lines",
+        "type": "investment",
+        "name": "Aveiro Plant Lines",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_160k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "160,000 units a year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_emotor",
+        "type": "product",
+        "name": "eMotor"
+      }
+    ]
+  }
+}
+2025-08-19 12:09:40,711 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:40,711 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:09:40,711 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:09:41,597 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:41,597 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_160k_units_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:09:41,597 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:41,597 - INFO - Node ID is capacity_160k_units_per_year
+2025-08-19 12:09:41,597 - INFO - ✅ Match found for capacity_ID 'capacity_160k_units_per_year' in capacity nodes
+2025-08-19 12:09:41,597 - INFO -   ➕ Set status: operational
+2025-08-19 12:09:41,597 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:09:41,597 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:09:41,598 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:09:42,800 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:42,800 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_aveiro_plant_lines",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:09:42,800 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:42,800 - INFO - Node ID is investment_aveiro_plant_lines
+2025-08-19 12:09:42,801 - INFO - ✅ Match found for investment_ID 'investment_aveiro_plant_lines' in investment nodes
+2025-08-19 12:09:42,801 - INFO -   ➕ Set status: completed
+2025-08-19 12:09:42,801 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:09:42,801 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:09:42,801 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:09:42,801 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:09:44,070 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:44,070 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_horse"
+    },
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_horse"
+    },
+    {
+      "source": "joint_venture_horse",
+      "type": "owns",
+      "target": "factory_aveiro_portugal"
+    }
+  ]
+}
+2025-08-19 12:09:44,070 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:44,070 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:09:44,070 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:09:45,284 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:45,285 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_160k_units_per_year",
+      "target": "factory_aveiro_portugal",
+      "type": "at"
+    },
+    {
+      "source": "capacity_160k_units_per_year",
+      "target": "product_emotor",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_emotor",
+      "target": "factory_aveiro_portugal",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:09:45,285 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:45,285 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:09:45,285 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:09:46,615 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:46,615 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:09:46,615 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:46,615 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:09:46,615 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:09:47,532 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:09:47,532 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_aveiro_plant_lines",
+      "target": "factory_aveiro_portugal",
+      "type": "funds"
+    },
+    {
+      "source": "investment_aveiro_plant_lines",
+      "target": "capacity_160k_units_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-19 12:09:47,532 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:09:47,613 - INFO - ✅ Updated Article ID: 68a34fa055f8a4c6a03cb0d0 with 7 nodes and combined text.

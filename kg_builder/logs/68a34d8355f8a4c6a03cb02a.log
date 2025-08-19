@@ -1,0 +1,161 @@
+2025-08-19 12:31:12,806 - INFO - 🔍 Text length: 1958 characters
+2025-08-19 12:31:12,807 - INFO - 📌 Processing Article ID: 68a34d8355f8a4c6a03cb02a — Stellantis UK lawsuit over safety equipment cartels dismissed
+2025-08-19 12:31:12,807 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:31:17,115 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:17,116 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_autoliv",
+        "type": "company",
+        "name": "Autoliv"
+      },
+      {
+        "id": "company_zf_friedrichshafen",
+        "type": "company",
+        "name": "ZF Friedrichshafen"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_catl",
+        "type": "joint_venture",
+        "name": "Stellantis CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_spain_gigafactory",
+        "type": "factory",
+        "name": "Spain Gigafactory",
+        "location": {
+          "city": "null",
+          "country": "Spain"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_catl_gigafactory",
+        "type": "investment",
+        "name": "Stellantis CATL Gigafactory",
+        "amount": "\u20ac4.1bn ($4.3bn)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automotive_safety_equipment",
+        "type": "product",
+        "name": "automotive safety equipment"
+      },
+      {
+        "id": "product_seatbelts",
+        "type": "product",
+        "name": "seatbelts"
+      },
+      {
+        "id": "product_airbags",
+        "type": "product",
+        "name": "airbags"
+      },
+      {
+        "id": "product_steering_wheels",
+        "type": "product",
+        "name": "steering wheels"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-08-19 12:31:17,116 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:17,116 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:31:17,116 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:31:17,116 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:31:17,809 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:17,809 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_catl_gigafactory",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:31:17,809 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:17,809 - INFO - Node ID is investment_stellantis_catl_gigafactory
+2025-08-19 12:31:17,809 - INFO - ✅ Match found for investment_ID 'investment_stellantis_catl_gigafactory' in investment nodes
+2025-08-19 12:31:17,809 - INFO -   ➕ Set status: announced
+2025-08-19 12:31:17,809 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:31:17,809 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:31:17,809 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:31:17,809 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:31:19,829 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:19,830 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_catl"
+    },
+    {
+      "source": "company_catl",
+      "type": "forms",
+      "target": "joint_venture_stellantis_catl"
+    },
+    {
+      "source": "joint_venture_stellantis_catl",
+      "type": "owns",
+      "target": "factory_spain_gigafactory"
+    }
+  ]
+}
+2025-08-19 12:31:19,830 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:19,830 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:31:19,830 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:31:20,756 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:20,757 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_spain_gigafactory",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:31:20,757 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:20,757 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:31:20,757 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:31:21,985 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:21,985 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:31:21,986 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:21,986 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:31:21,986 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:31:23,110 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:23,111 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_catl_gigafactory",
+      "target": "factory_spain_gigafactory",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:31:23,111 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:23,196 - INFO - ✅ Updated Article ID: 68a34d8355f8a4c6a03cb02a with 12 nodes and combined text.

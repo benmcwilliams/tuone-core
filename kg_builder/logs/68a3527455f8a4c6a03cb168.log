@@ -1,0 +1,113 @@
+2025-08-19 11:48:31,982 - INFO - 🔍 Text length: 8523 characters
+2025-08-19 11:48:31,982 - INFO - 📌 Processing Article ID: 68a3527455f8a4c6a03cb168 — Alleviating grid limitations: Introducing portable EV chargers
+2025-08-19 11:48:31,982 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:48:33,737 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:33,737 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_solus_power",
+        "type": "company",
+        "name": "Solus Power"
+      },
+      {
+        "id": "company_qinetiq",
+        "type": "company",
+        "name": "QinetiQ"
+      },
+      {
+        "id": "company_marbanc_international",
+        "type": "company",
+        "name": "Marbanc International"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_farnborough_uk",
+        "type": "factory",
+        "name": "Vehicle Systems Facility",
+        "location": {
+          "city": "Farnborough",
+          "country": "United Kingdom"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_marbanc_solus_power",
+        "type": "investment",
+        "name": "Marbanc Solus Power Investment",
+        "amount": "null",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kratos_power_unit",
+        "type": "product",
+        "name": "Kratos Power Unit"
+      }
+    ]
+  }
+}
+2025-08-19 11:48:33,737 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:33,738 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:48:33,738 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:48:33,738 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:48:34,746 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:34,746 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_marbanc_solus_power",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:48:34,746 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:34,746 - INFO - Node ID is investment_marbanc_solus_power
+2025-08-19 11:48:34,746 - INFO - ✅ Match found for investment_ID 'investment_marbanc_solus_power' in investment nodes
+2025-08-19 11:48:34,746 - INFO -   ➕ Set status: completed
+2025-08-19 11:48:34,746 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:48:34,746 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:48:34,746 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:48:34,747 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:48:35,837 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:35,837 - INFO - {
+  "relationships": [
+    {
+      "source": "company_qinetiq",
+      "type": "owns",
+      "target": "factory_farnborough_uk"
+    }
+  ]
+}
+2025-08-19 11:48:35,837 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:35,837 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:48:35,837 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:48:36,826 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:36,827 - INFO - {
+  "relationships": [
+    {
+      "source": "product_kratos_power_unit",
+      "target": "factory_farnborough_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:48:36,827 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:36,827 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:48:36,827 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:48:37,486 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:37,487 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:48:37,487 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:37,487 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:48:37,487 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:48:38,184 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:38,184 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:48:38,184 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:38,264 - INFO - ✅ Updated Article ID: 68a3527455f8a4c6a03cb168 with 6 nodes and combined text.

@@ -1,0 +1,90 @@
+2025-08-19 10:53:15,899 - INFO - 🔍 Text length: 1893 characters
+2025-08-19 10:53:15,899 - INFO - 📌 Processing Article ID: 68a357ad193a11c7b797cc8b — Renault Group presents fully automated logistics facility
+2025-08-19 10:53:15,899 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:53:17,654 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:17,654 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault_group",
+        "type": "company",
+        "name": "Renault Group"
+      },
+      {
+        "id": "company_exotec",
+        "type": "company",
+        "name": "Exotec"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_villeroy",
+        "type": "factory",
+        "name": "Villeroy Facility",
+        "location": {
+          "city": "Villeroy",
+          "country": "France"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_4k_order_lines_per_hour",
+        "type": "capacity",
+        "name": "",
+        "amount": "4,000 order lines per hour",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_skypod_robots",
+        "type": "product",
+        "name": "Skypod Robots"
+      }
+    ]
+  }
+}
+2025-08-19 10:53:17,654 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:17,654 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:53:17,654 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:53:18,688 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:18,689 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_4k_order_lines_per_hour",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:53:18,689 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:18,689 - INFO - Node ID is capacity_4k_order_lines_per_hour
+2025-08-19 10:53:18,689 - INFO - ✅ Match found for capacity_ID 'capacity_4k_order_lines_per_hour' in capacity nodes
+2025-08-19 10:53:18,689 - INFO -   ➕ Set status: operational
+2025-08-19 10:53:18,689 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:53:18,689 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:53:18,689 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:53:18,689 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:53:18,689 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:53:19,665 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:19,666 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault_group",
+      "type": "owns",
+      "target": "factory_villeroy"
+    }
+  ]
+}
+2025-08-19 10:53:19,666 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:19,666 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:53:19,666 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:53:20,231 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:20,231 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:53:20,231 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:20,232 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:53:20,232 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:53:20,321 - INFO - ✅ Updated Article ID: 68a357ad193a11c7b797cc8b with 5 nodes and combined text.

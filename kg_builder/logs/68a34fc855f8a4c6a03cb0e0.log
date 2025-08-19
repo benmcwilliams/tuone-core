@@ -1,0 +1,66 @@
+2025-08-19 12:07:17,745 - INFO - 🔍 Text length: 2441 characters
+2025-08-19 12:07:17,745 - INFO - 📌 Processing Article ID: 68a34fc855f8a4c6a03cb0e0 — Mercedes-Benz names Thomas Klein as head of van business
+2025-08-19 12:07:17,745 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:07:19,265 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:07:19,266 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_duesseldorf_plant",
+        "type": "factory",
+        "name": "D\u00fcsseldorf plant",
+        "location": {
+          "city": "D\u00fcsseldorf",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vans",
+        "type": "product",
+        "name": "vans"
+      }
+    ]
+  }
+}
+2025-08-19 12:07:19,266 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:07:19,266 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:07:19,266 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:07:19,266 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:07:19,266 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:07:19,266 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:07:20,239 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:07:20,239 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_duesseldorf_plant"
+    }
+  ]
+}
+2025-08-19 12:07:20,239 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:07:20,239 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:07:20,239 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:07:22,346 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:07:22,346 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vans",
+      "target": "factory_duesseldorf_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:07:22,347 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:07:22,347 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:07:22,347 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:07:22,416 - INFO - ✅ Updated Article ID: 68a34fc855f8a4c6a03cb0e0 with 3 nodes and combined text.

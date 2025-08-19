@@ -1,0 +1,114 @@
+2025-08-19 10:20:41,602 - INFO - 🔍 Text length: 2482 characters
+2025-08-19 10:20:41,603 - INFO - 📌 Processing Article ID: 68a35cc8193a11c7b797cd27 — Canada welcomes Asahi Kasei battery component plant
+2025-08-19 10:20:41,603 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:43,977 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:43,977 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_asahi_kasei_corporation",
+        "type": "company",
+        "name": "Asahi Kasei Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_port_colborne_canada",
+        "type": "factory",
+        "name": "Port Colborne EV Battery Separator Plant",
+        "location": {
+          "city": "Port Colborne",
+          "country": "Canada"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_asahi_kasei_port_colborne",
+        "type": "investment",
+        "name": "Asahi Kasei Port Colborne Investment",
+        "amount": "C$1.6bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hipore_battery_separators",
+        "type": "product",
+        "name": "Hipore battery separators"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:43,977 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:43,977 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:20:43,977 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:20:43,977 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:20:45,109 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:45,110 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_asahi_kasei_port_colborne",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:20:45,110 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:45,110 - INFO - Node ID is investment_asahi_kasei_port_colborne
+2025-08-19 10:20:45,110 - INFO - ✅ Match found for investment_ID 'investment_asahi_kasei_port_colborne' in investment nodes
+2025-08-19 10:20:45,110 - INFO -   ➕ Set status: announced
+2025-08-19 10:20:45,110 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:20:45,110 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:45,110 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:45,110 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:45,927 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:45,927 - INFO - {
+  "relationships": [
+    {
+      "source": "company_asahi_kasei_corporation",
+      "type": "owns",
+      "target": "factory_port_colborne_canada"
+    }
+  ]
+}
+2025-08-19 10:20:45,927 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:45,927 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:45,927 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:47,464 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:47,464 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hipore_battery_separators",
+      "target": "factory_port_colborne_canada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:47,464 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:47,464 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:20:47,465 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:20:48,132 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:48,132 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:20:48,132 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:48,132 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:20:48,132 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:20:49,528 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:49,529 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_asahi_kasei_port_colborne",
+      "target": "factory_port_colborne_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_asahi_kasei_port_colborne",
+      "target": "product_hipore_battery_separators",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:20:49,529 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:49,608 - INFO - ✅ Updated Article ID: 68a35cc8193a11c7b797cd27 with 4 nodes and combined text.

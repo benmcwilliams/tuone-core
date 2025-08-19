@@ -1,0 +1,81 @@
+2025-08-19 15:20:34,123 - INFO - 🔍 Text length: 2094 characters
+2025-08-19 15:20:34,123 - INFO - 📌 Processing Article ID: 68a34d5655f8a4c6a03cb019 — Bentley opens ‘Excellence Centre’ in UK to spearhead EV production
+2025-08-19 15:20:34,123 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:20:35,906 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:35,906 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bentley",
+        "type": "company",
+        "name": "Bentley"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_excellence_centre",
+        "type": "factory",
+        "name": "Excellence Centre for Quality & Launch",
+        "location": {
+          "city": "Crewe",
+          "country": "UK"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_luxury_urban_suv",
+        "type": "product",
+        "name": "luxury urban SUV"
+      },
+      {
+        "id": "product_plug_in_hybrid",
+        "type": "product",
+        "name": "plug-in hybrid"
+      },
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "BEV"
+      }
+    ]
+  }
+}
+2025-08-19 15:20:35,906 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:35,906 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:20:35,906 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:20:35,906 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:20:35,907 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:20:35,907 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:20:36,982 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:36,982 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bentley",
+      "type": "owns",
+      "target": "factory_excellence_centre"
+    }
+  ]
+}
+2025-08-19 15:20:36,983 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:36,983 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:20:36,983 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:20:38,040 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:38,040 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bev",
+      "target": "factory_excellence_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:20:38,040 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:38,040 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:20:38,040 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:20:38,125 - INFO - ✅ Updated Article ID: 68a34d5655f8a4c6a03cb019 with 6 nodes and combined text.

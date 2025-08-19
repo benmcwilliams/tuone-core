@@ -1,0 +1,134 @@
+2025-08-19 11:43:03,731 - INFO - 🔍 Text length: 1437 characters
+2025-08-19 11:43:03,732 - INFO - 📌 Processing Article ID: 68a3532f55f8a4c6a03cb189 — Changan launches Avatr premium BEV brand in Thailand
+2025-08-19 11:43:03,732 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:43:06,294 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:06,294 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_changan_automobile_company",
+        "type": "company",
+        "name": "Changan Automobile Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rayong_thailand",
+        "type": "factory",
+        "name": "Rayong Assembly Plant",
+        "location": {
+          "city": "Rayong",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_changan_rayong_assembly_plant",
+        "type": "investment",
+        "name": "Changan Rayong Assembly Plant",
+        "amount": "THB10bn (US$300m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_avatr_011_suv_coupe",
+        "type": "product",
+        "name": "Avatr 011 SUV Coupe"
+      },
+      {
+        "id": "product_sl03",
+        "type": "product",
+        "name": "SL03"
+      },
+      {
+        "id": "product_s07",
+        "type": "product",
+        "name": "S07"
+      },
+      {
+        "id": "product_lumin_l",
+        "type": "product",
+        "name": "Lumin L"
+      }
+    ]
+  }
+}
+2025-08-19 11:43:06,294 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:06,294 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:43:06,294 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:43:06,295 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:43:07,234 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:07,235 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_changan_rayong_assembly_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:43:07,235 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:07,235 - INFO - Node ID is investment_changan_rayong_assembly_plant
+2025-08-19 11:43:07,235 - INFO - ✅ Match found for investment_ID 'investment_changan_rayong_assembly_plant' in investment nodes
+2025-08-19 11:43:07,235 - INFO -   ➕ Set status: announced
+2025-08-19 11:43:07,235 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:43:07,235 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:43:07,235 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:43:07,236 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:43:07,897 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:07,897 - INFO - {
+  "relationships": [
+    {
+      "source": "company_changan_automobile_company",
+      "type": "owns",
+      "target": "factory_rayong_thailand"
+    }
+  ]
+}
+2025-08-19 11:43:07,897 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:07,897 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:43:07,897 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:43:11,329 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:11,329 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sl03",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_s07",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lumin_l",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:43:11,329 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:11,329 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:43:11,329 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:43:11,849 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:11,849 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:43:11,849 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:11,849 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:43:11,849 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:43:12,836 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:12,837 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_changan_rayong_assembly_plant",
+      "target": "factory_rayong_thailand",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:43:12,837 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:12,911 - INFO - ✅ Updated Article ID: 68a3532f55f8a4c6a03cb189 with 7 nodes and combined text.

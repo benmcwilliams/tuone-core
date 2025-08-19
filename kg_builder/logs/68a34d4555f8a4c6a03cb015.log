@@ -1,0 +1,146 @@
+2025-08-19 15:21:02,494 - INFO - 🔍 Text length: 1280 characters
+2025-08-19 15:21:02,494 - INFO - 📌 Processing Article ID: 68a34d4555f8a4c6a03cb015 — BYD launches Denza premium EV brand in Indonesia
+2025-08-19 15:21:02,494 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:21:04,676 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:21:04,677 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd_auto",
+        "type": "company",
+        "name": "BYD Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_subang_indonesia",
+        "type": "factory",
+        "name": "Subang Vehicle Assembly Plant",
+        "location": {
+          "city": "Subang",
+          "country": "Indonesia"
+        }
+      },
+      {
+        "id": "factory_thailand",
+        "type": "factory",
+        "name": "Thailand Vehicle Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_vehicles_per_year_subang",
+        "type": "capacity",
+        "name": "Subang Plant Capacity",
+        "amount": "150,000 vehicles per year",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_150k_units_per_year_thailand",
+        "type": "capacity",
+        "name": "Thailand Plant Capacity",
+        "amount": "150,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_denza_d9_mpv",
+        "type": "product",
+        "name": "Denza D9 battery-powered MPV"
+      }
+    ]
+  }
+}
+2025-08-19 15:21:04,677 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:21:04,677 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:21:04,677 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:21:08,029 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:21:08,029 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_vehicles_per_year_subang",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_150k_units_per_year_thailand",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 15:21:08,029 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:21:08,029 - INFO - Node ID is capacity_150k_vehicles_per_year_subang
+2025-08-19 15:21:08,029 - INFO - ✅ Match found for capacity_ID 'capacity_150k_vehicles_per_year_subang' in capacity nodes
+2025-08-19 15:21:08,029 - INFO -   ➕ Set status: under construction
+2025-08-19 15:21:08,029 - INFO -   ➕ Set phase: greenfield
+2025-08-19 15:21:08,029 - INFO - Node ID is capacity_150k_units_per_year_thailand
+2025-08-19 15:21:08,029 - INFO - ✅ Match found for capacity_ID 'capacity_150k_units_per_year_thailand' in capacity nodes
+2025-08-19 15:21:08,029 - INFO -   ➕ Set status: operational
+2025-08-19 15:21:08,029 - INFO -   ➕ Set phase: greenfield
+2025-08-19 15:21:08,029 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:21:08,029 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:21:08,029 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:21:08,030 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:21:09,272 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:21:09,272 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_subang_indonesia"
+    },
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_thailand"
+    }
+  ]
+}
+2025-08-19 15:21:09,272 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:21:09,272 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:21:09,272 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:21:12,464 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:21:12,464 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_vehicles_per_year_subang",
+      "target": "factory_subang_indonesia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year_subang",
+      "target": "product_denza_d9_mpv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_denza_d9_mpv",
+      "target": "factory_subang_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150k_units_per_year_thailand",
+      "target": "factory_thailand",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_units_per_year_thailand",
+      "target": "product_denza_d9_mpv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_denza_d9_mpv",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:21:12,464 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:21:12,464 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:21:12,464 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:21:12,548 - INFO - ✅ Updated Article ID: 68a34d4555f8a4c6a03cb015 with 6 nodes and combined text.

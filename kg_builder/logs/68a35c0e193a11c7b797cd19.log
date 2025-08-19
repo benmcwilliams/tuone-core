@@ -1,0 +1,119 @@
+2025-08-19 10:22:56,642 - INFO - 🔍 Text length: 2857 characters
+2025-08-19 10:22:56,642 - INFO - 📌 Processing Article ID: 68a35c0e193a11c7b797cd19 — LGES & Liontown strengthen lithium partnership
+2025-08-19 10:22:56,642 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:22:58,375 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:22:58,375 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_liontown_resources",
+        "type": "company",
+        "name": "Liontown Resources"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kathleen_valley_project",
+        "type": "factory",
+        "name": "Kathleen Valley Project",
+        "location": {
+          "city": "Western Australia",
+          "country": "Australia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lges_convertible_notes",
+        "type": "investment",
+        "name": "LGES Convertible Notes",
+        "amount": "US$250m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_spodumene_concentrate",
+        "type": "product",
+        "name": "lithium spodumene concentrate"
+      },
+      {
+        "id": "product_battery_grade_lithium_chemicals",
+        "type": "product",
+        "name": "battery-grade lithium chemicals"
+      }
+    ]
+  }
+}
+2025-08-19 10:22:58,375 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:22:58,375 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:22:58,375 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:22:58,375 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:22:59,145 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:22:59,146 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lges_convertible_notes",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:22:59,146 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:22:59,146 - INFO - Node ID is investment_lges_convertible_notes
+2025-08-19 10:22:59,146 - INFO - ✅ Match found for investment_ID 'investment_lges_convertible_notes' in investment nodes
+2025-08-19 10:22:59,146 - INFO -   ➕ Set status: announced
+2025-08-19 10:22:59,146 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:22:59,146 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:22:59,146 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:22:59,146 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:00,229 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:00,229 - INFO - {
+  "relationships": [
+    {
+      "source": "company_liontown_resources",
+      "type": "owns",
+      "target": "factory_kathleen_valley_project"
+    }
+  ]
+}
+2025-08-19 10:23:00,230 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:00,230 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:00,230 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:01,406 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:01,407 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_spodumene_concentrate",
+      "target": "factory_kathleen_valley_project",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:23:01,407 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:01,407 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:23:01,407 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:23:01,993 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:01,994 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:23:01,994 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:01,994 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:23:01,994 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:23:03,009 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:03,009 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lges_convertible_notes",
+      "target": "factory_kathleen_valley_project",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:23:03,009 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:03,094 - INFO - ✅ Updated Article ID: 68a35c0e193a11c7b797cd19 with 6 nodes and combined text.

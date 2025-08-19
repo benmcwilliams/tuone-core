@@ -1,0 +1,86 @@
+2025-08-19 12:16:51,540 - INFO - 🔍 Text length: 2796 characters
+2025-08-19 12:16:51,540 - INFO - 📌 Processing Article ID: 68a34ee855f8a4c6a03cb09a — Brazil urged to probe Chinese auto dumping allegations
+2025-08-19 12:16:51,540 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:16:54,084 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:54,085 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bahia_brazil",
+        "type": "factory",
+        "name": "Bahia Vehicle Assembly Plant",
+        "location": {
+          "city": "Bahia",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_passenger_vehicles",
+        "type": "product",
+        "name": "passenger vehicles"
+      },
+      {
+        "id": "product_trucks",
+        "type": "product",
+        "name": "trucks"
+      },
+      {
+        "id": "product_buses",
+        "type": "product",
+        "name": "buses"
+      },
+      {
+        "id": "product_agricultural_machinery",
+        "type": "product",
+        "name": "agricultural machinery"
+      }
+    ]
+  }
+}
+2025-08-19 12:16:54,085 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:54,085 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:16:54,085 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:16:54,085 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:16:54,085 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:16:54,085 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:16:54,745 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:54,745 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_bahia_brazil"
+    }
+  ]
+}
+2025-08-19 12:16:54,745 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:54,745 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:16:54,745 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:16:55,841 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:55,841 - INFO - {
+  "relationships": [
+    {
+      "source": "product_passenger_vehicles",
+      "target": "factory_bahia_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:16:55,841 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:55,841 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:16:55,841 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:16:55,923 - INFO - ✅ Updated Article ID: 68a34ee855f8a4c6a03cb09a with 7 nodes and combined text.

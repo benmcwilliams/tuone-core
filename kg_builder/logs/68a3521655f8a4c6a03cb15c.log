@@ -1,0 +1,159 @@
+2025-08-19 11:50:20,728 - INFO - 🔍 Text length: 867 characters
+2025-08-19 11:50:20,728 - INFO - 📌 Processing Article ID: 68a3521655f8a4c6a03cb15c — Turkey in ‘final stages’ of plant talks with Chery – report
+2025-08-19 11:50:20,728 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:50:22,800 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:22,800 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_turkey_plant",
+        "type": "factory",
+        "name": "Turkey Plant",
+        "location": {
+          "city": "null",
+          "country": "Turkey"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_byd_turkey_plant",
+        "type": "investment",
+        "name": "BYD Turkey Plant",
+        "amount": "US$1bn",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "BEV"
+      }
+    ]
+  }
+}
+2025-08-19 11:50:22,800 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:22,800 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:50:22,800 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:50:23,777 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:23,777 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:50:23,777 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:23,777 - INFO - Node ID is capacity_150k_vehicles_per_year
+2025-08-19 11:50:23,777 - INFO - ✅ Match found for capacity_ID 'capacity_150k_vehicles_per_year' in capacity nodes
+2025-08-19 11:50:23,777 - INFO -   ➕ Set status: announced
+2025-08-19 11:50:23,777 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:50:23,777 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:50:23,777 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:50:24,695 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:24,695 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_byd_turkey_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:50:24,695 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:24,695 - INFO - Node ID is investment_byd_turkey_plant
+2025-08-19 11:50:24,695 - INFO - ✅ Match found for investment_ID 'investment_byd_turkey_plant' in investment nodes
+2025-08-19 11:50:24,695 - INFO -   ➕ Set status: announced
+2025-08-19 11:50:24,695 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:50:24,695 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:50:24,695 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:50:24,695 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:50:25,516 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:25,516 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_turkey_plant"
+    }
+  ]
+}
+2025-08-19 11:50:25,516 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:25,516 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:50:25,516 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:50:27,754 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:27,754 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "factory_turkey_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_bev",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bev",
+      "target": "factory_turkey_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:50:27,754 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:27,754 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:50:27,755 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:50:28,439 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:28,440 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:50:28,440 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:28,440 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:50:28,440 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:50:29,681 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:29,682 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_byd_turkey_plant",
+      "target": "factory_turkey_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_byd_turkey_plant",
+      "target": "capacity_150k_vehicles_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_byd_turkey_plant",
+      "target": "product_bev",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:50:29,682 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:29,760 - INFO - ✅ Updated Article ID: 68a3521655f8a4c6a03cb15c with 6 nodes and combined text.

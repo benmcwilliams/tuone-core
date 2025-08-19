@@ -1,0 +1,126 @@
+2025-08-19 10:16:53,449 - INFO - 🔍 Text length: 1604 characters
+2025-08-19 10:16:53,450 - INFO - 📌 Processing Article ID: 68a42ffc9853ad45aea804df — Hyundai, Kia claim 23% share of Saudi market in H1
+2025-08-19 10:16:53,450 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:16:56,343 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:56,343 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_kia_corporation",
+        "type": "company",
+        "name": "Kia Corporation"
+      },
+      {
+        "id": "company_saudi_public_investment_fund",
+        "type": "company",
+        "name": "Saudi Public Investment Fund"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_saudi_arabia",
+        "type": "factory",
+        "name": "vehicle assembly facility",
+        "location": {
+          "city": "null",
+          "country": "Saudi Arabia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_internal_combustion_engine_vehicles",
+        "type": "product",
+        "name": "internal combustion engine vehicles"
+      },
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery-electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 10:16:56,343 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:56,343 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:16:56,343 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:16:57,604 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:57,604 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_vehicles_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:16:57,605 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:57,605 - INFO - Node ID is capacity_50k_vehicles_per_year
+2025-08-19 10:16:57,605 - INFO - ✅ Match found for capacity_ID 'capacity_50k_vehicles_per_year' in capacity nodes
+2025-08-19 10:16:57,605 - INFO -   ➕ Set status: under construction
+2025-08-19 10:16:57,605 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:16:57,605 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:16:57,605 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:16:57,605 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:16:57,605 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:16:59,501 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:59,502 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_saudi_arabia"
+    }
+  ]
+}
+2025-08-19 10:16:59,502 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:59,502 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:16:59,502 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:17:01,259 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:17:01,260 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "factory_saudi_arabia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_battery_electric_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_internal_combustion_engine_vehicles",
+      "target": "factory_saudi_arabia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_saudi_arabia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:17:01,260 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:17:01,260 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:17:01,260 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:17:01,343 - INFO - ✅ Updated Article ID: 68a42ffc9853ad45aea804df with 7 nodes and combined text.

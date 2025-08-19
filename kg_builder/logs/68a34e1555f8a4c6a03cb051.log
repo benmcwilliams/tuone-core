@@ -1,0 +1,106 @@
+2025-08-19 12:25:45,784 - INFO - 🔍 Text length: 10745 characters
+2025-08-19 12:25:45,784 - INFO - 📌 Processing Article ID: 68a34e1555f8a4c6a03cb051 — Junior – will its first EV save Alfa Romeo?
+2025-08-19 12:25:45,785 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:25:48,289 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:48,289 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy",
+        "type": "factory",
+        "name": "Tychy",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_junior",
+        "type": "product",
+        "name": "Junior"
+      },
+      {
+        "id": "product_jeep_avenger",
+        "type": "product",
+        "name": "Jeep Avenger"
+      },
+      {
+        "id": "product_fiat_600",
+        "type": "product",
+        "name": "Fiat 600"
+      },
+      {
+        "id": "product_abarth_600",
+        "type": "product",
+        "name": "Abarth 600"
+      },
+      {
+        "id": "product_lancia_ypsilon",
+        "type": "product",
+        "name": "Lancia Ypsilon"
+      }
+    ]
+  }
+}
+2025-08-19 12:25:48,289 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:48,289 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:25:48,289 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:25:48,289 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:25:48,289 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:25:48,289 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:25:50,202 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:50,202 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy"
+    }
+  ]
+}
+2025-08-19 12:25:50,202 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:50,202 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:25:50,202 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:25:52,461 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:52,462 - INFO - {
+  "relationships": [
+    {
+      "source": "product_junior",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_jeep_avenger",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fiat_600",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_abarth_600",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lancia_ypsilon",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:25:52,462 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:52,462 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:25:52,462 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:25:52,549 - INFO - ✅ Updated Article ID: 68a34e1555f8a4c6a03cb051 with 7 nodes and combined text.

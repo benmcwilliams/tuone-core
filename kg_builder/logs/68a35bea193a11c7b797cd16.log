@@ -1,0 +1,151 @@
+2025-08-19 10:23:18,130 - INFO - 🔍 Text length: 1241 characters
+2025-08-19 10:23:18,130 - INFO - 📌 Processing Article ID: 68a35bea193a11c7b797cd16 — Nio gets approval for third China factory
+2025-08-19 10:23:18,130 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:23:21,220 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:21,220 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nio",
+        "type": "company",
+        "name": "Nio"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_f3",
+        "type": "factory",
+        "name": "F3",
+        "location": {
+          "city": "null",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_berlin_germany",
+        "type": "factory",
+        "name": "Smart Driving Technology Center",
+        "location": {
+          "city": "Berlin",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100,000 units per year",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_600k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "600,000 units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_onvo_vehicles",
+        "type": "product",
+        "name": "Onvo vehicles"
+      },
+      {
+        "id": "product_nio_vehicles",
+        "type": "product",
+        "name": "Nio vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 10:23:21,220 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:21,221 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:23:21,221 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:23:22,449 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:22,449 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_units_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_600k_units_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:23:22,450 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:22,450 - INFO - Node ID is capacity_100k_units_per_year
+2025-08-19 10:23:22,450 - INFO - ✅ Match found for capacity_ID 'capacity_100k_units_per_year' in capacity nodes
+2025-08-19 10:23:22,450 - INFO -   ➕ Set status: under construction
+2025-08-19 10:23:22,450 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:23:22,450 - INFO - Node ID is capacity_600k_units_per_year
+2025-08-19 10:23:22,450 - INFO - ✅ Match found for capacity_ID 'capacity_600k_units_per_year' in capacity nodes
+2025-08-19 10:23:22,450 - INFO -   ➕ Set status: announced
+2025-08-19 10:23:22,450 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:23:22,450 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:23:22,450 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:23:22,450 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:23:22,450 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:23,506 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:23,506 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nio",
+      "type": "owns",
+      "target": "factory_f3"
+    },
+    {
+      "source": "company_nio",
+      "type": "owns",
+      "target": "factory_berlin_germany"
+    }
+  ]
+}
+2025-08-19 10:23:23,507 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:23,507 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:23,507 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:26,480 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:26,480 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "factory_f3",
+      "type": "at"
+    },
+    {
+      "source": "capacity_600k_units_per_year",
+      "target": "factory_f3",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "product_nio_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_600k_units_per_year",
+      "target": "product_nio_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_nio_vehicles",
+      "target": "factory_f3",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_onvo_vehicles",
+      "target": "factory_f3",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:23:26,480 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:26,480 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:23:26,480 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:23:26,557 - INFO - ✅ Updated Article ID: 68a35bea193a11c7b797cd16 with 7 nodes and combined text.

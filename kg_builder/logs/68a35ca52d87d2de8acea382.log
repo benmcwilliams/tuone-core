@@ -1,0 +1,106 @@
+2025-08-19 10:20:51,531 - INFO - 🔍 Text length: 2667 characters
+2025-08-19 10:20:51,532 - INFO - 📌 Processing Article ID: 68a35ca52d87d2de8acea382 — King Willem-Alexander opens ELEO battery production plant in Helmond
+2025-08-19 10:20:51,532 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:53,359 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:53,359 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eleo",
+        "type": "company",
+        "name": "ELEO"
+      },
+      {
+        "id": "company_yanmar_holdings",
+        "type": "company",
+        "name": "Yanmar Holdings"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_helmond_netherlands",
+        "type": "factory",
+        "name": "Helmond Battery Production Plant",
+        "location": {
+          "city": "Helmond",
+          "country": "Netherlands"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10k_battery_packs_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "10,000 battery packs per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "high-performance battery systems"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:53,359 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:53,359 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:20:53,360 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:20:54,324 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:54,324 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10k_battery_packs_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:20:54,324 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:54,324 - INFO - Node ID is capacity_10k_battery_packs_per_year
+2025-08-19 10:20:54,324 - INFO - ✅ Match found for capacity_ID 'capacity_10k_battery_packs_per_year' in capacity nodes
+2025-08-19 10:20:54,324 - INFO -   ➕ Set status: operational
+2025-08-19 10:20:54,324 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:20:54,324 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:20:54,325 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:54,325 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:54,325 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:55,140 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:55,140 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eleo",
+      "type": "owns",
+      "target": "factory_helmond_netherlands"
+    }
+  ]
+}
+2025-08-19 10:20:55,140 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:55,141 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:55,141 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:57,292 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:57,293 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10k_battery_packs_per_year",
+      "target": "factory_helmond_netherlands",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10k_battery_packs_per_year",
+      "target": "product_battery_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_helmond_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:57,293 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:57,293 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:20:57,293 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:20:57,377 - INFO - ✅ Updated Article ID: 68a35ca52d87d2de8acea382 with 5 nodes and combined text.

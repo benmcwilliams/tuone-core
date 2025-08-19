@@ -1,0 +1,133 @@
+2025-08-19 15:27:39,046 - INFO - 🔍 Text length: 2157 characters
+2025-08-19 15:27:39,047 - INFO - 📌 Processing Article ID: 68a34cbb55f8a4c6a03cafea — Bosch plans reduction in working hours and salaries
+2025-08-19 15:27:39,047 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:27:43,598 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:43,598 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_robert_bosch",
+        "type": "company",
+        "name": "Robert Bosch"
+      },
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      },
+      {
+        "id": "company_zf_friedrichshafen",
+        "type": "company",
+        "name": "ZF Friedrichshafen"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_united_automotive_electronic_systems_company",
+        "type": "joint_venture",
+        "name": "United Automotive Electronic Systems Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_taicang_phase_iii",
+        "type": "factory",
+        "name": "Taicang phase III plant",
+        "location": {
+          "city": "Taicang",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_suzhou_industrial_park",
+        "type": "factory",
+        "name": "Suzhou Industrial Park facility",
+        "location": {
+          "city": "Suzhou",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_eaxle",
+        "type": "product",
+        "name": "eAxle"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      },
+      {
+        "id": "new_energy vehicle (nev) components",
+        "type": "product",
+        "name": "new energy vehicle (NEV) components",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 15:27:43,599 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:43,599 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:27:43,599 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:27:43,599 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:27:43,599 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:27:43,599 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:27:45,348 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:45,349 - INFO - {
+  "relationships": [
+    {
+      "source": "joint_venture_united_automotive_electronic_systems_company",
+      "type": "owns",
+      "target": "factory_taicang_phase_iii"
+    },
+    {
+      "source": "company_robert_bosch",
+      "type": "forms",
+      "target": "joint_venture_united_automotive_electronic_systems_company"
+    },
+    {
+      "source": "company_robert_bosch",
+      "type": "owns",
+      "target": "factory_suzhou_industrial_park"
+    }
+  ]
+}
+2025-08-19 15:27:45,349 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:45,349 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:27:45,349 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:27:46,955 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:27:46,955 - INFO - {
+  "relationships": [
+    {
+      "source": "product_eaxle",
+      "target": "factory_taicang_phase_iii",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_motors",
+      "target": "factory_taicang_phase_iii",
+      "type": "produced_at"
+    },
+    {
+      "source": "new_energy vehicle (nev) components",
+      "target": "factory_taicang_phase_iii",
+      "type": "produced_at"
+    },
+    {
+      "source": "new_energy vehicle (nev) components",
+      "target": "factory_suzhou_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:27:46,955 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:27:46,955 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:27:46,955 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:27:47,036 - INFO - ✅ Updated Article ID: 68a34cbb55f8a4c6a03cafea with 9 nodes and combined text.

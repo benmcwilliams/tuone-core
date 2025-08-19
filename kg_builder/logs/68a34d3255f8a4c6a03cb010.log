@@ -1,0 +1,66 @@
+2025-08-19 15:21:57,131 - INFO - 🔍 Text length: 1437 characters
+2025-08-19 15:21:57,131 - INFO - 📌 Processing Article ID: 68a34d3255f8a4c6a03cb010 — Posco shuts down wire rod mill in Pohang
+2025-08-19 15:21:57,131 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:21:59,888 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:21:59,888 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_group",
+        "type": "company",
+        "name": "Posco Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pohang_south_korea",
+        "type": "factory",
+        "name": "Pohang Steel Manufacturing Complex",
+        "location": {
+          "city": "Pohang",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_steel_wire_rod",
+        "type": "product",
+        "name": "Steel Wire Rod"
+      }
+    ]
+  }
+}
+2025-08-19 15:21:59,888 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:21:59,888 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:21:59,888 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:21:59,889 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:21:59,889 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:21:59,889 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:22:00,579 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:00,579 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_group",
+      "type": "owns",
+      "target": "factory_pohang_south_korea"
+    }
+  ]
+}
+2025-08-19 15:22:00,579 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:00,579 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:22:00,580 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:22:02,535 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:02,535 - INFO - {
+  "relationships": [
+    {
+      "source": "product_steel_wire_rod",
+      "target": "factory_pohang_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:22:02,535 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:02,535 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:22:02,535 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:22:02,609 - INFO - ✅ Updated Article ID: 68a34d3255f8a4c6a03cb010 with 3 nodes and combined text.

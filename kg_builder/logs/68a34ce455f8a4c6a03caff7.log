@@ -1,0 +1,128 @@
+2025-08-19 15:26:15,689 - INFO - 🔍 Text length: 2146 characters
+2025-08-19 15:26:15,689 - INFO - 📌 Processing Article ID: 68a34ce455f8a4c6a03caff7 — BMW reportedly pauses £600m upgrade to Oxford Mini plant in UK
+2025-08-19 15:26:15,689 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:26:19,770 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:19,770 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_sk_ecoplant",
+        "type": "company",
+        "name": "SK Ecoplant"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cowley_oxford",
+        "type": "factory",
+        "name": "Cowley Plant",
+        "location": {
+          "city": "Oxford",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_cowley_plant_upgrade",
+        "type": "investment",
+        "name": "BMW Cowley Plant Upgrade",
+        "amount": "\u00a3600m ($757.9m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_mini",
+        "type": "product",
+        "name": "electric Mini"
+      },
+      {
+        "id": "product_battery_electric_mini",
+        "type": "product",
+        "name": "battery-electric Mini"
+      },
+      {
+        "id": "product_ev_battery_recycling",
+        "type": "product",
+        "name": "EV battery recycling"
+      }
+    ]
+  }
+}
+2025-08-19 15:26:19,770 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:19,770 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:26:19,770 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 15:26:19,770 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 15:26:21,139 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:21,139 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_cowley_plant_upgrade",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 15:26:21,139 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:21,139 - INFO - Node ID is investment_bmw_cowley_plant_upgrade
+2025-08-19 15:26:21,139 - INFO - ✅ Match found for investment_ID 'investment_bmw_cowley_plant_upgrade' in investment nodes
+2025-08-19 15:26:21,139 - INFO -   ➕ Set status: ongoing
+2025-08-19 15:26:21,139 - INFO -   ➕ Set phase: expansion
+2025-08-19 15:26:21,140 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:26:21,140 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:26:21,140 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:26:22,125 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:22,126 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_cowley_oxford"
+    }
+  ]
+}
+2025-08-19 15:26:22,126 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:22,126 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:26:22,126 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:26:23,224 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:23,224 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_mini",
+      "target": "factory_cowley_oxford"
+    }
+  ]
+}
+2025-08-19 15:26:23,224 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:23,224 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 15:26:23,224 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 15:26:24,203 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:24,203 - INFO - {
+  "relationships": []
+}
+2025-08-19 15:26:24,203 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:24,203 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 15:26:24,204 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 15:26:25,563 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:26:25,563 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_cowley_plant_upgrade",
+      "target": "product_electric_mini",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_cowley_plant_upgrade",
+      "target": "factory_cowley_oxford",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 15:26:25,563 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:26:25,645 - INFO - ✅ Updated Article ID: 68a34ce455f8a4c6a03caff7 with 7 nodes and combined text.

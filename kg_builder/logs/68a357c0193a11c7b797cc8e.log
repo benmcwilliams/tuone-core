@@ -1,0 +1,183 @@
+2025-08-19 10:52:49,493 - INFO - 🔍 Text length: 1783 characters
+2025-08-19 10:52:49,493 - INFO - 📌 Processing Article ID: 68a357c0193a11c7b797cc8e — Hyundai to produce Staria EV in Europe from 2026
+2025-08-19 10:52:49,494 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:52:55,020 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:55,020 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_company",
+        "type": "company",
+        "name": "Hyundai Motor Company"
+      },
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ulsan_plant",
+        "type": "factory",
+        "name": "Ulsan plant",
+        "location": {
+          "city": "Ulsan",
+          "country": "South Korea"
+        }
+      },
+      {
+        "id": "factory_czech_republic_assembly_plant",
+        "type": "factory",
+        "name": "Czech Republic assembly plant",
+        "location": {
+          "city": "null",
+          "country": "Czech Republic"
+        }
+      },
+      {
+        "id": "factory_turkey",
+        "type": "factory",
+        "name": "Turkey",
+        "location": {
+          "city": "null",
+          "country": "Turkey"
+        }
+      },
+      {
+        "id": "factory_indonesia_staria_assembly",
+        "type": "factory",
+        "name": "Indonesia Staria assembly",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_staria_ev",
+        "type": "product",
+        "name": "Staria EV"
+      },
+      {
+        "id": "product_staria",
+        "type": "product",
+        "name": "Staria"
+      },
+      {
+        "id": "product_porter_light_truck",
+        "type": "product",
+        "name": "Porter light truck"
+      },
+      {
+        "id": "product_bongo_ev_light_truck",
+        "type": "product",
+        "name": "Bongo EV light truck"
+      }
+    ],
+    "capacity": [
+      {
+        "id": "capacity_84_kw_announced_expansion",
+        "type": "capacity",
+        "name": "",
+        "amount": "84 kW",
+        "status": "under construction"
+      }
+    ]
+  }
+}
+2025-08-19 10:52:55,021 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:55,021 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:52:55,021 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:52:56,525 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:56,525 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_84_kw_announced_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:52:56,525 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:56,525 - INFO - Node ID is capacity_84_kw_announced_expansion
+2025-08-19 10:52:56,525 - INFO - ✅ Match found for capacity_ID 'capacity_84_kw_announced_expansion' in capacity nodes
+2025-08-19 10:52:56,525 - INFO -   ➕ Set status: announced
+2025-08-19 10:52:56,525 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:52:56,525 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:52:56,525 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:52:56,525 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:52:56,525 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:52:57,899 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:52:57,900 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_ulsan_plant"
+    },
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_czech_republic_assembly_plant"
+    },
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_turkey"
+    },
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_indonesia_staria_assembly"
+    }
+  ]
+}
+2025-08-19 10:52:57,900 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:52:57,900 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:52:57,900 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:53:01,162 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:53:01,162 - INFO - {
+  "relationships": [
+    {
+      "source": "product_staria_ev",
+      "target": "factory_ulsan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_staria",
+      "target": "factory_czech_republic_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_staria",
+      "target": "factory_turkey",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_staria",
+      "target": "factory_indonesia_staria_assembly",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_porter_light_truck",
+      "target": "factory_ulsan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bongo_ev_light_truck",
+      "target": "factory_ulsan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_84_kw_announced_expansion",
+      "target": "product_staria_ev",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 10:53:01,162 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:53:01,162 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:53:01,162 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:53:01,245 - INFO - ✅ Updated Article ID: 68a357c0193a11c7b797cc8e with 11 nodes and combined text.

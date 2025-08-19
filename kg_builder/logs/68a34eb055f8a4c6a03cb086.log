@@ -1,0 +1,110 @@
+2025-08-19 12:19:14,594 - INFO - 🔍 Text length: 2303 characters
+2025-08-19 12:19:14,594 - INFO - 📌 Processing Article ID: 68a34eb055f8a4c6a03cb086 — Tata Motors commissions vehicle scrapping facility in India
+2025-08-19 12:19:14,594 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:19:17,583 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:17,583 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      },
+      {
+        "id": "company_axom_platinum_scrappers",
+        "type": "company",
+        "name": "Axom Platinum Scrappers"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_guwahati_assam",
+        "type": "factory",
+        "name": "Guwahati RVSF",
+        "location": {
+          "city": "Guwahati",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_15k_end_of_life_vehicles_per_year",
+        "type": "capacity",
+        "amount": "15,000 end-of-life vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bus_chassis",
+        "type": "product",
+        "name": "LPO 1618 diesel bus chassis"
+      },
+      {
+        "id": "product_vehicle_scrapping",
+        "type": "product",
+        "name": "vehicle scrapping"
+      }
+    ]
+  }
+}
+2025-08-19 12:19:17,583 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:17,584 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:19:17,584 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:19:18,710 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:18,710 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_15k_end_of_life_vehicles_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:19:18,710 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:18,710 - INFO - Node ID is capacity_15k_end_of_life_vehicles_per_year
+2025-08-19 12:19:18,710 - INFO - ✅ Match found for capacity_ID 'capacity_15k_end_of_life_vehicles_per_year' in capacity nodes
+2025-08-19 12:19:18,710 - INFO -   ➕ Set status: operational
+2025-08-19 12:19:18,710 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:19:18,711 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:19:18,711 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:19:18,711 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:19:18,711 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:19:19,428 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:19,428 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_motors",
+      "type": "owns",
+      "target": "factory_guwahati_assam"
+    }
+  ]
+}
+2025-08-19 12:19:19,428 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:19,428 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:19:19,428 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:19:20,758 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:20,758 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_15k_end_of_life_vehicles_per_year",
+      "target": "factory_guwahati_assam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_15k_end_of_life_vehicles_per_year",
+      "target": "product_vehicle_scrapping",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_vehicle_scrapping",
+      "target": "factory_guwahati_assam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:19:20,758 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:20,758 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:19:20,758 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:19:20,841 - INFO - ✅ Updated Article ID: 68a34eb055f8a4c6a03cb086 with 6 nodes and combined text.

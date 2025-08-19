@@ -1,0 +1,119 @@
+2025-08-19 10:36:08,764 - INFO - 🔍 Text length: 906 characters
+2025-08-19 10:36:08,764 - INFO - 📌 Processing Article ID: 68a35903193a11c7b797ccbc — Mahle unit opens new factory in Bosnia
+2025-08-19 10:36:08,764 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:36:21,292 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:21,292 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mahle",
+        "type": "company",
+        "name": "Mahle"
+      },
+      {
+        "id": "company_mahle_electric_drives_bosnia",
+        "type": "company",
+        "name": "Mahle Electric Drives Bosnia"
+      },
+      {
+        "id": "company_baupartner",
+        "type": "company",
+        "name": "Baupartner"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_laktasi_bosnia",
+        "type": "factory",
+        "name": "Laktasi Factory",
+        "location": {
+          "city": "Laktasi",
+          "country": "Bosnia and Herzegovina"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_laktasi_factory",
+        "type": "investment",
+        "name": "Laktasi Factory",
+        "amount": "EUR20m (US$21.3m)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_components",
+        "type": "product",
+        "name": "components"
+      }
+    ]
+  }
+}
+2025-08-19 10:36:21,292 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:21,293 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:36:21,293 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:36:21,293 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:36:21,986 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:21,986 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_laktasi_factory",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:36:21,986 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:21,986 - INFO - Node ID is investment_laktasi_factory
+2025-08-19 10:36:21,986 - INFO - ✅ Match found for investment_ID 'investment_laktasi_factory' in investment nodes
+2025-08-19 10:36:21,986 - INFO -   ➕ Set status: completed
+2025-08-19 10:36:21,987 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:36:21,987 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:36:21,987 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:36:21,987 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:36:23,176 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:23,176 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mahle_electric_drives_bosnia",
+      "type": "owns",
+      "target": "factory_laktasi_bosnia"
+    }
+  ]
+}
+2025-08-19 10:36:23,176 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:23,177 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:36:23,177 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:36:24,066 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:24,067 - INFO - {
+  "relationships": [
+    {
+      "source": "product_components",
+      "target": "factory_laktasi_bosnia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:36:24,067 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:24,067 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:36:24,067 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:36:24,732 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:24,732 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:36:24,732 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:24,732 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:36:24,732 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:36:25,463 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:36:25,463 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_laktasi_factory",
+      "target": "factory_laktasi_bosnia",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:36:25,463 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:36:25,534 - INFO - ✅ Updated Article ID: 68a35903193a11c7b797ccbc with 6 nodes and combined text.

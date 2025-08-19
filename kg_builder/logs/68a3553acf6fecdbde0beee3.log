@@ -1,0 +1,110 @@
+2025-08-19 11:05:38,667 - INFO - 🔍 Text length: 1818 characters
+2025-08-19 11:05:38,667 - INFO - 📌 Processing Article ID: 68a3553acf6fecdbde0beee3 — Hyundai works with Indonesian rechargers
+2025-08-19 11:05:38,667 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:05:42,277 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:42,277 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_dayagreen",
+        "type": "company",
+        "name": "Dayagreen"
+      },
+      {
+        "id": "company_charge_plus",
+        "type": "company",
+        "name": "Charge+"
+      },
+      {
+        "id": "company_buzz",
+        "type": "company",
+        "name": "Buzz"
+      },
+      {
+        "id": "lg_energy solution",
+        "type": "company",
+        "name": "LG Energy Solution",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hyundai_lg_energy_solution",
+        "type": "joint_venture",
+        "name": "Hyundai LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bekasi_indonesia",
+        "type": "factory",
+        "name": "Bekasi Plant",
+        "location": {
+          "city": "Bekasi",
+          "country": "Indonesia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kona_ev",
+        "type": "product",
+        "name": "Kona EV"
+      },
+      {
+        "id": "ev_charging",
+        "type": "product",
+        "name": "EV Charging",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 11:05:42,277 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:42,278 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:05:42,278 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:05:42,278 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:05:42,278 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:05:42,278 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:05:43,200 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:43,201 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_bekasi_indonesia"
+    }
+  ]
+}
+2025-08-19 11:05:43,201 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:43,201 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:05:43,201 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:05:44,037 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:44,037 - INFO - {
+  "relationships": [
+    {
+      "source": "product_kona_ev",
+      "target": "factory_bekasi_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:05:44,037 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:44,037 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:05:44,037 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:05:44,122 - INFO - ✅ Updated Article ID: 68a3553acf6fecdbde0beee3 with 9 nodes and combined text.

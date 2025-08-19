@@ -1,0 +1,145 @@
+2025-08-19 11:00:55,425 - INFO - 🔍 Text length: 1817 characters
+2025-08-19 11:00:55,425 - INFO - 📌 Processing Article ID: 68a355fecf6fecdbde0bef00 — EcoPro BM to cut investments on weak BEV demand
+2025-08-19 11:00:55,425 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:00:58,724 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:58,724 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecopro_bm",
+        "type": "company",
+        "name": "EcoPro BM"
+      },
+      {
+        "id": "company_ecopro",
+        "type": "company",
+        "name": "EcoPro"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hungary_battery_cathode_plant",
+        "type": "factory",
+        "name": "Hungary Battery Cathode Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_south_korea_precursor_plant",
+        "type": "factory",
+        "name": "South Korea Precursor Plant",
+        "location": {
+          "city": "null",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_54k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "54,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cathode",
+        "type": "product",
+        "name": "battery cathode"
+      },
+      {
+        "id": "product_precursor",
+        "type": "product",
+        "name": "precursor"
+      },
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      },
+      {
+        "id": "product_power_tools",
+        "type": "product",
+        "name": "power tools"
+      }
+    ]
+  }
+}
+2025-08-19 11:00:58,724 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:58,724 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:00:58,724 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:00:59,944 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:59,944 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_54k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:00:59,944 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:59,944 - INFO - Node ID is capacity_54k_tons_per_year
+2025-08-19 11:00:59,944 - INFO - ✅ Match found for capacity_ID 'capacity_54k_tons_per_year' in capacity nodes
+2025-08-19 11:00:59,944 - INFO -   ➕ Set status: under construction
+2025-08-19 11:00:59,944 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:00:59,944 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:00:59,944 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:00:59,944 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:00:59,944 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:01:01,095 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:01:01,096 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecopro_bm",
+      "type": "owns",
+      "target": "factory_hungary_battery_cathode_plant"
+    },
+    {
+      "source": "company_ecopro_bm",
+      "type": "owns",
+      "target": "factory_south_korea_precursor_plant"
+    }
+  ]
+}
+2025-08-19 11:01:01,096 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:01:01,096 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:01:01,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:01:03,535 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:01:03,535 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_54k_tons_per_year",
+      "target": "factory_hungary_battery_cathode_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_54k_tons_per_year",
+      "target": "product_battery_cathode",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cathode",
+      "target": "factory_hungary_battery_cathode_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_precursor",
+      "target": "factory_south_korea_precursor_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:01:03,536 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:01:03,536 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:01:03,536 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:01:03,612 - INFO - ✅ Updated Article ID: 68a355fecf6fecdbde0bef00 with 10 nodes and combined text.

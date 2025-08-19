@@ -1,0 +1,111 @@
+2025-08-19 12:13:37,702 - INFO - 🔍 Text length: 1741 characters
+2025-08-19 12:13:37,702 - INFO - 📌 Processing Article ID: 68a34f3755f8a4c6a03cb0b0 — Hyundai to produce Ioniq 9 in US in 2025
+2025-08-19 12:13:37,702 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:13:39,710 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:39,710 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hyundai_motor_group_metaplant_america",
+        "type": "factory",
+        "name": "Hyundai Motor Group Metaplant America",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300,000 unit/year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ioniq_9",
+        "type": "product",
+        "name": "Ioniq 9"
+      },
+      {
+        "id": "product_genesis_vehicles",
+        "type": "product",
+        "name": "Genesis vehicles"
+      },
+      {
+        "id": "product_kia_vehicles",
+        "type": "product",
+        "name": "Kia vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:13:39,710 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:39,710 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:13:39,711 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:13:40,628 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:40,628 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_units_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:13:40,628 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:40,629 - INFO - Node ID is capacity_300k_units_per_year
+2025-08-19 12:13:40,629 - INFO - ✅ Match found for capacity_ID 'capacity_300k_units_per_year' in capacity nodes
+2025-08-19 12:13:40,629 - INFO -   ➕ Set status: operational
+2025-08-19 12:13:40,629 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:13:40,629 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:13:40,629 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:13:40,629 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:13:40,629 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:13:41,540 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:41,541 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_hyundai_motor_group_metaplant_america"
+    }
+  ]
+}
+2025-08-19 12:13:41,541 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:41,541 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:13:41,541 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:13:43,361 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:43,361 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_units_per_year",
+      "target": "factory_hyundai_motor_group_metaplant_america",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_units_per_year",
+      "target": "product_ioniq_9",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ioniq_9",
+      "target": "factory_hyundai_motor_group_metaplant_america",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:13:43,361 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:43,361 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:13:43,361 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:13:43,439 - INFO - ✅ Updated Article ID: 68a34f3755f8a4c6a03cb0b0 with 6 nodes and combined text.

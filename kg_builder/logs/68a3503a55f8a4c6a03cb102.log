@@ -1,0 +1,129 @@
+2025-08-19 12:03:07,644 - INFO - 🔍 Text length: 1843 characters
+2025-08-19 12:03:07,644 - INFO - 📌 Processing Article ID: 68a3503a55f8a4c6a03cb102 — Ionetic launches UK pilot production plant for EV batteries
+2025-08-19 12:03:07,644 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:03:11,390 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:11,390 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ionetic",
+        "type": "company",
+        "name": "Ionetic"
+      },
+      {
+        "id": "company_alexander_dennis",
+        "type": "company",
+        "name": "Alexander Dennis"
+      },
+      {
+        "id": "company_nfi_group",
+        "type": "company",
+        "name": "NFI Group"
+      },
+      {
+        "id": "company_rockwell_automation",
+        "type": "company",
+        "name": "Rockwell Automation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brackley_northamptonshire",
+        "type": "factory",
+        "name": "Brackley Pilot Production Plant",
+        "location": {
+          "city": "Brackley",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_brackley_pilot_production_plant",
+        "type": "investment",
+        "name": "Brackley Pilot Production Plant",
+        "amount": "\u00a35m ($7.56m)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_packs",
+        "type": "product",
+        "name": "EV Battery Packs"
+      }
+    ]
+  }
+}
+2025-08-19 12:03:11,390 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:11,391 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:03:11,391 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:03:11,391 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:03:12,068 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:12,068 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_brackley_pilot_production_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:03:12,068 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:12,068 - INFO - Node ID is investment_brackley_pilot_production_plant
+2025-08-19 12:03:12,068 - INFO - ✅ Match found for investment_ID 'investment_brackley_pilot_production_plant' in investment nodes
+2025-08-19 12:03:12,068 - INFO -   ➕ Set status: completed
+2025-08-19 12:03:12,068 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:03:12,068 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:03:12,068 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:03:12,068 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:03:13,004 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:13,005 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ionetic",
+      "type": "owns",
+      "target": "factory_brackley_northamptonshire"
+    }
+  ]
+}
+2025-08-19 12:03:13,005 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:13,005 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:03:13,005 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:03:14,381 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:14,381 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_packs",
+      "target": "factory_brackley_northamptonshire",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:03:14,381 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:14,381 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:03:14,381 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:03:15,097 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:15,098 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:03:15,098 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:15,098 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:03:15,098 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:03:16,277 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:16,277 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_brackley_pilot_production_plant",
+      "target": "factory_brackley_northamptonshire",
+      "type": "funds"
+    },
+    {
+      "source": "investment_brackley_pilot_production_plant",
+      "target": "product_ev_battery_packs",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:03:16,277 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:16,355 - INFO - ✅ Updated Article ID: 68a3503a55f8a4c6a03cb102 with 7 nodes and combined text.

@@ -1,0 +1,159 @@
+2025-08-19 11:04:01,387 - INFO - 🔍 Text length: 2167 characters
+2025-08-19 11:04:01,387 - INFO - 📌 Processing Article ID: 68a35567cf6fecdbde0beeed — Kia completes Gwangmyeong EVO plant
+2025-08-19 11:04:01,387 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:04:06,739 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:06,739 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia_corporation",
+        "type": "company",
+        "name": "Kia Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gwangmyeong_evo_plant",
+        "type": "factory",
+        "name": "Kia Gwangmyeong EVO Plant",
+        "location": {
+          "city": "Gwangmyeong",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gwangmyeong_evo_plant_transformation",
+        "type": "investment",
+        "name": "Gwangmyeong EVO Plant Transformation",
+        "amount": "US$304m",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_bevs_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 BEVs per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev3_compact_sedan",
+        "type": "product",
+        "name": "EV3 compact sedan"
+      },
+      {
+        "id": "product_ev4_midsize_sedan",
+        "type": "product",
+        "name": "EV4 midsize sedan"
+      }
+    ]
+  }
+}
+2025-08-19 11:04:06,739 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:06,739 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:04:06,740 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:04:07,656 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:07,657 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_bevs_per_year",
+      "status": "operational",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 11:04:07,657 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:07,657 - INFO - Node ID is capacity_150k_bevs_per_year
+2025-08-19 11:04:07,657 - INFO - ✅ Match found for capacity_ID 'capacity_150k_bevs_per_year' in capacity nodes
+2025-08-19 11:04:07,657 - INFO -   ➕ Set status: operational
+2025-08-19 11:04:07,657 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:04:07,657 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:04:07,657 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:04:08,347 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:08,348 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gwangmyeong_evo_plant_transformation",
+      "status": "completed",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 11:04:08,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:08,348 - INFO - Node ID is investment_gwangmyeong_evo_plant_transformation
+2025-08-19 11:04:08,348 - INFO - ✅ Match found for investment_ID 'investment_gwangmyeong_evo_plant_transformation' in investment nodes
+2025-08-19 11:04:08,348 - INFO -   ➕ Set status: completed
+2025-08-19 11:04:08,348 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:04:08,348 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:04:08,348 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:04:08,348 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:04:09,281 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:09,281 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia_corporation",
+      "type": "owns",
+      "target": "factory_gwangmyeong_evo_plant"
+    }
+  ]
+}
+2025-08-19 11:04:09,281 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:09,281 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:04:09,281 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:04:12,956 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:12,957 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_bevs_per_year",
+      "target": "factory_gwangmyeong_evo_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_bevs_per_year",
+      "target": "product_ev3_compact_sedan",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150k_bevs_per_year",
+      "target": "product_ev4_midsize_sedan",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev3_compact_sedan",
+      "target": "factory_gwangmyeong_evo_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev4_midsize_sedan",
+      "target": "factory_gwangmyeong_evo_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:04:12,957 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:12,957 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:04:12,957 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:04:13,547 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:13,547 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:04:13,547 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:13,547 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:04:13,547 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:04:14,621 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:04:14,621 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gwangmyeong_evo_plant_transformation",
+      "type": "funds",
+      "target": "factory_gwangmyeong_evo_plant"
+    }
+  ]
+}
+2025-08-19 11:04:14,621 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:04:14,704 - INFO - ✅ Updated Article ID: 68a35567cf6fecdbde0beeed with 6 nodes and combined text.

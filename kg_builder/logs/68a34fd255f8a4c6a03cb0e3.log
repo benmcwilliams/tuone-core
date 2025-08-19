@@ -1,0 +1,110 @@
+2025-08-19 12:06:51,708 - INFO - 🔍 Text length: 2652 characters
+2025-08-19 12:06:51,708 - INFO - 📌 Processing Article ID: 68a34fd255f8a4c6a03cb0e3 — Series production of the all-electric Skoda Elroq starts
+2025-08-19 12:06:51,708 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:06:54,171 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:54,172 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda",
+        "type": "company",
+        "name": "Skoda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mlada_boleslav",
+        "type": "factory",
+        "name": "Mlad\u00e1 Boleslav Plant",
+        "location": {
+          "city": "Mlad\u00e1 Boleslav",
+          "country": "Czech Republic"
+        }
+      },
+      {
+        "id": "factory_kvasiny",
+        "type": "factory",
+        "name": "Kvasiny Plant",
+        "location": {
+          "city": "Kvasiny",
+          "country": "Czech Republic"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_skoda_elroq",
+        "type": "product",
+        "name": "Skoda Elroq"
+      },
+      {
+        "id": "product_skoda_enyaq",
+        "type": "product",
+        "name": "Skoda Enyaq"
+      },
+      {
+        "id": "product_octavia",
+        "type": "product",
+        "name": "Octavia"
+      },
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "MEB platform battery systems"
+      }
+    ]
+  }
+}
+2025-08-19 12:06:54,172 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:54,172 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:06:54,172 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:06:54,172 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:06:54,172 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:06:54,172 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:06:55,080 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:55,081 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda",
+      "type": "owns",
+      "target": "factory_mlada_boleslav"
+    },
+    {
+      "source": "company_skoda",
+      "type": "owns",
+      "target": "factory_kvasiny"
+    }
+  ]
+}
+2025-08-19 12:06:55,081 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:55,081 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:06:55,081 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:07:03,946 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:07:03,946 - INFO - {
+  "relationships": [
+    {
+      "source": "product_skoda_elroq",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_skoda_enyaq",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_octavia",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:07:03,947 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:07:03,947 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:07:03,947 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:07:04,026 - INFO - ✅ Updated Article ID: 68a34fd255f8a4c6a03cb0e3 with 7 nodes and combined text.

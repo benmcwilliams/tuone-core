@@ -1,0 +1,177 @@
+2025-08-19 10:57:26,894 - INFO - 🔍 Text length: 1152 characters
+2025-08-19 10:57:26,894 - INFO - 📌 Processing Article ID: 68a3567bcf6fecdbde0bef1b — Northvolt reviewing plans for new Swedish gigafactory
+2025-08-19 10:57:26,894 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:57:30,008 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:30,008 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_borlange_sweden",
+        "type": "factory",
+        "name": "Borlange Gigafactory",
+        "location": {
+          "city": "Borlange",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_germany",
+        "type": "factory",
+        "name": "Germany Plant",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_canada",
+        "type": "factory",
+        "name": "Canada Plant",
+        "location": {
+          "city": "null",
+          "country": "Canada"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_canada_plant",
+        "type": "investment",
+        "name": "Canada Plant",
+        "amount": "$5 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 gigawatt-hours (GWh)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_material",
+        "type": "product",
+        "name": "cathode material"
+      }
+    ]
+  }
+}
+2025-08-19 10:57:30,008 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:30,009 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:57:30,009 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:57:31,459 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:31,459 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gwh_announced",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 10:57:31,459 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:31,459 - INFO - Node ID is capacity_100_gwh_announced
+2025-08-19 10:57:31,459 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh_announced' in capacity nodes
+2025-08-19 10:57:31,459 - INFO -   ➕ Set status: announced
+2025-08-19 10:57:31,459 - INFO -   ➕ Set phase: retrofit
+2025-08-19 10:57:31,459 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:57:31,459 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:57:32,277 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:32,278 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_canada_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:57:32,278 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:32,278 - INFO - Node ID is investment_canada_plant
+2025-08-19 10:57:32,278 - INFO - ✅ Match found for investment_ID 'investment_canada_plant' in investment nodes
+2025-08-19 10:57:32,278 - INFO -   ➕ Set status: announced
+2025-08-19 10:57:32,278 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:57:32,278 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:57:32,278 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:57:32,278 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:57:33,817 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:33,817 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_borlange_sweden"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_germany"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_canada"
+    }
+  ]
+}
+2025-08-19 10:57:33,817 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:33,817 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:57:33,817 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:57:35,760 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:35,760 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gwh_announced",
+      "target": "factory_borlange_sweden",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh_announced",
+      "target": "product_cathode_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cathode_material",
+      "target": "factory_borlange_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:57:35,760 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:35,760 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:57:35,760 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:57:36,252 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:36,252 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:57:36,252 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:36,253 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:57:36,253 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:57:37,127 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:57:37,128 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_canada_plant",
+      "target": "factory_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_canada_plant",
+      "target": "product_cathode_material",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:57:37,128 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:57:37,196 - INFO - ✅ Updated Article ID: 68a3567bcf6fecdbde0bef1b with 7 nodes and combined text.

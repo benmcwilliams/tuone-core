@@ -1,0 +1,76 @@
+2025-08-19 15:28:17,725 - INFO - 🔍 Text length: 2045 characters
+2025-08-19 15:28:17,725 - INFO - 📌 Processing Article ID: 68a34c9a55f8a4c6a03cafe3 — Magna secures first dedicated hybrid drive system award in China
+2025-08-19 15:28:17,726 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:28:19,881 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:19,881 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_magna",
+        "type": "company",
+        "name": "Magna"
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_wipro_limited",
+        "type": "company",
+        "name": "Wipro Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nanchang",
+        "type": "factory",
+        "name": "Nanchang facility",
+        "location": {
+          "city": "Nanchang",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dhd_duo_system",
+        "type": "product",
+        "name": "DHD Duo system"
+      }
+    ]
+  }
+}
+2025-08-19 15:28:19,881 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:19,881 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:28:19,881 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:28:19,881 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:28:19,882 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:28:19,882 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:28:21,109 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:21,109 - INFO - {
+  "relationships": [
+    {
+      "source": "company_magna",
+      "type": "owns",
+      "target": "factory_nanchang"
+    }
+  ]
+}
+2025-08-19 15:28:21,109 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:21,109 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:28:21,110 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:28:21,869 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:28:21,870 - INFO - {
+  "relationships": [
+    {
+      "source": "product_dhd_duo_system",
+      "target": "factory_nanchang",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:28:21,870 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:28:21,870 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:28:21,870 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:28:21,954 - INFO - ✅ Updated Article ID: 68a34c9a55f8a4c6a03cafe3 with 5 nodes and combined text.

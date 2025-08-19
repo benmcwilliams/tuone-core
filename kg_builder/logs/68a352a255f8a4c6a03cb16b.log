@@ -1,0 +1,130 @@
+2025-08-19 11:47:55,860 - INFO - 🔍 Text length: 682 characters
+2025-08-19 11:47:55,860 - INFO - 📌 Processing Article ID: 68a352a255f8a4c6a03cb16b — Toyota US plant starts on new transaxle
+2025-08-19 11:47:55,860 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:47:59,098 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:59,098 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toyota_west_virginia",
+        "type": "factory",
+        "name": "Toyota West Virginia",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_$300m_announced_completed",
+        "type": "investment",
+        "name": "$300m investment",
+        "amount": "$300m",
+        "status": "completed"
+      },
+      {
+        "id": "investment_$18.6bn_announced_unclear",
+        "type": "investment",
+        "name": "$18.6bn investment",
+        "amount": "$18.6bn",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrid_transaxle",
+        "type": "product",
+        "name": "hybrid transaxle"
+      }
+    ]
+  }
+}
+2025-08-19 11:47:59,099 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:59,099 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:47:59,099 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:47:59,099 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:48:00,386 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:00,386 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_$300m_announced_completed",
+      "status": "completed",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_$18.6bn_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:48:00,386 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:00,386 - INFO - Node ID is investment_$300m_announced_completed
+2025-08-19 11:48:00,386 - INFO - ✅ Match found for investment_ID 'investment_$300m_announced_completed' in investment nodes
+2025-08-19 11:48:00,386 - INFO -   ➕ Set status: completed
+2025-08-19 11:48:00,386 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:48:00,386 - INFO - Node ID is investment_$18.6bn_announced_unclear
+2025-08-19 11:48:00,386 - INFO - ✅ Match found for investment_ID 'investment_$18.6bn_announced_unclear' in investment nodes
+2025-08-19 11:48:00,386 - INFO -   ➕ Set status: announced
+2025-08-19 11:48:00,386 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:48:00,387 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:48:00,387 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:48:00,387 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:48:01,070 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:01,071 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_west_virginia"
+    }
+  ]
+}
+2025-08-19 11:48:01,071 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:01,071 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:48:01,071 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:48:02,325 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:02,325 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hybrid_transaxle",
+      "target": "factory_toyota_west_virginia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:48:02,325 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:02,325 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:48:02,326 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:48:02,896 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:02,896 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:48:02,896 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:02,896 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:48:02,896 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:48:04,018 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:48:04,018 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_$300m_announced_completed",
+      "target": "product_hybrid_transaxle",
+      "type": "targets"
+    },
+    {
+      "source": "investment_$300m_announced_completed",
+      "target": "factory_toyota_west_virginia",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:48:04,018 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:48:04,098 - INFO - ✅ Updated Article ID: 68a352a255f8a4c6a03cb16b with 5 nodes and combined text.

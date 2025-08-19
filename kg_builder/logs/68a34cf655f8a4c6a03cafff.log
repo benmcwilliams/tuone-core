@@ -1,0 +1,141 @@
+2025-08-19 15:24:42,365 - INFO - 🔍 Text length: 1750 characters
+2025-08-19 15:24:42,365 - INFO - 📌 Processing Article ID: 68a34cf655f8a4c6a03cafff — BMW 2 Series Gran Coupe production begins in Leipzig, Germany
+2025-08-19 15:24:42,365 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:24:45,859 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:45,859 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_leipzig_plant",
+        "type": "factory",
+        "name": "Leipzig Plant",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_300_vehicles_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,300 vehicles per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bmw_2_series_gran_coupe",
+        "type": "product",
+        "name": "BMW 2 Series Gran Coupe"
+      },
+      {
+        "id": "product_bmw_1_series",
+        "type": "product",
+        "name": "BMW 1 Series"
+      },
+      {
+        "id": "product_bmw_active_tourer",
+        "type": "product",
+        "name": "BMW Active Tourer"
+      },
+      {
+        "id": "product_mini_countryman",
+        "type": "product",
+        "name": "MINI Countryman"
+      },
+      {
+        "id": "product_mini_countryman_electric",
+        "type": "product",
+        "name": "MINI Countryman Electric"
+      }
+    ]
+  }
+}
+2025-08-19 15:24:45,859 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:45,860 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:24:45,860 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:24:46,703 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:46,703 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_300_vehicles_per_day",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 15:24:46,703 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:46,703 - INFO - Node ID is capacity_1_300_vehicles_per_day
+2025-08-19 15:24:46,703 - INFO - ✅ Match found for capacity_ID 'capacity_1_300_vehicles_per_day' in capacity nodes
+2025-08-19 15:24:46,703 - INFO -   ➕ Set status: operational
+2025-08-19 15:24:46,703 - INFO -   ➕ Set phase: unclear
+2025-08-19 15:24:46,703 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:24:46,703 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:24:46,704 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:24:46,704 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:24:47,368 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:47,368 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_leipzig_plant"
+    }
+  ]
+}
+2025-08-19 15:24:47,369 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:47,369 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:24:47,369 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:24:51,702 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:51,703 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_300_vehicles_per_day",
+      "target": "factory_leipzig_plant",
+      "type": "at"
+    },
+    {
+      "source": "product_bmw_2_series_gran_coupe",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_300_vehicles_per_day",
+      "target": "product_bmw_2_series_gran_coupe",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bmw_1_series",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_active_tourer",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_countryman",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_countryman_electric",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:24:51,703 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:51,703 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:24:51,703 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:24:51,778 - INFO - ✅ Updated Article ID: 68a34cf655f8a4c6a03cafff with 8 nodes and combined text.

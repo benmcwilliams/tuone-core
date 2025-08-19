@@ -1,0 +1,108 @@
+2025-08-19 11:00:48,673 - INFO - 🔍 Text length: 1648 characters
+2025-08-19 11:00:48,673 - INFO - 📌 Processing Article ID: 68a3560dcf6fecdbde0bef01 — BMW strengthens its Chinese parts logistics operations
+2025-08-19 11:00:48,674 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:00:51,146 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:51,147 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_bmw_brilliance_automotive",
+        "type": "company",
+        "name": "BMW Brilliance Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_runbang_damei_automotive_supply_chain_industrial_park",
+        "type": "factory",
+        "name": "Runbang Damei Automotive Supply Chain Industrial Park",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_china_expansion",
+        "type": "investment",
+        "name": "BMW China Expansion",
+        "amount": "CNY270m (US$38m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_auto_parts",
+        "type": "product",
+        "name": "auto parts"
+      }
+    ]
+  }
+}
+2025-08-19 11:00:51,147 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:51,147 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:00:51,147 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:00:51,147 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:00:52,169 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:52,169 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_china_expansion",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:00:52,169 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:52,169 - INFO - Node ID is investment_bmw_china_expansion
+2025-08-19 11:00:52,169 - INFO - ✅ Match found for investment_ID 'investment_bmw_china_expansion' in investment nodes
+2025-08-19 11:00:52,169 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:00:52,169 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:00:52,169 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:00:52,169 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:00:52,170 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:00:53,283 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:53,283 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:00:53,283 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:53,283 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:00:53,283 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:00:53,989 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:53,989 - INFO - {
+  "relationships": [
+    {
+      "source": "product_auto_parts",
+      "target": "factory_runbang_damei_automotive_supply_chain_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:00:53,990 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:53,990 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:00:53,990 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:00:54,626 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:54,626 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:00:54,626 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:54,626 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:00:54,626 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:00:55,343 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:55,343 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_china_expansion",
+      "target": "factory_runbang_damei_automotive_supply_chain_industrial_park",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:00:55,344 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:55,423 - INFO - ✅ Updated Article ID: 68a3560dcf6fecdbde0bef01 with 5 nodes and combined text.

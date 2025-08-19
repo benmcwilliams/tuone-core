@@ -1,0 +1,81 @@
+2025-08-19 10:23:45,983 - INFO - 🔍 Text length: 2391 characters
+2025-08-19 10:23:45,983 - INFO - 📌 Processing Article ID: 68a35bcc193a11c7b797cd13 — US sues Hyundai over alleged child labour
+2025-08-19 10:23:45,983 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:23:48,000 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:48,001 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_co",
+        "type": "company",
+        "name": "Hyundai Motor Co."
+      },
+      {
+        "id": "company_hyundai_motor_manufacturing_alabama_llc",
+        "type": "company",
+        "name": "Hyundai Motor Manufacturing Alabama LLC"
+      },
+      {
+        "id": "company_smart_alabama_llc",
+        "type": "company",
+        "name": "SMART Alabama LLC"
+      },
+      {
+        "id": "company_best_practice_service_llc",
+        "type": "company",
+        "name": "Best Practice Service, LLC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hyundai_motor_manufacturing_alabama_llc",
+        "type": "factory",
+        "name": "Hyundai Motor Manufacturing Alabama LLC",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_car_parts",
+        "type": "product",
+        "name": "car parts"
+      }
+    ]
+  }
+}
+2025-08-19 10:23:48,001 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:48,001 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:23:48,001 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:23:48,001 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:23:48,001 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:23:48,001 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:23:49,279 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:49,280 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_manufacturing_alabama_llc",
+      "type": "owns",
+      "target": "factory_hyundai_motor_manufacturing_alabama_llc"
+    }
+  ]
+}
+2025-08-19 10:23:49,280 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:49,280 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:23:49,280 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:23:50,302 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:23:50,303 - INFO - {
+  "relationships": [
+    {
+      "source": "product_car_parts",
+      "target": "factory_hyundai_motor_manufacturing_alabama_llc",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:23:50,303 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:23:50,303 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:23:50,303 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:23:50,450 - INFO - ✅ Updated Article ID: 68a35bcc193a11c7b797cd13 with 6 nodes and combined text.

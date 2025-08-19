@@ -1,0 +1,71 @@
+2025-08-19 12:01:54,593 - INFO - 🔍 Text length: 2830 characters
+2025-08-19 12:01:54,593 - INFO - 📌 Processing Article ID: 68a3505a55f8a4c6a03cb10a — Maruti Suzuki unveils first all-electric SUV in India
+2025-08-19 12:01:54,593 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:01:56,125 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:56,125 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_maruti_suzuki",
+        "type": "company",
+        "name": "Maruti Suzuki"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gujarat_india",
+        "type": "factory",
+        "name": "Gujarat Facility",
+        "location": {
+          "city": "Gujarat",
+          "country": "India"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_e_vitara",
+        "type": "product",
+        "name": "e VITARA"
+      },
+      {
+        "id": "product_dzire_sedan",
+        "type": "product",
+        "name": "Dzire Sedan"
+      }
+    ]
+  }
+}
+2025-08-19 12:01:56,125 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:56,125 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:01:56,126 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:01:56,126 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:01:56,126 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:01:56,126 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:01:57,337 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:57,338 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maruti_suzuki",
+      "type": "owns",
+      "target": "factory_gujarat_india"
+    }
+  ]
+}
+2025-08-19 12:01:57,338 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:57,338 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:01:57,338 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:01:58,166 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:58,166 - INFO - {
+  "relationships": [
+    {
+      "source": "product_e_vitara",
+      "target": "factory_gujarat_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:01:58,166 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:58,166 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:01:58,167 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:01:58,247 - INFO - ✅ Updated Article ID: 68a3505a55f8a4c6a03cb10a with 4 nodes and combined text.

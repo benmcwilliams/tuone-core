@@ -1,0 +1,47 @@
+2025-08-19 12:19:56,169 - INFO - 🔍 Text length: 1959 characters
+2025-08-19 12:19:56,169 - INFO - 📌 Processing Article ID: 68a34e9755f8a4c6a03cb07f — Volkswagen workers intensify strikes over plant closures and layoffs
+2025-08-19 12:19:56,170 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:19:57,212 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:57,212 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wolfsburg",
+        "type": "factory",
+        "name": "Wolfsburg",
+        "location": {
+          "city": "Wolfsburg",
+          "country": "Germany"
+        }
+      }
+    ]
+  }
+}
+2025-08-19 12:19:57,213 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:57,213 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:19:57,213 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:19:57,213 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:19:57,213 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:19:57,213 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:19:58,032 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:58,032 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_wolfsburg"
+    }
+  ]
+}
+2025-08-19 12:19:58,032 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:58,033 - INFO - 🛑 Skipping technological: required nodes ['product', 'capacity'] not present.
+2025-08-19 12:19:58,033 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:19:58,033 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:19:58,107 - INFO - ✅ Updated Article ID: 68a34e9755f8a4c6a03cb07f with 2 nodes and combined text.

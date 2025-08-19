@@ -1,0 +1,112 @@
+2025-08-19 11:40:46,005 - INFO - 🔍 Text length: 983 characters
+2025-08-19 11:40:46,006 - INFO - 📌 Processing Article ID: 68a3538c55f8a4c6a03cb19b — BYD looks at state incentives for Mexico plant, despite pressure from US
+2025-08-19 11:40:46,006 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:40:47,595 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:47,596 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mexico_plant",
+        "type": "factory",
+        "name": "Mexico plant",
+        "location": {
+          "city": "null",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 units",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_500k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "500,000 units",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_song_pro_plug_in_hybrid_suv",
+        "type": "product",
+        "name": "Song Pro plug-in hybrid SUV"
+      }
+    ]
+  }
+}
+2025-08-19 11:40:47,596 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:47,596 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:40:47,596 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:40:48,669 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:48,669 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_500k_units_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:40:48,669 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:48,669 - INFO - Node ID is capacity_150k_units_per_year
+2025-08-19 11:40:48,669 - INFO - ✅ Match found for capacity_ID 'capacity_150k_units_per_year' in capacity nodes
+2025-08-19 11:40:48,670 - INFO -   ➕ Set status: announced
+2025-08-19 11:40:48,670 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:40:48,670 - INFO - Node ID is capacity_500k_units_per_year
+2025-08-19 11:40:48,670 - INFO - ✅ Match found for capacity_ID 'capacity_500k_units_per_year' in capacity nodes
+2025-08-19 11:40:48,670 - INFO -   ➕ Set status: announced
+2025-08-19 11:40:48,670 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:40:48,670 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:40:48,670 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:40:48,670 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:40:48,670 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:40:49,442 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:49,443 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_mexico_plant"
+    }
+  ]
+}
+2025-08-19 11:40:49,443 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:49,443 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:40:49,443 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:40:50,551 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:50,551 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_units_per_year",
+      "target": "factory_mexico_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500k_units_per_year",
+      "target": "factory_mexico_plant",
+      "type": "at"
+    }
+  ]
+}
+2025-08-19 11:40:50,551 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:50,552 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:40:50,552 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:40:50,629 - INFO - ✅ Updated Article ID: 68a3538c55f8a4c6a03cb19b with 5 nodes and combined text.

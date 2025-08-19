@@ -1,0 +1,114 @@
+2025-08-19 12:11:12,902 - INFO - 🔍 Text length: 2113 characters
+2025-08-19 12:11:12,902 - INFO - 📌 Processing Article ID: 68a34f7855f8a4c6a03cb0c3 — General Motors recalls over 132,000 trucks due to tailgate unlatching concerns
+2025-08-19 12:11:12,902 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:11:14,616 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:14,616 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fairfax_kansas_assembly_plant",
+        "type": "factory",
+        "name": "Fairfax, Kansas Assembly Plant",
+        "location": {
+          "city": "Fairfax",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_fairfax_kansas_assembly_plant",
+        "type": "investment",
+        "name": "Fairfax, Kansas Assembly Plant",
+        "amount": "$390m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_chevrolet_bolt_ev",
+        "type": "product",
+        "name": "next-generation Chevrolet Bolt EVs"
+      }
+    ]
+  }
+}
+2025-08-19 12:11:14,616 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:14,616 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:11:14,616 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:11:14,616 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:11:15,563 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:15,563 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_fairfax_kansas_assembly_plant",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:11:15,564 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:15,564 - INFO - Node ID is investment_fairfax_kansas_assembly_plant
+2025-08-19 12:11:15,564 - INFO - ✅ Match found for investment_ID 'investment_fairfax_kansas_assembly_plant' in investment nodes
+2025-08-19 12:11:15,564 - INFO -   ➕ Set status: announced
+2025-08-19 12:11:15,564 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:11:15,564 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:11:15,564 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:11:15,564 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:11:16,415 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:16,416 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_fairfax_kansas_assembly_plant"
+    }
+  ]
+}
+2025-08-19 12:11:16,416 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:16,416 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:11:16,416 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:11:17,315 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:17,316 - INFO - {
+  "relationships": [
+    {
+      "source": "product_chevrolet_bolt_ev",
+      "target": "factory_fairfax_kansas_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:11:17,316 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:17,316 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:11:17,316 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:11:17,966 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:17,966 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:11:17,966 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:17,966 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:11:17,966 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:11:19,044 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:19,044 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_fairfax_kansas_assembly_plant",
+      "target": "factory_fairfax_kansas_assembly_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_fairfax_kansas_assembly_plant",
+      "target": "product_chevrolet_bolt_ev",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:11:19,044 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:19,119 - INFO - ✅ Updated Article ID: 68a34f7855f8a4c6a03cb0c3 with 4 nodes and combined text.

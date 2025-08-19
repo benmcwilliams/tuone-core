@@ -1,0 +1,129 @@
+2025-08-19 11:43:34,661 - INFO - 🔍 Text length: 1563 characters
+2025-08-19 11:43:34,661 - INFO - 📌 Processing Article ID: 68a3530355f8a4c6a03cb183 — Norway’s Elinor Batteries collaborates with China’s Morlus Technology
+2025-08-19 11:43:34,661 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:43:36,526 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:36,526 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_elinor_batteries",
+        "type": "company",
+        "name": "Elinor Batteries"
+      },
+      {
+        "id": "company_morlus_technology",
+        "type": "company",
+        "name": "Morlus Technology"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_valinor",
+        "type": "company",
+        "name": "Valinor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_orkland_norway",
+        "type": "factory",
+        "name": "Orkland Gigafactory",
+        "location": {
+          "city": "Orkland",
+          "country": "Norway"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_orkland_gigafactory",
+        "type": "investment",
+        "name": "Orkland Gigafactory",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-08-19 11:43:36,526 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:36,527 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:43:36,527 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:43:36,527 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:43:37,450 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:37,451 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_orkland_gigafactory",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:43:37,451 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:37,451 - INFO - Node ID is investment_orkland_gigafactory
+2025-08-19 11:43:37,451 - INFO - ✅ Match found for investment_ID 'investment_orkland_gigafactory' in investment nodes
+2025-08-19 11:43:37,451 - INFO -   ➕ Set status: announced
+2025-08-19 11:43:37,451 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:43:37,451 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:43:37,451 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:43:37,451 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:43:38,431 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:38,431 - INFO - {
+  "relationships": [
+    {
+      "source": "company_elinor_batteries",
+      "type": "owns",
+      "target": "factory_orkland_norway"
+    }
+  ]
+}
+2025-08-19 11:43:38,431 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:38,431 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:43:38,432 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:43:39,431 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:39,431 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_orkland_norway",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:43:39,431 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:39,431 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:43:39,431 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:43:40,027 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:40,027 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:43:40,027 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:40,027 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:43:40,027 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:43:41,699 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:43:41,699 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_orkland_gigafactory",
+      "target": "factory_orkland_norway",
+      "type": "funds"
+    },
+    {
+      "source": "investment_orkland_gigafactory",
+      "target": "product_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:43:41,699 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:43:41,773 - INFO - ✅ Updated Article ID: 68a3530355f8a4c6a03cb183 with 7 nodes and combined text.

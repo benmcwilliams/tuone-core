@@ -1,0 +1,124 @@
+2025-08-19 12:25:00,113 - INFO - 🔍 Text length: 2083 characters
+2025-08-19 12:25:00,113 - INFO - 📌 Processing Article ID: 68a34e2855f8a4c6a03cb057 — Stellantis to lay off 1,100 Ohio Jeep plant workers
+2025-08-19 12:25:00,113 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:25:03,598 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:03,598 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toledo_south",
+        "type": "factory",
+        "name": "Toledo South",
+        "location": {
+          "city": "Toledo",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_toledo_north",
+        "type": "factory",
+        "name": "Toledo North",
+        "location": {
+          "city": "Toledo",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_sterling_heights_assembly",
+        "type": "factory",
+        "name": "Sterling Heights Assembly",
+        "location": {
+          "city": "Sterling Heights",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_jeep_gladiator",
+        "type": "product",
+        "name": "Jeep Gladiator"
+      },
+      {
+        "id": "product_jeep_wrangler",
+        "type": "product",
+        "name": "Jeep Wrangler"
+      },
+      {
+        "id": "product_ram_1500_classic",
+        "type": "product",
+        "name": "Ram 1500 Classic"
+      },
+      {
+        "id": "product_ram_1500_tradesman",
+        "type": "product",
+        "name": "Ram 1500 Tradesman"
+      }
+    ]
+  }
+}
+2025-08-19 12:25:03,598 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:03,598 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:25:03,598 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:25:03,599 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:25:03,599 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:25:03,599 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:25:05,031 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:05,032 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_toledo_south"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_toledo_north"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_sterling_heights_assembly"
+    }
+  ]
+}
+2025-08-19 12:25:05,032 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:05,032 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:25:05,032 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:25:06,570 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:06,571 - INFO - {
+  "relationships": [
+    {
+      "source": "product_jeep_gladiator",
+      "target": "factory_toledo_south",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_jeep_wrangler",
+      "target": "factory_toledo_north",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ram_1500_classic",
+      "target": "factory_sterling_heights_assembly",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ram_1500_tradesman",
+      "target": "factory_sterling_heights_assembly",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:25:06,571 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:06,571 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:25:06,571 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:25:06,648 - INFO - ✅ Updated Article ID: 68a34e2855f8a4c6a03cb057 with 8 nodes and combined text.

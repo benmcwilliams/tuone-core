@@ -50,6 +50,8 @@ def merge_nodes_rels():
     df_factory_expand["adm1"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm1", geo_lookup), axis=1)
     df_factory_expand["adm2"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm2", geo_lookup), axis=1)
     df_factory_expand["bbox"] = df_factory_expand.apply(lambda row: get_geo_value(row, "bbox", geo_lookup), axis=1)
+    df_factory_expand["lat"] = df_factory_expand.apply(lambda row: get_geo_value(row, "lat", geo_lookup), axis=1)
+    df_factory_expand["lon"] = df_factory_expand.apply(lambda row: get_geo_value(row, "lon", geo_lookup), axis=1)
 
     # for capacity: amount, status, phase
     df_capacity_expand = nodes["capacity"][[
@@ -127,7 +129,7 @@ def merge_nodes_rels():
     enrich_owner = enrich_capacity.merge(df_owner_expand, on = "owner_id")
     enrich_product = enrich_owner.merge(df_product_expand, on = "product_id")
 
-    custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "adm1", "adm2", "bbox",
+    custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "adm1", "adm2", "bbox", "lat", "lon",
                     "capacity", "product", "product_lv1", "product_lv2", "phase", "status"]
 
     enrich_product.to_excel(FACTORY_TECH,

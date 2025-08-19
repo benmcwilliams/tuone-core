@@ -1,0 +1,135 @@
+2025-08-19 12:14:00,622 - INFO - 🔍 Text length: 1825 characters
+2025-08-19 12:14:00,622 - INFO - 📌 Processing Article ID: 68a34f2655f8a4c6a03cb0ac — LG Chem agrees to source lithium from ExxonMobil
+2025-08-19 12:14:00,622 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:14:03,111 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:03,111 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_chem_ltd",
+        "type": "company",
+        "name": "LG Chem Ltd"
+      },
+      {
+        "id": "company_exxon_mobil_corporation",
+        "type": "company",
+        "name": "Exxon Mobil Corporation"
+      },
+      {
+        "id": "company_sk_on_ltd",
+        "type": "company",
+        "name": "SK On Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tennessee_us",
+        "type": "factory",
+        "name": "Tennessee Cathode Plant",
+        "location": {
+          "city": "Tennessee",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_arkansas_us",
+        "type": "factory",
+        "name": "Arkansas Lithium Project",
+        "location": {
+          "city": "Arkansas",
+          "country": "United States"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60k_tons_per_year_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "60,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_carbonate",
+        "type": "product",
+        "name": "lithium carbonate"
+      },
+      {
+        "id": "product_battery_cathode_materials",
+        "type": "product",
+        "name": "battery cathode materials"
+      }
+    ]
+  }
+}
+2025-08-19 12:14:03,111 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:03,111 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:14:03,111 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:14:04,135 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:04,135 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60k_tons_per_year_under_construction",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:14:04,135 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:04,135 - INFO - Node ID is capacity_60k_tons_per_year_under_construction
+2025-08-19 12:14:04,135 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tons_per_year_under_construction' in capacity nodes
+2025-08-19 12:14:04,135 - INFO -   ➕ Set status: under construction
+2025-08-19 12:14:04,135 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:14:04,135 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:14:04,135 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:14:04,135 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:14:04,136 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:14:05,362 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:05,362 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_chem_ltd",
+      "type": "owns",
+      "target": "factory_tennessee_us"
+    },
+    {
+      "source": "company_exxon_mobil_corporation",
+      "type": "owns",
+      "target": "factory_arkansas_us"
+    }
+  ]
+}
+2025-08-19 12:14:05,362 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:05,362 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:14:05,363 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:14:07,225 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:07,225 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60k_tons_per_year_under_construction",
+      "target": "factory_tennessee_us",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tons_per_year_under_construction",
+      "target": "product_battery_cathode_materials",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cathode_materials",
+      "target": "factory_tennessee_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_carbonate",
+      "target": "factory_arkansas_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:14:07,225 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:07,225 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:14:07,225 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:14:07,309 - INFO - ✅ Updated Article ID: 68a34f2655f8a4c6a03cb0ac with 8 nodes and combined text.

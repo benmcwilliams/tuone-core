@@ -1,0 +1,129 @@
+2025-08-19 12:00:19,060 - INFO - 🔍 Text length: 2254 characters
+2025-08-19 12:00:19,060 - INFO - 📌 Processing Article ID: 68a3508a55f8a4c6a03cb116 — Stellantis says ‘no plant closures or mass job cuts in Italy’ – report
+2025-08-19 12:00:19,060 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:00:21,173 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:21,173 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mirafiori",
+        "type": "factory",
+        "name": "Mirafiori",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_4_6bn_euros_unclear",
+        "type": "investment",
+        "name": "\u20ac4.6bn ($4.86bn) in funds for the automotive industry",
+        "amount": "\u20ac4.6bn ($4.86bn)",
+        "status": "unclear"
+      },
+      {
+        "id": "investment_200m_euros_announced",
+        "type": "investment",
+        "name": "\u20ac200m for 2025",
+        "amount": "\u20ac200m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_fiat_500_city_car",
+        "type": "product",
+        "name": "electric Fiat 500 city car"
+      },
+      {
+        "id": "product_maserati_sports_cars",
+        "type": "product",
+        "name": "Maserati sports cars"
+      }
+    ]
+  }
+}
+2025-08-19 12:00:21,173 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:21,174 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:00:21,174 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:00:21,174 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:00:22,457 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:22,457 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_4_6bn_euros_unclear",
+      "status": "unclear",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_200m_euros_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:00:22,457 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:22,457 - INFO - Node ID is investment_4_6bn_euros_unclear
+2025-08-19 12:00:22,457 - INFO - ✅ Match found for investment_ID 'investment_4_6bn_euros_unclear' in investment nodes
+2025-08-19 12:00:22,457 - INFO -   ➕ Set status: unclear
+2025-08-19 12:00:22,457 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:00:22,457 - INFO - Node ID is investment_200m_euros_announced
+2025-08-19 12:00:22,457 - INFO - ✅ Match found for investment_ID 'investment_200m_euros_announced' in investment nodes
+2025-08-19 12:00:22,457 - INFO -   ➕ Set status: announced
+2025-08-19 12:00:22,457 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:00:22,457 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:00:22,457 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:00:22,457 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:00:23,139 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:23,139 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mirafiori"
+    }
+  ]
+}
+2025-08-19 12:00:23,139 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:23,139 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:00:23,139 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:00:24,202 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:24,202 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_fiat_500_city_car",
+      "target": "factory_mirafiori",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_maserati_sports_cars",
+      "target": "factory_mirafiori",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:00:24,202 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:24,202 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:00:24,202 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:00:24,888 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:24,888 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:00:24,888 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:24,888 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:00:24,888 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:00:25,662 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:25,662 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:00:25,662 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:25,744 - INFO - ✅ Updated Article ID: 68a3508a55f8a4c6a03cb116 with 6 nodes and combined text.

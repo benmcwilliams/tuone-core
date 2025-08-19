@@ -1,0 +1,103 @@
+2025-08-19 11:47:43,445 - INFO - 🔍 Text length: 920 characters
+2025-08-19 11:47:43,446 - INFO - 📌 Processing Article ID: 68a352a655f8a4c6a03cb16d — Stellantis suspends Fiat EV output
+2025-08-19 11:47:43,446 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:47:46,409 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:46,409 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mirafiori_plant",
+        "type": "factory",
+        "name": "Mirafiori plant",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_italy_ev_plan",
+        "type": "investment",
+        "name": "Italy EV plan",
+        "amount": "US$1bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fiat_500",
+        "type": "product",
+        "name": "Fiat 500"
+      }
+    ]
+  }
+}
+2025-08-19 11:47:46,409 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:46,410 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:47:46,410 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:47:46,410 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:47:47,818 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:47,819 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_italy_ev_plan",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:47:47,819 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:47,819 - INFO - Node ID is investment_italy_ev_plan
+2025-08-19 11:47:47,819 - INFO - ✅ Match found for investment_ID 'investment_italy_ev_plan' in investment nodes
+2025-08-19 11:47:47,819 - INFO -   ➕ Set status: announced
+2025-08-19 11:47:47,819 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:47:47,819 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:47:47,819 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:47:47,819 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:47:48,556 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:48,556 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mirafiori_plant"
+    }
+  ]
+}
+2025-08-19 11:47:48,556 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:48,556 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:47:48,556 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:47:50,529 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:50,529 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fiat_500",
+      "target": "factory_mirafiori_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:47:50,529 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:50,530 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:47:50,530 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:47:51,183 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:51,184 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:47:51,184 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:51,184 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:47:51,184 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:47:51,824 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:51,824 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:47:51,825 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:51,905 - INFO - ✅ Updated Article ID: 68a352a655f8a4c6a03cb16d with 4 nodes and combined text.

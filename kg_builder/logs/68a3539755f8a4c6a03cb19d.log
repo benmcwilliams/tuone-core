@@ -1,0 +1,192 @@
+2025-08-19 11:40:25,396 - INFO - 🔍 Text length: 4635 characters
+2025-08-19 11:40:25,397 - INFO - 📌 Processing Article ID: 68a3539755f8a4c6a03cb19d — Soaring Chinese vehicle sales in South America: opportunities and challenges ahead
+2025-08-19 11:40:25,397 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:40:29,532 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:29,533 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_great_wall",
+        "type": "company",
+        "name": "Great Wall"
+      },
+      {
+        "id": "mercedes-benz",
+        "type": "company",
+        "name": "Mercedes-Benz",
+        "id_type": "company_id"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brazil_byd",
+        "type": "factory",
+        "name": "BYD Brazil Facility",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_brazil_great_wall",
+        "type": "factory",
+        "name": "Great Wall Brazil Facility",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_units_per_year_byd",
+        "type": "capacity",
+        "name": "BYD Brazil Facility",
+        "amount": "150,000 units per year",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_100k_units_per_year_great_wall",
+        "type": "capacity",
+        "name": "Great Wall Brazil Facility",
+        "amount": "100,000 units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_byd_dolphin_mini",
+        "type": "product",
+        "name": "BYD Dolphin Mini"
+      },
+      {
+        "id": "product_dolphin",
+        "type": "product",
+        "name": "Dolphin"
+      },
+      {
+        "id": "product_baojun_530",
+        "type": "product",
+        "name": "Baojun 530"
+      },
+      {
+        "id": "product_chevrolet_captiva",
+        "type": "product",
+        "name": "Chevrolet Captiva"
+      }
+    ]
+  }
+}
+2025-08-19 11:40:29,533 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:29,533 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:40:29,533 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:40:31,070 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:31,071 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_units_per_year_byd",
+      "status": "under construction",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100k_units_per_year_great_wall",
+      "status": "under construction",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 11:40:31,071 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:31,071 - INFO - Node ID is capacity_150k_units_per_year_byd
+2025-08-19 11:40:31,071 - INFO - ✅ Match found for capacity_ID 'capacity_150k_units_per_year_byd' in capacity nodes
+2025-08-19 11:40:31,071 - INFO -   ➕ Set status: under construction
+2025-08-19 11:40:31,071 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:40:31,071 - INFO - Node ID is capacity_100k_units_per_year_great_wall
+2025-08-19 11:40:31,071 - INFO - ✅ Match found for capacity_ID 'capacity_100k_units_per_year_great_wall' in capacity nodes
+2025-08-19 11:40:31,071 - INFO -   ➕ Set status: under construction
+2025-08-19 11:40:31,071 - INFO -   ➕ Set phase: retrofit
+2025-08-19 11:40:31,071 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:40:31,071 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:40:31,071 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:40:31,072 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:40:32,042 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:32,042 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_brazil_byd"
+    },
+    {
+      "source": "company_great_wall",
+      "type": "owns",
+      "target": "factory_brazil_great_wall"
+    }
+  ]
+}
+2025-08-19 11:40:32,042 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:32,042 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:40:32,042 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:40:36,443 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:36,443 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_units_per_year_byd",
+      "target": "factory_brazil_byd",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_units_per_year_byd",
+      "target": "product_byd_dolphin_mini",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150k_units_per_year_byd",
+      "target": "product_dolphin",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_byd_dolphin_mini",
+      "target": "factory_brazil_byd",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_dolphin",
+      "target": "factory_brazil_byd",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_100k_units_per_year_great_wall",
+      "target": "factory_brazil_great_wall",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_units_per_year_great_wall",
+      "target": "product_baojun_530",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100k_units_per_year_great_wall",
+      "target": "product_chevrolet_captiva",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_baojun_530",
+      "target": "factory_brazil_great_wall",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_chevrolet_captiva",
+      "target": "factory_brazil_great_wall",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:40:36,443 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:36,443 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:40:36,443 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:40:36,520 - INFO - ✅ Updated Article ID: 68a3539755f8a4c6a03cb19d with 11 nodes and combined text.

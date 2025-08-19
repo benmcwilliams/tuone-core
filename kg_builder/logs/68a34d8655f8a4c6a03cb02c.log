@@ -1,0 +1,135 @@
+2025-08-19 12:30:59,444 - INFO - 🔍 Text length: 1797 characters
+2025-08-19 12:30:59,444 - INFO - 📌 Processing Article ID: 68a34d8655f8a4c6a03cb02c — Mazda to build battery pack plant in Japan for upcoming EVs
+2025-08-19 12:30:59,444 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:31:03,347 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:03,347 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda",
+        "type": "company",
+        "name": "Mazda"
+      },
+      {
+        "id": "company_panasonic_energy",
+        "type": "company",
+        "name": "Panasonic Energy"
+      },
+      {
+        "id": "company_abb",
+        "type": "company",
+        "name": "ABB"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_iwakuni_city_yamaguchi_prefecture_japan",
+        "type": "factory",
+        "name": "Iwakuni City Battery Pack Plant",
+        "location": {
+          "city": "Iwakuni City, Yamaguchi Prefecture",
+          "country": "Japan"
+        }
+      },
+      {
+        "id": "factory_ujina_plant_japan",
+        "type": "factory",
+        "name": "Ujina Plant",
+        "location": {
+          "city": "Ujina",
+          "country": "Japan"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "10GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cylindrical_lithium_ion_battery_cells",
+        "type": "product",
+        "name": "automotive cylindrical lithium-ion battery cells"
+      },
+      {
+        "id": "product_battery_pack",
+        "type": "product",
+        "name": "battery pack"
+      },
+      {
+        "id": "product_rb1000i_s_paint_atomiser",
+        "type": "product",
+        "name": "RB1000i-S paint atomiser"
+      }
+    ]
+  }
+}
+2025-08-19 12:31:03,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:03,348 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:31:03,348 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:31:04,373 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:04,374 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:31:04,374 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:04,374 - INFO - Node ID is capacity_10gwh_announced
+2025-08-19 12:31:04,374 - INFO - ✅ Match found for capacity_ID 'capacity_10gwh_announced' in capacity nodes
+2025-08-19 12:31:04,374 - INFO -   ➕ Set status: announced
+2025-08-19 12:31:04,374 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:31:04,374 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:31:04,374 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:31:04,374 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:31:04,374 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:31:05,981 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:05,981 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda",
+      "type": "owns",
+      "target": "factory_iwakuni_city_yamaguchi_prefecture_japan"
+    },
+    {
+      "source": "company_mazda",
+      "type": "owns",
+      "target": "factory_ujina_plant_japan"
+    }
+  ]
+}
+2025-08-19 12:31:05,981 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:05,981 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:31:05,982 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:31:07,240 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:07,241 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10gwh_announced",
+      "target": "factory_iwakuni_city_yamaguchi_prefecture_japan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10gwh_announced",
+      "target": "product_battery_pack",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_pack",
+      "target": "factory_iwakuni_city_yamaguchi_prefecture_japan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:31:07,241 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:07,241 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:31:07,241 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:31:07,330 - INFO - ✅ Updated Article ID: 68a34d8655f8a4c6a03cb02c with 9 nodes and combined text.

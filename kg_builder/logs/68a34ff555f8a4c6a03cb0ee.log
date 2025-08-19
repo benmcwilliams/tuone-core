@@ -1,0 +1,122 @@
+2025-08-19 12:05:23,273 - INFO - 🔍 Text length: 2655 characters
+2025-08-19 12:05:23,273 - INFO - 📌 Processing Article ID: 68a34ff555f8a4c6a03cb0ee — Chinese firms eye VW’s struggling German plants – report
+2025-08-19 12:05:23,273 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:26,900 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:26,901 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_leapmotor",
+        "type": "company",
+        "name": "Leapmotor"
+      },
+      {
+        "id": "company_chery_auto",
+        "type": "company",
+        "name": "Chery Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dresden",
+        "type": "factory",
+        "name": "Dresden",
+        "location": {
+          "city": "Dresden",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_osnabrueck",
+        "type": "factory",
+        "name": "Osnabrueck",
+        "location": {
+          "city": "Osnabrueck",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_saarlouis",
+        "type": "factory",
+        "name": "Saarlouis",
+        "location": {
+          "city": "Saarlouis",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_audi_brussels",
+        "type": "factory",
+        "name": "Audi Brussels",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        }
+      },
+      {
+        "id": "factory_nissan_spain",
+        "type": "factory",
+        "name": "Nissan Spain",
+        "location": {
+          "city": "null",
+          "country": "Spain"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "EV"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:26,901 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:26,901 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:26,901 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:05:26,901 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:26,901 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:26,901 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:28,494 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:28,494 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_dresden"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_osnabrueck"
+    }
+  ]
+}
+2025-08-19 12:05:28,494 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:28,494 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:28,495 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:29,921 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:29,922 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev",
+      "target": "factory_nissan_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:05:29,922 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:29,922 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:05:29,922 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:05:29,996 - INFO - ✅ Updated Article ID: 68a34ff555f8a4c6a03cb0ee with 10 nodes and combined text.

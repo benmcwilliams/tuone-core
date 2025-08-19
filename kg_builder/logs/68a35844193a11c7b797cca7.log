@@ -1,0 +1,66 @@
+2025-08-19 10:49:26,918 - INFO - 🔍 Text length: 736 characters
+2025-08-19 10:49:26,918 - INFO - 📌 Processing Article ID: 68a35844193a11c7b797cca7 — Ferrari’s first EV tipped to cost €500k
+2025-08-19 10:49:26,918 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:49:28,633 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:28,634 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ferrari",
+        "type": "company",
+        "name": "Ferrari"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maranello_italy",
+        "type": "factory",
+        "name": "Maranello Plant",
+        "location": {
+          "city": "Maranello",
+          "country": "Italy"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_car",
+        "type": "product",
+        "name": "Electric Car"
+      }
+    ]
+  }
+}
+2025-08-19 10:49:28,634 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:28,634 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:49:28,634 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:49:28,634 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:49:28,634 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:49:28,634 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:49:29,460 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:29,460 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ferrari",
+      "type": "owns",
+      "target": "factory_maranello_italy"
+    }
+  ]
+}
+2025-08-19 10:49:29,460 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:29,461 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:49:29,461 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:49:30,155 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:49:30,156 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_car",
+      "target": "factory_maranello_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:49:30,156 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:49:30,156 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:49:30,156 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:49:30,236 - INFO - ✅ Updated Article ID: 68a35844193a11c7b797cca7 with 3 nodes and combined text.

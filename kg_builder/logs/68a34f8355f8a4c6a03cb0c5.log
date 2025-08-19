@@ -1,0 +1,165 @@
+2025-08-19 12:10:54,674 - INFO - 🔍 Text length: 1460 characters
+2025-08-19 12:10:54,674 - INFO - 📌 Processing Article ID: 68a34f8355f8a4c6a03cb0c5 — PTT to cut stake in Thai BEV joint venture
+2025-08-19 12:10:54,674 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:10:59,549 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:59,549 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ptt_plc",
+        "type": "company",
+        "name": "PTT Plc"
+      },
+      {
+        "id": "company_lin_yin_international_investment_company",
+        "type": "company",
+        "name": "Lin Yin International Investment Company"
+      },
+      {
+        "id": "company_hon_hai_precision_industry_company",
+        "type": "company",
+        "name": "Hon Hai Precision Industry Company"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_horizon_plus",
+        "type": "joint_venture",
+        "name": "Horizon Plus"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chonburi_thailand",
+        "type": "factory",
+        "name": "Chonburi BEV Plant",
+        "location": {
+          "city": "Chonburi",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_horizon_plus_divestment",
+        "type": "investment",
+        "name": "Horizon Plus Divestment",
+        "amount": "THB 5.1bn (US$147m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 units per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "battery electric vehicle (BEV)"
+      }
+    ]
+  }
+}
+2025-08-19 12:10:59,549 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:59,549 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:10:59,553 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:11:00,632 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:00,633 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_units_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:11:00,633 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:00,633 - INFO - Node ID is capacity_50k_units_per_year
+2025-08-19 12:11:00,633 - INFO - ✅ Match found for capacity_ID 'capacity_50k_units_per_year' in capacity nodes
+2025-08-19 12:11:00,633 - INFO -   ➕ Set status: under construction
+2025-08-19 12:11:00,633 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:11:00,633 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:11:00,633 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:11:01,835 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:01,835 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_horizon_plus_divestment",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:11:01,836 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:01,836 - INFO - Node ID is investment_horizon_plus_divestment
+2025-08-19 12:11:01,836 - INFO - ✅ Match found for investment_ID 'investment_horizon_plus_divestment' in investment nodes
+2025-08-19 12:11:01,836 - INFO -   ➕ Set status: announced
+2025-08-19 12:11:01,836 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:11:01,836 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:11:01,836 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:11:01,836 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:11:03,306 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:03,307 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ptt_plc",
+      "type": "forms",
+      "target": "joint_venture_horizon_plus"
+    },
+    {
+      "source": "company_lin_yin_international_investment_company",
+      "type": "forms",
+      "target": "joint_venture_horizon_plus"
+    },
+    {
+      "source": "joint_venture_horizon_plus",
+      "type": "owns",
+      "target": "factory_chonburi_thailand"
+    }
+  ]
+}
+2025-08-19 12:11:03,307 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:03,307 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:11:03,307 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:11:05,137 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:05,138 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_units_per_year",
+      "target": "factory_chonburi_thailand",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_units_per_year",
+      "target": "product_bev",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bev",
+      "target": "factory_chonburi_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:11:05,138 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:05,138 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:11:05,138 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:11:05,853 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:05,853 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:11:05,853 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:05,854 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:11:05,854 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:11:06,386 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:06,386 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:11:06,386 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:06,465 - INFO - ✅ Updated Article ID: 68a34f8355f8a4c6a03cb0c5 with 8 nodes and combined text.

@@ -1,0 +1,194 @@
+2025-08-19 11:56:14,321 - INFO - 🔍 Text length: 1361 characters
+2025-08-19 11:56:14,322 - INFO - 📌 Processing Article ID: 68a3510e55f8a4c6a03cb131 — BYD plans Pakistan plant – report
+2025-08-19 11:56:14,322 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:56:18,163 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:18,164 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_mega_conglomerate_pvt",
+        "type": "company",
+        "name": "Mega Conglomerate Pvt"
+      },
+      {
+        "id": "company_mega_motors",
+        "type": "company",
+        "name": "Mega Motors"
+      },
+      {
+        "id": "company_hub_power_co",
+        "type": "company",
+        "name": "Hub Power Co."
+      },
+      {
+        "id": "great_wall_motor_co.",
+        "type": "company",
+        "name": "Great Wall Motor Co.",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "saic_motor corp.",
+        "type": "company",
+        "name": "SAIC Motor Corp.",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      },
+      {
+        "id": "chongqing_changan automobile co.",
+        "type": "company",
+        "name": "Chongqing Changan Automobile Co.",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_byd_mega_motors",
+        "type": "joint_venture",
+        "name": "BYD Mega Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_karachi_pakistan",
+        "type": "factory",
+        "name": "Karachi Assembly Plant",
+        "location": {
+          "city": "Karachi",
+          "country": "Pakistan"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_byd_pakistan_plant",
+        "type": "investment",
+        "name": "BYD Pakistan Plant",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery-electric vehicles"
+      },
+      {
+        "id": "product_plug_in_hybrid_vehicles",
+        "type": "product",
+        "name": "plug-in hybrid vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:56:18,164 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:18,164 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:56:18,164 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:56:18,164 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:56:19,390 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:19,391 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_byd_pakistan_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:56:19,391 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:19,391 - INFO - Node ID is investment_byd_pakistan_plant
+2025-08-19 11:56:19,391 - INFO - ✅ Match found for investment_ID 'investment_byd_pakistan_plant' in investment nodes
+2025-08-19 11:56:19,391 - INFO -   ➕ Set status: announced
+2025-08-19 11:56:19,391 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:56:19,391 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:56:19,391 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:56:19,391 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:56:21,440 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:21,440 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "forms",
+      "target": "joint_venture_byd_mega_motors"
+    },
+    {
+      "source": "company_mega_motors",
+      "type": "forms",
+      "target": "joint_venture_byd_mega_motors"
+    },
+    {
+      "source": "joint_venture_byd_mega_motors",
+      "type": "owns",
+      "target": "factory_karachi_pakistan"
+    }
+  ]
+}
+2025-08-19 11:56:21,440 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:21,441 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:56:21,441 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:56:22,547 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:22,547 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_karachi_pakistan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_plug_in_hybrid_vehicles",
+      "target": "factory_karachi_pakistan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:56:22,547 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:22,547 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:56:22,547 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:56:24,142 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:24,142 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:56:24,142 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:24,142 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:56:24,142 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:56:25,641 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:56:25,641 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_byd_pakistan_plant",
+      "target": "factory_karachi_pakistan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_byd_pakistan_plant",
+      "target": "product_battery_electric_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_byd_pakistan_plant",
+      "target": "product_plug_in_hybrid_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:56:25,641 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:56:25,723 - INFO - ✅ Updated Article ID: 68a3510e55f8a4c6a03cb131 with 12 nodes and combined text.

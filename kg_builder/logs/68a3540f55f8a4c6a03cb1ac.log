@@ -1,0 +1,71 @@
+2025-08-19 11:11:24,889 - INFO - 🔍 Text length: 9434 characters
+2025-08-19 11:11:24,889 - INFO - 📌 Processing Article ID: 68a3540f55f8a4c6a03cb1ac — BMW Group’s recycling and dismantling centre
+2025-08-19 11:11:24,889 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:11:26,239 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:26,239 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_recycling_and_dismantling_centre",
+        "type": "factory",
+        "name": "Recycling and Dismantling Centre",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_voltage_batteries",
+        "type": "product",
+        "name": "high-voltage batteries"
+      },
+      {
+        "id": "product_vehicles",
+        "type": "product",
+        "name": "end-of-life vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:11:26,239 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:26,239 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:11:26,239 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:11:26,239 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:11:26,239 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:11:26,239 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:11:27,169 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:27,170 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_recycling_and_dismantling_centre"
+    }
+  ]
+}
+2025-08-19 11:11:27,170 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:27,170 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:11:27,170 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:11:28,375 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:11:28,375 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vehicles",
+      "target": "factory_recycling_and_dismantling_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:11:28,375 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:11:28,375 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:11:28,375 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:11:28,447 - INFO - ✅ Updated Article ID: 68a3540f55f8a4c6a03cb1ac with 4 nodes and combined text.

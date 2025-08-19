@@ -1,0 +1,74 @@
+2025-08-19 11:47:51,907 - INFO - 🔍 Text length: 1003 characters
+2025-08-19 11:47:51,907 - INFO - 📌 Processing Article ID: 68a352a455f8a4c6a03cb16c — GWM signs MoU with Senegalese firm
+2025-08-19 11:47:51,907 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:47:53,364 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:53,364 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gwm",
+        "type": "company",
+        "name": "GWM"
+      },
+      {
+        "id": "company_ccbm",
+        "type": "company",
+        "name": "CCBM"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_senegal_kd",
+        "type": "factory",
+        "name": "Senegal KD Factory",
+        "location": {
+          "city": "null",
+          "country": "Senegal"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kd_vehicles",
+        "type": "product",
+        "name": "KD vehicles"
+      }
+    ],
+    "joint_ventures": [],
+    "investments": [],
+    "capacities": []
+  }
+}
+2025-08-19 11:47:53,364 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:53,364 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:47:53,364 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:47:53,364 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:47:53,364 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:47:53,364 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:47:54,568 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:54,569 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gwm",
+      "type": "owns",
+      "target": "factory_senegal_kd"
+    }
+  ]
+}
+2025-08-19 11:47:54,569 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:54,569 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:47:54,569 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:47:55,781 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:55,781 - INFO - {
+  "relationships": [
+    {
+      "source": "product_kd_vehicles",
+      "target": "factory_senegal_kd",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:47:55,781 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:55,781 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:47:55,781 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:47:55,858 - INFO - ✅ Updated Article ID: 68a352a455f8a4c6a03cb16c with 4 nodes and combined text.

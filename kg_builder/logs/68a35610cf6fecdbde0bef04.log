@@ -1,0 +1,76 @@
+2025-08-19 11:00:33,512 - INFO - 🔍 Text length: 2340 characters
+2025-08-19 11:00:33,513 - INFO - 📌 Processing Article ID: 68a35610cf6fecdbde0bef04 — BrightDrop e-CVs to become Chevrolets
+2025-08-19 11:00:33,513 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:00:35,887 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:35,887 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cami_assembly_plant",
+        "type": "factory",
+        "name": "CAMI Assembly plant",
+        "location": {
+          "city": "Ingersoll",
+          "country": "Canada"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_brightdrop_commercial_ev",
+        "type": "product",
+        "name": "BrightDrop commercial EVs"
+      },
+      {
+        "id": "product_chevrolet_brightdrop_400",
+        "type": "product",
+        "name": "Chevrolet BrightDrop 400"
+      },
+      {
+        "id": "product_chevrolet_brightdrop_600",
+        "type": "product",
+        "name": "Chevrolet BrightDrop 600"
+      }
+    ]
+  }
+}
+2025-08-19 11:00:35,887 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:35,888 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:00:35,888 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:00:35,888 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:00:35,888 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:00:35,888 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:00:36,810 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:36,810 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_cami_assembly_plant"
+    }
+  ]
+}
+2025-08-19 11:00:36,810 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:36,810 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:00:36,810 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:00:38,243 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:38,243 - INFO - {
+  "relationships": [
+    {
+      "source": "product_brightdrop_commercial_ev",
+      "target": "factory_cami_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:00:38,243 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:38,244 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:00:38,244 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:00:38,331 - INFO - ✅ Updated Article ID: 68a35610cf6fecdbde0bef04 with 5 nodes and combined text.

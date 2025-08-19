@@ -1,0 +1,181 @@
+2025-08-19 10:27:56,766 - INFO - 🔍 Text length: 3878 characters
+2025-08-19 10:27:56,767 - INFO - 📌 Processing Article ID: 68a35acc193a11c7b797ccf7 — Rivian and VW announce $5bn SDV JV
+2025-08-19 10:27:56,767 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:28:00,336 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:00,336 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian",
+        "type": "company",
+        "name": "Rivian"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_rivian_vw",
+        "type": "joint_venture",
+        "name": "Rivian VW"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vw_rivian_initial",
+        "type": "investment",
+        "name": "VW Rivian Initial",
+        "amount": "$1bn",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_vw_rivian_additional",
+        "type": "investment",
+        "name": "VW Rivian Additional",
+        "amount": "$4bn",
+        "status": "announced"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_normal_illinois",
+        "type": "factory",
+        "name": "Normal Plant",
+        "location": {
+          "city": "Normal",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_georgia",
+        "type": "factory",
+        "name": "Georgia Plant",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r2_suv",
+        "type": "product",
+        "name": "R2 SUV"
+      },
+      {
+        "id": "product_midsize_ev_platform",
+        "type": "product",
+        "name": "Midsize EV Platform"
+      },
+      {
+        "id": "product_software_defined_vehicle_platform",
+        "type": "product",
+        "name": "Software Defined Vehicle Platform"
+      }
+    ]
+  }
+}
+2025-08-19 10:28:00,336 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:00,336 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:28:00,336 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:28:00,336 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:28:01,288 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:01,289 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vw_rivian_initial",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_vw_rivian_additional",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:28:01,289 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:01,289 - INFO - Node ID is investment_vw_rivian_initial
+2025-08-19 10:28:01,289 - INFO - ✅ Match found for investment_ID 'investment_vw_rivian_initial' in investment nodes
+2025-08-19 10:28:01,289 - INFO -   ➕ Set status: announced
+2025-08-19 10:28:01,289 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:28:01,289 - INFO - Node ID is investment_vw_rivian_additional
+2025-08-19 10:28:01,289 - INFO - ✅ Match found for investment_ID 'investment_vw_rivian_additional' in investment nodes
+2025-08-19 10:28:01,289 - INFO -   ➕ Set status: announced
+2025-08-19 10:28:01,289 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:28:01,289 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:28:01,289 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:28:01,289 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:28:03,193 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:03,193 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian",
+      "type": "forms",
+      "target": "joint_venture_rivian_vw"
+    },
+    {
+      "source": "company_volkswagen_group",
+      "type": "forms",
+      "target": "joint_venture_rivian_vw"
+    },
+    {
+      "source": "company_rivian",
+      "type": "owns",
+      "target": "factory_normal_illinois"
+    },
+    {
+      "source": "company_rivian",
+      "type": "owns",
+      "target": "factory_georgia"
+    }
+  ]
+}
+2025-08-19 10:28:03,193 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:03,194 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:28:03,194 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:28:04,353 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:04,353 - INFO - {
+  "relationships": [
+    {
+      "source": "product_r2_suv",
+      "target": "factory_normal_illinois",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_midsize_ev_platform",
+      "target": "factory_georgia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:28:04,354 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:04,354 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:28:04,354 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:28:04,968 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:04,969 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:28:04,969 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:04,969 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:28:04,969 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:28:06,692 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:06,692 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_vw_rivian_initial",
+      "target": "product_software_defined_vehicle_platform",
+      "type": "targets"
+    },
+    {
+      "source": "investment_vw_rivian_additional",
+      "target": "product_software_defined_vehicle_platform",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:28:06,692 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:06,780 - INFO - ✅ Updated Article ID: 68a35acc193a11c7b797ccf7 with 10 nodes and combined text.

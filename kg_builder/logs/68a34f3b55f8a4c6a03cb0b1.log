@@ -1,0 +1,118 @@
+2025-08-19 12:13:31,195 - INFO - 🔍 Text length: 1945 characters
+2025-08-19 12:13:31,195 - INFO - 📌 Processing Article ID: 68a34f3b55f8a4c6a03cb0b1 — General Motors to close Shenyang facility in China – report
+2025-08-19 12:13:31,195 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:13:33,310 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:33,310 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_saic_motors",
+        "type": "company",
+        "name": "SAIC Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shenyang_china",
+        "type": "factory",
+        "name": "Shenyang Facility",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_restructuring_charges_q4_2024",
+        "type": "investment",
+        "name": "Restructuring Charges Q4 2024",
+        "amount": "$4bn",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_buick_gl8_minivan",
+        "type": "product",
+        "name": "Buick GL8 minivan"
+      },
+      {
+        "id": "product_chevrolet_tracker_suv",
+        "type": "product",
+        "name": "Chevrolet Tracker SUV"
+      }
+    ]
+  }
+}
+2025-08-19 12:13:33,311 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:33,311 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:13:33,311 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:13:33,311 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:13:34,136 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:34,136 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_restructuring_charges_q4_2024",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:13:34,136 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:34,136 - INFO - Node ID is investment_restructuring_charges_q4_2024
+2025-08-19 12:13:34,136 - INFO - ✅ Match found for investment_ID 'investment_restructuring_charges_q4_2024' in investment nodes
+2025-08-19 12:13:34,136 - INFO -   ➕ Set status: completed
+2025-08-19 12:13:34,136 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:13:34,136 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:13:34,136 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:13:34,136 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:13:34,975 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:34,975 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_shenyang_china"
+    }
+  ]
+}
+2025-08-19 12:13:34,976 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:34,976 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:13:34,976 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:13:35,974 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:35,975 - INFO - {
+  "relationships": [
+    {
+      "source": "product_buick_gl8_minivan",
+      "target": "factory_shenyang_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_chevrolet_tracker_suv",
+      "target": "factory_shenyang_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:13:35,975 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:35,975 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:13:35,975 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:13:36,997 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:36,997 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:13:36,997 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:36,997 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:13:36,998 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:13:37,613 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:37,613 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:13:37,613 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:37,700 - INFO - ✅ Updated Article ID: 68a34f3b55f8a4c6a03cb0b1 with 6 nodes and combined text.

@@ -1,0 +1,114 @@
+2025-08-19 12:25:52,551 - INFO - 🔍 Text length: 1937 characters
+2025-08-19 12:25:52,551 - INFO - 📌 Processing Article ID: 68a34e1555f8a4c6a03cb050 — Mahindra launches EV manufacturing hub in Maharashtra, India
+2025-08-19 12:25:52,551 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:25:54,301 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:54,301 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mahindra",
+        "type": "company",
+        "name": "Mahindra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maharashtra_india",
+        "type": "factory",
+        "name": "Maharashtra EV and Battery Assembly Facility",
+        "location": {
+          "city": "Chakan, Maharashtra",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_f22_f27_cycle",
+        "type": "investment",
+        "name": "F22\u2013F27 Investment Cycle",
+        "amount": "Rs45bn ($523m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_origin_suv",
+        "type": "product",
+        "name": "Electric Origin SUV"
+      }
+    ]
+  }
+}
+2025-08-19 12:25:54,301 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:54,301 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:25:54,302 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:25:54,302 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:25:56,346 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:56,346 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_f22_f27_cycle",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:25:56,346 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:56,347 - INFO - Node ID is investment_f22_f27_cycle
+2025-08-19 12:25:56,347 - INFO - ✅ Match found for investment_ID 'investment_f22_f27_cycle' in investment nodes
+2025-08-19 12:25:56,347 - INFO -   ➕ Set status: completed
+2025-08-19 12:25:56,347 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:25:56,347 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:25:56,347 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:25:56,347 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:25:57,575 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:57,575 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mahindra",
+      "type": "owns",
+      "target": "factory_maharashtra_india"
+    }
+  ]
+}
+2025-08-19 12:25:57,575 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:57,575 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:25:57,575 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:25:58,906 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:58,907 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_origin_suv",
+      "target": "factory_maharashtra_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:25:58,907 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:58,907 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:25:58,907 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:25:59,420 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:25:59,420 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:25:59,420 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:25:59,420 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:25:59,420 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:26:01,067 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:01,068 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_f22_f27_cycle",
+      "target": "factory_maharashtra_india",
+      "type": "funds"
+    },
+    {
+      "source": "investment_f22_f27_cycle",
+      "target": "product_electric_origin_suv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:26:01,068 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:01,146 - INFO - ✅ Updated Article ID: 68a34e1555f8a4c6a03cb050 with 4 nodes and combined text.

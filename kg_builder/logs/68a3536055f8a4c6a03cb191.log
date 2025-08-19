@@ -1,0 +1,120 @@
+2025-08-19 11:42:05,687 - INFO - 🔍 Text length: 2699 characters
+2025-08-19 11:42:05,687 - INFO - 📌 Processing Article ID: 68a3536055f8a4c6a03cb191 — Northvolt restructures in Sweden
+2025-08-19 11:42:05,687 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:42:08,984 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:08,984 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northvolt_ett",
+        "type": "factory",
+        "name": "Northvolt Ett",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_vasteras_sweden",
+        "type": "factory",
+        "name": "Northvolt Labs",
+        "location": {
+          "city": "V\u00e4ster\u00e5s",
+          "country": "Sweden"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_16_gwh_phase",
+        "type": "capacity",
+        "name": "",
+        "amount": "16 GWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cell_manufacturing",
+        "type": "product",
+        "name": "cell manufacturing"
+      },
+      {
+        "id": "product_cathode_active_material",
+        "type": "product",
+        "name": "cathode active material"
+      }
+    ]
+  }
+}
+2025-08-19 11:42:08,984 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:08,984 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:42:08,984 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:42:10,043 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:10,043 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_16_gwh_phase",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:42:10,044 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:10,044 - INFO - Node ID is capacity_16_gwh_phase
+2025-08-19 11:42:10,044 - INFO - ✅ Match found for capacity_ID 'capacity_16_gwh_phase' in capacity nodes
+2025-08-19 11:42:10,044 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:10,044 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:42:10,044 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:42:10,044 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:42:10,044 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:42:10,044 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:42:11,321 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:11,322 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_ett"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_vasteras_sweden"
+    }
+  ]
+}
+2025-08-19 11:42:11,322 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:11,322 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:42:11,322 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:42:13,163 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:13,164 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_16_gwh_phase",
+      "target": "factory_northvolt_ett",
+      "type": "at"
+    },
+    {
+      "source": "capacity_16_gwh_phase",
+      "target": "product_cell_manufacturing",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cell_manufacturing",
+      "target": "factory_northvolt_ett",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:42:13,164 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:13,164 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:42:13,164 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:42:13,239 - INFO - ✅ Updated Article ID: 68a3536055f8a4c6a03cb191 with 6 nodes and combined text.

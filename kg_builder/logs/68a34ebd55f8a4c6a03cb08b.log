@@ -1,0 +1,103 @@
+2025-08-19 12:18:48,966 - INFO - 🔍 Text length: 5502 characters
+2025-08-19 12:18:48,966 - INFO - 📌 Processing Article ID: 68a34ebd55f8a4c6a03cb08b — Z4 Handschalter – BMW brings back the (manual shifting) bliss
+2025-08-19 12:18:48,967 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:18:52,197 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:52,197 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_magna_steyr_fahrzeugtechnik",
+        "type": "company",
+        "name": "Magna Steyr Fahrzeugtechnik"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_bmw_toyota",
+        "type": "joint_venture",
+        "name": "BMW Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_graz_austria",
+        "type": "factory",
+        "name": "Graz Plant",
+        "location": {
+          "city": "Graz",
+          "country": "Austria"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bmw_z4_m40i_handschalter",
+        "type": "product",
+        "name": "BMW Z4 M40i Handschalter"
+      },
+      {
+        "id": "product_toyota_supra",
+        "type": "product",
+        "name": "Toyota Supra"
+      },
+      {
+        "id": "product_v8_supracar",
+        "type": "product",
+        "name": "V8 Supracar"
+      }
+    ]
+  }
+}
+2025-08-19 12:18:52,198 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:52,198 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:18:52,198 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:18:52,198 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:18:52,198 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:18:52,198 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:18:53,826 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:53,827 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "forms",
+      "target": "joint_venture_bmw_toyota"
+    },
+    {
+      "source": "company_toyota",
+      "type": "forms",
+      "target": "joint_venture_bmw_toyota"
+    },
+    {
+      "source": "company_magna_steyr_fahrzeugtechnik",
+      "type": "owns",
+      "target": "factory_graz_austria"
+    }
+  ]
+}
+2025-08-19 12:18:53,827 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:53,827 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:18:53,827 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:18:54,881 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:54,881 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bmw_z4_m40i_handschalter",
+      "target": "factory_graz_austria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:18:54,881 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:54,881 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:18:54,882 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:18:54,963 - INFO - ✅ Updated Article ID: 68a34ebd55f8a4c6a03cb08b with 8 nodes and combined text.

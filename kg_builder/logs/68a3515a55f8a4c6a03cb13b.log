@@ -1,0 +1,76 @@
+2025-08-19 11:55:19,856 - INFO - 🔍 Text length: 1919 characters
+2025-08-19 11:55:19,856 - INFO - 📌 Processing Article ID: 68a3515a55f8a4c6a03cb13b — Ford Q2 revenue up, profit down
+2025-08-19 11:55:19,856 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:21,364 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:21,364 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oakville_canada",
+        "type": "factory",
+        "name": "Oakville Assembly Plant",
+        "location": {
+          "city": "Oakville",
+          "country": "Canada"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_super_duty_trucks",
+        "type": "product",
+        "name": "Super Duty trucks"
+      },
+      {
+        "id": "product_transit_commercial_vans",
+        "type": "product",
+        "name": "Transit commercial vans"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:21,364 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:21,364 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:21,364 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:55:21,364 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:21,364 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:21,364 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:22,150 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:22,150 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_oakville_canada"
+    }
+  ]
+}
+2025-08-19 11:55:22,150 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:22,150 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:22,150 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:23,930 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:23,930 - INFO - {
+  "relationships": [
+    {
+      "source": "product_super_duty_trucks",
+      "target": "factory_oakville_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_transit_commercial_vans",
+      "target": "factory_oakville_canada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:23,930 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:23,930 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:55:23,930 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:55:24,011 - INFO - ✅ Updated Article ID: 68a3515a55f8a4c6a03cb13b with 4 nodes and combined text.

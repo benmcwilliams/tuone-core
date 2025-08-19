@@ -1,0 +1,178 @@
+2025-08-19 10:21:15,294 - INFO - 🔍 Text length: 1215 characters
+2025-08-19 10:21:15,294 - INFO - 📌 Processing Article ID: 68a35c81193a11c7b797cd22 — Honda Brazil to boost flex fuel line
+2025-08-19 10:21:15,294 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:21:17,261 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:17,261 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_itirapina_brazil",
+        "type": "factory",
+        "name": "Itirapina Factory",
+        "location": {
+          "city": "Itirapina",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_honda_brazil_2023",
+        "type": "investment",
+        "name": "Honda Brazil Investment",
+        "amount": "BRL4.2bn (US$803m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_vehicles_per_year",
+        "type": "capacity",
+        "amount": "150,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_flexible_fuel_vehicles",
+        "type": "product",
+        "name": "flexible fuel vehicles"
+      },
+      {
+        "id": "product_hybrid_flex_fuel_model",
+        "type": "product",
+        "name": "hybrid flex fuel model"
+      },
+      {
+        "id": "product_entry_level_suv",
+        "type": "product",
+        "name": "entry level SUV"
+      }
+    ]
+  }
+}
+2025-08-19 10:21:17,261 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:17,261 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:21:17,261 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:21:18,000 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:18,000 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_vehicles_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:21:18,000 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:18,001 - INFO - Node ID is capacity_150k_vehicles_per_year
+2025-08-19 10:21:18,001 - INFO - ✅ Match found for capacity_ID 'capacity_150k_vehicles_per_year' in capacity nodes
+2025-08-19 10:21:18,001 - INFO -   ➕ Set status: announced
+2025-08-19 10:21:18,001 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:21:18,001 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:21:18,001 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:21:19,412 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:19,412 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_honda_brazil_2023",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:21:19,412 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:19,413 - INFO - Node ID is investment_honda_brazil_2023
+2025-08-19 10:21:19,413 - INFO - ✅ Match found for investment_ID 'investment_honda_brazil_2023' in investment nodes
+2025-08-19 10:21:19,413 - INFO -   ➕ Set status: announced
+2025-08-19 10:21:19,413 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:21:19,413 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:21:19,413 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:21:19,413 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:21:20,166 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:20,167 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_itirapina_brazil"
+    }
+  ]
+}
+2025-08-19 10:21:20,167 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:20,167 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:21:20,167 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:21:21,870 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:21,870 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "factory_itirapina_brazil",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_flexible_fuel_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_flexible_fuel_vehicles",
+      "target": "factory_itirapina_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hybrid_flex_fuel_model",
+      "target": "factory_itirapina_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_hybrid_flex_fuel_model",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 10:21:21,870 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:21,870 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:21:21,870 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:21:22,446 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:22,446 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:21:22,446 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:22,446 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:21:22,446 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:21:24,224 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:24,225 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_honda_brazil_2023",
+      "target": "factory_itirapina_brazil",
+      "type": "funds"
+    },
+    {
+      "source": "investment_honda_brazil_2023",
+      "target": "product_flexible_fuel_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_honda_brazil_2023",
+      "target": "product_hybrid_flex_fuel_model",
+      "type": "targets"
+    },
+    {
+      "source": "investment_honda_brazil_2023",
+      "target": "product_entry_level_suv",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:21:24,225 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:24,303 - INFO - ✅ Updated Article ID: 68a35c81193a11c7b797cd22 with 7 nodes and combined text.

@@ -1,0 +1,131 @@
+2025-08-19 12:32:10,951 - INFO - 🔍 Text length: 2649 characters
+2025-08-19 12:32:10,952 - INFO - 📌 Processing Article ID: 68a34d6d55f8a4c6a03cb023 — Nissan may revise EV production plans in US amid policy concerns-report
+2025-08-19 12:32:10,952 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:32:15,623 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:15,623 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_compas",
+        "type": "joint_venture",
+        "name": "Cooperation Manufacturing Plant Aguascalientes (Compas)"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_canton_mississippi",
+        "type": "factory",
+        "name": "Canton Plant",
+        "location": {
+          "city": "Canton",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_smyrna_tennessee",
+        "type": "factory",
+        "name": "Smyrna Plant",
+        "location": {
+          "city": "Smyrna",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_mexico",
+        "type": "factory",
+        "name": "Compas Plant",
+        "location": {
+          "city": "Aguascalientes",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ad_compact_van",
+        "type": "product",
+        "name": "AD compact van"
+      },
+      {
+        "id": "product_qx50",
+        "type": "product",
+        "name": "QX50"
+      },
+      {
+        "id": "product_qx55",
+        "type": "product",
+        "name": "QX55"
+      }
+    ]
+  }
+}
+2025-08-19 12:32:15,623 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:15,623 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:32:15,623 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:32:15,623 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:32:15,623 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:32:15,624 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:32:17,245 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:17,246 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "forms",
+      "target": "joint_venture_compas"
+    },
+    {
+      "source": "company_mercedes_benz",
+      "type": "forms",
+      "target": "joint_venture_compas"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_canton_mississippi"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_smyrna_tennessee"
+    },
+    {
+      "source": "joint_venture_compas",
+      "type": "owns",
+      "target": "factory_mexico"
+    }
+  ]
+}
+2025-08-19 12:32:17,246 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:17,246 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:32:17,246 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:32:18,611 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:18,612 - INFO - {
+  "relationships": [
+    {
+      "source": "product_qx50",
+      "target": "factory_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_qx55",
+      "target": "factory_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:32:18,612 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:18,612 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:32:18,612 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:32:18,700 - INFO - ✅ Updated Article ID: 68a34d6d55f8a4c6a03cb023 with 9 nodes and combined text.

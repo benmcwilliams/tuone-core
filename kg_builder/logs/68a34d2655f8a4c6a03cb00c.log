@@ -1,0 +1,157 @@
+2025-08-19 15:22:22,114 - INFO - 🔍 Text length: 2090 characters
+2025-08-19 15:22:22,114 - INFO - 📌 Processing Article ID: 68a34d2655f8a4c6a03cb00c — Posco Pilbara completes second lithium hydroxide plant in South Korea
+2025-08-19 15:22:22,114 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:22:30,215 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:30,215 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_group",
+        "type": "company",
+        "name": "Posco Group"
+      },
+      {
+        "id": "company_pilbara_minerals",
+        "type": "company",
+        "name": "Pilbara Minerals"
+      },
+      {
+        "id": "company_sk_on_company",
+        "type": "company",
+        "name": "SK On Company"
+      },
+      {
+        "id": "company_posco_future_m",
+        "type": "company",
+        "name": "Posco Future M"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_posco_pilbara_lithium_solution_company",
+        "type": "joint_venture",
+        "name": "Posco Pilbara Lithium Solution Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_yulchon_industrial_complex",
+        "type": "factory",
+        "name": "Yulchon Industrial Complex",
+        "location": {
+          "city": "Gwangyang",
+          "country": "South Korea"
+        }
+      },
+      {
+        "id": "factory_pilgangoora_operation",
+        "type": "factory",
+        "name": "Pilgangoora Operation",
+        "location": {
+          "city": "null",
+          "country": "Australia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_43k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "43,000 tonnes per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_hydroxide",
+        "type": "product",
+        "name": "lithium hydroxide"
+      },
+      {
+        "id": "product_lithium_spodumene_concentrate",
+        "type": "product",
+        "name": "lithium spodumene concentrate"
+      }
+    ]
+  }
+}
+2025-08-19 15:22:30,215 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:30,215 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 15:22:30,215 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 15:22:32,472 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:32,472 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_43k_tonnes_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 15:22:32,472 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:32,472 - INFO - Node ID is capacity_43k_tonnes_per_year
+2025-08-19 15:22:32,472 - INFO - ✅ Match found for capacity_ID 'capacity_43k_tonnes_per_year' in capacity nodes
+2025-08-19 15:22:32,472 - INFO -   ➕ Set status: operational
+2025-08-19 15:22:32,472 - INFO -   ➕ Set phase: greenfield
+2025-08-19 15:22:32,472 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:22:32,472 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:22:32,472 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:22:32,473 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:22:35,669 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:35,669 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_group",
+      "type": "forms",
+      "target": "joint_venture_posco_pilbara_lithium_solution_company"
+    },
+    {
+      "source": "company_pilbara_minerals",
+      "type": "forms",
+      "target": "joint_venture_posco_pilbara_lithium_solution_company"
+    },
+    {
+      "source": "joint_venture_posco_pilbara_lithium_solution_company",
+      "type": "owns",
+      "target": "factory_yulchon_industrial_complex"
+    },
+    {
+      "source": "company_pilbara_minerals",
+      "type": "owns",
+      "target": "factory_pilgangoora_operation"
+    }
+  ]
+}
+2025-08-19 15:22:35,669 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:35,670 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:22:35,670 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:22:38,072 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:22:38,072 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_43k_tonnes_per_year",
+      "target": "factory_yulchon_industrial_complex",
+      "type": "at"
+    },
+    {
+      "source": "capacity_43k_tonnes_per_year",
+      "target": "product_lithium_hydroxide",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_hydroxide",
+      "target": "factory_yulchon_industrial_complex",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_spodumene_concentrate",
+      "target": "factory_pilgangoora_operation",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:22:38,072 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:22:38,072 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:22:38,072 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:22:38,152 - INFO - ✅ Updated Article ID: 68a34d2655f8a4c6a03cb00c with 10 nodes and combined text.

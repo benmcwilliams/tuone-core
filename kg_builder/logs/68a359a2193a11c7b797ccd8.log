@@ -1,0 +1,81 @@
+2025-08-19 10:31:28,050 - INFO - 🔍 Text length: 1237 characters
+2025-08-19 10:31:28,050 - INFO - 📌 Processing Article ID: 68a359a2193a11c7b797ccd8 — Hyundai now to produce hybrids at Metaplant America
+2025-08-19 10:31:28,050 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:31:29,881 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:29,881 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_metaplant_america",
+        "type": "factory",
+        "name": "Hyundai Motor Group Metaplant America",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrids",
+        "type": "product",
+        "name": "hybrids"
+      },
+      {
+        "id": "product_bevs",
+        "type": "product",
+        "name": "battery electric vehicles (BEVs)"
+      }
+    ]
+  }
+}
+2025-08-19 10:31:29,881 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:29,881 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:31:29,881 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:31:29,881 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:31:29,881 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:31:29,881 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:31:30,579 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:30,580 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_metaplant_america"
+    }
+  ]
+}
+2025-08-19 10:31:30,580 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:30,580 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:31:30,580 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:31:31,725 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:31,725 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hybrids",
+      "target": "factory_metaplant_america",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bevs",
+      "target": "factory_metaplant_america",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:31:31,726 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:31,726 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:31:31,726 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:31:31,810 - INFO - ✅ Updated Article ID: 68a359a2193a11c7b797ccd8 with 5 nodes and combined text.

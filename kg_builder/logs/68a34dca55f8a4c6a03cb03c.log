@@ -1,0 +1,141 @@
+2025-08-19 12:28:35,345 - INFO - 🔍 Text length: 2572 characters
+2025-08-19 12:28:35,345 - INFO - 📌 Processing Article ID: 68a34dca55f8a4c6a03cb03c — Skoda starts production of electric Enyaq
+2025-08-19 12:28:35,345 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:28:37,732 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:37,732 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda_auto",
+        "type": "company",
+        "name": "Skoda Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mlada_boleslav",
+        "type": "factory",
+        "name": "Mlad\u00e1 Boleslav Plant",
+        "location": {
+          "city": "Mlad\u00e1 Boleslav",
+          "country": "Czech Republic"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_enyaq_family_models_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 Enyaq family models per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_enyaq",
+        "type": "product",
+        "name": "Enyaq"
+      },
+      {
+        "id": "product_elroq",
+        "type": "product",
+        "name": "Elroq"
+      },
+      {
+        "id": "product_octavia",
+        "type": "product",
+        "name": "Octavia"
+      },
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      },
+      {
+        "id": "product_traction_batteries",
+        "type": "product",
+        "name": "traction batteries"
+      }
+    ]
+  }
+}
+2025-08-19 12:28:37,732 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:37,732 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:28:37,732 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:28:39,677 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:39,678 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_enyaq_family_models_per_day",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:28:39,678 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:39,678 - INFO - Node ID is capacity_300_enyaq_family_models_per_day
+2025-08-19 12:28:39,678 - INFO - ✅ Match found for capacity_ID 'capacity_300_enyaq_family_models_per_day' in capacity nodes
+2025-08-19 12:28:39,678 - INFO -   ➕ Set status: operational
+2025-08-19 12:28:39,678 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:28:39,678 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:28:39,678 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:28:39,678 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:28:39,678 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:28:40,598 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:40,599 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_mlada_boleslav"
+    }
+  ]
+}
+2025-08-19 12:28:40,599 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:40,599 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:28:40,599 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:28:43,774 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:43,774 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_enyaq_family_models_per_day",
+      "target": "factory_mlada_boleslav",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_enyaq_family_models_per_day",
+      "target": "product_enyaq",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_enyaq",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_elroq",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_octavia",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_traction_batteries",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:28:43,774 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:43,774 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:28:43,774 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:28:43,851 - INFO - ✅ Updated Article ID: 68a34dca55f8a4c6a03cb03c with 8 nodes and combined text.

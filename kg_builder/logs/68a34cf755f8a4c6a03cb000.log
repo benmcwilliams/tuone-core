@@ -1,0 +1,71 @@
+2025-08-19 15:24:38,005 - INFO - 🔍 Text length: 1933 characters
+2025-08-19 15:24:38,006 - INFO - 📌 Processing Article ID: 68a34cf755f8a4c6a03cb000 — Mazda chooses ABB for advanced paint atomisation technology
+2025-08-19 15:24:38,006 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:24:39,963 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:39,963 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda",
+        "type": "company",
+        "name": "Mazda"
+      },
+      {
+        "id": "company_abb",
+        "type": "company",
+        "name": "ABB"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ujina_plant",
+        "type": "factory",
+        "name": "Ujina plant",
+        "location": {
+          "city": "Ujina",
+          "country": "Japan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_rb1000i_s_paint_atomiser",
+        "type": "product",
+        "name": "RB1000i-S paint atomiser"
+      }
+    ]
+  }
+}
+2025-08-19 15:24:39,964 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:39,964 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:24:39,964 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:24:39,964 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:24:39,964 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:24:39,964 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:24:41,461 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:41,461 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda",
+      "type": "owns",
+      "target": "factory_ujina_plant"
+    }
+  ]
+}
+2025-08-19 15:24:41,461 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:41,461 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:24:41,461 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:24:42,280 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:24:42,280 - INFO - {
+  "relationships": [
+    {
+      "source": "product_rb1000i_s_paint_atomiser",
+      "target": "factory_ujina_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:24:42,280 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:24:42,280 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:24:42,281 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:24:42,363 - INFO - ✅ Updated Article ID: 68a34cf755f8a4c6a03cb000 with 4 nodes and combined text.

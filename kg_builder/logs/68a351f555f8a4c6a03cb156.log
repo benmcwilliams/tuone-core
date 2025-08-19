@@ -1,0 +1,164 @@
+2025-08-19 11:51:17,188 - INFO - 🔍 Text length: 886 characters
+2025-08-19 11:51:17,189 - INFO - 📌 Processing Article ID: 68a351f555f8a4c6a03cb156 — TSMC begins work on €10bn auto chips plant in Germany
+2025-08-19 11:51:17,189 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:51:19,840 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:19,840 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tsmc",
+        "type": "company",
+        "name": "Taiwan Semiconductor Manufacturing Company"
+      },
+      {
+        "id": "company_infineon",
+        "type": "company",
+        "name": "Infineon"
+      },
+      {
+        "id": "company_intel",
+        "type": "company",
+        "name": "Intel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dresden_germany",
+        "type": "factory",
+        "name": "Dresden Plant",
+        "location": {
+          "city": "Dresden",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dresden_plant",
+        "type": "investment",
+        "name": "Dresden Plant",
+        "amount": "\u20ac10 billion",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40k_chips_per_month",
+        "type": "capacity",
+        "name": "",
+        "amount": "40,000 chips per month",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automotive_industrial_chips",
+        "type": "product",
+        "name": "chips for the automotive and industrial sectors"
+      }
+    ]
+  }
+}
+2025-08-19 11:51:19,840 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:19,840 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:51:19,840 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:51:20,755 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:20,755 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40k_chips_per_month",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:51:20,755 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:20,755 - INFO - Node ID is capacity_40k_chips_per_month
+2025-08-19 11:51:20,756 - INFO - ✅ Match found for capacity_ID 'capacity_40k_chips_per_month' in capacity nodes
+2025-08-19 11:51:20,756 - INFO -   ➕ Set status: under construction
+2025-08-19 11:51:20,756 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:51:20,756 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:51:20,756 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:51:21,741 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:21,742 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dresden_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:51:21,742 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:21,742 - INFO - Node ID is investment_dresden_plant
+2025-08-19 11:51:21,742 - INFO - ✅ Match found for investment_ID 'investment_dresden_plant' in investment nodes
+2025-08-19 11:51:21,742 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:51:21,742 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:51:21,742 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:51:21,742 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:51:21,742 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:51:22,496 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:22,496 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tsmc",
+      "type": "owns",
+      "target": "factory_dresden_germany"
+    }
+  ]
+}
+2025-08-19 11:51:22,496 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:22,496 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:51:22,496 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:51:24,295 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:24,295 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40k_chips_per_month",
+      "target": "factory_dresden_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40k_chips_per_month",
+      "target": "product_automotive_industrial_chips",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_automotive_industrial_chips",
+      "target": "factory_dresden_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:51:24,295 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:24,295 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:51:24,295 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:51:24,927 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:24,927 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:51:24,928 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:24,928 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:51:24,928 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:51:26,994 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:51:26,994 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dresden_plant",
+      "target": "factory_dresden_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_dresden_plant",
+      "target": "capacity_40k_chips_per_month",
+      "type": "enables"
+    },
+    {
+      "source": "investment_dresden_plant",
+      "target": "product_automotive_industrial_chips",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:51:26,995 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:51:27,071 - INFO - ✅ Updated Article ID: 68a351f555f8a4c6a03cb156 with 7 nodes and combined text.

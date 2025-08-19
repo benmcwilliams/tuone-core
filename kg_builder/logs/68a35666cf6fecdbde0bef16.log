@@ -1,0 +1,164 @@
+2025-08-19 10:58:32,974 - INFO - 🔍 Text length: 1551 characters
+2025-08-19 10:58:32,974 - INFO - 📌 Processing Article ID: 68a35666cf6fecdbde0bef16 — Hyundai launches Ioniq 6 production in Singapore
+2025-08-19 10:58:32,974 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:58:35,777 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:35,777 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_motional",
+        "type": "company",
+        "name": "Motional"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hmgics_singapore",
+        "type": "factory",
+        "name": "Hyundai Motor Group Innovation Centre Singapore",
+        "location": {
+          "city": "Jurong",
+          "country": "Singapore"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_motor_jurong_facility",
+        "type": "investment",
+        "name": "Hyundai Motor Jurong Facility",
+        "amount": "SGD400m (US$300m)",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ioniq_5",
+        "type": "product",
+        "name": "Ioniq 5"
+      },
+      {
+        "id": "product_ioniq_6",
+        "type": "product",
+        "name": "Ioniq 6"
+      }
+    ]
+  }
+}
+2025-08-19 10:58:35,777 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:35,777 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:58:35,778 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:58:36,585 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:36,585 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30k_vehicles_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:58:36,585 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:36,586 - INFO - Node ID is capacity_30k_vehicles_per_year
+2025-08-19 10:58:36,586 - INFO - ✅ Match found for capacity_ID 'capacity_30k_vehicles_per_year' in capacity nodes
+2025-08-19 10:58:36,586 - INFO -   ➕ Set status: operational
+2025-08-19 10:58:36,586 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:58:36,586 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:58:36,586 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:58:37,510 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:37,510 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_motor_jurong_facility",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:58:37,510 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:37,510 - INFO - Node ID is investment_hyundai_motor_jurong_facility
+2025-08-19 10:58:37,510 - INFO - ✅ Match found for investment_ID 'investment_hyundai_motor_jurong_facility' in investment nodes
+2025-08-19 10:58:37,510 - INFO -   ➕ Set status: completed
+2025-08-19 10:58:37,510 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:58:37,510 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:58:37,510 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:58:37,511 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:58:38,533 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:38,533 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_hmgics_singapore"
+    }
+  ]
+}
+2025-08-19 10:58:38,534 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:38,534 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:58:38,534 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:58:40,173 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:40,173 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30k_vehicles_per_year",
+      "target": "factory_hmgics_singapore",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30k_vehicles_per_year",
+      "target": "product_ioniq_5",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_30k_vehicles_per_year",
+      "target": "product_ioniq_6",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ioniq_5",
+      "target": "factory_hmgics_singapore",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ioniq_6",
+      "target": "factory_hmgics_singapore",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:58:40,174 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:40,174 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:58:40,174 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:58:40,887 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:40,888 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:58:40,888 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:40,888 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:58:40,888 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:58:41,605 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:58:41,605 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_motor_jurong_facility",
+      "target": "factory_hmgics_singapore",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:58:41,605 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:58:41,679 - INFO - ✅ Updated Article ID: 68a35666cf6fecdbde0bef16 with 7 nodes and combined text.

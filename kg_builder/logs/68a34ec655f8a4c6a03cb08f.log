@@ -1,0 +1,143 @@
+2025-08-19 12:18:17,250 - INFO - 🔍 Text length: 2354 characters
+2025-08-19 12:18:17,250 - INFO - 📌 Processing Article ID: 68a34ec655f8a4c6a03cb08f — Perodua to double capex in 2025
+2025-08-19 12:18:17,251 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:18:19,421 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:19,421 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_perodua",
+        "type": "company",
+        "name": "Perodua"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rawang_malaysia",
+        "type": "factory",
+        "name": "Rawang Assembly Facility",
+        "location": {
+          "city": "Rawang",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_perodua_capex_2025",
+        "type": "investment",
+        "name": "Perodua Capex 2025",
+        "amount": "MYR 1.6 billion (US$358m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_320k_units_per_year",
+        "type": "capacity",
+        "amount": "320,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev_model",
+        "type": "product",
+        "name": "battery electric vehicle (BEV) model"
+      }
+    ]
+  }
+}
+2025-08-19 12:18:19,421 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:19,421 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:18:19,422 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:18:20,751 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:20,752 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_320k_units_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:18:20,752 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:20,752 - INFO - Node ID is capacity_320k_units_per_year
+2025-08-19 12:18:20,752 - INFO - ✅ Match found for capacity_ID 'capacity_320k_units_per_year' in capacity nodes
+2025-08-19 12:18:20,752 - INFO -   ➕ Set status: operational
+2025-08-19 12:18:20,752 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:18:20,752 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:18:20,752 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:18:21,654 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:21,654 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_perodua_capex_2025",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-19 12:18:21,654 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:21,654 - INFO - Node ID is investment_perodua_capex_2025
+2025-08-19 12:18:21,654 - INFO - ✅ Match found for investment_ID 'investment_perodua_capex_2025' in investment nodes
+2025-08-19 12:18:21,654 - INFO -   ➕ Set status: announced
+2025-08-19 12:18:21,655 - INFO -   ➕ Set phase: retrofit
+2025-08-19 12:18:21,655 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:18:21,655 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:18:21,655 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:18:22,593 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:22,594 - INFO - {
+  "relationships": [
+    {
+      "source": "company_perodua",
+      "type": "owns",
+      "target": "factory_rawang_malaysia"
+    }
+  ]
+}
+2025-08-19 12:18:22,594 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:22,594 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:18:22,594 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:18:25,153 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:25,153 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_320k_units_per_year",
+      "target": "factory_rawang_malaysia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_320k_units_per_year",
+      "target": "product_bev_model",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bev_model",
+      "target": "factory_rawang_malaysia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:18:25,154 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:25,154 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:18:25,154 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:18:25,768 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:25,768 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:18:25,768 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:25,769 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:18:25,769 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:18:26,485 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:18:26,485 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_perodua_capex_2025",
+      "target": "factory_rawang_malaysia",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:18:26,485 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:18:26,570 - INFO - ✅ Updated Article ID: 68a34ec655f8a4c6a03cb08f with 5 nodes and combined text.

@@ -1,0 +1,159 @@
+2025-08-19 10:17:59,526 - INFO - 🔍 Text length: 3637 characters
+2025-08-19 10:17:59,526 - INFO - 📌 Processing Article ID: 68a42ff09853ad45aea804d4 — Maxeon’s module shipments fall by 90% over two years amid border dispute
+2025-08-19 10:17:59,526 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:18:04,628 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:04,628 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_maxeon",
+        "type": "company",
+        "name": "Maxeon"
+      },
+      {
+        "id": "company_hanwha_solutions",
+        "type": "company",
+        "name": "Hanwha Solutions"
+      },
+      {
+        "id": "company_tcl_technology_group",
+        "type": "company",
+        "name": "TCL Technology Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_new_mexico",
+        "type": "factory",
+        "name": "New Mexico Module Assembly Plant",
+        "location": {
+          "city": "New Mexico",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tcl_technology_group_sales",
+        "type": "investment",
+        "name": "TCL Technology Group Sales",
+        "amount": "US$94 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2gw_module_assembly_plant",
+        "type": "capacity",
+        "name": "",
+        "amount": "2GW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      },
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      }
+    ]
+  }
+}
+2025-08-19 10:18:04,629 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:04,629 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:18:04,629 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:18:06,061 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:06,061 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2gw_module_assembly_plant",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:18:06,062 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:06,062 - INFO - Node ID is capacity_2gw_module_assembly_plant
+2025-08-19 10:18:06,062 - INFO - ✅ Match found for capacity_ID 'capacity_2gw_module_assembly_plant' in capacity nodes
+2025-08-19 10:18:06,062 - INFO -   ➕ Set status: operational
+2025-08-19 10:18:06,062 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:18:06,062 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:18:06,062 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:18:07,042 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:07,042 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tcl_technology_group_sales",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:18:07,042 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:07,042 - INFO - Node ID is investment_tcl_technology_group_sales
+2025-08-19 10:18:07,042 - INFO - ✅ Match found for investment_ID 'investment_tcl_technology_group_sales' in investment nodes
+2025-08-19 10:18:07,043 - INFO -   ➕ Set status: completed
+2025-08-19 10:18:07,043 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:18:07,043 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:18:07,043 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:18:07,043 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:18:07,983 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:07,984 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maxeon",
+      "type": "owns",
+      "target": "factory_new_mexico"
+    }
+  ]
+}
+2025-08-19 10:18:07,984 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:07,984 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:18:07,984 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:18:09,152 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:09,152 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2gw_module_assembly_plant",
+      "target": "factory_new_mexico",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2gw_module_assembly_plant",
+      "target": "product_solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_new_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:18:09,152 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:09,153 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:18:09,153 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:18:09,845 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:09,845 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:18:09,845 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:09,846 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:18:09,846 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:18:10,613 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:18:10,614 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tcl_technology_group_sales",
+      "type": "funds",
+      "target": ""
+    }
+  ]
+}
+2025-08-19 10:18:10,614 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:18:10,694 - INFO - ✅ Updated Article ID: 68a42ff09853ad45aea804d4 with 8 nodes and combined text.

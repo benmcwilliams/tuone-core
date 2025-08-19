@@ -1,0 +1,80 @@
+2025-08-19 11:55:38,672 - INFO - 🔍 Text length: 654 characters
+2025-08-19 11:55:38,672 - INFO - 📌 Processing Article ID: 68a3514555f8a4c6a03cb137 — GM to launch ethanol hybrid-flex vehicles in Brazil
+2025-08-19 11:55:38,672 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:55:40,934 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:40,934 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sao_paulo_state",
+        "type": "factory",
+        "name": "Sao Paulo State Factory",
+        "location": {
+          "city": "Sao Paulo",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_sao_jose_dos_campos",
+        "type": "factory",
+        "name": "Sao Jose dos Campos Plant",
+        "location": {
+          "city": "Sao Jose dos Campos",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrid_flex_vehicles",
+        "type": "product",
+        "name": "hybrid-flex vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:55:40,934 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:40,934 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:55:40,934 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:55:40,934 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:55:40,934 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:55:40,935 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:55:42,177 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:42,177 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_sao_paulo_state"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_sao_jose_dos_campos"
+    }
+  ]
+}
+2025-08-19 11:55:42,177 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:42,177 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:55:42,177 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:55:42,880 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:55:42,881 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hybrid_flex_vehicles",
+      "target": "factory_sao_paulo_state",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:55:42,881 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:55:42,881 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:55:42,881 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:55:42,961 - INFO - ✅ Updated Article ID: 68a3514555f8a4c6a03cb137 with 4 nodes and combined text.

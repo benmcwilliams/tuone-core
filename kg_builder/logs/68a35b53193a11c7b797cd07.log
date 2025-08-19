@@ -1,0 +1,162 @@
+2025-08-19 10:25:48,948 - INFO - 🔍 Text length: 1920 characters
+2025-08-19 10:25:48,948 - INFO - 📌 Processing Article ID: 68a35b53193a11c7b797cd07 — Fiat confirms hybrid 500 for Mirafiori plant
+2025-08-19 10:25:48,948 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:25:51,343 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:51,343 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_fiat",
+        "type": "company",
+        "name": "Fiat"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mirafiori_plant",
+        "type": "factory",
+        "name": "Mirafiori plant",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_termoli_plant",
+        "type": "factory",
+        "name": "Termoli plant",
+        "location": {
+          "city": "Termoli",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_napoli_plant",
+        "type": "factory",
+        "name": "Napoli plant",
+        "location": {
+          "city": "Napoli",
+          "country": "Italy"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_fiat_500e",
+        "type": "investment",
+        "name": "Stellantis Fiat 500e investment",
+        "amount": "\u20ac100m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fiat_500_ibrida",
+        "type": "product",
+        "name": "Fiat 500 Ibrida"
+      },
+      {
+        "id": "product_fiat_500e",
+        "type": "product",
+        "name": "Fiat 500e"
+      }
+    ]
+  }
+}
+2025-08-19 10:25:51,343 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:51,344 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:25:51,344 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:25:51,344 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:25:52,631 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:52,631 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_fiat_500e",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:25:52,631 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:52,631 - INFO - Node ID is investment_stellantis_fiat_500e
+2025-08-19 10:25:52,631 - INFO - ✅ Match found for investment_ID 'investment_stellantis_fiat_500e' in investment nodes
+2025-08-19 10:25:52,631 - INFO -   ➕ Set status: announced
+2025-08-19 10:25:52,631 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:25:52,631 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:25:52,631 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:25:52,631 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:25:53,902 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:53,903 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fiat",
+      "type": "owns",
+      "target": "factory_mirafiori_plant"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_termoli_plant"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_napoli_plant"
+    }
+  ]
+}
+2025-08-19 10:25:53,903 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:53,903 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:25:53,903 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:25:55,898 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:55,898 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fiat_500_ibrida",
+      "target": "factory_mirafiori_plant"
+    },
+    {
+      "source": "product_fiat_500e",
+      "target": "factory_mirafiori_plant"
+    },
+    {
+      "source": "engine",
+      "target": "factory_termoli_plant"
+    },
+    {
+      "source": "exhaust_system",
+      "target": "factory_napoli_plant"
+    },
+    {
+      "source": "gearbox",
+      "target": "factory_mirafiori_plant"
+    }
+  ]
+}
+2025-08-19 10:25:55,898 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:55,898 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:25:55,898 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:25:57,492 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:57,492 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:25:57,492 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:57,492 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:25:57,493 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:25:58,422 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:58,422 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_fiat_500e",
+      "target": "product_fiat_500e",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:25:58,422 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:58,499 - INFO - ✅ Updated Article ID: 68a35b53193a11c7b797cd07 with 8 nodes and combined text.

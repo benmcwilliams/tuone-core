@@ -1,0 +1,136 @@
+2025-08-19 10:16:43,623 - INFO - 🔍 Text length: 1277 characters
+2025-08-19 10:16:43,623 - INFO - 📌 Processing Article ID: 68a42ffd9853ad45aea804e0 — GWM inaugurates new plant in Brazil
+2025-08-19 10:16:43,623 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:16:46,667 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:46,668 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      },
+      {
+        "id": "company_daimler_ag",
+        "type": "company",
+        "name": "Daimler AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_iracemapolis_brazil",
+        "type": "factory",
+        "name": "Iracem\u00e1polis Vehicle Assembly Plant",
+        "location": {
+          "city": "Iracem\u00e1polis",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_haval_h6",
+        "type": "product",
+        "name": "Haval H6 SUV"
+      },
+      {
+        "id": "product_haval_h9",
+        "type": "product",
+        "name": "Haval H9 SUV"
+      },
+      {
+        "id": "product_gwm_poer",
+        "type": "product",
+        "name": "GWM Poer pickup truck"
+      }
+    ]
+  }
+}
+2025-08-19 10:16:46,668 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:46,668 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:16:46,668 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:16:47,538 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:47,538 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_vehicles_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:16:47,538 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:47,538 - INFO - Node ID is capacity_50k_vehicles_per_year
+2025-08-19 10:16:47,538 - INFO - ✅ Match found for capacity_ID 'capacity_50k_vehicles_per_year' in capacity nodes
+2025-08-19 10:16:47,538 - INFO -   ➕ Set status: operational
+2025-08-19 10:16:47,538 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:16:47,538 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:16:47,538 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:16:47,538 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:16:47,538 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:16:48,768 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:48,768 - INFO - {
+  "relationships": [
+    {
+      "source": "company_great_wall_motor",
+      "type": "owns",
+      "target": "factory_iracemapolis_brazil"
+    }
+  ]
+}
+2025-08-19 10:16:48,768 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:48,768 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:16:48,769 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:16:53,369 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:16:53,369 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "factory_iracemapolis_brazil",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_haval_h6",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_haval_h9",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_gwm_poer",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_haval_h6",
+      "target": "factory_iracemapolis_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_haval_h9",
+      "target": "factory_iracemapolis_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gwm_poer",
+      "target": "factory_iracemapolis_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:16:53,369 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:16:53,369 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:16:53,369 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:16:53,448 - INFO - ✅ Updated Article ID: 68a42ffd9853ad45aea804e0 with 7 nodes and combined text.

@@ -1,0 +1,183 @@
+2025-08-19 12:14:23,456 - INFO - 🔍 Text length: 2070 characters
+2025-08-19 12:14:23,456 - INFO - 📌 Processing Article ID: 68a34f1f55f8a4c6a03cb0a9 — BYD plans to complete Indonesia EV plant by year end
+2025-08-19 12:14:23,456 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:14:26,464 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:26,465 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_subang_indonesia",
+        "type": "factory",
+        "name": "Subang Plant",
+        "location": {
+          "city": "Subang",
+          "country": "Indonesia"
+        }
+      },
+      {
+        "id": "factory_thailand",
+        "type": "factory",
+        "name": "Thailand Vehicle Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_byd_indonesia_plant",
+        "type": "investment",
+        "name": "BYD Indonesia Plant",
+        "amount": "$1bn",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_150k_ev_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 EV units per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_atto_3",
+        "type": "product",
+        "name": "Atto 3"
+      },
+      {
+        "id": "product_ev_units",
+        "type": "product",
+        "name": "EV units"
+      }
+    ]
+  }
+}
+2025-08-19 12:14:26,465 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:26,465 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:14:26,465 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:14:27,381 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:27,381 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_150k_ev_units_per_year",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:14:27,381 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:27,381 - INFO - Node ID is capacity_150k_ev_units_per_year
+2025-08-19 12:14:27,381 - INFO - ✅ Match found for capacity_ID 'capacity_150k_ev_units_per_year' in capacity nodes
+2025-08-19 12:14:27,381 - INFO -   ➕ Set status: under construction
+2025-08-19 12:14:27,381 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:14:27,382 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:14:27,382 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:14:28,609 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:28,610 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_byd_indonesia_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:14:28,610 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:28,610 - INFO - Node ID is investment_byd_indonesia_plant
+2025-08-19 12:14:28,610 - INFO - ✅ Match found for investment_ID 'investment_byd_indonesia_plant' in investment nodes
+2025-08-19 12:14:28,610 - INFO -   ➕ Set status: ongoing
+2025-08-19 12:14:28,610 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:14:28,610 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:14:28,610 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:14:28,610 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:14:29,632 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:29,632 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_subang_indonesia"
+    },
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_thailand"
+    }
+  ]
+}
+2025-08-19 12:14:29,632 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:29,632 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:14:29,632 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:14:31,339 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:31,340 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_150k_ev_units_per_year",
+      "target": "factory_subang_indonesia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_ev_units_per_year",
+      "target": "product_ev_units",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev_units",
+      "target": "factory_subang_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150k_ev_units_per_year",
+      "target": "factory_thailand",
+      "type": "at"
+    },
+    {
+      "source": "product_ev_units",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_150k_ev_units_per_year",
+      "target": "product_ev_units",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 12:14:31,340 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:31,340 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:14:31,340 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:14:31,900 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:31,900 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:14:31,900 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:31,900 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:14:31,900 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:14:33,318 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:14:33,318 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_byd_indonesia_plant",
+      "target": "factory_subang_indonesia",
+      "type": "funds"
+    },
+    {
+      "source": "investment_byd_indonesia_plant",
+      "target": "capacity_150k_ev_units_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-08-19 12:14:33,318 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:14:33,399 - INFO - ✅ Updated Article ID: 68a34f1f55f8a4c6a03cb0a9 with 7 nodes and combined text.

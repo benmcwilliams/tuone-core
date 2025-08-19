@@ -1,0 +1,130 @@
+2025-08-19 10:19:39,678 - INFO - 🔍 Text length: 1118 characters
+2025-08-19 10:19:39,678 - INFO - 📌 Processing Article ID: 68a35df92d87d2de8acea384 — Galp drops plans to build Aurora lithium refinery in Portugal
+2025-08-19 10:19:39,678 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:19:41,502 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:41,502 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_galp",
+        "type": "company",
+        "name": "Galp"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_galp_northvolt",
+        "type": "joint_venture",
+        "name": "Galp Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_setubal_portugal",
+        "type": "factory",
+        "name": "Setubal Lithium Processing Plant",
+        "location": {
+          "city": "Setubal",
+          "country": "Portugal"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_aurora_lithium_refinery",
+        "type": "investment",
+        "name": "Aurora Lithium Refinery",
+        "amount": "1 billion euros ($1.05 billion)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_processing",
+        "type": "product",
+        "name": "lithium processing"
+      }
+    ]
+  }
+}
+2025-08-19 10:19:41,502 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:41,502 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:19:41,502 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:19:41,502 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:19:42,542 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:42,542 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_aurora_lithium_refinery",
+      "status": "cancelled",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:19:42,543 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:42,543 - INFO - Node ID is investment_aurora_lithium_refinery
+2025-08-19 10:19:42,543 - INFO - ✅ Match found for investment_ID 'investment_aurora_lithium_refinery' in investment nodes
+2025-08-19 10:19:42,543 - INFO -   ➕ Set status: cancelled
+2025-08-19 10:19:42,543 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:19:42,543 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:19:42,543 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:19:42,543 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:19:44,346 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:44,347 - INFO - {
+  "relationships": [
+    {
+      "source": "company_galp",
+      "type": "forms",
+      "target": "joint_venture_galp_northvolt"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "forms",
+      "target": "joint_venture_galp_northvolt"
+    },
+    {
+      "source": "joint_venture_galp_northvolt",
+      "type": "owns",
+      "target": "factory_setubal_portugal"
+    }
+  ]
+}
+2025-08-19 10:19:44,347 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:44,347 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:19:44,347 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:19:44,937 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:44,937 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:19:44,937 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:44,938 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:19:44,938 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:19:45,567 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:45,567 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:19:45,567 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:45,568 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:19:45,568 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:19:47,007 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:47,007 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_aurora_lithium_refinery",
+      "target": "factory_setubal_portugal",
+      "type": "funds"
+    },
+    {
+      "source": "investment_aurora_lithium_refinery",
+      "target": "product_lithium_processing",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:19:47,007 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:47,079 - INFO - ✅ Updated Article ID: 68a35df92d87d2de8acea384 with 6 nodes and combined text.

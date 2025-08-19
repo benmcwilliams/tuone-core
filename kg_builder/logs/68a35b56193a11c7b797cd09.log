@@ -1,0 +1,177 @@
+2025-08-19 10:25:08,617 - INFO - 🔍 Text length: 2651 characters
+2025-08-19 10:25:08,617 - INFO - 📌 Processing Article ID: 68a35b56193a11c7b797cd09 — PPG to build new facility in Tennessee
+2025-08-19 10:25:08,617 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:25:12,225 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:12,225 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ppg",
+        "type": "company",
+        "name": "PPG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_loudon_county_tennessee",
+        "type": "factory",
+        "name": "Loudon County Plant",
+        "location": {
+          "city": "Loudon County",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_cleveland_ohio",
+        "type": "factory",
+        "name": "Cleveland Facility",
+        "location": {
+          "city": "Cleveland",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_san_juan_del_rio_mexico",
+        "type": "factory",
+        "name": "San Juan Del Rio Facility",
+        "location": {
+          "city": "San Juan Del Rio",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ppg_advanced_manufacturing_north_america",
+        "type": "investment",
+        "name": "PPG Advanced Manufacturing North America",
+        "amount": "$300 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_11_million_gallons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "11 million gallons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_paints_and_coatings",
+        "type": "product",
+        "name": "paints and coatings"
+      }
+    ]
+  }
+}
+2025-08-19 10:25:12,225 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:12,226 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:25:12,226 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:25:13,460 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:13,460 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_11_million_gallons_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:25:13,460 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:13,460 - INFO - Node ID is capacity_11_million_gallons_per_year
+2025-08-19 10:25:13,461 - INFO - ✅ Match found for capacity_ID 'capacity_11_million_gallons_per_year' in capacity nodes
+2025-08-19 10:25:13,461 - INFO -   ➕ Set status: announced
+2025-08-19 10:25:13,461 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:25:13,461 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:25:13,461 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:25:14,271 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:14,271 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ppg_advanced_manufacturing_north_america",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:25:14,272 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:14,272 - INFO - Node ID is investment_ppg_advanced_manufacturing_north_america
+2025-08-19 10:25:14,272 - INFO - ✅ Match found for investment_ID 'investment_ppg_advanced_manufacturing_north_america' in investment nodes
+2025-08-19 10:25:14,272 - INFO -   ➕ Set status: announced
+2025-08-19 10:25:14,272 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:25:14,272 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:25:14,272 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:25:14,272 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:25:15,502 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:15,502 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ppg",
+      "type": "owns",
+      "target": "factory_loudon_county_tennessee"
+    },
+    {
+      "source": "company_ppg",
+      "type": "owns",
+      "target": "factory_cleveland_ohio"
+    },
+    {
+      "source": "company_ppg",
+      "type": "owns",
+      "target": "factory_san_juan_del_rio_mexico"
+    }
+  ]
+}
+2025-08-19 10:25:15,502 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:15,502 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:25:15,502 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:25:17,671 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:17,671 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_11_million_gallons_per_year",
+      "target": "factory_loudon_county_tennessee",
+      "type": "at"
+    },
+    {
+      "source": "capacity_11_million_gallons_per_year",
+      "target": "product_paints_and_coatings",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_paints_and_coatings",
+      "target": "factory_loudon_county_tennessee",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:25:17,672 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:17,672 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:25:17,672 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:25:18,330 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:18,331 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:25:18,331 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:18,331 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:25:18,331 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:25:19,699 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:25:19,700 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ppg_advanced_manufacturing_north_america",
+      "target": "factory_loudon_county_tennessee",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ppg_advanced_manufacturing_north_america",
+      "target": "product_paints_and_coatings",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:25:19,700 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:25:19,779 - INFO - ✅ Updated Article ID: 68a35b56193a11c7b797cd09 with 7 nodes and combined text.

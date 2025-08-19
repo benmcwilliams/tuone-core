@@ -1,0 +1,76 @@
+2025-08-19 10:34:27,195 - INFO - 🔍 Text length: 2016 characters
+2025-08-19 10:34:27,196 - INFO - 📌 Processing Article ID: 68a35929193a11c7b797ccc5 — INEOS Automotive launches commercial Grenadier in UK
+2025-08-19 10:34:27,196 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:34:30,656 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:34:30,656 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ineos_automotive",
+        "type": "company",
+        "name": "INEOS Automotive"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_edc_limited",
+        "type": "company",
+        "name": "EDC Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hambach_france",
+        "type": "factory",
+        "name": "Hambach",
+        "location": {
+          "city": "Hambach",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_grenadier_commercial",
+        "type": "product",
+        "name": "Grenadier Commercial"
+      }
+    ]
+  }
+}
+2025-08-19 10:34:30,656 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:34:30,656 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:34:30,656 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:34:30,656 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:34:30,657 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:34:30,657 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:34:32,275 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:34:32,275 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ineos_automotive",
+      "type": "owns",
+      "target": "factory_hambach_france"
+    }
+  ]
+}
+2025-08-19 10:34:32,275 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:34:32,275 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:34:32,275 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:34:33,283 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:34:33,283 - INFO - {
+  "relationships": [
+    {
+      "source": "product_grenadier_commercial",
+      "target": "factory_hambach_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:34:33,283 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:34:33,283 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:34:33,284 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:34:33,368 - INFO - ✅ Updated Article ID: 68a35929193a11c7b797ccc5 with 5 nodes and combined text.

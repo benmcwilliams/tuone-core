@@ -1,0 +1,169 @@
+2025-08-19 10:30:40,713 - INFO - 🔍 Text length: 4257 characters
+2025-08-19 10:30:40,713 - INFO - 📌 Processing Article ID: 68a359cf193a11c7b797ccde — UK car output ‘struggling’ – analyst
+2025-08-19 10:30:40,713 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:30:43,924 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:30:43,924 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_swindon_uk",
+        "type": "factory",
+        "name": "Swindon Plant",
+        "location": {
+          "city": "Swindon",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_oxford_uk",
+        "type": "factory",
+        "name": "Oxford Plant",
+        "location": {
+          "city": "Oxford",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_ellesmere_port_uk",
+        "type": "factory",
+        "name": "Ellesmere Port Plant",
+        "location": {
+          "city": "Ellesmere Port",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_slovakia",
+        "type": "factory",
+        "name": "Slovakia Plant",
+        "location": {
+          "city": "null",
+          "country": "Slovakia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_civic",
+        "type": "product",
+        "name": "Civic"
+      },
+      {
+        "id": "product_crv",
+        "type": "product",
+        "name": "CR-V"
+      },
+      {
+        "id": "product_astra",
+        "type": "product",
+        "name": "Astra"
+      },
+      {
+        "id": "product_discovery",
+        "type": "product",
+        "name": "Discovery"
+      },
+      {
+        "id": "product_defender",
+        "type": "product",
+        "name": "Defender"
+      },
+      {
+        "id": "mini",
+        "type": "product",
+        "name": "Mini",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-19 10:30:43,924 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:30:43,924 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:30:43,924 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:30:43,924 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:30:43,924 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:30:43,924 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:30:44,980 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:30:44,981 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_swindon_uk"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_ellesmere_port_uk"
+    },
+    {
+      "source": "company_jaguar_land_rover",
+      "type": "owns",
+      "target": "factory_slovakia"
+    }
+  ]
+}
+2025-08-19 10:30:44,981 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:30:44,981 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:30:44,981 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:30:46,852 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:30:46,852 - INFO - {
+  "relationships": [
+    {
+      "source": "product_civic",
+      "target": "factory_swindon_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_crv",
+      "target": "factory_swindon_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_astra",
+      "target": "factory_ellesmere_port_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_discovery",
+      "target": "factory_slovakia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_defender",
+      "target": "factory_slovakia",
+      "type": "produced_at"
+    },
+    {
+      "source": "mini",
+      "target": "factory_oxford_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:30:46,852 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:30:46,852 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:30:46,852 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:30:46,930 - INFO - ✅ Updated Article ID: 68a359cf193a11c7b797ccde with 13 nodes and combined text.

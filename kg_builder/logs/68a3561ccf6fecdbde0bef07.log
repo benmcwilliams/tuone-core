@@ -1,0 +1,132 @@
+2025-08-19 11:00:19,171 - INFO - 🔍 Text length: 1313 characters
+2025-08-19 11:00:19,172 - INFO - 📌 Processing Article ID: 68a3561ccf6fecdbde0bef07 — Hankook acquires stake in EV battery materials company
+2025-08-19 11:00:19,172 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:00:21,755 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:21,756 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hankook_company",
+        "type": "company",
+        "name": "Hankook & Company"
+      },
+      {
+        "id": "company_jr_energy_solution",
+        "type": "company",
+        "name": "JR Energy Solution"
+      },
+      {
+        "id": "company_enevate_corporation",
+        "type": "company",
+        "name": "Enevate Corporation"
+      },
+      {
+        "id": "company_hankook_atlasbx_company",
+        "type": "company",
+        "name": "Hankook AtlasBX Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chungcheongbuk_do_south_korea",
+        "type": "factory",
+        "name": "Chungcheongbuk-do Electrode Foundry",
+        "location": {
+          "city": "Chungcheongbuk-do",
+          "country": "South Korea"
+        }
+      },
+      {
+        "id": "factory_advanced_electrode_plant_us",
+        "type": "factory",
+        "name": "Advanced Electrode Plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hankook_series_a",
+        "type": "investment",
+        "name": "Hankook Series A",
+        "amount": "KRW9bn (US$6.5bn)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electrode",
+        "type": "product",
+        "name": "battery electrode"
+      }
+    ]
+  }
+}
+2025-08-19 11:00:21,756 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:21,756 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:00:21,756 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:00:21,756 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:00:22,396 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:22,396 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hankook_series_a",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:00:22,396 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:22,397 - INFO - Node ID is investment_hankook_series_a
+2025-08-19 11:00:22,397 - INFO - ✅ Match found for investment_ID 'investment_hankook_series_a' in investment nodes
+2025-08-19 11:00:22,397 - INFO -   ➕ Set status: completed
+2025-08-19 11:00:22,397 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:00:22,397 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:00:22,397 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:00:22,397 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:00:24,208 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:24,209 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jr_energy_solution",
+      "type": "owns",
+      "target": "factory_chungcheongbuk_do_south_korea"
+    },
+    {
+      "source": "company_jr_energy_solution",
+      "type": "owns",
+      "target": "factory_advanced_electrode_plant_us"
+    }
+  ]
+}
+2025-08-19 11:00:24,209 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:24,209 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:00:24,209 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:00:25,046 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:25,047 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electrode",
+      "target": "factory_chungcheongbuk_do_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:00:25,047 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:25,047 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:00:25,047 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:00:25,549 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:25,550 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:00:25,550 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:25,550 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:00:25,550 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:00:26,261 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:00:26,261 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:00:26,261 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:00:26,344 - INFO - ✅ Updated Article ID: 68a3561ccf6fecdbde0bef07 with 8 nodes and combined text.

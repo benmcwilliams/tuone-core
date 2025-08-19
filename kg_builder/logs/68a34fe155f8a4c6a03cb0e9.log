@@ -1,0 +1,101 @@
+2025-08-19 12:05:59,295 - INFO - 🔍 Text length: 2526 characters
+2025-08-19 12:05:59,296 - INFO - 📌 Processing Article ID: 68a34fe155f8a4c6a03cb0e9 — Honda introduces demonstration line for all-solid-state batteries in Japan
+2025-08-19 12:05:59,296 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:06:01,331 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:01,332 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sakura_city_tochigi_prefecture_japan",
+        "type": "factory",
+        "name": "Sakura City R&D Facility",
+        "location": {
+          "city": "Sakura City, Tochigi Prefecture",
+          "country": "Japan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_all_solid_state_battery",
+        "type": "product",
+        "name": "all-solid-state battery"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_demonstration_line",
+        "type": "capacity",
+        "name": "demonstration line",
+        "amount": "null",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 12:06:01,332 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:01,332 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:06:01,332 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:06:02,458 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:02,458 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_demonstration_line",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:06:02,459 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:02,459 - INFO - Node ID is capacity_demonstration_line
+2025-08-19 12:06:02,459 - INFO - ✅ Match found for capacity_ID 'capacity_demonstration_line' in capacity nodes
+2025-08-19 12:06:02,459 - INFO -   ➕ Set status: announced
+2025-08-19 12:06:02,459 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:06:02,459 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:06:02,459 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:06:02,459 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:06:02,459 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:06:03,316 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:03,316 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_sakura_city_tochigi_prefecture_japan"
+    }
+  ]
+}
+2025-08-19 12:06:03,317 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:03,317 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:06:03,317 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:06:04,731 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:06:04,732 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_demonstration_line",
+      "target": "factory_sakura_city_tochigi_prefecture_japan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_demonstration_line",
+      "target": "product_all_solid_state_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_all_solid_state_battery",
+      "target": "factory_sakura_city_tochigi_prefecture_japan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:06:04,732 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:06:04,732 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:06:04,732 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:06:04,809 - INFO - ✅ Updated Article ID: 68a34fe155f8a4c6a03cb0e9 with 4 nodes and combined text.

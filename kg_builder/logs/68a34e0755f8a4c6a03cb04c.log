@@ -1,0 +1,81 @@
+2025-08-19 12:26:32,106 - INFO - 🔍 Text length: 1668 characters
+2025-08-19 12:26:32,107 - INFO - 📌 Processing Article ID: 68a34e0755f8a4c6a03cb04c — Toyota to build dedicated Lexus EV plant in China
+2025-08-19 12:26:32,107 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:26:33,879 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:33,879 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_faw_group",
+        "type": "company",
+        "name": "FAW Group"
+      },
+      {
+        "id": "company_gac_group",
+        "type": "company",
+        "name": "GAC Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_china",
+        "type": "factory",
+        "name": "Shanghai Plant",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      },
+      {
+        "id": "product_lexus_branded_models",
+        "type": "product",
+        "name": "Lexus-branded models"
+      }
+    ]
+  }
+}
+2025-08-19 12:26:33,879 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:33,879 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:26:33,879 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:26:33,879 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:26:33,879 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:26:33,879 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:26:35,056 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:35,056 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor_corporation",
+      "type": "owns",
+      "target": "factory_shanghai_china"
+    }
+  ]
+}
+2025-08-19 12:26:35,056 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:35,056 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:26:35,056 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:26:35,874 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:35,874 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:26:35,874 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:35,874 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:26:35,874 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:26:35,963 - INFO - ✅ Updated Article ID: 68a34e0755f8a4c6a03cb04c with 6 nodes and combined text.

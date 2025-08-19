@@ -1,0 +1,89 @@
+2025-08-19 12:21:39,692 - INFO - 🔍 Text length: 1867 characters
+2025-08-19 12:21:39,693 - INFO - 📌 Processing Article ID: 68a34e6455f8a4c6a03cb070 — Audi plans ‘thousands’ of job cuts – reports
+2025-08-19 12:21:39,693 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:21:41,150 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:41,150 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_audi",
+        "type": "company",
+        "name": "Audi"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brussels_plant",
+        "type": "factory",
+        "name": "Brussels Plant",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cost_cutting_programme",
+        "type": "investment",
+        "name": "Cost-Cutting Programme",
+        "amount": "\u20ac900m",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 12:21:41,150 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:41,150 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:21:41,150 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:21:41,150 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:21:42,174 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:42,174 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cost_cutting_programme",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:21:42,174 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:42,174 - INFO - Node ID is investment_cost_cutting_programme
+2025-08-19 12:21:42,174 - INFO - ✅ Match found for investment_ID 'investment_cost_cutting_programme' in investment nodes
+2025-08-19 12:21:42,175 - INFO -   ➕ Set status: announced
+2025-08-19 12:21:42,175 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:21:42,175 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:21:42,175 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:21:42,175 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:21:42,892 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:42,892 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi",
+      "type": "owns",
+      "target": "factory_brussels_plant"
+    }
+  ]
+}
+2025-08-19 12:21:42,892 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:42,893 - INFO - 🛑 Skipping technological: required nodes ['product', 'capacity'] not present.
+2025-08-19 12:21:42,893 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:21:42,893 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:21:43,608 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:43,608 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:21:43,608 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:43,608 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:21:43,608 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:21:44,530 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:21:44,530 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:21:44,530 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:21:44,600 - INFO - ✅ Updated Article ID: 68a34e6455f8a4c6a03cb070 with 4 nodes and combined text.

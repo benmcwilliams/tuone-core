@@ -1,0 +1,144 @@
+2025-08-19 10:24:02,380 - INFO - 🔍 Text length: 5583 characters
+2025-08-19 10:24:02,380 - INFO - 📌 Processing Article ID: 68a35bb6193a11c7b797cd11 — US encouraging Mexico to keep Chinese out – report
+2025-08-19 10:24:02,381 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:24:05,714 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:05,714 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_saic",
+        "type": "company",
+        "name": "SAIC"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_jac",
+        "type": "company",
+        "name": "JAC"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tesla_mexico",
+        "type": "factory",
+        "name": "Tesla Plant",
+        "location": {
+          "city": "Nuevo Leon",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tesla_nuevo_leon",
+        "type": "investment",
+        "name": "Tesla Nuevo Leon Incentives",
+        "amount": "US$153m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 10:24:05,714 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:05,715 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:24:05,715 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:24:05,715 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:24:07,198 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:07,199 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tesla_nuevo_leon",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:24:07,199 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:07,199 - INFO - Node ID is investment_tesla_nuevo_leon
+2025-08-19 10:24:07,199 - INFO - ✅ Match found for investment_ID 'investment_tesla_nuevo_leon' in investment nodes
+2025-08-19 10:24:07,199 - INFO -   ➕ Set status: completed
+2025-08-19 10:24:07,199 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:24:07,199 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:24:07,199 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:24:07,199 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:24:08,193 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:08,193 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_tesla_mexico"
+    }
+  ]
+}
+2025-08-19 10:24:08,193 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:08,194 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:24:08,194 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:24:09,248 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:09,248 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_tesla_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:24:09,248 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:09,248 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:24:09,248 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:24:09,861 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:09,861 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:24:09,861 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:09,861 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:24:09,861 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:24:10,983 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:10,983 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tesla_nuevo_leon",
+      "target": "factory_tesla_mexico",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tesla_nuevo_leon",
+      "target": "product_electric_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:24:10,983 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:11,062 - INFO - ✅ Updated Article ID: 68a35bb6193a11c7b797cd11 with 10 nodes and combined text.

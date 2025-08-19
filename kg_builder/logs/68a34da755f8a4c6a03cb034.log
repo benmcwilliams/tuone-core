@@ -1,0 +1,122 @@
+2025-08-19 12:29:35,573 - INFO - 🔍 Text length: 5319 characters
+2025-08-19 12:29:35,573 - INFO - 📌 Processing Article ID: 68a34da755f8a4c6a03cb034 — Shanghai-GM to restructure as sales plunge
+2025-08-19 12:29:35,573 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:29:38,662 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:29:38,662 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_saic_motor_corporation",
+        "type": "company",
+        "name": "SAIC Motor Corporation"
+      },
+      {
+        "id": "company_guangxi_auto",
+        "type": "company",
+        "name": "Guangxi Auto"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_shanghai_gm",
+        "type": "joint_venture",
+        "name": "Shanghai GM Corporation"
+      },
+      {
+        "id": "joint_venture_saic_gm_wuling",
+        "type": "joint_venture",
+        "name": "SAIC-GM-Wuling"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_gm_assembly_plants",
+        "type": "factory",
+        "name": "Shanghai GM assembly plants",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_buick_envision_plus_mild_hybrid",
+        "type": "product",
+        "name": "Buick Envision Plus mild hybrid"
+      },
+      {
+        "id": "product_buick_velite",
+        "type": "product",
+        "name": "Buick Velite"
+      },
+      {
+        "id": "product_chevrolet_ct5",
+        "type": "product",
+        "name": "Chevrolet CT5"
+      },
+      {
+        "id": "product_wuling_mini_ev",
+        "type": "product",
+        "name": "Wuling Mini EV"
+      }
+    ]
+  }
+}
+2025-08-19 12:29:38,662 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:29:38,662 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:29:38,663 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:29:38,663 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:29:38,663 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:29:38,663 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:29:41,454 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:29:41,454 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_shanghai_gm"
+    },
+    {
+      "source": "company_saic_motor_corporation",
+      "type": "forms",
+      "target": "joint_venture_shanghai_gm"
+    },
+    {
+      "source": "joint_venture_shanghai_gm",
+      "type": "owns",
+      "target": "factory_shanghai_gm_assembly_plants"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_saic_gm_wuling"
+    },
+    {
+      "source": "company_saic_motor_corporation",
+      "type": "forms",
+      "target": "joint_venture_saic_gm_wuling"
+    },
+    {
+      "source": "company_guangxi_auto",
+      "type": "forms",
+      "target": "joint_venture_saic_gm_wuling"
+    }
+  ]
+}
+2025-08-19 12:29:41,454 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:29:41,454 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:29:41,454 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:29:42,347 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:29:42,348 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:29:42,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:29:42,348 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:29:42,348 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:29:42,425 - INFO - ✅ Updated Article ID: 68a34da755f8a4c6a03cb034 with 10 nodes and combined text.

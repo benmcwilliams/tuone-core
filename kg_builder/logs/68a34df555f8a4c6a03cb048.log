@@ -1,0 +1,154 @@
+2025-08-19 12:26:51,142 - INFO - 🔍 Text length: 1752 characters
+2025-08-19 12:26:51,142 - INFO - 📌 Processing Article ID: 68a34df555f8a4c6a03cb048 — Isuzu plans new commercial vehicle plant for South Carolina
+2025-08-19 12:26:51,142 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:26:53,589 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:53,589 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_isuzu_motors",
+        "type": "company",
+        "name": "Isuzu Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_south_carolina_usa",
+        "type": "factory",
+        "name": "South Carolina Facility",
+        "location": {
+          "city": "South Carolina",
+          "country": "USA"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_south_carolina_facility",
+        "type": "investment",
+        "name": "South Carolina Facility",
+        "amount": "US$280 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_commercial_vehicles",
+        "type": "product",
+        "name": "commercial vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:26:53,590 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:53,590 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:26:53,590 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:26:54,820 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:54,820 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:26:54,821 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:54,821 - INFO - Node ID is capacity_50k_vehicles_per_year
+2025-08-19 12:26:54,821 - INFO - ✅ Match found for capacity_ID 'capacity_50k_vehicles_per_year' in capacity nodes
+2025-08-19 12:26:54,821 - INFO -   ➕ Set status: announced
+2025-08-19 12:26:54,821 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:26:54,821 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:26:54,821 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:26:55,843 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:55,843 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_south_carolina_facility",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:26:55,843 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:55,843 - INFO - Node ID is investment_south_carolina_facility
+2025-08-19 12:26:55,843 - INFO - ✅ Match found for investment_ID 'investment_south_carolina_facility' in investment nodes
+2025-08-19 12:26:55,843 - INFO -   ➕ Set status: announced
+2025-08-19 12:26:55,843 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:26:55,843 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:26:55,843 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:26:55,844 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:26:56,662 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:56,663 - INFO - {
+  "relationships": [
+    {
+      "source": "company_isuzu_motors",
+      "type": "owns",
+      "target": "factory_south_carolina_usa"
+    }
+  ]
+}
+2025-08-19 12:26:56,663 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:56,663 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:26:56,663 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:26:58,108 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:58,108 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "factory_south_carolina_usa",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_vehicles_per_year",
+      "target": "product_commercial_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_commercial_vehicles",
+      "target": "factory_south_carolina_usa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:26:58,108 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:58,108 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:26:58,109 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:26:58,811 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:58,812 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:26:58,812 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:58,812 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:26:58,812 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:27:00,293 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:27:00,293 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_south_carolina_facility",
+      "target": "factory_south_carolina_usa",
+      "type": "funds"
+    },
+    {
+      "source": "investment_south_carolina_facility",
+      "target": "capacity_50k_vehicles_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_south_carolina_facility",
+      "target": "product_commercial_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:27:00,294 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:27:00,375 - INFO - ✅ Updated Article ID: 68a34df555f8a4c6a03cb048 with 5 nodes and combined text.

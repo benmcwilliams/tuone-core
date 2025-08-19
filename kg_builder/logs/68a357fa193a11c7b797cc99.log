@@ -1,0 +1,141 @@
+2025-08-19 10:51:01,387 - INFO - 🔍 Text length: 3813 characters
+2025-08-19 10:51:01,388 - INFO - 📌 Processing Article ID: 68a357fa193a11c7b797cc99 — Volkswagen’s $5 billion bet on Rivian gets influencer attention on X
+2025-08-19 10:51:01,388 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:51:03,771 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:03,772 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_rivian_automotive",
+        "type": "company",
+        "name": "Rivian Automotive"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_volkswagen_rivian",
+        "type": "joint_venture",
+        "name": "Volkswagen Rivian"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_rivian",
+        "type": "investment",
+        "name": "Volkswagen Rivian Investment",
+        "amount": "up to $5 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r2_suv",
+        "type": "product",
+        "name": "R2 SUV"
+      },
+      {
+        "id": "product_r3_suv",
+        "type": "product",
+        "name": "R3 SUV"
+      }
+    ],
+    "factory": [
+      {
+        "id": "factory_georgia",
+        "type": "factory",
+        "name": "Georgia Factory",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        }
+      }
+    ]
+  }
+}
+2025-08-19 10:51:03,772 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:03,772 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:51:03,772 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:51:03,772 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:51:04,694 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:04,694 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_rivian",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:51:04,695 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:04,695 - INFO - Node ID is investment_volkswagen_rivian
+2025-08-19 10:51:04,695 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_rivian' in investment nodes
+2025-08-19 10:51:04,695 - INFO -   ➕ Set status: announced
+2025-08-19 10:51:04,695 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:51:04,695 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:51:04,695 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:51:04,695 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:51:05,357 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:05,358 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian_automotive",
+      "type": "owns",
+      "target": "factory_georgia"
+    }
+  ]
+}
+2025-08-19 10:51:05,358 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:05,358 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:51:05,358 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:51:06,471 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:06,471 - INFO - {
+  "relationships": [
+    {
+      "source": "product_r2_suv",
+      "target": "factory_georgia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_r3_suv",
+      "target": "factory_georgia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:51:06,471 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:06,471 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:51:06,471 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:51:07,238 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:07,238 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:51:07,238 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:07,238 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:51:07,238 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:51:08,563 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:08,564 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_rivian",
+      "target": "product_r2_suv",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volkswagen_rivian",
+      "target": "product_r3_suv",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volkswagen_rivian",
+      "target": "factory_georgia",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 10:51:08,564 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:08,634 - INFO - ✅ Updated Article ID: 68a357fa193a11c7b797cc99 with 7 nodes and combined text.

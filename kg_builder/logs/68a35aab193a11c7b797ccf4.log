@@ -1,0 +1,140 @@
+2025-08-19 10:28:14,110 - INFO - 🔍 Text length: 1007 characters
+2025-08-19 10:28:14,110 - INFO - 📌 Processing Article ID: 68a35aab193a11c7b797ccf4 — Stellantis-Mercedes JV puts two battery factories on hold – report
+2025-08-19 10:28:14,110 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:28:18,260 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:18,260 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_acc",
+        "type": "joint_venture",
+        "name": "Automotive Cells Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kaiserslautern",
+        "type": "factory",
+        "name": "Kaiserslautern",
+        "location": {
+          "city": "Kaiserslautern",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_termoli",
+        "type": "factory",
+        "name": "Termoli",
+        "location": {
+          "city": "Termoli",
+          "country": "Italy"
+        }
+      },
+      {
+        "id": "factory_billy_berclau_douvrin",
+        "type": "factory",
+        "name": "Billy-Berclau Douvrin",
+        "location": {
+          "city": "Billy-Berclau Douvrin",
+          "country": "France"
+        }
+      },
+      {
+        "id": "factory_saarland",
+        "type": "factory",
+        "name": "Saarland",
+        "location": {
+          "city": "Saarland",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_cells",
+        "type": "product",
+        "name": "lithium iron phosphate cells"
+      }
+    ]
+  }
+}
+2025-08-19 10:28:18,260 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:18,260 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:28:18,260 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:28:18,260 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:28:18,260 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:28:18,261 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:28:20,272 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:20,272 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_acc"
+    },
+    {
+      "source": "company_mercedes_benz",
+      "type": "forms",
+      "target": "joint_venture_acc"
+    },
+    {
+      "source": "joint_venture_acc",
+      "type": "owns",
+      "target": "factory_kaiserslautern"
+    },
+    {
+      "source": "joint_venture_acc",
+      "type": "owns",
+      "target": "factory_termoli"
+    },
+    {
+      "source": "joint_venture_acc",
+      "type": "owns",
+      "target": "factory_billy_berclau_douvrin"
+    },
+    {
+      "source": "joint_venture_acc",
+      "type": "owns",
+      "target": "factory_saarland"
+    }
+  ]
+}
+2025-08-19 10:28:20,272 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:20,273 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:28:20,273 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:28:24,569 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:28:24,570 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_cells",
+      "target": "factory_kaiserslautern",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_cells",
+      "target": "factory_termoli",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_cells",
+      "target": "factory_billy_berclau_douvrin",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:28:24,570 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:28:24,570 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:28:24,570 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:28:24,655 - INFO - ✅ Updated Article ID: 68a35aab193a11c7b797ccf4 with 8 nodes and combined text.

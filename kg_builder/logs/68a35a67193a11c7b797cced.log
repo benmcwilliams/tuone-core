@@ -1,0 +1,74 @@
+2025-08-19 10:29:03,032 - INFO - 🔍 Text length: 2440 characters
+2025-08-19 10:29:03,032 - INFO - 📌 Processing Article ID: 68a35a67193a11c7b797cced — GKN Automotive reduces direct CO2 emissions by 10.5% in 2023
+2025-08-19 10:29:03,032 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:29:04,329 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:29:04,329 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gkn_automotive",
+        "type": "company",
+        "name": "GKN Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vigo_spain",
+        "type": "factory",
+        "name": "Vigo Plant",
+        "location": {
+          "city": "Vigo",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_mexico",
+        "type": "factory",
+        "name": "Mexico Plant",
+        "location": {
+          "city": "null",
+          "country": "Mexico"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_drive_systems",
+        "type": "product",
+        "name": "drive systems"
+      }
+    ]
+  }
+}
+2025-08-19 10:29:04,330 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:29:04,330 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:29:04,330 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:29:04,330 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:29:04,330 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:29:04,330 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:29:05,911 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:29:05,912 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gkn_automotive",
+      "type": "owns",
+      "target": "factory_vigo_spain"
+    },
+    {
+      "source": "company_gkn_automotive",
+      "type": "owns",
+      "target": "factory_mexico"
+    }
+  ]
+}
+2025-08-19 10:29:05,912 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:29:05,912 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:29:05,912 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:29:07,132 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:29:07,132 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:29:07,132 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:29:07,132 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:29:07,133 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:29:07,211 - INFO - ✅ Updated Article ID: 68a35a67193a11c7b797cced with 4 nodes and combined text.

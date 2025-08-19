@@ -1,0 +1,86 @@
+2025-08-19 12:10:35,381 - INFO - 🔍 Text length: 6932 characters
+2025-08-19 12:10:35,381 - INFO - 📌 Processing Article ID: 68a34f8755f8a4c6a03cb0c8 — Seicento: Fiat’s new product offensive begins
+2025-08-19 12:10:35,381 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:10:37,631 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:37,631 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy",
+        "type": "factory",
+        "name": "Tychy",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fiat_600",
+        "type": "product",
+        "name": "Fiat 600"
+      },
+      {
+        "id": "product_fiat_600e",
+        "type": "product",
+        "name": "Fiat 600e"
+      },
+      {
+        "id": "product_fiat_500_electric",
+        "type": "product",
+        "name": "Fiat 500 Electric"
+      },
+      {
+        "id": "product_ducato",
+        "type": "product",
+        "name": "Ducato"
+      }
+    ]
+  }
+}
+2025-08-19 12:10:37,631 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:37,631 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:10:37,631 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:10:37,631 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:10:37,632 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:10:37,632 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:10:38,641 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:38,641 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy"
+    }
+  ]
+}
+2025-08-19 12:10:38,641 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:38,641 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:10:38,641 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:10:39,948 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:10:39,949 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fiat_600",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fiat_600e",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:10:39,949 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:10:39,949 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:10:39,949 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:10:40,027 - INFO - ✅ Updated Article ID: 68a34f8755f8a4c6a03cb0c8 with 6 nodes and combined text.

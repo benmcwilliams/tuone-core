@@ -1,0 +1,101 @@
+2025-08-19 10:25:58,501 - INFO - 🔍 Text length: 1084 characters
+2025-08-19 10:25:58,501 - INFO - 📌 Processing Article ID: 68a35b4f193a11c7b797cd06 — Conti tyre plant achieves CO2-neutral production
+2025-08-19 10:25:58,501 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:26:00,456 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:00,456 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lousado_portugal",
+        "type": "factory",
+        "name": "Lousado Mega Plant",
+        "location": {
+          "city": "Lousado",
+          "country": "Portugal"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_18m_tires_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "18 million tires per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ultracontact_nxt",
+        "type": "product",
+        "name": "UltraContact NXT"
+      }
+    ]
+  }
+}
+2025-08-19 10:26:00,456 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:00,456 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:26:00,457 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:26:01,376 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:01,376 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_18m_tires_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:26:01,376 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:01,377 - INFO - Node ID is capacity_18m_tires_per_year
+2025-08-19 10:26:01,377 - INFO - ✅ Match found for capacity_ID 'capacity_18m_tires_per_year' in capacity nodes
+2025-08-19 10:26:01,377 - INFO -   ➕ Set status: operational
+2025-08-19 10:26:01,377 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:26:01,377 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:26:01,377 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:26:01,377 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:26:01,377 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:26:02,388 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:02,389 - INFO - {
+  "relationships": [
+    {
+      "source": "company_continental",
+      "type": "owns",
+      "target": "factory_lousado_portugal"
+    }
+  ]
+}
+2025-08-19 10:26:02,389 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:02,389 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:26:02,389 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:26:04,214 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:26:04,214 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_18m_tires_per_year",
+      "target": "factory_lousado_portugal",
+      "type": "at"
+    },
+    {
+      "source": "capacity_18m_tires_per_year",
+      "target": "product_ultracontact_nxt",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ultracontact_nxt",
+      "target": "factory_lousado_portugal",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:26:04,215 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:26:04,215 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:26:04,215 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:26:04,286 - INFO - ✅ Updated Article ID: 68a35b4f193a11c7b797cd06 with 4 nodes and combined text.

@@ -1,0 +1,124 @@
+2025-08-19 12:19:47,831 - INFO - 🔍 Text length: 2811 characters
+2025-08-19 12:19:47,832 - INFO - 📌 Processing Article ID: 68a34e9955f8a4c6a03cb080 — Rivian reports first quarterly gross profit in Q4 2024
+2025-08-19 12:19:47,832 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:19:50,604 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:50,604 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian_automotive",
+        "type": "company",
+        "name": "Rivian Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_normal_auto_plant",
+        "type": "factory",
+        "name": "Normal Auto Plant",
+        "location": {
+          "city": "Normal",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_capital_expenditures_2025",
+        "type": "investment",
+        "name": "Capital Expenditures 2025",
+        "amount": "$1.6bn to $1.7bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r2_midsize_vehicle",
+        "type": "product",
+        "name": "R2 midsize vehicle"
+      },
+      {
+        "id": "product_rivian_commercial_van",
+        "type": "product",
+        "name": "Rivian Commercial Van"
+      },
+      {
+        "id": "product_tri_motor",
+        "type": "product",
+        "name": "Tri-Motor"
+      }
+    ]
+  }
+}
+2025-08-19 12:19:50,604 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:50,604 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:19:50,604 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:19:50,604 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:19:51,535 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:51,535 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_capital_expenditures_2025",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:19:51,536 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:51,536 - INFO - Node ID is investment_capital_expenditures_2025
+2025-08-19 12:19:51,536 - INFO - ✅ Match found for investment_ID 'investment_capital_expenditures_2025' in investment nodes
+2025-08-19 12:19:51,536 - INFO -   ➕ Set status: announced
+2025-08-19 12:19:51,536 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:19:51,536 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:19:51,536 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:19:51,536 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:19:52,347 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:52,347 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian_automotive",
+      "type": "owns",
+      "target": "factory_normal_auto_plant"
+    }
+  ]
+}
+2025-08-19 12:19:52,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:52,348 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:19:52,348 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:19:53,424 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:53,424 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tri_motor",
+      "target": "factory_normal_auto_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:19:53,424 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:53,424 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:19:53,424 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:19:54,140 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:54,140 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:19:54,140 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:54,140 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:19:54,140 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:19:56,086 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:19:56,086 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_capital_expenditures_2025",
+      "type": "funds",
+      "target": "factory_normal_auto_plant"
+    },
+    {
+      "source": "investment_capital_expenditures_2025",
+      "type": "targets",
+      "target": "product_r2_midsize_vehicle"
+    }
+  ]
+}
+2025-08-19 12:19:56,086 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:19:56,168 - INFO - ✅ Updated Article ID: 68a34e9955f8a4c6a03cb080 with 6 nodes and combined text.

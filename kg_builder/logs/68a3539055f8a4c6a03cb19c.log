@@ -1,0 +1,119 @@
+2025-08-19 11:40:36,521 - INFO - 🔍 Text length: 1384 characters
+2025-08-19 11:40:36,522 - INFO - 📌 Processing Article ID: 68a3539055f8a4c6a03cb19c — JAC to raise funds for Huawei partnership
+2025-08-19 11:40:36,522 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:40:41,158 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:41,158 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jianghuai_automobile_group",
+        "type": "company",
+        "name": "Jianghuai Automobile Group"
+      },
+      {
+        "id": "company_huawei_technologies_company",
+        "type": "company",
+        "name": "Huawei Technologies Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_anhui_china",
+        "type": "factory",
+        "name": "Anhui Plant",
+        "location": {
+          "city": "Anhui province",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_share_placement",
+        "type": "investment",
+        "name": "Share Placement",
+        "amount": "CNY4.9bn (US$695m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_luxury_smart_battery_electric_vehicles",
+        "type": "product",
+        "name": "luxury smart battery electric vehicles (BEVs)"
+      }
+    ]
+  }
+}
+2025-08-19 11:40:41,158 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:41,159 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:40:41,159 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:40:41,159 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:40:41,955 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:41,956 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_share_placement",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:40:41,956 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:41,956 - INFO - Node ID is investment_share_placement
+2025-08-19 11:40:41,956 - INFO - ✅ Match found for investment_ID 'investment_share_placement' in investment nodes
+2025-08-19 11:40:41,956 - INFO -   ➕ Set status: announced
+2025-08-19 11:40:41,956 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:40:41,956 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:40:41,956 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:40:41,956 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:40:42,883 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:42,884 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jianghuai_automobile_group",
+      "type": "owns",
+      "target": "factory_anhui_china"
+    }
+  ]
+}
+2025-08-19 11:40:42,884 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:42,884 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:40:42,884 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:40:43,857 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:43,857 - INFO - {
+  "relationships": [
+    {
+      "source": "product_luxury_smart_battery_electric_vehicles",
+      "target": "factory_anhui_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:40:43,857 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:43,857 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:40:43,857 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:40:44,330 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:44,330 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:40:44,330 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:44,330 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:40:44,330 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:40:45,919 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:40:45,920 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_share_placement",
+      "target": "product_luxury_smart_battery_electric_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_share_placement",
+      "target": "factory_anhui_china",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:40:45,920 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:40:46,004 - INFO - ✅ Updated Article ID: 68a3539055f8a4c6a03cb19c with 5 nodes and combined text.

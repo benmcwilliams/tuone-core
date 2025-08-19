@@ -1,0 +1,85 @@
+2025-08-19 15:20:20,649 - INFO - 🔍 Text length: 1221 characters
+2025-08-19 15:20:20,649 - INFO - 📌 Processing Article ID: 68a34d5955f8a4c6a03cb01b — Hyundai takes orders for the Ioniq 9 in South Korea
+2025-08-19 15:20:20,649 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 15:20:24,131 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:24,131 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ulsan_plant",
+        "type": "factory",
+        "name": "Ulsan Plant",
+        "location": {
+          "city": "Ulsan",
+          "country": "South Korea"
+        }
+      },
+      {
+        "id": "factory_hmg_metaplant_america",
+        "type": "factory",
+        "name": "HMG Metaplant America",
+        "location": {
+          "city": "Bryan County",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ioniq_9",
+        "type": "product",
+        "name": "Ioniq 9"
+      }
+    ]
+  }
+}
+2025-08-19 15:20:24,131 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:24,131 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 15:20:24,132 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 15:20:24,132 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 15:20:24,132 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 15:20:24,132 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 15:20:25,099 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:25,100 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_ulsan_plant"
+    },
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_hmg_metaplant_america"
+    }
+  ]
+}
+2025-08-19 15:20:25,100 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:25,100 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 15:20:25,100 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 15:20:26,482 - INFO - ✅ OpenAI returned output:
+2025-08-19 15:20:26,482 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ioniq_9",
+      "target": "factory_ulsan_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ioniq_9",
+      "target": "factory_hmg_metaplant_america",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 15:20:26,482 - INFO - POST-PROCESSING STARTING.
+2025-08-19 15:20:26,482 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 15:20:26,482 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 15:20:26,569 - INFO - ✅ Updated Article ID: 68a34d5955f8a4c6a03cb01b with 4 nodes and combined text.

@@ -1,0 +1,100 @@
+2025-08-19 11:41:28,402 - INFO - 🔍 Text length: 9492 characters
+2025-08-19 11:41:28,403 - INFO - 📌 Processing Article ID: 68a3537255f8a4c6a03cb195 — What can Canoo do? Come to the UK of course!
+2025-08-19 11:41:28,403 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:41:31,487 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:41:31,487 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_canoo",
+        "type": "company",
+        "name": "Canoo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bicester_motion",
+        "type": "factory",
+        "name": "Bicester Motion",
+        "location": {
+          "city": "Bicester",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_oklahoma_ftz",
+        "type": "factory",
+        "name": "Oklahoma FTZ",
+        "location": {
+          "city": "Oklahoma",
+          "country": "USA"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_steer_by_wire_system",
+        "type": "product",
+        "name": "steer-by-wire system"
+      },
+      {
+        "id": "product_light_tactical_vehicle",
+        "type": "product",
+        "name": "light tactical vehicle"
+      },
+      {
+        "id": "product_last_mile_delivery_vehicle",
+        "type": "product",
+        "name": "last mile delivery vehicle"
+      },
+      {
+        "id": "product_right_hand_drive_electric_vans",
+        "type": "product",
+        "name": "right-hand drive electric vans"
+      }
+    ]
+  }
+}
+2025-08-19 11:41:31,487 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:41:31,488 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:41:31,488 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:41:31,488 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:41:31,488 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:41:31,488 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:41:32,677 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:41:32,677 - INFO - {
+  "relationships": [
+    {
+      "source": "company_canoo",
+      "type": "owns",
+      "target": "factory_bicester_motion"
+    },
+    {
+      "source": "company_canoo",
+      "type": "owns",
+      "target": "factory_oklahoma_ftz"
+    }
+  ]
+}
+2025-08-19 11:41:32,677 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:41:32,677 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:41:32,677 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:41:35,471 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:41:35,472 - INFO - {
+  "relationships": [
+    {
+      "source": "product_right_hand_drive_electric_vans",
+      "target": "factory_bicester_motion",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_right_hand_drive_electric_vans",
+      "target": "factory_oklahoma_ftz",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:41:35,472 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:41:35,472 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:41:35,472 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:41:35,541 - INFO - ✅ Updated Article ID: 68a3537255f8a4c6a03cb195 with 7 nodes and combined text.

@@ -1,0 +1,167 @@
+2025-08-19 12:14:59,945 - INFO - 🔍 Text length: 5634 characters
+2025-08-19 12:14:59,945 - INFO - 📌 Processing Article ID: 68a34f1555f8a4c6a03cb0a5 — Is Tesla suffering from Musk’s politics in Europe?
+2025-08-19 12:14:59,945 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:15:03,644 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:03,644 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hungary_byd",
+        "type": "factory",
+        "name": "BYD Battery Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_spain_chery",
+        "type": "factory",
+        "name": "Chery Production Facility",
+        "location": {
+          "city": "null",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_berlin_gigafactory",
+        "type": "factory",
+        "name": "Berlin Gigafactory",
+        "location": {
+          "city": "Berlin",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_byd_hungary_battery_plant",
+        "type": "investment",
+        "name": "BYD Hungary Battery Plant",
+        "amount": "$8.2 billion",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      },
+      {
+        "id": "product_autonomous_vehicle",
+        "type": "product",
+        "name": "autonomous vehicle"
+      },
+      {
+        "id": "product_battery_electric_vehicle",
+        "type": "product",
+        "name": "battery-electric vehicle"
+      }
+    ]
+  }
+}
+2025-08-19 12:15:03,645 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:03,645 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:15:03,645 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:15:03,645 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:15:04,552 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:04,552 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_byd_hungary_battery_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:15:04,552 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:04,552 - INFO - Node ID is investment_byd_hungary_battery_plant
+2025-08-19 12:15:04,552 - INFO - ✅ Match found for investment_ID 'investment_byd_hungary_battery_plant' in investment nodes
+2025-08-19 12:15:04,552 - INFO -   ➕ Set status: completed
+2025-08-19 12:15:04,552 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:15:04,552 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:15:04,553 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:15:04,553 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:15:05,783 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:05,783 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_hungary_byd"
+    },
+    {
+      "source": "company_chery",
+      "type": "owns",
+      "target": "factory_spain_chery"
+    },
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_berlin_gigafactory"
+    }
+  ]
+}
+2025-08-19 12:15:05,783 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:05,783 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:15:05,784 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:15:07,316 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:07,317 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicle",
+      "target": "factory_hungary_byd",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_electric_vehicle",
+      "target": "factory_spain_chery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:15:07,317 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:07,317 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:15:07,317 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:15:08,454 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:08,454 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:15:08,454 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:08,454 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:15:08,454 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:15:09,669 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:15:09,669 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_byd_hungary_battery_plant",
+      "target": "factory_hungary_byd",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:15:09,669 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:15:09,749 - INFO - ✅ Updated Article ID: 68a34f1555f8a4c6a03cb0a5 with 11 nodes and combined text.

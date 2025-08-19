@@ -1,0 +1,167 @@
+2025-08-19 12:27:46,320 - INFO - 🔍 Text length: 1931 characters
+2025-08-19 12:27:46,321 - INFO - 📌 Processing Article ID: 68a34de455f8a4c6a03cb041 — ZF explores spin-off of electric drive division – report
+2025-08-19 12:27:46,321 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:27:55,133 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:27:55,134 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_zf",
+        "type": "company",
+        "name": "ZF"
+      },
+      {
+        "id": "company_wolfspeed",
+        "type": "company",
+        "name": "Wolfspeed"
+      },
+      {
+        "id": "company_wabco_asia",
+        "type": "company",
+        "name": "WABCO Asia"
+      },
+      {
+        "id": "company_zf_commercial_vehicles_control_systems_india",
+        "type": "company",
+        "name": "ZF Commercial Vehicles Control Systems India"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_zf_wolfspeed",
+        "type": "joint_venture",
+        "name": "ZF Wolfspeed"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_saarland_germany",
+        "type": "factory",
+        "name": "Saarland Facility",
+        "location": {
+          "city": "Saarland",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_zf_saarland_stake",
+        "type": "investment",
+        "name": "ZF Saarland Stake",
+        "amount": "$185m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_zf_commercial_vehicles_control_systems_india_sale",
+        "type": "investment",
+        "name": "ZF Commercial Vehicles Control Systems India Sale",
+        "amount": "$121m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_microchips",
+        "type": "product",
+        "name": "microchips"
+      },
+      {
+        "id": "product_electric_vehicles_chips",
+        "type": "product",
+        "name": "chips for electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:27:55,134 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:27:55,134 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:27:55,134 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:27:55,134 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:27:57,284 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:27:57,284 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_zf_saarland_stake",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_zf_commercial_vehicles_control_systems_india_sale",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:27:57,284 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:27:57,284 - INFO - Node ID is investment_zf_saarland_stake
+2025-08-19 12:27:57,284 - INFO - ✅ Match found for investment_ID 'investment_zf_saarland_stake' in investment nodes
+2025-08-19 12:27:57,284 - INFO -   ➕ Set status: announced
+2025-08-19 12:27:57,285 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:27:57,285 - INFO - Node ID is investment_zf_commercial_vehicles_control_systems_india_sale
+2025-08-19 12:27:57,285 - INFO - ✅ Match found for investment_ID 'investment_zf_commercial_vehicles_control_systems_india_sale' in investment nodes
+2025-08-19 12:27:57,285 - INFO -   ➕ Set status: completed
+2025-08-19 12:27:57,285 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:27:57,285 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:27:57,285 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:27:57,285 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:27:59,127 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:27:59,128 - INFO - {
+  "relationships": [
+    {
+      "source": "company_zf",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "company_wolfspeed",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "joint_venture_zf_wolfspeed",
+      "type": "owns",
+      "target": "factory_saarland_germany"
+    }
+  ]
+}
+2025-08-19 12:27:59,128 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:27:59,128 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:27:59,128 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:28:00,050 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:00,051 - INFO - {
+  "relationships": [
+    {
+      "source": "product_microchips",
+      "target": "factory_saarland_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:28:00,051 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:00,051 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:28:00,051 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:28:00,764 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:00,765 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:28:00,765 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:00,765 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:28:00,765 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:28:02,507 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:28:02,508 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_zf_saarland_stake",
+      "target": "product_microchips",
+      "type": "targets"
+    },
+    {
+      "source": "investment_zf_saarland_stake",
+      "target": "product_electric_vehicles_chips",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:28:02,508 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:28:02,587 - INFO - ✅ Updated Article ID: 68a34de455f8a4c6a03cb041 with 10 nodes and combined text.

@@ -1,0 +1,114 @@
+2025-08-19 10:20:24,109 - INFO - 🔍 Text length: 1612 characters
+2025-08-19 10:20:24,109 - INFO - 📌 Processing Article ID: 68a35ce1193a11c7b797cd2a — ENTEK gets $1.2 billion US loan for EV battery separator plant
+2025-08-19 10:20:24,109 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:20:26,957 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:26,957 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_entek_lithium_separators",
+        "type": "company",
+        "name": "ENTEK Lithium Separators"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_terre_haute_indiana",
+        "type": "factory",
+        "name": "Terre Haute Plant",
+        "location": {
+          "city": "Terre Haute",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_1_2_billion_announced",
+        "type": "investment",
+        "name": "US Department of Energy Loan",
+        "amount": "$1.2 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_separators",
+        "type": "product",
+        "name": "lithium-ion battery separators"
+      }
+    ]
+  }
+}
+2025-08-19 10:20:26,957 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:26,958 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:20:26,958 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:20:26,958 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:20:27,670 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:27,671 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_1_2_billion_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:20:27,671 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:27,671 - INFO - Node ID is investment_usd_1_2_billion_announced
+2025-08-19 10:20:27,671 - INFO - ✅ Match found for investment_ID 'investment_usd_1_2_billion_announced' in investment nodes
+2025-08-19 10:20:27,671 - INFO -   ➕ Set status: announced
+2025-08-19 10:20:27,671 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:20:27,671 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:20:27,671 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:20:27,672 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:20:29,236 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:29,236 - INFO - {
+  "relationships": [
+    {
+      "source": "company_entek_lithium_separators",
+      "type": "owns",
+      "target": "factory_terre_haute_indiana"
+    }
+  ]
+}
+2025-08-19 10:20:29,236 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:29,236 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:20:29,236 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:20:30,059 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:30,059 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_battery_separators",
+      "target": "factory_terre_haute_indiana",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:20:30,059 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:30,059 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:20:30,059 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:20:30,599 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:30,600 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:20:30,600 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:30,600 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:20:30,600 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:20:32,350 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:20:32,350 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_1_2_billion_announced",
+      "target": "factory_terre_haute_indiana",
+      "type": "funds"
+    },
+    {
+      "source": "investment_usd_1_2_billion_announced",
+      "target": "product_lithium_ion_battery_separators",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 10:20:32,350 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:20:32,426 - INFO - ✅ Updated Article ID: 68a35ce1193a11c7b797cd2a with 4 nodes and combined text.

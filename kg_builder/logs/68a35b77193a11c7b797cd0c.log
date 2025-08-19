@@ -1,0 +1,66 @@
+2025-08-19 10:24:49,974 - INFO - 🔍 Text length: 2662 characters
+2025-08-19 10:24:49,974 - INFO - 📌 Processing Article ID: 68a35b77193a11c7b797cd0c — NIO reveals EL8 – a six-seat SUV for Europe
+2025-08-19 10:24:49,974 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:24:51,347 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:51,348 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nio",
+        "type": "company",
+        "name": "NIO"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxford_uk",
+        "type": "factory",
+        "name": "Oxford Engineering Facility",
+        "location": {
+          "city": "Oxford",
+          "country": "UK"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_el8",
+        "type": "product",
+        "name": "EL8"
+      }
+    ]
+  }
+}
+2025-08-19 10:24:51,348 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:51,348 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:24:51,348 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:24:51,348 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:24:51,348 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:24:51,348 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:24:52,359 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:52,359 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nio",
+      "type": "owns",
+      "target": "factory_oxford_uk"
+    }
+  ]
+}
+2025-08-19 10:24:52,360 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:52,360 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:24:52,360 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:24:53,220 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:24:53,221 - INFO - {
+  "relationships": [
+    {
+      "source": "product_el8",
+      "target": "factory_oxford_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:24:53,221 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:24:53,221 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:24:53,221 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:24:53,293 - INFO - ✅ Updated Article ID: 68a35b77193a11c7b797cd0c with 3 nodes and combined text.

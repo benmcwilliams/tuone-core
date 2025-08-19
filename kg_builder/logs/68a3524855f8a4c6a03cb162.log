@@ -1,0 +1,194 @@
+2025-08-19 11:49:13,706 - INFO - 🔍 Text length: 2851 characters
+2025-08-19 11:49:13,706 - INFO - 📌 Processing Article ID: 68a3524855f8a4c6a03cb162 — JLR announces big UK factory spend
+2025-08-19 11:49:13,706 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:49:17,116 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:17,116 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jlr",
+        "type": "company",
+        "name": "JLR"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_halewood",
+        "type": "factory",
+        "name": "Halewood",
+        "location": {
+          "city": "Halewood",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_castle_bromwich",
+        "type": "factory",
+        "name": "Castle Bromwich",
+        "location": {
+          "city": "Castle Bromwich",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_halewood_upgrade",
+        "type": "investment",
+        "name": "Halewood Upgrade",
+        "amount": "GBP500m",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_future_skills_programme",
+        "type": "investment",
+        "name": "Future Skills Programme",
+        "amount": "GBP20m per year",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ema_body_shells",
+        "type": "product",
+        "name": "EMA body shells"
+      },
+      {
+        "id": "product_ev_build_lines",
+        "type": "product",
+        "name": "EV build lines"
+      },
+      {
+        "id": "product_hvt_training",
+        "type": "product",
+        "name": "HVT training"
+      },
+      {
+        "id": "product_adas_calibration_rigs",
+        "type": "product",
+        "name": "ADAS calibration rigs"
+      },
+      {
+        "id": "product_photovoltaic_panels",
+        "type": "product",
+        "name": "photovoltaic panels"
+      }
+    ]
+  }
+}
+2025-08-19 11:49:17,116 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:17,116 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:49:17,116 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:49:17,116 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:49:18,666 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:18,666 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_halewood_upgrade",
+      "status": "ongoing",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_future_skills_programme",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:49:18,666 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:18,666 - INFO - Node ID is investment_halewood_upgrade
+2025-08-19 11:49:18,666 - INFO - ✅ Match found for investment_ID 'investment_halewood_upgrade' in investment nodes
+2025-08-19 11:49:18,666 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:49:18,666 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:49:18,666 - INFO - Node ID is investment_future_skills_programme
+2025-08-19 11:49:18,666 - INFO - ✅ Match found for investment_ID 'investment_future_skills_programme' in investment nodes
+2025-08-19 11:49:18,666 - INFO -   ➕ Set status: ongoing
+2025-08-19 11:49:18,666 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:49:18,666 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:49:18,667 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:49:18,667 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:49:19,714 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:19,714 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jlr",
+      "type": "owns",
+      "target": "factory_halewood"
+    },
+    {
+      "source": "company_jlr",
+      "type": "owns",
+      "target": "factory_castle_bromwich"
+    }
+  ]
+}
+2025-08-19 11:49:19,714 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:19,714 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:49:19,714 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:49:20,816 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:20,816 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_build_lines",
+      "target": "factory_halewood",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ema_body_shells",
+      "target": "factory_halewood",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:49:20,816 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:20,816 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:49:20,816 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:49:21,352 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:21,353 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:49:21,353 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:21,353 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:49:21,353 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:49:23,819 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:49:23,819 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_halewood_upgrade",
+      "target": "factory_halewood",
+      "type": "funds"
+    },
+    {
+      "source": "investment_halewood_upgrade",
+      "target": "product_ema_body_shells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_halewood_upgrade",
+      "target": "product_ev_build_lines",
+      "type": "targets"
+    },
+    {
+      "source": "investment_future_skills_programme",
+      "target": "product_hvt_training",
+      "type": "targets"
+    },
+    {
+      "source": "investment_halewood_upgrade",
+      "target": "product_adas_calibration_rigs",
+      "type": "targets"
+    },
+    {
+      "source": "investment_halewood_upgrade",
+      "target": "product_photovoltaic_panels",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:49:23,820 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:49:23,900 - INFO - ✅ Updated Article ID: 68a3524855f8a4c6a03cb162 with 11 nodes and combined text.

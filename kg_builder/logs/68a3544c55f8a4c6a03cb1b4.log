@@ -1,0 +1,149 @@
+2025-08-19 11:10:07,854 - INFO - 🔍 Text length: 2295 characters
+2025-08-19 11:10:07,854 - INFO - 📌 Processing Article ID: 68a3544c55f8a4c6a03cb1b4 — Toyota invests more in electric air-taxi firm
+2025-08-19 11:10:07,854 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:10:11,461 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:11,461 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_joby_aviation_inc",
+        "type": "company",
+        "name": "Joby Aviation Inc"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_joby_2025",
+        "type": "investment",
+        "name": "Toyota Joby 2025",
+        "amount": "US$500m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_toyota_joby_2020",
+        "type": "investment",
+        "name": "Toyota Joby 2020",
+        "amount": "US$394m",
+        "status": "completed"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_marina_california",
+        "type": "factory",
+        "name": "Marina Pilot Production Line",
+        "location": {
+          "city": "Marina",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_new_facility_marina_california",
+        "type": "factory",
+        "name": "New Facility",
+        "location": {
+          "city": "Marina",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_powered_air_taxis",
+        "type": "product",
+        "name": "battery-powered air-taxis"
+      }
+    ]
+  }
+}
+2025-08-19 11:10:11,461 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:11,461 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:10:11,461 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:10:11,461 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:10:12,805 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:12,805 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_joby_2025",
+      "status": "announced",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_toyota_joby_2020",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:10:12,805 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:12,805 - INFO - Node ID is investment_toyota_joby_2025
+2025-08-19 11:10:12,805 - INFO - ✅ Match found for investment_ID 'investment_toyota_joby_2025' in investment nodes
+2025-08-19 11:10:12,805 - INFO -   ➕ Set status: announced
+2025-08-19 11:10:12,805 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:10:12,805 - INFO - Node ID is investment_toyota_joby_2020
+2025-08-19 11:10:12,805 - INFO - ✅ Match found for investment_ID 'investment_toyota_joby_2020' in investment nodes
+2025-08-19 11:10:12,806 - INFO -   ➕ Set status: completed
+2025-08-19 11:10:12,806 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:10:12,806 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:10:12,806 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:10:12,806 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:10:13,863 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:13,863 - INFO - {
+  "relationships": [
+    {
+      "source": "company_joby_aviation_inc",
+      "type": "owns",
+      "target": "factory_marina_california"
+    },
+    {
+      "source": "company_joby_aviation_inc",
+      "type": "owns",
+      "target": "factory_new_facility_marina_california"
+    }
+  ]
+}
+2025-08-19 11:10:13,863 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:13,863 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:10:13,863 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:10:14,815 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:14,815 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_powered_air_taxis",
+      "target": "factory_marina_california",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_powered_air_taxis",
+      "target": "factory_new_facility_marina_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:10:14,816 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:14,816 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:10:14,816 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:10:15,436 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:15,437 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:10:15,437 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:15,437 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:10:15,437 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:10:16,134 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:10:16,134 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_joby_2025",
+      "target": "product_battery_powered_air_taxis",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:10:16,134 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:10:16,214 - INFO - ✅ Updated Article ID: 68a3544c55f8a4c6a03cb1b4 with 7 nodes and combined text.

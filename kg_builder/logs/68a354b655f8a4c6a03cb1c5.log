@@ -1,0 +1,162 @@
+2025-08-19 11:06:51,410 - INFO - 🔍 Text length: 1688 characters
+2025-08-19 11:06:51,410 - INFO - 📌 Processing Article ID: 68a354b655f8a4c6a03cb1c5 — EcoPro and GEM to build cathode plant in Indonesia
+2025-08-19 11:06:51,410 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:06:53,856 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:53,856 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecopro_group",
+        "type": "company",
+        "name": "EcoPro Group"
+      },
+      {
+        "id": "company_green_eco_manufacture",
+        "type": "company",
+        "name": "Green Eco-Manufacture (GEM) Company Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nickel_smelting_sulawesi",
+        "type": "factory",
+        "name": "nickel smelting factory",
+        "location": {
+          "city": "North Morowali Regency, Central Sulawesi",
+          "country": "Indonesia"
+        }
+      },
+      {
+        "id": "factory_battery_cathode_indonesia",
+        "type": "factory",
+        "name": "battery cathode plant",
+        "location": {
+          "city": "near nickel smelting factory",
+          "country": "Indonesia"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ecopro_nickel_smelting",
+        "type": "investment",
+        "name": "EcoPro nickel smelting investment",
+        "amount": "US$11m",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_6k_tons_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "6,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nickel_mixed_hydroxide_precipitate",
+        "type": "product",
+        "name": "nickel mixed hydroxide precipitate (MHP)"
+      },
+      {
+        "id": "product_battery_cathode_materials",
+        "type": "product",
+        "name": "cathode materials"
+      }
+    ]
+  }
+}
+2025-08-19 11:06:53,857 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:53,857 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:06:53,857 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:06:54,917 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:54,917 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_6k_tons_per_year_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:06:54,917 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:54,917 - INFO - Node ID is capacity_6k_tons_per_year_announced
+2025-08-19 11:06:54,917 - INFO - ✅ Match found for capacity_ID 'capacity_6k_tons_per_year_announced' in capacity nodes
+2025-08-19 11:06:54,917 - INFO -   ➕ Set status: announced
+2025-08-19 11:06:54,917 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:06:54,917 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:06:54,917 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:06:55,893 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:55,893 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ecopro_nickel_smelting",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:06:55,893 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:55,893 - INFO - Node ID is investment_ecopro_nickel_smelting
+2025-08-19 11:06:55,894 - INFO - ✅ Match found for investment_ID 'investment_ecopro_nickel_smelting' in investment nodes
+2025-08-19 11:06:55,894 - INFO -   ➕ Set status: completed
+2025-08-19 11:06:55,894 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:06:55,894 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:06:55,894 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:06:55,894 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:06:57,422 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:57,422 - INFO - {
+  "relationships": [
+    {
+      "source": "company_green_eco_manufacture",
+      "type": "owns",
+      "target": "factory_nickel_smelting_sulawesi"
+    },
+    {
+      "source": "company_ecopro_group",
+      "type": "owns",
+      "target": "factory_battery_cathode_indonesia"
+    }
+  ]
+}
+2025-08-19 11:06:57,422 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:57,422 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:06:57,422 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:06:59,898 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:59,898 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_6k_tons_per_year_announced",
+      "target": "factory_nickel_smelting_sulawesi",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_nickel_mixed_hydroxide_precipitate",
+      "target": "factory_nickel_smelting_sulawesi",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cathode_materials",
+      "target": "factory_battery_cathode_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:06:59,898 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:59,899 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:06:59,899 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:07:00,512 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:07:00,512 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:07:00,512 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:07:00,512 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:07:00,512 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:07:01,842 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:07:01,843 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:07:01,844 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:07:01,925 - INFO - ✅ Updated Article ID: 68a354b655f8a4c6a03cb1c5 with 8 nodes and combined text.

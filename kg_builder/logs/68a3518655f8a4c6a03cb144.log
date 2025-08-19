@@ -1,0 +1,169 @@
+2025-08-19 11:54:03,808 - INFO - 🔍 Text length: 1778 characters
+2025-08-19 11:54:03,808 - INFO - 📌 Processing Article ID: 68a3518655f8a4c6a03cb144 — Monterrey selected as site for Volvo Truck NA heavy-duty truck plant
+2025-08-19 11:54:03,808 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:54:07,218 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:07,218 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_group",
+        "type": "company",
+        "name": "Volvo Group"
+      },
+      {
+        "id": "company_commercial_vehicle_group",
+        "type": "company",
+        "name": "Commercial Vehicle Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_monterrey_mexico",
+        "type": "factory",
+        "name": "Monterrey Plant",
+        "location": {
+          "city": "Monterrey",
+          "country": "Mexico"
+        }
+      },
+      {
+        "id": "factory_north_carolina_us",
+        "type": "factory",
+        "name": "North Carolina Plant",
+        "location": {
+          "city": "North Carolina",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_monterrey_plant",
+        "type": "investment",
+        "name": "Monterrey Plant",
+        "amount": "approximately US$700m (SEK7.2bn)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_cvg_plant_acquisition",
+        "type": "investment",
+        "name": "CVG Plant Acquisition",
+        "amount": "approximately US$40m (SEK410m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heavy_duty_truck",
+        "type": "product",
+        "name": "heavy-duty conventional vehicles"
+      },
+      {
+        "id": "product_cab_body_in_white",
+        "type": "product",
+        "name": "cab body-in-white"
+      }
+    ]
+  }
+}
+2025-08-19 11:54:07,218 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:07,218 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:54:07,218 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:54:07,218 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:54:08,245 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:08,245 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_monterrey_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "investment_ID": "investment_cvg_plant_acquisition",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:54:08,245 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:08,245 - INFO - Node ID is investment_monterrey_plant
+2025-08-19 11:54:08,245 - INFO - ✅ Match found for investment_ID 'investment_monterrey_plant' in investment nodes
+2025-08-19 11:54:08,245 - INFO -   ➕ Set status: announced
+2025-08-19 11:54:08,245 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:54:08,246 - INFO - Node ID is investment_cvg_plant_acquisition
+2025-08-19 11:54:08,246 - INFO - ✅ Match found for investment_ID 'investment_cvg_plant_acquisition' in investment nodes
+2025-08-19 11:54:08,246 - INFO -   ➕ Set status: announced
+2025-08-19 11:54:08,246 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:54:08,246 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:54:08,246 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:54:08,246 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:54:09,160 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:09,160 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_group",
+      "type": "owns",
+      "target": "factory_monterrey_mexico"
+    },
+    {
+      "source": "company_commercial_vehicle_group",
+      "type": "owns",
+      "target": "factory_north_carolina_us"
+    }
+  ]
+}
+2025-08-19 11:54:09,160 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:09,160 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:54:09,160 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:54:11,518 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:11,518 - INFO - {
+  "relationships": [
+    {
+      "source": "product_heavy_duty_truck",
+      "target": "factory_monterrey_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cab_body_in_white",
+      "target": "factory_north_carolina_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:54:11,518 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:11,518 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:54:11,518 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:54:12,591 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:12,591 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:54:12,591 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:12,591 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:54:12,591 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:54:13,977 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:54:13,977 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_monterrey_plant",
+      "target": "factory_monterrey_mexico",
+      "type": "funds"
+    },
+    {
+      "source": "investment_monterrey_plant",
+      "target": "product_heavy_duty_truck",
+      "type": "targets"
+    },
+    {
+      "source": "investment_monterrey_plant",
+      "target": "product_cab_body_in_white",
+      "type": "targets"
+    },
+    {
+      "source": "investment_cvg_plant_acquisition",
+      "target": "factory_north_carolina_us",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:54:13,977 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:54:14,055 - INFO - ✅ Updated Article ID: 68a3518655f8a4c6a03cb144 with 8 nodes and combined text.

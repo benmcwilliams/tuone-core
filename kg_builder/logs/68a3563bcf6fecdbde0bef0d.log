@@ -1,0 +1,123 @@
+2025-08-19 10:59:40,265 - INFO - 🔍 Text length: 2558 characters
+2025-08-19 10:59:40,265 - INFO - 📌 Processing Article ID: 68a3563bcf6fecdbde0bef0d — Horse expands powertrain testing services in Brazil
+2025-08-19 10:59:40,265 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:59:42,535 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:42,535 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_horse_powertrain_limited",
+        "type": "company",
+        "name": "Horse Powertrain Limited"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_renault_geely",
+        "type": "joint_venture",
+        "name": "Renault-Geely"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_curitiba_brazil",
+        "type": "factory",
+        "name": "Curitiba Plant",
+        "location": {
+          "city": "Curitiba",
+          "country": "Brazil"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_6_5k_hours_per_year",
+        "type": "capacity",
+        "amount": "6,500 hours a year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_12k_hours_per_year",
+        "type": "capacity",
+        "name": null,
+        "amount": "12,000 hours a year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_powertrain_testing_services",
+        "type": "product",
+        "name": "powertrain testing services"
+      }
+    ]
+  }
+}
+2025-08-19 10:59:42,535 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:42,535 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:59:42,535 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:59:44,072 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:44,072 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_6_5k_hours_per_year",
+      "status": "operational",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_12k_hours_per_year",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 10:59:44,072 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:44,072 - INFO - Node ID is capacity_6_5k_hours_per_year
+2025-08-19 10:59:44,073 - INFO - ✅ Match found for capacity_ID 'capacity_6_5k_hours_per_year' in capacity nodes
+2025-08-19 10:59:44,073 - INFO -   ➕ Set status: operational
+2025-08-19 10:59:44,073 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:59:44,073 - INFO - Node ID is capacity_12k_hours_per_year
+2025-08-19 10:59:44,073 - INFO - ✅ Match found for capacity_ID 'capacity_12k_hours_per_year' in capacity nodes
+2025-08-19 10:59:44,073 - INFO -   ➕ Set status: operational
+2025-08-19 10:59:44,073 - INFO -   ➕ Set phase: expansion
+2025-08-19 10:59:44,073 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:59:44,073 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:59:44,073 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:59:44,073 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:59:44,770 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:44,771 - INFO - {
+  "relationships": [
+    {
+      "source": "company_horse_powertrain_limited",
+      "type": "owns",
+      "target": "factory_curitiba_brazil"
+    }
+  ]
+}
+2025-08-19 10:59:44,771 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:44,771 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:59:44,771 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:59:46,520 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:59:46,520 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_6_5k_hours_per_year",
+      "target": "factory_curitiba_brazil",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_12k_hours_per_year",
+      "target": "factory_curitiba_brazil",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_powertrain_testing_services",
+      "target": "factory_curitiba_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:59:46,520 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:59:46,520 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:59:46,520 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:59:46,598 - INFO - ✅ Updated Article ID: 68a3563bcf6fecdbde0bef0d with 6 nodes and combined text.

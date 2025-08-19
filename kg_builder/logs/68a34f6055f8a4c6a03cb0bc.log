@@ -1,0 +1,207 @@
+2025-08-19 12:12:01,506 - INFO - 🔍 Text length: 1974 characters
+2025-08-19 12:12:01,506 - INFO - 📌 Processing Article ID: 68a34f6055f8a4c6a03cb0bc — Denso, Fuji Electric get government aid for power chips
+2025-08-19 12:12:01,506 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:12:08,832 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:08,832 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_denso_corporation",
+        "type": "company",
+        "name": "Denso Corporation"
+      },
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_fuji_electric_company",
+        "type": "company",
+        "name": "Fuji Electric Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kota_aichi_prefecture",
+        "type": "factory",
+        "name": "Kota Facility",
+        "location": {
+          "city": "Kota",
+          "country": "Japan"
+        }
+      },
+      {
+        "id": "factory_daian_mie_prefecture",
+        "type": "factory",
+        "name": "Daian Facility",
+        "location": {
+          "city": "Daian",
+          "country": "Japan"
+        }
+      },
+      {
+        "id": "factory_matsumoto_nagano_prefecture",
+        "type": "factory",
+        "name": "Matsumoto Plant",
+        "location": {
+          "city": "Matsumoto",
+          "country": "Japan"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_denso_fuji_electric_subsidies",
+        "type": "investment",
+        "name": "Denso and Fuji Electric Subsidies",
+        "amount": "JPY 211.6bn (US$1.4bn)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sic_power_semiconductors",
+        "type": "product",
+        "name": "SiC Power Semiconductors"
+      },
+      {
+        "id": "product_epitaxial_wafers",
+        "type": "product",
+        "name": "Epitaxial Wafers"
+      },
+      {
+        "id": "product_sic_wafers",
+        "type": "product",
+        "name": "SiC Wafers"
+      },
+      {
+        "id": "power_semiconductors",
+        "type": "product",
+        "name": "power semiconductors",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        ".product_type": ""
+      }
+    ]
+  }
+}
+2025-08-19 12:12:08,832 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:08,832 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:12:08,833 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:12:08,833 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:12:09,673 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:09,674 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_denso_fuji_electric_subsidies",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:12:09,674 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:09,674 - INFO - Node ID is investment_denso_fuji_electric_subsidies
+2025-08-19 12:12:09,674 - INFO - ✅ Match found for investment_ID 'investment_denso_fuji_electric_subsidies' in investment nodes
+2025-08-19 12:12:09,674 - INFO -   ➕ Set status: announced
+2025-08-19 12:12:09,674 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:12:09,674 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:12:09,674 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:12:09,674 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:12:11,848 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:11,849 - INFO - {
+  "relationships": [
+    {
+      "source": "company_denso_corporation",
+      "type": "owns",
+      "target": "factory_kota_aichi_prefecture"
+    },
+    {
+      "source": "company_denso_corporation",
+      "type": "owns",
+      "target": "factory_daian_mie_prefecture"
+    },
+    {
+      "source": "company_fuji_electric_company",
+      "type": "owns",
+      "target": "factory_matsumoto_nagano_prefecture"
+    }
+  ]
+}
+2025-08-19 12:12:11,849 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:11,849 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:12:11,849 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:12:13,944 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:13,944 - INFO - {
+  "relationships": [
+    {
+      "source": "product_epitaxial_wafers",
+      "target": "factory_kota_aichi_prefecture",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sic_wafers",
+      "target": "factory_daian_mie_prefecture",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_epitaxial_wafers",
+      "target": "factory_matsumoto_nagano_prefecture",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sic_power_semiconductors",
+      "target": "factory_matsumoto_nagano_prefecture",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:12:13,944 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:13,944 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:12:13,945 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:12:14,358 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:14,359 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:12:14,359 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:14,359 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:12:14,359 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:12:17,593 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:17,593 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "product_sic_power_semiconductors",
+      "type": "targets"
+    },
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "product_epitaxial_wafers",
+      "type": "targets"
+    },
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "product_sic_wafers",
+      "type": "targets"
+    },
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "factory_kota_aichi_prefecture",
+      "type": "funds"
+    },
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "factory_daian_mie_prefecture",
+      "type": "funds"
+    },
+    {
+      "source": "investment_denso_fuji_electric_subsidies",
+      "target": "factory_matsumoto_nagano_prefecture",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:12:17,593 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:17,674 - INFO - ✅ Updated Article ID: 68a34f6055f8a4c6a03cb0bc with 11 nodes and combined text.

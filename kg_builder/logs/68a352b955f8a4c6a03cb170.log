@@ -1,0 +1,106 @@
+2025-08-19 11:47:20,375 - INFO - 🔍 Text length: 4488 characters
+2025-08-19 11:47:20,375 - INFO - 📌 Processing Article ID: 68a352b955f8a4c6a03cb170 — Impact of international sanctions on the Russian light vehicle market
+2025-08-19 11:47:20,375 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:47:23,515 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:23,516 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_avtovaz_group",
+        "type": "company",
+        "name": "AvtoVAZ Group"
+      },
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_chery_group",
+        "type": "company",
+        "name": "Chery Group"
+      },
+      {
+        "id": "company_changan",
+        "type": "company",
+        "name": "Changan"
+      },
+      {
+        "id": "company_great_wall_motors",
+        "type": "company",
+        "name": "Great Wall Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nissan_st_petersburg",
+        "type": "factory",
+        "name": "Nissan St. Petersburg",
+        "location": {
+          "city": "St. Petersburg",
+          "country": "Russia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lada_vehicles",
+        "type": "product",
+        "name": "Lada vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:47:23,516 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:23,516 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:47:23,516 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:47:23,516 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:47:23,516 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:47:23,516 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:47:24,605 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:24,605 - INFO - {
+  "relationships": [
+    {
+      "source": "company_avtovaz_group",
+      "type": "owns",
+      "target": "factory_nissan_st_petersburg"
+    }
+  ]
+}
+2025-08-19 11:47:24,606 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:24,606 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:47:24,606 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:47:26,165 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:47:26,165 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lada_vehicles",
+      "target": "factory_nissan_st_petersburg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:47:26,165 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:47:26,165 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:47:26,165 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:47:26,243 - INFO - ✅ Updated Article ID: 68a352b955f8a4c6a03cb170 with 11 nodes and combined text.

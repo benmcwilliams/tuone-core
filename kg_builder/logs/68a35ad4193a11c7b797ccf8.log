@@ -1,0 +1,173 @@
+2025-08-19 10:27:47,141 - INFO - 🔍 Text length: 1892 characters
+2025-08-19 10:27:47,141 - INFO - 📌 Processing Article ID: 68a35ad4193a11c7b797ccf8 — Knorr-Bremse opens CV parts plant in China
+2025-08-19 10:27:47,141 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:27:49,717 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:27:49,717 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_knorr_bremse_commercial_vehicle_systems",
+        "type": "company",
+        "name": "Knorr-Bremse Commercial Vehicle Systems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dalian_china",
+        "type": "factory",
+        "name": "Dalian Plant",
+        "location": {
+          "city": "Dalian",
+          "country": "China"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1m_air_compressors_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1m air compressors per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_1m_dampers_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1m dampers per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_700k_disc_brakes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "700k disc brakes per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_air_compressors",
+        "type": "product",
+        "name": "air compressors"
+      },
+      {
+        "id": "product_dampers",
+        "type": "product",
+        "name": "dampers"
+      },
+      {
+        "id": "product_disc_brakes",
+        "type": "product",
+        "name": "disc brakes"
+      }
+    ]
+  }
+}
+2025-08-19 10:27:49,717 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:27:49,717 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:27:49,717 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:27:51,357 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:27:51,357 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1m_air_compressors_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_1m_dampers_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_700k_disc_brakes_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:27:51,357 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:27:51,357 - INFO - Node ID is capacity_1m_air_compressors_per_year
+2025-08-19 10:27:51,357 - INFO - ✅ Match found for capacity_ID 'capacity_1m_air_compressors_per_year' in capacity nodes
+2025-08-19 10:27:51,357 - INFO -   ➕ Set status: operational
+2025-08-19 10:27:51,357 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:27:51,358 - INFO - Node ID is capacity_1m_dampers_per_year
+2025-08-19 10:27:51,358 - INFO - ✅ Match found for capacity_ID 'capacity_1m_dampers_per_year' in capacity nodes
+2025-08-19 10:27:51,358 - INFO -   ➕ Set status: operational
+2025-08-19 10:27:51,358 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:27:51,358 - INFO - Node ID is capacity_700k_disc_brakes_per_year
+2025-08-19 10:27:51,358 - INFO - ✅ Match found for capacity_ID 'capacity_700k_disc_brakes_per_year' in capacity nodes
+2025-08-19 10:27:51,358 - INFO -   ➕ Set status: operational
+2025-08-19 10:27:51,358 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:27:51,358 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:27:51,358 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:27:51,358 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:27:51,358 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:27:52,585 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:27:52,585 - INFO - {
+  "relationships": [
+    {
+      "source": "company_knorr_bremse_commercial_vehicle_systems",
+      "type": "owns",
+      "target": "factory_dalian_china"
+    }
+  ]
+}
+2025-08-19 10:27:52,586 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:27:52,586 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:27:52,586 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:27:56,681 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:27:56,681 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1m_air_compressors_per_year",
+      "target": "factory_dalian_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1m_dampers_per_year",
+      "target": "factory_dalian_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_700k_disc_brakes_per_year",
+      "target": "factory_dalian_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1m_air_compressors_per_year",
+      "target": "product_air_compressors",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1m_dampers_per_year",
+      "target": "product_dampers",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_700k_disc_brakes_per_year",
+      "target": "product_disc_brakes",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_air_compressors",
+      "target": "factory_dalian_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_dampers",
+      "target": "factory_dalian_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_disc_brakes",
+      "target": "factory_dalian_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:27:56,681 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:27:56,681 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:27:56,681 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:27:56,765 - INFO - ✅ Updated Article ID: 68a35ad4193a11c7b797ccf8 with 8 nodes and combined text.

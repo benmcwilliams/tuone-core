@@ -1,0 +1,151 @@
+2025-08-19 12:23:44,965 - INFO - 🔍 Text length: 3675 characters
+2025-08-19 12:23:44,966 - INFO - 📌 Processing Article ID: 68a34e3d55f8a4c6a03cb061 — Hyundai expands R&D facilities in Europe
+2025-08-19 12:23:44,966 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:23:47,926 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:47,926 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nuerburgring",
+        "type": "factory",
+        "name": "N\u00fcrburgring",
+        "location": {
+          "city": "N\u00fcrburgring",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_hyundai_motor_europe_technical_center",
+        "type": "factory",
+        "name": "Hyundai Motor Europe Technical Center",
+        "location": {
+          "city": "Rhine-Main region",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_nuerburgring_expansion",
+        "type": "capacity",
+        "name": "N\u00fcrburgring Expansion",
+        "amount": "834 square meters",
+        "status": "completed"
+      },
+      {
+        "id": "capacity_square_campus",
+        "type": "capacity",
+        "name": "Square Campus",
+        "amount": "25,000 square meters",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_charging",
+        "type": "product",
+        "name": "high-voltage electric vehicle (EV) charging"
+      },
+      {
+        "id": "product_nv_h_dyno",
+        "type": "product",
+        "name": "four-wheel noise, vibration and harshness (NVH) dynamometer (dyno)"
+      },
+      {
+        "id": "product_chassis_dyno",
+        "type": "product",
+        "name": "chassis dyno"
+      },
+      {
+        "id": "product_powertrain_dyno",
+        "type": "product",
+        "name": "powertrain dyno"
+      }
+    ]
+  }
+}
+2025-08-19 12:23:47,927 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:47,927 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:23:47,927 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:23:49,152 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:49,153 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_nuerburgring_expansion",
+      "status": "operational",
+      "phase": "expansion"
+    },
+    {
+      "capacity_ID": "capacity_square_campus",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:23:49,153 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:49,153 - INFO - Node ID is capacity_nuerburgring_expansion
+2025-08-19 12:23:49,153 - INFO - ✅ Match found for capacity_ID 'capacity_nuerburgring_expansion' in capacity nodes
+2025-08-19 12:23:49,153 - INFO -   ➕ Set status: operational
+2025-08-19 12:23:49,153 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:23:49,153 - INFO - Node ID is capacity_square_campus
+2025-08-19 12:23:49,153 - INFO - ✅ Match found for capacity_ID 'capacity_square_campus' in capacity nodes
+2025-08-19 12:23:49,153 - INFO -   ➕ Set status: under construction
+2025-08-19 12:23:49,153 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:23:49,153 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:23:49,153 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:23:49,153 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:23:49,153 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:23:50,583 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:50,583 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_nuerburgring"
+    },
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_hyundai_motor_europe_technical_center"
+    }
+  ]
+}
+2025-08-19 12:23:50,583 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:50,583 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:23:50,584 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:23:51,801 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:23:51,802 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_nuerburgring_expansion",
+      "target": "product_ev_charging",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_nv_h_dyno",
+      "target": "capacity_square_campus",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_chassis_dyno",
+      "target": "capacity_square_campus",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_powertrain_dyno",
+      "target": "capacity_square_campus",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 12:23:51,802 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:23:51,802 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:23:51,802 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:23:51,886 - INFO - ✅ Updated Article ID: 68a34e3d55f8a4c6a03cb061 with 9 nodes and combined text.

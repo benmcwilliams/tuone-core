@@ -1,0 +1,121 @@
+2025-08-19 10:20:57,378 - INFO - 🔍 Text length: 2392 characters
+2025-08-19 10:20:57,379 - INFO - 📌 Processing Article ID: 68a35ca2193a11c7b797cd25 — Proton launches new EV brand
+2025-08-19 10:20:57,379 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:21:00,370 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:00,371 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_proton",
+        "type": "company",
+        "name": "Proton"
+      },
+      {
+        "id": "company_zhejiang_geely_holding_group",
+        "type": "company",
+        "name": "Zhejiang Geely Holding Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tanjung_malim",
+        "type": "factory",
+        "name": "Tanjung Malim Assembly Plant",
+        "location": {
+          "city": "Tanjung Malim",
+          "country": "Malaysia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_e_mas",
+        "type": "product",
+        "name": "e.MAS"
+      },
+      {
+        "id": "product_plug_in_hybrid",
+        "type": "product",
+        "name": "plug-in hybrid"
+      },
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "battery electric vehicle (BEV)"
+      },
+      {
+        "id": "product_x50",
+        "type": "product",
+        "name": "X50 mild hybrid"
+      },
+      {
+        "id": "product_x70",
+        "type": "product",
+        "name": "X70 mild hybrid"
+      },
+      {
+        "id": "product_x90",
+        "type": "product",
+        "name": "X90 mild hybrid"
+      }
+    ]
+  }
+}
+2025-08-19 10:21:00,371 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:00,371 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:21:00,371 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:21:00,371 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:21:00,371 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:21:00,371 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:21:01,288 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:01,288 - INFO - {
+  "relationships": [
+    {
+      "source": "company_proton",
+      "type": "owns",
+      "target": "factory_tanjung_malim"
+    }
+  ]
+}
+2025-08-19 10:21:01,288 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:01,288 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:21:01,288 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:21:03,490 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:21:03,490 - INFO - {
+  "relationships": [
+    {
+      "source": "product_e_mas",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_plug_in_hybrid",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bev",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_x50",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_x70",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_x90",
+      "target": "factory_tanjung_malim",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:21:03,490 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:21:03,490 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:21:03,490 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:21:03,568 - INFO - ✅ Updated Article ID: 68a35ca2193a11c7b797cd25 with 9 nodes and combined text.

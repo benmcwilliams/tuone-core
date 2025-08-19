@@ -1,0 +1,149 @@
+2025-08-19 12:31:56,370 - INFO - 🔍 Text length: 9678 characters
+2025-08-19 12:31:56,370 - INFO - 📌 Processing Article ID: 68a34d7255f8a4c6a03cb025 — Design, test, deliver: Reworking the powertrain with MAHLE
+2025-08-19 12:31:56,370 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:31:58,438 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:58,438 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mahle_powertrain",
+        "type": "company",
+        "name": "MAHLE Powertrain"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northampton_uk",
+        "type": "factory",
+        "name": "Northampton Facility",
+        "location": {
+          "city": "Northampton",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_test_facility",
+        "type": "investment",
+        "name": "Test Facility",
+        "amount": "null",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_cells",
+        "type": "product",
+        "name": "EV Cells"
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "Batteries"
+      },
+      {
+        "id": "product_hybrid_engines",
+        "type": "product",
+        "name": "Hybrid Engines"
+      },
+      {
+        "id": "product_internal_combustion_engines",
+        "type": "product",
+        "name": "Internal Combustion Engines"
+      }
+    ]
+  }
+}
+2025-08-19 12:31:58,438 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:58,439 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:31:58,439 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:31:58,439 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:31:59,149 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:31:59,150 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_test_facility",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:31:59,150 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:31:59,150 - INFO - Node ID is investment_test_facility
+2025-08-19 12:31:59,150 - INFO - ✅ Match found for investment_ID 'investment_test_facility' in investment nodes
+2025-08-19 12:31:59,150 - INFO -   ➕ Set status: completed
+2025-08-19 12:31:59,150 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:31:59,150 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:31:59,150 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:31:59,150 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:32:00,180 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:00,180 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mahle_powertrain",
+      "type": "owns",
+      "target": "factory_northampton_uk"
+    }
+  ]
+}
+2025-08-19 12:32:00,180 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:00,180 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:32:00,180 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:32:01,646 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:01,646 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_cells",
+      "target": "factory_northampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_northampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hybrid_engines",
+      "target": "factory_northampton_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_internal_combustion_engines",
+      "target": "factory_northampton_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:32:01,646 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:01,647 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:32:01,647 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:32:02,174 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:02,174 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:32:02,174 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:02,174 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:32:02,174 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:32:03,432 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:32:03,432 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_test_facility",
+      "target": "factory_northampton_uk",
+      "type": "funds"
+    },
+    {
+      "source": "investment_test_facility",
+      "target": "product_ev_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_test_facility",
+      "target": "product_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:32:03,432 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:32:03,517 - INFO - ✅ Updated Article ID: 68a34d7255f8a4c6a03cb025 with 7 nodes and combined text.

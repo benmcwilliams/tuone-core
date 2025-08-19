@@ -1,0 +1,166 @@
+2025-08-19 12:05:42,164 - INFO - 🔍 Text length: 2208 characters
+2025-08-19 12:05:42,164 - INFO - 📌 Processing Article ID: 68a34fef55f8a4c6a03cb0eb — Schaeffler to close plants in Austria and Britain as part of restructuring strategy
+2025-08-19 12:05:42,164 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:46,178 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:46,178 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_schaeffler",
+        "type": "company",
+        "name": "Schaeffler"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_berndorf_austria",
+        "type": "factory",
+        "name": "Berndorf Plant",
+        "location": {
+          "city": "Berndorf",
+          "country": "Austria"
+        }
+      },
+      {
+        "id": "factory_sheffield_uk",
+        "type": "factory",
+        "name": "Sheffield Plant",
+        "location": {
+          "city": "Sheffield",
+          "country": "UK"
+        }
+      },
+      {
+        "id": "factory_kysuce_slovakia",
+        "type": "factory",
+        "name": "Kysuce Plant",
+        "location": {
+          "city": "Kysuce",
+          "country": "Slovakia"
+        }
+      },
+      {
+        "id": "factory_brasov_romania",
+        "type": "factory",
+        "name": "Brasov Plant",
+        "location": {
+          "city": "Brasov",
+          "country": "Romania"
+        }
+      },
+      {
+        "id": "factory_india",
+        "type": "factory",
+        "name": "India Plant",
+        "location": {
+          "city": "null",
+          "country": "India"
+        }
+      },
+      {
+        "id": "factory_hungary",
+        "type": "factory",
+        "name": "Hungary Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_wheel_bearings",
+        "type": "product",
+        "name": "wheel bearings"
+      },
+      {
+        "id": "product_transmission_bearings",
+        "type": "product",
+        "name": "transmission bearings"
+      },
+      {
+        "id": "product_clutches",
+        "type": "product",
+        "name": "clutches"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:46,178 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:46,179 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:46,179 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:05:46,179 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:46,179 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:46,179 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:48,840 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:48,840 - INFO - {
+  "relationships": [
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_berndorf_austria"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_sheffield_uk"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_kysuce_slovakia"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_brasov_romania"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_india"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_hungary"
+    }
+  ]
+}
+2025-08-19 12:05:48,840 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:48,840 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:48,841 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:52,628 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:52,628 - INFO - {
+  "relationships": [
+    {
+      "source": "product_wheel_bearings",
+      "target": "factory_berndorf_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_transmission_bearings",
+      "target": "factory_berndorf_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_clutches",
+      "target": "factory_sheffield_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_clutches",
+      "target": "factory_india",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_clutches",
+      "target": "factory_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:05:52,628 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:52,628 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:05:52,628 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:05:52,716 - INFO - ✅ Updated Article ID: 68a34fef55f8a4c6a03cb0eb with 10 nodes and combined text.

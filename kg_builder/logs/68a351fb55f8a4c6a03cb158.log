@@ -1,0 +1,65 @@
+2025-08-19 11:50:54,037 - INFO - 🔍 Text length: 1497 characters
+2025-08-19 11:50:54,037 - INFO - 📌 Processing Article ID: 68a351fb55f8a4c6a03cb158 — Stellantis trying to avoid plant closures
+2025-08-19 11:50:54,037 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:50:56,279 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:56,279 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_turin_italy",
+        "type": "factory",
+        "name": "Turin Factory",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:50:56,279 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:56,279 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:50:56,279 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:50:56,279 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:50:56,279 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:50:56,279 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:50:57,255 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:57,255 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_turin_italy"
+    }
+  ]
+}
+2025-08-19 11:50:57,255 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:57,255 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:50:57,255 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:50:59,147 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:50:59,147 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:50:59,147 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:50:59,147 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:50:59,147 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:50:59,216 - INFO - ✅ Updated Article ID: 68a351fb55f8a4c6a03cb158 with 4 nodes and combined text.

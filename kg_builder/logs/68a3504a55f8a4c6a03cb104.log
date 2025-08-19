@@ -1,0 +1,149 @@
+2025-08-19 12:02:50,845 - INFO - 🔍 Text length: 5089 characters
+2025-08-19 12:02:50,846 - INFO - 📌 Processing Article ID: 68a3504a55f8a4c6a03cb104 — SEAT and Cupra future models 2024-2034
+2025-08-19 12:02:50,846 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:02:55,987 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:55,988 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_seat_s_a",
+        "type": "company",
+        "name": "SEAT S.A."
+      },
+      {
+        "id": "company_audi_hungaria",
+        "type": "company",
+        "name": "Audi Hungaria"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gyor",
+        "type": "factory",
+        "name": "Gy\u00f6r",
+        "location": {
+          "city": "Gy\u00f6r",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_hefei",
+        "type": "factory",
+        "name": "Hefei",
+        "location": {
+          "city": "Hefei",
+          "country": "China"
+        }
+      },
+      {
+        "id": "factory_martorell",
+        "type": "factory",
+        "name": "Martorell",
+        "location": {
+          "city": "Martorell",
+          "country": "Spain"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_born_vz",
+        "type": "product",
+        "name": "Born VZ"
+      },
+      {
+        "id": "product_formentor",
+        "type": "product",
+        "name": "Formentor"
+      },
+      {
+        "id": "product_terramar",
+        "type": "product",
+        "name": "Terramar"
+      },
+      {
+        "id": "product_tavascan",
+        "type": "product",
+        "name": "Tavascan"
+      },
+      {
+        "id": "product_id_unix",
+        "type": "product",
+        "name": "ID. UNIX"
+      },
+      {
+        "id": "product_raval",
+        "type": "product",
+        "name": "Raval"
+      },
+      {
+        "id": "product_id_1_gti",
+        "type": "product",
+        "name": "ID.1 GTI"
+      }
+    ]
+  }
+}
+2025-08-19 12:02:55,988 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:55,988 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:02:55,988 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:02:55,988 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:02:55,988 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:02:55,988 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:02:57,859 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:02:57,859 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi_hungaria",
+      "type": "owns",
+      "target": "factory_gyor"
+    },
+    {
+      "source": "company_volkswagen_group",
+      "type": "owns",
+      "target": "factory_hefei"
+    },
+    {
+      "source": "company_seat_s_a",
+      "type": "owns",
+      "target": "factory_martorell"
+    }
+  ]
+}
+2025-08-19 12:02:57,859 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:02:57,860 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:02:57,860 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:03:00,593 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:03:00,593 - INFO - {
+  "relationships": [
+    {
+      "source": "product_terramar",
+      "target": "factory_gyor",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tavascan",
+      "target": "factory_hefei",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id_unix",
+      "target": "factory_hefei",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_raval",
+      "target": "factory_martorell",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:03:00,593 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:03:00,593 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:03:00,593 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:03:00,666 - INFO - ✅ Updated Article ID: 68a3504a55f8a4c6a03cb104 with 13 nodes and combined text.

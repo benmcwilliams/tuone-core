@@ -1,0 +1,179 @@
+2025-08-19 11:42:47,542 - INFO - 🔍 Text length: 4046 characters
+2025-08-19 11:42:47,542 - INFO - 📌 Processing Article ID: 68a3534755f8a4c6a03cb18b — Hyundai Motor India takes IPO route amidst rising local competition
+2025-08-19 11:42:47,542 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:42:51,362 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:51,362 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_india_limited",
+        "type": "company",
+        "name": "Hyundai Motor India Limited"
+      },
+      {
+        "id": "company_hyundai_motor_company",
+        "type": "company",
+        "name": "Hyundai Motor Company"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      },
+      {
+        "id": "company_mahindra",
+        "type": "company",
+        "name": "Mahindra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chennai_tamil_nadu",
+        "type": "factory",
+        "name": "Chennai EV Battery Pack Assembly Plant",
+        "location": {
+          "city": "Chennai",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_motor_india_ipo",
+        "type": "investment",
+        "name": "Hyundai Motor India IPO",
+        "amount": "$2.4 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_pack_assembly",
+        "type": "product",
+        "name": "EV Battery Pack Assembly"
+      },
+      {
+        "id": "product_ev_vehicles",
+        "type": "product",
+        "name": "EVs"
+      },
+      {
+        "id": "product_internal_combustion_engine_vehicles",
+        "type": "product",
+        "name": "ICE vehicles"
+      },
+      {
+        "id": "product_creta",
+        "type": "product",
+        "name": "Creta"
+      },
+      {
+        "id": "product_venue",
+        "type": "product",
+        "name": "Venue"
+      },
+      {
+        "id": "product_i10_i20",
+        "type": "product",
+        "name": "i10/i20"
+      },
+      {
+        "id": "product_santro",
+        "type": "product",
+        "name": "Santro"
+      }
+    ]
+  }
+}
+2025-08-19 11:42:51,362 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:51,362 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:42:51,362 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:42:51,362 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:42:53,085 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:53,086 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_motor_india_ipo",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:42:53,086 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:53,086 - INFO - Node ID is investment_hyundai_motor_india_ipo
+2025-08-19 11:42:53,086 - INFO - ✅ Match found for investment_ID 'investment_hyundai_motor_india_ipo' in investment nodes
+2025-08-19 11:42:53,086 - INFO -   ➕ Set status: announced
+2025-08-19 11:42:53,086 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:42:53,086 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:42:53,086 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:42:53,086 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:42:54,007 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:54,008 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_india_limited",
+      "type": "owns",
+      "target": "factory_chennai_tamil_nadu"
+    }
+  ]
+}
+2025-08-19 11:42:54,008 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:54,008 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:42:54,008 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:42:55,648 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:55,648 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_pack_assembly",
+      "target": "factory_chennai_tamil_nadu",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_vehicles",
+      "target": "factory_chennai_tamil_nadu",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_internal_combustion_engine_vehicles",
+      "target": "factory_chennai_tamil_nadu",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:42:55,648 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:55,648 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:42:55,648 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:42:56,245 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:56,245 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:42:56,245 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:56,245 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:42:56,245 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:42:57,533 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:42:57,534 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_motor_india_ipo",
+      "target": "product_ev_battery_pack_assembly",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_motor_india_ipo",
+      "target": "product_ev_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_motor_india_ipo",
+      "target": "product_internal_combustion_engine_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_motor_india_ipo",
+      "target": "factory_chennai_tamil_nadu",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:42:57,534 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:42:57,621 - INFO - ✅ Updated Article ID: 68a3534755f8a4c6a03cb18b with 13 nodes and combined text.

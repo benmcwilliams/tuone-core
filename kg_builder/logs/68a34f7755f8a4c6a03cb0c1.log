@@ -1,0 +1,159 @@
+2025-08-19 12:11:24,510 - INFO - 🔍 Text length: 1917 characters
+2025-08-19 12:11:24,511 - INFO - 📌 Processing Article ID: 68a34f7755f8a4c6a03cb0c1 — Rolls-Royce to invest £300m in UK facility to expand bespoke car production
+2025-08-19 12:11:24,511 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:11:29,025 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:29,025 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rolls_royce_motor_cars",
+        "type": "company",
+        "name": "Rolls-Royce Motor Cars"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goodwood_uk",
+        "type": "factory",
+        "name": "Goodwood Plant",
+        "location": {
+          "city": "Goodwood",
+          "country": "UK"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_rolls_royce_goodwood_expansion",
+        "type": "investment",
+        "name": "Rolls-Royce Goodwood Expansion",
+        "amount": "\u00a3300m ($376m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_28_motor_cars per day",
+        "type": "capacity",
+        "name": "",
+        "amount": "28 motor cars a day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bespoke_cars",
+        "type": "product",
+        "name": "bespoke cars"
+      },
+      {
+        "id": "product_cullinan",
+        "type": "product",
+        "name": "Cullinan"
+      },
+      {
+        "id": "product_spectre",
+        "type": "product",
+        "name": "Spectre"
+      },
+      {
+        "id": "product_ghost",
+        "type": "product",
+        "name": "Ghost"
+      }
+    ]
+  }
+}
+2025-08-19 12:11:29,025 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:29,025 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:11:29,025 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:11:29,917 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:29,917 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_28_motor_cars per day",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:11:29,917 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:29,917 - INFO - Node ID is capacity_28_motor_cars per day
+2025-08-19 12:11:29,917 - INFO - ✅ Match found for capacity_ID 'capacity_28_motor_cars per day' in capacity nodes
+2025-08-19 12:11:29,917 - INFO -   ➕ Set status: operational
+2025-08-19 12:11:29,917 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:11:29,917 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:11:29,918 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:11:30,966 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:30,966 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_rolls_royce_goodwood_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:11:30,966 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:30,966 - INFO - Node ID is investment_rolls_royce_goodwood_expansion
+2025-08-19 12:11:30,967 - INFO - ✅ Match found for investment_ID 'investment_rolls_royce_goodwood_expansion' in investment nodes
+2025-08-19 12:11:30,967 - INFO -   ➕ Set status: announced
+2025-08-19 12:11:30,967 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:11:30,967 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:11:30,967 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:11:30,967 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:11:31,860 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:31,861 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rolls_royce_motor_cars",
+      "type": "owns",
+      "target": "factory_goodwood_uk"
+    }
+  ]
+}
+2025-08-19 12:11:31,861 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:31,861 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:11:31,861 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:11:33,196 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:33,197 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_28_motor_cars per day",
+      "target": "factory_goodwood_uk",
+      "type": "at"
+    },
+    {
+      "source": "capacity_28_motor_cars per day",
+      "target": "product_bespoke_cars",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bespoke_cars",
+      "target": "factory_goodwood_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:11:33,197 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:33,197 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:11:33,197 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:11:33,806 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:33,807 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:11:33,807 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:33,807 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:11:33,807 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:11:35,142 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:35,142 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_rolls_royce_goodwood_expansion",
+      "target": "factory_goodwood_uk",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 12:11:35,142 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:35,214 - INFO - ✅ Updated Article ID: 68a34f7755f8a4c6a03cb0c1 with 8 nodes and combined text.

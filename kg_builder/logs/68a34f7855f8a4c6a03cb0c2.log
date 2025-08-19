@@ -1,0 +1,93 @@
+2025-08-19 12:11:19,121 - INFO - 🔍 Text length: 2810 characters
+2025-08-19 12:11:19,121 - INFO - 📌 Processing Article ID: 68a34f7855f8a4c6a03cb0c2 — SHM partners with HERE Technologies for nav tech on Afeela
+2025-08-19 12:11:19,121 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:11:21,727 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:21,727 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sony_group_corporation",
+        "type": "company",
+        "name": "Sony Group Corporation"
+      },
+      {
+        "id": "company_honda_motor_company",
+        "type": "company",
+        "name": "Honda Motor Company"
+      },
+      {
+        "id": "company_here_technologies",
+        "type": "company",
+        "name": "HERE Technologies"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_sony_honda_mobility",
+        "type": "joint_venture",
+        "name": "Sony Honda Mobility"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_existing_plant",
+        "type": "factory",
+        "name": "existing plant",
+        "location": {
+          "city": "Ohio",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_afeela_1_ev",
+        "type": "product",
+        "name": "Afeela 1 EV"
+      }
+    ]
+  }
+}
+2025-08-19 12:11:21,727 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:21,727 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:11:21,727 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:11:21,728 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:11:21,728 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:11:21,728 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:11:23,677 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:23,678 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sony_group_corporation",
+      "type": "forms",
+      "target": "joint_venture_sony_honda_mobility"
+    },
+    {
+      "source": "company_honda_motor_company",
+      "type": "forms",
+      "target": "joint_venture_sony_honda_mobility"
+    },
+    {
+      "source": "joint_venture_sony_honda_mobility",
+      "type": "owns",
+      "target": "factory_existing_plant"
+    }
+  ]
+}
+2025-08-19 12:11:23,678 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:23,678 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:11:23,678 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:11:24,431 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:11:24,431 - INFO - {
+  "relationships": [
+    {
+      "source": "product_afeela_1_ev",
+      "target": "factory_existing_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:11:24,432 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:11:24,432 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:11:24,432 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:11:24,509 - INFO - ✅ Updated Article ID: 68a34f7855f8a4c6a03cb0c2 with 6 nodes and combined text.

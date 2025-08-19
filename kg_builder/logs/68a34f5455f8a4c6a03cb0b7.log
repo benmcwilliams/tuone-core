@@ -1,0 +1,113 @@
+2025-08-19 12:12:43,124 - INFO - 🔍 Text length: 5071 characters
+2025-08-19 12:12:43,125 - INFO - 📌 Processing Article ID: 68a34f5455f8a4c6a03cb0b7 — Major Amazon order for electric Mercedes-Benz Trucks
+2025-08-19 12:12:43,125 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:12:45,742 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:45,743 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz_trucks",
+        "type": "company",
+        "name": "Mercedes-Benz Trucks"
+      },
+      {
+        "id": "company_amazon",
+        "type": "company",
+        "name": "Amazon"
+      },
+      {
+        "id": "company_daimler_truck_ag",
+        "type": "company",
+        "name": "Daimler Truck AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_worth_am_rhein",
+        "type": "factory",
+        "name": "Mercedes-Benz plant",
+        "location": {
+          "city": "W\u00f6rth am Rhein",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_eactros_600",
+        "type": "product",
+        "name": "eActros 600"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_amazon_eactros_600_order",
+        "type": "investment",
+        "name": "Amazon eActros 600 order",
+        "amount": "null",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 12:12:45,743 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:45,743 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:12:45,743 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:12:45,743 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:12:46,568 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:46,569 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_amazon_eactros_600_order",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:12:46,569 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:46,569 - INFO - Node ID is investment_amazon_eactros_600_order
+2025-08-19 12:12:46,569 - INFO - ✅ Match found for investment_ID 'investment_amazon_eactros_600_order' in investment nodes
+2025-08-19 12:12:46,569 - INFO -   ➕ Set status: announced
+2025-08-19 12:12:46,569 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:12:46,569 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:12:46,569 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:12:46,569 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:12:47,714 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:47,714 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz_trucks",
+      "type": "owns",
+      "target": "factory_worth_am_rhein"
+    }
+  ]
+}
+2025-08-19 12:12:47,714 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:47,715 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:12:47,715 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:12:48,810 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:48,810 - INFO - {
+  "relationships": [
+    {
+      "source": "product_eactros_600",
+      "target": "factory_worth_am_rhein",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:12:48,810 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:48,810 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:12:48,810 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:12:49,483 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:49,483 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:12:49,483 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:49,483 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:12:49,483 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:12:50,713 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:12:50,713 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:12:50,713 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:12:50,799 - INFO - ✅ Updated Article ID: 68a34f5455f8a4c6a03cb0b7 with 6 nodes and combined text.

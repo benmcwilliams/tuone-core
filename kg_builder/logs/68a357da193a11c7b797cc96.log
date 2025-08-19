@@ -1,0 +1,108 @@
+2025-08-19 10:51:40,819 - INFO - 🔍 Text length: 1664 characters
+2025-08-19 10:51:40,820 - INFO - 📌 Processing Article ID: 68a357da193a11c7b797cc96 — Evergrande NEV ordered to pay back subsidies
+2025-08-19 10:51:40,820 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:51:43,638 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:43,638 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_china_evergrande_new_energy_vehicle_group",
+        "type": "company",
+        "name": "China Evergrande New Energy Vehicle Group"
+      },
+      {
+        "id": "company_china_evergrande_group",
+        "type": "company",
+        "name": "China Evergrande Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tianjin_plant",
+        "type": "factory",
+        "name": "Tianjin Plant",
+        "location": {
+          "city": "Tianjin",
+          "country": "China"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_private_investors",
+        "type": "investment",
+        "name": "Private Investors",
+        "amount": "HKD2.7bn (US$346m)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hengchi_vehicles",
+        "type": "product",
+        "name": "Hengchi brand vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 10:51:43,639 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:43,639 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:51:43,639 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 10:51:43,639 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 10:51:45,109 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:45,110 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_private_investors",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 10:51:45,110 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:45,110 - INFO - Node ID is investment_private_investors
+2025-08-19 10:51:45,110 - INFO - ✅ Match found for investment_ID 'investment_private_investors' in investment nodes
+2025-08-19 10:51:45,110 - INFO -   ➕ Set status: completed
+2025-08-19 10:51:45,110 - INFO -   ➕ Set phase: unclear
+2025-08-19 10:51:45,110 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:51:45,110 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:51:45,110 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:51:46,195 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:46,196 - INFO - {
+  "relationships": [
+    {
+      "source": "company_china_evergrande_new_energy_vehicle_group",
+      "type": "owns",
+      "target": "factory_tianjin_plant"
+    }
+  ]
+}
+2025-08-19 10:51:46,196 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:46,196 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:51:46,196 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:51:48,604 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:48,604 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hengchi_vehicles",
+      "target": "factory_tianjin_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:51:48,604 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:48,604 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 10:51:48,604 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 10:51:49,295 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:49,295 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:51:49,296 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:49,296 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 10:51:49,296 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 10:51:49,869 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:51:49,869 - INFO - {
+  "relationships": []
+}
+2025-08-19 10:51:49,869 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:51:49,949 - INFO - ✅ Updated Article ID: 68a357da193a11c7b797cc96 with 5 nodes and combined text.

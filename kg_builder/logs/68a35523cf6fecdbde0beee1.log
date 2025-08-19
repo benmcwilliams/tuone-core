@@ -1,0 +1,164 @@
+2025-08-19 11:05:54,766 - INFO - 🔍 Text length: 3060 characters
+2025-08-19 11:05:54,766 - INFO - 📌 Processing Article ID: 68a35523cf6fecdbde0beee1 — Nippon Steel sweetens offer for US Steel
+2025-08-19 11:05:54,766 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:05:58,456 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:58,456 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nippon_steel_corporation",
+        "type": "company",
+        "name": "Nippon Steel Corporation"
+      },
+      {
+        "id": "company_united_states_steel_corporation",
+        "type": "company",
+        "name": "United States Steel Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mon_valley_works",
+        "type": "factory",
+        "name": "Mon Valley Works",
+        "location": {
+          "city": "Pennsylvania",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_gary_works",
+        "type": "factory",
+        "name": "Gary Works",
+        "location": {
+          "city": "Indiana",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nippon_steel_additional_usd1_3bn",
+        "type": "investment",
+        "name": "Nippon Steel Additional USD1.3bn",
+        "amount": "US$1.3bn",
+        "status": "announced"
+      },
+      {
+        "id": "investment_nippon_steel_usd1_4bn_upgrade",
+        "type": "investment",
+        "name": "Nippon Steel USD1.4bn Upgrade",
+        "amount": "US$1.4bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_grade_automotive_steel",
+        "type": "product",
+        "name": "high-grade automotive steel"
+      }
+    ]
+  }
+}
+2025-08-19 11:05:58,456 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:58,456 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:05:58,456 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:05:58,457 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:05:59,888 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:59,888 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nippon_steel_additional_usd1_3bn",
+      "status": "announced",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_nippon_steel_usd1_4bn_upgrade",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:05:59,888 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:59,888 - INFO - Node ID is investment_nippon_steel_additional_usd1_3bn
+2025-08-19 11:05:59,888 - INFO - ✅ Match found for investment_ID 'investment_nippon_steel_additional_usd1_3bn' in investment nodes
+2025-08-19 11:05:59,888 - INFO -   ➕ Set status: announced
+2025-08-19 11:05:59,888 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:05:59,889 - INFO - Node ID is investment_nippon_steel_usd1_4bn_upgrade
+2025-08-19 11:05:59,889 - INFO - ✅ Match found for investment_ID 'investment_nippon_steel_usd1_4bn_upgrade' in investment nodes
+2025-08-19 11:05:59,889 - INFO -   ➕ Set status: announced
+2025-08-19 11:05:59,889 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:05:59,889 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:05:59,889 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:05:59,889 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:06:02,451 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:02,452 - INFO - {
+  "relationships": [
+    {
+      "source": "company_united_states_steel_corporation",
+      "type": "owns",
+      "target": "factory_mon_valley_works"
+    },
+    {
+      "source": "company_united_states_steel_corporation",
+      "type": "owns",
+      "target": "factory_gary_works"
+    }
+  ]
+}
+2025-08-19 11:06:02,452 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:02,452 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:06:02,452 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:06:03,371 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:03,371 - INFO - {
+  "relationships": [
+    {
+      "source": "product_high_grade_automotive_steel",
+      "target": "factory_mon_valley_works",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:06:03,371 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:03,371 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:06:03,371 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:06:03,884 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:03,884 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:06:03,884 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:03,884 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:06:03,884 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:06:06,220 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:06:06,220 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nippon_steel_additional_usd1_3bn",
+      "target": "factory_mon_valley_works",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nippon_steel_additional_usd1_3bn",
+      "target": "product_high_grade_automotive_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_nippon_steel_additional_usd1_3bn",
+      "target": "factory_gary_works",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nippon_steel_usd1_4bn_upgrade",
+      "target": "factory_mon_valley_works",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nippon_steel_usd1_4bn_upgrade",
+      "target": "factory_gary_works",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:06:06,220 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:06:06,293 - INFO - ✅ Updated Article ID: 68a35523cf6fecdbde0beee1 with 7 nodes and combined text.

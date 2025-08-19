@@ -1,0 +1,71 @@
+2025-08-19 12:05:29,998 - INFO - 🔍 Text length: 5393 characters
+2025-08-19 12:05:29,998 - INFO - 📌 Processing Article ID: 68a34ff455f8a4c6a03cb0ed — Toyota Prius PHEV – is its beauty more than skin deep?
+2025-08-19 12:05:29,998 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:05:31,240 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:31,240 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_toyota_great_britain",
+        "type": "company",
+        "name": "Toyota Great Britain (TGB)"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tsutsumi",
+        "type": "factory",
+        "name": "Tsutsumi",
+        "location": {
+          "city": "Aichi prefecture",
+          "country": "Japan"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_prius_phev",
+        "type": "product",
+        "name": "Prius PHEV"
+      }
+    ]
+  }
+}
+2025-08-19 12:05:31,240 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:31,240 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:05:31,240 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:05:31,240 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:05:31,240 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:05:31,240 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:05:31,876 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:31,876 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_tsutsumi"
+    }
+  ]
+}
+2025-08-19 12:05:31,876 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:31,876 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:05:31,876 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:05:34,339 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:05:34,339 - INFO - {
+  "relationships": [
+    {
+      "source": "product_prius_phev",
+      "target": "factory_tsutsumi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:05:34,339 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:05:34,339 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:05:34,339 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:05:34,409 - INFO - ✅ Updated Article ID: 68a34ff455f8a4c6a03cb0ed with 4 nodes and combined text.

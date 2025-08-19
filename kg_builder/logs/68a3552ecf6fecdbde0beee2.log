@@ -1,0 +1,167 @@
+2025-08-19 11:05:44,124 - INFO - 🔍 Text length: 1879 characters
+2025-08-19 11:05:44,124 - INFO - 📌 Processing Article ID: 68a3552ecf6fecdbde0beee2 — Hyundai to launch Creta EV in India in January
+2025-08-19 11:05:44,124 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:05:48,895 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:48,895 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_company",
+        "type": "company",
+        "name": "Hyundai Motor Company"
+      },
+      {
+        "id": "company_hyundai_motor_india",
+        "type": "company",
+        "name": "Hyundai Motor India"
+      },
+      {
+        "id": "company_exide_energy_solutions_ltd",
+        "type": "company",
+        "name": "Exide Energy Solutions Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chennai_india",
+        "type": "factory",
+        "name": "Chennai Plant",
+        "location": {
+          "city": "Chennai",
+          "country": "India"
+        }
+      },
+      {
+        "id": "factory_pune_india",
+        "type": "factory",
+        "name": "Pune Plant",
+        "location": {
+          "city": "Pune",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_motor_india_ipo",
+        "type": "investment",
+        "name": "Hyundai Motor India IPO",
+        "amount": "US$3.3bn",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_million_vehicles_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "over 1 million vehicles",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_creta_ev",
+        "type": "product",
+        "name": "Creta EV"
+      },
+      {
+        "id": "product_lithium_ion_phosphate_batteries",
+        "type": "product",
+        "name": "lithium-ion phosphate (LFP) batteries"
+      }
+    ]
+  }
+}
+2025-08-19 11:05:48,895 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:48,896 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:05:48,896 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:05:50,332 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:50,332 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_million_vehicles_announced",
+      "status": "under construction",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:05:50,333 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:50,333 - INFO - Node ID is capacity_1_million_vehicles_announced
+2025-08-19 11:05:50,333 - INFO - ✅ Match found for capacity_ID 'capacity_1_million_vehicles_announced' in capacity nodes
+2025-08-19 11:05:50,333 - INFO -   ➕ Set status: under construction
+2025-08-19 11:05:50,333 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:05:50,333 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:05:50,333 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:05:51,024 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:51,025 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_motor_india_ipo",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 11:05:51,025 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:51,025 - INFO - Node ID is investment_hyundai_motor_india_ipo
+2025-08-19 11:05:51,025 - INFO - ✅ Match found for investment_ID 'investment_hyundai_motor_india_ipo' in investment nodes
+2025-08-19 11:05:51,025 - INFO -   ➕ Set status: completed
+2025-08-19 11:05:51,025 - INFO -   ➕ Set phase: unclear
+2025-08-19 11:05:51,025 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:05:51,025 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:05:51,025 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:05:51,882 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:51,883 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_chennai_india"
+    },
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_pune_india"
+    }
+  ]
+}
+2025-08-19 11:05:51,883 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:51,883 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:05:51,883 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:05:53,019 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:53,020 - INFO - {
+  "relationships": [
+    {
+      "source": "product_creta_ev",
+      "target": "factory_chennai_india",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_million_vehicles_announced",
+      "target": "factory_pune_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_million_vehicles_announced",
+      "target": "product_creta_ev",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-19 11:05:53,020 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:53,020 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:05:53,020 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:05:53,658 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:53,658 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:05:53,658 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:53,658 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:05:53,659 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:05:54,688 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:05:54,689 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:05:54,689 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:05:54,765 - INFO - ✅ Updated Article ID: 68a3552ecf6fecdbde0beee2 with 9 nodes and combined text.

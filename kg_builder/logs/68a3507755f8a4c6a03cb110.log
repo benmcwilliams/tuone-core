@@ -1,0 +1,98 @@
+2025-08-19 12:01:04,764 - INFO - 🔍 Text length: 2550 characters
+2025-08-19 12:01:04,764 - INFO - 📌 Processing Article ID: 68a3507755f8a4c6a03cb110 — Mercedes-AMG to develop standalone SUV fully in-house
+2025-08-19 12:01:04,764 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:01:07,487 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:07,487 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_amg",
+        "type": "company",
+        "name": "Mercedes-AMG"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ionchi",
+        "type": "joint_venture",
+        "name": "Ionchi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kuppenheim_germany",
+        "type": "factory",
+        "name": "Kuppenheim Battery Recycling Plant",
+        "location": {
+          "city": "Kuppenheim",
+          "country": "Germany"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_born_in_affalterbach_suv",
+        "type": "product",
+        "name": "Born in Affalterbach SUV"
+      },
+      {
+        "id": "product_amg_ea_platform",
+        "type": "product",
+        "name": "AMG.EA electric high-performance platform"
+      },
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      },
+      {
+        "id": "product_ev_charging_station",
+        "type": "product",
+        "name": "electric vehicle charging station"
+      }
+    ]
+  }
+}
+2025-08-19 12:01:07,488 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:07,488 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:01:07,488 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:01:07,488 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:01:07,488 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:01:07,488 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:01:08,435 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:08,435 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_kuppenheim_germany"
+    }
+  ]
+}
+2025-08-19 12:01:08,435 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:08,435 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:01:08,436 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:01:09,401 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:01:09,401 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_kuppenheim_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:01:09,401 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:01:09,402 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:01:09,402 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:01:09,476 - INFO - ✅ Updated Article ID: 68a3507755f8a4c6a03cb110 with 9 nodes and combined text.

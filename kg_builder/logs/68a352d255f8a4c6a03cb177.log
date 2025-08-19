@@ -1,0 +1,124 @@
+2025-08-19 11:46:01,697 - INFO - 🔍 Text length: 2538 characters
+2025-08-19 11:46:01,697 - INFO - 📌 Processing Article ID: 68a352d255f8a4c6a03cb177 — Hyundai chief meets with India PM Modi
+2025-08-19 11:46:01,697 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:46:04,479 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:04,479 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      },
+      {
+        "id": "company_hyundai_motor_india_limited",
+        "type": "company",
+        "name": "Hyundai Motor India Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pune_india",
+        "type": "factory",
+        "name": "Hyundai Motor India plant",
+        "location": {
+          "city": "Pune",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_motor_india_plant",
+        "type": "investment",
+        "name": "Hyundai Motor India plant",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_models",
+        "type": "product",
+        "name": "EV models"
+      },
+      {
+        "id": "product_ev_charging_networks",
+        "type": "product",
+        "name": "EV-charging networks"
+      },
+      {
+        "id": "product_parts",
+        "type": "product",
+        "name": "parts"
+      }
+    ]
+  }
+}
+2025-08-19 11:46:04,479 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:04,479 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:46:04,480 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:46:04,480 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:46:05,624 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:05,625 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_motor_india_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 11:46:05,625 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:05,625 - INFO - Node ID is investment_hyundai_motor_india_plant
+2025-08-19 11:46:05,625 - INFO - ✅ Match found for investment_ID 'investment_hyundai_motor_india_plant' in investment nodes
+2025-08-19 11:46:05,625 - INFO -   ➕ Set status: announced
+2025-08-19 11:46:05,625 - INFO -   ➕ Set phase: greenfield
+2025-08-19 11:46:05,625 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:46:05,625 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:46:05,625 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:46:06,312 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:06,312 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_india_limited",
+      "type": "owns",
+      "target": "factory_pune_india"
+    }
+  ]
+}
+2025-08-19 11:46:06,312 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:06,313 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:46:06,313 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:46:07,256 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:07,256 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_models",
+      "target": "factory_pune_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:46:07,256 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:07,256 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:46:07,256 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:46:07,853 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:07,853 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:46:07,853 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:07,853 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:46:07,853 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:46:08,702 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:46:08,702 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_motor_india_plant",
+      "target": "factory_pune_india",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-19 11:46:08,702 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:46:08,793 - INFO - ✅ Updated Article ID: 68a352d255f8a4c6a03cb177 with 7 nodes and combined text.

@@ -1,0 +1,116 @@
+2025-08-19 12:13:51,015 - INFO - 🔍 Text length: 3547 characters
+2025-08-19 12:13:51,015 - INFO - 📌 Processing Article ID: 68a34f3355f8a4c6a03cb0ae — Skoda starts production of the Skoda Kylaq in Pune
+2025-08-19 12:13:51,015 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:13:54,156 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:54,156 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda_auto",
+        "type": "company",
+        "name": "Skoda Auto"
+      },
+      {
+        "id": "company_skoda_auto_volkswagen_india_private_limited",
+        "type": "company",
+        "name": "Skoda Auto Volkswagen India Private Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pune_india",
+        "type": "factory",
+        "name": "Pune Plant",
+        "location": {
+          "city": "Pune",
+          "country": "India"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_255k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "255,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kylaq",
+        "type": "product",
+        "name": "Kylaq SUV"
+      },
+      {
+        "id": "product_kushaq",
+        "type": "product",
+        "name": "Kushaq SUV"
+      },
+      {
+        "id": "product_slavia",
+        "type": "product",
+        "name": "Slavia Saloon"
+      }
+    ]
+  }
+}
+2025-08-19 12:13:54,156 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:54,156 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 12:13:54,156 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 12:13:55,198 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:55,198 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_255k_vehicles_per_year",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 12:13:55,198 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:55,198 - INFO - Node ID is capacity_255k_vehicles_per_year
+2025-08-19 12:13:55,198 - INFO - ✅ Match found for capacity_ID 'capacity_255k_vehicles_per_year' in capacity nodes
+2025-08-19 12:13:55,198 - INFO -   ➕ Set status: operational
+2025-08-19 12:13:55,198 - INFO -   ➕ Set phase: expansion
+2025-08-19 12:13:55,198 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:13:55,198 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:13:55,198 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:13:55,199 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:13:56,112 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:56,112 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_pune_india"
+    }
+  ]
+}
+2025-08-19 12:13:56,112 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:56,112 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:13:56,112 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:13:58,049 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:13:58,049 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_255k_vehicles_per_year",
+      "target": "factory_pune_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_255k_vehicles_per_year",
+      "target": "product_kylaq",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_kylaq",
+      "target": "factory_pune_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:13:58,049 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:13:58,049 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:13:58,049 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:13:58,129 - INFO - ✅ Updated Article ID: 68a34f3355f8a4c6a03cb0ae with 7 nodes and combined text.

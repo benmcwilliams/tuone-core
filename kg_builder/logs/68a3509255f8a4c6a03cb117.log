@@ -1,0 +1,153 @@
+2025-08-19 12:00:10,100 - INFO - 🔍 Text length: 2761 characters
+2025-08-19 12:00:10,100 - INFO - 📌 Processing Article ID: 68a3509255f8a4c6a03cb117 — Battery makers slump as Trump to abolish incentives
+2025-08-19 12:00:10,100 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:00:13,884 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:13,884 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      },
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      },
+      {
+        "id": "company_posco_future_m",
+        "type": "company",
+        "name": "Posco Future M"
+      },
+      {
+        "id": "company_ecopro_materials",
+        "type": "company",
+        "name": "EcoPro Materials"
+      },
+      {
+        "id": "company_lf",
+        "type": "company",
+        "name": "L&F"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_georgia_us",
+        "type": "factory",
+        "name": "Georgia Plant",
+        "location": {
+          "city": "Georgia",
+          "country": "US"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_south_korean_battery industry",
+        "type": "investment",
+        "name": "South Korean Battery Industry Investment",
+        "amount": "US$50bn",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev",
+        "type": "product",
+        "name": "battery electric vehicles (BEVs)"
+      },
+      {
+        "id": "product_hybrid_vehicles",
+        "type": "product",
+        "name": "hybrid vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:00:13,884 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:13,884 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:00:13,884 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:00:13,885 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:00:14,816 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:14,816 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_south_korean_battery industry",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-19 12:00:14,816 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:14,816 - INFO - Node ID is investment_south_korean_battery industry
+2025-08-19 12:00:14,816 - INFO - ✅ Match found for investment_ID 'investment_south_korean_battery industry' in investment nodes
+2025-08-19 12:00:14,816 - INFO -   ➕ Set status: unclear
+2025-08-19 12:00:14,816 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:00:14,816 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:00:14,816 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:00:14,816 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:00:15,505 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:15,506 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_georgia_us"
+    }
+  ]
+}
+2025-08-19 12:00:15,506 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:15,506 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:00:15,506 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:00:17,683 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:17,683 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hybrid_vehicles",
+      "target": "factory_georgia_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bev",
+      "target": "factory_georgia_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:00:17,683 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:17,683 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:00:17,683 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:00:18,378 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:18,379 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:00:18,379 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:18,379 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:00:18,379 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:00:18,976 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:00:18,976 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:00:18,976 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:00:19,059 - INFO - ✅ Updated Article ID: 68a3509255f8a4c6a03cb117 with 13 nodes and combined text.

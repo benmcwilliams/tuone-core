@@ -1,0 +1,117 @@
+2025-08-19 12:26:23,671 - INFO - 🔍 Text length: 1928 characters
+2025-08-19 12:26:23,671 - INFO - 📌 Processing Article ID: 68a34e0e55f8a4c6a03cb04d — Chery launches automotive spare parts distribution centre in UAE
+2025-08-19 12:26:23,671 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:26:28,400 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:28,400 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_ebro_ev_motors",
+        "type": "company",
+        "name": "Ebro EV Motors"
+      },
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_chery_ebro_ev_motors",
+        "type": "joint_venture",
+        "name": "Chery and Ebro EV Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_barcelona",
+        "type": "factory",
+        "name": "Barcelona Factory",
+        "location": {
+          "city": "Barcelona",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_middle_east_regional_spare_parts_distribution_centre",
+        "type": "factory",
+        "name": "Middle East Regional Spare Parts Distribution Centre",
+        "location": {
+          "city": "null",
+          "country": "UAE"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tiggo_9",
+        "type": "product",
+        "name": "TIGGO 9"
+      },
+      {
+        "id": "product_spare_parts",
+        "type": "product",
+        "name": "automotive spare parts"
+      }
+    ]
+  }
+}
+2025-08-19 12:26:28,400 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:28,400 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:26:28,400 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:26:28,400 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:26:28,401 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:26:28,401 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:26:30,519 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:30,520 - INFO - {
+  "relationships": [
+    {
+      "source": "company_chery",
+      "type": "forms",
+      "target": "joint_venture_chery_ebro_ev_motors"
+    },
+    {
+      "source": "company_ebro_ev_motors",
+      "type": "forms",
+      "target": "joint_venture_chery_ebro_ev_motors"
+    },
+    {
+      "source": "joint_venture_chery_ebro_ev_motors",
+      "type": "owns",
+      "target": "factory_barcelona"
+    },
+    {
+      "source": "company_chery",
+      "type": "owns",
+      "target": "factory_middle_east_regional_spare_parts_distribution_centre"
+    }
+  ]
+}
+2025-08-19 12:26:30,520 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:30,520 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:26:30,520 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:26:32,024 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:26:32,024 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tiggo_9",
+      "target": "factory_barcelona",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_spare_parts",
+      "target": "factory_middle_east_regional_spare_parts_distribution_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:26:32,024 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:26:32,024 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:26:32,024 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:26:32,104 - INFO - ✅ Updated Article ID: 68a34e0e55f8a4c6a03cb04d with 8 nodes and combined text.

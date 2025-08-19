@@ -1,0 +1,112 @@
+2025-08-19 12:16:24,510 - INFO - 🔍 Text length: 1775 characters
+2025-08-19 12:16:24,510 - INFO - 📌 Processing Article ID: 68a34ef655f8a4c6a03cb09d — Geely and Renault in talks over sales and manufacturing deal in Brazil
+2025-08-19 12:16:24,510 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:16:30,058 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:30,058 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_hrl_engineering_group",
+        "type": "company",
+        "name": "HRL Engineering Group"
+      },
+      {
+        "id": "company_capital_smart_motors",
+        "type": "company",
+        "name": "Capital Smart Motors"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_geely_renault",
+        "type": "joint_venture",
+        "name": "Geely Renault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_curitiba_brazil",
+        "type": "factory",
+        "name": "Curitiba plant",
+        "location": {
+          "city": "Curitiba",
+          "country": "Brazil"
+        }
+      },
+      {
+        "id": "factory_south_korea",
+        "type": "factory",
+        "name": "South Korean factory",
+        "location": {
+          "city": "null",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_farizon_commercial_vehicles",
+        "type": "product",
+        "name": "Farizon commercial vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:16:30,058 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:30,058 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:16:30,059 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:16:30,059 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:16:30,059 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:16:30,059 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:16:32,054 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:32,054 - INFO - {
+  "relationships": [
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_geely_renault"
+    },
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_geely_renault"
+    },
+    {
+      "source": "joint_venture_geely_renault",
+      "type": "owns",
+      "target": "factory_south_korea"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_curitiba_brazil"
+    }
+  ]
+}
+2025-08-19 12:16:32,054 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:32,055 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:16:32,055 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:16:32,954 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:16:32,955 - INFO - {
+  "relationships": [
+    {
+      "source": "product_farizon_commercial_vehicles",
+      "target": "factory_curitiba_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:16:32,955 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:16:32,955 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:16:32,955 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:16:33,029 - INFO - ✅ Updated Article ID: 68a34ef655f8a4c6a03cb09d with 8 nodes and combined text.

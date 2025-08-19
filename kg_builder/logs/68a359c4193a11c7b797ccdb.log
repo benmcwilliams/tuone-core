@@ -1,0 +1,96 @@
+2025-08-19 10:31:14,673 - INFO - 🔍 Text length: 1499 characters
+2025-08-19 10:31:14,673 - INFO - 📌 Processing Article ID: 68a359c4193a11c7b797ccdb — Hyundai to build hydrogen CV hub in Jeonju
+2025-08-19 10:31:14,673 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:31:17,388 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:17,389 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jeonju_south_korea",
+        "type": "factory",
+        "name": "Jeonju Commercial Vehicle Facility",
+        "location": {
+          "city": "Jeonju",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_trucks",
+        "type": "product",
+        "name": "hydrogen trucks"
+      },
+      {
+        "id": "product_hydrogen_buses",
+        "type": "product",
+        "name": "hydrogen buses"
+      },
+      {
+        "id": "product_xcient_hydrogen_fuel_cell_heavy_truck",
+        "type": "product",
+        "name": "Xcient hydrogen fuel cell heavy truck"
+      },
+      {
+        "id": "product_staria_minibus",
+        "type": "product",
+        "name": "Staria minibus"
+      },
+      {
+        "id": "product_county_medium_bus",
+        "type": "product",
+        "name": "County medium bus"
+      },
+      {
+        "id": "product_porter_ev_light_truck",
+        "type": "product",
+        "name": "Porter EV light truck"
+      }
+    ]
+  }
+}
+2025-08-19 10:31:17,389 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:17,389 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:31:17,389 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:31:17,389 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:31:17,389 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:31:17,389 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:31:18,345 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:18,346 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_jeonju_south_korea"
+    }
+  ]
+}
+2025-08-19 10:31:18,346 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:18,346 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:31:18,346 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:31:20,052 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:31:20,052 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hydrogen_trucks",
+      "target": "factory_jeonju_south_korea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen_buses",
+      "target": "factory_jeonju_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:31:20,052 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:31:20,052 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:31:20,052 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:31:20,128 - INFO - ✅ Updated Article ID: 68a359c4193a11c7b797ccdb with 8 nodes and combined text.

@@ -1,0 +1,152 @@
+2025-08-19 12:24:16,569 - INFO - 🔍 Text length: 1437 characters
+2025-08-19 12:24:16,569 - INFO - 📌 Processing Article ID: 68a34e3455f8a4c6a03cb05c — Toyota completes EV battery plant in US
+2025-08-19 12:24:16,569 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:24:20,485 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:20,485 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_toyota_battery_manufacturing_north_carolina_inc",
+        "type": "company",
+        "name": "Toyota Battery Manufacturing North Carolina Inc"
+      },
+      {
+        "id": "company_toyota_motor_north_america_inc",
+        "type": "company",
+        "name": "Toyota Motor North America Inc"
+      },
+      {
+        "id": "company_toyota_tsusho_corporation",
+        "type": "company",
+        "name": "Toyota Tsusho Corporation"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_toyota_battery_manufacturing_north_carolina_inc",
+        "type": "joint_venture",
+        "name": "Toyota Battery Manufacturing North Carolina Inc"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_liberty_north_carolina",
+        "type": "factory",
+        "name": "Liberty EV Battery Plant",
+        "location": {
+          "city": "Liberty",
+          "country": "United States"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_us_investment",
+        "type": "investment",
+        "name": "Toyota US Investment",
+        "amount": "US$49bn",
+        "status": "completed"
+      },
+      {
+        "id": "investment_toyota_liberty_ev_battery_plant",
+        "type": "investment",
+        "name": "Toyota Liberty EV Battery Plant",
+        "amount": "US$14bn",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-19 12:24:20,486 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:20,486 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:24:20,486 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 12:24:20,486 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 12:24:21,614 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:21,614 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_us_investment",
+      "status": "completed",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_toyota_liberty_ev_battery_plant",
+      "status": "completed",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 12:24:21,614 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:21,614 - INFO - Node ID is investment_toyota_us_investment
+2025-08-19 12:24:21,614 - INFO - ✅ Match found for investment_ID 'investment_toyota_us_investment' in investment nodes
+2025-08-19 12:24:21,614 - INFO -   ➕ Set status: completed
+2025-08-19 12:24:21,614 - INFO -   ➕ Set phase: unclear
+2025-08-19 12:24:21,615 - INFO - Node ID is investment_toyota_liberty_ev_battery_plant
+2025-08-19 12:24:21,615 - INFO - ✅ Match found for investment_ID 'investment_toyota_liberty_ev_battery_plant' in investment nodes
+2025-08-19 12:24:21,615 - INFO -   ➕ Set status: completed
+2025-08-19 12:24:21,615 - INFO -   ➕ Set phase: greenfield
+2025-08-19 12:24:21,615 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:24:21,615 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:24:21,615 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:24:23,252 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:23,253 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_battery_manufacturing_north_carolina_inc",
+      "type": "owns",
+      "target": "factory_liberty_north_carolina"
+    }
+  ]
+}
+2025-08-19 12:24:23,253 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:23,253 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:24:23,253 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:24:24,276 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:24,277 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_liberty_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:24:24,277 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:24,277 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 12:24:24,277 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 12:24:25,094 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:25,094 - INFO - {
+  "relationships": []
+}
+2025-08-19 12:24:25,094 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:25,094 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 12:24:25,094 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 12:24:26,553 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:24:26,553 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_liberty_ev_battery_plant",
+      "target": "factory_liberty_north_carolina",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_liberty_ev_battery_plant",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 12:24:26,553 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:24:26,635 - INFO - ✅ Updated Article ID: 68a34e3455f8a4c6a03cb05c with 9 nodes and combined text.

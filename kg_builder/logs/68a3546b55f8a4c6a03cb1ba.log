@@ -1,0 +1,66 @@
+2025-08-19 11:09:17,336 - INFO - 🔍 Text length: 1313 characters
+2025-08-19 11:09:17,337 - INFO - 📌 Processing Article ID: 68a3546b55f8a4c6a03cb1ba — UK’s Protean Electric unveils latest technology for in-wheel motors
+2025-08-19 11:09:17,337 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:09:18,757 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:18,757 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_protean_electric",
+        "type": "company",
+        "name": "Protean Electric"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tianjin_china",
+        "type": "factory",
+        "name": "Tianjin Factory",
+        "location": {
+          "city": "Tianjin",
+          "country": "China"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gen_5_proteandriv_pd18_iwm",
+        "type": "product",
+        "name": "Gen 5 ProteanDrive Pd18 IWM"
+      }
+    ]
+  }
+}
+2025-08-19 11:09:18,757 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:18,757 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:09:18,757 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:09:18,757 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:09:18,757 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:09:18,757 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:09:19,610 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:19,611 - INFO - {
+  "relationships": [
+    {
+      "source": "company_protean_electric",
+      "type": "owns",
+      "target": "factory_tianjin_china"
+    }
+  ]
+}
+2025-08-19 11:09:19,611 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:19,611 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:09:19,611 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:09:20,592 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:20,593 - INFO - {
+  "relationships": [
+    {
+      "source": "product_gen_5_proteandriv_pd18_iwm",
+      "target": "factory_tianjin_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:09:20,593 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:20,593 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:09:20,593 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:09:20,655 - INFO - ✅ Updated Article ID: 68a3546b55f8a4c6a03cb1ba with 3 nodes and combined text.

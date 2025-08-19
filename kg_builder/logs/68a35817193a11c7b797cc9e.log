@@ -1,0 +1,76 @@
+2025-08-19 10:50:31,615 - INFO - 🔍 Text length: 1735 characters
+2025-08-19 10:50:31,615 - INFO - 📌 Processing Article ID: 68a35817193a11c7b797cc9e — Kia Slovakia hits five million milestone
+2025-08-19 10:50:31,615 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:50:36,349 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:36,349 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_teplicka_nad_vahom_slovakia",
+        "type": "factory",
+        "name": "Kia Slovakia plant",
+        "location": {
+          "city": "Teplicka nad Vahom, \u017dilina",
+          "country": "Slovakia"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sportage",
+        "type": "product",
+        "name": "Sportage"
+      },
+      {
+        "id": "product_ceed",
+        "type": "product",
+        "name": "Ceed"
+      }
+    ]
+  }
+}
+2025-08-19 10:50:36,350 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:36,350 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 10:50:36,350 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:50:36,350 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:50:36,350 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:50:36,350 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:50:37,755 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:37,756 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_teplicka_nad_vahom_slovakia"
+    }
+  ]
+}
+2025-08-19 10:50:37,756 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:37,756 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:50:37,756 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:50:38,778 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:50:38,779 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sportage",
+      "target": "factory_teplicka_nad_vahom_slovakia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ceed",
+      "target": "factory_teplicka_nad_vahom_slovakia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:50:38,779 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:50:38,779 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:50:38,779 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:50:38,859 - INFO - ✅ Updated Article ID: 68a35817193a11c7b797cc9e with 4 nodes and combined text.

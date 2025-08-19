@@ -1,0 +1,114 @@
+2025-08-19 11:02:25,746 - INFO - 🔍 Text length: 514 characters
+2025-08-19 11:02:25,747 - INFO - 📌 Processing Article ID: 68a355b0cf6fecdbde0beef6 — Aptiv expands in India
+2025-08-19 11:02:25,747 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:02:28,737 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:28,737 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aptiv",
+        "type": "company",
+        "name": "Aptiv"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chennai_india",
+        "type": "factory",
+        "name": "Chennai Factory",
+        "location": {
+          "city": "Chennai",
+          "country": "India"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_aptiv_chennai_expansion",
+        "type": "investment",
+        "name": "Aptiv Chennai Expansion",
+        "amount": "US$45m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_digital_cockpit_controllers",
+        "type": "product",
+        "name": "digital cockpit controllers"
+      }
+    ]
+  }
+}
+2025-08-19 11:02:28,737 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:28,737 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:02:28,737 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:02:28,737 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:02:29,991 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:29,991 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_aptiv_chennai_expansion",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:02:29,991 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:29,991 - INFO - Node ID is investment_aptiv_chennai_expansion
+2025-08-19 11:02:29,991 - INFO - ✅ Match found for investment_ID 'investment_aptiv_chennai_expansion' in investment nodes
+2025-08-19 11:02:29,991 - INFO -   ➕ Set status: completed
+2025-08-19 11:02:29,991 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:02:29,991 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:02:29,991 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:02:29,991 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:02:30,887 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:30,887 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aptiv",
+      "type": "owns",
+      "target": "factory_chennai_india"
+    }
+  ]
+}
+2025-08-19 11:02:30,887 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:30,887 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:02:30,887 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:02:31,807 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:31,807 - INFO - {
+  "relationships": [
+    {
+      "source": "product_digital_cockpit_controllers",
+      "target": "factory_chennai_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:02:31,807 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:31,807 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:02:31,807 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:02:32,582 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:32,582 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:02:32,582 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:32,582 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:02:32,582 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:02:33,858 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:02:33,858 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_aptiv_chennai_expansion",
+      "target": "factory_chennai_india",
+      "type": "funds"
+    },
+    {
+      "source": "investment_aptiv_chennai_expansion",
+      "target": "product_digital_cockpit_controllers",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:02:33,859 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:02:33,934 - INFO - ✅ Updated Article ID: 68a355b0cf6fecdbde0beef6 with 4 nodes and combined text.

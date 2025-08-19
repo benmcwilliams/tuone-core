@@ -1,0 +1,210 @@
+2025-08-19 11:09:35,613 - INFO - 🔍 Text length: 1435 characters
+2025-08-19 11:09:35,613 - INFO - 📌 Processing Article ID: 68a3546755f8a4c6a03cb1b7 — Ford switches EV plant to trucks
+2025-08-19 11:09:35,613 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:09:39,134 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:39,135 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oakville",
+        "type": "factory",
+        "name": "Oakville",
+        "location": {
+          "city": "Oakville",
+          "country": "Canada"
+        }
+      },
+      {
+        "id": "factory_kentucky_truck_plant",
+        "type": "factory",
+        "name": "Kentucky Truck Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_ohio_assembly_plant",
+        "type": "factory",
+        "name": "Ohio Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_windsor_engine_complex",
+        "type": "factory",
+        "name": "Windsor Engine Complex",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ford_super_duty_expansion",
+        "type": "investment",
+        "name": "Ford Super Duty Expansion",
+        "amount": "US$3bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fseries_super_duty_pickups",
+        "type": "product",
+        "name": "F-Series Super Duty pickups"
+      },
+      {
+        "id": "product_v8_engines",
+        "type": "product",
+        "name": "V8 engines"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_units_per_year",
+        "type": "capacity",
+        "amount": "up to 100,000 units per year",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-08-19 11:09:39,135 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:39,135 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 11:09:39,135 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 11:09:40,055 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:40,056 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_units_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:09:40,056 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:40,056 - INFO - Node ID is capacity_100k_units_per_year
+2025-08-19 11:09:40,056 - INFO - ✅ Match found for capacity_ID 'capacity_100k_units_per_year' in capacity nodes
+2025-08-19 11:09:40,056 - INFO -   ➕ Set status: announced
+2025-08-19 11:09:40,056 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:09:40,056 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-19 11:09:40,056 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-19 11:09:40,960 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:40,961 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ford_super_duty_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-19 11:09:40,961 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:40,961 - INFO - Node ID is investment_ford_super_duty_expansion
+2025-08-19 11:09:40,961 - INFO - ✅ Match found for investment_ID 'investment_ford_super_duty_expansion' in investment nodes
+2025-08-19 11:09:40,961 - INFO -   ➕ Set status: announced
+2025-08-19 11:09:40,961 - INFO -   ➕ Set phase: expansion
+2025-08-19 11:09:40,961 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:09:40,961 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:09:40,961 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:09:43,249 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:43,249 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_oakville"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_kentucky_truck_plant"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_ohio_assembly_plant"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_windsor_engine_complex"
+    }
+  ]
+}
+2025-08-19 11:09:43,249 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:43,250 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:09:43,250 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:09:46,439 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:46,440 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "factory_oakville",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "product_fseries_super_duty_pickups",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_fseries_super_duty_pickups",
+      "target": "factory_oakville",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fseries_super_duty_pickups",
+      "target": "factory_kentucky_truck_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fseries_super_duty_pickups",
+      "target": "factory_ohio_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_v8_engines",
+      "target": "factory_windsor_engine_complex",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:09:46,440 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:46,440 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-19 11:09:46,440 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-19 11:09:47,023 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:47,023 - INFO - {
+  "relationships": []
+}
+2025-08-19 11:09:47,024 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:47,024 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-19 11:09:47,024 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-19 11:09:47,835 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:47,835 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ford_super_duty_expansion",
+      "target": "factory_oakville",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ford_super_duty_expansion",
+      "target": "product_fseries_super_duty_pickups",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-19 11:09:47,836 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:47,921 - INFO - ✅ Updated Article ID: 68a3546755f8a4c6a03cb1b7 with 9 nodes and combined text.

@@ -1,0 +1,66 @@
+2025-08-19 12:30:43,362 - INFO - 🔍 Text length: 1270 characters
+2025-08-19 12:30:43,362 - INFO - 📌 Processing Article ID: 68a34d9055f8a4c6a03cb02e — South Korea vehicle exports plunge 20% in January
+2025-08-19 12:30:43,362 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 12:30:44,711 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:30:44,711 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault_korea",
+        "type": "company",
+        "name": "Renault Korea"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_busan_south_korea",
+        "type": "factory",
+        "name": "Busan Plant",
+        "location": {
+          "city": "Busan",
+          "country": "South Korea"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 12:30:44,712 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:30:44,712 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 12:30:44,712 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 12:30:44,712 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 12:30:44,712 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 12:30:44,712 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 12:30:45,658 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:30:45,659 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault_korea",
+      "type": "owns",
+      "target": "factory_busan_south_korea"
+    }
+  ]
+}
+2025-08-19 12:30:45,659 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:30:45,659 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 12:30:45,659 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 12:30:46,459 - INFO - ✅ OpenAI returned output:
+2025-08-19 12:30:46,460 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_busan_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 12:30:46,460 - INFO - POST-PROCESSING STARTING.
+2025-08-19 12:30:46,460 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 12:30:46,460 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 12:30:46,533 - INFO - ✅ Updated Article ID: 68a34d9055f8a4c6a03cb02e with 3 nodes and combined text.

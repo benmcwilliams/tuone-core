@@ -1,0 +1,66 @@
+2025-08-19 11:09:32,049 - INFO - 🔍 Text length: 1057 characters
+2025-08-19 11:09:32,049 - INFO - 📌 Processing Article ID: 68a3546755f8a4c6a03cb1b8 — Valeo plants and R&D on the block
+2025-08-19 11:09:32,050 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 11:09:33,853 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:33,853 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_valeo",
+        "type": "company",
+        "name": "Valeo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lisle_dabeau",
+        "type": "factory",
+        "name": "L\u2019Isle-d\u2019Abeau plant",
+        "location": {
+          "city": "L\u2019Isle-d\u2019Abeau",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrification_systems",
+        "type": "product",
+        "name": "systems needed to electrify cars, bicycles, scooters, motorcycles and other vehicles"
+      }
+    ]
+  }
+}
+2025-08-19 11:09:33,853 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:33,853 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-19 11:09:33,853 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 11:09:33,853 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 11:09:33,853 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 11:09:33,853 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 11:09:34,508 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:34,508 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valeo",
+      "type": "owns",
+      "target": "factory_lisle_dabeau"
+    }
+  ]
+}
+2025-08-19 11:09:34,508 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:34,508 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 11:09:34,509 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 11:09:35,552 - INFO - ✅ OpenAI returned output:
+2025-08-19 11:09:35,552 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electrification_systems",
+      "target": "factory_lisle_dabeau",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 11:09:35,552 - INFO - POST-PROCESSING STARTING.
+2025-08-19 11:09:35,553 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 11:09:35,553 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 11:09:35,611 - INFO - ✅ Updated Article ID: 68a3546755f8a4c6a03cb1b8 with 3 nodes and combined text.

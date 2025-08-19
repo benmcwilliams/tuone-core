@@ -1,0 +1,101 @@
+2025-08-19 10:19:21,122 - INFO - 🔍 Text length: 768 characters
+2025-08-19 10:19:21,122 - INFO - 📌 Processing Article ID: 68a35f4b2d87d2de8acea388 — Prime Batteries LinkedIn
+2025-08-19 10:19:21,122 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-19 10:19:22,955 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:22,955 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_prime_batteries",
+        "type": "company",
+        "name": "PRIME Batteries"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cernica_romania",
+        "type": "factory",
+        "name": "Cernica Factory",
+        "location": {
+          "city": "Cernica",
+          "country": "Romania"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 GWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_energy_storage_solutions",
+        "type": "product",
+        "name": "energy storage solutions"
+      }
+    ]
+  }
+}
+2025-08-19 10:19:22,955 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:22,955 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-19 10:19:22,955 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-19 10:19:24,048 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:24,049 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_gwh",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-19 10:19:24,049 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:24,049 - INFO - Node ID is capacity_2_gwh
+2025-08-19 10:19:24,049 - INFO - ✅ Match found for capacity_ID 'capacity_2_gwh' in capacity nodes
+2025-08-19 10:19:24,049 - INFO -   ➕ Set status: under construction
+2025-08-19 10:19:24,049 - INFO -   ➕ Set phase: greenfield
+2025-08-19 10:19:24,049 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-19 10:19:24,049 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-19 10:19:24,049 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-19 10:19:24,049 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-19 10:19:24,827 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:24,827 - INFO - {
+  "relationships": [
+    {
+      "source": "company_prime_batteries",
+      "type": "owns",
+      "target": "factory_cernica_romania"
+    }
+  ]
+}
+2025-08-19 10:19:24,827 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:24,827 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-19 10:19:24,827 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-19 10:19:27,091 - INFO - ✅ OpenAI returned output:
+2025-08-19 10:19:27,091 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_gwh",
+      "target": "factory_cernica_romania",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_gwh",
+      "target": "product_energy_storage_solutions",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_energy_storage_solutions",
+      "target": "factory_cernica_romania",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-19 10:19:27,091 - INFO - POST-PROCESSING STARTING.
+2025-08-19 10:19:27,091 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-19 10:19:27,091 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-19 10:19:27,170 - INFO - ✅ Updated Article ID: 68a35f4b2d87d2de8acea388 with 4 nodes and combined text.
