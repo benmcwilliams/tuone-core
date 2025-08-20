@@ -21,7 +21,6 @@ UNIT_NORMALIZATION = {
 }
 
 # ========= Metric Mapping =========
-# future pipeline only considers metrics from the RHS here. 
 METRIC_MAP = {
     "gw": "gigawatt", 
     "gigawatt": "gigawatt",

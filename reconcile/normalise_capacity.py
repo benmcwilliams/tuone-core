@@ -1,7 +1,8 @@
 import sys; sys.path.append("..")
 import pandas as pd
-
 import logging
+from dataclasses import dataclass
+
 from reconcile.src.parse_capacity_text import parse_capacity_text
 from reconcile.src.normalise_time_units import extract_normalized_time_unit
 from reconcile.src.normalise_capacity_units import normalise_capacity_unit
@@ -17,8 +18,8 @@ from reconcile.src.capacity_helpers import (
     get_default_unit,
 )
 from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES, CAPACITIES_DEBUG
-from dataclasses import dataclass
 
+# this defines the data class we return from capacity_logic function
 @dataclass
 class CapacityResult:
     value: float | None
@@ -26,7 +27,6 @@ class CapacityResult:
     unit: str | None
     converted: bool
     case: str
-
 
 # ========= Processing capacity logic =========
 
@@ -135,7 +135,6 @@ def capacity_logic(row):
     if lv1 == "battery":
 
         # 2a) make explicit conversions into desired battery units (eg battery packs to 40 kWh)
-
         conv = PRODUCT_CONVERSIONS.get(("battery", lv2))
         if conv and metric_matches(metric, conv.get("from")):
             res = normalize_to_target(
@@ -177,21 +176,22 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
 
     df = load_capacity_column(file_path)
 
-    # a) extract numeric value | scale | remaining text from raw_capacity_text
+    # reads raw capacity text as it is in Tuone. Returns
+    # numeric value | scale (like tonnes or kilotonnes and some regex) | remaining text
     df[["raw_value", "text_scalar", "capacity_text"]] = df["capacity"].apply(
         lambda x: pd.Series(parse_capacity_text(x))
     )
 
-    # b) normalised units and scale adjustment (e.g. kilotonne → tonne + 1e3 scale)
+    # normalises units and scale adjustment (e.g. kilotonne → tonne + 1e3 scale)
+    # METRIC_MAP is very important. Only values mapped to RHS are considered for rest of pipeline.
     df[["unit", "capacity_text", "metric_scale"]] = df["capacity_text"].apply(
         lambda x: pd.Series(normalise_capacity_unit(x))
     )
 
-    # c) calculate scale to be applied (text scalar, eg Bn = billions, multiple by unit scale, eg kwh to gwh)
+    # calculate scale to be applied (text scalar, eg Bn = billions, multiple by unit scale, eg kwh to gwh)
     df["apply_scale"] = df["text_scalar"].fillna(1) * df["metric_scale"].fillna(1)
-    #df.drop(columns=["metric_scale"], inplace=True)
 
-    # d) time units (e.g. per year)
+    # time units (e.g. per year)
     df[["capacity_time", "capacity_text"]] = df["capacity_text"].apply(
         lambda x: pd.Series(extract_normalized_time_unit(x))
     )

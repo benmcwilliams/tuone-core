@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import pprint
 from src.id_date_dict import get_article_id_to_date_map
-#from normalise_capacity import run_extraction_pipeline
 from src.company_mapping import map_to_canonical
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS, GRPD_PROJECTS_FILTER
