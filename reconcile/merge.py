@@ -6,6 +6,7 @@ from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
 from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
+from src.inputs import EUROPEAN_COUNTRIES
 
 ## file outputs a clean factory-technology file, this includes all cases of 
 ## owner | factory | capacity | product
@@ -132,7 +133,14 @@ def merge_nodes_rels():
     custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "adm1", "adm2", "bbox", "lat", "lon",
                     "capacity", "product", "product_lv1", "product_lv2", "phase", "status"]
 
-    enrich_product.to_excel(FACTORY_TECH,
+    # apply European filter already here
+    enrich_product_europe = (
+        enrich_product.loc[enrich_product["iso2"].isin(EUROPEAN_COUNTRIES)]
+        .copy()
+        .reset_index(drop=True)
+    )
+
+    enrich_product_europe.to_excel(FACTORY_TECH,
                             columns=custom_order,
                             index=False)
 
