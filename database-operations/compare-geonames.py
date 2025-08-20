@@ -61,7 +61,8 @@ def write_lines(path: str, lines: List[str]) -> None:
 
 if __name__ == "__main__":
     country = "Germany"   # 👈 change this to whichever country you want
-    for coll in ("geonames_lookup", "geonames_store"):
+    # add "geonames_lookup" if you want to compare acros databases
+    for coll in (["geonames_store"]):
         cities, failures = extract_names(coll, country)
         write_lines(f"{coll}_{country}_cities.txt", cities)
         write_lines(f"{coll}_{country}_failures.txt", failures)

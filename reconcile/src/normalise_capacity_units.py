@@ -21,6 +21,7 @@ UNIT_NORMALIZATION = {
 }
 
 # ========= Metric Mapping =========
+# future pipeline only considers metrics from the RHS here. 
 METRIC_MAP = {
     "gw": "gigawatt", 
     "gigawatt": "gigawatt",
@@ -59,7 +60,14 @@ METRIC_MAP = {
     "kg": "kilogram", 
     "g": "gram", 
     "units": "unit", 
-    "unit": "unit"
+    "unit": "unit",
+    "battery modules": "battery modules",
+    "modules": "battery modules",
+    "batteries": "batteries",
+    "battery systems": "battery systems",
+    "hybrid battery systems": "battery systems",
+    "battery packs": "battery packs",
+    "packs": "battery packs"
 }
 
 # ========= Metric Unit Extraction =========

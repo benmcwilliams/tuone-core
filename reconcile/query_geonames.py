@@ -38,6 +38,7 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("HU", "kömlöd"): "Kömlőd",
     ("HU", "lukacshaza"): "Lukácsháza",
     ("DE", "port_of_hamburg"): "Hamburg",
+    ("DE", "dingolfingen"): "Dingolfing"
 }
 
 # ---------- Data access ----------

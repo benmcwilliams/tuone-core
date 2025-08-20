@@ -1,0 +1,126 @@
+2025-08-20 11:42:27,343 - INFO - 🔍 Text length: 2425 characters
+2025-08-20 11:42:27,343 - INFO - 📌 Processing Article ID: 68a5960f7105e72a52f30b14 — Kia EV4 production to start in Slovakia at the end of August
+2025-08-20 11:42:27,343 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-20 11:42:31,386 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:42:31,386 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      },
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zilina",
+        "type": "factory",
+        "name": "Zilina plant",
+        "location": {
+          "city": "Zilina",
+          "country": "Slovakia"
+        }
+      },
+      {
+        "id": "factory_nosovice",
+        "type": "factory",
+        "name": "Nosovice plant",
+        "location": {
+          "city": "Nosovice",
+          "country": "Czech Republic"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev4",
+        "type": "product",
+        "name": "EV4"
+      },
+      {
+        "id": "product_kona_electric",
+        "type": "product",
+        "name": "Kona Electric"
+      },
+      {
+        "id": "product_ceed",
+        "type": "product",
+        "name": "Ceed"
+      },
+      {
+        "id": "product_sportage",
+        "type": "product",
+        "name": "Sportage"
+      },
+      {
+        "id": "ev3",
+        "type": "product",
+        "name": "EV3",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "",
+        "status": ""
+      }
+    ]
+  }
+}
+2025-08-20 11:42:31,386 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:42:31,386 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-20 11:42:31,386 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-20 11:42:31,387 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-20 11:42:31,387 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-20 11:42:31,387 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-20 11:42:32,911 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:42:32,912 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_zilina"
+    },
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_nosovice"
+    }
+  ]
+}
+2025-08-20 11:42:32,912 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:42:32,912 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-20 11:42:32,912 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-20 11:42:34,836 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:42:34,837 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev4",
+      "target": "factory_zilina",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_kona_electric",
+      "target": "factory_nosovice",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ceed",
+      "target": "factory_zilina",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sportage",
+      "target": "factory_zilina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-20 11:42:34,837 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:42:34,837 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-20 11:42:34,837 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-20 11:42:34,916 - INFO - ✅ Updated Article ID: 68a5960f7105e72a52f30b14 with 9 nodes and combined text.

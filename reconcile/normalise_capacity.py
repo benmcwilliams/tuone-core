@@ -107,9 +107,23 @@ def capacity_logic(row):
     def vehicle_missing():
         return lv1 == "vehicle" and metric_is_missing(metric_raw)
     
+    def metric_matches(metric: str, conv_from) -> bool:
+        """
+        Return True if `metric` matches the conversion's 'from' field.
+        'from' may be a string or a list of strings.
+        """
+        if not metric:
+            return False
+        if isinstance(conv_from, str):
+            return metric == conv_from
+        if isinstance(conv_from, (list, tuple, set)):
+            return metric in conv_from
+        return False
+    
     # Rules (ordered)
+    # if the units match perfectly, then we return safe that we have default units
     if default_match():
-        res = normalize_to_target(row, target_unit=default_unit, multiplier=None, reason=f"default:{default_unit}")
+        res = normalize_to_target(row, target_unit=default_unit, multiplier=None, reason=f"already-clean:{default_unit}")
         return res.value, res.failed, res.unit, res.converted, res.case
 
     # 1) Vehicle with missing/placeholder metric → vehicles/year
@@ -120,10 +134,16 @@ def capacity_logic(row):
     # 2) Battery paths
     if lv1 == "battery":
 
-        # 2a) EAM mass → energy (explicit configured conversion)
-        conv = PRODUCT_CONVERSIONS.get(("battery","eam"))
-        if lv2 == "eam" and conv and metric == conv["from"]:
-            res = normalize_to_target(row, target_unit=conv["to"], multiplier=conv["multiplier"], reason="battery:eam:mass->energy")
+        # 2a) make explicit conversions into desired battery units (eg battery packs to 40 kWh)
+
+        conv = PRODUCT_CONVERSIONS.get(("battery", lv2))
+        if conv and metric_matches(metric, conv.get("from")):
+            res = normalize_to_target(
+                row,
+                target_unit=conv["to"],
+                multiplier=conv["multiplier"],
+                reason=f"battery:{lv2}:{metric}->{conv['to']}"
+            )
             return res.value, res.failed, res.unit, res.converted, res.case
 
         # 2b) Missing/placeholder metric + EV keyword → keyword multiplier to GWh
@@ -209,44 +229,44 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
     """
     Trace end-to-end normalisation for a single row by index.
     Logs: raw capacity, parsed value/scale/text, metric(+scale), time, and final capacity_logic output.
-    Returns the 5‑tuple from capacity_logic.
+    Returns the 5-tuple from capacity_logic.
     """
     # Load data
     df = load_capacity_column(file_path)
     n = len(df)
     if n == 0:
-        logging.error("Dataframe is empty from %s.", file_path)
+        logging.error(f"Dataframe is empty from {file_path}.")
         return None
     if row_idx < 0 or row_idx >= n:
-        logging.error("row_idx %d out of range (0..%d).", row_idx, n - 1)
+        logging.error(f"row_idx {row_idx} out of range (0..{n-1}).")
         return None
 
     row = df.iloc[row_idx].to_dict()
 
     # A. Raw input
-    print("===== TRACE row %d =====", row_idx)
-    print("product_lv1=%r product_lv2=%r", row.get("product_lv1"), row.get("product_lv2"))
-    print("raw capacity=%r", row.get("capacity"))
+    print(f"\n===== TRACE row {row_idx} =====")
+    print(f"product_lv1={row.get('product_lv1')!r} product_lv2={row.get('product_lv2')!r}")
+    print(f"raw capacity={row.get('capacity')!r}")
 
     # B. Parse numeric + remainder
     val, scale, rem = parse_capacity_text(row.get("capacity"))
-    print("parse_capacity_text -> value=%s scale=%s rem=%r", val, scale, rem)
+    print(f"parse_capacity_text -> value={val} scale={scale} rem={rem!r}")
 
     # C. Metric (+metric_scale) from remainder
     metric, rem2, metric_scale = normalise_capacity_unit(rem)
-    print("extract_normalized_metric_unit -> metric=%r metric_scale=%s rem=%r", metric, metric_scale, rem2)
+    print(f"extract_normalized_metric_unit -> metric={metric!r} metric_scale={metric_scale} rem={rem2!r}")
 
     # D. Time unit from remainder
     time_unit, rem3 = extract_normalized_time_unit(rem2)
-    print("extract_normalized_time_unit -> time=%r rem=%r", time_unit, rem3)
+    print(f"extract_normalized_time_unit -> time={time_unit!r} rem={rem3!r}")
 
     # E. Build the row exactly like the pipeline does (including merged scale)
     merged_scale = (1 if scale is None else scale) * (1 if metric_scale is None else metric_scale)
     routed_row = {
         **row,
         "raw_value": val,
-        "capacity_scale": merged_scale,
-        "capacity_text": rem2,          # note: after metric removal (matches pipeline order)
+        "apply_scale": merged_scale,   # changed from capacity_scale → align with pipeline
+        "capacity_text": rem2,         # note: after metric removal (matches pipeline order)
         "unit": metric,
         "capacity_time": time_unit,
     }
@@ -254,21 +274,19 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
     # F. Route through main logic
     out = capacity_logic(routed_row)
 
-    # G. Pretty log of the result (works whether you return a tuple or a dataclass)
+    # G. Pretty log of the result
     try:
         value, failed, metric_out, conversion, case = out
-        print(
-            "capacity_logic -> value=%s failed=%s metric_out=%r conversion=%s case=%r",
-            value, failed, metric_out, conversion, case
-        )
+        print(f"capacity_logic -> value={value} failed={failed} "
+              f"metric_out={metric_out!r} conversion={conversion} case={case!r}")
     except Exception:
-        print("capacity_logic -> %r", out)
+        print(f"capacity_logic -> {out!r}")
 
     return out
 
 # ========= Main Run Block =========
 if __name__ == "__main__":
-    trace_one(16, 'storage/output/factory-technological.xlsx')
+    trace_one(328, 'storage/output/factory-technological.xlsx')
     # file_path = 'storage/output/clean_output_ben.xlsx'
     # df_result = run_capacity_normalisation_pipeline(file_path)
     # output_path = 'storage/output/clean_output_capacity.xlsx'

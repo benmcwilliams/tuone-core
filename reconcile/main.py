@@ -26,8 +26,8 @@ def main(update_mongo_metadata=False):
         logging.info("🌎 Querying geonames...")
         query_geonames_new_cities(limit=18000,skip=0)
 
-        # logging.info("🧸 Classifying products")             # re-updates all products
-        # classify_products_sync_mongo()
+        logging.info("🧸 Classifying products")             # re-updates all products
+        classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
     run_flatten_articles()
@@ -55,4 +55,4 @@ def main(update_mongo_metadata=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True)
+    main(update_mongo_metadata=False)

@@ -1,0 +1,101 @@
+2025-08-20 11:42:57,702 - INFO - 🔍 Text length: 4575 characters
+2025-08-20 11:42:57,702 - INFO - 📌 Processing Article ID: 68a596017105e72a52f30b11 — Transgrid: New South Wales’ energy transition now enters the next phase
+2025-08-20 11:42:57,702 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-20 11:43:00,018 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:43:00,018 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_transgrid",
+        "type": "company",
+        "name": "Transgrid"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_waratah_super_battery",
+        "type": "factory",
+        "name": "Waratah Super Battery",
+        "location": {
+          "city": "null",
+          "country": "Australia"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_700mw_1_4gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "700MW/1,400MWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_energy_storage_systems",
+        "type": "product",
+        "name": "battery energy storage system"
+      }
+    ]
+  }
+}
+2025-08-20 11:43:00,018 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:43:00,018 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-20 11:43:00,018 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-20 11:43:01,360 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:43:01,361 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_700mw_1_4gwh",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-20 11:43:01,361 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:43:01,361 - INFO - Node ID is capacity_700mw_1_4gwh
+2025-08-20 11:43:01,361 - INFO - ✅ Match found for capacity_ID 'capacity_700mw_1_4gwh' in capacity nodes
+2025-08-20 11:43:01,361 - INFO -   ➕ Set status: operational
+2025-08-20 11:43:01,361 - INFO -   ➕ Set phase: greenfield
+2025-08-20 11:43:01,361 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-20 11:43:01,361 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-20 11:43:01,361 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-20 11:43:01,361 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-20 11:43:02,810 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:43:02,810 - INFO - {
+  "relationships": [
+    {
+      "source": "company_transgrid",
+      "type": "owns",
+      "target": "factory_waratah_super_battery"
+    }
+  ]
+}
+2025-08-20 11:43:02,810 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:43:02,810 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-20 11:43:02,810 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-20 11:43:04,381 - INFO - ✅ OpenAI returned output:
+2025-08-20 11:43:04,382 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_700mw_1_4gwh",
+      "target": "factory_waratah_super_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_energy_storage_systems",
+      "target": "factory_waratah_super_battery",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_700mw_1_4gwh",
+      "target": "product_battery_energy_storage_systems",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-20 11:43:04,382 - INFO - POST-PROCESSING STARTING.
+2025-08-20 11:43:04,382 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-20 11:43:04,382 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-20 11:43:04,463 - INFO - ✅ Updated Article ID: 68a596017105e72a52f30b11 with 4 nodes and combined text.
