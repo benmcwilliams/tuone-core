@@ -6,7 +6,7 @@ import pandas as pd  # for robust datetime handling
 from mongo_client import facilities_collection, test_mongo_connection
 
 # Strongest first
-STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
+STATUS_ORDER = ["cancelled", "operational", "under construction", "announced", "unclear"]
 STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
 
 def parse_date(date_str):
@@ -15,11 +15,13 @@ def parse_date(date_str):
     except Exception:
         return pd.NaT
 
-def build_phase_summary(capacities: list, phase: str) -> dict | None:
-    # filter for relevant phase and valid status + date
+def build_phase_summary(capacities: list, phase: str | None) -> dict | None:
+    # filter for relevant phase or output "main" with None
     phase_caps = [
         c for c in capacities
-        if c.get("phase") == phase and c.get("status") in STATUS_ORDER and c.get("date")
+        if (phase is None or c.get("phase") == phase)
+        and c.get("status") in STATUS_ORDER
+        and c.get("date")
     ]
     if not phase_caps:
         return None
@@ -36,7 +38,7 @@ def build_phase_summary(capacities: list, phase: str) -> dict | None:
         "capacity": best["amount"]
     }
 
-    # add milestone dates
+    # add chronological milestone dates (we take the earliest date each milestone is mentioned)
     for milestone in ["announced", "under construction", "operational"]:
         first = next(
             (c for c in sorted(phase_caps, key=lambda c: parse_date(c["date"]))
@@ -50,7 +52,7 @@ def build_phase_summary(capacities: list, phase: str) -> dict | None:
 
 def determine_phase_summary():
     test_mongo_connection()
-    logging.info("🚀 Starting summary updates for greenfield and expansion...")
+    logging.info("🚀 Starting summary updates for main, greenfield and expansion...")
 
     updates = []
 
@@ -58,16 +60,16 @@ def determine_phase_summary():
         capacities = doc.get("capacities", [])
 
         update_fields = {}
-        for phase in ["greenfield", "expansion"]:
+        # write summaries for greenfield, expansion and main
+        for out_key, phase in [("greenfield", "greenfield"),
+                               ("expansion", "expansion"),
+                               ("main", None)]:
             summary = build_phase_summary(capacities, phase)
             if summary:
-                update_fields[f"{phase}"] = summary
+                update_fields[out_key] = summary
 
         if update_fields:
-            updates.append(UpdateOne(
-                {"_id": doc["_id"]},
-                {"$set": update_fields}
-            ))
+            updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": update_fields}))
 
     if updates:
         result = facilities_collection.bulk_write(updates)
