@@ -1,147 +1,125 @@
-import sys; sys.path.append("..")  # allow access to parent folder modules
+import sys; sys.path.append("..")
 import logging
 import pandas as pd
+from typing import Dict, List, Callable, Optional, Tuple
+
 from src.merge_helpers import deduplicate_nodes_and_rels, filter_nodes_by_label, filter_rels_by_label
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
-from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
 from src.inputs import EUROPEAN_COUNTRIES
+from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
 
-## file outputs a clean factory-technology file, this includes all cases of 
-## owner | factory | capacity | product
+# ---------- helper functions ----------
 
-## 1.1 Basic set up 
-#  read nodes and relationships
+def expand_nodes(nodes_by_label: Dict[str, pd.DataFrame],
+                 label: str,
+                 keep_cols: List[str],
+                 rename: Dict[str, str]) -> pd.DataFrame:
+    if isinstance(label, list):
+        dfs = [nodes_by_label[l].loc[:, keep_cols] for l in label]
+        df = pd.concat(dfs, ignore_index=True)
+    else:
+        df = nodes_by_label[label].loc[:, keep_cols]
+    return df.rename(columns=rename)
 
-def merge_nodes_rels():
+def extract_edge(rels_by_label: Dict[str, pd.DataFrame],
+                 rel_type: str,
+                 source_label: str,
+                 target_label: str,
+                 rename: Dict[str, str]) -> pd.DataFrame:
+    df = rels_by_label[rel_type]
+    if isinstance(source_label, list):
+        df = df[df["source_label"].isin(source_label)]
+    else:
+        df = df[df["source_label"] == source_label]
+    if isinstance(target_label, list):
+        df = df[df["target_label"].isin(target_label)]
+    else:
+        df = df[df["target_label"] == target_label]
+    return df.loc[:, ["source", "target"]].rename(columns=rename).drop_duplicates()
 
+# ---------- Enrichers (pluggable) ----------
+
+def enrich_factory_geo(df_factory: pd.DataFrame, geo_lookup) -> pd.DataFrame:
+    # expects columns: location_city, location_country
+    out = df_factory.copy()
+    out["city_clean"] = out["location_city"].apply(clean_city)
+    out["city_key"]  = out["city_clean"].apply(normalize_city_key)
+    out["country_clean"] = out["location_country"].apply(clean_country)
+    out["iso2"] = out["country_clean"].apply(lambda x: standardize_country(x)[1])
+    # geo lookups (vectorized via apply keeps it simple; optimize later if needed)
+    for col in ["adm1", "adm2", "bbox", "lat", "lon"]:
+        out[col] = out.apply(lambda r: get_geo_value(r, col, geo_lookup), axis=1)
+    return out
+
+
+# ---------- View builder ----------
+
+def build_view(view_spec: dict,
+               nodes_by_label: Dict[str, pd.DataFrame],
+               rels_by_label: Dict[str, pd.DataFrame],
+               geo_lookup=None) -> pd.DataFrame:
+    """
+    view_spec keys:
+      - "nodes": { "<alias>": { "label": ..., "keep": [...], "rename": {...}, "enrich": Optional[Callable] } }
+      - "edges": [ { "alias": ..., "type": ..., "source_label": ..., "target_label": ..., "rename": {...} } ]
+      - "join_chain": [ ("edges_alias_or_node_alias", "key_left", "node_alias", "key_right", "how") ...]
+      - "filters": [ Callable[[pd.DataFrame], pd.DataFrame], ... ]
+      - "dedupe": Optional[Tuple[List[str], str]]  # (subset_cols, keep)
+      - "column_order": Optional[List[str]]
+    """
+    # 1) expand nodes
+    node_tables = {}
+    for alias, spec in view_spec["nodes"].items():
+        df = expand_nodes(nodes_by_label, spec["label"], spec["keep"], spec["rename"])
+        if spec.get("enrich"):
+            df = spec["enrich"](df) if spec["enrich"] != "factory_geo" else enrich_factory_geo(df, geo_lookup)
+        node_tables[alias] = df
+
+    # 2) extract edges
+    edge_tables = {}
+    for e in view_spec.get("edges", []):
+        edge_tables[e["alias"]] = extract_edge(
+            rels_by_label, e["type"], e["source_label"], e["target_label"], e["rename"]
+        )
+
+    # 3) join chain
+    tables = {**node_tables, **edge_tables}
+    # start from the first element in the chain's left side
+    start_alias = view_spec["join_chain"][0][0]
+    df = tables[start_alias]
+    for left_alias, key_left, right_alias, key_right, how in view_spec["join_chain"]:
+        left_df = df if left_alias == start_alias else tables[left_alias]
+        right_df = tables[right_alias]
+        df = left_df.merge(right_df, left_on=key_left, right_on=key_right, how=how)
+
+    # 4) filters
+    for f in view_spec.get("filters", []):
+        df = f(df)
+
+    # 5) column order
+    if "column_order" in view_spec and view_spec["column_order"]:
+        cols = [c for c in view_spec["column_order"] if c in df.columns]
+        df = df.loc[:, cols]
+
+    return df
+
+def run_view(spec, out_path=None):
+    # 1) load raw
     df_all_nodes = pd.read_excel(ALL_NODES)
-    df_all_rels = pd.read_excel(ALL_RELS)
+    df_all_rels  = pd.read_excel(ALL_RELS)
+    #df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
 
-    # build lookup dictionary
+    # 2) normalize
     geo_lookup = build_geo_lookup()
+    nodes_by_label = filter_nodes_by_label(df_all_nodes)
+    rels_by_label  = filter_rels_by_label(df_all_rels)
 
-    # deduplicate raw data
-    df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
+    # 3) build
+    df = build_view(spec, nodes_by_label, rels_by_label, geo_lookup=geo_lookup)
 
-    # set nodes and relationships subsets
-    nodes = filter_nodes_by_label(df_all_nodes)
-    rels = filter_rels_by_label(df_all_rels)
-
-    ## 1.2 Compile relevant node metadata
-
-    # for factory: name, city, country
-    df_factory_expand = nodes["factory"][[
-        "name", "unique_id", "location_city", "location_country", "article_id"
-    ]].rename(columns={
-        "unique_id": "factory_id",
-        "name": "factory"
-    })
-
-    # clean city name into city_key (compataible with mongo geonames collection)
-    df_factory_expand["city_clean"] = df_factory_expand["location_city"].apply(clean_city)
-    df_factory_expand["city_key"] = df_factory_expand["city_clean"].apply(normalize_city_key)
-
-    # clean country into iso2 compatible with mongo geonames collection
-    df_factory_expand["country_clean"] = df_factory_expand["location_country"].apply(clean_country)
-    df_factory_expand["iso2"] = df_factory_expand["country_clean"].apply(lambda x: standardize_country(x)[1]) # returning only the iso2 value (out of three values returned)
-
-    # query mongo geonames collection to return appropriate adm1
-    df_factory_expand["adm1"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm1", geo_lookup), axis=1)
-    df_factory_expand["adm2"] = df_factory_expand.apply(lambda row: get_geo_value(row, "adm2", geo_lookup), axis=1)
-    df_factory_expand["bbox"] = df_factory_expand.apply(lambda row: get_geo_value(row, "bbox", geo_lookup), axis=1)
-    df_factory_expand["lat"] = df_factory_expand.apply(lambda row: get_geo_value(row, "lat", geo_lookup), axis=1)
-    df_factory_expand["lon"] = df_factory_expand.apply(lambda row: get_geo_value(row, "lon", geo_lookup), axis=1)
-
-    # for capacity: amount, status, phase
-    df_capacity_expand = nodes["capacity"][[
-        "amount", "unique_id", "status", "phase"
-    ]].rename(columns={
-        "unique_id": "capacity_id",
-        "amount": "capacity"
-    })
-
-    # for product: name, product_lv1, product_lv2
-    df_product_expand = nodes["product"][[
-        "name", "unique_id", "product_lv1", "product_lv2"
-    ]].rename(columns={
-        "unique_id": "product_id",
-        "name": "product"
-    })
-
-    # for owner (company | joint venture): name
-    df_owner_expand = nodes["owner"][[
-        "name", "unique_id", "name_canon"
-    ]].rename(columns={
-        "unique_id": "owner_id",
-        "name": "institution",
-        "name_canon": "inst_canon"
-    })
-
-    ## 1.3 Clean formatting for each relationship type 
-    # for "QUANTIFY" relationship
-    clean_quantifies = rels["quantifies"][
-        (rels["quantifies"]["source_label"] == "capacity") &
-        (rels["quantifies"]["target_label"] == "product")
-    ]
-
-    df_quant = (
-        clean_quantifies
-        .loc[:, ["source", "target"]]
-        .rename(columns={"source": "capacity_id",  "target": "product_id"})
-    )
-
-    # for "AT" relationship
-    clean_at = rels["at"][
-        (rels["at"]["source_label"] == "capacity") &
-        (rels["at"]["target_label"] == "factory")
-    ]
-
-    df_at = (
-        clean_at
-        .loc[:, ["source", "target"]]
-        .rename(columns={"source": "capacity_id",  "target": "factory_id"})
-    )
-
-    # for "OWNS" relationship 
-
-    clean_owns = rels["owns"][
-        (rels["owns"]["source_label"].isin(["company", "joint_venture"])) &
-        (rels["owns"]["target_label"] == "factory")
-    ]
-
-    df_owns = (
-        clean_owns
-        .loc[:, ["source", "target"]]
-        .rename(columns={"source": "owner_id",  "target": "factory_id"})
-    )
-
-    df_owns = df_owns.drop_duplicates(subset=["factory_id"], keep="first")     # kg should Never return duplicate owners - we should log cases where it happens and investigate
-
-    ## 1.4. Merge and output 
-
-    df_capacity_product = df_quant.merge(df_at, on="capacity_id", how="inner")
-
-    df_all = df_owns.merge(df_capacity_product, on = "factory_id")
-
-    enrich_factory = df_all.merge(df_factory_expand, on = "factory_id")
-    enrich_capacity = enrich_factory.merge(df_capacity_expand, on = "capacity_id")
-    enrich_owner = enrich_capacity.merge(df_owner_expand, on = "owner_id")
-    enrich_product = enrich_owner.merge(df_product_expand, on = "product_id")
-
-    custom_order = ["article_id", "institution", "inst_canon", "factory", "city_key", "iso2", "adm1", "adm2", "bbox", "lat", "lon",
-                    "capacity", "product", "product_lv1", "product_lv2", "phase", "status"]
-
-    # apply European filter already here
-    enrich_product_europe = (
-        enrich_product.loc[enrich_product["iso2"].isin(EUROPEAN_COUNTRIES)]
-        .copy()
-        .reset_index(drop=True)
-    )
-
-    enrich_product_europe.to_excel(FACTORY_TECH,
-                            columns=custom_order,
-                            index=False)
-
-    logging.info(f"💾 Saved factory-technology graph segment to {FACTORY_TECH}")
+    if out_path:
+        df.to_excel(out_path, index=False)
+        logging.info(f"💾 Saved: {out_path}")
+    return df

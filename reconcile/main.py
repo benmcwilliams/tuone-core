@@ -5,12 +5,14 @@ from normalise_products import classify_products_sync_mongo
 from normalise_owners import clean_owner_names
 from query_geonames import query_geonames_new_cities
 from flatten import run_flatten_articles
-from merge import merge_nodes_rels
+from merge import run_view
 from normalise_capacity import run_capacity_normalisation_pipeline
 from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
+from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC
+from src.config import FACTORY_TECH, COMPANY_JV
 
 def main(update_mongo_metadata=False):
 
@@ -33,7 +35,8 @@ def main(update_mongo_metadata=False):
     run_flatten_articles()
 
     logging.info("🉑 Merging nodes and relationships...")
-    merge_nodes_rels()
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
 
     logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
