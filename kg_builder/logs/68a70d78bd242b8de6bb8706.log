@@ -1,0 +1,149 @@
+2025-08-21 14:28:16,828 - INFO - 🔍 Text length: 1297 characters
+2025-08-21 14:28:16,828 - INFO - 📌 Processing Article ID: 68a70d78bd242b8de6bb8706 — BMZ Poland expands its factory in Gliwice
+2025-08-21 14:28:16,828 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 14:28:20,114 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:20,115 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmz_poland",
+        "type": "company",
+        "name": "BMZ Poland"
+      },
+      {
+        "id": "company_daimler_buses",
+        "type": "company",
+        "name": "Daimler Buses"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gliwice_poland",
+        "type": "factory",
+        "name": "Gliwice Plant",
+        "location": {
+          "city": "Gliwice",
+          "country": "Poland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmz_poland_gliwice_expansion",
+        "type": "investment",
+        "name": "BMZ Poland Gliwice Expansion",
+        "amount": "PLN 103.3 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      },
+      {
+        "id": "product_battery_sets",
+        "type": "product",
+        "name": "battery sets"
+      },
+      {
+        "id": "product_nmc4_batteries",
+        "type": "product",
+        "name": "NMC4 batteries"
+      },
+      {
+        "id": "product_nmc3_batteries",
+        "type": "product",
+        "name": "NMC3 batteries"
+      }
+    ]
+  }
+}
+2025-08-21 14:28:20,115 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:20,115 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 14:28:20,115 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 14:28:20,115 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 14:28:21,137 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:21,138 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmz_poland_gliwice_expansion",
+      "status": "ongoing",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 14:28:21,138 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:21,138 - INFO - Node ID is investment_bmz_poland_gliwice_expansion
+2025-08-21 14:28:21,138 - INFO - ✅ Match found for investment_ID 'investment_bmz_poland_gliwice_expansion' in investment nodes
+2025-08-21 14:28:21,138 - INFO -   ➕ Set status: ongoing
+2025-08-21 14:28:21,138 - INFO -   ➕ Set phase: expansion
+2025-08-21 14:28:21,138 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 14:28:21,138 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 14:28:21,138 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 14:28:22,194 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:22,195 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmz_poland",
+      "type": "owns",
+      "target": "factory_gliwice_poland"
+    }
+  ]
+}
+2025-08-21 14:28:22,195 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:22,195 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 14:28:22,195 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 14:28:24,520 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:24,520 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_gliwice_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_sets",
+      "target": "factory_gliwice_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nmc4_batteries",
+      "target": "factory_gliwice_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 14:28:24,520 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:24,520 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 14:28:24,520 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 14:28:25,148 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:25,148 - INFO - {
+  "relationships": []
+}
+2025-08-21 14:28:25,148 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:25,148 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 14:28:25,148 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 14:28:27,464 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:27,466 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmz_poland_gliwice_expansion",
+      "target": "factory_gliwice_poland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmz_poland_gliwice_expansion",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmz_poland_gliwice_expansion",
+      "target": "product_battery_sets",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 14:28:27,466 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:27,542 - INFO - ✅ Updated Article ID: 68a70d78bd242b8de6bb8706 with 8 nodes and combined text.

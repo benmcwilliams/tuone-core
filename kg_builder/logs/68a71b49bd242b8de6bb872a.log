@@ -1,0 +1,119 @@
+2025-08-21 15:46:34,473 - INFO - 🔍 Text length: 1425 characters
+2025-08-21 15:46:34,473 - INFO - 📌 Processing Article ID: 68a71b49bd242b8de6bb872a — Mercedes-Benz – Battery integrating plant in Kecskemét
+2025-08-21 15:46:34,473 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 15:46:37,989 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:37,989 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kecskemet_hungary",
+        "type": "factory",
+        "name": "Kecskem\u00e9t Plant",
+        "location": {
+          "city": "Kecskem\u00e9t",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_mercedes_benz_expansion",
+        "type": "investment",
+        "name": "Mercedes-Benz Expansion",
+        "amount": "more than EUR 1 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_voltage_battery_systems",
+        "type": "product",
+        "name": "high-voltage battery systems"
+      },
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "battery modules"
+      }
+    ]
+  }
+}
+2025-08-21 15:46:37,989 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:37,989 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 15:46:37,990 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 15:46:37,990 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 15:46:38,802 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:38,802 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_mercedes_benz_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 15:46:38,802 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:38,802 - INFO - Node ID is investment_mercedes_benz_expansion
+2025-08-21 15:46:38,802 - INFO - ✅ Match found for investment_ID 'investment_mercedes_benz_expansion' in investment nodes
+2025-08-21 15:46:38,802 - INFO -   ➕ Set status: announced
+2025-08-21 15:46:38,802 - INFO -   ➕ Set phase: expansion
+2025-08-21 15:46:38,803 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 15:46:38,803 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 15:46:38,803 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 15:46:39,605 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:39,605 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_kecskemet_hungary"
+    }
+  ]
+}
+2025-08-21 15:46:39,605 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:39,606 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 15:46:39,606 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 15:46:40,849 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:40,850 - INFO - {
+  "relationships": [
+    {
+      "source": "product_high_voltage_battery_systems",
+      "target": "factory_kecskemet_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 15:46:40,850 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:40,850 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 15:46:40,850 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 15:46:41,680 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:41,681 - INFO - {
+  "relationships": []
+}
+2025-08-21 15:46:41,681 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:41,681 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 15:46:41,681 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 15:46:42,743 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:42,743 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_mercedes_benz_expansion",
+      "target": "factory_kecskemet_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_mercedes_benz_expansion",
+      "target": "product_high_voltage_battery_systems",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 15:46:42,743 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:42,825 - INFO - ✅ Updated Article ID: 68a71b49bd242b8de6bb872a with 5 nodes and combined text.

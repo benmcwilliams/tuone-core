@@ -1,0 +1,179 @@
+2025-08-21 15:46:50,850 - INFO - 🔍 Text length: 3246 characters
+2025-08-21 15:46:50,850 - INFO - 📌 Processing Article ID: 68a71a83bd242b8de6bb8726 — CATL announces its second European battery plant in Hungary
+2025-08-21 15:46:50,850 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 15:46:54,571 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:54,571 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_contemporary_amperex_technology_co_limited",
+        "type": "company",
+        "name": "Contemporary Amperex Technology Co., Limited"
+      },
+      {
+        "id": "company_mercedes_benz_group_ag",
+        "type": "company",
+        "name": "Mercedes-Benz Group AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Battery Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_debrecen_battery_plant",
+        "type": "investment",
+        "name": "Debrecen Battery Plant",
+        "amount": "7.34 billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "battery modules"
+      }
+    ]
+  }
+}
+2025-08-21 15:46:54,572 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:54,572 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 15:46:54,572 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 15:46:55,903 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:55,903 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gwh",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 15:46:55,903 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:55,903 - INFO - Node ID is capacity_100_gwh
+2025-08-21 15:46:55,904 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh' in capacity nodes
+2025-08-21 15:46:55,904 - INFO -   ➕ Set status: announced
+2025-08-21 15:46:55,904 - INFO -   ➕ Set phase: greenfield
+2025-08-21 15:46:55,904 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 15:46:55,904 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 15:46:57,029 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:57,029 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_debrecen_battery_plant",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 15:46:57,029 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:57,029 - INFO - Node ID is investment_debrecen_battery_plant
+2025-08-21 15:46:57,029 - INFO - ✅ Match found for investment_ID 'investment_debrecen_battery_plant' in investment nodes
+2025-08-21 15:46:57,029 - INFO -   ➕ Set status: announced
+2025-08-21 15:46:57,029 - INFO -   ➕ Set phase: greenfield
+2025-08-21 15:46:57,029 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 15:46:57,030 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 15:46:57,030 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 15:46:58,462 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:46:58,462 - INFO - {
+  "relationships": [
+    {
+      "source": "company_contemporary_amperex_technology_co_limited",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-08-21 15:46:58,462 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:46:58,463 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 15:46:58,463 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 15:47:01,227 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:47:01,227 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gwh",
+      "target": "factory_debrecen_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100_gwh",
+      "target": "product_battery_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_modules",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 15:47:01,228 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:47:01,228 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 15:47:01,228 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 15:47:02,048 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:47:02,048 - INFO - {
+  "relationships": []
+}
+2025-08-21 15:47:02,048 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:47:02,048 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 15:47:02,048 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 15:47:04,811 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:47:04,811 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_debrecen_battery_plant",
+      "target": "factory_debrecen_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_debrecen_battery_plant",
+      "target": "capacity_100_gwh",
+      "type": "enables"
+    },
+    {
+      "source": "investment_debrecen_battery_plant",
+      "target": "product_battery_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_debrecen_battery_plant",
+      "target": "product_battery_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 15:47:04,811 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:47:04,895 - INFO - ✅ Updated Article ID: 68a71a83bd242b8de6bb8726 with 7 nodes and combined text.

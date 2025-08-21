@@ -1,0 +1,196 @@
+2025-08-21 13:59:45,294 - INFO - 🔍 Text length: 3006 characters
+2025-08-21 13:59:45,294 - INFO - 📌 Processing Article ID: 68a5b2ceb7b15a0ba6e8521c — ‘SK Road’ to be named in Hungary
+2025-08-21 13:59:45,294 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 13:59:48,189 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:48,189 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      },
+      {
+        "id": "company_sk_on_hungary",
+        "type": "company",
+        "name": "SK On Hungary"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ivancsa_hungary",
+        "type": "factory",
+        "name": "Iv\u00e1ncsa Facility",
+        "location": {
+          "city": "Iv\u00e1ncsa",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_komarom_hungary_1",
+        "type": "factory",
+        "name": "Kom\u00e1rom Plant 1",
+        "location": {
+          "city": "Kom\u00e1rom",
+          "country": "Hungary"
+        }
+      },
+      {
+        "id": "factory_komarom_hungary_2",
+        "type": "factory",
+        "name": "Kom\u00e1rom Plant 2",
+        "location": {
+          "city": "Kom\u00e1rom",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30gwh_announced_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "30GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_7_5gwh_operational_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "7.5GWh",
+        "status": "completed"
+      },
+      {
+        "id": "capacity_10gwh_operational_completed",
+        "type": "capacity",
+        "name": "",
+        "amount": "10GWh",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-08-21 13:59:48,189 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:48,190 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 13:59:48,190 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 13:59:50,209 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:50,209 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30gwh_announced_under_construction",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_7_5gwh_operational_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_10gwh_operational_completed",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 13:59:50,209 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:50,209 - INFO - Node ID is capacity_30gwh_announced_under_construction
+2025-08-21 13:59:50,209 - INFO - ✅ Match found for capacity_ID 'capacity_30gwh_announced_under_construction' in capacity nodes
+2025-08-21 13:59:50,209 - INFO -   ➕ Set status: operational
+2025-08-21 13:59:50,209 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:59:50,209 - INFO - Node ID is capacity_7_5gwh_operational_completed
+2025-08-21 13:59:50,209 - INFO - ✅ Match found for capacity_ID 'capacity_7_5gwh_operational_completed' in capacity nodes
+2025-08-21 13:59:50,209 - INFO -   ➕ Set status: operational
+2025-08-21 13:59:50,209 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:59:50,209 - INFO - Node ID is capacity_10gwh_operational_completed
+2025-08-21 13:59:50,209 - INFO - ✅ Match found for capacity_ID 'capacity_10gwh_operational_completed' in capacity nodes
+2025-08-21 13:59:50,209 - INFO -   ➕ Set status: operational
+2025-08-21 13:59:50,209 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:59:50,209 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-21 13:59:50,210 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 13:59:50,210 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 13:59:50,210 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 13:59:51,554 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:51,554 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_ivancsa_hungary"
+    },
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_komarom_hungary_1"
+    },
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_komarom_hungary_2"
+    }
+  ]
+}
+2025-08-21 13:59:51,554 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:51,555 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 13:59:51,555 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 13:59:54,525 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:54,525 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30gwh_announced_under_construction",
+      "target": "factory_ivancsa_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30gwh_announced_under_construction",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_ivancsa_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_7_5gwh_operational_completed",
+      "target": "factory_komarom_hungary_1",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10gwh_operational_completed",
+      "target": "factory_komarom_hungary_2",
+      "type": "at"
+    },
+    {
+      "source": "capacity_7_5gwh_operational_completed",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_10gwh_operational_completed",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_komarom_hungary_1",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_komarom_hungary_2",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 13:59:54,525 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:54,525 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-21 13:59:54,526 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-21 13:59:54,611 - INFO - ✅ Updated Article ID: 68a5b2ceb7b15a0ba6e8521c with 9 nodes and combined text.

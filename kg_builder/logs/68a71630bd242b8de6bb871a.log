@@ -1,0 +1,163 @@
+2025-08-21 15:48:20,318 - INFO - 🔍 Text length: 2064 characters
+2025-08-21 15:48:20,318 - INFO - 📌 Processing Article ID: 68a71630bd242b8de6bb871a — The French company Forsee Power announces the development of its production plant in Poland
+2025-08-21 15:48:20,318 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 15:48:25,198 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:25,198 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_forsee_power",
+        "type": "company",
+        "name": "Forsee Power"
+      },
+      {
+        "id": "company_bpifrance",
+        "type": "company",
+        "name": "Bpifrance"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wroclaw_poland",
+        "type": "factory",
+        "name": "Wroclaw Factory",
+        "location": {
+          "city": "Wroclaw",
+          "country": "Poland"
+        }
+      },
+      {
+        "id": "factory_poitiers_france",
+        "type": "factory",
+        "name": "Poitiers Factory",
+        "location": {
+          "city": "Poitiers",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bpifrance_fundraiser",
+        "type": "investment",
+        "name": "Bpifrance Fundraiser",
+        "amount": "\u20ac 15 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_590k_battery_packs_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "590,000 battery packs a year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_smart_life_battery_systems",
+        "type": "product",
+        "name": "Smart Life battery systems"
+      }
+    ]
+  }
+}
+2025-08-21 15:48:25,198 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:25,199 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 15:48:25,199 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 15:48:26,403 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:26,403 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_590k_battery_packs_per_year",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-21 15:48:26,403 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:26,403 - INFO - Node ID is capacity_590k_battery_packs_per_year
+2025-08-21 15:48:26,403 - INFO - ✅ Match found for capacity_ID 'capacity_590k_battery_packs_per_year' in capacity nodes
+2025-08-21 15:48:26,403 - INFO -   ➕ Set status: announced
+2025-08-21 15:48:26,403 - INFO -   ➕ Set phase: retrofit
+2025-08-21 15:48:26,404 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 15:48:26,404 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 15:48:27,299 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:27,299 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bpifrance_fundraiser",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 15:48:27,299 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:27,299 - INFO - Node ID is investment_bpifrance_fundraiser
+2025-08-21 15:48:27,299 - INFO - ✅ Match found for investment_ID 'investment_bpifrance_fundraiser' in investment nodes
+2025-08-21 15:48:27,299 - INFO -   ➕ Set status: announced
+2025-08-21 15:48:27,299 - INFO -   ➕ Set phase: expansion
+2025-08-21 15:48:27,299 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 15:48:27,299 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 15:48:27,300 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 15:48:28,678 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:28,678 - INFO - {
+  "relationships": [
+    {
+      "source": "company_forsee_power",
+      "type": "owns",
+      "target": "factory_wroclaw_poland"
+    },
+    {
+      "source": "company_forsee_power",
+      "type": "owns",
+      "target": "factory_poitiers_france"
+    }
+  ]
+}
+2025-08-21 15:48:28,678 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:28,679 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 15:48:28,679 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 15:48:30,100 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:30,101 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_590k_battery_packs_per_year",
+      "type": "at",
+      "target": "factory_wroclaw_poland"
+    },
+    {
+      "source": "capacity_590k_battery_packs_per_year",
+      "type": "quantifies",
+      "target": "product_smart_life_battery_systems"
+    },
+    {
+      "source": "product_smart_life_battery_systems",
+      "type": "produced_at",
+      "target": "factory_wroclaw_poland"
+    }
+  ]
+}
+2025-08-21 15:48:30,101 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:30,101 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 15:48:30,101 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 15:48:31,722 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:31,723 - INFO - {
+  "relationships": []
+}
+2025-08-21 15:48:31,723 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:31,723 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 15:48:31,723 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 15:48:32,877 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:32,878 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bpifrance_fundraiser",
+      "target": "factory_poitiers_france",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-21 15:48:32,878 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:32,965 - INFO - ✅ Updated Article ID: 68a71630bd242b8de6bb871a with 7 nodes and combined text.

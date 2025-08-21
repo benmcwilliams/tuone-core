@@ -1,0 +1,138 @@
+2025-08-21 14:28:54,103 - INFO - 🔍 Text length: 1449 characters
+2025-08-21 14:28:54,103 - INFO - 📌 Processing Article ID: 68a5ade4b7b15a0ba6e85218 — Leclanché battery cell fab returns to full operation after fire incident
+2025-08-21 14:28:54,103 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 14:28:56,057 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:56,057 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_leclanch\u00e9",
+        "type": "company",
+        "name": "Leclanch\u00e9"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_willstaett_germany",
+        "type": "factory",
+        "name": "Willstaett Plant",
+        "location": {
+          "city": "Willstaett",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ontario_storage_project",
+        "type": "investment",
+        "name": "Ontario Storage Project",
+        "amount": "$28.9 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_90_mwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "90 MWh per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_cells",
+        "type": "product",
+        "name": "lithium-ion battery cells"
+      }
+    ]
+  }
+}
+2025-08-21 14:28:56,057 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:56,057 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 14:28:56,057 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 14:28:57,286 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:57,286 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_90_mwh_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-21 14:28:57,286 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:57,286 - INFO - Node ID is capacity_90_mwh_per_year
+2025-08-21 14:28:57,286 - INFO - ✅ Match found for capacity_ID 'capacity_90_mwh_per_year' in capacity nodes
+2025-08-21 14:28:57,286 - INFO -   ➕ Set status: operational
+2025-08-21 14:28:57,286 - INFO -   ➕ Set phase: unclear
+2025-08-21 14:28:57,286 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 14:28:57,286 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 14:28:58,208 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:58,208 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ontario_storage_project",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 14:28:58,208 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:58,208 - INFO - Node ID is investment_ontario_storage_project
+2025-08-21 14:28:58,209 - INFO - ✅ Match found for investment_ID 'investment_ontario_storage_project' in investment nodes
+2025-08-21 14:28:58,209 - INFO -   ➕ Set status: announced
+2025-08-21 14:28:58,209 - INFO -   ➕ Set phase: greenfield
+2025-08-21 14:28:58,209 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 14:28:58,209 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 14:28:58,209 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 14:28:59,232 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:59,232 - INFO - {
+  "relationships": [
+    {
+      "source": "company_leclanch\u00e9",
+      "type": "owns",
+      "target": "factory_willstaett_germany"
+    }
+  ]
+}
+2025-08-21 14:28:59,232 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:59,232 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 14:28:59,232 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 14:29:00,977 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:29:00,977 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_90_mwh_per_year",
+      "target": "factory_willstaett_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_90_mwh_per_year",
+      "target": "product_lithium_ion_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_battery_cells",
+      "target": "factory_willstaett_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 14:29:00,977 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:29:00,977 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 14:29:00,977 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 14:29:01,793 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:29:01,793 - INFO - {
+  "relationships": []
+}
+2025-08-21 14:29:01,793 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:29:01,793 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 14:29:01,793 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 14:29:02,408 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:29:02,408 - INFO - {
+  "relationships": []
+}
+2025-08-21 14:29:02,408 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:29:02,490 - INFO - ✅ Updated Article ID: 68a5ade4b7b15a0ba6e85218 with 5 nodes and combined text.

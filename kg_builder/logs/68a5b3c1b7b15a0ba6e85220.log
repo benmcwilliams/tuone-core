@@ -1,0 +1,119 @@
+2025-08-21 13:59:18,164 - INFO - 🔍 Text length: 2305 characters
+2025-08-21 13:59:18,164 - INFO - 📌 Processing Article ID: 68a5b3c1b7b15a0ba6e85220 — Green Light for Eve Power’s Battery Factory in Debrecen
+2025-08-21 13:59:18,164 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 13:59:20,936 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:20,936 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eve_power",
+        "type": "company",
+        "name": "Eve Power"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_debrecen_plant",
+        "type": "investment",
+        "name": "Debrecen Plant",
+        "amount": "HUF 400 billion (EUR 980 million)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-08-21 13:59:20,936 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:20,936 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 13:59:20,936 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 13:59:20,936 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 13:59:22,086 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:22,086 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_debrecen_plant",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 13:59:22,086 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:22,086 - INFO - Node ID is investment_debrecen_plant
+2025-08-21 13:59:22,086 - INFO - ✅ Match found for investment_ID 'investment_debrecen_plant' in investment nodes
+2025-08-21 13:59:22,086 - INFO -   ➕ Set status: ongoing
+2025-08-21 13:59:22,086 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:59:22,086 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 13:59:22,086 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 13:59:22,086 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 13:59:22,950 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:22,950 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eve_power",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-08-21 13:59:22,950 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:22,950 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 13:59:22,950 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 13:59:24,009 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:24,009 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 13:59:24,009 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:24,009 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 13:59:24,009 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 13:59:24,725 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:24,725 - INFO - {
+  "relationships": []
+}
+2025-08-21 13:59:24,725 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:24,725 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 13:59:24,725 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 13:59:25,795 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:25,796 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_debrecen_plant",
+      "target": "factory_debrecen_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_debrecen_plant",
+      "target": "product_battery_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 13:59:25,796 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:25,873 - INFO - ✅ Updated Article ID: 68a5b3c1b7b15a0ba6e85220 with 5 nodes and combined text.

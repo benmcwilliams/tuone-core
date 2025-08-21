@@ -1,0 +1,149 @@
+2025-08-21 14:28:27,542 - INFO - 🔍 Text length: 3873 characters
+2025-08-21 14:28:27,542 - INFO - 📌 Processing Article ID: 68a70d04bd242b8de6bb8704 — €45 Million Plant will make 5GWh of Batteries Annually
+2025-08-21 14:28:27,543 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 14:28:29,606 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:29,606 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmz_gmbh",
+        "type": "company",
+        "name": "BMZ GmbH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_karlstein_germany",
+        "type": "factory",
+        "name": "BMZ Headquarters",
+        "location": {
+          "city": "Karlstein",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmz_gmbh_extension",
+        "type": "investment",
+        "name": "BMZ GmbH Extension",
+        "amount": "45 million euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "5 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-08-21 14:28:29,606 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:29,606 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 14:28:29,606 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 14:28:30,354 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:30,355 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_gwh_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 14:28:30,355 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:30,355 - INFO - Node ID is capacity_5_gwh_announced
+2025-08-21 14:28:30,355 - INFO - ✅ Match found for capacity_ID 'capacity_5_gwh_announced' in capacity nodes
+2025-08-21 14:28:30,355 - INFO -   ➕ Set status: announced
+2025-08-21 14:28:30,355 - INFO -   ➕ Set phase: expansion
+2025-08-21 14:28:30,355 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 14:28:30,355 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 14:28:31,324 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:31,325 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmz_gmbh_extension",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 14:28:31,325 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:31,325 - INFO - Node ID is investment_bmz_gmbh_extension
+2025-08-21 14:28:31,325 - INFO - ✅ Match found for investment_ID 'investment_bmz_gmbh_extension' in investment nodes
+2025-08-21 14:28:31,325 - INFO -   ➕ Set status: announced
+2025-08-21 14:28:31,325 - INFO -   ➕ Set phase: expansion
+2025-08-21 14:28:31,325 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 14:28:31,325 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 14:28:31,325 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 14:28:31,992 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:31,993 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmz_gmbh",
+      "type": "owns",
+      "target": "factory_karlstein_germany"
+    }
+  ]
+}
+2025-08-21 14:28:31,993 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:31,993 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 14:28:31,993 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 14:28:35,114 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:35,115 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "factory_karlstein_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_karlstein_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 14:28:35,115 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:35,115 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 14:28:35,115 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 14:28:35,859 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:35,859 - INFO - {
+  "relationships": []
+}
+2025-08-21 14:28:35,859 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:35,859 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 14:28:35,859 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 14:28:38,547 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:28:38,547 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmz_gmbh_extension",
+      "target": "factory_karlstein_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmz_gmbh_extension",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 14:28:38,547 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:28:38,626 - INFO - ✅ Updated Article ID: 68a70d04bd242b8de6bb8704 with 5 nodes and combined text.

@@ -1,0 +1,132 @@
+2025-08-21 13:59:10,162 - INFO - 🔍 Text length: 822 characters
+2025-08-21 13:59:10,162 - INFO - 📌 Processing Article ID: 68a5b503b7b15a0ba6e85222 — CATL may build another plant near Debrecen
+2025-08-21 13:59:10,162 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 13:59:13,158 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:13,158 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "Contemporary Amperex Technology Co. Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_100_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      },
+      {
+        "id": "product_electric_vehicle_batteries",
+        "type": "product",
+        "name": "electric vehicle batteries"
+      }
+    ]
+  }
+}
+2025-08-21 13:59:13,158 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:13,159 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 13:59:13,159 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 13:59:14,158 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:14,159 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100_gwh_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-21 13:59:14,159 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:14,159 - INFO - Node ID is capacity_40_gwh_announced
+2025-08-21 13:59:14,159 - INFO - ✅ Match found for capacity_ID 'capacity_40_gwh_announced' in capacity nodes
+2025-08-21 13:59:14,159 - INFO -   ➕ Set status: announced
+2025-08-21 13:59:14,159 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:59:14,159 - INFO - Node ID is capacity_100_gwh_announced
+2025-08-21 13:59:14,159 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh_announced' in capacity nodes
+2025-08-21 13:59:14,159 - INFO -   ➕ Set status: announced
+2025-08-21 13:59:14,160 - INFO -   ➕ Set phase: expansion
+2025-08-21 13:59:14,160 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-21 13:59:14,160 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 13:59:14,160 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 13:59:14,160 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 13:59:14,997 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:14,997 - INFO - {
+  "relationships": [
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-08-21 13:59:14,998 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:14,998 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 13:59:14,998 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 13:59:18,073 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:59:18,073 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40_gwh_announced",
+      "target": "factory_debrecen_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh_announced",
+      "target": "factory_debrecen_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40_gwh_announced",
+      "target": "product_electric_vehicle_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100_gwh_announced",
+      "target": "product_electric_vehicle_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electric_vehicle_batteries",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 13:59:18,074 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:59:18,074 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-21 13:59:18,074 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-21 13:59:18,162 - INFO - ✅ Updated Article ID: 68a5b503b7b15a0ba6e85222 with 6 nodes and combined text.

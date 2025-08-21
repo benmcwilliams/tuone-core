@@ -1,0 +1,66 @@
+2025-08-21 15:48:32,966 - INFO - 🔍 Text length: 1070 characters
+2025-08-21 15:48:32,966 - INFO - 📌 Processing Article ID: 68a715a5bd242b8de6bb8718 — FIAT starts the production of its New Fiat 600e
+2025-08-21 15:48:32,967 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 15:48:34,310 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:34,311 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy_poland",
+        "type": "factory",
+        "name": "Stellantis plant",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_new_fiat_600e",
+        "type": "product",
+        "name": "New Fiat 600e"
+      }
+    ]
+  }
+}
+2025-08-21 15:48:34,311 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:34,311 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 15:48:34,311 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-21 15:48:34,311 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 15:48:34,311 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 15:48:34,311 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 15:48:35,353 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:35,354 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy_poland"
+    }
+  ]
+}
+2025-08-21 15:48:35,354 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:35,354 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 15:48:35,354 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 15:48:36,256 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:48:36,256 - INFO - {
+  "relationships": [
+    {
+      "source": "product_new_fiat_600e",
+      "target": "factory_tychy_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 15:48:36,256 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:48:36,256 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-21 15:48:36,256 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-21 15:48:36,329 - INFO - ✅ Updated Article ID: 68a715a5bd242b8de6bb8718 with 3 nodes and combined text.

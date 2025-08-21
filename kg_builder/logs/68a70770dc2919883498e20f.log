@@ -1,0 +1,80 @@
+2025-08-21 13:57:20,748 - INFO - 🔍 Text length: 2827 characters
+2025-08-21 13:57:20,748 - INFO - 📌 Processing Article ID: 68a70770dc2919883498e20f — Enphase signs US$50 million microinverter ITC safe harbour deal
+2025-08-21 13:57:20,748 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 13:57:22,463 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:57:22,464 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_enphase_energy",
+        "type": "company",
+        "name": "Enphase Energy"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_safe_harbour_deal",
+        "type": "investment",
+        "name": "Safe Harbour Deal",
+        "amount": "US$50 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_iq8hc_microinverters",
+        "type": "product",
+        "name": "IQ8HC microinverters"
+      }
+    ]
+  }
+}
+2025-08-21 13:57:22,464 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:57:22,464 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 13:57:22,464 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 13:57:22,464 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 13:57:23,452 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:57:23,452 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_safe_harbour_deal",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-21 13:57:23,452 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:57:23,453 - INFO - Node ID is investment_safe_harbour_deal
+2025-08-21 13:57:23,453 - INFO - ✅ Match found for investment_ID 'investment_safe_harbour_deal' in investment nodes
+2025-08-21 13:57:23,453 - INFO -   ➕ Set status: announced
+2025-08-21 13:57:23,453 - INFO -   ➕ Set phase: unclear
+2025-08-21 13:57:23,453 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 13:57:23,453 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-08-21 13:57:23,453 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 13:57:23,453 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 13:57:24,074 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:57:24,074 - INFO - {
+  "relationships": []
+}
+2025-08-21 13:57:24,074 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:57:24,075 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 13:57:24,075 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 13:57:24,907 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:57:24,907 - INFO - {
+  "relationships": []
+}
+2025-08-21 13:57:24,907 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:57:24,907 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 13:57:24,907 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 13:57:25,913 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:57:25,913 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_safe_harbour_deal",
+      "target": "product_iq8hc_microinverters",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-21 13:57:25,913 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:57:25,994 - INFO - ✅ Updated Article ID: 68a70770dc2919883498e20f with 3 nodes and combined text.

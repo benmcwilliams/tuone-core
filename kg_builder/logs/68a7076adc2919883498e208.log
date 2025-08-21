@@ -1,0 +1,169 @@
+2025-08-21 13:58:39,741 - INFO - 🔍 Text length: 2133 characters
+2025-08-21 13:58:39,741 - INFO - 📌 Processing Article ID: 68a7076adc2919883498e208 — French developer secures $5.7 million for 5.8 MW of floating PV in Seychelles
+2025-08-21 13:58:39,741 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 13:58:42,544 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:42,544 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_qair",
+        "type": "company",
+        "name": "Qair"
+      },
+      {
+        "id": "company_vetiver_tech",
+        "type": "company",
+        "name": "Vetiver Tech"
+      },
+      {
+        "id": "company_public_utilities_corporation",
+        "type": "company",
+        "name": "Public Utilities Corporation"
+      },
+      {
+        "id": "company_cygnum_capital",
+        "type": "company",
+        "name": "Cygnum Capital"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_seysun_lagoon_floating_solar_project",
+        "type": "factory",
+        "name": "Seysun Lagoon Floating Solar Project",
+        "location": {
+          "city": "Mah\u00e9 Island, Providence Lagoon",
+          "country": "Seychelles"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_$5.7_million_announced_unclear",
+        "type": "investment",
+        "name": "$5.7 million senior debt facility",
+        "amount": "$5.7 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5.8_mw_announced_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "5.8 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_solar_power",
+        "type": "product",
+        "name": "floating solar power"
+      }
+    ]
+  }
+}
+2025-08-21 13:58:42,545 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:42,545 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 13:58:42,545 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 13:58:43,583 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:43,583 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5.8_mw_announced_unclear",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 13:58:43,583 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:43,583 - INFO - Node ID is capacity_5.8_mw_announced_unclear
+2025-08-21 13:58:43,583 - INFO - ✅ Match found for capacity_ID 'capacity_5.8_mw_announced_unclear' in capacity nodes
+2025-08-21 13:58:43,583 - INFO -   ➕ Set status: announced
+2025-08-21 13:58:43,583 - INFO -   ➕ Set phase: greenfield
+2025-08-21 13:58:43,583 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-21 13:58:43,583 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-21 13:58:44,569 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:44,569 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_$5.7_million_announced_unclear",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-21 13:58:44,569 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:44,569 - INFO - Node ID is investment_$5.7_million_announced_unclear
+2025-08-21 13:58:44,569 - INFO - ✅ Match found for investment_ID 'investment_$5.7_million_announced_unclear' in investment nodes
+2025-08-21 13:58:44,569 - INFO -   ➕ Set status: announced
+2025-08-21 13:58:44,569 - INFO -   ➕ Set phase: unclear
+2025-08-21 13:58:44,569 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 13:58:44,569 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 13:58:44,569 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 13:58:45,642 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:45,643 - INFO - {
+  "relationships": [
+    {
+      "source": "company_qair",
+      "type": "owns",
+      "target": "factory_seysun_lagoon_floating_solar_project"
+    }
+  ]
+}
+2025-08-21 13:58:45,643 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:45,643 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 13:58:45,643 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 13:58:47,394 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:47,394 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5.8_mw_announced_unclear",
+      "target": "factory_seysun_lagoon_floating_solar_project",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_solar_power",
+      "target": "factory_seysun_lagoon_floating_solar_project",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_5.8_mw_announced_unclear",
+      "target": "product_floating_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-08-21 13:58:47,394 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:47,394 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-21 13:58:47,394 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-21 13:58:48,044 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:48,044 - INFO - {
+  "relationships": []
+}
+2025-08-21 13:58:48,044 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:48,044 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-21 13:58:48,044 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-21 13:58:50,351 - INFO - ✅ OpenAI returned output:
+2025-08-21 13:58:50,352 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_$5.7_million_announced_unclear",
+      "target": "capacity_5.8_mw_announced_unclear",
+      "type": "enables"
+    },
+    {
+      "source": "investment_$5.7_million_announced_unclear",
+      "target": "product_floating_solar_power",
+      "type": "targets"
+    },
+    {
+      "source": "investment_$5.7_million_announced_unclear",
+      "target": "factory_seysun_lagoon_floating_solar_project",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-21 13:58:50,352 - INFO - POST-PROCESSING STARTING.
+2025-08-21 13:58:50,442 - INFO - ✅ Updated Article ID: 68a7076adc2919883498e208 with 8 nodes and combined text.

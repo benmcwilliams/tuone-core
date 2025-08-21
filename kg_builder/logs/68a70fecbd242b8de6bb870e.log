@@ -1,0 +1,101 @@
+2025-08-21 14:27:34,151 - INFO - 🔍 Text length: 773 characters
+2025-08-21 14:27:34,151 - INFO - 📌 Processing Article ID: 68a70fecbd242b8de6bb870e —  A breakthrough year for Capchem Poland
+2025-08-21 14:27:34,151 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 14:27:36,092 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:27:36,092 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_capchem_poland",
+        "type": "company",
+        "name": "Capchem Poland"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_capchem_poland",
+        "type": "factory",
+        "name": "Capchem Poland",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "40,000 tonnes per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrolyte",
+        "type": "product",
+        "name": "electrolyte"
+      }
+    ]
+  }
+}
+2025-08-21 14:27:36,092 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:27:36,092 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-21 14:27:36,092 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-21 14:27:37,132 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:27:37,132 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40k_tonnes_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-21 14:27:37,132 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:27:37,132 - INFO - Node ID is capacity_40k_tonnes_per_year
+2025-08-21 14:27:37,132 - INFO - ✅ Match found for capacity_ID 'capacity_40k_tonnes_per_year' in capacity nodes
+2025-08-21 14:27:37,132 - INFO -   ➕ Set status: operational
+2025-08-21 14:27:37,133 - INFO -   ➕ Set phase: greenfield
+2025-08-21 14:27:37,133 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-21 14:27:37,133 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 14:27:37,133 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 14:27:37,133 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 14:27:38,130 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:27:38,130 - INFO - {
+  "relationships": [
+    {
+      "source": "company_capchem_poland",
+      "type": "owns",
+      "target": "factory_capchem_poland"
+    }
+  ]
+}
+2025-08-21 14:27:38,130 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:27:38,130 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 14:27:38,130 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 14:27:40,579 - INFO - ✅ OpenAI returned output:
+2025-08-21 14:27:40,579 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40k_tonnes_per_year",
+      "target": "factory_capchem_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40k_tonnes_per_year",
+      "target": "product_electrolyte",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electrolyte",
+      "target": "factory_capchem_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 14:27:40,580 - INFO - POST-PROCESSING STARTING.
+2025-08-21 14:27:40,580 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-21 14:27:40,580 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-21 14:27:40,660 - INFO - ✅ Updated Article ID: 68a70fecbd242b8de6bb870e with 4 nodes and combined text.

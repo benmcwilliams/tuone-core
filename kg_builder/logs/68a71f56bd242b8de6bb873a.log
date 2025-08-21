@@ -1,0 +1,66 @@
+2025-08-21 15:45:09,511 - INFO - 🔍 Text length: 1541 characters
+2025-08-21 15:45:09,511 - INFO - 📌 Processing Article ID: 68a71f56bd242b8de6bb873a — Celltech expands to new premises in Tampere
+2025-08-21 15:45:09,511 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-21 15:45:14,535 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:45:14,536 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_celltech",
+        "type": "company",
+        "name": "Celltech"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lahdesjarvi_tampere",
+        "type": "factory",
+        "name": "Lahdesj\u00e4rvi Factory",
+        "location": {
+          "city": "Lahdesj\u00e4rvi, Tampere",
+          "country": "Finland"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      }
+    ]
+  }
+}
+2025-08-21 15:45:14,536 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:45:14,536 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-21 15:45:14,536 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-21 15:45:14,536 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-21 15:45:14,536 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-21 15:45:14,536 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-21 15:45:17,699 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:45:17,699 - INFO - {
+  "relationships": [
+    {
+      "source": "company_celltech",
+      "type": "owns",
+      "target": "factory_lahdesjarvi_tampere"
+    }
+  ]
+}
+2025-08-21 15:45:17,700 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:45:17,700 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-21 15:45:17,700 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-21 15:45:19,255 - INFO - ✅ OpenAI returned output:
+2025-08-21 15:45:19,255 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_systems",
+      "target": "factory_lahdesjarvi_tampere",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-21 15:45:19,255 - INFO - POST-PROCESSING STARTING.
+2025-08-21 15:45:19,255 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-21 15:45:19,256 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-21 15:45:19,324 - INFO - ✅ Updated Article ID: 68a71f56bd242b8de6bb873a with 3 nodes and combined text.
