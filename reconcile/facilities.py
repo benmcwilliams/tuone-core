@@ -34,6 +34,8 @@ def write_facilities():
         "iso2": "first",
         "adm1": "first",
         "bbox": "first",
+        "lat": "first",
+        "lon": "first",
         "product_lv1": "first",
         "product_lv2": "unique"
     }).reset_index()
@@ -85,6 +87,8 @@ def write_facilities():
             "adm1": row["adm1"] if pd.notna(row["adm1"]) else None,
             "bbox": row["bbox"] if pd.notna(row["bbox"]) else None,
             "bbox_geojson": bbox_geojson,
+            "lat": row["lat"] if pd.notna(row["lat"]) else None,
+            "lon": row["lon"] if pd.notna(row["lon"]) else None,
             "product_lv1": row["product_lv1"] if pd.notna(row["product_lv1"]) else None,
             "product_lv2": product_lv2_clean,
             "capacities": capacity_dict.get(cluster_id, [])

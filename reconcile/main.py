@@ -57,4 +57,4 @@ def main(update_mongo_metadata=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True)
+    main(update_mongo_metadata=False)

@@ -80,8 +80,8 @@ def group_projects():
 
     # custom column names
 
-    cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "bbox", "cluster_id",
-            "product_lv1", "product_lv2", "product",
+    cols = ["inst_canon", "city_key", "adm1", "adm2", "iso2", "bbox", "lat", "lon",
+             "cluster_id","product_lv1", "product_lv2", "product",
             "capacity_normalized", "capacity_metric_normalized",
             "status", "phase", "date", "article_id"]
 
