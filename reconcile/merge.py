@@ -109,10 +109,10 @@ def run_view(spec, out_path=None):
     # 1) load raw
     df_all_nodes = pd.read_excel(ALL_NODES)
     df_all_rels  = pd.read_excel(ALL_RELS)
+    #df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
 
     # 2) normalize
     geo_lookup = build_geo_lookup()
-    df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
     nodes_by_label = filter_nodes_by_label(df_all_nodes)
     rels_by_label  = filter_rels_by_label(df_all_rels)
 

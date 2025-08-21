@@ -78,7 +78,7 @@ COMPANY_FORMS_JV_SPEC = {
     },
     "joint_venture": {
       "label": "joint_venture",
-      "keep": ["unique_id", "name", "name_canon", "founded_on"],
+      "keep": ["unique_id", "name", "name_canon"],
       "rename": {"unique_id": "jv_id", "name": "jv_name", "name_canon": "jv_canon"}
     }
   },
@@ -95,9 +95,9 @@ COMPANY_FORMS_JV_SPEC = {
     ("forms", "company_id", "company", "company_id", "inner"),
     ("forms", "jv_id", "joint_venture", "jv_id", "inner"),
   ],
-  "filters": [
-    lambda df: df[df["iso2"].isin(EUROPEAN_COUNTRIES)]
-  ],
-  "column_order": ["company", "inst_canon", "company_id", "jv_name", "jv_canon", "jv_id", "founded_on"]
+  # "filters": [
+  #   lambda df: df[df["iso2"].isin(EUROPEAN_COUNTRIES)]
+  # ]
+  #"column_order": ["company", "inst_canon", "company_id", "jv_name", "jv_canon", "jv_id"]
 }
 
