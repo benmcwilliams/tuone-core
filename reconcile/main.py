@@ -11,8 +11,8 @@ from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
-from src.merge_specifications import FACTORY_TECH_SPEC
-from src.config import FACTORY_TECH
+from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC
+from src.config import FACTORY_TECH, COMPANY_JV
 
 def main(update_mongo_metadata=False):
 
@@ -36,6 +36,7 @@ def main(update_mongo_metadata=False):
 
     logging.info("🉑 Merging nodes and relationships...")
     run_view(FACTORY_TECH_SPEC, FACTORY_TECH)
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
 
     logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
