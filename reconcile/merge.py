@@ -98,10 +98,10 @@ def build_view(view_spec: dict,
     for f in view_spec.get("filters", []):
         df = f(df)
 
-    # 5) dedupe
-    if "dedupe" in view_spec and view_spec["dedupe"]:
-        subset_cols, keep = view_spec["dedupe"]
-        df = df.drop_duplicates(subset=subset_cols, keep=keep)
+    # # 5) dedupe
+    # if "dedupe" in view_spec and view_spec["dedupe"]:
+    #     subset_cols, keep = view_spec["dedupe"]
+    #     df = df.drop_duplicates(subset=subset_cols, keep=keep)
 
     # 6) column order
     if "column_order" in view_spec and view_spec["column_order"]:
