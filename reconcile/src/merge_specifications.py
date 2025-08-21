@@ -59,7 +59,6 @@ FACTORY_TECH_SPEC = {
   "filters": [
     lambda df: df[df["iso2"].isin(EUROPEAN_COUNTRIES)]
   ],
-  "dedupe": (["factory_id"], "first"),   # mirrors your comment about never having dup owners
   "column_order": [
     "article_id", "institution", "inst_canon", "factory",
     "city_key", "iso2", "adm1", "adm2", "bbox", "lat", "lon",
@@ -67,3 +66,38 @@ FACTORY_TECH_SPEC = {
     "phase", "status"
   ]
 }
+
+####### JOINT VENTURES
+
+COMPANY_FORMS_JV_SPEC = {
+  "nodes": {
+    "company": {
+      "label": "company",
+      "keep": ["unique_id", "name", "name_canon"],
+      "rename": {"unique_id": "company_id", "name": "company", "name_canon": "inst_canon"}
+    },
+    "joint_venture": {
+      "label": "joint_venture",
+      "keep": ["unique_id", "name", "name_canon", "founded_on"],
+      "rename": {"unique_id": "jv_id", "name": "jv_name", "name_canon": "jv_canon"}
+    }
+  },
+  "edges": [
+    {
+      "alias": "forms",
+      "type": "forms",
+      "source_label": "company",
+      "target_label": "joint_venture",
+      "rename": {"source": "company_id", "target": "jv_id"}
+    }
+  ],
+  "join_chain": [
+    ("forms", "company_id", "company", "company_id", "inner"),
+    ("forms", "jv_id", "joint_venture", "jv_id", "inner"),
+  ],
+  "filters": [
+    lambda df: df[df["iso2"].isin(EUROPEAN_COUNTRIES)]
+  ],
+  "column_order": ["company", "inst_canon", "company_id", "jv_name", "jv_canon", "jv_id", "founded_on"]
+}
+
