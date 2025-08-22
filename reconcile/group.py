@@ -8,6 +8,7 @@ from src.id_date_dict import get_article_id_to_date_map
 from src.company_mapping import map_to_canonical
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS_FILTER, COMPANY_JV
+from src.set_adm_level import add_admin_group_key
 
 def group_projects(file_to_group, out_path=None):
 
@@ -16,6 +17,13 @@ def group_projects(file_to_group, out_path=None):
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
     initial_len = len(df)
     logging.info(f"Found {len(df)} rows (EU only).")
+
+    # build unified region key based on per-country admin level
+    df = add_admin_group_key(df, out_col="admin_group_key")
+
+    ### HACKY FIX SO CODE WORKS WITH ROSS TO BE UDPATED *****
+    df["adm1-og"] = df["adm1"]
+    df["adm1"] = df["admin_group_key"]
 
     required = [
         ("inst_canon", "a normalised OWNER name"),
@@ -150,7 +158,9 @@ def group_projects(file_to_group, out_path=None):
     df.sort_values(by=["cluster_id", "date"], na_position='last', inplace=True)
     df['date'] = df['date'].dt.strftime('%Y-%m')
 
+    # hacky fix until I tell Ross to change
+    df["inst_canon"] = df["owner_label"]
     df.to_excel(out_path, index=False)
     logging.info(f"Saving filtered output to {out_path}")
 
-    logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")
+    #logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")
