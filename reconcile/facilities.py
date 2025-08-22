@@ -2,7 +2,7 @@ import pandas as pd
 import sys; sys.path.append("..")
 import logging
 from mongo_client import mongo_client, facilities_collection, test_mongo_connection
-from src.config import GRPD_PROJECTS_FILTER, FACILITIES
+from src.config import GRPD_PROJECTS_FILTER, FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES
 from src.facilities_helpers import bbox_to_geojson 
 from src.vote_helpers import fill_single_product_lv2, parse_capacity_value
 
@@ -13,9 +13,30 @@ def write_facilities():
     facilities_collection.delete_many({})
     logging.info("🗑️ Cleared existing facilities from MongoDB.")
 
-    df = pd.read_excel(GRPD_PROJECTS_FILTER)
+    df = pd.read_excel(GROUPED_CAPACITIES)
     logging.debug(df["bbox"].map(type).value_counts())
     logging.debug(df["bbox"].head().tolist())
+
+    ##### READ IN AND BUILD FACILITY STATUS MAP 
+    df_facility = pd.read_excel(GROUPED_FACTORIES)
+    df_facility["date"] = pd.to_datetime(df_facility["date"], format="%Y-%m", errors="coerce")
+
+    df_facility_latest_status = (
+    df_facility.sort_values(["project_id", "date"])
+               .dropna(subset=["factory_status"])
+               .drop_duplicates(subset=["project_id"], keep="last")
+               [["project_id", "factory_status", "date"]]
+            .reset_index(drop=True)
+            )
+
+    # build a quick lookup: project_id -> {"factory_status": ..., "date": "YYYY-MM-DD"}
+    facility_status_map = (
+        df_facility_latest_status
+        .assign(status_date_str=lambda d: d["date"].dt.strftime("%Y-%m-%d"))
+        .set_index("project_id")[["factory_status", "status_date_str"]]
+        .to_dict(orient="index")
+    )
+    #########
 
     # Parse dates
     df["date"] = pd.to_datetime(df["date"], format="%Y-%m", errors="coerce")
@@ -29,7 +50,7 @@ def write_facilities():
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
 
     # ---- Facilities grouping ----
-    df_facilities = df.groupby("cluster_id").agg({
+    df_facilities = df.groupby("project_id").agg({
         "inst_canon": "first",
         "iso2": "first",
         "adm1": "first",
@@ -45,8 +66,8 @@ def write_facilities():
 
     # ---- Capacities deduplication ----
     df1 = (
-        df.sort_values(["cluster_id", "date"], ascending=[True, True], na_position="last")
-          .drop_duplicates(["cluster_id", "capacity_normalized", "status", "phase"], keep="first")
+        df.sort_values(["project_id", "date"], ascending=[True, True], na_position="last")
+          .drop_duplicates(["project_id", "capacity_normalized", "status", "phase"], keep="first")
     )
 
     def pandas_row_to_capacity(row):
@@ -60,7 +81,7 @@ def write_facilities():
         }
 
     capacity_dict = (
-        df1.groupby("cluster_id")
+        df1.groupby("project_id")
            .apply(lambda g: [pandas_row_to_capacity(r) for _, r in g.iterrows()])
            .to_dict()
     )
@@ -71,7 +92,7 @@ def write_facilities():
     # convert DataFrame to MongoDB documents
     facilities_documents = []
     for _, row in df_facilities.iterrows():
-        cluster_id = row["cluster_id"]
+        project_id = row["project_id"]
 
         # filter out NaN values from product_lv2 - assuming for now all product_lv2 applies....
         product_lv2_list = list(row["product_lv2"]) if pd.notna(row["product_lv2"]).any() else []
@@ -79,19 +100,26 @@ def write_facilities():
 
         # convert bbox to GeoJSON format
         bbox_geojson = bbox_to_geojson(row["bbox"]) if pd.notna(row["bbox"]) else None
+        
+        # get facility-level status if it exists
+        fs = facility_status_map.get(project_id, {"factory_status": None, "status_date_str": None})
 
         mongo_entry = {
-            "cluster_id": row["cluster_id"],
+            "project_id": row["project_id"],
             "inst_canon": row["inst_canon"] if pd.notna(row["inst_canon"]) else None,
             "iso2": row["iso2"] if pd.notna(row["iso2"]) else None,
             "adm1": row["adm1"] if pd.notna(row["adm1"]) else None,
-            "bbox": row["bbox"] if pd.notna(row["bbox"]) else None,
-            "bbox_geojson": bbox_geojson,
+            #"bbox": row["bbox"] if pd.notna(row["bbox"]) else None,
+            #"bbox_geojson": bbox_geojson,
             "lat": row["lat"] if pd.notna(row["lat"]) else None,
             "lon": row["lon"] if pd.notna(row["lon"]) else None,
             "product_lv1": row["product_lv1"] if pd.notna(row["product_lv1"]) else None,
             "product_lv2": product_lv2_clean,
-            "capacities": capacity_dict.get(cluster_id, [])
+            "latest_factory_status": {
+                "status": fs["factory_status"],
+                "date": fs["status_date_str"],
+            },
+            "capacities": capacity_dict.get(project_id, [])
         }
         facilities_documents.append(mongo_entry)
 

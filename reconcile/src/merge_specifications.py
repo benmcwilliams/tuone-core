@@ -5,7 +5,7 @@ FACTORY_REGISTRY_SPEC = {
     "factory": {
       "label": "factory",
       "keep": ["name", "unique_id", "location_city", "location_country", "status", "article_id"],
-      "rename": {"unique_id": "factory_id", "name": "factory", "status": "factory-status"},
+      "rename": {"unique_id": "factory_id", "name": "factory", "status": "factory_status"},
       "enrich": "factory_geo"   # enriches with adm1, adm2, bbox, lat, lon etc
     },
     "owner": {
@@ -51,8 +51,8 @@ FACTORY_REGISTRY_SPEC = {
   ],
   "column_order": 
     [
-    "factory", "inst_canon", "inst_type", "city_clean", "iso2", "adm1", "adm2", "adm3", "lat", "lon",
-    "factory-status", "product_lv1", "product_lv2", "article_id"
+    "factory", "inst_canon", "inst_type", "city_key", "iso2", "adm1", "adm2", "adm3", "lat", "lon",
+    "factory_status", "product_lv1", "product_lv2", "article_id"
     # output product_id | owner_id | factory_id to identify them globally
   ]
 }
@@ -62,7 +62,7 @@ FACTORY_TECH_SPEC = {
     "factory": {
       "label": "factory",
       "keep": ["name", "unique_id", "location_city", "location_country", "status", "article_id"],
-      "rename": {"unique_id": "factory_id", "name": "factory", "status": "factory-status"},
+      "rename": {"unique_id": "factory_id", "name": "factory", "status": "factory_status"},
       "enrich": "factory_geo"   # pluggable enricher
     },
     "capacity": {
@@ -126,7 +126,7 @@ FACTORY_TECH_SPEC = {
     "article_id", "institution", "inst_canon", "inst_type", "factory",
     "city_key", "iso2", "adm1", "adm2", "bbox", "lat", "lon",
     "capacity", "product", "product_lv1", "product_lv2",
-    "phase", "status", "additional", "factory-status"
+    "phase", "status", "additional", "factory_status"
   ]
 }
 
