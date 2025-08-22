@@ -51,7 +51,7 @@ def enrich_factory_geo(df_factory: pd.DataFrame, geo_lookup) -> pd.DataFrame:
     out["country_clean"] = out["location_country"].apply(clean_country)
     out["iso2"] = out["country_clean"].apply(lambda x: standardize_country(x)[1])
     # geo lookups (vectorized via apply keeps it simple; optimize later if needed)
-    for col in ["adm1", "adm2", "adm3", "bbox", "lat", "lon"]:
+    for col in ["adm1", "adm2", "adm3", "adm4", "bbox", "lat", "lon"]:
         out[col] = out.apply(lambda r: get_geo_value(r, col, geo_lookup), axis=1)
     return out
 
