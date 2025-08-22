@@ -106,11 +106,12 @@ def output_capacities_plot():
 
     combos = [
         # (lv1, lv2, plot_title, filename)
-        ("battery", "cell",         "Battery cell capacity by status and country",              f"{FIG_DIR}/battery_cells_plot.png"),
-        ("battery", "module_pack",  "Battery packs/modules capacity by status and country",     f"{FIG_DIR}/battery_modules_plot.png"),
-        ("solar", "cell",           "Solar cell capacity by status and country",                f"{FIG_DIR}/solar_cells_plot.png"),
-        ("solar", "polysilicon",    "Solar polysilicon capacity by status and country",         f"{FIG_DIR}/solar_polysilicon_plot.png"),
-        ("solar", "ingot_wafer",    "Solar ingot-wafer capacity by status and country",         f"{FIG_DIR}/solar_ingot_wafer_plot.png"),
+        ("battery", "cell",         "Battery cell capacity by status and country",              f"{FIG_DIR}/battery_cells.png"),
+        ("battery", "module_pack",  "Battery packs/modules capacity by status and country",     f"{FIG_DIR}/battery_modules.png"),
+        ("solar", "cell",           "Solar cell capacity by status and country",                f"{FIG_DIR}/solar_cells.png"),
+        ("solar", "polysilicon",    "Solar polysilicon capacity by status and country",         f"{FIG_DIR}/solar_polysilicon.png"),
+        ("solar", "ingot_wafer",    "Solar ingot-wafer capacity by status and country",         f"{FIG_DIR}/solar_ingot_wafer.png"),
+        ("vehicle", "electric",     "Electric vehicle assembly capacity by status and country", f"{FIG_DIR}/electric_vehicles.png"),
     ]
 
     for lv1, lv2, title, path in combos:

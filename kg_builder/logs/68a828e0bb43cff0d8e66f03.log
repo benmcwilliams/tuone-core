@@ -1,0 +1,170 @@
+2025-08-22 14:24:10,198 - INFO - 🔍 Text length: 6404 characters
+2025-08-22 14:24:10,198 - INFO - 📌 Processing Article ID: 68a828e0bb43cff0d8e66f03 — WACKER commissions new production line for semiconductor-grade polysilicon at Burghausen site
+2025-08-22 14:24:10,198 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-22 14:24:13,489 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:13,489 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_wacker_chemie_ag",
+        "type": "company",
+        "name": "Wacker Chemie AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_burghausen_germany",
+        "type": "factory",
+        "name": "Burghausen Production Site",
+        "location": {
+          "city": "Burghausen",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_etching_line_next",
+        "type": "investment",
+        "name": "Etching Line Next",
+        "amount": "\u20ac300 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_ipcei_me_ct_program",
+        "type": "investment",
+        "name": "IPCEI ME/CT program",
+        "amount": "\u20ac50 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50_percent_increase",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 percent increase",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_semiconductor_grade_polysilicon",
+        "type": "product",
+        "name": "semiconductor-grade polysilicon"
+      }
+    ]
+  }
+}
+2025-08-22 14:24:13,489 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:13,489 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-22 14:24:13,490 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-22 14:24:14,788 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:14,788 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50_percent_increase",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-22 14:24:14,788 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:14,788 - INFO - Node ID is capacity_50_percent_increase
+2025-08-22 14:24:14,789 - INFO - ✅ Match found for capacity_ID 'capacity_50_percent_increase' in capacity nodes
+2025-08-22 14:24:14,789 - INFO -   ➕ Set status: operational
+2025-08-22 14:24:14,789 - INFO -   ➕ Set phase: expansion
+2025-08-22 14:24:14,789 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-22 14:24:14,789 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-22 14:24:15,717 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:15,717 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_etching_line_next",
+      "status": "completed",
+      "phase": "expansion"
+    },
+    {
+      "investment_ID": "investment_ipcei_me_ct_program",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-22 14:24:15,717 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:15,717 - INFO - Node ID is investment_etching_line_next
+2025-08-22 14:24:15,717 - INFO - ✅ Match found for investment_ID 'investment_etching_line_next' in investment nodes
+2025-08-22 14:24:15,717 - INFO -   ➕ Set status: completed
+2025-08-22 14:24:15,718 - INFO -   ➕ Set phase: expansion
+2025-08-22 14:24:15,718 - INFO - Node ID is investment_ipcei_me_ct_program
+2025-08-22 14:24:15,718 - INFO - ✅ Match found for investment_ID 'investment_ipcei_me_ct_program' in investment nodes
+2025-08-22 14:24:15,718 - INFO -   ➕ Set status: announced
+2025-08-22 14:24:15,718 - INFO -   ➕ Set phase: unclear
+2025-08-22 14:24:15,718 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-22 14:24:15,718 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-22 14:24:15,718 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-22 14:24:17,075 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:17,076 - INFO - {
+  "relationships": [
+    {
+      "source": "company_wacker_chemie_ag",
+      "type": "owns",
+      "target": "factory_burghausen_germany"
+    }
+  ]
+}
+2025-08-22 14:24:17,076 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:17,076 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-22 14:24:17,076 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-22 14:24:18,406 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:18,407 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50_percent_increase",
+      "target": "factory_burghausen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50_percent_increase",
+      "target": "product_semiconductor_grade_polysilicon",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_semiconductor_grade_polysilicon",
+      "target": "factory_burghausen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-22 14:24:18,407 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:18,407 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-22 14:24:18,407 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-22 14:24:19,223 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:19,223 - INFO - {
+  "relationships": []
+}
+2025-08-22 14:24:19,224 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:19,224 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-22 14:24:19,224 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-22 14:24:20,742 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:24:20,742 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_etching_line_next",
+      "target": "factory_burghausen_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_etching_line_next",
+      "target": "capacity_50_percent_increase",
+      "type": "enables"
+    },
+    {
+      "source": "investment_etching_line_next",
+      "target": "product_semiconductor_grade_polysilicon",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-22 14:24:20,742 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:24:20,820 - INFO - ✅ Updated Article ID: 68a828e0bb43cff0d8e66f03 with 6 nodes and combined text.

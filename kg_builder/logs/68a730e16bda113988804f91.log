@@ -1,0 +1,159 @@
+2025-08-22 14:27:20,853 - INFO - 🔍 Text length: 5162 characters
+2025-08-22 14:27:20,853 - INFO - 📌 Processing Article ID: 68a730e16bda113988804f91 —  Silicon Valley halts solar panel production plans and seeks new location
+2025-08-22 14:27:20,854 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-22 14:27:23,744 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:23,744 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_silicon_valen",
+        "type": "company",
+        "name": "Silicon Valen"
+      },
+      {
+        "id": "company_statkraft",
+        "type": "company",
+        "name": "Statkraft"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_massanassa_spain",
+        "type": "factory",
+        "name": "Massanassa Factory",
+        "location": {
+          "city": "Massanassa",
+          "country": "Spain"
+        }
+      },
+      {
+        "id": "factory_pista_de_silla_spain",
+        "type": "factory",
+        "name": "Pista de Silla Plant",
+        "location": {
+          "city": "Pista de Silla",
+          "country": "Spain"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_refurbishment_renovation_completed",
+        "type": "investment",
+        "name": "Refurbishment and Renovation",
+        "amount": "\u20ac3 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_expansion_announced",
+        "type": "investment",
+        "name": "Expansion",
+        "amount": "\u20ac50 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_modules",
+        "type": "product",
+        "name": "photovoltaic modules"
+      },
+      {
+        "id": "product_silicon_purification",
+        "type": "product",
+        "name": "silicon purification"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-08-22 14:27:23,744 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:23,744 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-22 14:27:23,744 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-22 14:27:23,744 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-22 14:27:24,978 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:24,978 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_refurbishment_renovation_completed",
+      "status": "completed",
+      "phase": "retrofit"
+    },
+    {
+      "investment_ID": "investment_expansion_announced",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-22 14:27:24,978 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:24,978 - INFO - Node ID is investment_refurbishment_renovation_completed
+2025-08-22 14:27:24,978 - INFO - ✅ Match found for investment_ID 'investment_refurbishment_renovation_completed' in investment nodes
+2025-08-22 14:27:24,978 - INFO -   ➕ Set status: completed
+2025-08-22 14:27:24,978 - INFO -   ➕ Set phase: retrofit
+2025-08-22 14:27:24,978 - INFO - Node ID is investment_expansion_announced
+2025-08-22 14:27:24,978 - INFO - ✅ Match found for investment_ID 'investment_expansion_announced' in investment nodes
+2025-08-22 14:27:24,978 - INFO -   ➕ Set status: announced
+2025-08-22 14:27:24,978 - INFO -   ➕ Set phase: expansion
+2025-08-22 14:27:24,978 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-22 14:27:24,978 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-22 14:27:24,978 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-22 14:27:25,918 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:25,919 - INFO - {
+  "relationships": [
+    {
+      "source": "company_silicon_valen",
+      "type": "owns",
+      "target": "factory_massanassa_spain"
+    },
+    {
+      "source": "company_silicon_valen",
+      "type": "owns",
+      "target": "factory_pista_de_silla_spain"
+    }
+  ]
+}
+2025-08-22 14:27:25,919 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:25,919 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-22 14:27:25,919 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-22 14:27:27,021 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:27,022 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_panels",
+      "target": "factory_massanassa_spain",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_pista_de_silla_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-22 14:27:27,022 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:27,022 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-22 14:27:27,022 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-22 14:27:27,736 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:27,736 - INFO - {
+  "relationships": []
+}
+2025-08-22 14:27:27,736 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:27,736 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-22 14:27:27,736 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-22 14:27:28,963 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:27:28,963 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_refurbishment_renovation_completed",
+      "target": "factory_pista_de_silla_spain",
+      "type": "funds"
+    }
+  ]
+}
+2025-08-22 14:27:28,963 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:27:29,044 - INFO - ✅ Updated Article ID: 68a730e16bda113988804f91 with 9 nodes and combined text.

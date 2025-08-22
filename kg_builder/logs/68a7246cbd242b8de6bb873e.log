@@ -1,0 +1,164 @@
+2025-08-22 14:28:04,433 - INFO - 🔍 Text length: 11579 characters
+2025-08-22 14:28:04,433 - INFO - 📌 Processing Article ID: 68a7246cbd242b8de6bb873e — A factory unlike any other in Europe will be built in Poland
+2025-08-22 14:28:04,433 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-22 14:28:07,995 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:07,995 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_giga_pv",
+        "type": "company",
+        "name": "Giga PV"
+      },
+      {
+        "id": "company_institute_for_renewable_energy",
+        "type": "company",
+        "name": "Institute for Renewable Energy"
+      },
+      {
+        "id": "company_fraunhofer_institute",
+        "type": "company",
+        "name": "Fraunhofer Institute"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_raciborz_poland",
+        "type": "factory",
+        "name": "Racib\u00f3rz PV Cell Factory",
+        "location": {
+          "city": "Racib\u00f3rz",
+          "country": "Poland"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_pv_cell_factory",
+        "type": "investment",
+        "name": "PV Cell Factory",
+        "amount": "EUR 90 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_cells",
+        "type": "product",
+        "name": "PV Cells"
+      }
+    ]
+  }
+}
+2025-08-22 14:28:07,995 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:07,996 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-22 14:28:07,996 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-22 14:28:09,311 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:09,311 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gw_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-22 14:28:09,311 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:09,312 - INFO - Node ID is capacity_1_gw_announced
+2025-08-22 14:28:09,312 - INFO - ✅ Match found for capacity_ID 'capacity_1_gw_announced' in capacity nodes
+2025-08-22 14:28:09,312 - INFO -   ➕ Set status: announced
+2025-08-22 14:28:09,312 - INFO -   ➕ Set phase: greenfield
+2025-08-22 14:28:09,312 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-22 14:28:09,312 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-22 14:28:10,387 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:10,387 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_pv_cell_factory",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-22 14:28:10,387 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:10,388 - INFO - Node ID is investment_pv_cell_factory
+2025-08-22 14:28:10,388 - INFO - ✅ Match found for investment_ID 'investment_pv_cell_factory' in investment nodes
+2025-08-22 14:28:10,388 - INFO -   ➕ Set status: announced
+2025-08-22 14:28:10,388 - INFO -   ➕ Set phase: retrofit
+2025-08-22 14:28:10,388 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-22 14:28:10,388 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-22 14:28:10,388 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-22 14:28:11,814 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:11,814 - INFO - {
+  "relationships": [
+    {
+      "source": "company_giga_pv",
+      "type": "owns",
+      "target": "factory_raciborz_poland"
+    }
+  ]
+}
+2025-08-22 14:28:11,814 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:11,815 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-22 14:28:11,815 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-22 14:28:13,409 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:13,409 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gw_announced",
+      "target": "factory_raciborz_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gw_announced",
+      "target": "product_pv_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pv_cells",
+      "target": "factory_raciborz_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-22 14:28:13,409 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:13,409 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-22 14:28:13,409 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-22 14:28:14,124 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:14,124 - INFO - {
+  "relationships": []
+}
+2025-08-22 14:28:14,124 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:14,124 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-22 14:28:14,124 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-22 14:28:15,201 - INFO - ✅ OpenAI returned output:
+2025-08-22 14:28:15,201 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_pv_cell_factory",
+      "target": "factory_raciborz_poland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_pv_cell_factory",
+      "target": "capacity_1_gw_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_pv_cell_factory",
+      "target": "product_pv_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-22 14:28:15,201 - INFO - POST-PROCESSING STARTING.
+2025-08-22 14:28:15,275 - INFO - ✅ Updated Article ID: 68a7246cbd242b8de6bb873e with 7 nodes and combined text.
