@@ -9,6 +9,8 @@ from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
+from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC
+from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV
 
 # ---------- helper functions ----------
 
@@ -49,7 +51,7 @@ def enrich_factory_geo(df_factory: pd.DataFrame, geo_lookup) -> pd.DataFrame:
     out["country_clean"] = out["location_country"].apply(clean_country)
     out["iso2"] = out["country_clean"].apply(lambda x: standardize_country(x)[1])
     # geo lookups (vectorized via apply keeps it simple; optimize later if needed)
-    for col in ["adm1", "adm2", "bbox", "lat", "lon"]:
+    for col in ["adm1", "adm2", "adm3", "bbox", "lat", "lon"]:
         out[col] = out.apply(lambda r: get_geo_value(r, col, geo_lookup), axis=1)
     return out
 
@@ -86,6 +88,7 @@ def build_view(view_spec: dict,
 
     # 3) join chain
     tables = {**node_tables, **edge_tables}
+    # tables holds all aliases and allows merges
     # start from the first element in the chain's left side
     start_alias = view_spec["join_chain"][0][0]
     df = tables[start_alias]
@@ -123,3 +126,8 @@ def run_view(spec, out_path=None):
         df.to_excel(out_path, index=False)
         logging.info(f"💾 Saved: {out_path}")
     return df
+
+if __name__ == "__main__":
+    #run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)
+    #run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)
