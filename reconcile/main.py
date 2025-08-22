@@ -42,8 +42,6 @@ def main(update_mongo_metadata=False):
     logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
 
-    # run_investment_normalisation_pipeline()
-
     logging.info("🫂 Grouping projects...")
     group_projects()
 
