@@ -6,7 +6,7 @@ import pandas as pd  # for robust datetime handling
 from mongo_client import facilities_collection, test_mongo_connection
 
 # Strongest first
-STATUS_ORDER = ["cancelled", "operational", "under construction", "announced", "unclear"]
+STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
 STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
 
 def parse_date(date_str):
@@ -35,7 +35,8 @@ def build_phase_summary(capacities: list, phase: str | None) -> dict | None:
 
     summary = {
         "status": best["status"],
-        "capacity": best["amount"]
+        "capacity": best["amount"],
+        "source_date": best["date"],
     }
 
     # add chronological milestone dates (we take the earliest date each milestone is mentioned)
@@ -58,6 +59,10 @@ def determine_phase_summary():
 
     for doc in facilities_collection.find({}):
         capacities = doc.get("capacities", [])
+        # current logic to override status with facility level status if later 
+        latest_fac = doc.get("latest_factory_status") or {}
+        latest_fac_date = parse_date(latest_fac.get("date") or latest_fac.get("date_str"))
+        latest_fac_status = latest_fac.get("status")
 
         update_fields = {}
         # write summaries for greenfield, expansion and main
@@ -65,8 +70,17 @@ def determine_phase_summary():
                                ("expansion", "expansion"),
                                ("main", None)]:
             summary = build_phase_summary(capacities, phase)
-            if summary:
-                update_fields[out_key] = summary
+            if not summary:
+                continue
+
+            # final check: if facility status is NEWER than the deciding capacity date, override
+            cap_deciding_date = parse_date(summary.get("source_date"))
+            if pd.notna(latest_fac_date) and pd.notna(cap_deciding_date) and latest_fac_date > cap_deciding_date and latest_fac_status:
+                summary["status"] = latest_fac_status
+                summary["overridden_by"] = "latest_factory_status"  # optional breadcrumb
+
+            summary.pop("source_date", None)  # don’t store the internal helper field
+            update_fields[out_key] = summary
 
         if update_fields:
             updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": update_fields}))

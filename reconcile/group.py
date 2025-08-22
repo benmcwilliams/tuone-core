@@ -3,16 +3,16 @@ from datetime import datetime
 import logging
 import pandas as pd
 import numpy as np
+import uuid
 from src.id_date_dict import get_article_id_to_date_map
 from src.company_mapping import map_to_canonical
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS_FILTER, COMPANY_JV
 
-def group_projects():
-
+def group_projects(file_to_group, out_path=None):
 
     # 1) Load (EU-only) and drop required fields with consistent logging
-    df = pd.read_excel(FACTORY_TECH_CLEAN_CAPACITIES)
+    df = pd.read_excel(file_to_group)
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
     initial_len = len(df)
     logging.info(f"Found {len(df)} rows (EU only).")
@@ -95,6 +95,25 @@ def group_projects():
     members_to_jv = {tuple(v): k for k, v in jv_to_members.items()}
     df["owner_label"] = df["owner_key"].apply(lambda t: members_to_jv.get(tuple(t), " + ".join(t)))
 
+    # Generate hash key - stable namespace for reproducibility
+    NS = uuid.uuid5(uuid.NAMESPACE_URL, "bruegel/project-key/v1")
+
+    # build the tuple
+    df["project_key_tuple"] = list(
+        zip(
+            df["iso2"].astype(str),
+            df["adm1"].astype(str),
+            df["owner_key"].astype(str),
+            df["product_lv1"].astype(str),
+        )
+    )
+
+    # readable string
+    df["project_key_str"] = df["project_key_tuple"].apply(lambda t: "|".join(map(str, t)))
+
+    # deterministic UUID5 hash
+    df["project_id"] = df["project_key_str"].apply(lambda s: str(uuid.uuid5(NS, s)))
+
     # 3) Compute clusters
 
     # DEFINE group cols 
@@ -131,15 +150,7 @@ def group_projects():
     df.sort_values(by=["cluster_id", "date"], na_position='last', inplace=True)
     df['date'] = df['date'].dt.strftime('%Y-%m')
 
-    # custom column names
+    df.to_excel(out_path, index=False)
+    logging.info(f"Saving filtered output to {out_path}")
 
-    cols = ["inst_canon", "inst_canon_multiple", "owner_key", "owner_label",
-            "city_key", "adm1", "adm2", "iso2", "bbox", "lat", "lon",
-            "cluster_id","product_lv1", "product_lv2", "product",
-            "capacity_normalized", "capacity_metric_normalized",
-            "status", "phase", "date", "article_id"]
-
-    # clean output for Ross app for now 
-    #df["inst_canon"] = df["owner_label"]
-    df.to_excel(GRPD_PROJECTS_FILTER, columns=cols, index=False)
     logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")

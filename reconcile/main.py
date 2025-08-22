@@ -12,7 +12,7 @@ from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
 from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC
-from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV
+from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV, FACTORY_TECH_CLEAN_CAPACITIES, GROUP_SPEC
 
 def main(update_mongo_metadata=False):
 
@@ -43,7 +43,9 @@ def main(update_mongo_metadata=False):
     run_capacity_normalisation_pipeline()
 
     logging.info("🫂 Grouping projects...")
-    group_projects()
+    for in_path, out_path in GROUP_SPEC:
+        logging.info(f"Processing: {in_path} → {out_path}")
+        group_projects(in_path, out_path)
 
     logging.info("🏭 Importing facilities")
     write_facilities()
