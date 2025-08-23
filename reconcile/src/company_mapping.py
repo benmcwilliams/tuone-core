@@ -18,3 +18,10 @@ def map_to_canonical(name):
     if pd.isna(name):
         return name
     return reverse_mapping.get(str(name).lower(), name)
+
+SITE_MERGE = {
+    # collapse CATL’s nearby German sites to one admin key
+    ("catl", "DE", "Erfurt"): "Arnstadt",     # Arnstadt (Ilm-Kreis) → Erfurt
+    # add more:
+    # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
+}
