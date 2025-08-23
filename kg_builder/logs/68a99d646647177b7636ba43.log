@@ -1,0 +1,137 @@
+2025-08-23 13:40:32,171 - INFO - 🔍 Text length: 1384 characters
+2025-08-23 13:40:32,172 - INFO - 📌 Processing Article ID: 68a99d646647177b7636ba43 — Gotion High-tech’s First European Battery Plant in Germany Begins Production
+2025-08-23 13:40:32,172 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-23 13:40:35,128 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:35,128 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gotion_high_tech",
+        "type": "company",
+        "name": "Gotion High-tech"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_bosch_group",
+        "type": "company",
+        "name": "Bosch Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goettingen_germany",
+        "type": "factory",
+        "name": "G\u00f6ttingen Plant",
+        "location": {
+          "city": "G\u00f6ttingen",
+          "country": "Germany"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_5_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "5 GWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_pack",
+        "type": "product",
+        "name": "battery pack"
+      }
+    ]
+  }
+}
+2025-08-23 13:40:35,128 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:35,129 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-23 13:40:35,129 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-23 13:40:37,082 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:37,082 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_gwh",
+      "status": "operational",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_5_gwh",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-23 13:40:37,082 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:37,082 - INFO - Node ID is capacity_20_gwh
+2025-08-23 13:40:37,082 - INFO - ✅ Match found for capacity_ID 'capacity_20_gwh' in capacity nodes
+2025-08-23 13:40:37,082 - INFO -   ➕ Set status: operational
+2025-08-23 13:40:37,083 - INFO -   ➕ Set phase: greenfield
+2025-08-23 13:40:37,083 - INFO - Node ID is capacity_5_gwh
+2025-08-23 13:40:37,083 - INFO - ✅ Match found for capacity_ID 'capacity_5_gwh' in capacity nodes
+2025-08-23 13:40:37,083 - INFO -   ➕ Set status: announced
+2025-08-23 13:40:37,083 - INFO -   ➕ Set phase: expansion
+2025-08-23 13:40:37,083 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-23 13:40:37,083 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-23 13:40:37,083 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-23 13:40:37,083 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-23 13:40:39,356 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:39,356 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gotion_high_tech",
+      "type": "owns",
+      "target": "factory_goettingen_germany"
+    }
+  ]
+}
+2025-08-23 13:40:39,356 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:39,356 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-23 13:40:39,356 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-23 13:40:41,049 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:41,050 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_gwh",
+      "target": "factory_goettingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_gwh",
+      "target": "factory_goettingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5_gwh",
+      "target": "product_battery_pack",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_20_gwh",
+      "target": "product_battery_pack",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_pack",
+      "target": "factory_goettingen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-23 13:40:41,050 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:41,050 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-23 13:40:41,050 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-23 13:40:41,159 - INFO - ✅ Updated Article ID: 68a99d646647177b7636ba43 with 7 nodes and combined text.

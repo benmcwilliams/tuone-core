@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import uuid
 from src.id_date_dict import get_article_id_to_date_map
-from src.company_mapping import map_to_canonical
+from src.company_mapping import map_to_canonical, SITE_MERGE
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS_FILTER, COMPANY_JV
 from src.set_adm_level import add_admin_group_key
@@ -21,15 +21,11 @@ def group_projects(file_to_group, out_path=None):
     # build unified region key based on per-country admin level
     df = add_admin_group_key(df, out_col="admin_group_key")
 
-    ### HACKY FIX SO CODE WORKS WITH ROSS TO BE UDPATED *****
-    df["adm1-og"] = df["adm1"]
-    df["adm1"] = df["admin_group_key"]
-
     required = [
-        ("inst_canon", "a normalised OWNER name"),
-        ("city_key",   "CITY"),
-        ("adm1",       "ADM1"),
-        ("product_lv1","a normalised PRODUCT-LV1"),
+        ("inst_canon",              "a normalised OWNER name"),
+        ("city_key",                "CITY"),
+        ("admin_group_key",         "a geographic locator"),
+        ("product_lv1",             "a normalised PRODUCT-LV1"),
     ]
 
     for col, desc in required:
@@ -48,15 +44,31 @@ def group_projects(file_to_group, out_path=None):
     missing_product_lv2 = df["product_lv2"].isna().sum()
     logging.info(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
 
-    # replace ADM1 with ADM2 for iso2 == GB (because ADM1 is England, Scotland for GB)
-    mask = (df['iso2'] == "GB") & (df['adm2'].notna())
-    df.loc[mask, 'adm1'] = df.loc[mask, 'adm2']
+    # # replace ADM1 with ADM2 for iso2 == GB (because ADM1 is England, Scotland for GB)
+    # mask = (df['iso2'] == "GB") & (df['adm2'].notna())
+    # df.loc[mask, 'adm1'] = df.loc[mask, 'adm2']
 
     # apply any manual company or joint venture name mapping
     logging.info(f"Unique owners before manual dict: {len(df['inst_canon'].unique())}")
     df['inst_canon'] = df['inst_canon'].apply(map_to_canonical)
     logging.info(f"Unique owners after manual dict: {len(df['inst_canon'].unique())}")
 
+    # apply any manual site merges (eg CATL erfurt to CATL arnstadt)
+    # NOTE this happens before joint venture mapping
+    # we update admin_group_key which is the ADM level we are using per country
+
+    def _site_merge(row):
+        key = (row["inst_canon"], row["iso2"], row["admin_group_key"])
+        return SITE_MERGE.get(key, row["admin_group_key"])
+
+    before = df["admin_group_key"].copy()
+    df["admin_group_key"] = df.apply(_site_merge, axis=1)
+    n_changed = (df["admin_group_key"] != before).sum()
+    logging.info(f"Applied site merges to {n_changed} rows.")
+
+    ### HACKY FIX SO CODE WORKS WITH ROSS TO BE UDPATED *****
+    df["adm1-og"] = df["adm1"]
+    df["adm1"] = df["admin_group_key"]
 
     # 2. Resolve Joint Venture cases
     cjv = pd.read_excel(COMPANY_JV, dtype=str)
@@ -126,7 +138,7 @@ def group_projects(file_to_group, out_path=None):
 
     # DEFINE group cols 
     group_cols = [
-        "adm1",   
+        "adm1",   #NOTE to be replaced with admin_group_key
         "owner_key",          
         #"inst_canon",
         "product_lv1"
@@ -159,7 +171,9 @@ def group_projects(file_to_group, out_path=None):
     df['date'] = df['date'].dt.strftime('%Y-%m')
 
     # hacky fix until I tell Ross to change
-    df["inst_canon"] = df["owner_label"]
+    df.loc[df["inst_type"] == "joint_venture", "inst_canon"] = df.loc[df["inst_type"] == "joint_venture", "owner_label"]
+    logging.info(f"Overwrote inst_canon with JV labels for {sum(df['inst_type']=='joint_venture')} rows")
+
     df.to_excel(out_path, index=False)
     logging.info(f"Saving filtered output to {out_path}")
 

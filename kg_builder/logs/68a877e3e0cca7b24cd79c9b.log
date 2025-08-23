@@ -1,0 +1,153 @@
+2025-08-23 13:40:48,476 - INFO - 🔍 Text length: 2458 characters
+2025-08-23 13:40:48,476 - INFO - 📌 Processing Article ID: 68a877e3e0cca7b24cd79c9b — EDF shuts down Photowatt solar manufacturing unit
+2025-08-23 13:40:48,476 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-23 13:40:51,849 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:51,849 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_edf_renewables",
+        "type": "company",
+        "name": "EDF Renewables"
+      },
+      {
+        "id": "company_photowatt",
+        "type": "company",
+        "name": "Photowatt"
+      },
+      {
+        "id": "company_carbon",
+        "type": "company",
+        "name": "Carbon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bourgoin_jallieu_france",
+        "type": "factory",
+        "name": "Photowatt",
+        "location": {
+          "city": "Bourgoin-Jallieu",
+          "country": "France"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_photowatt_production_tools",
+        "type": "investment",
+        "name": "Photowatt Production Tools",
+        "amount": "\u20ac40 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_modules",
+        "type": "product",
+        "name": "PV modules"
+      },
+      {
+        "id": "product_wafer",
+        "type": "product",
+        "name": "wafer"
+      }
+    ]
+  }
+}
+2025-08-23 13:40:51,849 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:51,850 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-23 13:40:51,850 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-23 13:40:53,590 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:53,590 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mw",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-23 13:40:53,590 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:53,591 - INFO - Node ID is capacity_200_mw
+2025-08-23 13:40:53,591 - INFO - ✅ Match found for capacity_ID 'capacity_200_mw' in capacity nodes
+2025-08-23 13:40:53,591 - INFO -   ➕ Set status: operational
+2025-08-23 13:40:53,591 - INFO -   ➕ Set phase: unclear
+2025-08-23 13:40:53,591 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-23 13:40:53,591 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-23 13:40:55,250 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:55,250 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_photowatt_production_tools",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-23 13:40:55,250 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:55,250 - INFO - Node ID is investment_photowatt_production_tools
+2025-08-23 13:40:55,250 - INFO - ✅ Match found for investment_ID 'investment_photowatt_production_tools' in investment nodes
+2025-08-23 13:40:55,250 - INFO -   ➕ Set status: announced
+2025-08-23 13:40:55,250 - INFO -   ➕ Set phase: retrofit
+2025-08-23 13:40:55,250 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-23 13:40:55,250 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-23 13:40:55,250 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-23 13:40:56,149 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:56,149 - INFO - {
+  "relationships": [
+    {
+      "source": "company_photowatt",
+      "type": "owns",
+      "target": "factory_bourgoin_jallieu_france"
+    }
+  ]
+}
+2025-08-23 13:40:56,149 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:56,149 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-23 13:40:56,149 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-23 13:40:57,408 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:57,408 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_mw",
+      "target": "factory_bourgoin_jallieu_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_mw",
+      "target": "product_wafer",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pv_modules",
+      "target": "factory_bourgoin_jallieu_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-23 13:40:57,408 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:57,408 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-23 13:40:57,409 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-23 13:40:58,077 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:58,077 - INFO - {
+  "relationships": []
+}
+2025-08-23 13:40:58,078 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:58,078 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-23 13:40:58,078 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-23 13:40:58,915 - INFO - ✅ OpenAI returned output:
+2025-08-23 13:40:58,915 - INFO - {
+  "relationships": []
+}
+2025-08-23 13:40:58,915 - INFO - POST-PROCESSING STARTING.
+2025-08-23 13:40:59,018 - INFO - ✅ Updated Article ID: 68a877e3e0cca7b24cd79c9b with 8 nodes and combined text.
