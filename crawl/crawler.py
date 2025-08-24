@@ -9,6 +9,9 @@ from crawlers.crawley_energy_tech import aspire_energytech_crawler
 from crawlers.crawley_just_auto import just_auto_crawler
 from crawlers.crawley_battery_news import battery_news_crawler
 from crawlers.crawley_glass_international import glass_international_crawler
+from crawlers.biomass_crawler import biomass_crawler
+from crawlers.Crawley_chem_xplore import chemxplore_crawler
+from crawlers.Crawley_manufacturing_dive import manufacturing_dive_crawler
 from config.config_crawl import WORLD_ENERGY_CHANNELS, PV_MAGAZINE_EXTENSIONS, RENEWS_BIZ_TECH_DICT, ELECTRIVE_PAGE_TYPES
 
 # set max pages to crawl for each source
@@ -22,7 +25,7 @@ power_technology_max_pages = 2
 
 if __name__ == "__main__":
 
-    # # crawl world energy
+    # crawl world energy
     for tech in WORLD_ENERGY_CHANNELS.keys():
         world_energy_crawler(tech, max_pages=world_energy_max_pages)
 
@@ -58,4 +61,10 @@ if __name__ == "__main__":
 
     # crawl glass international
     glass_international_crawler()
+
+    biomass_crawler(1,6)
+
+    chemxplore_crawler(max_pages=3)
+
+    manufacturing_dive_crawler(max_pages=3)
 
