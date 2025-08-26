@@ -4,7 +4,7 @@ import sys; sys.path.append("..")
 import logging
 from mongo_client import facilities_collection, test_mongo_connection
 from src.config import FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES
-from src.facilities_helpers import parse_capacity_value
+from src.facilities_helpers import parse_capacity_value, canon_pl2
 
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 
@@ -63,13 +63,7 @@ def write_facilities():
     df_cap["capacity_normalized"] = df_cap["capacity_normalized"].apply(parse_capacity_value)
     df_cap["status"] = pd.Categorical(df_cap["status"], categories=STATUS_ORDER, ordered=True)
 
-    # 1) normalize/hash product_lv2 for use as a dedup key
-    def canon_pl2(x):
-        vals = [v for v in np.atleast_1d(x) if pd.notna(v)]
-        if not vals:
-            return tuple()           # empty tuple as canonical "no products"
-        return tuple(sorted(set(vals)))  # sorted unique, hashable
-
+    # normalize/hash product_lv2 for use as a dedup key
     df_cap["pl2_key"] = df_cap["product_lv2"].apply(canon_pl2)
 
     # ---- Capacities deduplication ----
@@ -80,22 +74,66 @@ def write_facilities():
         
         # 2. drop exact duplicate rows defined by (project_id, capacity, status, phase, pl2_key)
         #    → keep only the first (earliest) mention of each unique combo
-        .drop_duplicates(["project_id", "capacity_normalized", "status", "phase", "pl2_key"], keep="first")
+        .drop_duplicates(["project_id", "capacity_normalized", "status", "phase", "pl2_key"], 
+                         keep="first")
     )
 
+    # group capacities by the same product_lv1, amount, status & phase. 
+    # so this would create two entries for battery / vehicle, but only one entry for fossil / electric 
+    # we could then apply here the filter? 
+
+    # --- Group identical capacities that only differ by product_lv2 ---
+    group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase", "date", "article_id"]
+
+    # union product_lv2 via pl2_key (which is a tuple of unique values)
+    df_cap_grouped_lv2 = (
+        df_cap_dedup
+        .groupby(group_keys, dropna=False)
+        .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))))
+        .reset_index()
+        .rename(columns={"pl2_union": "product_lv2"})
+    )
+
+    # --- Logging / debug checks ---
+    logging.info("Capacities: raw=%d", len(df_cap))
+    logging.info("Capacities: dedup=%d | grouped=%d", len(df_cap_dedup), len(df_cap_grouped_lv2))
+
+    logging.info("Sample grouped capacities (5):\n%s",
+                df_cap_grouped_lv2.head(5)[
+                    ["project_id","product_lv1","capacity_normalized","status","phase","date","article_id","product_lv2"]
+                ].to_string(index=False))
+
+    from collections import Counter
+    _applies = Counter(df_cap_grouped_lv2["product_lv2"].apply(lambda pl2: (
+        "electric" if "electric" in set(pl2) and "fossil" not in set(pl2)
+        else "fossil" if "fossil" in set(pl2) and "electric" not in set(pl2)
+        else "mix"
+    )))
+    logging.info("applies_to distribution: %s", dict(_applies))
+
+    def classify_pl2_applies_to(pl2_values):
+        s = {str(v).strip().lower() for v in pl2_values if pd.notna(v)}
+        has_e = "electric" in s
+        has_f = "fossil" in s
+        if has_e and not has_f: return "electric"
+        if has_f and not has_e: return "fossil"
+        return "mix"
+
     def row_to_capacity(r):
-        product_lv2_list = [v for v in np.atleast_1d(r["product_lv2"]) if pd.notna(v)]
+        pl2 = list(r["product_lv2"])
         return {
             "amount": r["capacity_normalized"],
             "status": r["status"] if pd.notna(r["status"]) else None,
             "phase":  r["phase"] if pd.notna(r["phase"]) else None,
-            "product_lv2": product_lv2_list,
+            "product_lv2": pl2,
+            "applies_to": classify_pl2_applies_to(pl2),
             "date":   r["date"].strftime("%Y-%m-%d") if pd.notna(r["date"]) else None,
             "articleID": r["article_id"] if pd.notna(r["article_id"]) else None,
         }
 
+    # --- Build capacity dict ---
     capacity_dict = (
-        df_cap_dedup.groupby("project_id")
+        df_cap_grouped_lv2.groupby("project_id")
            .apply(lambda g: [row_to_capacity(r) for _, r in g.iterrows()])
            .to_dict()
     )
@@ -110,23 +148,32 @@ def write_facilities():
     # # convert DataFrame to MongoDB documents
     facilities_documents = []
     num_with_caps = 0
-    num_without_caps = 0
+    num_without_caps = 0     # skipped non-vehicle with no caps
+    num_vehicle_with_caps = 0
+    num_vehicle_without_caps = 0
 
     pre_total = len(df_facilities)
 
     for _, row in df_facilities.iterrows():
-        project_id = row["project_id"]
 
-        # capacities for this project #NOTE for now we skip if no capacities present, can implement better with Ross
+        # logic which does not write facilities without capacities UNLESS they are vehicle manufacturing
+        project_id = row["project_id"]
+        is_vehicle = (row["product_lv1"] == "vehicle")
+
         caps = capacity_dict.get(project_id, [])
 
-        if not caps:
-            num_without_caps += 1
-            # optional: debug which ones were skipped
-            # logging.debug(f"Skipping project_id={project_id} (no capacities)")
-            continue  # <-- guardrail: skip writing this facility
-
-        num_with_caps += 1
+        if caps:
+            num_with_caps += 1
+            if is_vehicle:
+                num_vehicle_with_caps += 1
+        else:
+            if is_vehicle:
+                # keep (don’t skip), but count as vehicle-without-caps
+                num_vehicle_without_caps += 1
+            else:
+                # skip non-vehicle facilities with no capacities
+                num_without_caps += 1
+                continue
 
         # clean product_lv2 (ensure list of non-nulls)
         vals = row["product_lv2"]
@@ -154,10 +201,13 @@ def write_facilities():
         }
         facilities_documents.append(doc)
 
-    # Logging summary of the guardrail effect
+    # Logging summary of the guardrail (no caps) effect
     logging.info(
-        "Facilities before filter: %d | with capacities: %d | without capacities (skipped): %d",
-        pre_total, num_with_caps, num_without_caps
+        "Facilities before filter: %d | inserted with capacities: %d | "
+        "skipped (non-vehicle, no capacities): %d | vehicles with caps: %d | "
+        "vehicles without caps (inserted): %d",
+        pre_total, num_with_caps, num_without_caps,
+        num_vehicle_with_caps, num_vehicle_without_caps
     )
 
     if facilities_documents:

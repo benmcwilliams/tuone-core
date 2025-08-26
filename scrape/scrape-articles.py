@@ -29,7 +29,8 @@ urls_collection = db[URLS_COLLECTION_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 
 keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
-            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project", "start of construction"}
+            "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project", "start of construction",
+            "close the plant"}
 
 # dropped battery & lithium & geothermal
 

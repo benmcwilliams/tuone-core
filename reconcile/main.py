@@ -43,9 +43,9 @@ def main(update_mongo_metadata=False):
     run_capacity_normalisation_pipeline()
 
     logging.info("🫂 Grouping projects...")
-    for in_path, out_path in GROUP_SPEC:
+    for in_path, out_path, output_cols in GROUP_SPEC:
         logging.info(f"Processing: {in_path} → {out_path}")
-        group_projects(in_path, out_path)
+        group_projects(in_path, out_path, output_cols)
 
     logging.info("🏭 Importing facilities")
     write_facilities()
