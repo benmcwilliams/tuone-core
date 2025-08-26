@@ -26,6 +26,7 @@ GEO_LOOKUP_JSON = "storage/output/geo_lookup.json"
 
 GROUPED_CAPACITIES = "storage/output/grouped-capacities.xlsx"
 GROUPED_FACTORIES = "storage/output/grouped-factories.xlsx"
+ZEV_PRODUCTION = "storage/input/zev_og_clean.xlsx"
 
 GRPD_PROJECTS = "./storage/output/all_projects.xlsx"
 GRPD_PROJECTS_FILTER = "storage/output/filtered_projects.xlsx"
