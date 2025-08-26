@@ -3,7 +3,7 @@ import numpy as np
 import sys; sys.path.append("..")
 import logging
 from mongo_client import facilities_collection, test_mongo_connection
-from src.config import FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES
+from src.config import FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES, ZEV_PRODUCTION
 from src.facilities_helpers import parse_capacity_value, canon_pl2
 
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
@@ -56,10 +56,14 @@ def write_facilities():
     # B) Capacities (from GROUPED_CAPACITIES)
     # =========================
 
+    # --- CONCAT ---
     df_cap = pd.read_excel(GROUPED_CAPACITIES)
+    df_zev = pd.read_excel(ZEV_PRODUCTION)
+    df_cap = pd.concat([df_cap, df_zev], ignore_index=True)
 
     # normalize + parse
-    df_cap["date"] = pd.to_datetime(df_cap["date"], format="%Y-%m", errors="coerce")
+    df_cap["date"] = pd.to_datetime(df_cap["date"], errors="coerce")
+    # we dropped date time format="%Y-%m to ensure match with df_zev (CHECK OKAY)
     df_cap["capacity_normalized"] = df_cap["capacity_normalized"].apply(parse_capacity_value)
     df_cap["status"] = pd.Categorical(df_cap["status"], categories=STATUS_ORDER, ordered=True)
 
@@ -83,13 +87,16 @@ def write_facilities():
     # we could then apply here the filter? 
 
     # --- Group identical capacities that only differ by product_lv2 ---
-    group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase", "date", "article_id"]
+    group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
 
     # union product_lv2 via pl2_key (which is a tuple of unique values)
     df_cap_grouped_lv2 = (
         df_cap_dedup
-        .groupby(group_keys, dropna=False)
-        .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))))
+        .groupby(group_keys, dropna=False, sort=False, observed=True)
+        .agg(
+            pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+            date=("date","first"),
+            article_id=("article_id","first"))
         .reset_index()
         .rename(columns={"pl2_union": "product_lv2"})
     )
