@@ -1,0 +1,98 @@
+2025-08-23 23:12:17,374 - INFO - 🔍 Text length: 841 characters
+2025-08-23 23:12:17,374 - INFO - 📌 Processing Article ID: 68aa2d73ddf056965260de2e — ElectriCity - Ruitz Plant
+2025-08-23 23:12:17,374 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-23 23:12:19,069 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:19,069 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_ampere",
+        "type": "company",
+        "name": "Ampere"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_minth_electricity_technology",
+        "type": "joint_venture",
+        "name": "Minth ElectriCity Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_manufacture_de_ruitz",
+        "type": "factory",
+        "name": "Manufacture de Ruitz",
+        "location": {
+          "city": "Ruitz",
+          "country": "France"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_housings",
+        "type": "product",
+        "name": "battery housings"
+      },
+      {
+        "id": "product_automatic_gearboxes",
+        "type": "product",
+        "name": "automatic gearboxes"
+      }
+    ]
+  }
+}
+2025-08-23 23:12:19,069 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:19,069 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-23 23:12:19,069 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-23 23:12:19,069 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-23 23:12:19,069 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-23 23:12:19,069 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-23 23:12:20,579 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:20,580 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_minth_electricity_technology"
+    },
+    {
+      "source": "company_ampere",
+      "type": "forms",
+      "target": "joint_venture_minth_electricity_technology"
+    },
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_manufacture_de_ruitz"
+    }
+  ]
+}
+2025-08-23 23:12:20,580 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:20,580 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-23 23:12:20,580 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-23 23:12:22,580 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:22,580 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_housings",
+      "target": "factory_manufacture_de_ruitz",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_automatic_gearboxes",
+      "target": "factory_manufacture_de_ruitz",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-23 23:12:22,580 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:22,580 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-23 23:12:22,581 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-23 23:12:22,660 - INFO - ✅ Updated Article ID: 68aa2d73ddf056965260de2e with 6 nodes and combined text.

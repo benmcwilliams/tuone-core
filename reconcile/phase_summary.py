@@ -59,6 +59,7 @@ def determine_phase_summary():
 
     for doc in facilities_collection.find({}):
         capacities = doc.get("capacities", [])
+        
         # current logic to override status with facility level status if later 
         latest_fac = doc.get("latest_factory_status") or {}
         latest_fac_date = parse_date(latest_fac.get("date") or latest_fac.get("date_str"))

@@ -52,7 +52,7 @@ FACTORY_REGISTRY_SPEC = {
   "column_order": 
     [
     "factory", "inst_canon", "inst_type", "city_key", "iso2", "adm1", "adm2", "adm3", "adm4", "lat", "lon",
-    "factory_status", "product_lv1", "product_lv2", "article_id"
+    "factory_status", "product", "product_lv1", "product_lv2", "article_id"
     # output product_id | owner_id | factory_id to identify them globally
   ]
 }

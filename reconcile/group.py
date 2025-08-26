@@ -10,7 +10,7 @@ from src.inputs import EUROPEAN_COUNTRIES
 from src.config import FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS_FILTER, COMPANY_JV
 from src.set_adm_level import add_admin_group_key
 
-def group_projects(file_to_group, out_path=None):
+def group_projects(file_to_group, out_path, output_cols):
 
     # 1) Load (EU-only) and drop required fields with consistent logging
     df = pd.read_excel(file_to_group)
@@ -174,7 +174,5 @@ def group_projects(file_to_group, out_path=None):
     df.loc[df["inst_type"] == "joint_venture", "inst_canon"] = df.loc[df["inst_type"] == "joint_venture", "owner_label"]
     logging.info(f"Overwrote inst_canon with JV labels for {sum(df['inst_type']=='joint_venture')} rows")
 
-    df.to_excel(out_path, index=False)
+    df[output_cols].to_excel(out_path, index=False)
     logging.info(f"Saving filtered output to {out_path}")
-
-    #logging.info(f"Saving filtered output to {GRPD_PROJECTS_FILTER}")

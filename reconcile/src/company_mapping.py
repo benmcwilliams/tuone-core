@@ -21,7 +21,11 @@ def map_to_canonical(name):
 
 SITE_MERGE = {
     # collapse CATL’s nearby German sites to one admin key
-    ("catl", "DE", "Erfurt"): "Arnstadt",     # Arnstadt (Ilm-Kreis) → Erfurt
+    ("catl", "DE", "Erfurt"): "Arnstadt",     # Erfurt → Arnstadt
+    ("tesla", "DE", "Berlin"): "Grünheide (Mark)",
+    ("tesla", "DE", "Brandenburg"): "Grünheide (Mark)",
+    ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
+    ("holosolis", "FR", "Sarreguemines"): "Hambach"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

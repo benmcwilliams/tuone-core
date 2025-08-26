@@ -1,0 +1,140 @@
+2025-08-24 12:39:25,341 - INFO - 🔍 Text length: 4552 characters
+2025-08-24 12:39:25,341 - INFO - 📌 Processing Article ID: 68aaeb629d669c1767bd8b48 — Sustainable and flexible: production of the Audi Q6 e-tron series in Ingolstadt
+2025-08-24 12:39:25,341 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-24 12:39:28,356 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:28,356 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_audi",
+        "type": "company",
+        "name": "Audi"
+      },
+      {
+        "id": "company_audi_hungaria",
+        "type": "company",
+        "name": "Audi Hungaria"
+      },
+      {
+        "id": "company_db_cargo",
+        "type": "company",
+        "name": "DB Cargo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ingolstadt_germany",
+        "type": "factory",
+        "name": "Ingolstadt Plant",
+        "location": {
+          "city": "Ingolstadt",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_gyor_hungary",
+        "type": "factory",
+        "name": "Gy\u0151r Plant",
+        "location": {
+          "city": "Gy\u0151r",
+          "country": "Hungary"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1k_high_voltage_batteries_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,000 high-voltage batteries per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_q6_etron_series",
+        "type": "product",
+        "name": "Q6 e-tron series"
+      },
+      {
+        "id": "product_high_voltage_batteries",
+        "type": "product",
+        "name": "high-voltage batteries"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      }
+    ]
+  }
+}
+2025-08-24 12:39:28,357 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:28,357 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-24 12:39:28,357 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-24 12:39:30,094 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:30,094 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1k_high_voltage_batteries_per_day",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-08-24 12:39:30,094 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:30,094 - INFO - Node ID is capacity_1k_high_voltage_batteries_per_day
+2025-08-24 12:39:30,094 - INFO - ✅ Match found for capacity_ID 'capacity_1k_high_voltage_batteries_per_day' in capacity nodes
+2025-08-24 12:39:30,094 - INFO -   ➕ Set status: operational
+2025-08-24 12:39:30,094 - INFO -   ➕ Set phase: greenfield
+2025-08-24 12:39:30,094 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-24 12:39:30,094 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-24 12:39:30,094 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-24 12:39:30,094 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-24 12:39:31,417 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:31,417 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi",
+      "type": "owns",
+      "target": "factory_ingolstadt_germany"
+    },
+    {
+      "source": "company_audi_hungaria",
+      "type": "owns",
+      "target": "factory_gyor_hungary"
+    }
+  ]
+}
+2025-08-24 12:39:31,417 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:31,417 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-24 12:39:31,417 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-24 12:39:33,714 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:33,714 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1k_high_voltage_batteries_per_day",
+      "type": "quantifies",
+      "target": "product_high_voltage_batteries"
+    },
+    {
+      "source": "product_q6_etron_series",
+      "type": "produced_at",
+      "target": "factory_ingolstadt_germany"
+    },
+    {
+      "source": "product_high_voltage_batteries",
+      "type": "produced_at",
+      "target": "factory_ingolstadt_germany"
+    },
+    {
+      "source": "product_electric_motors",
+      "type": "produced_at",
+      "target": "factory_gyor_hungary"
+    }
+  ]
+}
+2025-08-24 12:39:33,714 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:33,714 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-24 12:39:33,715 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-24 12:39:33,793 - INFO - ✅ Updated Article ID: 68aaeb629d669c1767bd8b48 with 9 nodes and combined text.

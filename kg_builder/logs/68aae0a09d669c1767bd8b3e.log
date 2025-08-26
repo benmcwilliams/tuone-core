@@ -1,0 +1,207 @@
+2025-08-24 12:39:54,371 - INFO - 🔍 Text length: 3561 characters
+2025-08-24 12:39:54,372 - INFO - 📌 Processing Article ID: 68aae0a09d669c1767bd8b3e — Volvo pours €956 million into Swedish plant in EV push
+2025-08-24 12:39:54,372 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-24 12:39:56,984 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:56,984 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_torslanda",
+        "type": "factory",
+        "name": "Torslanda",
+        "location": {
+          "city": "Torslanda",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_gothenburg",
+        "type": "factory",
+        "name": "Gothenburg",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        }
+      },
+      {
+        "id": "factory_zwickau",
+        "type": "factory",
+        "name": "Zwickau",
+        "location": {
+          "city": "Zwickau",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volvo_cars_torslanda",
+        "type": "investment",
+        "name": "Volvo Cars Torslanda",
+        "amount": "SEK10 billion (\u20ac956 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300,000 cars per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery-electric vehicles"
+      },
+      {
+        "id": "product_mega_casting_aluminium_body_parts",
+        "type": "product",
+        "name": "mega-casting aluminium body parts"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-08-24 12:39:56,984 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:56,985 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-24 12:39:56,985 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-24 12:40:00,501 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:00,501 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_cars_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-24 12:40:00,502 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:00,502 - INFO - Node ID is capacity_300k_cars_per_year
+2025-08-24 12:40:00,502 - INFO - ✅ Match found for capacity_ID 'capacity_300k_cars_per_year' in capacity nodes
+2025-08-24 12:40:00,502 - INFO -   ➕ Set status: announced
+2025-08-24 12:40:00,502 - INFO -   ➕ Set phase: expansion
+2025-08-24 12:40:00,502 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-24 12:40:00,502 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-24 12:40:01,690 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:01,690 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volvo_cars_torslanda",
+      "status": "announced",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-08-24 12:40:01,691 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:01,691 - INFO - Node ID is investment_volvo_cars_torslanda
+2025-08-24 12:40:01,691 - INFO - ✅ Match found for investment_ID 'investment_volvo_cars_torslanda' in investment nodes
+2025-08-24 12:40:01,691 - INFO -   ➕ Set status: announced
+2025-08-24 12:40:01,691 - INFO -   ➕ Set phase: retrofit
+2025-08-24 12:40:01,691 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-24 12:40:01,691 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-24 12:40:01,691 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-24 12:40:03,685 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:03,685 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_torslanda"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "forms",
+      "target": "company_northvolt"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_gothenburg"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_zwickau"
+    }
+  ]
+}
+2025-08-24 12:40:03,685 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:03,685 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-24 12:40:03,685 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-24 12:40:05,623 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:05,623 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_cars_per_year",
+      "target": "factory_torslanda",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_cars_per_year",
+      "target": "product_battery_electric_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_torslanda",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_gothenburg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-24 12:40:05,623 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:05,623 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-24 12:40:05,623 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-24 12:40:06,630 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:06,630 - INFO - {
+  "relationships": []
+}
+2025-08-24 12:40:06,630 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:06,630 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-24 12:40:06,630 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-24 12:40:07,940 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:40:07,941 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volvo_cars_torslanda",
+      "target": "factory_torslanda",
+      "type": "funds"
+    },
+    {
+      "source": "investment_volvo_cars_torslanda",
+      "target": "product_battery_electric_vehicles",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volvo_cars_torslanda",
+      "target": "product_mega_casting_aluminium_body_parts",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-24 12:40:07,941 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:40:08,019 - INFO - ✅ Updated Article ID: 68aae0a09d669c1767bd8b3e with 10 nodes and combined text.

@@ -1,0 +1,212 @@
+2025-08-26 11:53:26,030 - INFO - 🔍 Text length: 2677 characters
+2025-08-26 11:53:26,030 - INFO - 📌 Processing Article ID: 68ac886a828390e1099485d0 — BMW Invests $750 Million for UK EV Production
+2025-08-26 11:53:26,030 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-26 11:53:32,794 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:32,794 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxford_plant",
+        "type": "factory",
+        "name": "Oxford Plant",
+        "location": {
+          "city": "Oxford",
+          "country": "United Kingdom"
+        }
+      },
+      {
+        "id": "factory_swindon_body_pressing_facility",
+        "type": "factory",
+        "name": "Swindon Body-Pressing Facility",
+        "location": {
+          "city": "Swindon",
+          "country": "United Kingdom"
+        }
+      },
+      {
+        "id": "factory_leipzig_plant",
+        "type": "factory",
+        "name": "Leipzig Plant",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_750_million",
+        "type": "investment",
+        "name": "BMW $750 Million Investment",
+        "amount": "$750 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "200,000 cars per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mini_cooper_3_door",
+        "type": "product",
+        "name": "Mini Cooper 3-door"
+      },
+      {
+        "id": "product_mini_aceman",
+        "type": "product",
+        "name": "Mini Aceman"
+      },
+      {
+        "id": "product_mini_countryman",
+        "type": "product",
+        "name": "Mini Countryman"
+      }
+    ]
+  }
+}
+2025-08-26 11:53:32,795 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:32,795 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-26 11:53:32,795 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-26 11:53:34,059 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:34,059 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200k_cars_per_year",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-26 11:53:34,059 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:34,059 - INFO - Node ID is capacity_200k_cars_per_year
+2025-08-26 11:53:34,059 - INFO - ✅ Match found for capacity_ID 'capacity_200k_cars_per_year' in capacity nodes
+2025-08-26 11:53:34,059 - INFO -   ➕ Set status: announced
+2025-08-26 11:53:34,059 - INFO -   ➕ Set phase: expansion
+2025-08-26 11:53:34,060 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-26 11:53:34,060 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-26 11:53:35,189 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:35,189 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_750_million",
+      "status": "completed",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-08-26 11:53:35,189 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:35,189 - INFO - Node ID is investment_bmw_750_million
+2025-08-26 11:53:35,189 - INFO - ✅ Match found for investment_ID 'investment_bmw_750_million' in investment nodes
+2025-08-26 11:53:35,189 - INFO -   ➕ Set status: completed
+2025-08-26 11:53:35,189 - INFO -   ➕ Set phase: expansion
+2025-08-26 11:53:35,189 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-26 11:53:35,190 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-26 11:53:35,190 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-26 11:53:36,617 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:36,618 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_oxford_plant"
+    },
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_swindon_body_pressing_facility"
+    },
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_leipzig_plant"
+    }
+  ]
+}
+2025-08-26 11:53:36,618 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:36,618 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-26 11:53:36,618 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-26 11:53:40,755 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:40,755 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200k_cars_per_year",
+      "target": "factory_oxford_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200k_cars_per_year",
+      "target": "product_mini_cooper_3_door",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200k_cars_per_year",
+      "target": "product_mini_aceman",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_mini_cooper_3_door",
+      "target": "factory_oxford_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_aceman",
+      "target": "factory_oxford_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_countryman",
+      "target": "factory_leipzig_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-26 11:53:40,755 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:40,755 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-26 11:53:40,756 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-26 11:53:41,949 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:41,949 - INFO - {
+  "relationships": []
+}
+2025-08-26 11:53:41,949 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:41,949 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-26 11:53:41,949 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-26 11:53:44,276 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:44,277 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_750_million",
+      "target": "factory_oxford_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmw_750_million",
+      "target": "factory_swindon_body_pressing_facility",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmw_750_million",
+      "target": "product_mini_cooper_3_door",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_750_million",
+      "target": "product_mini_aceman",
+      "type": "targets"
+    }
+  ]
+}
+2025-08-26 11:53:44,277 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:44,362 - INFO - ✅ Updated Article ID: 68ac886a828390e1099485d0 with 9 nodes and combined text.

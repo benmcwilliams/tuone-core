@@ -1,0 +1,76 @@
+2025-08-24 12:39:39,610 - INFO - 🔍 Text length: 2744 characters
+2025-08-24 12:39:39,610 - INFO - 📌 Processing Article ID: 68aae7919d669c1767bd8b44 — Failure to find viable rescue plan means Audi’s troubled plant in Brussels will close in February 2025
+2025-08-24 12:39:39,610 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-24 12:39:41,967 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:41,967 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_audi",
+        "type": "company",
+        "name": "Audi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brussels_belgium",
+        "type": "factory",
+        "name": "Brussels Plant",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_q8_etron",
+        "type": "product",
+        "name": "Q8 e-tron"
+      },
+      {
+        "id": "product_q8_sportback_etron",
+        "type": "product",
+        "name": "Q8 Sportback e-tron"
+      }
+    ]
+  }
+}
+2025-08-24 12:39:41,967 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:41,967 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-24 12:39:41,967 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-24 12:39:41,967 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-24 12:39:41,968 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-24 12:39:41,968 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-24 12:39:43,195 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:43,195 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi",
+      "type": "owns",
+      "target": "factory_brussels_belgium"
+    }
+  ]
+}
+2025-08-24 12:39:43,196 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:43,196 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-24 12:39:43,196 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-24 12:39:46,164 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:46,164 - INFO - {
+  "relationships": [
+    {
+      "source": "product_q8_etron",
+      "target": "factory_brussels_belgium",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_q8_sportback_etron",
+      "target": "factory_brussels_belgium",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-24 12:39:46,164 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:46,164 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-24 12:39:46,164 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-24 12:39:46,249 - INFO - ✅ Updated Article ID: 68aae7919d669c1767bd8b44 with 4 nodes and combined text.

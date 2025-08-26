@@ -1,0 +1,155 @@
+2025-08-26 11:53:44,364 - INFO - 🔍 Text length: 2880 characters
+2025-08-26 11:53:44,365 - INFO - 📌 Processing Article ID: 68ac825263e12d5b939a64a9 — End of StreetScooter production in Germany
+2025-08-26 11:53:44,365 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-26 11:53:46,857 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:46,858 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_b_on_gmbh",
+        "type": "company",
+        "name": "B-ON GmbH"
+      },
+      {
+        "id": "company_e_volution",
+        "type": "company",
+        "name": "e.Volution"
+      },
+      {
+        "id": "company_neapco",
+        "type": "company",
+        "name": "Neapco"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_e_volution_thai_investor",
+        "type": "joint_venture",
+        "name": "e.Volution Thai Investor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dueren_germany",
+        "type": "factory",
+        "name": "D\u00fcren Factory",
+        "location": {
+          "city": "D\u00fcren",
+          "country": "Germany"
+        }
+      },
+      {
+        "id": "factory_thailand",
+        "type": "factory",
+        "name": "Thailand Factory",
+        "location": {
+          "city": "near Bangkok",
+          "country": "Thailand"
+        }
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_e_volution_personal_investment",
+        "type": "investment",
+        "name": "e.Volution Personal Investment",
+        "amount": "millions",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_thai_investor_commitment",
+        "type": "investment",
+        "name": "Thai Investor Commitment",
+        "amount": "eight-figure",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_streetscooter",
+        "type": "product",
+        "name": "StreetScooter"
+      }
+    ]
+  }
+}
+2025-08-26 11:53:46,858 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:46,858 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-08-26 11:53:46,858 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-08-26 11:53:46,858 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-08-26 11:53:48,291 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:48,292 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_e_volution_personal_investment",
+      "status": "ongoing",
+      "phase": "unclear"
+    },
+    {
+      "investment_ID": "investment_thai_investor_commitment",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-26 11:53:48,292 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:48,292 - INFO - Node ID is investment_e_volution_personal_investment
+2025-08-26 11:53:48,292 - INFO - ✅ Match found for investment_ID 'investment_e_volution_personal_investment' in investment nodes
+2025-08-26 11:53:48,292 - INFO -   ➕ Set status: ongoing
+2025-08-26 11:53:48,292 - INFO -   ➕ Set phase: unclear
+2025-08-26 11:53:48,292 - INFO - Node ID is investment_thai_investor_commitment
+2025-08-26 11:53:48,292 - INFO - ✅ Match found for investment_ID 'investment_thai_investor_commitment' in investment nodes
+2025-08-26 11:53:48,292 - INFO -   ➕ Set status: announced
+2025-08-26 11:53:48,292 - INFO -   ➕ Set phase: unclear
+2025-08-26 11:53:48,292 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-26 11:53:48,292 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-26 11:53:48,292 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-26 11:53:52,727 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:52,727 - INFO - {
+  "relationships": [
+    {
+      "source": "company_e_volution",
+      "type": "forms",
+      "target": "joint_venture_e_volution_thai_investor"
+    },
+    {
+      "source": "joint_venture_e_volution_thai_investor",
+      "type": "owns",
+      "target": "factory_thailand"
+    },
+    {
+      "source": "company_e_volution",
+      "type": "owns",
+      "target": "factory_dueren_germany"
+    }
+  ]
+}
+2025-08-26 11:53:52,727 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:52,727 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-26 11:53:52,727 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-26 11:53:53,783 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:53,783 - INFO - {
+  "relationships": [
+    {
+      "source": "product_streetscooter",
+      "target": "factory_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-26 11:53:53,783 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:53,783 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-08-26 11:53:53,784 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-08-26 11:53:54,449 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:54,449 - INFO - {
+  "relationships": []
+}
+2025-08-26 11:53:54,449 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:54,450 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-08-26 11:53:54,450 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-08-26 11:53:57,097 - INFO - ✅ OpenAI returned output:
+2025-08-26 11:53:57,097 - INFO - {
+  "relationships": []
+}
+2025-08-26 11:53:57,098 - INFO - POST-PROCESSING STARTING.
+2025-08-26 11:53:57,172 - INFO - ✅ Updated Article ID: 68ac825263e12d5b939a64a9 with 9 nodes and combined text.

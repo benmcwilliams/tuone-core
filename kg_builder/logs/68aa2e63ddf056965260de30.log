@@ -1,0 +1,136 @@
+2025-08-23 23:12:09,807 - INFO - 🔍 Text length: 996 characters
+2025-08-23 23:12:09,808 - INFO - 📌 Processing Article ID: 68aa2e63ddf056965260de30 — In Douai, Renault's electric powerhouse
+2025-08-23 23:12:09,808 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-23 23:12:12,826 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:12,827 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_douai_france",
+        "type": "factory",
+        "name": "Douai Factory",
+        "location": {
+          "city": "Douai",
+          "country": "France"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_units_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 units per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r5",
+        "type": "product",
+        "name": "R5"
+      },
+      {
+        "id": "product_megane_etech",
+        "type": "product",
+        "name": "M\u00e9gane E-Tech"
+      },
+      {
+        "id": "product_scenic",
+        "type": "product",
+        "name": "Sc\u00e9nic"
+      },
+      {
+        "id": "product_captur",
+        "type": "product",
+        "name": "Captur"
+      },
+      {
+        "id": "product_austral",
+        "type": "product",
+        "name": "Austral"
+      },
+      {
+        "id": "product_symbioz",
+        "type": "product",
+        "name": "Symbioz"
+      }
+    ]
+  }
+}
+2025-08-23 23:12:12,827 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:12,827 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-23 23:12:12,827 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-23 23:12:14,128 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:14,128 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_units_per_day",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-23 23:12:14,128 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:14,129 - INFO - Node ID is capacity_300_units_per_day
+2025-08-23 23:12:14,129 - INFO - ✅ Match found for capacity_ID 'capacity_300_units_per_day' in capacity nodes
+2025-08-23 23:12:14,129 - INFO -   ➕ Set status: operational
+2025-08-23 23:12:14,129 - INFO -   ➕ Set phase: unclear
+2025-08-23 23:12:14,129 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-23 23:12:14,129 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-23 23:12:14,129 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-23 23:12:14,129 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-23 23:12:15,093 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:15,094 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_douai_france"
+    }
+  ]
+}
+2025-08-23 23:12:15,094 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:15,094 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-23 23:12:15,094 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-23 23:12:17,294 - INFO - ✅ OpenAI returned output:
+2025-08-23 23:12:17,294 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_units_per_day",
+      "target": "factory_douai_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_units_per_day",
+      "target": "product_r5",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_r5",
+      "target": "factory_douai_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_megane_etech",
+      "target": "factory_douai_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_scenic",
+      "target": "factory_douai_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-23 23:12:17,294 - INFO - POST-PROCESSING STARTING.
+2025-08-23 23:12:17,294 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-23 23:12:17,294 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-23 23:12:17,372 - INFO - ✅ Updated Article ID: 68aa2e63ddf056965260de30 with 9 nodes and combined text.

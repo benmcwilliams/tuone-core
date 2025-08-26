@@ -1,0 +1,106 @@
+2025-08-24 12:39:33,795 - INFO - 🔍 Text length: 2677 characters
+2025-08-24 12:39:33,795 - INFO - 📌 Processing Article ID: 68aae85c9d669c1767bd8b46 — Audi to resume production of the Q8 e-tron on Thursday
+2025-08-24 12:39:33,795 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-08-24 12:39:36,230 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:36,230 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_audi",
+        "type": "company",
+        "name": "Audi"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brussels_belgium",
+        "type": "factory",
+        "name": "Brussels Plant",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        }
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_q8_etron",
+        "type": "product",
+        "name": "Q8 e-tron"
+      },
+      {
+        "id": "product_q6_etron",
+        "type": "product",
+        "name": "Q6 e-tron"
+      }
+    ]
+  }
+}
+2025-08-24 12:39:36,230 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:36,230 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-08-24 12:39:36,231 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-08-24 12:39:37,195 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:37,195 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_vehicles_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-08-24 12:39:37,196 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:37,196 - INFO - Node ID is capacity_120k_vehicles_per_year
+2025-08-24 12:39:37,196 - INFO - ✅ Match found for capacity_ID 'capacity_120k_vehicles_per_year' in capacity nodes
+2025-08-24 12:39:37,196 - INFO -   ➕ Set status: operational
+2025-08-24 12:39:37,196 - INFO -   ➕ Set phase: unclear
+2025-08-24 12:39:37,196 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-08-24 12:39:37,196 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-08-24 12:39:37,196 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-08-24 12:39:37,196 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-08-24 12:39:38,216 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:38,216 - INFO - {
+  "relationships": [
+    {
+      "source": "company_audi",
+      "type": "owns",
+      "target": "factory_brussels_belgium"
+    }
+  ]
+}
+2025-08-24 12:39:38,216 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:38,216 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-08-24 12:39:38,217 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-08-24 12:39:39,532 - INFO - ✅ OpenAI returned output:
+2025-08-24 12:39:39,532 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "factory_brussels_belgium",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_vehicles_per_year",
+      "target": "product_q8_etron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_q8_etron",
+      "target": "factory_brussels_belgium",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-08-24 12:39:39,532 - INFO - POST-PROCESSING STARTING.
+2025-08-24 12:39:39,532 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-08-24 12:39:39,532 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-08-24 12:39:39,609 - INFO - ✅ Updated Article ID: 68aae85c9d669c1767bd8b46 with 5 nodes and combined text.

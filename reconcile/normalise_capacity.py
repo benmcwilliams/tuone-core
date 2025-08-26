@@ -220,8 +220,8 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
                 "flag_failed", "flag_conversion", "normalization_case"
     ]
     
-    df[debug_cols].to_excel(CAPACITIES_DEBUG)
-    df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES)
+    df[debug_cols].to_excel(CAPACITIES_DEBUG, index=False)
+    df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES, index=False)
     return df
 
 # debug helper

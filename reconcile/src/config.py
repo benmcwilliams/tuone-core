@@ -33,8 +33,26 @@ PRODUCT_CLASSIFICATION = "storage/input/product_classification.xlsx"
 FACILITIES = "storage/output/facilities.xlsx"
 CAPACITIES_PLOT = "storage/output/capacities_plot.xlsx"
 
+
+grouped_facilities_cols = [
+    "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
+    "product", "product_lv1", "product_lv2", "factory_status", "date", 
+    "project_id", "project_key_str", "cluster_id", 
+    "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
+    "article_id"
+]
+
+grouped_capacities_cols = [
+    "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
+    "product", "product_lv1", "product_lv2", "factory_status", "date",
+    "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", 
+    "project_id", "project_key_str", "cluster_id", 
+    "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
+    "article_id"
+]
+
 GROUP_SPEC = [
-        # (input_excel, output_excel)
-        (FACTORY_TECH_CLEAN_CAPACITIES, GROUPED_CAPACITIES),
-        (FACTORY_REGISTRY,  GROUPED_FACTORIES),
+        # (input_excel, output_excel, output_cols)
+        (FACTORY_TECH_CLEAN_CAPACITIES, GROUPED_CAPACITIES, grouped_capacities_cols),
+        (FACTORY_REGISTRY,  GROUPED_FACTORIES, grouped_facilities_cols),
     ]
