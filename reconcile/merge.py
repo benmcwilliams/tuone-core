@@ -9,7 +9,7 @@ from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
-from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC
+from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
 from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV
 
 # ---------- helper functions ----------
