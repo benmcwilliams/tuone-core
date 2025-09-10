@@ -32,7 +32,7 @@ def main(update_mongo_metadata=False):
         classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
-    # run_flatten_articles()
+    run_flatten_articles()
 
     logging.info("🉑 Merging nodes and relationships...")
     run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)
@@ -51,14 +51,14 @@ def main(update_mongo_metadata=False):
         logging.info(f"Processing: {in_path} → {out_path}")
         group_projects(in_path, out_path, output_cols)
 
-    logging.info("🏭 Importing facilities")
+    # logging.info("🏭 Importing facilities")
     write_facilities()
 
     logging.info("🧮 Determining phase summaries")
     determine_phase_summary()
 
-    # logging.info("Outputting clean capacities summary data")
-    # output_capacities_plot()
+    logging.info("Outputting clean capacities summary data")
+    output_capacities_plot()
 
     # final timing
     t1_pipeline = time.time()

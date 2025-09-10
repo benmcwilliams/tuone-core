@@ -27,6 +27,7 @@ GEO_LOOKUP_JSON = "storage/output/geo_lookup.json"
 
 GROUPED_CAPACITIES = "storage/output/grouped-capacities.xlsx"
 GROUPED_FACTORIES = "storage/output/grouped-factories.xlsx"
+GROUPED_INVESTMENTS = "storage/output/grouped-investments.xlsx"
 ZEV_PRODUCTION = "storage/input/zev_og_clean.xlsx"
 
 GRPD_PROJECTS = "./storage/output/all_projects.xlsx"
@@ -48,6 +49,16 @@ grouped_capacities_cols = [
     "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
     "product", "product_lv1", "product_lv2", "factory_status", "date",
     "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", 
+    "project_id", "project_key_str", "cluster_id",
+    "investment", "investment_status", "investment_phase", 
+    "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
+    "article_id"
+]
+
+grouped_investments_cols = [
+    "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
+    "product", "product_lv1", "product_lv2", "factory_status", "date",
+    "investment", "phase", "status", 
     "project_id", "project_key_str", "cluster_id", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
     "article_id"
@@ -57,4 +68,5 @@ GROUP_SPEC = [
         # (input_excel, output_excel, output_cols)
         (FACTORY_TECH_CLEAN_CAPACITIES, GROUPED_CAPACITIES, grouped_capacities_cols),
         (FACTORY_REGISTRY,  GROUPED_FACTORIES, grouped_facilities_cols),
+        (INVESTMENT_FUNDS, GROUPED_INVESTMENTS, grouped_investments_cols)
     ]
