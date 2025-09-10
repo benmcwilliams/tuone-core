@@ -19,7 +19,8 @@ def build_phase_summary(capacities: list, phase: str | None) -> dict | None:
     # filter for relevant phase or output "main" with None
     phase_caps = [
         c for c in capacities
-        if (phase is None or c.get("phase") == phase)
+        if c.get("event_type") == "capacity"                 # <-- NEW
+        and (phase is None or c.get("phase") == phase)
         and c.get("status") in STATUS_ORDER
         and c.get("date")
     ]

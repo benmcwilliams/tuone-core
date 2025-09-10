@@ -126,14 +126,14 @@ FACTORY_TECH_SPEC = {
   # 7. decorates the owner node
 
   "join_chain": [
-    ("quant", "capacity_id", "at", "capacity_id", "inner"),         # capacity→product ∩ capacity→factory
-    ("quant", "capacity_id", "enables", "capacity_id", "inner"),    # merge investments which enable capacities
-    ("quant", "factory_id", "owns", "factory_id", "inner"),         # add owner
-    ("quant", "factory_id", "factory", "factory_id", "inner"),      # enrich factory
-    ("quant", "capacity_id", "capacity", "capacity_id", "inner"),   # enrich capacity
-    ("quant", "product_id", "product", "product_id", "inner"),      # enrich product
-    ("quant", "owner_id", "owner", "owner_id", "inner"),            # enrich owner
-    ("quant", "investment_id", "investment", "investment_id", "inner")  # enrich investment
+    ("quant", "capacity_id", "at", "capacity_id", "inner"),            # capacity→product ∩ capacity→factory
+    ("quant", "capacity_id", "enables", "capacity_id", "left"),        # 👈 keep capacity rows; add investment_id if exists
+    ("quant", "factory_id", "owns", "factory_id", "inner"),            # add owner
+    ("quant", "factory_id", "factory", "factory_id", "inner"),         # enrich factory
+    ("quant", "capacity_id", "capacity", "capacity_id", "inner"),      # enrich capacity
+    ("quant", "product_id", "product", "product_id", "inner"),         # enrich product
+    ("quant", "owner_id", "owner", "owner_id", "inner"),               # enrich owner
+    ("quant", "investment_id", "investment", "investment_id", "left")  # 👈 decorate investment only where present
   ],
   "filters": [
     lambda df: df[df["iso2"].isin(EUROPEAN_COUNTRIES)]
@@ -143,7 +143,7 @@ FACTORY_TECH_SPEC = {
     "city_key", "iso2", "adm1", "adm2", "adm3", "adm4", "bbox", "lat", "lon",
     "capacity", "product", "product_lv1", "product_lv2",
     "investment", "investment_status", "investment_phase",
-    "phase", "status", "additional", "factory_status"
+    "phase", "status", "additional", "factory_status", "investment_id"
   ]
 }
 
@@ -206,7 +206,7 @@ INVESTMENT_FUNDS_SPEC = {
     "investment": {
       "label": "investment",
       "keep": ["amount", "unique_id", "status", "phase"],
-      "rename": {"unique_id": "investment_id", "amount": "investment", "status": "investment_status", "phase": "investment_phase"}
+      "rename": {"unique_id": "investment_id", "amount": "investment"}
     }
   },
   "edges": [
@@ -218,11 +218,11 @@ INVESTMENT_FUNDS_SPEC = {
       "rename": {"source": "owner_id", "target": "factory_id"}
     },
     {
-      "alias": "produced_at",
-      "type": "produced_at",
-      "source_label": "product",
-      "target_label": "factory",
-      "rename": {"source": "product_id", "target": "factory_id"}
+      "alias": "targets",
+      "type": "targets",
+      "source_label": "investment",
+      "target_label": "product",
+      "rename": {"source": "investment_id", "target": "product_id"}
     },
     {
       "alias": "funds",
@@ -233,15 +233,15 @@ INVESTMENT_FUNDS_SPEC = {
     }
   ],
   # Join: (left_alias, key_left, right_alias, key_right, how)
-  # 1. starts with the *OWNS* relationship, joins product IDs using the *PRODUCED_AT* relationship
-  # 2. attach any investments which *FUND* a factory
+  # 1. starts with the *OWNS* relationship, joins investment IDs using the *FUNDS* relationship
+  # 2. attach any products which the investment *TARGETS*
   # 3. decorate owners
   # 4. decorate factories
   # 5. decorate products
   # 6. decorate investments
   "join_chain": [
-    ("owns", "factory_id", "produced_at", "factory_id", "inner"),  
-    ("owns", "factory_id", "funds", "factory_id", "inner"),                  
+    ("owns", "factory_id", "funds", "factory_id", "inner"),     
+    ("owns", "investment_id", "targets", "investment_id", "inner"),               
     ("owns", "owner_id", "owner", "owner_id", "inner"),         
     ("owns", "factory_id", "factory", "factory_id", "inner"),             
     ("owns", "product_id", "product", "product_id", "inner"),  
@@ -253,8 +253,8 @@ INVESTMENT_FUNDS_SPEC = {
   "column_order": 
     [
     "factory", "inst_canon", "inst_type", "city_key", "iso2", "adm1", "adm2", "adm3", "adm4", "lat", "lon",
-    "investment", "investment_status", "investment_phase",
-    "factory_status", "product", "product_lv1", "product_lv2", "article_id"
+    "investment", "status", "phase",
+    "factory_status", "product", "product_lv1", "product_lv2", "article_id",  "investment_id"
     # output product_id | owner_id | factory_id to identify them globally
   ]
 }

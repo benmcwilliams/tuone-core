@@ -37,11 +37,27 @@ def classify_pl2_applies_to(pl2_values):
 def row_to_capacity(r):
     pl2 = list(r["product_lv2"])
     return {
+        "event_type": "capacity",
         "amount": r["capacity_normalized"],
+        "investment": r.get("investment"),
         "status": r["status"] if pd.notna(r["status"]) else None,
         "phase":  r["phase"] if pd.notna(r["phase"]) else None,
         "product_lv2": pl2,
         "applies_to": classify_pl2_applies_to(pl2),
         "date":   r["date"].strftime("%Y-%m-%d") if pd.notna(r["date"]) else None,
         "articleID": r["article_id"] if pd.notna(r["article_id"]) else None,
+    }
+
+def row_to_investment(r):
+    # mirror row_to_capacity shape; only add 'investment' + 'event_type'
+    # keep keys you already rely on (date/status/phase/product_lv1/product_lv2/article_id)
+    return {
+        "event_type": "investment",
+        "date": r["date"].strftime("%Y-%m-%d") if pd.notna(r["date"]) else None,
+        "status": r["status"],
+        "phase": r["phase"],
+        "product_lv1": r["product_lv1"],
+        "product_lv2": list(r["product_lv2"]) if isinstance(r["product_lv2"], (list, tuple)) else [r["product_lv2"]],
+        "investment": r["investment"],
+        "articleID": r.get("article_id"),
     }
