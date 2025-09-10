@@ -4,7 +4,7 @@ import sys; sys.path.append("..")
 import logging
 from mongo_client import facilities_collection, test_mongo_connection
 from src.config import FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES, ZEV_PRODUCTION
-from src.facilities_helpers import parse_capacity_value, canon_pl2
+from src.facilities_helpers import parse_capacity_value, canon_pl2, classify_pl2_applies_to, row_to_capacity
 
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 
@@ -117,26 +117,6 @@ def write_facilities():
         else "mix"
     )))
     logging.info("applies_to distribution: %s", dict(_applies))
-
-    def classify_pl2_applies_to(pl2_values):
-        s = {str(v).strip().lower() for v in pl2_values if pd.notna(v)}
-        has_e = "electric" in s
-        has_f = "fossil" in s
-        if has_e and not has_f: return "electric"
-        if has_f and not has_e: return "fossil"
-        return "mix"
-
-    def row_to_capacity(r):
-        pl2 = list(r["product_lv2"])
-        return {
-            "amount": r["capacity_normalized"],
-            "status": r["status"] if pd.notna(r["status"]) else None,
-            "phase":  r["phase"] if pd.notna(r["phase"]) else None,
-            "product_lv2": pl2,
-            "applies_to": classify_pl2_applies_to(pl2),
-            "date":   r["date"].strftime("%Y-%m-%d") if pd.notna(r["date"]) else None,
-            "articleID": r["article_id"] if pd.notna(r["article_id"]) else None,
-        }
 
     # --- Build capacity dict ---
     capacity_dict = (
