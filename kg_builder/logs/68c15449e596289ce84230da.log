@@ -1,0 +1,97 @@
+2025-09-10 12:42:52,475 - INFO - 🔍 Text length: 2310 characters
+2025-09-10 12:42:52,475 - INFO - 📌 Processing Article ID: 68c15449e596289ce84230da — Valeo inaugurates new ADAS manufacturing hub in China
+2025-09-10 12:42:52,475 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:42:55,310 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:55,311 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_valeo",
+        "type": "company",
+        "name": "Valeo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_china",
+        "type": "factory",
+        "name": "Shanghai Production Site",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_adas_sensors",
+        "type": "product",
+        "name": "ADAS Sensors"
+      },
+      {
+        "id": "product_lidar",
+        "type": "product",
+        "name": "LiDAR"
+      },
+      {
+        "id": "product_domain_controllers",
+        "type": "product",
+        "name": "Domain Controllers"
+      },
+      {
+        "id": "product_zonal_controllers",
+        "type": "product",
+        "name": "Zonal Controllers"
+      }
+    ]
+  }
+}
+2025-09-10 12:42:55,311 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:55,311 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:42:55,311 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:42:55,311 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:42:55,311 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:42:55,311 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:42:56,202 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:56,202 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valeo",
+      "type": "owns",
+      "target": "factory_shanghai_china"
+    }
+  ]
+}
+2025-09-10 12:42:56,202 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:56,202 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:42:56,202 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:43:00,512 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:43:00,512 - INFO - {
+  "relationships": [
+    {
+      "source": "product_adas_sensors",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lidar",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_domain_controllers",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_zonal_controllers",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:43:00,512 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:43:00,512 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:43:00,512 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:43:00,590 - INFO - ✅ Updated Article ID: 68c15449e596289ce84230da with 6 nodes and combined text.

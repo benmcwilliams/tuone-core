@@ -1,0 +1,92 @@
+2025-09-10 12:50:39,562 - INFO - 🔍 Text length: 2472 characters
+2025-09-10 12:50:39,562 - INFO - 📌 Processing Article ID: 68c153c1e596289ce8423092 — BASF secures customer for cathode materials from Schwarzheide
+2025-09-10 12:50:39,562 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:50:42,563 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:42,563 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_schwarzheide",
+        "type": "factory",
+        "name": "Schwarzheide",
+        "location": {
+          "city": "Schwarzheide",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_erfurt",
+        "type": "factory",
+        "name": "Erfurt",
+        "location": {
+          "city": "Erfurt",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_active_materials",
+        "type": "product",
+        "name": "cathode active materials"
+      },
+      {
+        "id": "product_cathode_materials",
+        "type": "product",
+        "name": "cathode materials"
+      }
+    ]
+  }
+}
+2025-09-10 12:50:42,563 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:42,563 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:50:42,563 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:50:42,563 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:50:42,563 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:50:42,563 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:50:43,808 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:43,808 - INFO - {
+  "relationships": [
+    {
+      "source": "company_basf",
+      "type": "owns",
+      "target": "factory_schwarzheide"
+    },
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_erfurt"
+    }
+  ]
+}
+2025-09-10 12:50:43,808 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:43,809 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:50:43,809 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:50:44,819 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:44,819 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cathode_materials",
+      "target": "factory_schwarzheide",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:50:44,819 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:44,819 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:50:44,819 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:50:44,903 - INFO - ✅ Updated Article ID: 68c153c1e596289ce8423092 with 6 nodes and combined text.

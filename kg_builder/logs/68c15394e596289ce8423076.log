@@ -1,0 +1,82 @@
+2025-09-10 12:52:43,217 - INFO - 🔍 Text length: 2079 characters
+2025-09-10 12:52:43,217 - INFO - 📌 Processing Article ID: 68c15394e596289ce8423076 — SMA Solar poised to restart US inverter production
+2025-09-10 12:52:43,217 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:52:45,586 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:45,586 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sma_solar",
+        "type": "company",
+        "name": "SMA Solar"
+      },
+      {
+        "id": "company_create_energy",
+        "type": "company",
+        "name": "Create Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_portland_tennessee",
+        "type": "factory",
+        "name": "Portland Manufacturing Base",
+        "location": {
+          "city": "Portland",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sunny_highpower_peak3_string_inverter",
+        "type": "product",
+        "name": "Sunny Highpower PEAK3 string inverter"
+      },
+      {
+        "id": "product_powerskid_turnkey_solution",
+        "type": "product",
+        "name": "PowerSkid turnkey solution"
+      }
+    ]
+  }
+}
+2025-09-10 12:52:45,586 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:45,587 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:52:45,587 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:52:45,587 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:52:45,587 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:52:45,587 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:52:46,816 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:46,816 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sma_solar",
+      "type": "owns",
+      "target": "factory_portland_tennessee"
+    }
+  ]
+}
+2025-09-10 12:52:46,816 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:46,816 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:52:46,816 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:52:48,282 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:48,282 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sunny_highpower_peak3_string_inverter",
+      "target": "factory_portland_tennessee",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_powerskid_turnkey_solution",
+      "target": "factory_portland_tennessee",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:52:48,282 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:48,282 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:52:48,282 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:52:48,372 - INFO - ✅ Updated Article ID: 68c15394e596289ce8423076 with 5 nodes and combined text.

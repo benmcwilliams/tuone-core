@@ -1,0 +1,150 @@
+2025-09-10 12:45:18,229 - INFO - 🔍 Text length: 10056 characters
+2025-09-10 12:45:18,229 - INFO - 📌 Processing Article ID: 68c15437e596289ce84230cf — Putting Saudi Arabia in the driver’s seat for the future of green mobility
+2025-09-10 12:45:18,229 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:45:23,511 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:23,512 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_pony_ai",
+        "type": "company",
+        "name": "Pony.ai"
+      },
+      {
+        "id": "company_ceer",
+        "type": "company",
+        "name": "Ceer"
+      },
+      {
+        "id": "company_lucid_group",
+        "type": "company",
+        "name": "Lucid Group"
+      },
+      {
+        "id": "transdev",
+        "type": "company",
+        "name": "Transdev",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      },
+      {
+        "id": "abellio",
+        "type": "company",
+        "name": "Abellio",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_king_abdullah_economic_city",
+        "type": "factory",
+        "name": "King Abdullah Economic City",
+        "location": {
+          "city": "Jeddah",
+          "country": "Saudi Arabia"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ceer_launch",
+        "type": "investment",
+        "name": "Ceer Launch",
+        "amount": "USD 1.4 billion",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      },
+      {
+        "id": "lucid_electric vehicles",
+        "type": "product",
+        "name": "Lucid electric vehicles",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ]
+  }
+}
+2025-09-10 12:45:23,512 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:23,512 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:45:23,512 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:45:23,512 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:45:26,387 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:26,388 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ceer_launch",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-10 12:45:26,388 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:26,388 - INFO - Node ID is investment_ceer_launch
+2025-09-10 12:45:26,388 - INFO - ✅ Match found for investment_ID 'investment_ceer_launch' in investment nodes
+2025-09-10 12:45:26,388 - INFO -   ➕ Set status: announced
+2025-09-10 12:45:26,388 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:45:26,388 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:45:26,388 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:45:26,388 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:45:28,748 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:28,748 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lucid_group",
+      "type": "owns",
+      "target": "factory_king_abdullah_economic_city"
+    }
+  ]
+}
+2025-09-10 12:45:28,748 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:28,749 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:45:28,749 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:45:35,457 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:35,457 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_king_abdullah_economic_city",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:45:35,457 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:35,457 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:45:35,457 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:45:36,084 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:36,084 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:45:36,084 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:36,085 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:45:36,085 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:45:36,996 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:45:36,996 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ceer_launch",
+      "target": "product_electric_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-10 12:45:36,996 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:45:37,072 - INFO - ✅ Updated Article ID: 68c15437e596289ce84230cf with 9 nodes and combined text.

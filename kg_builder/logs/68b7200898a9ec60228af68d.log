@@ -1,0 +1,102 @@
+2025-09-10 12:38:28,554 - INFO - 🔍 Text length: 163 characters
+2025-09-10 12:38:28,554 - INFO - 📌 Processing Article ID: 68b7200898a9ec60228af68d — Ben and Ugne Nissan
+2025-09-10 12:38:28,554 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:38:32,056 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:38:32,057 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "Sunderland Facility",
+        "location": {
+          "city": "Sunderland",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40k_electric_vehicles_annually",
+        "type": "capacity",
+        "name": "",
+        "amount": "40,000 electric vehicles annually",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-10 12:38:32,057 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:38:32,057 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:38:32,057 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:38:35,585 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:38:35,586 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40k_electric_vehicles_annually",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-10 12:38:35,586 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:38:35,586 - INFO - Node ID is capacity_40k_electric_vehicles_annually
+2025-09-10 12:38:35,586 - INFO - ✅ Match found for capacity_ID 'capacity_40k_electric_vehicles_annually' in capacity nodes
+2025-09-10 12:38:35,586 - INFO -   ➕ Set status: operational
+2025-09-10 12:38:35,586 - INFO -   ➕ Set phase: unclear
+2025-09-10 12:38:35,586 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:38:35,586 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:38:35,586 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:38:35,586 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:38:36,872 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:38:36,873 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_sunderland_uk"
+    }
+  ]
+}
+2025-09-10 12:38:36,873 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:38:36,873 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:38:36,873 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:38:42,153 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:38:42,154 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40k_electric_vehicles_annually",
+      "target": "factory_sunderland_uk",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40k_electric_vehicles_annually",
+      "target": "product_electric_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_sunderland_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:38:42,154 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:38:42,154 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:38:42,154 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:38:42,241 - INFO - ✅ Updated Article ID: 68b7200898a9ec60228af68d with 4 nodes and combined text.

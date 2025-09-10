@@ -1,0 +1,102 @@
+2025-09-10 12:48:57,179 - INFO - 🔍 Text length: 4059 characters
+2025-09-10 12:48:57,179 - INFO - 📌 Processing Article ID: 68c153dde596289ce842309e — Hyundai Concept Three: This is what Hyundai’s EV4 will look like
+2025-09-10 12:48:57,179 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:49:01,983 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:01,984 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      },
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nosovice_czech_republic",
+        "type": "factory",
+        "name": "Nosovice Plant",
+        "location": {
+          "city": "Nosovice",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ioniq_3",
+        "type": "product",
+        "name": "Ioniq 3"
+      },
+      {
+        "id": "product_ev4",
+        "type": "product",
+        "name": "EV4"
+      },
+      {
+        "id": "product_i30",
+        "type": "product",
+        "name": "i30"
+      },
+      {
+        "id": "product_kona_electric",
+        "type": "product",
+        "name": "Kona Electric"
+      },
+      {
+        "id": "product_ev3",
+        "type": "product",
+        "name": "EV3"
+      },
+      {
+        "id": "product_id3",
+        "type": "product",
+        "name": "ID.3"
+      }
+    ]
+  }
+}
+2025-09-10 12:49:01,984 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:01,984 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:49:01,984 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:49:01,984 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:49:01,984 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:49:01,984 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:49:03,738 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:03,738 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_nosovice_czech_republic"
+    }
+  ]
+}
+2025-09-10 12:49:03,738 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:03,738 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:49:03,738 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:49:07,767 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:07,767 - INFO - {
+  "relationships": [
+    {
+      "source": "product_i30",
+      "type": "produced_at",
+      "target": "factory_nosovice_czech_republic"
+    },
+    {
+      "source": "product_kona_electric",
+      "type": "produced_at",
+      "target": "factory_nosovice_czech_republic"
+    }
+  ]
+}
+2025-09-10 12:49:07,767 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:07,767 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:49:07,767 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:49:07,847 - INFO - ✅ Updated Article ID: 68c153dde596289ce842309e with 9 nodes and combined text.

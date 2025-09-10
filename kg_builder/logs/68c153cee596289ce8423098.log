@@ -1,0 +1,72 @@
+2025-09-10 12:49:43,031 - INFO - 🔍 Text length: 2808 characters
+2025-09-10 12:49:43,031 - INFO - 📌 Processing Article ID: 68c153cee596289ce8423098 — Fraunhofer pilot plant carefully dismantles batteries down to the cell level
+2025-09-10 12:49:43,031 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:49:45,544 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:45,544 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fraunhofer_iwu",
+        "type": "company",
+        "name": "Fraunhofer IWU"
+      },
+      {
+        "id": "company_edag_production_solutions",
+        "type": "company",
+        "name": "EDAG Production Solutions"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chemnitz_germany",
+        "type": "factory",
+        "name": "Chemnitz Pilot Plant",
+        "location": {
+          "city": "Chemnitz",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_dismantling_system",
+        "type": "product",
+        "name": "battery dismantling system"
+      }
+    ]
+  }
+}
+2025-09-10 12:49:45,544 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:45,544 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:49:45,544 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:49:45,544 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:49:45,544 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:49:45,544 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:49:47,824 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:47,824 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fraunhofer_iwu",
+      "type": "owns",
+      "target": "factory_chemnitz_germany"
+    }
+  ]
+}
+2025-09-10 12:49:47,824 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:47,824 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:49:47,824 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:49:49,424 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:49,425 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_dismantling_system",
+      "target": "factory_chemnitz_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:49:49,425 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:49,425 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:49:49,425 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:49:49,512 - INFO - ✅ Updated Article ID: 68c153cee596289ce8423098 with 4 nodes and combined text.

@@ -1,0 +1,87 @@
+2025-09-10 12:49:30,498 - INFO - 🔍 Text length: 3177 characters
+2025-09-10 12:49:30,498 - INFO - 📌 Processing Article ID: 68c153d9e596289ce842309a — Cupra unveils camouflaged production version of the Raval
+2025-09-10 12:49:30,498 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:49:32,079 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:32,079 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cupra",
+        "type": "company",
+        "name": "Cupra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_martorell",
+        "type": "factory",
+        "name": "Martorell",
+        "location": {
+          "city": "Martorell",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cupra_raval",
+        "type": "product",
+        "name": "Cupra Raval"
+      },
+      {
+        "id": "product_vw_id_polo",
+        "type": "product",
+        "name": "VW ID. Polo"
+      },
+      {
+        "id": "product_id_cross",
+        "type": "product",
+        "name": "ID. Cross"
+      },
+      {
+        "id": "product_skoda_epiq",
+        "type": "product",
+        "name": "Skoda Epiq"
+      }
+    ]
+  }
+}
+2025-09-10 12:49:32,080 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:32,080 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:49:32,080 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:49:32,080 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:49:32,080 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:49:32,080 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:49:32,765 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:32,766 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cupra",
+      "type": "owns",
+      "target": "factory_martorell"
+    }
+  ]
+}
+2025-09-10 12:49:32,766 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:32,766 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:49:32,766 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:49:34,167 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:34,167 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cupra_raval",
+      "target": "factory_martorell",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vw_id_polo",
+      "target": "factory_martorell",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:49:34,167 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:34,167 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:49:34,167 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:49:34,251 - INFO - ✅ Updated Article ID: 68c153d9e596289ce842309a with 6 nodes and combined text.

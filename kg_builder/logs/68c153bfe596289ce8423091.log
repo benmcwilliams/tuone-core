@@ -1,0 +1,155 @@
+2025-09-10 12:50:44,904 - INFO - 🔍 Text length: 3618 characters
+2025-09-10 12:50:44,904 - INFO - 📌 Processing Article ID: 68c153bfe596289ce8423091 — LGES pauses US factory construction after raid
+2025-09-10 12:50:44,904 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:50:48,373 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:48,374 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_georgia_us",
+        "type": "factory",
+        "name": "Georgia Battery Factory",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_hmgma_georgia_us",
+        "type": "factory",
+        "name": "HMGMA (Hyundai Motor Group Metaplant America)",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_lges_georgia",
+        "type": "investment",
+        "name": "Hyundai and LGES Georgia Investment",
+        "amount": "7.6 billion dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_car_battery",
+        "type": "product",
+        "name": "car battery"
+      },
+      {
+        "id": "product_electric_car",
+        "type": "product",
+        "name": "electric car"
+      }
+    ]
+  }
+}
+2025-09-10 12:50:48,374 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:48,374 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:50:48,374 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:50:48,374 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:50:50,132 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:50,132 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_lges_georgia",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-10 12:50:50,133 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:50,133 - INFO - Node ID is investment_hyundai_lges_georgia
+2025-09-10 12:50:50,133 - INFO - ✅ Match found for investment_ID 'investment_hyundai_lges_georgia' in investment nodes
+2025-09-10 12:50:50,133 - INFO -   ➕ Set status: ongoing
+2025-09-10 12:50:50,133 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:50:50,133 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:50:50,133 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:50:50,133 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:50:51,744 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:51,744 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_georgia_us"
+    },
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_hmgma_georgia_us"
+    }
+  ]
+}
+2025-09-10 12:50:51,744 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:51,745 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:50:51,745 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:50:53,147 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:53,148 - INFO - {
+  "relationships": [
+    {
+      "source": "product_car_battery",
+      "target": "factory_hmgma_georgia_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_car",
+      "target": "factory_georgia_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:50:53,148 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:53,148 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:50:53,148 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:50:54,902 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:54,902 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:50:54,902 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:54,902 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:50:54,902 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:50:57,167 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:57,167 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_lges_georgia",
+      "target": "factory_georgia_us",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hyundai_lges_georgia",
+      "target": "factory_hmgma_georgia_us",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hyundai_lges_georgia",
+      "target": "product_car_battery",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_lges_georgia",
+      "target": "product_electric_car",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-10 12:50:57,167 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:57,244 - INFO - ✅ Updated Article ID: 68c153bfe596289ce8423091 with 7 nodes and combined text.

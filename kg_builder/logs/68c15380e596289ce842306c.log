@@ -1,0 +1,122 @@
+2025-09-10 12:54:55,423 - INFO - 🔍 Text length: 1986 characters
+2025-09-10 12:54:55,424 - INFO - 📌 Processing Article ID: 68c15380e596289ce842306c — Panasonic expands air-to-water heat pump factory in Czechia
+2025-09-10 12:54:55,424 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:54:59,116 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:59,116 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_panasonic_heating_ventilation_air_conditioning_czech_s_r_o",
+        "type": "company",
+        "name": "Panasonic Heating & Ventilation Air-Conditioning Czech, s.r.o."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pilsen_czechia",
+        "type": "factory",
+        "name": "Pilsen Factory",
+        "location": {
+          "city": "Pilsen",
+          "country": "Czechia"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_700k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "700,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_air_to_water_heat_pump",
+        "type": "product",
+        "name": "air-to-water heat pump"
+      },
+      {
+        "id": "product_outdoor_unit_casings",
+        "type": "product",
+        "name": "outdoor unit casings"
+      },
+      {
+        "id": "product_air_heat_exchangers",
+        "type": "product",
+        "name": "air heat exchangers"
+      },
+      {
+        "id": "product_copper_piping",
+        "type": "product",
+        "name": "copper piping"
+      },
+      {
+        "id": "product_printed_circuit_boards",
+        "type": "product",
+        "name": "printed circuit boards"
+      }
+    ]
+  }
+}
+2025-09-10 12:54:59,116 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:59,116 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:54:59,116 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:55:00,773 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:55:00,773 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_700k_units_per_year",
+      "status": "operational",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-09-10 12:55:00,773 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:55:00,773 - INFO - Node ID is capacity_700k_units_per_year
+2025-09-10 12:55:00,773 - INFO - ✅ Match found for capacity_ID 'capacity_700k_units_per_year' in capacity nodes
+2025-09-10 12:55:00,773 - INFO -   ➕ Set status: operational
+2025-09-10 12:55:00,773 - INFO -   ➕ Set phase: expansion
+2025-09-10 12:55:00,773 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:55:00,774 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:55:00,774 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:55:00,774 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:55:02,262 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:55:02,262 - INFO - {
+  "relationships": [
+    {
+      "source": "company_panasonic_heating_ventilation_air_conditioning_czech_s_r_o",
+      "type": "owns",
+      "target": "factory_pilsen_czechia"
+    }
+  ]
+}
+2025-09-10 12:55:02,262 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:55:02,263 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:55:02,263 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:55:04,171 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:55:04,171 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_700k_units_per_year",
+      "target": "factory_pilsen_czechia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_700k_units_per_year",
+      "target": "product_air_to_water_heat_pump",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_air_to_water_heat_pump",
+      "target": "factory_pilsen_czechia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:55:04,172 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:55:04,172 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:55:04,172 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:55:04,244 - INFO - ✅ Updated Article ID: 68c15380e596289ce842306c with 8 nodes and combined text.

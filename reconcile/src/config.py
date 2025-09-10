@@ -19,6 +19,7 @@ ALL_RELS = "storage/output/all_rels.xlsx"
 FACTORY_REGISTRY = "storage/output/factory_registry.xlsx"
 FACTORY_TECH = "storage/output/factory-technological.xlsx"
 COMPANY_JV = "storage/output/company-joint-venture.xlsx"
+INVESTMENT_FUNDS = "storage/output/investment-funds-factory.xlsx"
 
 FACTORY_TECH_CLEAN_CAPACITIES = "storage/output/factory-technological-clean-capacities.xlsx"
 CAPACITIES_DEBUG = "storage/output/capacities-debug.xlsx"

@@ -1,0 +1,122 @@
+2025-09-10 12:42:41,624 - INFO - 🔍 Text length: 5130 characters
+2025-09-10 12:42:41,625 - INFO - 📌 Processing Article ID: 68c15449e596289ce84230db — BMW says SOP for Gen3 hydrogen fuel cell systems on track for 2028
+2025-09-10 12:42:41,625 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:42:46,982 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:46,982 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bmw_group_plant_steyr",
+        "type": "factory",
+        "name": "BMW Group Plant Steyr",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_bmw_group_plant_landshut",
+        "type": "factory",
+        "name": "BMW Group Plant Landshut",
+        "location": {
+          "city": "Landshut",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_bmw_group_plant_dingolfing",
+        "type": "factory",
+        "name": "BMW Group Plant Dingolfing",
+        "location": {
+          "city": "Dingolfing",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "competence_centre for hydrogen",
+        "type": "factory",
+        "name": "competence centre for hydrogen",
+        "location": {
+          "city": "Munich",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fuel_cell_systems",
+        "type": "product",
+        "name": "fuel cell systems"
+      },
+      {
+        "id": "product_bmw_energy_master",
+        "type": "product",
+        "name": "BMW Energy Master"
+      }
+    ]
+  }
+}
+2025-09-10 12:42:46,982 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:46,983 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:42:46,983 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:42:46,983 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:42:46,983 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:42:46,983 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:42:49,695 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:49,696 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_steyr"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_landshut"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_dingolfing"
+    }
+  ]
+}
+2025-09-10 12:42:49,696 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:49,696 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:42:49,696 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:42:52,393 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:52,394 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fuel_cell_systems",
+      "target": "factory_bmw_group_plant_steyr",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_energy_master",
+      "target": "factory_bmw_group_plant_landshut",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:42:52,394 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:52,394 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:42:52,394 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:42:52,473 - INFO - ✅ Updated Article ID: 68c15449e596289ce84230db with 8 nodes and combined text.

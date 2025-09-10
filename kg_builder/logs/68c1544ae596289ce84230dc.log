@@ -1,0 +1,139 @@
+2025-09-10 12:42:25,094 - INFO - 🔍 Text length: 2488 characters
+2025-09-10 12:42:25,094 - INFO - 📌 Processing Article ID: 68c1544ae596289ce84230dc — Horse Technologies begins production of HR12 LPG MHEV engine at Mioveni
+2025-09-10 12:42:25,094 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:42:32,023 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:32,023 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_horse_technologies",
+        "type": "company",
+        "name": "Horse Technologies"
+      },
+      {
+        "id": "company_horse_powertrain",
+        "type": "company",
+        "name": "Horse Powertrain"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_renault_geely_powertrain",
+        "type": "joint_venture",
+        "name": "Renault-Geely powertrain"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mioveni_romania",
+        "type": "factory",
+        "name": "Horse plant",
+        "location": {
+          "city": "Mioveni",
+          "country": "Romania"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_450k_engines_per_annum",
+        "type": "capacity",
+        "name": "",
+        "amount": "450,000 engines per annum",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hr12_lpg_engine",
+        "type": "product",
+        "name": "HR12 LPG engine"
+      }
+    ]
+  }
+}
+2025-09-10 12:42:32,024 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:32,024 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:42:32,024 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:42:36,064 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:36,065 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_450k_engines_per_annum",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-10 12:42:36,065 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:36,065 - INFO - Node ID is capacity_450k_engines_per_annum
+2025-09-10 12:42:36,065 - INFO - ✅ Match found for capacity_ID 'capacity_450k_engines_per_annum' in capacity nodes
+2025-09-10 12:42:36,065 - INFO -   ➕ Set status: operational
+2025-09-10 12:42:36,065 - INFO -   ➕ Set phase: unclear
+2025-09-10 12:42:36,065 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:42:36,065 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:42:36,065 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:42:36,065 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:42:39,246 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:39,246 - INFO - {
+  "relationships": [
+    {
+      "source": "company_horse_technologies",
+      "type": "forms",
+      "target": "joint_venture_renault_geily_powertrain"
+    },
+    {
+      "source": "company_renault",
+      "type": "forms",
+      "target": "joint_venture_renault_geily_powertrain"
+    },
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_renault_geily_powertrain"
+    },
+    {
+      "source": "joint_venture_renault_geily_powertrain",
+      "type": "owns",
+      "target": "factory_mioveni_romania"
+    }
+  ]
+}
+2025-09-10 12:42:39,246 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:39,247 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:42:39,247 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:42:41,540 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:41,541 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_450k_engines_per_annum",
+      "target": "factory_mioveni_romania",
+      "type": "at"
+    },
+    {
+      "source": "capacity_450k_engines_per_annum",
+      "target": "product_hr12_lpg_engine",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_hr12_lpg_engine",
+      "target": "factory_mioveni_romania",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:42:41,541 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:41,541 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:42:41,541 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:42:41,623 - INFO - ✅ Updated Article ID: 68c1544ae596289ce84230dc with 8 nodes and combined text.

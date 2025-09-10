@@ -1,0 +1,92 @@
+2025-09-10 12:50:10,731 - INFO - 🔍 Text length: 4122 characters
+2025-09-10 12:50:10,731 - INFO - 📌 Processing Article ID: 68c153c5e596289ce8423095 — Skoda previews €25,000 Epiq compact SUV
+2025-09-10 12:50:10,731 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:50:15,098 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:15,099 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda",
+        "type": "company",
+        "name": "Skoda"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pamplona_plant",
+        "type": "factory",
+        "name": "Pamplona plant",
+        "location": {
+          "city": "Pamplona",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_epiq",
+        "type": "product",
+        "name": "Epiq"
+      },
+      {
+        "id": "product_id_cross",
+        "type": "product",
+        "name": "ID. Cross"
+      },
+      {
+        "id": "product_id_polo",
+        "type": "product",
+        "name": "ID. Polo"
+      },
+      {
+        "id": "product_id_kamiq",
+        "type": "product",
+        "name": "ID. Kamiq"
+      }
+    ]
+  }
+}
+2025-09-10 12:50:15,099 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:15,099 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:50:15,099 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:50:15,099 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:50:15,099 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:50:15,099 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:50:20,292 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:20,292 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda",
+      "type": "owns",
+      "target": "factory_pamplona_plant"
+    }
+  ]
+}
+2025-09-10 12:50:20,292 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:20,293 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:50:20,293 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:50:21,652 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:21,652 - INFO - {
+  "relationships": [
+    {
+      "source": "product_epiq",
+      "target": "factory_pamplona_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id_cross",
+      "target": "factory_pamplona_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:50:21,652 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:21,652 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:50:21,652 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:50:21,733 - INFO - ✅ Updated Article ID: 68c153c5e596289ce8423095 with 7 nodes and combined text.

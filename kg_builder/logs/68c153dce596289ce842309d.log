@@ -1,0 +1,133 @@
+2025-09-10 12:49:07,848 - INFO - 🔍 Text length: 5021 characters
+2025-09-10 12:49:07,848 - INFO - 📌 Processing Article ID: 68c153dce596289ce842309d — IAA premiere of the ID. Cross Concept: VW previews electric T-Cross
+2025-09-10 12:49:07,848 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:49:13,059 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:13,059 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_skoda",
+        "type": "company",
+        "name": "Skoda"
+      },
+      {
+        "id": "company_cupra",
+        "type": "company",
+        "name": "Cupra"
+      },
+      {
+        "id": "company_goodyear",
+        "type": "company",
+        "name": "Goodyear"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pamplona_spain",
+        "type": "factory",
+        "name": "Pamplona Plant",
+        "location": {
+          "city": "Pamplona",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_martorell_spain",
+        "type": "factory",
+        "name": "Martorell Plant",
+        "location": {
+          "city": "Martorell",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id_cross",
+        "type": "product",
+        "name": "ID. Cross"
+      },
+      {
+        "id": "product_id_polo",
+        "type": "product",
+        "name": "ID. Polo"
+      },
+      {
+        "id": "product_id_polo_gti",
+        "type": "product",
+        "name": "ID. Polo GTI"
+      },
+      {
+        "id": "product_cupra_raval",
+        "type": "product",
+        "name": "Cupra Raval"
+      },
+      {
+        "id": "product_skoda_epiq",
+        "type": "product",
+        "name": "Skoda Epiq"
+      },
+      {
+        "id": "product_t_cross",
+        "type": "product",
+        "name": "T-Cross"
+      }
+    ]
+  }
+}
+2025-09-10 12:49:13,060 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:13,060 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:49:13,060 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:49:13,060 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:49:13,060 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:49:13,060 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:49:14,176 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:14,177 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_pamplona_spain"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_martorell_spain"
+    }
+  ]
+}
+2025-09-10 12:49:14,177 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:14,177 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:49:14,177 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:49:15,802 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:15,802 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id_cross",
+      "target": "factory_pamplona_spain"
+    },
+    {
+      "source": "product_id_polo",
+      "target": "factory_martorell_spain"
+    },
+    {
+      "source": "product_cupra_raval",
+      "target": "factory_martorell_spain"
+    },
+    {
+      "source": "product_skoda_epiq",
+      "target": "factory_pamplona_spain"
+    }
+  ]
+}
+2025-09-10 12:49:15,802 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:15,802 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:49:15,802 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:49:15,884 - INFO - ✅ Updated Article ID: 68c153dce596289ce842309d with 12 nodes and combined text.

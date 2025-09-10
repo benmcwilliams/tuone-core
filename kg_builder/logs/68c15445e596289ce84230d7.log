@@ -1,0 +1,71 @@
+2025-09-10 12:43:47,877 - INFO - 🔍 Text length: 2121 characters
+2025-09-10 12:43:47,877 - INFO - 📌 Processing Article ID: 68c15445e596289ce84230d7 — Toyota, Mazda begin testing ESS using EV batteries
+2025-09-10 12:43:47,877 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:43:51,507 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:43:51,507 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_mazda_motor_corporation",
+        "type": "company",
+        "name": "Mazda Motor Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hiroshima_japan",
+        "type": "factory",
+        "name": "Mazda's headquarters plant",
+        "location": {
+          "city": "Hiroshima",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sweep_energy_storage_system",
+        "type": "product",
+        "name": "Sweep Energy Storage System"
+      },
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "EV batteries"
+      }
+    ]
+  }
+}
+2025-09-10 12:43:51,508 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:43:51,508 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:43:51,508 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:43:51,508 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:43:51,508 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:43:51,508 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:43:56,378 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:43:56,378 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda_motor_corporation",
+      "type": "owns",
+      "target": "factory_hiroshima_japan"
+    }
+  ]
+}
+2025-09-10 12:43:56,378 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:43:56,378 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:43:56,378 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:44:01,231 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:44:01,231 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:44:01,231 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:44:01,231 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:44:01,232 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:44:01,312 - INFO - ✅ Updated Article ID: 68c15445e596289ce84230d7 with 5 nodes and combined text.

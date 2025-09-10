@@ -1,0 +1,87 @@
+2025-09-10 12:47:30,391 - INFO - 🔍 Text length: 3042 characters
+2025-09-10 12:47:30,391 - INFO - 📌 Processing Article ID: 68c15425e596289ce84230c3 — Tesla’s new six-seat Model Y unlikely to reach US shores, says Musk
+2025-09-10 12:47:30,391 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:47:34,456 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:34,456 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_china",
+        "type": "factory",
+        "name": "Shanghai facility",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      },
+      {
+        "id": "product_robotaxi",
+        "type": "product",
+        "name": "Robotaxi"
+      },
+      {
+        "id": "product_cybercab",
+        "type": "product",
+        "name": "Cybercab"
+      },
+      {
+        "id": "model_y_l",
+        "type": "product",
+        "name": "Model Y L",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-10 12:47:34,456 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:34,456 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:47:34,456 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:47:34,456 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:47:34,457 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:47:34,457 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:47:35,365 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:35,365 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_shanghai_china"
+    }
+  ]
+}
+2025-09-10 12:47:35,365 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:35,365 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:47:35,366 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:47:36,171 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:36,171 - INFO - {
+  "relationships": [
+    {
+      "source": "model_y_l",
+      "target": "factory_shanghai_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:47:36,171 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:36,171 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:47:36,171 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:47:36,313 - INFO - ✅ Updated Article ID: 68c15425e596289ce84230c3 with 6 nodes and combined text.

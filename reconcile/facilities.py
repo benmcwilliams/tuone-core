@@ -17,7 +17,7 @@ def write_facilities():
     logging.info("🗑️ Cleared existing facilities from MongoDB.")
 
     # =========================
-    # A) Facilities (from GROUPED_FACTORIES)
+    # A) Determine facilities (from GROUPED_FACTORIES)
     # =========================
 
     df = pd.read_excel(GROUPED_FACTORIES)
@@ -53,7 +53,7 @@ def write_facilities():
     df_facilities.to_excel(FACILITIES, index=False)
 
     # =========================
-    # B) Capacities (from GROUPED_CAPACITIES)
+    # B) Read capacities (from GROUPED_CAPACITIES)
     # =========================
 
     # --- CONCAT ---
@@ -185,6 +185,7 @@ def write_facilities():
             "product_lv2": product_lv2_clean,
             "latest_factory_status": latest_status_obj or {"status": None, "date": None},
             "capacities": capacity_dict.get(project_id, []),
+            # "investments": investment_dict.get(project_id, [])
         }
         facilities_documents.append(doc)
 

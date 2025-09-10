@@ -1,0 +1,152 @@
+2025-09-10 12:50:21,734 - INFO - 🔍 Text length: 4066 characters
+2025-09-10 12:50:21,735 - INFO - 📌 Processing Article ID: 68c153c3e596289ce8423094 — Lyten assigns European management team
+2025-09-10 12:50:21,735 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:50:28,118 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:28,118 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lyten",
+        "type": "company",
+        "name": "Lyten"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_cuberg",
+        "type": "company",
+        "name": "Cuberg"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northvolt_ett",
+        "type": "factory",
+        "name": "Northvolt Ett",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_labs",
+        "type": "factory",
+        "name": "Northvolt Labs",
+        "location": {
+          "city": "V\u00e4ster\u00e5s",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_dwa_ess",
+        "type": "factory",
+        "name": "Northvolt Dwa ESS",
+        "location": {
+          "city": "Gda\u0144sk",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_drei",
+        "type": "factory",
+        "name": "Northvolt Drei",
+        "location": {
+          "city": "Heide",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_sulfur_batteries",
+        "type": "product",
+        "name": "lithium-sulfur batteries"
+      },
+      {
+        "id": "product_lithium_ion_nmc_cell",
+        "type": "product",
+        "name": "lithium-ion NMC cell",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      },
+      {
+        "id": "stationary_battery energy storage systems",
+        "type": "product",
+        "name": "stationary battery energy storage systems",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-10 12:50:28,118 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:28,118 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:50:28,118 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:50:28,118 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:50:28,118 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:50:28,119 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:50:30,475 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:30,476 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_ett"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_labs"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_dwa_ess"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_drei"
+    }
+  ]
+}
+2025-09-10 12:50:30,476 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:30,476 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:50:30,476 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:50:32,380 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:50:32,381 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_sulfur_batteries",
+      "target": "factory_northvolt_ett",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_ion_nmc_cell",
+      "target": "factory_northvolt_labs",
+      "type": "produced_at"
+    },
+    {
+      "source": "stationary_battery energy storage systems",
+      "target": "factory_northvolt_dwa_ess",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:50:32,381 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:50:32,381 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:50:32,381 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:50:32,461 - INFO - ✅ Updated Article ID: 68c153c3e596289ce8423094 with 10 nodes and combined text.

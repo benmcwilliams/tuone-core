@@ -1,0 +1,110 @@
+2025-09-10 12:51:51,246 - INFO - 🔍 Text length: 2881 characters
+2025-09-10 12:51:51,246 - INFO - 📌 Processing Article ID: 68c153b7e596289ce842308c — Minerva Carbon receives 1.8 million euros for research into battery technology
+2025-09-10 12:51:51,246 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:51:52,964 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:51:52,964 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_minerva_carbon",
+        "type": "company",
+        "name": "Minerva Carbon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_max_planck_institute_for_coal_research",
+        "type": "factory",
+        "name": "Max Planck Institute for Coal Research",
+        "location": {
+          "city": "M\u00fclheim an der Ruhr",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_exist_program",
+        "type": "investment",
+        "name": "EXIST program",
+        "amount": "1.8 million euros",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mesoporous_high_performance_carbon_materials",
+        "type": "product",
+        "name": "mesoporous high-performance carbon materials"
+      }
+    ]
+  }
+}
+2025-09-10 12:51:52,964 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:51:52,965 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:51:52,965 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:51:52,965 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:51:54,519 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:51:54,520 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_exist_program",
+      "status": "ongoing",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-10 12:51:54,520 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:51:54,520 - INFO - Node ID is investment_exist_program
+2025-09-10 12:51:54,520 - INFO - ✅ Match found for investment_ID 'investment_exist_program' in investment nodes
+2025-09-10 12:51:54,520 - INFO -   ➕ Set status: ongoing
+2025-09-10 12:51:54,520 - INFO -   ➕ Set phase: unclear
+2025-09-10 12:51:54,520 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:51:54,520 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:51:54,520 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:51:56,125 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:51:56,126 - INFO - {
+  "relationships": [
+    {
+      "source": "company_minerva_carbon",
+      "type": "owns",
+      "target": "factory_max_planck_institute_for_coal_research"
+    }
+  ]
+}
+2025-09-10 12:51:56,126 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:51:56,126 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:51:56,126 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:51:57,253 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:51:57,253 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mesoporous_high_performance_carbon_materials",
+      "target": "factory_max_planck_institute_for_coal_research",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:51:57,253 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:51:57,253 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:51:57,253 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:51:58,481 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:51:58,482 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:51:58,482 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:51:58,482 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:51:58,482 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:52:00,237 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:00,238 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_exist_program",
+      "target": "product_mesoporous_high_performance_carbon_materials",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-10 12:52:00,238 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:00,324 - INFO - ✅ Updated Article ID: 68c153b7e596289ce842308c with 4 nodes and combined text.

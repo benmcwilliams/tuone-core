@@ -1,0 +1,128 @@
+2025-09-10 12:52:00,324 - INFO - 🔍 Text length: 1812 characters
+2025-09-10 12:52:00,324 - INFO - 📌 Processing Article ID: 68c153b5e596289ce842308b — Eve Energy to build new solid-state battery factory in Chengdu
+2025-09-10 12:52:00,324 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:52:02,497 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:02,498 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eve_energy",
+        "type": "company",
+        "name": "Eve Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chengdu_china",
+        "type": "factory",
+        "name": "Chengdu Factory",
+        "location": {
+          "city": "Chengdu",
+          "country": "China"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60_ah_batteries_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "60 Ah batteries",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_100_mwh_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_longquan_ii_solid_state_battery_cell",
+        "type": "product",
+        "name": "Longquan II 10 Ah solid-state battery cell"
+      },
+      {
+        "id": "product_hybrid_vehicle_battery_cell",
+        "type": "product",
+        "name": "hybrid vehicle battery cell"
+      }
+    ]
+  }
+}
+2025-09-10 12:52:02,498 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:02,498 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:52:02,498 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:52:06,884 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:06,884 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60_ah_batteries_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_100_mwh_under_construction",
+      "status": "under construction",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-10 12:52:06,884 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:06,884 - INFO - Node ID is capacity_60_ah_batteries_announced
+2025-09-10 12:52:06,884 - INFO - ✅ Match found for capacity_ID 'capacity_60_ah_batteries_announced' in capacity nodes
+2025-09-10 12:52:06,884 - INFO -   ➕ Set status: announced
+2025-09-10 12:52:06,884 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:52:06,884 - INFO - Node ID is capacity_100_mwh_under_construction
+2025-09-10 12:52:06,884 - INFO - ✅ Match found for capacity_ID 'capacity_100_mwh_under_construction' in capacity nodes
+2025-09-10 12:52:06,885 - INFO -   ➕ Set status: under construction
+2025-09-10 12:52:06,885 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:52:06,885 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:52:06,885 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:52:06,885 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:52:06,885 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:52:07,852 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:07,852 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eve_energy",
+      "type": "owns",
+      "target": "factory_chengdu_china"
+    }
+  ]
+}
+2025-09-10 12:52:07,853 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:07,853 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:52:07,853 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:52:10,164 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:52:10,164 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60_ah_batteries_announced",
+      "target": "factory_chengdu_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mwh_under_construction",
+      "target": "factory_chengdu_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mwh_under_construction",
+      "target": "product_longquan_ii_solid_state_battery_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_longquan_ii_solid_state_battery_cell",
+      "target": "factory_chengdu_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:52:10,164 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:52:10,164 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:52:10,164 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:52:10,246 - INFO - ✅ Updated Article ID: 68c153b5e596289ce842308b with 6 nodes and combined text.

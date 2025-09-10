@@ -1,0 +1,103 @@
+2025-09-10 12:42:07,417 - INFO - 🔍 Text length: 2774 characters
+2025-09-10 12:42:07,417 - INFO - 📌 Processing Article ID: 68c1544be596289ce84230dd — Volkswagen Group to invest up to €1bn in AI by 2030
+2025-09-10 12:42:07,418 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:42:14,067 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:14,067 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      },
+      {
+        "id": "company_amazon_web_services",
+        "type": "company",
+        "name": "Amazon Web Services"
+      },
+      {
+        "id": "company_dassault_systemes",
+        "type": "company",
+        "name": "Dassault Syst\u00e8mes"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [],
+    "investments": [
+      {
+        "id": "investment_volkswagen_group_ai_expansion",
+        "type": "investment",
+        "name": "Volkswagen Group AI Expansion",
+        "amount": "\u20ac1bn ($1.17bn)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [],
+    "products": [
+      {
+        "id": "product_ai_applications",
+        "type": "product",
+        "name": "AI applications"
+      },
+      {
+        "id": "product_ai_powered_engineering_environment",
+        "type": "product",
+        "name": "AI-powered engineering environment"
+      }
+    ]
+  }
+}
+2025-09-10 12:42:14,067 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:14,067 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:42:14,067 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:42:14,067 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:42:19,233 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:19,234 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_group_ai_expansion",
+      "status": "announced",
+      "phase": "expansion"
+    }
+  ]
+}
+2025-09-10 12:42:19,234 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:19,234 - INFO - Node ID is investment_volkswagen_group_ai_expansion
+2025-09-10 12:42:19,234 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_group_ai_expansion' in investment nodes
+2025-09-10 12:42:19,234 - INFO -   ➕ Set status: announced
+2025-09-10 12:42:19,234 - INFO -   ➕ Set phase: expansion
+2025-09-10 12:42:19,234 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:42:19,234 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-10 12:42:19,234 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:42:19,234 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:42:20,095 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:20,096 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:42:20,096 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:20,096 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:42:20,096 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:42:22,000 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:22,001 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:42:22,001 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:22,001 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:42:22,001 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:42:25,007 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:42:25,007 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_group_ai_expansion",
+      "target": "product_ai_applications",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volkswagen_group_ai_expansion",
+      "target": "product_ai_powered_engineering_environment",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-10 12:42:25,007 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:42:25,092 - INFO - ✅ Updated Article ID: 68c1544be596289ce84230dd with 6 nodes and combined text.

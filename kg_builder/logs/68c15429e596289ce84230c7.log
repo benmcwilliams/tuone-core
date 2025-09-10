@@ -1,0 +1,134 @@
+2025-09-10 12:46:49,863 - INFO - 🔍 Text length: 2851 characters
+2025-09-10 12:46:49,863 - INFO - 📌 Processing Article ID: 68c15429e596289ce84230c7 — Daimler Truck seeks investment partner for Torc Robotics – report
+2025-09-10 12:46:49,864 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:46:53,253 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:46:53,253 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daimler_truck",
+        "type": "company",
+        "name": "Daimler Truck"
+      },
+      {
+        "id": "company_torc_robotics",
+        "type": "company",
+        "name": "Torc Robotics"
+      },
+      {
+        "id": "company_bank_of_america_corp",
+        "type": "company",
+        "name": "Bank of America Corp"
+      },
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      },
+      {
+        "id": "company_paccar",
+        "type": "company",
+        "name": "Paccar"
+      },
+      {
+        "id": "company_international_motors",
+        "type": "company",
+        "name": "International Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_senegal",
+        "type": "factory",
+        "name": "truck assembly facility",
+        "location": {
+          "city": "null",
+          "country": "Senegal"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_torc_robotics",
+        "type": "investment",
+        "name": "Torc Robotics investment",
+        "amount": "\u20ac600m ($660m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vehicle_component_kits",
+        "type": "product",
+        "name": "vehicle component kits"
+      },
+      {
+        "id": "product_level_4_autonomous_driving_technologies",
+        "type": "product",
+        "name": "level 4 autonomous driving technologies"
+      }
+    ]
+  }
+}
+2025-09-10 12:46:53,253 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:46:53,253 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:46:53,253 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:46:53,253 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:46:55,730 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:46:55,730 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_torc_robotics",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-10 12:46:55,730 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:46:55,730 - INFO - Node ID is investment_torc_robotics
+2025-09-10 12:46:55,730 - INFO - ✅ Match found for investment_ID 'investment_torc_robotics' in investment nodes
+2025-09-10 12:46:55,730 - INFO -   ➕ Set status: unclear
+2025-09-10 12:46:55,730 - INFO -   ➕ Set phase: unclear
+2025-09-10 12:46:55,731 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:46:55,731 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:46:55,731 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:46:57,937 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:46:57,937 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daimler_truck",
+      "type": "owns",
+      "target": "factory_senegal"
+    }
+  ]
+}
+2025-09-10 12:46:57,937 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:46:57,937 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:46:57,938 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:47:00,255 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:00,255 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vehicle_component_kits",
+      "target": "factory_senegal",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:47:00,255 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:00,255 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:47:00,255 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:47:00,872 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:00,872 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:47:00,872 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:00,872 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:47:00,872 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:47:02,022 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:02,022 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:47:02,022 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:02,102 - INFO - ✅ Updated Article ID: 68c15429e596289ce84230c7 with 10 nodes and combined text.

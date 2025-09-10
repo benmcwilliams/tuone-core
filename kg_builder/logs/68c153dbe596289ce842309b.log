@@ -1,0 +1,117 @@
+2025-09-10 12:49:20,745 - INFO - 🔍 Text length: 3738 characters
+2025-09-10 12:49:20,745 - INFO - 📌 Processing Article ID: 68c153dbe596289ce842309b — VinFast launches VF 6 and VF 7 as first EVs in India
+2025-09-10 12:49:20,745 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:49:23,238 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:23,238 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vinfast",
+        "type": "company",
+        "name": "VinFast"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_thoothukudi_india",
+        "type": "factory",
+        "name": "Thoothukudi Plant",
+        "location": {
+          "city": "Thoothukudi",
+          "country": "India"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_ev_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 EVs per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vf_6",
+        "type": "product",
+        "name": "VF 6"
+      },
+      {
+        "id": "product_vf_7",
+        "type": "product",
+        "name": "VF 7"
+      }
+    ]
+  }
+}
+2025-09-10 12:49:23,238 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:23,238 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:49:23,238 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:49:24,683 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:24,683 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_ev_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-10 12:49:24,683 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:24,683 - INFO - Node ID is capacity_50k_ev_per_year
+2025-09-10 12:49:24,683 - INFO - ✅ Match found for capacity_ID 'capacity_50k_ev_per_year' in capacity nodes
+2025-09-10 12:49:24,683 - INFO -   ➕ Set status: operational
+2025-09-10 12:49:24,683 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:49:24,683 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:49:24,684 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:49:24,684 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:49:24,684 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:49:27,195 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:27,195 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vinfast",
+      "type": "owns",
+      "target": "factory_thoothukudi_india"
+    }
+  ]
+}
+2025-09-10 12:49:27,196 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:27,196 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:49:27,196 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:49:30,417 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:49:30,417 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_ev_per_year",
+      "target": "factory_thoothukudi_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_ev_per_year",
+      "target": "product_vf_6",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_ev_per_year",
+      "target": "product_vf_7",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_vf_6",
+      "target": "factory_thoothukudi_india",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vf_7",
+      "target": "factory_thoothukudi_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:49:30,417 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:49:30,417 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:49:30,417 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:49:30,496 - INFO - ✅ Updated Article ID: 68c153dbe596289ce842309b with 5 nodes and combined text.

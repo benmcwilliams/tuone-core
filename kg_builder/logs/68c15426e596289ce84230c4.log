@@ -1,0 +1,137 @@
+2025-09-10 12:47:21,535 - INFO - 🔍 Text length: 3764 characters
+2025-09-10 12:47:21,535 - INFO - 📌 Processing Article ID: 68c15426e596289ce84230c4 — VinFast reports 92% surge in revenues in Q2
+2025-09-10 12:47:21,535 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:47:24,205 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:24,205 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vinfast_auto_ltd",
+        "type": "company",
+        "name": "VinFast Auto Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ha_tinh_vietnam",
+        "type": "factory",
+        "name": "Ha Tinh Plant",
+        "location": {
+          "city": "Ha Tinh",
+          "country": "Vietnam"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "200,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vf3",
+        "type": "product",
+        "name": "VF3"
+      },
+      {
+        "id": "product_vf5",
+        "type": "product",
+        "name": "VF5"
+      },
+      {
+        "id": "product_vf6",
+        "type": "product",
+        "name": "VF6"
+      },
+      {
+        "id": "product_e_bike",
+        "type": "product",
+        "name": "e-bike"
+      }
+    ]
+  }
+}
+2025-09-10 12:47:24,205 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:24,205 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-10 12:47:24,205 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-10 12:47:25,150 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:25,150 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200k_vehicles_per_year",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-10 12:47:25,150 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:25,150 - INFO - Node ID is capacity_200k_vehicles_per_year
+2025-09-10 12:47:25,150 - INFO - ✅ Match found for capacity_ID 'capacity_200k_vehicles_per_year' in capacity nodes
+2025-09-10 12:47:25,150 - INFO -   ➕ Set status: operational
+2025-09-10 12:47:25,150 - INFO -   ➕ Set phase: greenfield
+2025-09-10 12:47:25,150 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:47:25,151 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:47:25,151 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:47:25,151 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:47:27,679 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:27,680 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vinfast_auto_ltd",
+      "type": "owns",
+      "target": "factory_ha_tinh_vietnam"
+    }
+  ]
+}
+2025-09-10 12:47:27,680 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:27,680 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:47:27,680 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:47:30,313 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:30,313 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200k_vehicles_per_year",
+      "target": "factory_ha_tinh_vietnam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200k_vehicles_per_year",
+      "target": "product_vf3",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200k_vehicles_per_year",
+      "target": "product_vf5",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200k_vehicles_per_year",
+      "target": "product_vf6",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_vf3",
+      "target": "factory_ha_tinh_vietnam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vf5",
+      "target": "factory_ha_tinh_vietnam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_vf6",
+      "target": "factory_ha_tinh_vietnam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:47:30,314 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:30,314 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:47:30,314 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:47:30,389 - INFO - ✅ Updated Article ID: 68c15426e596289ce84230c4 with 7 nodes and combined text.

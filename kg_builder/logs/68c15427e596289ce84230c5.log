@@ -1,0 +1,102 @@
+2025-09-10 12:47:17,125 - INFO - 🔍 Text length: 3498 characters
+2025-09-10 12:47:17,125 - INFO - 📌 Processing Article ID: 68c15427e596289ce84230c5 — Qualcomm, BMW introduce new automated driving system in iX3
+2025-09-10 12:47:17,125 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:47:19,548 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:19,548 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_qualcomm",
+        "type": "company",
+        "name": "Qualcomm"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      },
+      {
+        "id": "company_bmw_group_plant_steyr",
+        "type": "company",
+        "name": "BMW Group Plant Steyr"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bmw_group_plant_steyr",
+        "type": "factory",
+        "name": "BMW Group Plant Steyr",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_snapdragon_ride_pilot",
+        "type": "product",
+        "name": "Snapdragon Ride Pilot"
+      },
+      {
+        "id": "product_bmw_ix3",
+        "type": "product",
+        "name": "BMW iX3"
+      },
+      {
+        "id": "product_e_engine",
+        "type": "product",
+        "name": "e-engine"
+      },
+      {
+        "id": "product_snapdragon_ride_soc",
+        "type": "product",
+        "name": "Snapdragon Ride SoC"
+      },
+      {
+        "id": "product_v2x_200_chipset",
+        "type": "product",
+        "name": "V2X 200 Chipset"
+      }
+    ]
+  }
+}
+2025-09-10 12:47:19,549 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:19,549 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:47:19,549 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-10 12:47:19,549 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:47:19,549 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:47:19,549 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:47:20,531 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:20,532 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_steyr"
+    }
+  ]
+}
+2025-09-10 12:47:20,532 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:20,532 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:47:20,532 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:47:21,461 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:47:21,461 - INFO - {
+  "relationships": [
+    {
+      "source": "product_e_engine",
+      "target": "factory_bmw_group_plant_steyr",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:47:21,461 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:47:21,462 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-10 12:47:21,462 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-10 12:47:21,533 - INFO - ✅ Updated Article ID: 68c15427e596289ce84230c5 with 10 nodes and combined text.

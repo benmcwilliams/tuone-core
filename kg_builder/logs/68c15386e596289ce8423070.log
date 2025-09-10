@@ -1,0 +1,130 @@
+2025-09-10 12:54:00,625 - INFO - 🔍 Text length: 5315 characters
+2025-09-10 12:54:00,625 - INFO - 📌 Processing Article ID: 68c15386e596289ce8423070 — Nextracker unveils NX PowerMerge trunk eBOS for utility-scale solar
+2025-09-10 12:54:00,625 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-10 12:54:03,105 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:03,105 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nextracker",
+        "type": "company",
+        "name": "Nextracker"
+      },
+      {
+        "id": "company_bentek_corporation",
+        "type": "company",
+        "name": "Bentek Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bentek_corporation",
+        "type": "factory",
+        "name": "Bentek Corporation",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bentek_acquisition",
+        "type": "investment",
+        "name": "Bentek Acquisition",
+        "amount": "$78 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nx_powermmerge",
+        "type": "product",
+        "name": "NX PowerMerge"
+      },
+      {
+        "id": "product_ebos_solutions",
+        "type": "product",
+        "name": "eBOS solutions"
+      },
+      {
+        "id": "solar_trackers",
+        "type": "product",
+        "name": "solar trackers",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-10 12:54:03,105 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:03,105 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-10 12:54:03,105 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-10 12:54:03,105 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-10 12:54:05,669 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:05,670 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bentek_acquisition",
+      "status": "completed",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-10 12:54:05,670 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:05,670 - INFO - Node ID is investment_bentek_acquisition
+2025-09-10 12:54:05,670 - INFO - ✅ Match found for investment_ID 'investment_bentek_acquisition' in investment nodes
+2025-09-10 12:54:05,670 - INFO -   ➕ Set status: completed
+2025-09-10 12:54:05,670 - INFO -   ➕ Set phase: unclear
+2025-09-10 12:54:05,670 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-10 12:54:05,670 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-10 12:54:05,670 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-10 12:54:07,050 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:07,050 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bentek_corporation",
+      "type": "owns",
+      "target": "factory_bentek_corporation"
+    }
+  ]
+}
+2025-09-10 12:54:07,050 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:07,050 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-10 12:54:07,050 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-10 12:54:07,917 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:07,917 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ebos_solutions",
+      "target": "factory_bentek_corporation",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-10 12:54:07,917 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:07,917 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-10 12:54:07,917 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-10 12:54:10,257 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:10,257 - INFO - {
+  "relationships": []
+}
+2025-09-10 12:54:10,257 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:10,257 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-10 12:54:10,257 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-10 12:54:16,625 - INFO - ✅ OpenAI returned output:
+2025-09-10 12:54:16,626 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bentek_acquisition",
+      "target": "product_ebos_solutions",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-10 12:54:16,626 - INFO - POST-PROCESSING STARTING.
+2025-09-10 12:54:16,707 - INFO - ✅ Updated Article ID: 68c15386e596289ce8423070 with 7 nodes and combined text.
