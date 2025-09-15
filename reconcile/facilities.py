@@ -71,8 +71,6 @@ def write_facilities():
     # normalize/hash product_lv2 for use as a dedup key
     df_cap["pl2_key"] = df_cap["product_lv2"].apply(canon_pl2)
 
-    print(df_cap.columns)
-
     # ---- Capacities deduplication ----
     df_cap_dedup = (
         df_cap
@@ -88,7 +86,6 @@ def write_facilities():
     # group capacities by the same product_lv1, amount, status & phase. 
     # so this would create two entries for battery / vehicle, but only one entry for fossil / electric 
     # we could then apply here the filter? 
-    print(df_cap_dedup.columns)
 
     # --- Group identical capacities that only differ by product_lv2 ---
     group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
@@ -105,8 +102,6 @@ def write_facilities():
         .reset_index()
         .rename(columns={"pl2_union": "product_lv2"})
     )
-
-    print(df_cap_grouped_lv2.columns)
 
     # --- Logging / debug checks ---
     logging.info("Capacities: raw=%d", len(df_cap))

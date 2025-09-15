@@ -32,7 +32,7 @@ def main(update_mongo_metadata=False):
         classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
-    run_flatten_articles()
+    # run_flatten_articles()
 
     logging.info("🉑 Merging nodes and relationships...")
     run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)

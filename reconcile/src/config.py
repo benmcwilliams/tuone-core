@@ -52,7 +52,7 @@ grouped_capacities_cols = [
     "project_id", "project_key_str", "cluster_id",
     "investment", "investment_status", "investment_phase", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
-    "article_id"
+    "article_id", "investment_id"
 ]
 
 grouped_investments_cols = [
@@ -61,7 +61,7 @@ grouped_investments_cols = [
     "investment", "phase", "status", 
     "project_id", "project_key_str", "cluster_id", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
-    "article_id"
+    "article_id", "investment_id"
 ]
 
 GROUP_SPEC = [
