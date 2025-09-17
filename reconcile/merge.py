@@ -7,10 +7,9 @@ from src.merge_helpers import deduplicate_nodes_and_rels, filter_nodes_by_label,
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
-from src.inputs import EUROPEAN_COUNTRIES
 from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
-from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
-from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV
+from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
+from src.config import FACTORY_TECH, COMPANY_JV, INVESTMENT_FUNDS
 
 # ---------- helper functions ----------
 
@@ -128,6 +127,6 @@ def run_view(spec, out_path=None):
     return df
 
 if __name__ == "__main__":
-    #run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)
-    #run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)
