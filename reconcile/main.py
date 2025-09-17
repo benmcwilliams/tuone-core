@@ -12,6 +12,7 @@ from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
+from attach_events import attach_events
 from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
 from src.config import CLEAN_INVESTMENT_FUNDS, FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV, FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, GROUP_SPEC, INVESTMENT_FUNDS
 
@@ -29,8 +30,8 @@ def main(update_mongo_metadata=False):
         logging.info("🌎 Querying geonames...")
         query_geonames_new_cities(limit=18000,skip=0)
 
-        logging.info("🧸 Classifying products")             # re-updates all products
-        classify_products_sync_mongo()
+        # logging.info("🧸 Classifying products")             # re-updates all products
+        # classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
     run_flatten_articles()
@@ -62,17 +63,20 @@ def main(update_mongo_metadata=False):
         group_projects(in_path, out_path, output_cols)
 
     # logging.info("🏭 Importing facilities")
-    write_facilities()
+    write_facilities() # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
-    logging.info("🧮 Determining phase summaries")
-    determine_phase_summary()
+    # logging.info("🏭 Updating facilities")
+    attach_events()
 
-    logging.info("Outputting clean capacities summary data")
-    output_capacities_plot()
+    # logging.info("🧮 Determining phase summaries")
+    # determine_phase_summary()
+
+    # logging.info("Outputting clean capacities summary data")
+    # output_capacities_plot()
 
     # final timing
     t1_pipeline = time.time()
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True)
+    main(update_mongo_metadata=False)
