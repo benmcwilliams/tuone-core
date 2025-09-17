@@ -23,7 +23,8 @@ model_dictionary = {
     "financial_origin": "ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI",
     "financial_technological": "ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS",
     "capacities": "ft:gpt-4o-mini-2024-07-18:personal:capacities:BnBvxHsg",
-    "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BnCKWIn4"
+    "investments": "ft:gpt-4o-mini-2024-07-18:personal:investments:BnCKWIn4",
+    "products": "gpt-4o-mini"
 } 
 
 ## gpt-4o-mini 

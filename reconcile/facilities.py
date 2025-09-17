@@ -53,6 +53,14 @@ def write_facilities():
     logging.info(f"Saving a copy of facilities to Excel at {FACILITIES}")
     df_facilities.to_excel(FACILITIES, index=False)
 
+    # output clean owner names for dictionary
+    (df_facilities["inst_canon"]
+    .dropna()
+    .drop_duplicates()
+    .sort_values()
+    .to_frame(name="inst_canon")
+    .to_excel("storage/output/unique_owners.xlsx", index=False))
+
     # =========================
     # B) Read capacities & production (from GROUPED_CAPACITIES, ZEV_PRODUCTION)
     # =========================
