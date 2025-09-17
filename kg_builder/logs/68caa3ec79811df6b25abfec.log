@@ -1,0 +1,112 @@
+2025-09-17 14:18:54,504 - INFO - 🔍 Text length: 3821 characters
+2025-09-17 14:18:54,504 - INFO - 📌 Processing Article ID: 68caa3ec79811df6b25abfec — DAS Solar plans 5GW XBC cell plant as technology shifts to TOPCon/back contact combination
+2025-09-17 14:18:54,505 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:18:57,279 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:18:57,279 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_das_solar",
+        "type": "company",
+        "name": "DAS Solar"
+      },
+      {
+        "id": "company_das_solar_weining_co_ltd",
+        "type": "company",
+        "name": "DAS Solar (Weining) Co., Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_weining_guizhou",
+        "type": "factory",
+        "name": "Weining Guizhou 5GW XBC Cell Plant",
+        "location": {
+          "city": "Weining County, Bijie",
+          "country": "China"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "5GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dbc_cell",
+        "type": "product",
+        "name": "DBC Cell"
+      },
+      {
+        "id": "product_dbc_module",
+        "type": "product",
+        "name": "DBC Module"
+      }
+    ]
+  }
+}
+2025-09-17 14:18:57,279 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:18:57,279 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:18:57,279 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:19:01,337 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:01,337 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5gw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:19:01,337 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:01,337 - INFO - Node ID is capacity_5gw
+2025-09-17 14:19:01,337 - INFO - ✅ Match found for capacity_ID 'capacity_5gw' in capacity nodes
+2025-09-17 14:19:01,337 - INFO -   ➕ Set status: announced
+2025-09-17 14:19:01,337 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:19:01,338 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:19:01,338 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:19:01,338 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:19:01,338 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:19:02,309 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:02,309 - INFO - {
+  "relationships": [
+    {
+      "source": "company_das_solar_weining_co_ltd",
+      "type": "owns",
+      "target": "factory_weining_guizhou"
+    }
+  ]
+}
+2025-09-17 14:19:02,310 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:02,310 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:19:02,310 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:19:04,391 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:04,391 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5gw",
+      "target": "factory_weining_guizhou",
+      "type": "at"
+    },
+    {
+      "source": "capacity_5gw",
+      "target": "product_dbc_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_dbc_cell",
+      "target": "factory_weining_guizhou",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:19:04,392 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:04,392 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:19:04,392 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:19:04,410 - INFO - ✅ Updated Article ID: 68caa3ec79811df6b25abfec with 6 nodes and combined text.

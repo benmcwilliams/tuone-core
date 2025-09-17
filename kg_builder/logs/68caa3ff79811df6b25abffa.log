@@ -1,0 +1,191 @@
+2025-09-17 14:16:03,700 - INFO - 🔍 Text length: 3068 characters
+2025-09-17 14:16:03,700 - INFO - 📌 Processing Article ID: 68caa3ff79811df6b25abffa — Up to 1000 jobs at risk at Ford’s Cologne plant
+2025-09-17 14:16:03,700 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:16:07,262 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:07,262 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cologne_germany",
+        "type": "factory",
+        "name": "Cologne EV plant",
+        "location": {
+          "city": "Cologne",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cologne_conversion",
+        "type": "investment",
+        "name": "Cologne Conversion",
+        "amount": "$2 billion",
+        "status": "completed"
+      },
+      {
+        "id": "investment_germany_capital_injection",
+        "type": "investment",
+        "name": "Germany Capital Injection",
+        "amount": "up to 4.4 billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_250k_cars_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "250,000 cars per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_explorer",
+        "type": "product",
+        "name": "Explorer"
+      },
+      {
+        "id": "product_capri",
+        "type": "product",
+        "name": "Capri"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-09-17 14:16:07,262 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:07,262 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:16:07,263 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:16:10,367 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:10,367 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_250k_cars_per_year",
+      "status": "operational",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-09-17 14:16:10,367 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:10,367 - INFO - Node ID is capacity_250k_cars_per_year
+2025-09-17 14:16:10,367 - INFO - ✅ Match found for capacity_ID 'capacity_250k_cars_per_year' in capacity nodes
+2025-09-17 14:16:10,367 - INFO -   ➕ Set status: operational
+2025-09-17 14:16:10,367 - INFO -   ➕ Set phase: retrofit
+2025-09-17 14:16:10,367 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-17 14:16:10,367 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-17 14:16:12,812 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:12,813 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cologne_conversion",
+      "status": "completed",
+      "phase": "retrofit"
+    },
+    {
+      "investment_ID": "investment_germany_capital_injection",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-17 14:16:12,813 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:12,813 - INFO - Node ID is investment_cologne_conversion
+2025-09-17 14:16:12,813 - INFO - ✅ Match found for investment_ID 'investment_cologne_conversion' in investment nodes
+2025-09-17 14:16:12,813 - INFO -   ➕ Set status: completed
+2025-09-17 14:16:12,813 - INFO -   ➕ Set phase: retrofit
+2025-09-17 14:16:12,813 - INFO - Node ID is investment_germany_capital_injection
+2025-09-17 14:16:12,813 - INFO - ✅ Match found for investment_ID 'investment_germany_capital_injection' in investment nodes
+2025-09-17 14:16:12,813 - INFO -   ➕ Set status: announced
+2025-09-17 14:16:12,813 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:16:12,813 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:16:12,813 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:16:12,813 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:16:15,718 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:15,719 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_cologne_germany"
+    }
+  ]
+}
+2025-09-17 14:16:15,719 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:15,719 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:16:15,719 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:16:18,729 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:18,729 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_250k_cars_per_year",
+      "target": "factory_cologne_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_250k_cars_per_year",
+      "target": "product_explorer",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_250k_cars_per_year",
+      "target": "product_capri",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_explorer",
+      "target": "factory_cologne_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_capri",
+      "target": "factory_cologne_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_packs",
+      "target": "factory_cologne_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:16:18,730 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:18,730 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-17 14:16:18,730 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-17 14:16:20,676 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:20,677 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:16:20,677 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:20,677 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-17 14:16:20,677 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-17 14:16:23,135 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:16:23,136 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cologne_conversion",
+      "type": "funds",
+      "target": "factory_cologne_germany"
+    }
+  ]
+}
+2025-09-17 14:16:23,136 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:16:23,155 - INFO - ✅ Updated Article ID: 68caa3ff79811df6b25abffa with 9 nodes and combined text.

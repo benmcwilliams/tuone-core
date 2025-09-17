@@ -1,0 +1,97 @@
+2025-09-17 14:11:23,940 - INFO - 🔍 Text length: 8551 characters
+2025-09-17 14:11:23,940 - INFO - 📌 Processing Article ID: 68caa41279811df6b25ac01e — BMW Hungarian plant readied for series production of the BMW iX3
+2025-09-17 14:11:23,940 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:11:29,015 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:11:29,015 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_plant_debrecen",
+        "type": "factory",
+        "name": "Plant Debrecen",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_landshut",
+        "type": "factory",
+        "name": "Landshut",
+        "location": {
+          "city": "Landshut",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bmw_ix3",
+        "type": "product",
+        "name": "BMW iX3"
+      },
+      {
+        "id": "product_gen6_high_voltage_batteries",
+        "type": "product",
+        "name": "Gen6 high-voltage batteries"
+      }
+    ]
+  }
+}
+2025-09-17 14:11:29,015 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:11:29,015 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:11:29,015 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:11:29,015 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:11:29,015 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:11:29,016 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:11:30,061 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:11:30,061 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_plant_debrecen"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_landshut"
+    }
+  ]
+}
+2025-09-17 14:11:30,061 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:11:30,061 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:11:30,061 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:11:40,734 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:11:40,734 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bmw_ix3",
+      "target": "factory_plant_debrecen",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gen6_high_voltage_batteries",
+      "target": "factory_plant_debrecen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:11:40,734 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:11:40,734 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:11:40,734 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:11:40,754 - INFO - ✅ Updated Article ID: 68caa41279811df6b25ac01e with 6 nodes and combined text.

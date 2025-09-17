@@ -1,0 +1,92 @@
+2025-09-17 14:19:41,507 - INFO - 🔍 Text length: 1683 characters
+2025-09-17 14:19:41,507 - INFO - 📌 Processing Article ID: 68caa3de79811df6b25abfe8 — Germany adds 1.95 GW of new solar in August
+2025-09-17 14:19:41,507 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:19:43,718 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:43,719 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_weesow_willmersdorf_solar_park",
+        "type": "factory",
+        "name": "Weesow-Willmersdorf Solar Park",
+        "location": {
+          "city": "Brandenburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_1_95_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.95 GW",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_power",
+        "type": "product",
+        "name": "solar power"
+      }
+    ]
+  }
+}
+2025-09-17 14:19:43,719 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:43,719 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:19:43,719 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:19:44,704 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:44,704 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_95_gw_announced",
+      "status": "announced",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-17 14:19:44,704 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:44,704 - INFO - Node ID is capacity_1_95_gw_announced
+2025-09-17 14:19:44,705 - INFO - ✅ Match found for capacity_ID 'capacity_1_95_gw_announced' in capacity nodes
+2025-09-17 14:19:44,705 - INFO -   ➕ Set status: announced
+2025-09-17 14:19:44,705 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:19:44,705 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:19:44,705 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:19:44,705 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:19:44,705 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:19:45,674 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:45,674 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_weesow_willmersdorf_solar_park",
+      "type": "owns"
+    }
+  ]
+}
+2025-09-17 14:19:45,674 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:45,674 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:19:45,674 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:19:46,708 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:19:46,709 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_power",
+      "target": "factory_weesow_willmersdorf_solar_park",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_95_gw_announced",
+      "target": "product_solar_power",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-17 14:19:46,709 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:19:46,709 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:19:46,709 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:19:46,729 - INFO - ✅ Updated Article ID: 68caa3de79811df6b25abfe8 with 3 nodes and combined text.

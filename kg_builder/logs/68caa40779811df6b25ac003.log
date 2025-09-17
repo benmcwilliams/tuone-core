@@ -1,0 +1,229 @@
+2025-09-17 14:13:41,304 - INFO - 🔍 Text length: 3380 characters
+2025-09-17 14:13:41,304 - INFO - 📌 Processing Article ID: 68caa40779811df6b25ac003 — Rivian breaks ground on Georgia EV plant
+2025-09-17 14:13:41,304 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:13:44,823 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:44,824 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian",
+        "type": "company",
+        "name": "Rivian"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_stanton_springs_north_georgia",
+        "type": "factory",
+        "name": "Stanton Springs North",
+        "location": {
+          "city": "Social Circle",
+          "country": "United States"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_normal_illinois",
+        "type": "factory",
+        "name": "Normal",
+        "location": {
+          "city": "Normal",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_6.6_bn_ongoing",
+        "type": "investment",
+        "name": "US Department of Energy Loan",
+        "amount": "$6.6 bn",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_400k_units_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "200,000 units per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_200,000_units per year_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r2_suv",
+        "type": "product",
+        "name": "R2 SUV"
+      },
+      {
+        "id": "product_r3_crossover",
+        "type": "product",
+        "name": "R3 crossover"
+      }
+    ]
+  }
+}
+2025-09-17 14:13:44,824 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:44,824 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:13:44,824 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:13:52,127 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:52,128 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_400k_units_per_year_announced",
+      "status": "announced",
+      "phase": "greenfield"
+    },
+    {
+      "capacity_ID": "capacity_200,000_units per year_unclear",
+      "status": "unclear",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-17 14:13:52,128 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:52,128 - INFO - Node ID is capacity_400k_units_per_year_announced
+2025-09-17 14:13:52,128 - INFO - ✅ Match found for capacity_ID 'capacity_400k_units_per_year_announced' in capacity nodes
+2025-09-17 14:13:52,128 - INFO -   ➕ Set status: announced
+2025-09-17 14:13:52,128 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:13:52,128 - INFO - Node ID is capacity_200,000_units per year_unclear
+2025-09-17 14:13:52,128 - INFO - ✅ Match found for capacity_ID 'capacity_200,000_units per year_unclear' in capacity nodes
+2025-09-17 14:13:52,128 - INFO -   ➕ Set status: unclear
+2025-09-17 14:13:52,128 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:13:52,128 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-17 14:13:52,129 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-17 14:13:59,095 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:59,096 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_6.6_bn_ongoing",
+      "status": "ongoing",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:13:59,096 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:59,096 - INFO - Node ID is investment_usd_6.6_bn_ongoing
+2025-09-17 14:13:59,096 - INFO - ✅ Match found for investment_ID 'investment_usd_6.6_bn_ongoing' in investment nodes
+2025-09-17 14:13:59,096 - INFO -   ➕ Set status: ongoing
+2025-09-17 14:13:59,096 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:13:59,096 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:13:59,096 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:13:59,096 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:14:00,182 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:00,183 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rivian",
+      "type": "owns",
+      "target": "factory_stanton_springs_north_georgia"
+    },
+    {
+      "source": "company_rivian",
+      "type": "owns",
+      "target": "factory_normal_illinois"
+    }
+  ]
+}
+2025-09-17 14:14:00,183 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:00,183 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:14:00,183 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:14:02,641 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:02,641 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_400k_units_per_year_announced",
+      "target": "factory_stanton_springs_north_georgia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200,000_units per year_unclear",
+      "target": "factory_stanton_springs_north_georgia",
+      "type": "at"
+    },
+    {
+      "source": "product_r2_suv",
+      "target": "factory_stanton_springs_north_georgia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_r3_crossover",
+      "target": "factory_stanton_springs_north_georgia",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_400k_units_per_year_announced",
+      "target": "product_r2_suv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_400k_units_per_year_announced",
+      "target": "product_r3_crossover",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200,000_units per year_unclear",
+      "target": "product_r2_suv",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200,000_units per year_unclear",
+      "target": "product_r3_crossover",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-17 14:14:02,641 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:02,641 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-17 14:14:02,641 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-17 14:14:04,436 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:04,436 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:14:04,436 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:04,436 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-17 14:14:04,436 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-17 14:14:13,670 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:13,671 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_6.6_bn_ongoing",
+      "type": "funds",
+      "target": "factory_stanton_springs_north_georgia"
+    },
+    {
+      "source": "investment_usd_6.6_bn_ongoing",
+      "type": "enables",
+      "target": "capacity_400k_units_per_year_announced"
+    },
+    {
+      "source": "investment_usd_6.6_bn_ongoing",
+      "type": "enables",
+      "target": "capacity_200,000_units per year_unclear"
+    },
+    {
+      "source": "investment_usd_6.6_bn_ongoing",
+      "type": "targets",
+      "target": "product_r2_suv"
+    },
+    {
+      "source": "investment_usd_6.6_bn_ongoing",
+      "type": "targets",
+      "target": "product_r3_crossover"
+    }
+  ]
+}
+2025-09-17 14:14:13,672 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:13,690 - INFO - ✅ Updated Article ID: 68caa40779811df6b25ac003 with 8 nodes and combined text.

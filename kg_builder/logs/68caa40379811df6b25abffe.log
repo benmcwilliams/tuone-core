@@ -1,0 +1,102 @@
+2025-09-17 14:15:03,485 - INFO - 🔍 Text length: 2637 characters
+2025-09-17 14:15:03,486 - INFO - 📌 Processing Article ID: 68caa40379811df6b25abffe — Nissan to half production of Leaf EV due to battery shortage
+2025-09-17 14:15:03,486 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:15:06,229 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:06,230 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_aesc",
+        "type": "company",
+        "name": "AESC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tochigi_japan",
+        "type": "factory",
+        "name": "Tochigi Plant",
+        "location": {
+          "city": "Tochigi",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "Sunderland Plant",
+        "location": {
+          "city": "Sunderland",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_leaf_ev",
+        "type": "product",
+        "name": "Leaf EV"
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-17 14:15:06,230 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:06,230 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:15:06,230 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:15:06,230 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:15:06,230 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:15:06,230 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:15:07,200 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:07,200 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_tochigi_japan"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_sunderland_uk"
+    }
+  ]
+}
+2025-09-17 14:15:07,200 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:07,200 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:15:07,200 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:15:08,516 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:08,517 - INFO - {
+  "relationships": [
+    {
+      "source": "product_leaf_ev",
+      "target": "factory_tochigi_japan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_leaf_ev",
+      "target": "factory_sunderland_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_tochigi_japan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:15:08,517 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:08,517 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:15:08,517 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:15:08,535 - INFO - ✅ Updated Article ID: 68caa40379811df6b25abffe with 6 nodes and combined text.

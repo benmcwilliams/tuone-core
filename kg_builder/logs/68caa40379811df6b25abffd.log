@@ -1,0 +1,107 @@
+2025-09-17 14:15:08,537 - INFO - 🔍 Text length: 2376 characters
+2025-09-17 14:15:08,537 - INFO - 📌 Processing Article ID: 68caa40379811df6b25abffd — SK On opens pilot plant to fast-track solid-state batteries
+2025-09-17 14:15:08,537 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:15:12,785 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:12,785 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      },
+      {
+        "id": "company_solid_power",
+        "type": "company",
+        "name": "Solid Power"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_daejeon_south_korea",
+        "type": "factory",
+        "name": "Daejeon Pilot Plant",
+        "location": {
+          "city": "Daejeon",
+          "country": "South Korea"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_batteries",
+        "type": "product",
+        "name": "solid-state batteries"
+      },
+      {
+        "id": "product_sulphide_based_batteries",
+        "type": "product",
+        "name": "sulphide-based batteries"
+      },
+      {
+        "id": "product_lithium_metal_anodes",
+        "type": "product",
+        "name": "lithium-metal anodes"
+      },
+      {
+        "id": "product_solid_polymer_electrolyte",
+        "type": "product",
+        "name": "solid polymer electrolyte"
+      },
+      {
+        "id": "product_nmc_cathodes",
+        "type": "product",
+        "name": "NMC cathodes"
+      },
+      {
+        "id": "product_ncm_811_cathode",
+        "type": "product",
+        "name": "NCM-811 cathode"
+      }
+    ]
+  }
+}
+2025-09-17 14:15:12,785 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:12,785 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:15:12,786 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:15:12,786 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:15:12,786 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:15:12,786 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:15:13,875 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:13,876 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_daejeon_south_korea"
+    }
+  ]
+}
+2025-09-17 14:15:13,876 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:13,876 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:15:13,876 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:15:18,554 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:18,554 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sulphide_based_batteries",
+      "target": "factory_daejeon_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:15:18,554 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:18,554 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:15:18,554 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:15:18,573 - INFO - ✅ Updated Article ID: 68caa40379811df6b25abffd with 11 nodes and combined text.

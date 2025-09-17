@@ -1,0 +1,101 @@
+2025-09-17 14:22:27,702 - INFO - 🔍 Text length: 3763 characters
+2025-09-17 14:22:27,703 - INFO - 📌 Processing Article ID: 68c15378e596289ce8423068 — Photovoltaic trees can save forest cover
+2025-09-17 14:22:27,703 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:22:32,501 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:32,501 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hanwha_q_cells_korea",
+        "type": "company",
+        "name": "Hanwha Q CELLS Korea"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_national_assembly_building_seoul",
+        "type": "factory",
+        "name": "National Assembly Building Solar Tree",
+        "location": {
+          "city": "Seoul",
+          "country": "South Korea"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 MW",
+        "status": "unclear"
+      },
+      {
+        "id": "capacity_1,000_kw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,000 kW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_trees",
+        "type": "product",
+        "name": "solar trees"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-09-17 14:22:32,501 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:32,501 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:22:32,502 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:22:33,927 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:33,927 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_mw",
+      "status": "unclear",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_1,000_kw",
+      "status": "operational",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:22:33,927 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:33,927 - INFO - Node ID is capacity_1_mw
+2025-09-17 14:22:33,927 - INFO - ✅ Match found for capacity_ID 'capacity_1_mw' in capacity nodes
+2025-09-17 14:22:33,927 - INFO -   ➕ Set status: unclear
+2025-09-17 14:22:33,927 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:22:33,927 - INFO - Node ID is capacity_1,000_kw
+2025-09-17 14:22:33,927 - INFO - ✅ Match found for capacity_ID 'capacity_1,000_kw' in capacity nodes
+2025-09-17 14:22:33,927 - INFO -   ➕ Set status: operational
+2025-09-17 14:22:33,927 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:22:33,928 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:22:33,928 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:22:33,928 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:22:33,928 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:22:34,439 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:34,439 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:22:34,440 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:34,440 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:22:34,440 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:22:35,566 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:35,566 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:22:35,566 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:35,566 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:22:35,566 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:22:35,584 - INFO - ✅ Updated Article ID: 68c15378e596289ce8423068 with 6 nodes and combined text.

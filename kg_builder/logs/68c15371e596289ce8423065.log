@@ -1,0 +1,182 @@
+2025-09-17 14:22:48,431 - INFO - 🔍 Text length: 1848 characters
+2025-09-17 14:22:48,432 - INFO - 📌 Processing Article ID: 68c15371e596289ce8423065 — Avaada Electro unveils n-type TOPCon PV modules
+2025-09-17 14:22:48,432 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:22:52,872 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:52,872 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_avaada_group",
+        "type": "company",
+        "name": "Avaada Group"
+      },
+      {
+        "id": "company_avaada_electro",
+        "type": "company",
+        "name": "Avaada Electro"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nagpur",
+        "type": "factory",
+        "name": "Nagpur",
+        "location": {
+          "city": "Nagpur",
+          "country": "India"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_uttar_pradesh",
+        "type": "factory",
+        "name": "Uttar Pradesh",
+        "location": {
+          "city": "Uttar Pradesh",
+          "country": "India"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_maharashtra",
+        "type": "factory",
+        "name": "Maharashtra",
+        "location": {
+          "city": "Maharashtra",
+          "country": "India"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_8_5_gw_photovoltaic_module",
+        "type": "capacity",
+        "name": "",
+        "amount": "8.5 GW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_n_type_topcon_solar_modules",
+        "type": "product",
+        "name": "n-type TOPCon solar modules"
+      },
+      {
+        "id": "product_n_type_topcon_cells",
+        "type": "product",
+        "name": "n-type TOPCon cells"
+      }
+    ]
+  }
+}
+2025-09-17 14:22:52,873 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:52,873 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:22:52,873 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:22:58,504 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:58,505 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_8_5_gw_photovoltaic_module",
+      "status": "operational",
+      "phase": "unclear"
+    }
+  ]
+}
+2025-09-17 14:22:58,505 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:58,505 - INFO - Node ID is capacity_8_5_gw_photovoltaic_module
+2025-09-17 14:22:58,505 - INFO - ✅ Match found for capacity_ID 'capacity_8_5_gw_photovoltaic_module' in capacity nodes
+2025-09-17 14:22:58,505 - INFO -   ➕ Set status: operational
+2025-09-17 14:22:58,505 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:22:58,505 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:22:58,505 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:22:58,505 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:22:58,505 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:23:00,346 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:23:00,346 - INFO - {
+  "relationships": [
+    {
+      "source": "company_avaada_electro",
+      "type": "owns",
+      "target": "factory_nagpur"
+    },
+    {
+      "source": "company_avaada_electro",
+      "type": "owns",
+      "target": "factory_uttar_pradesh"
+    },
+    {
+      "source": "company_avaada_electro",
+      "type": "owns",
+      "target": "factory_maharashtra"
+    }
+  ]
+}
+2025-09-17 14:23:00,346 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:23:00,346 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:23:00,346 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:23:03,379 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:23:03,379 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_8_5_gw_photovoltaic_module",
+      "target": "factory_nagpur",
+      "type": "at"
+    },
+    {
+      "source": "capacity_8_5_gw_photovoltaic_module",
+      "target": "factory_uttar_pradesh",
+      "type": "at"
+    },
+    {
+      "source": "capacity_8_5_gw_photovoltaic_module",
+      "target": "factory_maharashtra",
+      "type": "at"
+    },
+    {
+      "source": "product_n_type_topcon_solar_modules",
+      "target": "factory_nagpur",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_topcon_cells",
+      "target": "factory_nagpur",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_topcon_solar_modules",
+      "target": "factory_uttar_pradesh",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_topcon_cells",
+      "target": "factory_uttar_pradesh",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_topcon_solar_modules",
+      "target": "factory_maharashtra",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_n_type_topcon_cells",
+      "target": "factory_maharashtra",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_8_5_gw_photovoltaic_module",
+      "target": "product_n_type_topcon_solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_8_5_gw_photovoltaic_module",
+      "target": "product_n_type_topcon_cells",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-17 14:23:03,379 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:23:03,379 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:23:03,379 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:23:03,399 - INFO - ✅ Updated Article ID: 68c15371e596289ce8423065 with 8 nodes and combined text.

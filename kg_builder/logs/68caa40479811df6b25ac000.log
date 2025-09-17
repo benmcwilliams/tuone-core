@@ -1,0 +1,183 @@
+2025-09-17 14:14:45,242 - INFO - 🔍 Text length: 3040 characters
+2025-09-17 14:14:45,242 - INFO - 📌 Processing Article ID: 68caa40479811df6b25ac000 — Hyundai to build Ioniq 3 in Türkiye
+2025-09-17 14:14:45,242 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:14:48,579 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:48,579 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_izmit_turkiye",
+        "type": "factory",
+        "name": "\u0130zmit Plant",
+        "location": {
+          "city": "\u0130zmit",
+          "country": "T\u00fcrkiye"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_nosovice_czech_republic",
+        "type": "factory",
+        "name": "Nosovice Plant",
+        "location": {
+          "city": "Nosovice",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_245k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "245,000 vehicles per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_190k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "190,000 vehicles per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ioniq_3",
+        "type": "product",
+        "name": "Ioniq 3"
+      },
+      {
+        "id": "product_kona_electric",
+        "type": "product",
+        "name": "Kona Electric"
+      },
+      {
+        "id": "product_i10",
+        "type": "product",
+        "name": "i10"
+      },
+      {
+        "id": "product_i20",
+        "type": "product",
+        "name": "i20"
+      },
+      {
+        "id": "product_bayon",
+        "type": "product",
+        "name": "Bayon"
+      },
+      {
+        "id": "product_inster",
+        "type": "product",
+        "name": "Inster"
+      }
+    ]
+  }
+}
+2025-09-17 14:14:48,579 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:48,579 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:14:48,579 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:14:50,019 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:50,020 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_245k_vehicles_per_year",
+      "status": "operational",
+      "phase": "unclear"
+    },
+    {
+      "capacity_ID": "capacity_190k_vehicles_per_year",
+      "status": "under construction",
+      "phase": "retrofit"
+    }
+  ]
+}
+2025-09-17 14:14:50,020 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:50,020 - INFO - Node ID is capacity_245k_vehicles_per_year
+2025-09-17 14:14:50,020 - INFO - ✅ Match found for capacity_ID 'capacity_245k_vehicles_per_year' in capacity nodes
+2025-09-17 14:14:50,020 - INFO -   ➕ Set status: operational
+2025-09-17 14:14:50,020 - INFO -   ➕ Set phase: unclear
+2025-09-17 14:14:50,020 - INFO - Node ID is capacity_190k_vehicles_per_year
+2025-09-17 14:14:50,020 - INFO - ✅ Match found for capacity_ID 'capacity_190k_vehicles_per_year' in capacity nodes
+2025-09-17 14:14:50,020 - INFO -   ➕ Set status: under construction
+2025-09-17 14:14:50,020 - INFO -   ➕ Set phase: retrofit
+2025-09-17 14:14:50,020 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:14:50,020 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:14:50,020 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:14:50,021 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:14:51,289 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:51,289 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_izmit_turkiye"
+    },
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_nosovice_czech_republic"
+    }
+  ]
+}
+2025-09-17 14:14:51,289 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:51,289 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:14:51,290 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:14:55,992 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:55,992 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_245k_vehicles_per_year",
+      "target": "factory_izmit_turkiye",
+      "type": "at"
+    },
+    {
+      "source": "capacity_190k_vehicles_per_year",
+      "target": "factory_izmit_turkiye",
+      "type": "at"
+    },
+    {
+      "source": "capacity_245k_vehicles_per_year",
+      "target": "capacity_190k_vehicles_per_year",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ioniq_3",
+      "target": "factory_izmit_turkiye",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_kona_electric",
+      "target": "factory_nosovice_czech_republic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_i10",
+      "target": "factory_izmit_turkiye",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_i20",
+      "target": "factory_izmit_turkiye",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bayon",
+      "target": "factory_izmit_turkiye",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:14:55,992 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:55,992 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:14:55,992 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:14:56,013 - INFO - ✅ Updated Article ID: 68caa40479811df6b25ac000 with 11 nodes and combined text.

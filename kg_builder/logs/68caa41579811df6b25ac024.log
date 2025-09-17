@@ -1,0 +1,87 @@
+2025-09-17 14:09:49,734 - INFO - 🔍 Text length: 2720 characters
+2025-09-17 14:09:49,734 - INFO - 📌 Processing Article ID: 68caa41579811df6b25ac024 — Ford to slash 1,000 jobs at Cologne EV plant amid demand slump – report
+2025-09-17 14:09:49,734 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:09:53,291 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:53,291 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_bosch",
+        "type": "company",
+        "name": "Bosch"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cologne_ev_center",
+        "type": "factory",
+        "name": "Cologne EV Center",
+        "location": {
+          "city": "Cologne",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_saarlouis",
+        "type": "factory",
+        "name": "Saarlouis",
+        "location": {
+          "city": "Saarlouis",
+          "country": "Germany"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-17 14:09:53,291 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:53,291 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:09:53,291 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:09:53,292 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:09:53,292 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:09:53,292 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:09:56,671 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:56,671 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_cologne_ev_center"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_saarlouis"
+    }
+  ]
+}
+2025-09-17 14:09:56,672 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:56,672 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:09:56,672 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:09:59,641 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:59,641 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev",
+      "target": "factory_cologne_ev_center",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:09:59,641 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:59,641 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:09:59,641 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:09:59,659 - INFO - ✅ Updated Article ID: 68caa41579811df6b25ac024 with 5 nodes and combined text.

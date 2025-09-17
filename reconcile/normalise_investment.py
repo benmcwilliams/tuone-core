@@ -693,8 +693,8 @@ def run_investment_normalisation_pipeline(input_path: str, output_path: str) -> 
     return df_out
 
 # ======= Example call =======
-df = run_investment_normalisation_pipeline(
-    "storage/output/investment-funds-factory.xlsx",
-    "storage/output/investment-funds-factory-clean.xlsx"
-)
-print(df.head(30))
+# df = run_investment_normalisation_pipeline(
+#     "storage/output/investment-funds-factory.xlsx",
+#     "storage/output/investment-funds-factory-clean.xlsx"
+# )
+# print(df.head(30))

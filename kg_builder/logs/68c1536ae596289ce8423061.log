@@ -1,0 +1,167 @@
+2025-09-17 14:23:30,172 - INFO - 🔍 Text length: 3670 characters
+2025-09-17 14:23:30,172 - INFO - 📌 Processing Article ID: 68c1536ae596289ce8423061 — The Hydrogen Stream: France, Germany back nuclear H2, Southwestern Corridor
+2025-09-17 14:23:30,172 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:23:33,935 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:23:33,936 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_france",
+        "type": "company",
+        "name": "France"
+      },
+      {
+        "id": "company_germany",
+        "type": "company",
+        "name": "Germany"
+      },
+      {
+        "id": "company_university_of_missouri",
+        "type": "company",
+        "name": "University of Missouri"
+      },
+      {
+        "id": "company_bondalti_chemicals",
+        "type": "company",
+        "name": "Bondalti Chemicals"
+      },
+      {
+        "id": "company_cac_engineering",
+        "type": "company",
+        "name": "CAC Engineering"
+      },
+      {
+        "id": "company_asahi_kasei",
+        "type": "company",
+        "name": "Asahi Kasei"
+      },
+      {
+        "id": "company_thyssenkrupp_nucera",
+        "type": "company",
+        "name": "Thyssenkrupp Nucera"
+      },
+      {
+        "id": "company_green_hydrogen_systems",
+        "type": "company",
+        "name": "Green Hydrogen Systems"
+      },
+      {
+        "id": "company_lhyfe",
+        "type": "company",
+        "name": "Lhyfe"
+      },
+      {
+        "id": "company_essent",
+        "type": "company",
+        "name": "Essent"
+      },
+      {
+        "id": "company_nefit_bosch",
+        "type": "company",
+        "name": "Nefit Bosch"
+      },
+      {
+        "id": "company_everfuel",
+        "type": "company",
+        "name": "Everfuel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_estarreja_portugal",
+        "type": "factory",
+        "name": "Estarreja Chlor-Alkali Production Facility",
+        "location": {
+          "city": "Estarreja",
+          "country": "Portugal"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_skive_denmark",
+        "type": "factory",
+        "name": "Skive Test Facility",
+        "location": {
+          "city": "Skive",
+          "country": "Denmark"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_hysynergy_denmark",
+        "type": "factory",
+        "name": "HySynergy Hydrogen Production Facility",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen",
+        "type": "product",
+        "name": "hydrogen"
+      },
+      {
+        "id": "product_chlor_alkali",
+        "type": "product",
+        "name": "chlor-alkali"
+      },
+      {
+        "id": "product_h2_ready_combi_boiler",
+        "type": "product",
+        "name": "H2 Ready combi boiler"
+      }
+    ]
+  }
+}
+2025-09-17 14:23:33,936 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:23:33,936 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:23:33,936 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:23:33,936 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:23:33,936 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:23:33,936 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:23:35,300 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:23:35,300 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bondalti_chemicals",
+      "type": "owns",
+      "target": "factory_estarreja_portugal"
+    },
+    {
+      "source": "company_thyssenkrupp_nucera",
+      "type": "owns",
+      "target": "factory_skive_denmark"
+    },
+    {
+      "source": "company_everfuel",
+      "type": "owns",
+      "target": "factory_hysynergy_denmark"
+    }
+  ]
+}
+2025-09-17 14:23:35,301 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:23:35,301 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:23:35,301 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:23:36,216 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:23:36,216 - INFO - {
+  "relationships": [
+    {
+      "source": "product_chlor_alkali",
+      "target": "factory_estarreja_portugal",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen",
+      "target": "factory_hysynergy_denmark",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:23:36,216 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:23:36,216 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:23:36,217 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:23:36,235 - INFO - ✅ Updated Article ID: 68c1536ae596289ce8423061 with 18 nodes and combined text.

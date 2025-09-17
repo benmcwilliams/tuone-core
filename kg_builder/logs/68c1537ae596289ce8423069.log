@@ -1,0 +1,144 @@
+2025-09-17 14:22:07,268 - INFO - 🔍 Text length: 1347 characters
+2025-09-17 14:22:07,268 - INFO - 📌 Processing Article ID: 68c1537ae596289ce8423069 — Bermuda tenders up to 10 MW of floating solar
+2025-09-17 14:22:07,268 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:22:10,786 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:10,787 - INFO - {
+  "nodes": {
+    "companies": [],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_bermuda_floating_solar",
+        "type": "factory",
+        "name": "Bermuda Floating Solar Farm",
+        "location": {
+          "city": "Bermuda",
+          "country": "Bermuda"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bermuda_floating_solar",
+        "type": "investment",
+        "name": "Bermuda Floating Solar Tender",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10_mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "10 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_floating_solar",
+        "type": "product",
+        "name": "floating solar"
+      }
+    ]
+  }
+}
+2025-09-17 14:22:10,787 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:10,787 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-17 14:22:10,787 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-17 14:22:13,951 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:13,951 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10_mw",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:22:13,951 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:13,951 - INFO - Node ID is capacity_10_mw
+2025-09-17 14:22:13,951 - INFO - ✅ Match found for capacity_ID 'capacity_10_mw' in capacity nodes
+2025-09-17 14:22:13,951 - INFO -   ➕ Set status: announced
+2025-09-17 14:22:13,951 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:22:13,951 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-17 14:22:13,951 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-17 14:22:16,715 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:16,715 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bermuda_floating_solar",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:22:16,715 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:16,716 - INFO - Node ID is investment_bermuda_floating_solar
+2025-09-17 14:22:16,716 - INFO - ✅ Match found for investment_ID 'investment_bermuda_floating_solar' in investment nodes
+2025-09-17 14:22:16,716 - INFO -   ➕ Set status: announced
+2025-09-17 14:22:16,716 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:22:16,716 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:22:16,716 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:22:16,716 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:22:18,353 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:18,353 - INFO - {
+  "relationships": [
+    {
+      "source": "factory_bermuda_floating_solar",
+      "type": "owns"
+    }
+  ]
+}
+2025-09-17 14:22:18,353 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:18,354 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:22:18,354 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:22:20,718 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:20,718 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10_mw",
+      "target": "factory_bermuda_floating_solar",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_mw",
+      "target": "product_floating_solar",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_floating_solar",
+      "target": "factory_bermuda_floating_solar",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:22:20,718 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:20,718 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-17 14:22:20,718 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-17 14:22:22,151 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:22,152 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:22:22,152 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:22,152 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-17 14:22:22,152 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-17 14:22:27,683 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:22:27,683 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bermuda_floating_solar",
+      "target": "capacity_10_mw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_bermuda_floating_solar",
+      "target": "product_floating_solar",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-17 14:22:27,683 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:22:27,701 - INFO - ✅ Updated Article ID: 68c1537ae596289ce8423069 with 4 nodes and combined text.

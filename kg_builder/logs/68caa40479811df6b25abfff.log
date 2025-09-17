@@ -1,0 +1,132 @@
+2025-09-17 14:14:56,014 - INFO - 🔍 Text length: 3281 characters
+2025-09-17 14:14:56,015 - INFO - 📌 Processing Article ID: 68caa40479811df6b25abfff — Contract manufacturing: Magna assembles Xpeng G6 and G9 in Graz
+2025-09-17 14:14:56,015 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:14:59,271 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:59,272 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_xpeng",
+        "type": "company",
+        "name": "Xpeng"
+      },
+      {
+        "id": "company_magna_steyr",
+        "type": "company",
+        "name": "Magna Steyr"
+      },
+      {
+        "id": "company_gac",
+        "type": "company",
+        "name": "GAC"
+      },
+      {
+        "id": "company_fisker",
+        "type": "company",
+        "name": "Fisker"
+      },
+      {
+        "id": "company_ineos",
+        "type": "company",
+        "name": "Ineos"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_graz_austria",
+        "type": "factory",
+        "name": "Graz",
+        "location": {
+          "city": "Graz",
+          "country": "Austria"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_xpeng_g6",
+        "type": "product",
+        "name": "Xpeng G6"
+      },
+      {
+        "id": "product_xpeng_g9",
+        "type": "product",
+        "name": "Xpeng G9"
+      },
+      {
+        "id": "product_p7_plus",
+        "type": "product",
+        "name": "P7+"
+      },
+      {
+        "id": "product_fusilier",
+        "type": "product",
+        "name": "Fusilier"
+      },
+      {
+        "id": "product_ocean_suv",
+        "type": "product",
+        "name": "Ocean SUV"
+      },
+      {
+        "id": "i-pace",
+        "type": "product",
+        "name": "I-Pace",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-17 14:14:59,272 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:59,272 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:14:59,272 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:14:59,272 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:14:59,272 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:14:59,272 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:14:59,986 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:14:59,986 - INFO - {
+  "relationships": [
+    {
+      "source": "company_magna_steyr",
+      "type": "owns",
+      "target": "factory_graz_austria"
+    }
+  ]
+}
+2025-09-17 14:14:59,986 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:14:59,986 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:14:59,986 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:15:03,466 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:15:03,466 - INFO - {
+  "relationships": [
+    {
+      "source": "product_xpeng_g6",
+      "target": "factory_graz_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_xpeng_g9",
+      "target": "factory_graz_austria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:15:03,466 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:15:03,466 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:15:03,466 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:15:03,484 - INFO - ✅ Updated Article ID: 68caa40479811df6b25abfff with 14 nodes and combined text.

@@ -1,0 +1,195 @@
+2025-09-17 14:09:22,650 - INFO - 🔍 Text length: 2754 characters
+2025-09-17 14:09:22,650 - INFO - 📌 Processing Article ID: 68caa41779811df6b25ac025 — Toyota to initiate electric SUV production at Kentucky plant in US – report
+2025-09-17 14:09:22,650 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:09:29,881 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:29,881 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toyota_kentucky",
+        "type": "factory",
+        "name": "Toyota Kentucky",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_toyota_indiana",
+        "type": "factory",
+        "name": "Toyota Indiana",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_toyota_motor_manufacturing_czech_republic",
+        "type": "factory",
+        "name": "Toyota Motor Manufacturing Czech Republic",
+        "location": {
+          "city": "null",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_czech_republic",
+        "type": "investment",
+        "name": "Toyota Czech Republic Investment",
+        "amount": "\u20ac680m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_ev",
+        "type": "product",
+        "name": "battery EV"
+      },
+      {
+        "id": "product_lexus_es_sedan",
+        "type": "product",
+        "name": "Lexus ES sedan"
+      },
+      {
+        "id": "product_lexus_tx_suv",
+        "type": "product",
+        "name": "Lexus TX SUV"
+      },
+      {
+        "id": "product_grand_highlander",
+        "type": "product",
+        "name": "Grand Highlander"
+      },
+      {
+        "id": "product_rav4",
+        "type": "product",
+        "name": "RAV4"
+      },
+      {
+        "id": "product_land_cruiser",
+        "type": "product",
+        "name": "Land Cruiser"
+      }
+    ]
+  }
+}
+2025-09-17 14:09:29,881 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:29,882 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:09:29,882 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-17 14:09:29,882 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-17 14:09:32,028 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:32,028 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_czech_republic",
+      "status": "announced",
+      "phase": "greenfield"
+    }
+  ]
+}
+2025-09-17 14:09:32,028 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:32,028 - INFO - Node ID is investment_toyota_czech_republic
+2025-09-17 14:09:32,028 - INFO - ✅ Match found for investment_ID 'investment_toyota_czech_republic' in investment nodes
+2025-09-17 14:09:32,028 - INFO -   ➕ Set status: announced
+2025-09-17 14:09:32,028 - INFO -   ➕ Set phase: greenfield
+2025-09-17 14:09:32,028 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:09:32,028 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:09:32,028 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:09:33,855 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:33,855 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_kentucky"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_indiana"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_toyota_motor_manufacturing_czech_republic"
+    }
+  ]
+}
+2025-09-17 14:09:33,855 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:33,855 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:09:33,855 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:09:40,141 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:40,142 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_ev",
+      "target": "factory_toyota_motor_manufacturing_czech_republic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lexus_es_sedan",
+      "target": "factory_toyota_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lexus_tx_suv",
+      "target": "factory_toyota_indiana",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_grand_highlander",
+      "target": "factory_toyota_indiana",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rav4",
+      "target": "factory_toyota_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_land_cruiser",
+      "target": "factory_toyota_kentucky",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:09:40,142 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:40,142 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-17 14:09:40,142 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-17 14:09:47,390 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:47,391 - INFO - {
+  "relationships": []
+}
+2025-09-17 14:09:47,391 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:47,391 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-17 14:09:47,391 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-17 14:09:49,712 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:09:49,713 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_czech_republic",
+      "target": "factory_toyota_motor_manufacturing_czech_republic",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_czech_republic",
+      "target": "product_battery_ev",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-17 14:09:49,713 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:09:49,732 - INFO - ✅ Updated Article ID: 68caa41779811df6b25ac025 with 11 nodes and combined text.

@@ -1,0 +1,72 @@
+2025-09-17 14:13:33,300 - INFO - 🔍 Text length: 5821 characters
+2025-09-17 14:13:33,300 - INFO - 📌 Processing Article ID: 68caa40779811df6b25ac004 — BMW to start iX3 series production in Debrecen in October
+2025-09-17 14:13:33,300 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-17 14:13:38,678 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:38,678 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ix3",
+        "type": "product",
+        "name": "iX3"
+      },
+      {
+        "id": "product_gen6_high_voltage_batteries",
+        "type": "product",
+        "name": "Gen6 High-Voltage Batteries"
+      }
+    ]
+  }
+}
+2025-09-17 14:13:38,679 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:38,679 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-17 14:13:38,679 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-17 14:13:38,679 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-17 14:13:38,679 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-17 14:13:38,679 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-17 14:13:39,985 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:39,985 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-09-17 14:13:39,985 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:39,985 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-17 14:13:39,985 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-17 14:13:41,282 - INFO - ✅ OpenAI returned output:
+2025-09-17 14:13:41,282 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ix3",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-17 14:13:41,282 - INFO - POST-PROCESSING STARTING.
+2025-09-17 14:13:41,282 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-17 14:13:41,283 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-17 14:13:41,302 - INFO - ✅ Updated Article ID: 68caa40779811df6b25ac004 with 4 nodes and combined text.

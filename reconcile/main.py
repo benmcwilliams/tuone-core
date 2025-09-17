@@ -33,7 +33,7 @@ def main(update_mongo_metadata=False):
         classify_products_sync_mongo()
 
     logging.info("🗞️ Flattening articles...")
-    # run_flatten_articles()
+    run_flatten_articles()
 
     logging.info("🉑 Merging nodes and relationships...")
     run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)
@@ -75,4 +75,4 @@ def main(update_mongo_metadata=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=False)
+    main(update_mongo_metadata=True)

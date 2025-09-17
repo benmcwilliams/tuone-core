@@ -85,7 +85,7 @@ def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
                 formatted.append(formatted_node)
         return formatted
 
-    if group in ("capacities", "investments"):
+    if group in ("capacities", "investments", "products"):
         result = raw if isinstance(raw, list) else []
         return result
 
@@ -130,6 +130,36 @@ def extract_node_characteristics(text, group, nodes, logger):
 
     return result 
 
+def attach_characteristics_to_nodes(
+    *,
+    formatted_nodes: list[dict],
+    node_characteristics: list[dict],
+    id_key: str,
+    type_match: str,
+    attach_map: dict[str, str],
+    logger,
+):
+    # Quick index for O(1) lookup by (id, type)
+    node_index = {(n.get("id"), n.get("type")): n for n in formatted_nodes}
+
+    for char in node_characteristics:
+        node_id = char.get(id_key)
+        node = node_index.get((node_id, type_match))
+        if not node:
+            logger.info(f"⚠️ No match found for {id_key} '{node_id}' in {type_match} nodes")
+            continue
+
+        logger.info(f"✅ Match found for {id_key} '{node_id}' in {type_match} nodes")
+        for src_key, dst_key in (attach_map or {}).items():
+            if src_key not in char:
+                continue
+            value = char[src_key]
+            if value in (None, "", [], {}):
+                continue
+
+            node[dst_key] = value
+            logger.info(f"  ➕ Set field '{dst_key}': {value}")
+
 def extract_relationships(text, group, nodes, logger):
 
     result = run_extraction(
@@ -164,11 +194,12 @@ def process_articles(articles_to_process, model_dictionary):
             # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
             formatted_nodes = extract_nodes(text, "entities", logger)
 
-            # - - - STAGE 2: enrich entities with characteristics (capacities and investments)
+            # - - - STAGE 2: enrich entities with characteristics (capacities, investments and products)
             for relationship_group, config in characteristic_node_types.items():
                 model_name = model_dictionary[relationship_group]  # select fine-tuned model
                 id_key = config["id_key"]                          
                 type_match = config["type_match"]
+                attach_map  = config.get("attach", {})
 
                 # only continue if there are nodes of this type in the article
                 has_relevant_nodes = any(node.get("type") == type_match for node in formatted_nodes)
@@ -179,31 +210,21 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.info(f"🔍 Extracting characteristics for node group: {relationship_group}")
                 node_characteristics = extract_node_characteristics(text, relationship_group, formatted_nodes, logger)  
 
-                # attach 'status' and 'type' to matching capacity nodes (flat list structure)
-                for char in node_characteristics:
-                    node_id = char.get(id_key)
-                    logger.info(f"Node ID is {node_id}")
-                    found_match = False
-
-                    for node in formatted_nodes:
-                        if node.get("id") == node_id and node.get("type") == type_match:
-                            logger.info(f"✅ Match found for {id_key} '{node_id}' in {type_match} nodes")
-                            if "status" in char:
-                                node["status"] = char["status"]
-                                logger.info(f"  ➕ Set status: {char['status']}")
-                            if "phase" in char:
-                                node["phase"] = char["phase"]
-                                logger.info(f"  ➕ Set phase: {char['phase']}")
-                            found_match = True
-
-                    if not found_match:
-                        logger.info(f"⚠️ No match found for {id_key} '{node_id}' in formatted_nodes")
+                # attach the characteristics returned by LLM inference to our JSON objects/documents
+                attach_characteristics_to_nodes(
+                    formatted_nodes=formatted_nodes,
+                    node_characteristics=node_characteristics,
+                    id_key=id_key,
+                    type_match=type_match,
+                    attach_map=attach_map,
+                    logger=logger,
+                )
 
             # - - - STAGE 3: extract relationships between entities
             all_relationships = []
             for relationship_group,model_name in model_dictionary.items():
 
-                if relationship_group in ["nodes", "capacities", "investments"]: # skip nodes, capacities and investments prompts which have logic elsewhere
+                if relationship_group in ["nodes", "capacities", "investments", "products"]: # skip nodes, capacities and investments prompts which have logic elsewhere
                     continue
                 
                 required_types = required_node_types.get(relationship_group, [])
@@ -242,11 +263,9 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.removeHandler(handler)
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
-#n_articles = 200
 offset_articles = 0
 categories = ["user", "user_text", "electrive", "justauto", "pvmagazine", "pvtech"]
-#categories = ["user"]
-cutoff_date = datetime(2021, 1, 1)
+cutoff_date = datetime(2020, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
