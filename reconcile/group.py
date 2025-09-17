@@ -44,10 +44,6 @@ def group_projects(file_to_group, out_path, output_cols):
     missing_product_lv2 = df["product_lv2"].isna().sum()
     logging.info(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
 
-    # # replace ADM1 with ADM2 for iso2 == GB (because ADM1 is England, Scotland for GB)
-    # mask = (df['iso2'] == "GB") & (df['adm2'].notna())
-    # df.loc[mask, 'adm1'] = df.loc[mask, 'adm2']
-
     # apply any manual company or joint venture name mapping
     logging.info(f"Unique owners before manual dict: {len(df['inst_canon'].unique())}")
     df['inst_canon'] = df['inst_canon'].apply(map_to_canonical)

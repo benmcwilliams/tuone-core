@@ -1,282 +1,134 @@
-import pandas as pd
-import numpy as np
 import sys; sys.path.append("..")
 import logging
+from datetime import datetime
+from typing import List, Dict, Any
+import numpy as np
+import pandas as pd
+from pymongo import UpdateOne
 from mongo_client import facilities_collection, test_mongo_connection
-from src.config import FACILITIES, GROUPED_CAPACITIES, GROUPED_FACTORIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
-from src.facilities_helpers import parse_capacity_value, canon_pl2, classify_pl2_applies_to, row_to_capacity, row_to_investment
+from src.config import GROUPED_FACTORIES
 
-STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
-INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
+def _latest_status_per_project(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"], format="%Y-%m", errors="coerce")
+    return (
+        df.loc[df["factory_status"].notna(), ["project_id", "factory_status", "date"]]
+          .sort_values(["project_id", "date"])
+          .groupby("project_id", as_index=False)
+          .tail(1)
+          .rename(columns={"date": "factory_status_date"})
+    )
 
-def write_facilities():
-
-    test_mongo_connection()
-
-    # fresh collection
-    facilities_collection.delete_many({})
-    logging.info("🗑️ Cleared existing facilities from MongoDB.")
-
-    # =========================
-    # A) Determine facilities (from GROUPED_FACTORIES)
-    # =========================
-
+def _build_facilities_df() -> pd.DataFrame:
     df = pd.read_excel(GROUPED_FACTORIES)
     df["date"] = pd.to_datetime(df["date"], format="%Y-%m", errors="coerce")
-
-    # return latest non-null facility_status + its date per project_id
-    latest_status = (
-        df.loc[df["factory_status"].notna(), ["project_id", "factory_status", "date"]]
-        .sort_values(["project_id", "date"])
-        .groupby("project_id", as_index=False)
-        .tail(1)                                  # newest per project_id
-        .rename(columns={"date": "factory_status_date"})
+    latest = _latest_status_per_project(df)
+    return (
+        df.groupby("project_id", as_index=False)
+          .agg({
+              "inst_canon": "first",
+              "iso2": "first",
+              "adm1": "first",
+              "lat": "first",
+              "lon": "first",
+              "product_lv1": "first",
+              "product_lv2": lambda s: [v for v in np.unique([x for x in s if pd.notna(x)])],
+          })
+          .merge(latest, on="project_id", how="left")
     )
 
-    # facility-level grouping
-    df_facilities = (
-        df.groupby("project_id").agg({
-            "inst_canon": "first",
-            "iso2": "first",
-            "adm1": "first",
-            "lat": "first",
-            "lon": "first",
-            "product_lv1": "first",
-            "product_lv2": "unique",
-        }).reset_index()
-    )
+def _iso_date(dt) -> str | None:
+    if pd.isna(dt): return None
+    if isinstance(dt, str): return dt
+    return pd.to_datetime(dt, errors="coerce").strftime("%Y-%m-%d") if pd.notna(dt) else None
 
-    # attach latest status + date
-    df_facilities = df_facilities.merge(latest_status, on="project_id", how="left")
+def _to_doc(row: pd.Series) -> Dict[str, Any]:
+    return {
+        "project_id": row["project_id"],
+        "inst_canon": row.get("inst_canon") if pd.notna(row.get("inst_canon")) else None,
+        "iso2": row.get("iso2") if pd.notna(row.get("iso2")) else None,
+        "adm1": row.get("adm1") if pd.notna(row.get("adm1")) else None,
+        "lat": row.get("lat") if pd.notna(row.get("lat")) else None,
+        "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
+        "product_lv1": row.get("product_lv1") if pd.notna(row.get("product_lv1")) else None,
+        "product_lv2": [v for v in (row.get("product_lv2") or []) if pd.notna(v)],
+        "latest_factory_status": {
+            "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
+            "date": _iso_date(row.get("factory_status_date")),
+        },
+        "first_seen_at": datetime.utcnow(),
+        "last_updated_at": datetime.utcnow(),
+    }
 
-    # optional (save an excel snapshot)
-    logging.info(f"Saving a copy of facilities to Excel at {FACILITIES}")
-    df_facilities.to_excel(FACILITIES, index=False)
+def _normalize_pl2(vals) -> List[str]:
+    return sorted({str(v).strip() for v in (vals or []) if pd.notna(v)})
 
-    # output clean owner names for dictionary
-    (df_facilities["inst_canon"]
-    .dropna()
-    .drop_duplicates()
-    .sort_values()
-    .to_frame(name="inst_canon")
-    .to_excel("storage/output/unique_owners.xlsx", index=False))
+def _parse_dt(s: str | None):
+    return pd.to_datetime(s, errors="coerce") if s else pd.NaT
 
-    # =========================
-    # B) Read capacities & production (from GROUPED_CAPACITIES, ZEV_PRODUCTION)
-    # =========================
+def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
+    update: Dict[str, Any] = {}
 
-    # --- CONCAT ---
-    df_cap = pd.read_excel(GROUPED_CAPACITIES)
-    df_zev = pd.read_excel(ZEV_PRODUCTION)
-    df_cap = pd.concat([df_cap, df_zev], ignore_index=True)
+    # product_lv2: union
+    old_pl2 = _normalize_pl2(existing.get("product_lv2"))
+    new_pl2 = _normalize_pl2(incoming.get("product_lv2"))
+    merged_pl2 = sorted(set(old_pl2).union(new_pl2))
+    if merged_pl2 != old_pl2:
+        update["product_lv2"] = merged_pl2
 
-    # normalize + parse
-    df_cap["date"] = pd.to_datetime(df_cap["date"], errors="coerce")
-    # we dropped date time format="%Y-%m to ensure match with df_zev (CHECK OKAY)
-    df_cap["capacity_normalized"] = df_cap["capacity_normalized"].apply(parse_capacity_value)
-    df_cap["status"] = pd.Categorical(df_cap["status"], categories=STATUS_ORDER, ordered=True)
+    # latest_factory_status: update if newer or text changed
+    old_s = existing.get("latest_factory_status") or {}
+    new_s = incoming.get("latest_factory_status") or {}
+    old_dt, new_dt = _parse_dt(old_s.get("date")), _parse_dt(new_s.get("date"))
+    should_update_status = False
+    if new_s:
+        if pd.isna(old_dt) and not pd.isna(new_dt):
+            should_update_status = True
+        elif not pd.isna(old_dt) and not pd.isna(new_dt):
+            should_update_status = (new_dt > old_dt) or (new_dt == old_dt and old_s.get("status") != new_s.get("status"))
+        elif pd.isna(old_dt) and pd.isna(new_dt):
+            should_update_status = (old_s.get("status") != new_s.get("status"))
+    if should_update_status:
+        update["latest_factory_status"] = new_s
 
-    # normalize/hash product_lv2 for use as a dedup key
-    df_cap["pl2_key"] = df_cap["product_lv2"].apply(canon_pl2)
+    if update:
+        update["last_updated_at"] = datetime.utcnow()
+        return {"$set": update}
+    return {}
 
-    # ---- Capacities deduplication ----
-    df_cap_dedup = (
-        df_cap
-        # 1. sort rows per project chronologically
-        .sort_values(["project_id", "date"], ascending=[True, True], na_position="last")
-        
-        # 2. drop exact duplicate rows defined by (project_id, capacity, status, phase, pl2_key)
-        #    → keep only the first (earliest) mention of each unique combo
-        .drop_duplicates(["project_id", "capacity_normalized", "status", "phase", "pl2_key"], 
-                         keep="first")
-    )
+def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False) -> None:
+    # Fetch existing docs for the candidate project_ids
+    pids = [d["project_id"] for d in docs]
+    existing = {
+        d["project_id"]: d
+        for d in facilities_collection.find({"project_id": {"$in": pids}}, {"_id": 0})
+    }
 
-    # group capacities by the same product_lv1, amount, status & phase. 
-    # so this would create two entries for battery / vehicle, but only one entry for fossil / electric 
-    # we could then apply here the filter? 
-
-    # --- Group identical capacities that only differ by product_lv2 ---
-    group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
-
-    # union product_lv2 via pl2_key (which is a tuple of unique values)
-    df_cap_grouped_lv2 = (
-        df_cap_dedup
-        .groupby(group_keys, dropna=False, sort=False, observed=True)
-        .agg(
-            pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
-            date=("date","first"),
-            article_id=("article_id","first"),
-            amount_EUR=("amount_EUR", "first"),
-            investment_id=("investment_id", "first"))
-        .reset_index()
-        .rename(columns={"pl2_union": "product_lv2"})
-    )
-
-    # --- Logging / debug checks ---
-    logging.info("Capacities: raw=%d", len(df_cap))
-    logging.info("Capacities: dedup=%d | grouped=%d", len(df_cap_dedup), len(df_cap_grouped_lv2))
-
-    from collections import Counter
-    _applies = Counter(df_cap_grouped_lv2["product_lv2"].apply(lambda pl2: (
-        "electric" if "electric" in set(pl2) and "fossil" not in set(pl2)
-        else "fossil" if "fossil" in set(pl2) and "electric" not in set(pl2)
-        else "mix"
-    )))
-    logging.info("applies_to distribution: %s", dict(_applies))
-
-    # --- Build capacity dict ---
-    capacity_dict = (
-        df_cap_grouped_lv2.groupby("project_id")
-           .apply(lambda g: [row_to_capacity(r) for _, r in g.iterrows()])
-           .to_dict()
-    )
-
-    logging.info(f"Number of raw capacities: {len(df_cap)}")
-    logging.info(f"📅 Unique capacities after dedup (earliest per tuple): {len(df_cap_dedup)}")
-
-    # =========================
-    # C) Build investments array
-    # =========================
-
-    df_inv = pd.read_excel(GROUPED_INVESTMENTS)
-
-    # --- INVESTMENTS: normalize, dedupe, group like capacities ---
-
-    # 1) basic normalize
-    df_inv["date"] = pd.to_datetime(df_inv["date"], errors="coerce")
-    df_inv["status"] = pd.Categorical(df_inv["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
-    df_inv["pl2_key"] = df_inv["product_lv2"].apply(canon_pl2)
-
-    # 2) dedupe on clean keys (mirror capacity pattern)
-    inv_dedup = (
-        df_inv
-        .sort_values(["project_id", "date"], ascending=[True, True], na_position="last")
-        .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "pl2_key"], keep="first")
-    )
-
-    # 3) group across lv2 variants (mirror capacity pattern)
-    inv_group_keys = ["project_id", "product_lv1", "amount_EUR", "status", "phase"]
-    inv_grouped_lv2 = (
-        inv_dedup
-        .groupby(inv_group_keys, dropna=False, sort=False, observed=True)
-        .agg(
-            pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
-            date=("date", "first"),
-            article_id=("article_id", "first"),
-            investment_id=("investment_id", "first")
-        )
-        .reset_index()
-        .rename(columns={"pl2_union": "product_lv2"})
-    )
-
-    logging.info("Investments: raw=%d | dedup=%d | grouped=%d", len(df_inv), len(inv_dedup), len(inv_grouped_lv2))
-
-    investment_dict = (
-        inv_grouped_lv2.groupby("project_id")
-        .apply(lambda g: [row_to_investment(r) for _, r in g.iterrows()])
-        .to_dict()
-    )
-
-    logging.info("📈 Investment events attached (projects): %d", len(investment_dict))
-
-    # =========================
-    # C) Build Mongo documents (facilities + attached capacities)
-    # =========================
-
-    # # convert DataFrame to MongoDB documents
-    facilities_documents = []
-    num_with_caps = 0
-    num_without_caps = 0     # skipped non-vehicle with no caps
-    num_vehicle_with_caps = 0
-    num_vehicle_without_caps = 0
-
-    pre_total = len(df_facilities)
-
-    for _, row in df_facilities.iterrows():
-
-        # logic which does not write facilities without capacities UNLESS they are vehicle manufacturing
-        project_id = row["project_id"]
-        is_vehicle = (row["product_lv1"] == "vehicle")
-
-        # concat capacities and investments to form EVENTS, sort chronologically
-        cap_items = capacity_dict.get(project_id, [])
-        inv_items = investment_dict.get(project_id, [])
-        events = cap_items + inv_items
-
-        # prefer investment values tied to capacity rows when the same investment_id exists
-        cap_investment_ids = {e.get("investment_id") for e in cap_items if e.get("investment_id")}
-        if cap_investment_ids:
-            events = [
-                e for e in events
-                if not (e.get("event_type") == "investment" and e.get("investment_id") in cap_investment_ids)
-            ]
-
-        events.sort(
-            key=lambda x: (
-                x.get("date") or "9999-12-31",
-                {"investment": 0, "capacity": 1}.get(x.get("event_type"), 9)
-            )
-        )
-
-        if events:
-            num_with_caps += 1
-            if is_vehicle:
-                num_vehicle_with_caps += 1
+    inserts, updates = [], []
+    for doc in docs:
+        pid = doc["project_id"]
+        if pid not in existing:
+            inserts.append(doc)
         else:
-            if is_vehicle:
-                # keep (don’t skip), but count as vehicle-without-caps
-                num_vehicle_without_caps += 1
-            else:
-                # skip non-vehicle facilities with no capacities
-                num_without_caps += 1
-                continue
+            upd = _compute_update(existing[pid], doc)
+            if upd:
+                updates.append(UpdateOne({"project_id": pid}, upd))
 
-        # clean product_lv2 (ensure list of non-nulls)
-        vals = row["product_lv2"]
-        product_lv2_clean = [v for v in np.atleast_1d(vals) if pd.notna(v)]
+    logging.info("Facilities → inserts: %d | updates: %d | total input: %d", len(inserts), len(updates), len(docs))
+    if dry_run:
+        logging.info("Dry-run: no DB writes.")
+        return
+    if inserts:
+        facilities_collection.insert_many(inserts, ordered=False)
+    if updates:
+        facilities_collection.bulk_write(updates, ordered=False)
 
-        # latest facility status (string date is fine for now; you can store BSON datetime later)
-        latest_status_obj = None
-        if pd.notna(row.get("factory_status")) or pd.notna(row.get("factory_status_date")):
-            latest_status_obj = {
-                "status": row.get("factory_status"),
-                "date": row.get("factory_status_date").strftime("%Y-%m-%d") if pd.notna(row.get("factory_status_date")) else None,
-            }
-
-        doc = {
-            "project_id": project_id,
-            "inst_canon": row["inst_canon"] if pd.notna(row["inst_canon"]) else None,
-            "iso2": row["iso2"] if pd.notna(row["iso2"]) else None,
-            "adm1": row["adm1"] if pd.notna(row["adm1"]) else None,
-            "lat": row["lat"] if pd.notna(row["lat"]) else None,
-            "lon": row["lon"] if pd.notna(row["lon"]) else None,
-            "product_lv1": row["product_lv1"] if pd.notna(row["product_lv1"]) else None,
-            "product_lv2": product_lv2_clean,
-            "latest_factory_status": latest_status_obj or {"status": None, "date": None},
-            "capacities": events,
-            # "investments": investment_dict.get(project_id, [])
-        }
-        facilities_documents.append(doc)
-
-    # Logging summary of the guardrail (no caps) effect
-    logging.info(
-        "Facilities before filter: %d | inserted with capacities: %d | "
-        "skipped (non-vehicle, no capacities): %d | vehicles with caps: %d | "
-        "vehicles without caps (inserted): %d",
-        pre_total, num_with_caps, num_without_caps,
-        num_vehicle_with_caps, num_vehicle_without_caps
-    )
-
-    if facilities_documents:
-
-        facilities_collection.insert_many(facilities_documents)
-
-        total_events = sum(len(capacity_dict.get(pid, [])) + len(investment_dict.get(pid, [])) for pid in df_facilities["project_id"])
-        logging.info(f"✅ Inserted {len(facilities_documents)} facilities into MongoDB "
-                    f"with {len(df_cap_dedup)} unique capacity entries and {len(inv_dedup)} unique investment entries "
-                    f"(~{total_events} total events attached).")
-    else:
-        logging.warning("⚠️ No facilities to insert into MongoDB.")
+def write_facilities():
+    test_mongo_connection()
+    df_fac = _build_facilities_df()
+    docs = [_to_doc(r) for _, r in df_fac.iterrows()]
+    upsert_facilities(docs, dry_run=False)
 
 if __name__ == "__main__":
+    # One-time setup (outside this script): facilities_collection.create_index("project_id", unique=True)
     write_facilities()
