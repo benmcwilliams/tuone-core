@@ -39,7 +39,8 @@ def row_to_capacity(r):
     return {
         "event_type": "capacity",
         "amount": r["capacity_normalized"],
-        "investment": r.get("investment"),
+        "investment": r.get("amount_EUR"),
+        "investment_id": r.get("investment_id"),
         "status": r["status"] if pd.notna(r["status"]) else None,
         "phase":  r["phase"] if pd.notna(r["phase"]) else None,
         "product_lv2": pl2,
@@ -58,6 +59,7 @@ def row_to_investment(r):
         "phase": r["phase"],
         "product_lv1": r["product_lv1"],
         "product_lv2": list(r["product_lv2"]) if isinstance(r["product_lv2"], (list, tuple)) else [r["product_lv2"]],
-        "investment": r["investment"],
+        "investment": r["amount_EUR"],
+        "investment_id": r.get("investment_id"),
         "articleID": r.get("article_id"),
     }

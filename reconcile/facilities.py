@@ -98,7 +98,8 @@ def write_facilities():
             pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
             date=("date","first"),
             article_id=("article_id","first"),
-            investment=("investment", "first"))
+            amount_EUR=("amount_EUR", "first"),
+            investment_id=("investment_id", "first"))
         .reset_index()
         .rename(columns={"pl2_union": "product_lv2"})
     )
@@ -142,11 +143,11 @@ def write_facilities():
     inv_dedup = (
         df_inv
         .sort_values(["project_id", "date"], ascending=[True, True], na_position="last")
-        .drop_duplicates(["project_id", "investment", "status", "phase", "pl2_key"], keep="first")
+        .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "pl2_key"], keep="first")
     )
 
     # 3) group across lv2 variants (mirror capacity pattern)
-    inv_group_keys = ["project_id", "product_lv1", "investment", "status", "phase"]
+    inv_group_keys = ["project_id", "product_lv1", "amount_EUR", "status", "phase"]
     inv_grouped_lv2 = (
         inv_dedup
         .groupby(inv_group_keys, dropna=False, sort=False, observed=True)
@@ -154,6 +155,7 @@ def write_facilities():
             pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
             date=("date", "first"),
             article_id=("article_id", "first"),
+            investment_id=("investment_id", "first")
         )
         .reset_index()
         .rename(columns={"pl2_union": "product_lv2"})
@@ -192,6 +194,15 @@ def write_facilities():
         cap_items = capacity_dict.get(project_id, [])
         inv_items = investment_dict.get(project_id, [])
         events = cap_items + inv_items
+
+        # prefer investment values tied to capacity rows when the same investment_id exists
+        cap_investment_ids = {e.get("investment_id") for e in cap_items if e.get("investment_id")}
+        if cap_investment_ids:
+            events = [
+                e for e in events
+                if not (e.get("event_type") == "investment" and e.get("investment_id") in cap_investment_ids)
+            ]
+
         events.sort(
             key=lambda x: (
                 x.get("date") or "9999-12-31",

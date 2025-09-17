@@ -7,7 +7,7 @@ import uuid
 from src.id_date_dict import get_article_id_to_date_map
 from src.company_mapping import map_to_canonical, SITE_MERGE
 from src.inputs import EUROPEAN_COUNTRIES
-from src.config import FACTORY_TECH_CLEAN_CAPACITIES, GRPD_PROJECTS_FILTER, COMPANY_JV
+from src.config import COMPANY_JV
 from src.set_adm_level import add_admin_group_key
 
 def group_projects(file_to_group, out_path, output_cols):

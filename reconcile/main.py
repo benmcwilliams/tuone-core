@@ -7,12 +7,13 @@ from query_geonames import query_geonames_new_cities
 from flatten import run_flatten_articles
 from merge import run_view
 from normalise_capacity import run_capacity_normalisation_pipeline
+from normalise_investment import run_investment_normalisation_pipeline
 from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
 from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
-from src.config import FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV, FACTORY_TECH_CLEAN_CAPACITIES, GROUP_SPEC, INVESTMENT_FUNDS
+from src.config import CLEAN_INVESTMENT_FUNDS, FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV, FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, GROUP_SPEC, INVESTMENT_FUNDS
 
 def main(update_mongo_metadata=False):
 
@@ -40,14 +41,23 @@ def main(update_mongo_metadata=False):
     run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
     run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)       # investment centric
 
-    # logging.info("Normalising capacities")
+    logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
 
-    # logging.info("Normalising investments")
-    # run_investment_normalisation_pipeline()
+    logging.info("Normalising investments")
+    run_investment_normalisation_pipeline(
+        FACTORY_TECH_CLEAN_CAPACITIES,
+        FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
+    )
+
+    run_investment_normalisation_pipeline(
+        INVESTMENT_FUNDS,
+        CLEAN_INVESTMENT_FUNDS
+    )
 
     logging.info("🫂 Grouping projects...")
     for in_path, out_path, output_cols in GROUP_SPEC:
+        print(in_path)
         logging.info(f"Processing: {in_path} → {out_path}")
         group_projects(in_path, out_path, output_cols)
 
