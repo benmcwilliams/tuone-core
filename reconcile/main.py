@@ -8,13 +8,26 @@ from flatten import run_flatten_articles
 from merge import run_view
 from normalise_capacity import run_capacity_normalisation_pipeline
 from normalise_investment import run_investment_normalisation_pipeline
+from registry_union import build_registry_union
 from group import group_projects
 from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
 from attach_events import attach_events
-from src.merge_specifications import FACTORY_REGISTRY_SPEC, FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
-from src.config import CLEAN_INVESTMENT_FUNDS, FACTORY_REGISTRY, FACTORY_TECH, COMPANY_JV, FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, GROUP_SPEC, INVESTMENT_FUNDS
+from src.merge_specifications import (
+    FACTORY_TECH_SPEC,
+    COMPANY_FORMS_JV_SPEC,
+    INVESTMENT_FUNDS_SPEC,
+)
+from src.config import (
+    GROUP_SPEC,
+    FACTORY_TECH,
+    INVESTMENT_FUNDS,
+    COMPANY_JV,
+    FACTORY_TECH_CLEAN_CAPACITIES,
+    FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS,
+    CLEAN_INVESTMENT_FUNDS,
+)
 
 def main(update_mongo_metadata=False):
 
@@ -24,11 +37,13 @@ def main(update_mongo_metadata=False):
 
     if update_mongo_metadata:
 
-        logging.info("🕴️Normalising companies...")          # only updates nodes with missing name_canon
+        logging.info(
+            "🕴️Normalising companies..."
+        )  # only updates nodes with missing name_canon
         clean_owner_names()
 
         logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=18000,skip=0)
+        query_geonames_new_cities(limit=18000, skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -37,24 +52,22 @@ def main(update_mongo_metadata=False):
     run_flatten_articles()
 
     logging.info("🉑 Merging nodes and relationships...")
-    run_view(FACTORY_REGISTRY_SPEC, FACTORY_REGISTRY)
-    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)               # capacity centric 
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
     run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)       # investment centric
+    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
+
+    logging.info("🏭 Building registry union (direct + capacity + investment)…")
+    build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
 
     logging.info("Normalising capacities")
     run_capacity_normalisation_pipeline()
 
     logging.info("Normalising investments")
     run_investment_normalisation_pipeline(
-        FACTORY_TECH_CLEAN_CAPACITIES,
-        FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
+        FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
     )
 
-    run_investment_normalisation_pipeline(
-        INVESTMENT_FUNDS,
-        CLEAN_INVESTMENT_FUNDS
-    )
+    run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
 
     logging.info("🫂 Grouping projects...")
     for in_path, out_path, output_cols in GROUP_SPEC:
@@ -63,7 +76,7 @@ def main(update_mongo_metadata=False):
         group_projects(in_path, out_path, output_cols)
 
     # logging.info("🏭 Importing facilities")
-    write_facilities() # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
+    write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
     # logging.info("🏭 Updating facilities")
     attach_events()
