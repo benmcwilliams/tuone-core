@@ -12,7 +12,7 @@ from mongo_client import facilities_collection, test_mongo_connection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.article_validation import build_article_validation_map, compute_validated_flag
+#from src.article_validation import build_article_validation_map, compute_validated_flag  can drop this if Ross calculates directly from mongoDB.
 from src.attach_events_helpers import coerce_amount_eur_scalar
 
 logger = logging.getLogger(__name__)
@@ -102,7 +102,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
 
 # -------------------- build events + impute --------------------
 
-def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, vmap: Dict[str, bool]) -> Dict[str, List[Dict[str, Any]]]:
+def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[str, List[Dict[str, Any]]]:
     events_by_pid: Dict[str, List[Dict[str, Any]]] = {}
 
     # capacities
@@ -120,12 +120,12 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, vmap: Di
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "article_ids": [r.get("article_id")] if pd.notna(r.get("article_id")) else [],
+            "article_id": r.get("article_id") if pd.notna(r.get("article_id")) else None,
             "capacity_normalized": r.get("capacity_normalized"),
             "amount_EUR": amt_scalar,
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-        evt["validated"] = compute_validated_flag(evt["article_ids"], vmap)
+
         evt["event_key"] = event_key_capacity(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
                                               evt["capacity_normalized"], evt["status"], evt["phase"])
 
@@ -153,11 +153,10 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, vmap: Di
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "article_ids": [r.get("article_id")] if pd.notna(r.get("article_id")) else [],
+            "article_id": [r.get("article_id")] if pd.notna(r.get("article_id")) else [],
             "amount_EUR": amt_scalar,
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-        evt["validated"] = compute_validated_flag(evt["article_ids"], vmap)
         evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
                                                 evt["amount_EUR"], evt["status"], evt["phase"], evt.get("investment_id"))
         # Impute missing capacity from CAPEX, never overwrite direct capacity
@@ -199,7 +198,7 @@ def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
         }
     return docs
 
-def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]], vmap: Dict[str, bool]) -> Tuple[List[Dict[str, Any]], List[str]]:
+def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
     by_key = {e.get("event_key"): e for e in existing["events"] if e.get("event_key")}
     keys = set(existing["event_keys"])
 
@@ -209,12 +208,11 @@ def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]], vmap:
             continue
         if k in by_key:
             cur = by_key[k]
-            # union articles
-            cur_ids = set(cur.get("article_ids") or [])
-            inc_ids = set(e.get("article_ids") or [])
-            merged_ids = sorted(list(cur_ids | inc_ids))
-            if merged_ids != cur_ids:
-                cur["article_ids"] = merged_ids
+
+            # keep the original article_id if present; otherwise adopt incoming
+            if not cur.get("article_id") and e.get("article_id"):
+                cur["article_id"] = e["article_id"]
+
             # update first/last seen
             d = e.get("date")
             if d:
@@ -230,11 +228,9 @@ def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]], vmap:
                 cur["capacity_unit"] = e.get("capacity_unit", cur.get("capacity_unit"))
                 cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
                 cur.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity_normalized")
-            cur["validated"] = compute_validated_flag(cur.get("article_ids", []), vmap)
         else:
             by_key[k] = e
             keys.add(k)
-            e["validated"] = compute_validated_flag(e.get("article_ids", []), vmap)
 
     merged = list(by_key.values())
     merged.sort(key=sort_key)
@@ -242,7 +238,6 @@ def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]], vmap:
 
 def attach_events(dry_run: bool = False):
     test_mongo_connection()
-    vmap = build_article_validation_map()
 
     # load
     df_cap_raw = load_capacities()
@@ -255,7 +250,7 @@ def attach_events(dry_run: bool = False):
                 len(df_cap_raw), len(df_cap), len(df_inv_raw), len(df_inv))
 
     # build
-    events_by_pid = build_events_by_project(df_cap, df_inv, vmap)
+    events_by_pid = build_events_by_project(df_cap, df_inv)
     pids = list(events_by_pid.keys())
     if not pids:
         logger.warning("No events to attach.")
@@ -271,7 +266,7 @@ def attach_events(dry_run: bool = False):
             print(pid)
             missing += 1
             continue
-        merged_events, merged_keys = merge_events(existing[pid], events_by_pid[pid], vmap)
+        merged_events, merged_keys = merge_events(existing[pid], events_by_pid[pid])
         # only write if changed
         if (len(merged_events) != len(existing[pid]["events"])) or (set(merged_keys) != existing[pid]["event_keys"]):
             updates.append(UpdateOne({"project_id": pid}, {"$set": {
