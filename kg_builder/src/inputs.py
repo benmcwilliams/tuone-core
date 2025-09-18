@@ -40,7 +40,7 @@ characteristic_node_types = {
     "capacities": {
         "id_key": "capacity_ID",
         "type_match": "capacity",
-        "attach": {"status": "status", "phase": "phase"},
+        "attach": {"status": "status", "phase": "phase", "additional": "additional"},
     },
     "investments": {
         "id_key": "investment_ID",
