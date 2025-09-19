@@ -10,7 +10,8 @@ For each investment, return a JSON object containing:
 	•	investment_ID: the ID of the investment (as listed in the input)
 	•	status: the chronological status of the investment
 	•	phase: the technical nature of the investment
-
+	•	is_total: whether the value represents a total cumulative spend or an additional incremental spend
+	
 ## Allowed Values
 
 Status (chronological stage):
@@ -26,20 +27,15 @@ Phase (technical nature):
 
 If either value is unclear from the article, return "unclear".
 
+is_total (boolean):
+	•	true → the article presents the investment as the total cumulative spend at the facility up to that point (not a new increment).
+	•	false → the investment is presented as a distinct new/additional spend.
+
+If unclear, return false by default.
+
 Important Instructions
 	•	Return one object per investment ID
 	•	Do not skip any investments. Even if information is missing, include the ID with "unclear" values
 	•	Use only the article text for evidence
 	•	Be consistent with terminology and strict with allowed values
-
-**JSON output schema**
-
-{
-  "node_characteristics": [
-    {
-      "investment_ID": "string",  // Unique ID of the investment entity
-      "status": "string",         // one of completed, ongoing, announced, unclear
-      "phase": "string"           // one of greenfield, expansion, retrofit, unclear
-    }
-  ]
-}
+	•	The schema for output format is provided through the function definition

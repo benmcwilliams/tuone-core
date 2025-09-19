@@ -50,7 +50,9 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 article_id=("article_id","first"),
+                additional=("additional","first"),
                 amount_EUR=("amount_EUR","first"),
+                is_total=("is_total","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
            .rename(columns={"pl2_union":"product_lv2"}))
@@ -63,6 +65,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
+                is_total=("is_total","first"),
                 article_id=("article_id","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
@@ -91,7 +94,9 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "date": iso_date(r.get("date")),
             "article_id": r.get("article_id") if pd.notna(r.get("article_id")) else None,
             "capacity_normalized": r.get("capacity_normalized"),
+            "additional": bool(r.get("additional")),
             "amount_EUR": amt_scalar,
+            "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
 
@@ -124,6 +129,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "date": iso_date(r.get("date")),
             "article_id": [r.get("article_id")] if pd.notna(r.get("article_id")) else [],
             "amount_EUR": amt_scalar,
+            "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
         evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
