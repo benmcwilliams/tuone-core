@@ -37,7 +37,7 @@ PRODUCT_CONVERSIONS = {
 
     #  generic battery catch-all when lv2 is missing (None)
     ("battery", None): {
-        "from": ["unit", "battery", "batteries", "pack", "packs", "cell", "cells"],
+        "from": ["batteries"],
         "to": "gigawatt hour",
         "multiplier": 50e-6,  # 50 kWh per unit → 0.00005 GWh
     },
