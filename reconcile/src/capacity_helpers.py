@@ -3,6 +3,15 @@ import sys; sys.path.append("..")
 from src.capacity_constants import KEYWORD_MULTIPLIER_MAP, DEFAULT_UNIT_MAP
 
 # ========= Load Excel =========
+def none_to_string(v, *, allow_empty=False):
+    """Normalize product levels: strip/lower; NaN/'' → None (unless allow_empty)."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return None
+    s = str(v).strip().lower()
+    if not s or s in {"nan", "none"}:
+        return None if not allow_empty else ""
+    return s
+
 def load_capacity_column(file_path):
     df = pd.read_excel(file_path)
     df["capacity"] = df["capacity"].fillna("")

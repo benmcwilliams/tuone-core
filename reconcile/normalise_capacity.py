@@ -9,13 +9,14 @@ from reconcile.src.normalise_capacity_units import normalise_capacity_unit
 from reconcile.src.capacity_constants import MULTIPLIER_OVERRIDE_MAP, PRODUCT_CONVERSIONS
 from reconcile.src.capacity_helpers import (
     load_capacity_column,
+    none_to_string,
     apply_scale,
     annualize,
     multiply_vals,
     has_nan,
     detect_keyword_multiplier,
     metric_is_missing,
-    get_default_unit,
+    get_default_unit
 )
 from src.config import FACTORY_TECH, FACTORY_TECH_CLEAN_CAPACITIES, CAPACITIES_DEBUG
 
@@ -80,7 +81,7 @@ def capacity_logic(row):
         value, flag_failed, metric_out, flag_conversion, normalization_case
     """
     lv1 = str(row.get("product_lv1", "")).strip().lower()
-    lv2 = str(row.get("product_lv2", "")).strip().lower()
+    lv2 = none_to_string(str(row.get("product_lv2", "")).strip().lower())
     capacity_text_raw = str(row.get("capacity_text", "") or "")
     capacity_text = capacity_text_raw.lower()
 
@@ -287,6 +288,7 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
 # ========= Main Run Block =========
 if __name__ == "__main__":
     trace_one(328, 'storage/output/factory-technological.xlsx')
+    df = run_capacity_normalisation_pipeline(file_path=FACTORY_TECH)
     # file_path = 'storage/output/clean_output_ben.xlsx'
     # df_result = run_capacity_normalisation_pipeline(file_path)
     # output_path = 'storage/output/clean_output_capacity.xlsx'

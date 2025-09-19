@@ -33,6 +33,12 @@ PRODUCT_CONVERSIONS = {
         "from": ["unit", "battery packs", "battery systems", "battery modules", "batteries"],
         "to": "gigawatt hour",
         "multiplier": 50e-6
+    },
+        # NEW: plain "batteries" (if lv2 is just 'battery')
+    ("battery", ""): {
+        "from": ["unit", "battery", "batteries"],
+        "to": "gigawatt hour",
+        "multiplier": 50e-6,  # 50 kWh → 0.00005 GWh per battery
     }
 }
 
