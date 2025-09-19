@@ -18,22 +18,29 @@ DEFAULT_UNIT_MAP = {
     ("vehicle", "fossil"): "vehicle"
 }
 
-# dictionary maps any product_lv2 specific changes to be made 
+
 
 PRODUCT_CONVERSIONS = {
-    # for electrode active materials we convert tonnes to GWh (CHECK)
+    # EAM: tonnes → GWh
     ("battery", "eam"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 1e-3,  # 1 kWh/kg → 1 MWh/tonne → 0.001 GWh/tonne (example)
+        "multiplier": 1e-3,
     },
 
-    # module_pack_systems all: assumed as 50 kWh → 0.00005 GWh
+    # module/pack systems: units → GWh (assume 50 kWh/pack)
     ("battery", "module_pack"): {
-        "from": ["unit", "battery packs", "battery systems", "battery modules", "batteries"],
+        "from": ["unit", "battery packs", "battery systems", "battery modules", "batteries", "battery"],
         "to": "gigawatt hour",
-        "multiplier": 50e-6
-    }
+        "multiplier": 50e-6,
+    },
+
+    #  generic battery catch-all when lv2 is missing (None)
+    ("battery", None): {
+        "from": ["unit", "battery", "batteries", "pack", "packs", "cell", "cells"],
+        "to": "gigawatt hour",
+        "multiplier": 50e-6,  # 50 kWh per unit → 0.00005 GWh
+    },
 }
 
 # define overrides as a mapping of (product_lv1, product_lv2, metric) → multiplier
