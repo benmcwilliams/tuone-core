@@ -13,43 +13,12 @@ from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
 #from src.article_validation import build_article_validation_map, compute_validated_flag  can drop this if Ross calculates directly from mongoDB.
-from src.attach_events_helpers import coerce_amount_eur_scalar
+from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, norm_pl2_key, capex_lookup, event_key_capacity, event_key_investment, sort_key
 
 logger = logging.getLogger(__name__)
 
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
-
-# -------------------- helpers --------------------
-
-def iso_date(dt) -> str | None:
-    if pd.isna(dt): return None
-    if isinstance(dt, str): return dt
-    d = pd.to_datetime(dt, errors="coerce")
-    return d.strftime("%Y-%m-%d") if pd.notna(d) else None
-
-def norm_pl2_key(values) -> Tuple[str, ...]:
-    vals = [v for v in (values or []) if pd.notna(v)]
-    return tuple(sorted({str(v).strip() for v in vals}))
-
-def capex_lookup(product_lv1: str, pl2_key: Tuple[str, ...]) -> Dict[str, Any] | None:
-    """Exact match on (product_lv1, product_lv2_key). Units are assumed normalized upstream."""
-    for e in CAPEX_DICT.get("entries", []):
-        if e.get("product_lv1") == product_lv1 and tuple(e.get("product_lv2_key") if isinstance(e.get("product_lv2_key"), (list, tuple)) else (e.get("product_lv2_key"),)) == pl2_key:
-            return e
-    return None
-
-def event_key_capacity(project_id, product_lv1, pl2_key, capacity_normalized, status, phase) -> str:
-    return "|".join(map(str, ("capacity", project_id, product_lv1, pl2_key, capacity_normalized, status, phase)))
-
-def event_key_investment(project_id, product_lv1, pl2_key, amount_EUR, status, phase, investment_id=None) -> str:
-    if investment_id:  # prefer natural ID
-        return "|".join(map(str, ("investment_id", project_id, investment_id)))
-    return "|".join(map(str, ("investment", project_id, product_lv1, pl2_key, amount_EUR, status, phase)))
-
-def sort_key(e: Dict[str, Any]):
-    d = iso_date(e.get("date"))
-    return (d or "9999-12-31", 0 if e.get("event_type") == "investment" else 1)
 
 # -------------------- load & normalize --------------------
 
