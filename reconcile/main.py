@@ -52,7 +52,7 @@ def main(update_mongo_metadata=False):
     # run_flatten_articles()
 
     # logging.info("🉑 Merging nodes and relationships...")
-    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
+    # run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
     # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
     # run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 
@@ -80,6 +80,12 @@ def main(update_mongo_metadata=False):
 
     # logging.info("🏭 Updating facilities")
     attach_events()
+
+    # assign_phase_number
+
+    # compute_summaries 
+
+    # plots
 
     # logging.info("🧮 Determining phase summaries")
     # determine_phase_summary()
