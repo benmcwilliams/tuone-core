@@ -7,6 +7,15 @@ def load_capacity_column(file_path):
     df = pd.read_excel(file_path)
     df["capacity"] = df["capacity"].fillna("")
     return df
+    
+def none_to_string(v, *, allow_empty=False):
+    """Normalize product levels: strip/lower; NaN/'' → None (unless allow_empty)."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return None
+    s = str(v).strip().lower()
+    if not s or s in {"nan", "none"}:
+        return None if not allow_empty else ""
+    return s
 
 def get_default_unit(product_lv1: str | None, product_lv2: str | None) -> str:
     """
