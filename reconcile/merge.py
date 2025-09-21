@@ -18,11 +18,21 @@ def expand_nodes(nodes_by_label: Dict[str, pd.DataFrame],
                  keep_cols: List[str],
                  rename: Dict[str, str]) -> pd.DataFrame:
     if isinstance(label, list):
-        dfs = [nodes_by_label[l].loc[:, keep_cols] for l in label]
+        dfs = [nodes_by_label[l].copy() for l in label]
         df = pd.concat(dfs, ignore_index=True)
     else:
-        df = nodes_by_label[label].loc[:, keep_cols]
-    return df.rename(columns=rename)
+        df = nodes_by_label[label].copy()
+
+    # Ensure all keep_cols exist, fill with None (or False if you prefer)
+    for col in keep_cols:
+        if col not in df.columns:
+            # Decide default based on column semantics
+            if col in ["is_total"]:  
+                df[col] = False   # ✅ sensible default
+            else:
+                df[col] = None    # generic fallback
+
+    return df.loc[:, keep_cols].rename(columns=rename)
 
 def extract_edge(rels_by_label: Dict[str, pd.DataFrame],
                  rel_type: str,

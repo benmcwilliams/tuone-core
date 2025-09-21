@@ -1,5 +1,7 @@
+import sys; sys.path.append("..")
 import logging
 import time
+from mongo_client import facilities_collection
 from src.logger import setup_logger
 from normalise_products import classify_products_sync_mongo
 from normalise_owners import clean_owner_names
@@ -14,6 +16,8 @@ from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
 from attach_events import attach_events
+from assign_phase import process_documents
+from compute_summaries import write_phase_summaries
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
     COMPANY_FORMS_JV_SPEC,
@@ -51,38 +55,53 @@ def main(update_mongo_metadata=False):
     # logging.info("🗞️ Flattening articles...")
     # run_flatten_articles()
 
-    # logging.info("🉑 Merging nodes and relationships...")
+    logging.info("🉑 Merging nodes and relationships...")
+    logging.info("- - - FACTORY_TECH_SPEC")
     run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-    # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-    # run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
+    logging.info("- - - COMPANY_JV_SPEC")
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    logging.info("- - - INVESTMENT_FUNDS_SPEC")
+    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 
-    # logging.info("🏭 Building registry union (direct + capacity + investment)…")
-    # build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
+    logging.info("🏭 Building registry union (direct + capacity + investment)…")
+    build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
 
-    # logging.info("Normalising capacities")
-    # run_capacity_normalisation_pipeline()
+    logging.info("Normalising capacities")
+    run_capacity_normalisation_pipeline()
 
-    # logging.info("Normalising investments")
-    # run_investment_normalisation_pipeline(
-    #     FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
-    # )
+    logging.info("Normalising investments")
+    run_investment_normalisation_pipeline(
+        FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
+    )
+    run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
 
-    # run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
+    logging.info("🫂 Grouping projects...")
+    for in_path, out_path, output_cols in GROUP_SPEC:
+        print(in_path)
+        logging.info(f"Processing: {in_path} → {out_path}")
+        group_projects(in_path, out_path, output_cols)
 
-    # logging.info("🫂 Grouping projects...")
-    # for in_path, out_path, output_cols in GROUP_SPEC:
-    #     print(in_path)
-    #     logging.info(f"Processing: {in_path} → {out_path}")
-    #     group_projects(in_path, out_path, output_cols)
-
-    # logging.info("🏭 Importing facilities")
+    logging.info("🏭 Importing facilities")
     write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
-    # logging.info("🏭 Updating facilities")
+    logging.info("📅 Assigning events to facilities")
     attach_events()
 
+    logging.info("🔢 Assigning phase number")
+    process_documents(dry_run=False,
+                        limit=None,
+                        query={})
+
     # logging.info("🧮 Determining phase summaries")
-    # determine_phase_summary()
+    matched, modified = write_phase_summaries(
+        facilities_collection,
+        query={},      # same filter as above
+        dry_run=False,
+        limit=None
+    )
+    logging.info(f"✅ Phase summaries — matched: {matched} | modified: {modified}")
+
+    # plots
 
     # logging.info("Outputting clean capacities summary data")
     # output_capacities_plot()

@@ -292,7 +292,7 @@ FACTORY_TECH_SPEC = {
         },
         "investment": {
             "label": "investment",
-            "keep": ["amount", "unique_id", "status", "phase"],
+            "keep": ["amount", "unique_id", "status", "phase", "is_total"],
             "rename": {
                 "unique_id": "investment_id",
                 "amount": "investment",
@@ -405,6 +405,7 @@ FACTORY_TECH_SPEC = {
         "investment",
         "investment_status",
         "investment_phase",
+        "is_total",
         "phase",
         "status",
         "additional",
@@ -494,7 +495,7 @@ INVESTMENT_FUNDS_SPEC = {
         },
         "investment": {
             "label": "investment",
-            "keep": ["amount", "unique_id", "status", "phase"],
+            "keep": ["amount", "unique_id", "status", "phase", "is_total"],
             "rename": {"unique_id": "investment_id", "amount": "investment"},
         },
     },
@@ -552,6 +553,7 @@ INVESTMENT_FUNDS_SPEC = {
         "investment",
         "status",
         "phase",
+        "is_total",
         "factory_status",
         "product",
         "product_lv1",
