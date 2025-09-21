@@ -54,9 +54,9 @@ grouped_facilities_cols = [
 grouped_capacities_cols = [
     "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
     "product", "product_lv1", "product_lv2", "factory_status", "date",
-    "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", 
+    "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", "additional", 
     "project_id", "project_key_str", "cluster_id",
-    "investment", "amount_EUR", "investment_status", "investment_phase", 
+    "investment", "amount_EUR", "investment_status", "investment_phase", "is_total", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
     "article_id", "investment_id"
 ]
@@ -64,7 +64,7 @@ grouped_capacities_cols = [
 grouped_investments_cols = [
     "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
     "product", "product_lv1", "product_lv2", "factory_status", "date",
-    "investment", "amount_EUR", "phase", "status", 
+    "investment", "amount_EUR", "phase", "status", "is_total",
     "project_id", "project_key_str", "cluster_id", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
     "article_id", "investment_id"

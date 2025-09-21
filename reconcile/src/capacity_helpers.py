@@ -77,8 +77,6 @@ def annualize(value, time):
         out.append(v * factor)
     return out if isinstance(value, (list, tuple)) else out[0]
 
-
-
 def multiply_vals(value, mult):
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
@@ -91,7 +89,6 @@ def multiply_vals(value, mult):
             out.append(v * mult)
 
     return out if isinstance(value, (list, tuple)) else out[0]
-
 
 def metric_is_missing(metric):
     s = "" if metric is None else str(metric).strip().lower()
