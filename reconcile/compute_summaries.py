@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 from pymongo import UpdateOne
 
 # ---- Unified status logic ----
@@ -18,16 +19,22 @@ UNIFIED_STATUS_ORDER = [
 UNIFIED_RANK = {s: i for i, s in enumerate(UNIFIED_STATUS_ORDER)}
 
 def _parse_date(d):
-    if not d:
+    if d is None or (isinstance(d, float) and math.isnan(d)):
         return pd.NaT
     try:
         return pd.to_datetime(d)
     except Exception:
         return pd.NaT
 
-def _unify_status(status: str, event_type: str) -> str | None:
-    if not status:
+def _unify_status(status, event_type: str) -> str | None:
+    # treat None / NaN as missing
+    if status is None:
         return None
+    if isinstance(status, float) and (math.isnan(status) or status == float("inf") or status == float("-inf")):
+        return None
+    if not isinstance(status, str):
+        return None  # only accept proper strings
+
     s = status.strip().lower()
     if event_type == "investment":
         s = INV_TO_UNIFIED.get(s, s)
