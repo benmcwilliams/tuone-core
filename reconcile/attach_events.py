@@ -12,7 +12,6 @@ from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-#from src.article_validation import build_article_validation_map, compute_validated_flag  can drop this if Ross calculates directly from mongoDB.
 from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, norm_pl2_key, capex_lookup, event_key_capacity, event_key_investment, sort_key
 
 logger = logging.getLogger(__name__)
