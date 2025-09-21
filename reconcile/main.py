@@ -14,6 +14,7 @@ from facilities import write_facilities
 from phase_summary import determine_phase_summary
 from project_page import output_capacities_plot
 from attach_events import attach_events
+from assign_phase import process_documents
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
     COMPANY_FORMS_JV_SPEC,
@@ -52,8 +53,11 @@ def main(update_mongo_metadata=False):
     # run_flatten_articles()
 
     # logging.info("🉑 Merging nodes and relationships...")
+    # logging.info("- - - FACTORY_TECH_SPEC")
     # run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
+    # logging.info("- - - COMPANY_JV_SPEC")
     # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    # logging.info("- - - INVESTMENT_FUNDS_SPEC")
     # run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 
     # logging.info("🏭 Building registry union (direct + capacity + investment)…")
@@ -66,7 +70,6 @@ def main(update_mongo_metadata=False):
     # run_investment_normalisation_pipeline(
     #     FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
     # )
-
     # run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
 
     # logging.info("🫂 Grouping projects...")
@@ -75,13 +78,16 @@ def main(update_mongo_metadata=False):
     #     logging.info(f"Processing: {in_path} → {out_path}")
     #     group_projects(in_path, out_path, output_cols)
 
-    # logging.info("🏭 Importing facilities")
+    logging.info("🏭 Importing facilities")
     write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
-    # logging.info("🏭 Updating facilities")
+    logging.info("📅 Assigning events to facilities")
     attach_events()
 
-    # assign_phase_number
+    logging.info("🔢 Assigning phase number")
+    process_documents(dry_run=False,
+                        limit=None,
+                        query={})
 
     # compute_summaries 
 
