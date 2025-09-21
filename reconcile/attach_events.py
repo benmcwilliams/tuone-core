@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from pymongo import UpdateOne
 
-from mongo_client import facilities_collection, test_mongo_connection
+from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
@@ -212,7 +212,6 @@ def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]]) -> Tu
     return merged, sorted(list(keys))
 
 def attach_events(dry_run: bool = False):
-    test_mongo_connection()
 
     # load
     df_cap_raw = load_capacities()
