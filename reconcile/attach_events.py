@@ -48,9 +48,9 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
-                article_id=("article_id","first"),
+                articleID=("article_id","first"),
                 additional=("additional","first"),
-                amount_EUR=("amount_EUR","first"),
+                investment=("amount_EUR","first"),
                 is_total=("is_total","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
@@ -65,7 +65,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 is_total=("is_total","first"),
-                article_id=("article_id","first"),
+                articleID=("article_id","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
            .rename(columns={"pl2_union":"product_lv2"}))
@@ -80,7 +80,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
     for _, r in df_cap.iterrows():
         pid = r["project_id"]
         pl2_key = norm_pl2_key(r["product_lv2"])
-        raw_amt = r.get("amount_EUR")
+        raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
 
         evt = {
@@ -91,31 +91,31 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "article_id": r.get("article_id") if pd.notna(r.get("article_id")) else None,
-            "capacity_normalized": r.get("capacity_normalized"),
+            "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
+            "capacity": r.get("capacity_normalized"),
             "additional": bool(r.get("additional")),
-            "amount_EUR": amt_scalar,
+            "investment": amt_scalar,
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
 
         evt["event_key"] = event_key_capacity(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                              evt["capacity_normalized"], evt["status"], evt["phase"])
+                                              evt["capacity"], evt["status"], evt["phase"])
 
         # Impute missing amount from CAPEX, never overwrite direct amount
-        if evt.get("amount_EUR") in (None, np.nan):
+        if evt.get("investment") in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
-            if cap_rule and evt.get("capacity_normalized") not in (None, np.nan):
-                evt["amount_EUR_imputed"] = float(evt["capacity_normalized"]) * float(cap_rule["capex_per_unit"])
+            if cap_rule and evt.get("capacity") not in (None, np.nan):
+                evt["investment_imputed"] = float(evt["capacity"]) * float(cap_rule["capex_per_unit"])
                 evt["imputation_basis"] = CAPEX_DICT["version"]
-                evt.setdefault("data_origin", {}).setdefault("imputed", []).append("amount_EUR")
+                evt.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
         events_by_pid.setdefault(pid, []).append(evt)
 
     # investments
     for _, r in df_inv.iterrows():
         pid = r["project_id"]
         pl2_key = norm_pl2_key(r["product_lv2"])
-        raw_amt = r.get("amount_EUR")
+        raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
 
         evt = {
@@ -126,22 +126,22 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "article_id": [r.get("article_id")] if pd.notna(r.get("article_id")) else [],
-            "amount_EUR": amt_scalar,
+            "articleID": [r.get("articleID")] if pd.notna(r.get("articleID")) else [],
+            "investment": amt_scalar,
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
         evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                                evt["amount_EUR"], evt["status"], evt["phase"], evt.get("investment_id"))
+                                                evt["investment"], evt["status"], evt["phase"], evt.get("investment_id"))
         # Impute missing capacity from CAPEX, never overwrite direct capacity
-        if evt.get("amount_EUR") not in (None, np.nan):
+        if evt.get("investment") not in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
             if cap_rule:
                 # Only set imputed capacity if none present
-                evt["capacity_imputed"] = float(evt["amount_EUR"]) / float(cap_rule["capex_per_unit"])
+                evt["capacity_imputed"] = float(evt["investment"]) / float(cap_rule["capex_per_unit"])
                 evt["capacity_unit"] = cap_rule.get("capacity_unit")
                 evt["imputation_basis"] = CAPEX_DICT["version"]
-                evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity_normalized")
+                evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         events_by_pid.setdefault(pid, []).append(evt)
 
     # Drop standalone investments overshadowed by capacity rows using same investment_id
@@ -152,12 +152,6 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
 
         # sort
         events_by_pid[pid].sort(key=sort_key)
-
-        # annotate first_seen / last_seen defaults
-        for e in events_by_pid[pid]:
-            d = e.get("date")
-            e["first_seen_date"] = d
-            e["last_seen_date"] = d
 
     return events_by_pid
 
@@ -183,25 +177,20 @@ def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]]) -> Tu
         if k in by_key:
             cur = by_key[k]
 
-            # keep the original article_id if present; otherwise adopt incoming
-            if not cur.get("article_id") and e.get("article_id"):
-                cur["article_id"] = e["article_id"]
+            # keep the original articleID if present; otherwise adopt incoming
+            if not cur.get("articleID") and e.get("articleID"):
+                cur["articleID"] = e["articleID"]
 
-            # update first/last seen
-            d = e.get("date")
-            if d:
-                cur["first_seen_date"] = min(filter(None, [cur.get("first_seen_date"), d]))
-                cur["last_seen_date"]  = max(filter(None, [cur.get("last_seen_date"), d]))
             # add imputed fields ONLY if missing direct counterparts
-            if "amount_EUR_imputed" in e and cur.get("amount_EUR") in (None, np.nan):
-                cur["amount_EUR_imputed"] = e["amount_EUR_imputed"]
+            if "investment_imputed" in e and cur.get("amount_EUR") in (None, np.nan):
+                cur["investment_imputed"] = e["investment_imputed"]
                 cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("amount_EUR")
-            if "capacity_imputed" in e and cur.get("capacity_normalized") in (None, np.nan):
+                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
+            if "capacity_imputed" in e and cur.get("capacity") in (None, np.nan):
                 cur["capacity_imputed"] = e["capacity_imputed"]
                 cur["capacity_unit"] = e.get("capacity_unit", cur.get("capacity_unit"))
                 cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity_normalized")
+                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         else:
             by_key[k] = e
             keys.add(k)

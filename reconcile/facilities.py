@@ -55,9 +55,7 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "latest_factory_status": {
             "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
             "date": _iso_date(row.get("factory_status_date")),
-        },
-        "first_seen_at": datetime.utcnow(),
-        "last_updated_at": datetime.utcnow(),
+        }
     }
 
 def _normalize_pl2(vals) -> List[str]:
