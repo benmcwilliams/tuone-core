@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from mongo_client import facilities_collection
 from src.config import CAPACITIES_PLOT
 
+## to do, update script to read in phases and consider rather than only main
+
 STATUS_ORDER = ["operational", "under construction", "announced"]
 FIG_DIR = "storage/figures"
 STATUS_COLORS = {
@@ -22,14 +24,10 @@ def load_facility_df():
             "product_lv1": 1, "product_lv2": 1,
             "status": "$main.status",
             "capacity": "$main.capacity",
+            "investment":"$main.investment",
             "announced_on": "$main.announced_on",
             "under_construction_on": "$main.under_construction_on",
-            "operational_on": "$main.operational_on",
-            "greenfield_status": "$greenfield.status",
-            "greenfield_capacity": "$greenfield.capacity",
-            "greenfield_announced_on": "$greenfield.announced_on",
-            "greenfield_under_construction_on": "$greenfield.under_construction_on",
-            "greenfield_operational_on": "$greenfield.operational_on",
+            "operational_on": "$main.operational_on"
         }}
     ]
     rows = list(facilities_collection.aggregate(pipeline))
@@ -40,25 +38,20 @@ def load_facility_df():
     df = df.explode("product_lv2", ignore_index=True)
 
     # dates
-    date_cols = [
-        "announced_on", "under_construction_on", "operational_on",
-        "greenfield_announced_on", "greenfield_under_construction_on", "greenfield_operational_on"
-    ]
+    date_cols = ["announced_on", "under_construction_on", "operational_on"]
     for c in date_cols:
         if c in df.columns:
             df[c] = pd.to_datetime(df[c], errors="coerce")
 
     # coerce capacities if objects slipped in
-    for c in ["capacity", "greenfield_capacity"]:
+    for c in ["capacity", "investment"]:
         if c in df.columns and df[c].dtype == "object":
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
     # optional export of the flat table you had before
     output_cols = [
-        "iso2","adm1","owner","product_lv1","product_lv2","status","capacity",
+        "iso2","adm1","owner","product_lv1","product_lv2","status","capacity","investment"
         "announced_on","under_construction_on","operational_on",
-        "greenfield_status","greenfield_capacity",
-        "greenfield_announced_on","greenfield_under_construction_on","greenfield_operational_on"
     ]
     df.to_excel(CAPACITIES_PLOT, columns=[c for c in output_cols if c in df.columns], index=False)
 
@@ -101,7 +94,7 @@ def plot_stacked_barh(pivot: pd.DataFrame, title: str, outfile: str):
     plt.savefig(outfile, dpi=300)
     plt.close()
 
-def output_capacities_plot():
+def output_plots():
     df = load_facility_df()
 
     combos = [
@@ -119,4 +112,4 @@ def output_capacities_plot():
         plot_stacked_barh(pivot, title, path)
 
 if __name__ == "__main__":
-    output_capacities_plot()
+    output_plots()
