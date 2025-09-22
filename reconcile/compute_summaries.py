@@ -1,208 +1,190 @@
-import pandas as pd
 import math
+import pandas as pd
 from pymongo import UpdateOne
 
-# ---- Unified status logic ----
-INV_TO_UNIFIED = {
-    "completed": "operational",
-    "ongoing": "under construction",
-}
+# ---------- constants ----------
+INV_TO_UNIFIED = {"completed": "operational", "ongoing": "under construction"}
+STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
+STATUS_RANK = {s: i for i, s in enumerate(STATUS_ORDER)}
 
-UNIFIED_STATUS_ORDER = [
-    "cancelled",
-    "paused",
-    "operational",          # includes investment 'completed'
-    "under construction",   # includes investment 'ongoing'
-    "announced",
-    "unclear",
-]
-UNIFIED_RANK = {s: i for i, s in enumerate(UNIFIED_STATUS_ORDER)}
-
-def _parse_date(d):
-    if d is None or (isinstance(d, float) and math.isnan(d)):
-        return pd.NaT
+# ---------- tiny helpers ----------
+def _pd_time(x):
     try:
-        return pd.to_datetime(d)
+        return pd.to_datetime(x)
     except Exception:
         return pd.NaT
-
-def _unify_status(status, event_type: str) -> str | None:
-    # treat None / NaN as missing
-    if status is None:
-        return None
-    if isinstance(status, float) and (math.isnan(status) or status == float("inf") or status == float("-inf")):
-        return None
-    if not isinstance(status, str):
-        return None  # only accept proper strings
-
-    s = status.strip().lower()
-    if event_type == "investment":
-        s = INV_TO_UNIFIED.get(s, s)
-    return s if s in UNIFIED_RANK else None
 
 def _as_float(x):
     if x is None:
         return None
+    sx = str(x).strip()
+    if not sx:
+        return None
     try:
-        sx = str(x).strip()
-        if sx == "":
-            return None
         return float(sx)
     except Exception:
         return None
 
-# ---- Per-phase summary ----
-def summarise_phase(events_phase: list, prev_reached: float | None) -> dict:
-    """
-    events_phase: events for a single phase_num with keys like:
-      - event_type in {"capacity","investment"}
-      - status, date, phase_num
-      - capacity_normalized (number)
-      - amount_EUR (number) [and optionally amount_EUR_imputed]
-      - additional (bool) for capacity
-      - is_total (bool) for investment
-    """
-    # Normalize minimal fields we need
-    norm = []
-    for e in events_phase:
+def _unify_status(raw, event_type):
+    if raw is None or (isinstance(raw, float) and math.isnan(raw)):
+        return None
+    if not isinstance(raw, str):
+        return None
+    s = raw.strip().lower()
+    if event_type == "investment":
+        s = INV_TO_UNIFIED.get(s, s)
+    return s if s in STATUS_RANK else None
+
+def _status_vote(rows):
+    """Strongest status wins; tie-break by latest date."""
+    rows = [r for r in rows if r.get("status_u") and pd.notna(r.get("date"))]
+    if not rows:
+        return None
+    rows.sort(key=lambda r: (STATUS_RANK[r["status_u"]], -r["date"].timestamp()))
+    return rows[0]["status_u"]
+
+def _earliest_date(rows, status):
+    pool = [r for r in rows if r.get("status_u") == status and pd.notna(r.get("date"))]
+    if not pool:
+        return None
+    pool.sort(key=lambda r: r["date"])
+    return pool[0]["date"].date().isoformat()
+
+# ---------- core logic ----------
+def _normalize_events(events):
+    out = []
+    for e in events or []:
         et = (e.get("event_type") or "").lower()
-        status_u = _unify_status(e.get("status"), et)
-        dt = _parse_date(e.get("date") or e.get("date_str"))
-
-        cap_val = _as_float(e.get("capacity_normalized"))
-        # investment value: prefer amount_EUR, else amount_EUR_imputed if present
-        inv_val = e.get("amount_EUR")
-        if inv_val is None and "amount_EUR_imputed" in e:
-            inv_val = e.get("amount_EUR_imputed")
-        inv_val = _as_float(inv_val)
-
-        additional = e.get("additional")  # may be None; we only use explicit True/False
-        is_total = e.get("is_total")
-        if is_total is None:
-            is_total = False
-
-        norm.append({
+        out.append({
             "event_type": et,
-            "status_u": status_u,
-            "date": dt,
-            "capacity_normalized": cap_val,
-            "amount_EUR": inv_val,
-            "additional": additional,
-            "is_total": is_total,
+            "phase_num": e.get("phase_num"),
+            "status_u": _unify_status(e.get("status"), et),
+            "date": _pd_time(e.get("date") or e.get("date_str")),
+            "capacity": _as_float(e.get("capacity_normalized")),
+            "additional": e.get("additional"),                # True=increment, False=total
+            "is_total": bool(e.get("is_total")),             # can exist on capacity or investment
+            "amount_eur": _as_float(
+                e.get("amount_EUR") if e.get("amount_EUR") is not None else e.get("amount_EUR_imputed")
+            ),
         })
+    return out
 
-    # ---- Unified status: strongest rank, then latest date ----
-    status_candidates = [x for x in norm if x["status_u"] and pd.notna(x["date"])]
-    phase_status = None
-    if status_candidates:
-        status_candidates.sort(key=lambda x: (UNIFIED_RANK[x["status_u"]], -x["date"].timestamp()))
-        phase_status = status_candidates[0]["status_u"]
+def summarise_phase(events_phase, prev_capacity=None, prev_investment=None):
+    """Summarise a single phase, returning increments + cumulative totals."""
+    rows = [r for r in events_phase if pd.notna(r["date"])]
+    if not rows:
+        return {}
 
-    # ---- Capacities ----
-    caps = [x for x in norm if x["event_type"] == "capacity" and x["capacity_normalized"] is not None and pd.notna(x["date"])]
+    # status
+    status = _status_vote(rows)
 
-    # explicit reached (additional == False), latest by date
-    reached_candidates = [c for c in caps if c.get("additional") is False]
-    reached_candidates.sort(key=lambda x: x["date"], reverse=True)
-    capacity_reached = reached_candidates[0]["capacity_normalized"] if reached_candidates else None
+    # capacity increment = latest additional == True
+    caps_inc = [
+        r for r in rows
+        if r["event_type"] == "capacity"
+        and r.get("additional") is True
+        and r["capacity"] is not None
+    ]
+    caps_inc.sort(key=lambda r: r["date"], reverse=True)
+    capacity_increment = caps_inc[0]["capacity"] if caps_inc else None
 
-    # explicit additional (additional == True), latest by date (tie-break by stronger status)
-    add_candidates = [c for c in caps if c.get("additional") is True]
-    add_candidates.sort(
-        key=lambda x: (
-            x["date"],
-            -UNIFIED_RANK.get(x["status_u"] or "unclear", 99)
-        ),
-        reverse=True
-    )
-    capacity_additional = add_candidates[0]["capacity_normalized"] if add_candidates else None
+    # cumulative capacity = prev + increment (if any)
+    capacity_reached = prev_capacity or 0
+    if capacity_increment is not None:
+        capacity_reached += capacity_increment
+    if capacity_reached == 0:
+        capacity_reached = None  # if still empty
 
-    # Fallback for reached: compute incrementally from previous phases
-    if capacity_reached is None:
-        if prev_reached is not None and capacity_additional is not None:
-            capacity_reached = prev_reached + capacity_additional
-        elif prev_reached is not None and capacity_additional is None:
-            capacity_reached = prev_reached  # carry forward baseline
+    # investment increment = latest is_total == False
+    inv_inc = [
+        r for r in rows
+        if r["event_type"] == "investment"
+        and r.get("is_total") is False
+        and r["amount_eur"] is not None
+    ]
+    inv_inc.sort(key=lambda r: r["date"], reverse=True)
+    investment_increment = inv_inc[0]["amount_eur"] if inv_inc else None
 
-    # ---- Investments ----
-    invs = [x for x in norm if x["event_type"] == "investment" and x["amount_EUR"] is not None and pd.notna(x["date"])]
-
-    total_candidates = [i for i in invs if i["is_total"] is True]
-    total_candidates.sort(key=lambda x: x["date"], reverse=True)
-    investment_total = total_candidates[0]["amount_EUR"] if total_candidates else None
-
-    incr_candidates = [i for i in invs if i["is_total"] is False]
-    incr_candidates.sort(key=lambda x: x["date"], reverse=True)
-    investment_incremental = incr_candidates[0]["amount_EUR"] if incr_candidates else None
-
-    # ---- Milestones (earliest within the phase across both types) ----
-    dated = [x for x in norm if x["status_u"] and pd.notna(x["date"])]
-
-    def earliest(*statuses) -> str | None:
-        pool = [x for x in dated if x["status_u"] in set(statuses)]
-        if not pool:
-            return None
-        pool.sort(key=lambda x: x["date"])
-        return pool[0]["date"].date().isoformat()
-
-    dt_announce = earliest("announced")
-    dt_construct = earliest("under construction")  # 'ongoing' already mapped to UC
-    dt_operational = earliest("operational")       # 'completed' already mapped to operational
+    # cumulative investment = prev + increment (if any)
+    investment_reached = prev_investment or 0
+    if investment_increment is not None:
+        investment_reached += investment_increment
+    if investment_reached == 0:
+        investment_reached = None
 
     return {
-        "status": phase_status,
-        "capacity_additional": capacity_additional,
+        "status": status,
+        "capacity_increment": capacity_increment,
         "capacity_reached": capacity_reached,
-        "investment_incremental": investment_incremental,
-        "investment_total": investment_total,
-        "dt_announce": dt_announce,
-        "dt_construct": dt_construct,
-        "dt_operational": dt_operational,
+        "investment_increment": investment_increment,
+        "investment_reached": investment_reached,
+        "dt_announce": _earliest_date(rows, "announced"),
+        "dt_construct": _earliest_date(rows, "under construction"),
+        "dt_operational": _earliest_date(rows, "operational"),
     }
 
-# ---- Driver over a document (events only) ----
 def build_phase_summaries_for_doc(doc: dict) -> dict:
-    """
-    Returns {"phases": {"phase_1": {...}, "phase_2": {...}, ...}}
-    Requires doc["events"] with event dicts containing phase_num.
-    """
-    events = (doc.get("events") or [])
-    # require a phase number
-    def safe_phase_num(e):
-        try:
-            return int(e.get("phase_num"))
-        except Exception:
-            return None
-    events = [e for e in events if safe_phase_num(e) is not None]
+    rows = _normalize_events(doc.get("events") or [])
 
-    phase_nums = sorted({safe_phase_num(e) for e in events})
     summaries = {}
-    prev_reached = None
-    for p in phase_nums:
-        phase_events = [e for e in events if safe_phase_num(e) == p]
-        summary = summarise_phase(phase_events, prev_reached=prev_reached)
+    prev_capacity, prev_investment = 0, 0
+    for p in sorted({int(r["phase_num"]) for r in rows if str(r.get("phase_num")).isdigit()}):
+        phase_rows = [r for r in rows if str(r.get("phase_num")) == str(p)]
+        summary = summarise_phase(phase_rows, prev_capacity, prev_investment)
         summaries[f"phase_{p}"] = summary
+
+        # update baselines for next phase
         if summary.get("capacity_reached") is not None:
-            prev_reached = summary["capacity_reached"]
+            prev_capacity = summary["capacity_reached"]
+        if summary.get("investment_reached") is not None:
+            prev_investment = summary["investment_reached"]
 
-    return {"phases": summaries}
+    # main view: strongest status, latest total capacity, latest total investment
+    main_status = _status_vote(rows)
 
-# ---- Optional: bulk write helper ----
-def write_phase_summaries(facilities_collection, query: dict | None = None, dry_run: bool = True, limit: int | None = None):
+    caps_total = [
+        r for r in rows
+        if r["event_type"] == "capacity"
+        and r["capacity"] is not None
+        and r.get("additional") is False
+    ]
+    caps_total.sort(key=lambda r: r["date"], reverse=True)
+    main_capacity = caps_total[0]["capacity"] if caps_total else None
+
+    inv_total = [
+        r for r in rows
+        if r["event_type"] == "investment"
+        and r.get("is_total") is True
+        and r["amount_eur"] is not None
+    ]
+    inv_total.sort(key=lambda r: r["date"], reverse=True)
+    main_investment = inv_total[0]["amount_eur"] if inv_total else None
+
+    main = {
+        "status": main_status,
+        "capacity": main_capacity,
+        "investment_total": main_investment,
+        "announced_on": _earliest_date(rows, "announced"),
+        "under_construction_on": _earliest_date(rows, "under construction"),
+        "operational_on": _earliest_date(rows, "operational"),
+    }
+
+    return {"phases": summaries, "main": main}
+
+def write_phase_summaries(facilities_collection, query=None, dry_run=True, limit=None):
     q = query or {}
-    cursor = facilities_collection.find(q)
+    cur = facilities_collection.find(q)
     if limit:
-        cursor = cursor.limit(limit)
+        cur = cur.limit(limit)
 
-    updates = []
-    n = 0
-    for doc in cursor:
+    updates, matched = [], 0
+    for doc in cur:
         out = build_phase_summaries_for_doc(doc)
-        if out["phases"]:
-            n += 1
-            updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": {"phase_summaries": out["phases"]}}))
+        if out["phases"] or out["main"]:
+            matched += 1
+            updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": {"phase_summaries": out["phases"], "main": out["main"]}}))
 
     if dry_run or not updates:
-        return n, 0  # (matched, modified)
+        return matched, 0
     res = facilities_collection.bulk_write(updates)
-    return n, res.modified_count
+    return matched, res.modified_count
