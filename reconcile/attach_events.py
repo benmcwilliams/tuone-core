@@ -19,6 +19,29 @@ logger = logging.getLogger(__name__)
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
 
+# -------------------- should be temporary, until we populate is_total values --------------------
+
+def coerce_is_total(x):
+    """
+    Normalize is_total values.
+    - Explicit False-like → False
+    - Everything else (including None, NaN, blank) → True
+    """
+    if x is None:
+        return True
+    if isinstance(x, float) and np.isnan(x):
+        return True
+    if isinstance(x, str):
+        s = x.strip().lower()
+        if s in {"false", "f", "0", "no", "n", "incremental"}:
+            return False
+        return True
+    if isinstance(x, bool):
+        return x  # keep actual boolean as-is
+    if isinstance(x, (int, np.integer)):
+        return False if x == 0 else True
+    return True
+
 # -------------------- load & normalize --------------------
 
 def load_capacities() -> pd.DataFrame:
@@ -30,6 +53,7 @@ def load_capacities() -> pd.DataFrame:
     df["capacity_normalized"] = df["capacity_normalized"].apply(parse_capacity_value)
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
     df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
     return df
 
 def load_investments() -> pd.DataFrame:
@@ -37,6 +61,7 @@ def load_investments() -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["status"] = pd.Categorical(df["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
     df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
     return df
 
 # -------------------- dedup & group --------------------

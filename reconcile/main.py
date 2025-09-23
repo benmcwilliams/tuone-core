@@ -96,7 +96,7 @@ def main(update_mongo_metadata=False):
     logging.info(f"✅ Phase summaries computed.")
 
     # logging.info("Outputting clean capacities summary data")
-    output__plots()
+    output_plots()
 
     # final timing
     t1_pipeline = time.time()

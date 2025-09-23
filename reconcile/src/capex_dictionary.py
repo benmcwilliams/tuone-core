@@ -12,21 +12,21 @@ CAPEX_DICT = {
     },
     {
       "product_lv1": "battery",
-      "product_lv2_key": ("cell"),
+      "product_lv2_key": ("cell",),
       "capacity_unit": "GWh/year",
       "capex_per_unit": 90_000_000,  
       "source": "Ben estimate"
     },
     {
       "product_lv1": "battery",
-      "product_lv2_key": ("module_pack"),
+      "product_lv2_key": ("module_pack",),
       "capacity_unit": "GWh/year",
       "capex_per_unit": 25_000_000,  
       "source": "Ben estimate"
     },
     {
       "product_lv1": "vehicle",
-      "product_lv2_key": ("electric"),
+      "product_lv2_key": ("electric",),
       "capacity_unit": "vehicles/year",
       "capex_per_unit": 12_000,                     # EUR per vehicle/y capacity
       "source": "Ben estimate",
@@ -58,6 +58,20 @@ CAPEX_DICT = {
       "capacity_unit": "GW/year",
       "capex_per_unit": 47_500_000,   # ~cell + module integrated
       "source": "Industry benchmarks 2023–2025 (China/EU/US)",
-    }
+    },
+    {
+      "product_lv1": "solar",
+      "product_lv2_key": ("deployment",),
+      "capacity_unit": "MW",  
+      "capex_per_unit": 900_000,      # EUR per MW
+      "source": "IEA/IRENA utility-scale solar PV benchmarks 2023 (Europe ~€800k–1.0M/MW)",
+    },
+    {
+      "product_lv1": "wind",
+      "product_lv2_key": ("deployment",),
+      "capacity_unit": "MW",
+      "capex_per_unit": 1_500_000,    # EUR per MW
+      "source": "IEA/IRENA wind benchmarks 2023 (onshore ~€1.3M/MW, offshore ~€2.5–3M/MW)",
+    },
   ]
 }
