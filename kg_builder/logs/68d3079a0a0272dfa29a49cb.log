@@ -1,0 +1,49 @@
+2025-09-23 22:59:32,041 - INFO - 🔍 Text length: 1306 characters
+2025-09-23 22:59:32,041 - INFO - 📌 Processing Article ID: 68d3079a0a0272dfa29a49cb — System failure halts Toyota production in Japan
+2025-09-23 22:59:32,041 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:59:51,135 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:51,135 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_domestic_assembly_plants",
+        "type": "factory",
+        "name": "domestic assembly plants",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-09-23 22:59:51,136 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:51,136 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 22:59:51,136 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:59:51,136 - INFO - ⏭️ Skipping products – no nodes of type 'product' found.
+2025-09-23 22:59:51,136 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:59:51,136 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:59:51,136 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:59:52,062 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:52,062 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor_corporation",
+      "type": "owns",
+      "target": "factory_domestic_assembly_plants"
+    }
+  ]
+}
+2025-09-23 22:59:52,062 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:52,063 - INFO - 🛑 Skipping technological: required nodes ['product', 'capacity'] not present.
+2025-09-23 22:59:52,063 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:59:52,063 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:59:52,146 - INFO - ✅ Updated Article ID: 68d3079a0a0272dfa29a49cb with 2 nodes and combined text.

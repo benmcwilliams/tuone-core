@@ -1,0 +1,181 @@
+2025-09-23 22:58:12,833 - INFO - 🔍 Text length: 1163 characters
+2025-09-23 22:58:12,833 - INFO - 📌 Processing Article ID: 68d307b20a0272dfa29a49d1 — BMW launches first German Mini production
+2025-09-23 22:58:12,833 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:58:15,926 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:15,926 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_leipzig_germany",
+        "type": "factory",
+        "name": "Leipzig Plant",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_saxony",
+        "type": "investment",
+        "name": "BMW Saxony Investment",
+        "amount": "EUR700m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_countryman",
+        "type": "product",
+        "name": "Countryman"
+      },
+      {
+        "id": "product_i3",
+        "type": "product",
+        "name": "i3"
+      },
+      {
+        "id": "product_1_series",
+        "type": "product",
+        "name": "1 Series"
+      },
+      {
+        "id": "product_2_series",
+        "type": "product",
+        "name": "2 Series"
+      }
+    ]
+  }
+}
+2025-09-23 22:58:15,926 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:15,926 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 22:58:15,926 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 22:58:15,926 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 22:58:17,116 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:17,116 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_saxony",
+      "status": "completed",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-23 22:58:17,116 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:17,116 - INFO - ✅ Match found for investment_ID 'investment_bmw_saxony' in investment nodes
+2025-09-23 22:58:17,116 - INFO -   ➕ Set field 'status': completed
+2025-09-23 22:58:17,116 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 22:58:17,116 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 22:58:17,116 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:58:17,116 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:58:19,226 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:19,227 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_countryman",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_i3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_1_series",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_2_series",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 22:58:19,227 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:19,227 - INFO - ✅ Match found for product_ID 'product_countryman' in product nodes
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:58:19,227 - INFO - ✅ Match found for product_ID 'product_i3' in product nodes
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:58:19,227 - INFO - ✅ Match found for product_ID 'product_1_series' in product nodes
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 22:58:19,227 - INFO - ✅ Match found for product_ID 'product_2_series' in product nodes
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:19,227 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 22:58:19,227 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:58:19,228 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:58:19,228 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:58:20,504 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:20,505 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_leipzig_germany"
+    }
+  ]
+}
+2025-09-23 22:58:20,505 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:20,505 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:58:20,505 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:58:22,043 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:22,043 - INFO - {
+  "relationships": [
+    {
+      "source": "product_countryman",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_i3",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_1_series",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_2_series",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:58:22,043 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:22,043 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 22:58:22,043 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 22:58:22,864 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:22,865 - INFO - {
+  "relationships": []
+}
+2025-09-23 22:58:22,865 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:22,865 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 22:58:22,865 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 22:58:23,672 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:23,672 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_saxony",
+      "target": "factory_leipzig_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-23 22:58:23,672 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:23,759 - INFO - ✅ Updated Article ID: 68d307b20a0272dfa29a49d1 with 7 nodes and combined text.

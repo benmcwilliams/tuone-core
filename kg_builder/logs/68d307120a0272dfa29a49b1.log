@@ -1,0 +1,91 @@
+2025-09-23 23:03:51,542 - INFO - 🔍 Text length: 1534 characters
+2025-09-23 23:03:51,542 - INFO - 📌 Processing Article ID: 68d307120a0272dfa29a49b1 — Continental launches 5G network at Czech Republic plant
+2025-09-23 23:03:51,542 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:03:53,971 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:53,971 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      },
+      {
+        "id": "company_t_mobile",
+        "type": "company",
+        "name": "T-Mobile"
+      },
+      {
+        "id": "company_porsche",
+        "type": "company",
+        "name": "Porsche"
+      },
+      {
+        "id": "company_vodafone",
+        "type": "company",
+        "name": "Vodafone"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brandys_nad_labem_czech_republic",
+        "type": "factory",
+        "name": "Brand\u00fds nad Labem display solutions plant",
+        "location": {
+          "city": "Brand\u00fds nad Labem",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_private_5g_network",
+        "type": "product",
+        "name": "private 5G network"
+      }
+    ]
+  }
+}
+2025-09-23 23:03:53,972 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:53,972 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:03:53,972 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:03:53,972 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:03:53,972 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:03:59,595 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:59,596 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_private_5g_network",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-23 23:03:59,596 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:59,596 - INFO - ✅ Match found for product_ID 'product_private_5g_network' in product nodes
+2025-09-23 23:03:59,596 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-23 23:03:59,596 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:03:59,596 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:03:59,596 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:04:00,911 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:04:00,911 - INFO - {
+  "relationships": [
+    {
+      "source": "company_continental",
+      "type": "owns",
+      "target": "factory_brandys_nad_labem_czech_republic"
+    }
+  ]
+}
+2025-09-23 23:04:00,911 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:04:00,911 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:04:00,911 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:04:01,553 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:04:01,553 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:04:01,553 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:04:01,553 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:04:01,553 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:04:01,653 - INFO - ✅ Updated Article ID: 68d307120a0272dfa29a49b1 with 6 nodes and combined text.

@@ -1,0 +1,127 @@
+2025-09-23 22:59:52,147 - INFO - 🔍 Text length: 2680 characters
+2025-09-23 22:59:52,147 - INFO - 📌 Processing Article ID: 68d307980a0272dfa29a49ca — SK On develops high-performance electrolyte for solid-state batteries
+2025-09-23 22:59:52,148 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:59:54,842 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:54,842 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On Company Ltd"
+      },
+      {
+        "id": "company_dankook_university",
+        "type": "company",
+        "name": "Dankook University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pilot_plant",
+        "type": "factory",
+        "name": "pilot plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_electrolyte",
+        "type": "product",
+        "name": "solid-state electrolyte"
+      },
+      {
+        "id": "product_nickel_cobalt_manganese_solid_state_battery_cathodes",
+        "type": "product",
+        "name": "nickel-cobalt-manganese solid-state battery cathodes"
+      },
+      {
+        "id": "product_lithium_sulphur_batteries",
+        "type": "product",
+        "name": "lithium-sulphur batteries"
+      },
+      {
+        "id": "product_lithium_air_cells",
+        "type": "product",
+        "name": "lithium-air cells"
+      }
+    ]
+  }
+}
+2025-09-23 22:59:54,843 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:54,843 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 22:59:54,843 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:59:54,843 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:59:54,843 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:59:57,504 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:57,505 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_electrolyte",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_nickel_cobalt_manganese_solid_state_battery_cathodes",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_lithium_sulphur_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_lithium_air_cells",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 22:59:57,505 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:57,505 - INFO - ✅ Match found for product_ID 'product_solid_state_electrolyte' in product nodes
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-23 22:59:57,505 - INFO - ✅ Match found for product_ID 'product_nickel_cobalt_manganese_solid_state_battery_cathodes' in product nodes
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 22:59:57,505 - INFO - ✅ Match found for product_ID 'product_lithium_sulphur_batteries' in product nodes
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 22:59:57,505 - INFO - ✅ Match found for product_ID 'product_lithium_air_cells' in product nodes
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 22:59:57,505 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 22:59:57,506 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:59:57,506 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:59:57,506 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:59:58,529 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:58,530 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_pilot_plant"
+    }
+  ]
+}
+2025-09-23 22:59:58,530 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:58,530 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:59:58,530 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:59:59,655 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:59:59,655 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solid_state_electrolyte",
+      "target": "factory_pilot_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:59:59,655 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:59:59,655 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:59:59,655 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:59:59,745 - INFO - ✅ Updated Article ID: 68d307980a0272dfa29a49ca with 7 nodes and combined text.

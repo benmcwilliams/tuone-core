@@ -1,0 +1,132 @@
+2025-09-23 23:00:19,080 - INFO - 🔍 Text length: 2388 characters
+2025-09-23 23:00:19,080 - INFO - 📌 Processing Article ID: 68d307880a0272dfa29a49c7 — Hyundai & Kia bullish on EVs
+2025-09-23 23:00:19,080 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:00:21,467 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:21,467 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_savannah_georgia",
+        "type": "factory",
+        "name": "Savannah Battery Electric Plant",
+        "location": {
+          "city": "Savannah",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_savannah_battery_electric_plant",
+        "type": "investment",
+        "name": "Savannah Battery Electric Plant",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-23 23:00:21,467 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:21,467 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:00:21,468 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:00:21,468 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:00:23,092 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:23,092 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_savannah_battery_electric_plant",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-23 23:00:23,092 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:23,092 - INFO - ✅ Match found for investment_ID 'investment_savannah_battery_electric_plant' in investment nodes
+2025-09-23 23:00:23,092 - INFO -   ➕ Set field 'status': ongoing
+2025-09-23 23:00:23,092 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-23 23:00:23,092 - INFO -   ➕ Set field 'is_total': False
+2025-09-23 23:00:23,092 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:00:23,092 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:00:25,263 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:25,264 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:00:25,264 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:25,264 - INFO - ✅ Match found for product_ID 'product_battery_electric_vehicles' in product nodes
+2025-09-23 23:00:25,264 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:00:25,264 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:00:25,264 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:00:25,264 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:00:25,264 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:00:26,278 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:26,278 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor",
+      "type": "owns",
+      "target": "factory_savannah_georgia"
+    }
+  ]
+}
+2025-09-23 23:00:26,279 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:26,279 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:00:26,279 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:00:27,975 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:27,975 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_savannah_georgia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:00:27,975 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:27,975 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:00:27,975 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:00:29,863 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:29,864 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:00:29,864 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:29,864 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:00:29,864 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:00:31,664 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:31,665 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_savannah_battery_electric_plant",
+      "target": "factory_savannah_georgia",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-23 23:00:31,665 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:31,753 - INFO - ✅ Updated Article ID: 68d307880a0272dfa29a49c7 with 5 nodes and combined text.

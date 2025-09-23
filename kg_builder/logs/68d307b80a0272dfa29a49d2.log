@@ -1,0 +1,165 @@
+2025-09-23 22:58:03,934 - INFO - 🔍 Text length: 1219 characters
+2025-09-23 22:58:03,934 - INFO - 📌 Processing Article ID: 68d307b80a0272dfa29a49d2 — Volvo Ghent EV truck output starts
+2025-09-23 22:58:03,934 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:58:06,629 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:06,629 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_trucks",
+        "type": "company",
+        "name": "Volvo Trucks"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ghent_belgium",
+        "type": "factory",
+        "name": "Ghent Factory",
+        "location": {
+          "city": "Ghent",
+          "country": "Belgium"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_45k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "45,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fh_electric",
+        "type": "product",
+        "name": "FH Electric"
+      },
+      {
+        "id": "product_fm_electric",
+        "type": "product",
+        "name": "FM Electric"
+      },
+      {
+        "id": "product_fmx_electric",
+        "type": "product",
+        "name": "FMX Electric"
+      }
+    ]
+  }
+}
+2025-09-23 22:58:06,629 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:06,630 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 22:58:06,630 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 22:58:07,661 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:07,662 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_45k_units_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-23 22:58:07,662 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:07,662 - INFO - ✅ Match found for capacity_ID 'capacity_45k_units_per_year' in capacity nodes
+2025-09-23 22:58:07,662 - INFO -   ➕ Set field 'status': operational
+2025-09-23 22:58:07,662 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 22:58:07,662 - INFO -   ➕ Set field 'additional': False
+2025-09-23 22:58:07,662 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:58:07,662 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:58:07,662 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:58:09,493 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:09,493 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_fh_electric",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_fm_electric",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_fmx_electric",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 22:58:09,493 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:09,493 - INFO - ✅ Match found for product_ID 'product_fh_electric' in product nodes
+2025-09-23 22:58:09,493 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:09,494 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:58:09,494 - INFO - ✅ Match found for product_ID 'product_fm_electric' in product nodes
+2025-09-23 22:58:09,494 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:09,494 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:58:09,494 - INFO - ✅ Match found for product_ID 'product_fmx_electric' in product nodes
+2025-09-23 22:58:09,494 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:58:09,494 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:58:09,494 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:58:09,494 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:58:09,494 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:58:10,354 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:10,354 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_trucks",
+      "type": "owns",
+      "target": "factory_ghent_belgium"
+    }
+  ]
+}
+2025-09-23 22:58:10,354 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:10,354 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:58:10,354 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:58:12,745 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:58:12,745 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_45k_units_per_year",
+      "target": "factory_ghent_belgium",
+      "type": "at"
+    },
+    {
+      "source": "capacity_45k_units_per_year",
+      "target": "product_fh_electric",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_45k_units_per_year",
+      "target": "product_fm_electric",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_45k_units_per_year",
+      "target": "product_fmx_electric",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_fh_electric",
+      "target": "factory_ghent_belgium",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fm_electric",
+      "target": "factory_ghent_belgium",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fmx_electric",
+      "target": "factory_ghent_belgium",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:58:12,745 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:58:12,745 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:58:12,745 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:58:12,831 - INFO - ✅ Updated Article ID: 68d307b80a0272dfa29a49d2 with 6 nodes and combined text.

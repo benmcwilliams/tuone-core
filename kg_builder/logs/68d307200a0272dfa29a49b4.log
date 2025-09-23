@@ -1,0 +1,163 @@
+2025-09-23 23:03:19,532 - INFO - 🔍 Text length: 2450 characters
+2025-09-23 23:03:19,532 - INFO - 📌 Processing Article ID: 68d307200a0272dfa29a49b4 — Honda and Ohio university set up battery R&D
+2025-09-23 23:03:19,532 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:03:23,039 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:23,040 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_ohio_state_university",
+        "type": "company",
+        "name": "Ohio State University"
+      },
+      {
+        "id": "company_schaeffler",
+        "type": "company",
+        "name": "Schaeffler"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ohio_state_battery_cell_r_d_centre",
+        "type": "factory",
+        "name": "Ohio State Battery Cell R&D Centre",
+        "location": {
+          "city": "Ohio State\u2019s innovation district",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_honda_battery_cell_r_d_centre",
+        "type": "investment",
+        "name": "Honda Battery Cell R&D Centre",
+        "amount": "$15m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_federal_funding_battery_cell_r_d_centre",
+        "type": "investment",
+        "name": "Federal Funding Battery Cell R&D Centre",
+        "amount": "$4.5m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cell",
+        "type": "product",
+        "name": "battery cell"
+      }
+    ]
+  }
+}
+2025-09-23 23:03:23,040 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:23,040 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:03:23,040 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:03:23,040 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:03:24,457 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:24,457 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_honda_battery_cell_r_d_centre",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_federal_funding_battery_cell_r_d_centre",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-23 23:03:24,458 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:24,458 - INFO - ✅ Match found for investment_ID 'investment_honda_battery_cell_r_d_centre' in investment nodes
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:03:24,458 - INFO - ✅ Match found for investment_ID 'investment_federal_funding_battery_cell_r_d_centre' in investment nodes
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'status': completed
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:03:24,458 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:03:24,458 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:03:24,458 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:03:25,686 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:25,686 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-23 23:03:25,687 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:25,687 - INFO - ✅ Match found for product_ID 'product_battery_cell' in product nodes
+2025-09-23 23:03:25,687 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 23:03:25,687 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-23 23:03:25,687 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:03:25,687 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:03:25,687 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:03:27,039 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:27,039 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ohio_state_university",
+      "type": "owns",
+      "target": "factory_ohio_state_battery_cell_r_d_centre"
+    }
+  ]
+}
+2025-09-23 23:03:27,039 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:27,039 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:03:27,039 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:03:27,849 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:27,849 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:03:27,850 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:27,850 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:03:27,850 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:03:28,656 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:28,656 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:03:28,656 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:28,656 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:03:28,656 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:03:30,786 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:03:30,787 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_honda_battery_cell_r_d_centre",
+      "target": "factory_ohio_state_battery_cell_r_d_centre",
+      "type": "funds"
+    },
+    {
+      "source": "investment_federal_funding_battery_cell_r_d_centre",
+      "target": "factory_ohio_state_battery_cell_r_d_centre",
+      "type": "funds"
+    },
+    {
+      "source": "investment_honda_battery_cell_r_d_centre",
+      "target": "product_battery_cell",
+      "type": "targets"
+    },
+    {
+      "source": "investment_federal_funding_battery_cell_r_d_centre",
+      "target": "product_battery_cell",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-23 23:03:30,787 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:03:30,877 - INFO - ✅ Updated Article ID: 68d307200a0272dfa29a49b4 with 7 nodes and combined text.

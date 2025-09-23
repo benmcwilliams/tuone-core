@@ -79,3 +79,6 @@ def battery_news_crawler():
     logging.info(f"🔎 New URLs to insert: {len(new_urls)}")
     save_new_urls(collection, new_urls, category)
 
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    battery_news_crawler()

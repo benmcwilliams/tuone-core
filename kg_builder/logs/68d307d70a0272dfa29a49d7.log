@@ -1,0 +1,165 @@
+2025-09-23 22:56:27,856 - INFO - 🔍 Text length: 2274 characters
+2025-09-23 22:56:27,856 - INFO - 📌 Processing Article ID: 68d307d70a0272dfa29a49d7 — ‘Factory in a box’ Helixx unveils first demonstration vehicle
+2025-09-23 22:56:27,856 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:56:30,833 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:56:30,833 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_helixx",
+        "type": "company",
+        "name": "Helixx"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pilot_hub",
+        "type": "factory",
+        "name": "Pilot Hub",
+        "location": {
+          "city": "null",
+          "country": "UK"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_concept_hub",
+        "type": "factory",
+        "name": "Concept Hub",
+        "location": {
+          "city": "null",
+          "country": "Southeast Asia"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_vehicles_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 vehicles",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_demonstrator_vehicle",
+        "type": "product",
+        "name": "Demonstrator Vehicle"
+      },
+      {
+        "id": "product_commercial_delivery_van",
+        "type": "product",
+        "name": "Commercial Delivery Van"
+      },
+      {
+        "id": "product_pick_up_truck",
+        "type": "product",
+        "name": "Pick-Up Truck"
+      }
+    ]
+  }
+}
+2025-09-23 22:56:30,833 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:56:30,833 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 22:56:30,833 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 22:56:32,155 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:56:32,156 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_vehicles_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-23 22:56:32,156 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:56:32,156 - INFO - ✅ Match found for capacity_ID 'capacity_100_vehicles_announced' in capacity nodes
+2025-09-23 22:56:32,156 - INFO -   ➕ Set field 'status': announced
+2025-09-23 22:56:32,156 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-23 22:56:32,156 - INFO -   ➕ Set field 'additional': False
+2025-09-23 22:56:32,156 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:56:32,156 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:56:32,156 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:56:34,116 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:56:34,117 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_demonstrator_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_commercial_delivery_van",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_pick_up_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 22:56:34,117 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:56:34,117 - INFO - ✅ Match found for product_ID 'product_demonstrator_vehicle' in product nodes
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:56:34,117 - INFO - ✅ Match found for product_ID 'product_commercial_delivery_van' in product nodes
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:56:34,117 - INFO - ✅ Match found for product_ID 'product_pick_up_truck' in product nodes
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:56:34,117 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:56:34,117 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:56:34,117 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:56:34,117 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:56:35,946 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:56:35,946 - INFO - {
+  "relationships": [
+    {
+      "source": "company_helixx",
+      "type": "owns",
+      "target": "factory_pilot_hub"
+    },
+    {
+      "source": "company_helixx",
+      "type": "owns",
+      "target": "factory_concept_hub"
+    }
+  ]
+}
+2025-09-23 22:56:35,946 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:56:35,946 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:56:35,946 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:56:37,931 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:56:37,932 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_vehicles_announced",
+      "target": "factory_pilot_hub",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_vehicles_announced",
+      "target": "product_commercial_delivery_van",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_commercial_delivery_van",
+      "target": "factory_pilot_hub",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pick_up_truck",
+      "target": "factory_pilot_hub",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:56:37,932 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:56:37,932 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:56:37,932 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:56:38,007 - INFO - ✅ Updated Article ID: 68d307d70a0272dfa29a49d7 with 7 nodes and combined text.

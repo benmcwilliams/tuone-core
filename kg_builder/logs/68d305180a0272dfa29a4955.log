@@ -1,0 +1,63 @@
+2025-09-23 23:22:27,159 - INFO - 🔍 Text length: 1333 characters
+2025-09-23 23:22:27,160 - INFO - 📌 Processing Article ID: 68d305180a0272dfa29a4955 — Renault scraps Ampere IPO plan
+2025-09-23 23:22:27,160 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:22:29,011 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:22:29,011 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_mitsubishi_motors",
+        "type": "company",
+        "name": "Mitsubishi Motors"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_tech",
+        "type": "product",
+        "name": "EV tech"
+      }
+    ]
+  }
+}
+2025-09-23 23:22:29,012 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:22:29,012 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:22:29,012 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:22:29,012 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:22:29,012 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:22:30,023 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:22:30,023 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_tech",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:22:30,023 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:22:30,023 - INFO - ✅ Match found for product_ID 'product_ev_tech' in product nodes
+2025-09-23 23:22:30,023 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:22:30,024 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:22:30,024 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:22:30,024 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-23 23:22:30,024 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:22:30,024 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:22:30,750 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:22:30,751 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:22:30,751 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:22:30,751 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:22:30,751 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:22:30,837 - INFO - ✅ Updated Article ID: 68d305180a0272dfa29a4955 with 4 nodes and combined text.

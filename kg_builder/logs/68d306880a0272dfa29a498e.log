@@ -1,0 +1,175 @@
+2025-09-23 23:10:49,895 - INFO - 🔍 Text length: 2413 characters
+2025-09-23 23:10:49,895 - INFO - 📌 Processing Article ID: 68d306880a0272dfa29a498e — Toyota to produce new Tamaraw in the Philippines
+2025-09-23 23:10:49,895 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:10:56,698 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:10:56,699 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_toyota_motor_philippines",
+        "type": "company",
+        "name": "Toyota Motor Philippines"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_toyota_motor_philippines",
+        "type": "joint_venture",
+        "name": "Toyota Motor Philippines"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_santa_rosa_plant",
+        "type": "factory",
+        "name": "Santa Rosa Plant",
+        "location": {
+          "city": "Laguna",
+          "country": "Philippines"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_philippines_operations",
+        "type": "investment",
+        "name": "Philippines Operations",
+        "amount": "P4.4bn (USD77m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tamaraw_utility_vehicle",
+        "type": "product",
+        "name": "Tamaraw Utility Vehicle"
+      },
+      {
+        "id": "product_innova_zenix",
+        "type": "product",
+        "name": "Innova Zenix"
+      },
+      {
+        "id": "product_yaris_cross",
+        "type": "product",
+        "name": "Yaris Cross"
+      }
+    ]
+  }
+}
+2025-09-23 23:10:56,699 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:10:56,699 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:10:56,699 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:10:56,699 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:10:58,629 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:10:58,629 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_philippines_operations",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-23 23:10:58,629 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:10:58,629 - INFO - ✅ Match found for investment_ID 'investment_philippines_operations' in investment nodes
+2025-09-23 23:10:58,629 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:10:58,629 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:10:58,629 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:10:58,629 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:10:58,629 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:11:00,909 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:00,909 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_tamaraw_utility_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_innova_zenix",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_yaris_cross",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 23:11:00,909 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:00,909 - INFO - ✅ Match found for product_ID 'product_tamaraw_utility_vehicle' in product nodes
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:11:00,909 - INFO - ✅ Match found for product_ID 'product_innova_zenix' in product nodes
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:11:00,909 - INFO - ✅ Match found for product_ID 'product_yaris_cross' in product nodes
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:11:00,909 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:11:00,909 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:11:00,909 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:11:00,910 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:11:02,328 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:02,328 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor_corporation",
+      "type": "forms",
+      "target": "joint_venture_toyota_motor_philippines"
+    },
+    {
+      "source": "company_toyota_motor_philippines",
+      "type": "owns",
+      "target": "factory_santa_rosa_plant"
+    }
+  ]
+}
+2025-09-23 23:11:02,328 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:02,328 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:11:02,328 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:11:03,026 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:03,026 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tamaraw_utility_vehicle",
+      "target": "factory_santa_rosa_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:11:03,026 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:03,026 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:11:03,026 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:11:03,684 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:03,684 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:11:03,684 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:03,684 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:11:03,684 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:11:04,754 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:04,754 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_philippines_operations",
+      "target": "product_tamaraw_utility_vehicle",
+      "type": "targets"
+    },
+    {
+      "source": "investment_philippines_operations",
+      "target": "factory_santa_rosa_plant",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-23 23:11:04,754 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:04,846 - INFO - ✅ Updated Article ID: 68d306880a0272dfa29a498e with 8 nodes and combined text.

@@ -1,0 +1,168 @@
+2025-09-23 23:07:21,665 - INFO - 🔍 Text length: 1966 characters
+2025-09-23 23:07:21,665 - INFO - 📌 Processing Article ID: 68d306d90a0272dfa29a49a0 — Unifor sets Stellantis strike deadline
+2025-09-23 23:07:21,665 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:07:29,710 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:07:29,710 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_unifor",
+        "type": "company",
+        "name": "Unifor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sterling_heights_assembly_plant",
+        "type": "factory",
+        "name": "Sterling Heights Assembly Plant",
+        "location": {
+          "city": "Sterling Heights",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_brampton_assembly_plant",
+        "type": "factory",
+        "name": "Brampton Assembly Plant",
+        "location": {
+          "city": "Brampton",
+          "country": "Canada"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_windsor_assembly",
+        "type": "factory",
+        "name": "Windsor Assembly",
+        "location": {
+          "city": "Windsor",
+          "country": "Canada"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_etobicoke_casting",
+        "type": "factory",
+        "name": "Etobicoke Casting",
+        "location": {
+          "city": "Etobicoke",
+          "country": "Canada"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_red_deer_parts_distribution_centre",
+        "type": "factory",
+        "name": "Red Deer Parts Distribution Centre",
+        "location": {
+          "city": "Red Deer",
+          "country": "Canada"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_mississauga_parts_distribution_centre",
+        "type": "factory",
+        "name": "Mississauga Parts Distribution Centre",
+        "location": {
+          "city": "Mississauga",
+          "country": "Canada"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_transition",
+        "type": "product",
+        "name": "EV transition"
+      }
+    ]
+  }
+}
+2025-09-23 23:07:29,710 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:07:29,711 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:07:29,711 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:07:29,711 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:07:29,711 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:07:31,054 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:07:31,054 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_transition",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:07:31,054 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:07:31,054 - INFO - ✅ Match found for product_ID 'product_ev_transition' in product nodes
+2025-09-23 23:07:31,054 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:07:31,055 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:07:31,055 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:07:31,055 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:07:31,055 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:07:34,360 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:07:34,360 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_sterling_heights_assembly_plant"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_brampton_assembly_plant"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_windsor_assembly"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_etobicoke_casting"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_red_deer_parts_distribution_centre"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mississauga_parts_distribution_centre"
+    }
+  ]
+}
+2025-09-23 23:07:34,360 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:07:34,361 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:07:34,361 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:07:35,791 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:07:35,791 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_transition",
+      "target": "factory_brampton_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_transition",
+      "target": "factory_windsor_assembly",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:07:35,791 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:07:35,791 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:07:35,791 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:07:35,881 - INFO - ✅ Updated Article ID: 68d306d90a0272dfa29a49a0 with 9 nodes and combined text.

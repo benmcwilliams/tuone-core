@@ -1,0 +1,180 @@
+2025-09-23 23:14:50,140 - INFO - 🔍 Text length: 5303 characters
+2025-09-23 23:14:50,140 - INFO - 📌 Processing Article ID: 68d306050a0272dfa29a4979 — Tata steel axing UK blast furnances and jobs
+2025-09-23 23:14:50,140 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:14:53,323 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:53,323 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_steel",
+        "type": "company",
+        "name": "Tata Steel"
+      },
+      {
+        "id": "company_british_steel",
+        "type": "company",
+        "name": "British Steel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_port_talbot_steelworks",
+        "type": "factory",
+        "name": "Port Talbot steelworks",
+        "location": {
+          "city": "Port Talbot",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_scuunthorpe_plant",
+        "type": "factory",
+        "name": "Scunthorpe plant",
+        "location": {
+          "city": "Scunthorpe",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tata_steel_uk_plan",
+        "type": "investment",
+        "name": "Tata Steel UK Plan",
+        "amount": "GBP1.25bn",
+        "status": "announced"
+      },
+      {
+        "id": "investment_gbp500m_announced_unclear",
+        "type": "investment",
+        "name": "GBP500m",
+        "amount": "GBP500m",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_arc_furnaces",
+        "type": "product",
+        "name": "electric arc furnaces"
+      },
+      {
+        "id": "product_steel_slab",
+        "type": "product",
+        "name": "steel slab"
+      }
+    ]
+  }
+}
+2025-09-23 23:14:53,323 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:53,323 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:14:53,323 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:14:53,323 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:14:54,347 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:54,347 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tata_steel_uk_plan",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_gbp500m_announced_unclear",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-23 23:14:54,347 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:54,347 - INFO - ✅ Match found for investment_ID 'investment_tata_steel_uk_plan' in investment nodes
+2025-09-23 23:14:54,347 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:14:54,347 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:14:54,347 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:14:54,348 - INFO - ✅ Match found for investment_ID 'investment_gbp500m_announced_unclear' in investment nodes
+2025-09-23 23:14:54,348 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:14:54,348 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:14:54,348 - INFO -   ➕ Set field 'is_total': False
+2025-09-23 23:14:54,348 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:14:54,348 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:14:55,985 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:55,985 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_arc_furnaces",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_steel_slab",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-23 23:14:55,985 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:55,985 - INFO - ✅ Match found for product_ID 'product_electric_arc_furnaces' in product nodes
+2025-09-23 23:14:55,985 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-23 23:14:55,985 - INFO - ✅ Match found for product_ID 'product_steel_slab' in product nodes
+2025-09-23 23:14:55,985 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-23 23:14:55,985 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:14:55,985 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:14:55,985 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:14:57,237 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:57,237 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_steel",
+      "type": "owns",
+      "target": "factory_port_talbot_steelworks"
+    },
+    {
+      "source": "company_british_steel",
+      "type": "owns",
+      "target": "factory_scuunthorpe_plant"
+    }
+  ]
+}
+2025-09-23 23:14:57,237 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:57,237 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:14:57,237 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:14:58,648 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:58,648 - INFO - {
+  "relationships": [
+    {
+      "source": "product_steel_slab",
+      "target": "factory_port_talbot_steelworks",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_steel_slab",
+      "target": "factory_scuunthorpe_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:14:58,649 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:58,649 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:14:58,649 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:14:59,467 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:59,467 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:14:59,467 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:59,467 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:14:59,467 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:15:00,983 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:15:00,984 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tata_steel_uk_plan",
+      "type": "targets",
+      "target": "product_electric_arc_furnaces"
+    }
+  ]
+}
+2025-09-23 23:15:00,984 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:15:01,070 - INFO - ✅ Updated Article ID: 68d306050a0272dfa29a4979 with 8 nodes and combined text.

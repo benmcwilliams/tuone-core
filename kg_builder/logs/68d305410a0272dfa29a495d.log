@@ -1,0 +1,88 @@
+2025-09-23 23:20:22,437 - INFO - 🔍 Text length: 2281 characters
+2025-09-23 23:20:22,437 - INFO - 📌 Processing Article ID: 68d305410a0272dfa29a495d — Conti and Aurora finalise design of autonomous trucking system
+2025-09-23 23:20:22,437 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:20:25,001 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:20:25,002 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      },
+      {
+        "id": "company_aurora_innovation",
+        "type": "company",
+        "name": "Aurora Innovation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_new_braunfels_usa",
+        "type": "factory",
+        "name": "New Braunfels Facility",
+        "location": {
+          "city": "New Braunfels",
+          "country": "USA"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aurora_driver",
+        "type": "product",
+        "name": "Aurora Driver"
+      }
+    ]
+  }
+}
+2025-09-23 23:20:25,002 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:20:25,002 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:20:25,002 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:20:25,002 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:20:25,002 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:20:26,185 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:20:26,185 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_aurora_driver",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:20:26,185 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:20:26,185 - INFO - ✅ Match found for product_ID 'product_aurora_driver' in product nodes
+2025-09-23 23:20:26,185 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:20:26,185 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:20:26,186 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:20:26,186 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:20:26,186 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:20:27,152 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:20:27,152 - INFO - {
+  "relationships": [
+    {
+      "source": "company_continental",
+      "type": "owns",
+      "target": "factory_new_braunfels_usa"
+    }
+  ]
+}
+2025-09-23 23:20:27,152 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:20:27,152 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:20:27,152 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:20:29,303 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:20:29,303 - INFO - {
+  "relationships": [
+    {
+      "source": "product_aurora_driver",
+      "target": "factory_new_braunfels_usa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:20:29,303 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:20:29,303 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:20:29,303 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:20:29,388 - INFO - ✅ Updated Article ID: 68d305410a0272dfa29a495d with 4 nodes and combined text.

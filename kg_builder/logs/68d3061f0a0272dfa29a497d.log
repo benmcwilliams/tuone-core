@@ -1,0 +1,81 @@
+2025-09-23 23:14:08,761 - INFO - 🔍 Text length: 1911 characters
+2025-09-23 23:14:08,761 - INFO - 📌 Processing Article ID: 68d3061f0a0272dfa29a497d — Future of VW’s Xinjiang site under spotlight
+2025-09-23 23:14:08,761 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:14:10,828 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:10,828 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_saic",
+        "type": "company",
+        "name": "SAIC"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_saic_volkswagen",
+        "type": "joint_venture",
+        "name": "SAIC-Volkswagen"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aluminium",
+        "type": "product",
+        "name": "aluminium"
+      }
+    ]
+  }
+}
+2025-09-23 23:14:10,828 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:10,829 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:14:10,829 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:14:10,829 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:14:10,829 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:14:11,953 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:11,953 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_aluminium",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-23 23:14:11,953 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:11,953 - INFO - ✅ Match found for product_ID 'product_aluminium' in product nodes
+2025-09-23 23:14:11,953 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-23 23:14:11,953 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:14:11,953 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:14:11,953 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:14:12,988 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:12,988 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "forms",
+      "target": "joint_venture_saic_volkswagen"
+    },
+    {
+      "source": "company_saic",
+      "type": "forms",
+      "target": "joint_venture_saic_volkswagen"
+    }
+  ]
+}
+2025-09-23 23:14:12,988 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:12,988 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:14:12,989 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:14:13,796 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:14:13,796 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:14:13,796 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:14:13,796 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:14:13,796 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:14:13,878 - INFO - ✅ Updated Article ID: 68d3061f0a0272dfa29a497d with 4 nodes and combined text.

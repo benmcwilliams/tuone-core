@@ -1,0 +1,113 @@
+2025-09-23 23:18:42,590 - INFO - 🔍 Text length: 5873 characters
+2025-09-23 23:18:42,591 - INFO - 📌 Processing Article ID: 68d305760a0272dfa29a4966 — Combustion engines peak as the “inevitable” EV future arrives
+2025-09-23 23:18:42,591 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:18:45,673 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:45,673 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_mazda",
+        "type": "company",
+        "name": "Mazda"
+      },
+      {
+        "id": "company_subaru",
+        "type": "company",
+        "name": "Subaru"
+      },
+      {
+        "id": "company_suzuki",
+        "type": "company",
+        "name": "Suzuki"
+      },
+      {
+        "id": "company_be_ev",
+        "type": "company",
+        "name": "Be.EV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_battery_electric_vehicle",
+        "type": "factory",
+        "name": "battery electric vehicle factory",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_lithium_ion_batteries",
+        "type": "product",
+        "name": "solid-state lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-23 23:18:45,673 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:45,674 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:18:45,674 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:18:45,674 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:18:45,674 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:18:46,849 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:46,849 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 23:18:46,849 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:46,849 - INFO - ✅ Match found for product_ID 'product_solid_state_lithium_ion_batteries' in product nodes
+2025-09-23 23:18:46,849 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 23:18:46,849 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:18:46,849 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:18:46,849 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:18:46,849 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:18:47,824 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:47,824 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_battery_electric_vehicle"
+    }
+  ]
+}
+2025-09-23 23:18:47,824 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:47,824 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:18:47,824 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:18:48,950 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:48,950 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solid_state_lithium_ion_batteries",
+      "target": "factory_battery_electric_vehicle",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:18:48,951 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:48,951 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:18:48,951 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:18:49,041 - INFO - ✅ Updated Article ID: 68d305760a0272dfa29a4966 with 9 nodes and combined text.

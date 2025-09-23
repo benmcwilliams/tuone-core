@@ -1,0 +1,156 @@
+2025-09-23 23:16:47,280 - INFO - 🔍 Text length: 1827 characters
+2025-09-23 23:16:47,280 - INFO - 📌 Processing Article ID: 68d305c10a0272dfa29a496f — Tata building cars in old Ford plant
+2025-09-23 23:16:47,280 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:16:49,755 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:49,755 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_passenger_electric_mobility",
+        "type": "company",
+        "name": "Tata Passenger Electric Mobility"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      },
+      {
+        "id": "company_ford_india",
+        "type": "company",
+        "name": "Ford India"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sanand_gujarat",
+        "type": "factory",
+        "name": "Sanand Factory",
+        "location": {
+          "city": "Sanand",
+          "country": "India"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_units_per_annum",
+        "type": "capacity",
+        "name": "",
+        "amount": "300,000 units per annum",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_420k_units_per_annum",
+        "type": "capacity",
+        "name": "",
+        "amount": "420,000 units per annum",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_passenger_vehicles",
+        "type": "product",
+        "name": "passenger vehicles"
+      }
+    ]
+  }
+}
+2025-09-23 23:16:49,755 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:49,755 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 23:16:49,755 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 23:16:51,699 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:51,699 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_units_per_annum",
+      "status": "operational",
+      "phase": "retrofit",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_420k_units_per_annum",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-23 23:16:51,699 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:51,699 - INFO - ✅ Match found for capacity_ID 'capacity_300k_units_per_annum' in capacity nodes
+2025-09-23 23:16:51,699 - INFO -   ➕ Set field 'status': operational
+2025-09-23 23:16:51,699 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-23 23:16:51,699 - INFO -   ➕ Set field 'additional': True
+2025-09-23 23:16:51,700 - INFO - ✅ Match found for capacity_ID 'capacity_420k_units_per_annum' in capacity nodes
+2025-09-23 23:16:51,700 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:16:51,700 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:16:51,700 - INFO -   ➕ Set field 'additional': True
+2025-09-23 23:16:51,700 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:16:51,700 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:16:51,700 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:16:52,762 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:52,762 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_passenger_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:16:52,762 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:52,762 - INFO - ✅ Match found for product_ID 'product_passenger_vehicles' in product nodes
+2025-09-23 23:16:52,762 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:16:52,762 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:16:52,762 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:16:52,762 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:16:52,762 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:16:53,954 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:53,954 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_passenger_electric_mobility",
+      "type": "owns",
+      "target": "factory_sanand_gujarat"
+    }
+  ]
+}
+2025-09-23 23:16:53,954 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:53,954 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:16:53,954 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:16:56,246 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:56,246 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_units_per_annum",
+      "target": "factory_sanand_gujarat",
+      "type": "at"
+    },
+    {
+      "source": "capacity_420k_units_per_annum",
+      "target": "factory_sanand_gujarat",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_units_per_annum",
+      "target": "product_passenger_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_420k_units_per_annum",
+      "target": "product_passenger_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_passenger_vehicles",
+      "target": "factory_sanand_gujarat",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:16:56,246 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:56,247 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:16:56,247 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:16:56,338 - INFO - ✅ Updated Article ID: 68d305c10a0272dfa29a496f with 7 nodes and combined text.

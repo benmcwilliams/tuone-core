@@ -1,0 +1,144 @@
+2025-09-23 23:00:31,755 - INFO - 🔍 Text length: 1626 characters
+2025-09-23 23:00:31,755 - INFO - 📌 Processing Article ID: 68d3077d0a0272dfa29a49c6 — Taiwanese EV supplier to build plant in New Mexico
+2025-09-23 23:00:31,755 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:00:33,753 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:33,753 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hota_industrial_manufacturing",
+        "type": "company",
+        "name": "Hota Industrial Manufacturing"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_santa_teresa_borderplex_industrial_park",
+        "type": "factory",
+        "name": "Santa Teresa Borderplex Industrial Park",
+        "location": {
+          "city": "Santa Teresa",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hota_santa_teresa_plant",
+        "type": "investment",
+        "name": "Hota Santa Teresa Plant",
+        "amount": "US$99m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_new_mexico_state_job investment incentives",
+        "type": "investment",
+        "name": "New Mexico State Job Investment Incentives",
+        "amount": "US$3m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_drivetrain_components",
+        "type": "product",
+        "name": "drivetrain components"
+      }
+    ]
+  }
+}
+2025-09-23 23:00:33,754 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:33,754 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:00:33,754 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:00:33,754 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:00:35,153 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:35,153 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hota_santa_teresa_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_new_mexico_state_job investment incentives",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-23 23:00:35,153 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:35,153 - INFO - ✅ Match found for investment_ID 'investment_hota_santa_teresa_plant' in investment nodes
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:00:35,154 - INFO - ✅ Match found for investment_ID 'investment_new_mexico_state_job investment incentives' in investment nodes
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:00:35,154 - INFO -   ➕ Set field 'is_total': False
+2025-09-23 23:00:35,154 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:00:35,154 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:00:36,624 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:36,625 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_drivetrain_components",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 23:00:36,625 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:36,625 - INFO - ✅ Match found for product_ID 'product_drivetrain_components' in product nodes
+2025-09-23 23:00:36,625 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:00:36,625 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:00:36,625 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:00:36,625 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:00:36,625 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:00:37,577 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:37,577 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hota_industrial_manufacturing",
+      "type": "owns",
+      "target": "factory_santa_teresa_borderplex_industrial_park"
+    }
+  ]
+}
+2025-09-23 23:00:37,577 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:37,577 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:00:37,577 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:00:38,773 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:38,774 - INFO - {
+  "relationships": [
+    {
+      "source": "product_drivetrain_components",
+      "target": "factory_santa_teresa_borderplex_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:00:38,774 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:38,774 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:00:38,774 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:00:39,357 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:39,357 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:00:39,357 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:39,357 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:00:39,357 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:00:40,504 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:00:40,505 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hota_santa_teresa_plant",
+      "target": "factory_santa_teresa_borderplex_industrial_park",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-23 23:00:40,505 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:00:40,595 - INFO - ✅ Updated Article ID: 68d3077d0a0272dfa29a49c6 with 5 nodes and combined text.

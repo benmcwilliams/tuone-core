@@ -1,0 +1,95 @@
+2025-09-23 23:18:36,565 - INFO - 🔍 Text length: 1688 characters
+2025-09-23 23:18:36,565 - INFO - 📌 Processing Article ID: 68d305810a0272dfa29a4967 — Mazda to reduce CO2 emissions in Japan by almost 70% by 2030
+2025-09-23 23:18:36,565 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:18:38,285 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:38,285 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda_motor_corporation",
+        "type": "company",
+        "name": "Mazda Motor Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hiroshima_plant",
+        "type": "factory",
+        "name": "Hiroshima Plant",
+        "location": {
+          "city": "Hiroshima",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_liquid_ammonia",
+        "type": "product",
+        "name": "liquid ammonia"
+      },
+      {
+        "id": "product_next_generation_biofuel",
+        "type": "product",
+        "name": "next-generation biofuel"
+      }
+    ]
+  }
+}
+2025-09-23 23:18:38,285 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:38,286 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:18:38,286 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:18:38,286 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:18:38,286 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:18:40,558 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:40,558 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_liquid_ammonia",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_next_generation_biofuel",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-23 23:18:40,558 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:40,558 - INFO - ✅ Match found for product_ID 'product_liquid_ammonia' in product nodes
+2025-09-23 23:18:40,558 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-23 23:18:40,558 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-23 23:18:40,558 - INFO - ✅ Match found for product_ID 'product_next_generation_biofuel' in product nodes
+2025-09-23 23:18:40,558 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-23 23:18:40,558 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:18:40,558 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:18:40,558 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:18:41,678 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:41,678 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda_motor_corporation",
+      "type": "owns",
+      "target": "factory_hiroshima_plant"
+    }
+  ]
+}
+2025-09-23 23:18:41,678 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:41,678 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:18:41,678 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:18:42,497 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:42,498 - INFO - {
+  "relationships": [
+    {
+      "source": "product_liquid_ammonia",
+      "target": "factory_hiroshima_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:18:42,498 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:42,498 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:18:42,498 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:18:42,589 - INFO - ✅ Updated Article ID: 68d305810a0272dfa29a4967 with 4 nodes and combined text.

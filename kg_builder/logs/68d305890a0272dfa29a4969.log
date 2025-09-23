@@ -1,0 +1,83 @@
+2025-09-23 23:17:58,138 - INFO - 🔍 Text length: 1333 characters
+2025-09-23 23:17:58,138 - INFO - 📌 Processing Article ID: 68d305890a0272dfa29a4969 — Vale Mini Clubman
+2025-09-23 23:17:58,138 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:17:59,400 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:59,400 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxford_england",
+        "type": "factory",
+        "name": "Oxford Plant",
+        "location": {
+          "city": "Oxford",
+          "country": "England"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_clubman",
+        "type": "product",
+        "name": "Clubman"
+      }
+    ]
+  }
+}
+2025-09-23 23:17:59,400 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:59,400 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:17:59,400 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:17:59,400 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:17:59,400 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:18:00,615 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:00,615 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_clubman",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 23:18:00,615 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:00,616 - INFO - ✅ Match found for product_ID 'product_clubman' in product nodes
+2025-09-23 23:18:00,616 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:18:00,616 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:18:00,616 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:18:00,616 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:18:00,616 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:18:02,153 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:02,154 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_oxford_england"
+    }
+  ]
+}
+2025-09-23 23:18:02,154 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:02,154 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:18:02,154 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:18:03,072 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:03,073 - INFO - {
+  "relationships": [
+    {
+      "source": "product_clubman",
+      "target": "factory_oxford_england",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:18:03,073 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:03,073 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:18:03,073 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:18:03,156 - INFO - ✅ Updated Article ID: 68d305890a0272dfa29a4969 with 3 nodes and combined text.

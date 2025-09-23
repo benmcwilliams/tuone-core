@@ -1,0 +1,155 @@
+2025-09-23 23:09:48,770 - INFO - 🔍 Text length: 3191 characters
+2025-09-23 23:09:48,770 - INFO - 📌 Processing Article ID: 68d306a10a0272dfa29a4994 — Valeo to supply electric powertrain to Mahindra
+2025-09-23 23:09:48,770 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:09:50,511 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:50,511 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_valeo",
+        "type": "company",
+        "name": "Valeo"
+      },
+      {
+        "id": "company_mahindra_mahindra",
+        "type": "company",
+        "name": "Mahindra & Mahindra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pune_india",
+        "type": "factory",
+        "name": "Pune Facility",
+        "location": {
+          "city": "Pune",
+          "country": "India"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_valeo_pune",
+        "type": "investment",
+        "name": "Valeo Pune Investment",
+        "amount": "close to $1bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_powertrain",
+        "type": "product",
+        "name": "electric powertrain"
+      },
+      {
+        "id": "product_on_board_charger_combo",
+        "type": "product",
+        "name": "on board charger combo"
+      }
+    ]
+  }
+}
+2025-09-23 23:09:50,511 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:50,511 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:09:50,511 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:09:50,511 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:09:51,534 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:51,535 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_valeo_pune",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-09-23 23:09:51,535 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:51,535 - INFO - ✅ Match found for investment_ID 'investment_valeo_pune' in investment nodes
+2025-09-23 23:09:51,535 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:09:51,535 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:09:51,535 - INFO -   ➕ Set field 'is_total': False
+2025-09-23 23:09:51,535 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:09:51,535 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:09:53,378 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:53,378 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_powertrain",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_on_board_charger_combo",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 23:09:53,378 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:53,379 - INFO - ✅ Match found for product_ID 'product_electric_powertrain' in product nodes
+2025-09-23 23:09:53,379 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-23 23:09:53,379 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-23 23:09:53,379 - INFO - ✅ Match found for product_ID 'product_on_board_charger_combo' in product nodes
+2025-09-23 23:09:53,379 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-23 23:09:53,379 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:09:53,379 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:09:53,379 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:09:53,379 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:09:54,094 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:54,095 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valeo",
+      "type": "owns",
+      "target": "factory_pune_india"
+    }
+  ]
+}
+2025-09-23 23:09:54,095 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:54,095 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:09:54,095 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:09:55,169 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:55,170 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_powertrain",
+      "target": "factory_pune_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:09:55,170 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:55,170 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:09:55,170 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:09:55,774 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:55,774 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:09:55,774 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:55,774 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:09:55,774 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:09:59,034 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:09:59,035 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_valeo_pune",
+      "target": "factory_pune_india",
+      "type": "funds"
+    },
+    {
+      "source": "investment_valeo_pune",
+      "target": "product_electric_powertrain",
+      "type": "targets"
+    },
+    {
+      "source": "investment_valeo_pune",
+      "target": "product_on_board_charger_combo",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-23 23:09:59,035 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:09:59,118 - INFO - ✅ Updated Article ID: 68d306a10a0272dfa29a4994 with 6 nodes and combined text.
