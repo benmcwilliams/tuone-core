@@ -399,6 +399,7 @@ FACTORY_TECH_SPEC = {
         "lat",
         "lon",
         "capacity",
+        "capacity_id",
         "product",
         "product_lv1",
         "product_lv2",

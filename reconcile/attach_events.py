@@ -117,6 +117,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
             "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
+            "capacityID": r.get("capacity_id"),
             "capacity": r.get("capacity_normalized"),
             "additional": bool(r.get("additional")),
             "investment": amt_scalar,
@@ -126,6 +127,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
 
         evt["event_key"] = event_key_capacity(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
                                               evt["capacity"], evt["status"], evt["phase"])
+        evt["eventID"] = evt["article_ID"]+"_"+evt["capacity_id"]
 
         # Impute missing amount from CAPEX, never overwrite direct amount
         if evt.get("investment") in (None, np.nan):
@@ -153,11 +155,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "date": iso_date(r.get("date")),
             "articleID": [r.get("articleID")] if pd.notna(r.get("articleID")) else [],
             "investment": amt_scalar,
+            "investmentID": r.get("investment_id"),
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
         evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
                                                 evt["investment"], evt["status"], evt["phase"], evt.get("investment_id"))
+        evt["eventID"] = evt["article_ID"]+"_"+evt["investment_id"]
+
         # Impute missing capacity from CAPEX, never overwrite direct capacity
         if evt.get("investment") not in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
@@ -188,41 +193,9 @@ def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
         docs[doc["project_id"]] = {
             "events": doc.get("events") or [],
             "event_keys": set(doc.get("event_keys") or []),
+            # collect also eventIDs
         }
     return docs
-
-def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
-    by_key = {e.get("event_key"): e for e in existing["events"] if e.get("event_key")}
-    keys = set(existing["event_keys"])
-
-    for e in incoming:
-        k = e.get("event_key")
-        if not k: 
-            continue
-        if k in by_key:
-            cur = by_key[k]
-
-            # keep the original articleID if present; otherwise adopt incoming
-            if not cur.get("articleID") and e.get("articleID"):
-                cur["articleID"] = e["articleID"]
-
-            # add imputed fields ONLY if missing direct counterparts
-            if "investment_imputed" in e and cur.get("amount_EUR") in (None, np.nan):
-                cur["investment_imputed"] = e["investment_imputed"]
-                cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
-            if "capacity_imputed" in e and cur.get("capacity") in (None, np.nan):
-                cur["capacity_imputed"] = e["capacity_imputed"]
-                cur["capacity_unit"] = e.get("capacity_unit", cur.get("capacity_unit"))
-                cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
-        else:
-            by_key[k] = e
-            keys.add(k)
-
-    merged = list(by_key.values())
-    merged.sort(key=sort_key)
-    return merged, sorted(list(keys))
 
 def attach_events(dry_run: bool = False):
 
@@ -253,14 +226,16 @@ def attach_events(dry_run: bool = False):
             print(pid)
             missing += 1
             continue
-        merged_events, merged_keys = merge_events(existing[pid], events_by_pid[pid])
-        # only write if changed
-        if (len(merged_events) != len(existing[pid]["events"])) or (set(merged_keys) != existing[pid]["event_keys"]):
-            updates.append(UpdateOne({"project_id": pid}, {"$set": {
-                "events": merged_events,
-                "event_keys": merged_keys,
-                "last_updated_at": datetime.utcnow(),
-            }}))
+
+        incoming_events = events_by_pid[pid]
+        incoming_keys = sorted({e.get("event_key") for e in incoming_events if e.get("event_key")})
+
+        # always overwrite with incoming events
+        updates.append(UpdateOne({"project_id": pid}, {"$set": {
+            "events": incoming_events,
+            "event_keys": incoming_keys,
+            "last_updated_at": datetime.utcnow(),
+        }}))
 
     logger.info("attach_events → facilities matched: %d | missing: %d | to update: %d",
                 len(existing), missing, len(updates))
