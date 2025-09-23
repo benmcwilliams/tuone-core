@@ -77,6 +77,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
                 additional=("additional","first"),
                 investment=("amount_EUR","first"),
                 is_total=("is_total","first"),
+                capacity_id=("capacity_id","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
            .rename(columns={"pl2_union":"product_lv2"}))
@@ -117,17 +118,15 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
             "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
-            "capacityID": r.get("capacity_id"),
+            "capacity_id": r.get("capacity_id"),
             "capacity": r.get("capacity_normalized"),
-            "additional": bool(r.get("additional")),
+            "additional": bool(r.get("additional")) if pd.notna(r.get("additional")) else False,
             "investment": amt_scalar,
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-
-        evt["event_key"] = event_key_capacity(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                              evt["capacity"], evt["status"], evt["phase"])
-        evt["eventID"] = evt["article_ID"]+"_"+evt["capacity_id"]
+        
+        evt["eventID"] = evt["capacity_id"]
 
         # Impute missing amount from CAPEX, never overwrite direct amount
         if evt.get("investment") in (None, np.nan):
@@ -153,15 +152,13 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "articleID": [r.get("articleID")] if pd.notna(r.get("articleID")) else [],
+            "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
             "investment": amt_scalar,
-            "investmentID": r.get("investment_id"),
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-        evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                                evt["investment"], evt["status"], evt["phase"], evt.get("investment_id"))
-        evt["eventID"] = evt["article_ID"]+"_"+evt["investment_id"]
+
+        evt["eventID"] = evt["investment_id"]
 
         # Impute missing capacity from CAPEX, never overwrite direct capacity
         if evt.get("investment") not in (None, np.nan):
@@ -189,11 +186,12 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
 
 def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
     docs = {}
-    for doc in facilities_collection.find({"project_id": {"$in": pids}}, {"_id": 0, "project_id": 1, "events": 1, "event_keys": 1}):
+    for doc in facilities_collection.find(
+        {"project_id": {"$in": pids}},
+        {"_id": 0, "project_id": 1, "events": 1} 
+    ):
         docs[doc["project_id"]] = {
             "events": doc.get("events") or [],
-            "event_keys": set(doc.get("event_keys") or []),
-            # collect also eventIDs
         }
     return docs
 
@@ -228,14 +226,28 @@ def attach_events(dry_run: bool = False):
             continue
 
         incoming_events = events_by_pid[pid]
-        incoming_keys = sorted({e.get("event_key") for e in incoming_events if e.get("event_key")})
 
-        # always overwrite with incoming events
-        updates.append(UpdateOne({"project_id": pid}, {"$set": {
-            "events": incoming_events,
-            "event_keys": incoming_keys,
-            "last_updated_at": datetime.utcnow(),
-        }}))
+        # Overlay user-edited phase_num from existing by eventID
+        prior = existing[pid]["events"]
+        phase_overrides = {
+            e.get("eventID"): e.get("phase_num")
+            for e in prior
+            if e.get("eventID") and (e.get("phase_num") is not None)
+        }
+        for e in incoming_events:
+            eid = e.get("eventID")
+            if eid in phase_overrides:
+                e["phase_num"] = phase_overrides[eid]
+                e["phase_num_source"] = "user"
+
+        # Write only incoming (drops stale). No event_keys stored.
+        updates.append(UpdateOne(
+            {"project_id": pid},
+            {"$set": {
+                "events": incoming_events,
+                "last_updated_at": datetime.utcnow(),
+            }}
+        ))
 
     logger.info("attach_events → facilities matched: %d | missing: %d | to update: %d",
                 len(existing), missing, len(updates))
