@@ -1,0 +1,138 @@
+2025-09-24 01:37:12,610 - INFO - 🔍 Text length: 2013 characters
+2025-09-24 01:37:12,610 - INFO - 📌 Processing Article ID: 689230e53770ecb5d617842d — Glencore plant Übernahme von Li-Cycle
+2025-09-24 01:37:12,610 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:37:14,590 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:14,590 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_glencore",
+        "type": "company",
+        "name": "Glencore"
+      },
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rochester_new_york",
+        "type": "factory",
+        "name": "Rochester Facility",
+        "location": {
+          "city": "Rochester",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_us_energy_department_loan",
+        "type": "investment",
+        "name": "US Energy Department Loan",
+        "amount": "475 million Dollar",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "Black Mass"
+      },
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "Lithium"
+      }
+    ]
+  }
+}
+2025-09-24 01:37:14,590 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:14,590 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:37:14,590 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:37:14,590 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:37:15,717 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:15,717 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_us_energy_department_loan",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:37:15,717 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:15,717 - INFO - ✅ Match found for investment_ID 'investment_us_energy_department_loan' in investment nodes
+2025-09-24 01:37:15,717 - INFO -   ➕ Set field 'status': announced
+2025-09-24 01:37:15,717 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:37:15,717 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:37:15,717 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:37:15,717 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:37:17,238 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:17,238 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_lithium",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 01:37:17,238 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:17,238 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 01:37:17,238 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 01:37:17,238 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 01:37:17,238 - INFO - ✅ Match found for product_ID 'product_lithium' in product nodes
+2025-09-24 01:37:17,238 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 01:37:17,238 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:37:17,238 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:37:17,238 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:37:18,491 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:18,491 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_rochester_new_york"
+    }
+  ]
+}
+2025-09-24 01:37:18,492 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:18,492 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:37:18,492 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:37:19,424 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:19,424 - INFO - {
+  "relationships": [
+    {
+      "source": "product_black_mass",
+      "target": "factory_rochester_new_york",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:37:19,424 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:19,424 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:37:19,424 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:37:20,015 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:20,016 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:37:20,016 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:20,016 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:37:20,016 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:37:20,632 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:20,632 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:37:20,632 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:20,729 - INFO - ✅ Updated Article ID: 689230e53770ecb5d617842d with 6 nodes and combined text.

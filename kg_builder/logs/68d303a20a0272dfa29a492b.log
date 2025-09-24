@@ -1,0 +1,176 @@
+2025-09-24 00:26:35,429 - INFO - 🔍 Text length: 3521 characters
+2025-09-24 00:26:35,430 - INFO - 📌 Processing Article ID: 68d303a20a0272dfa29a492b — Historic Stellantis Polish engine plant to close – report
+2025-09-24 00:26:35,430 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:26:39,536 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:26:39,537 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_fiat",
+        "type": "company",
+        "name": "Fiat"
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_fca_powertrain",
+        "type": "company",
+        "name": "FCA Powertrain"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bielsko_biala",
+        "type": "factory",
+        "name": "Stellantis Bielsko-Biala Plant",
+        "location": {
+          "city": "Bielsko-Biala",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_tychy",
+        "type": "factory",
+        "name": "Tychy Plant",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_gliwice",
+        "type": "factory",
+        "name": "Gliwice Plant",
+        "location": {
+          "city": "Gliwice",
+          "country": "Poland"
+        },
+        "status": "closed"
+      },
+      {
+        "id": "fca_powertrain plant",
+        "type": "factory",
+        "name": "FCA Powertrain plant",
+        "location": {
+          "city": "Bielsko-Biala",
+          "country": "Poland"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_engines",
+        "type": "product",
+        "name": "engines"
+      },
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 00:26:39,537 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:26:39,537 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:26:39,537 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:26:39,537 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:26:39,537 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:26:41,043 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:26:41,043 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_engines",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:26:41,043 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:26:41,043 - INFO - ✅ Match found for product_ID 'product_engines' in product nodes
+2025-09-24 00:26:41,043 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 00:26:41,043 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-24 00:26:41,044 - INFO - ✅ Match found for product_ID 'product_electric_vehicles' in product nodes
+2025-09-24 00:26:41,044 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:26:41,044 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:26:41,044 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:26:41,044 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:26:41,044 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:26:42,891 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:26:42,891 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_bielsko_biala"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_gliwice"
+    },
+    {
+      "source": "company_fca_powertrain",
+      "type": "owns",
+      "target": "fca_powertrain plant"
+    }
+  ]
+}
+2025-09-24 00:26:42,891 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:26:42,892 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:26:42,892 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:26:44,437 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:26:44,437 - INFO - {
+  "relationships": [
+    {
+      "source": "product_engines",
+      "target": "factory_bielsko_biala",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_engines",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_tychy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:26:44,437 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:26:44,437 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:26:44,437 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:26:44,526 - INFO - ✅ Updated Article ID: 68d303a20a0272dfa29a492b with 12 nodes and combined text.

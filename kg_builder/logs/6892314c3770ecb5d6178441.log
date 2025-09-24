@@ -1,0 +1,153 @@
+2025-09-24 01:34:25,390 - INFO - 🔍 Text length: 1470 characters
+2025-09-24 01:34:25,390 - INFO - 📌 Processing Article ID: 6892314c3770ecb5d6178441 — Tesla to Source LFP Cells from LGES in the US
+2025-09-24 01:34:25,391 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:34:27,326 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:27,326 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_michigan",
+        "type": "factory",
+        "name": "Michigan Factory",
+        "location": {
+          "city": "Michigan",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_nevada",
+        "type": "factory",
+        "name": "Nevada Cell Production Facility",
+        "location": {
+          "city": "Nevada",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_supply_contract",
+        "type": "investment",
+        "name": "Supply Contract",
+        "amount": "US$4.3 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_batteries",
+        "type": "product",
+        "name": "lithium iron phosphate batteries"
+      },
+      {
+        "id": "product_stationary_energy_storage_systems",
+        "type": "product",
+        "name": "stationary energy storage systems"
+      }
+    ]
+  }
+}
+2025-09-24 01:34:27,326 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:27,326 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:34:27,326 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:34:27,326 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:34:28,317 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:28,317 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_supply_contract",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:34:28,318 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:28,318 - INFO - ✅ Match found for investment_ID 'investment_supply_contract' in investment nodes
+2025-09-24 01:34:28,318 - INFO -   ➕ Set field 'status': announced
+2025-09-24 01:34:28,318 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:34:28,318 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:34:28,318 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:34:28,318 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:34:29,723 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:29,723 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_stationary_energy_storage_systems",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 01:34:29,723 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:29,723 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_batteries' in product nodes
+2025-09-24 01:34:29,723 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:34:29,723 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:34:29,723 - INFO - ✅ Match found for product_ID 'product_stationary_energy_storage_systems' in product nodes
+2025-09-24 01:34:29,723 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 01:34:29,723 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:34:29,723 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:34:29,723 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:34:31,685 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:31,685 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_michigan"
+    },
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_nevada"
+    }
+  ]
+}
+2025-09-24 01:34:31,685 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:31,685 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:34:31,685 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:34:32,591 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:32,591 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_batteries",
+      "target": "factory_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:34:32,591 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:32,591 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:34:32,591 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:34:33,222 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:33,222 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:34:33,222 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:33,222 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:34:33,222 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:34:33,915 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:33,915 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:34:33,915 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:34,010 - INFO - ✅ Updated Article ID: 6892314c3770ecb5d6178441 with 7 nodes and combined text.

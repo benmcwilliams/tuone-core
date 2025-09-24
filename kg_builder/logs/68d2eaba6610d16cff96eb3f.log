@@ -1,0 +1,118 @@
+2025-09-24 00:47:08,809 - INFO - 🔍 Text length: 6956 characters
+2025-09-24 00:47:08,809 - INFO - 📌 Processing Article ID: 68d2eaba6610d16cff96eb3f — EV makers must secure mission-critical suppliers to scale successfully
+2025-09-24 00:47:08,809 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:47:11,369 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:11,369 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      },
+      {
+        "id": "company_vw",
+        "type": "company",
+        "name": "VW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_texas_lithium_refinery",
+        "type": "factory",
+        "name": "Texas Lithium Refinery",
+        "location": {
+          "city": "Texas",
+          "country": "USA"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_cells",
+        "type": "product",
+        "name": "lithium-ion battery cells"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      },
+      {
+        "id": "product_semiconductors",
+        "type": "product",
+        "name": "semiconductors"
+      }
+    ]
+  }
+}
+2025-09-24 00:47:11,369 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:11,370 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:47:11,370 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:47:11,370 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:47:11,370 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:47:14,937 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:14,937 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_semiconductors",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 00:47:14,938 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:14,938 - INFO - ✅ Match found for product_ID 'product_lithium_ion_battery_cells' in product nodes
+2025-09-24 00:47:14,938 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:47:14,938 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 00:47:14,938 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-09-24 00:47:14,938 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:47:14,938 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 00:47:14,938 - INFO - ✅ Match found for product_ID 'product_semiconductors' in product nodes
+2025-09-24 00:47:14,938 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 00:47:14,938 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:47:14,938 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:47:14,938 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:47:15,737 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:15,738 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_texas_lithium_refinery"
+    }
+  ]
+}
+2025-09-24 00:47:15,738 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:15,738 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:47:15,738 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:47:16,641 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:16,641 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_battery_cells",
+      "target": "factory_texas_lithium_refinery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:47:16,641 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:16,641 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:47:16,641 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:47:16,733 - INFO - ✅ Updated Article ID: 68d2eaba6610d16cff96eb3f with 7 nodes and combined text.

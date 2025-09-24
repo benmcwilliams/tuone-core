@@ -1,0 +1,173 @@
+2025-09-24 01:39:57,709 - INFO - 🔍 Text length: 831 characters
+2025-09-24 01:39:57,709 - INFO - 📌 Processing Article ID: 689230953770ecb5d6178419 — CATL Begins Battery Production in Jining
+2025-09-24 01:39:57,709 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:40:00,276 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:00,276 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jining_china",
+        "type": "factory",
+        "name": "Jining Plant",
+        "location": {
+          "city": "Jining",
+          "country": "China"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_jining_industrial_cluster",
+        "type": "investment",
+        "name": "Jining Industrial Cluster",
+        "amount": "14 billion US dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60_gigawatt_hours_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "60 gigawatt-hours",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-24 01:40:00,276 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:00,276 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:40:00,276 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:40:01,276 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:01,277 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60_gigawatt_hours_announced",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:40:01,277 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:01,277 - INFO - ✅ Match found for capacity_ID 'capacity_60_gigawatt_hours_announced' in capacity nodes
+2025-09-24 01:40:01,277 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:40:01,277 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:40:01,277 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:40:01,277 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:40:01,277 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:40:02,292 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:02,292 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_jining_industrial_cluster",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:40:02,292 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:02,292 - INFO - ✅ Match found for investment_ID 'investment_jining_industrial_cluster' in investment nodes
+2025-09-24 01:40:02,292 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 01:40:02,292 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:40:02,292 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:40:02,292 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:40:02,292 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:40:03,450 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:03,451 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:40:03,451 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:03,451 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 01:40:03,451 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:40:03,451 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:40:03,451 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:40:03,451 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:40:03,451 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:40:04,882 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:04,882 - INFO - {
+  "relationships": [
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_jining_china"
+    }
+  ]
+}
+2025-09-24 01:40:04,882 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:04,882 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:40:04,882 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:40:06,344 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:06,345 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60_gigawatt_hours_announced",
+      "target": "factory_jining_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60_gigawatt_hours_announced",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_jining_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:40:06,345 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:06,345 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:40:06,345 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:40:06,930 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:06,931 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:40:06,931 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:06,931 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:40:06,931 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:40:08,589 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:40:08,589 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_jining_industrial_cluster",
+      "target": "factory_jining_china",
+      "type": "funds"
+    },
+    {
+      "source": "investment_jining_industrial_cluster",
+      "target": "capacity_60_gigawatt_hours_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_jining_industrial_cluster",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:40:08,589 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:40:08,686 - INFO - ✅ Updated Article ID: 689230953770ecb5d6178419 with 5 nodes and combined text.

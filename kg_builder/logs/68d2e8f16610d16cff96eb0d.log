@@ -1,0 +1,239 @@
+2025-09-24 00:57:07,697 - INFO - 🔍 Text length: 4197 characters
+2025-09-24 00:57:07,698 - INFO - 📌 Processing Article ID: 68d2e8f16610d16cff96eb0d — Goodbye Apple car, Chrysler recalls, and a Bentley elevator – as seen through X
+2025-09-24 00:57:07,698 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:57:12,778 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:12,778 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_chrysler",
+        "type": "company",
+        "name": "Chrysler"
+      },
+      {
+        "id": "company_vinfast",
+        "type": "company",
+        "name": "VinFast"
+      },
+      {
+        "id": "company_polestar",
+        "type": "company",
+        "name": "Polestar"
+      },
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      },
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_li_auto",
+        "type": "company",
+        "name": "Li Auto"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "xpeng",
+        "type": "company",
+        "name": "XPeng",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_polestar",
+        "type": "joint_venture",
+        "name": "Polestar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chengdu_china",
+        "type": "factory",
+        "name": "Chengdu Factory",
+        "location": {
+          "city": "Chengdu",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_south_carolina_usa",
+        "type": "factory",
+        "name": "South Carolina Factory",
+        "location": {
+          "city": "South Carolina",
+          "country": "USA"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vinfast_factories",
+        "type": "investment",
+        "name": "VinFast Factories",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polestar_3",
+        "type": "product",
+        "name": "Polestar 3"
+      },
+      {
+        "id": "product_jeep_grand_cherokee",
+        "type": "product",
+        "name": "Jeep Grand Cherokee"
+      },
+      {
+        "id": "ev",
+        "type": "product",
+        "name": "EV",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ]
+  }
+}
+2025-09-24 00:57:12,778 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:12,778 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:57:12,778 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:57:12,778 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:57:13,857 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:13,857 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vinfast_factories",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 00:57:13,857 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:13,857 - INFO - ✅ Match found for investment_ID 'investment_vinfast_factories' in investment nodes
+2025-09-24 00:57:13,857 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 00:57:13,857 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:57:13,857 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 00:57:13,857 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:57:13,857 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:57:15,915 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:15,916 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_polestar_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_jeep_grand_cherokee",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:57:15,916 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:15,916 - INFO - ✅ Match found for product_ID 'product_polestar_3' in product nodes
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:57:15,916 - INFO - ✅ Match found for product_ID 'product_jeep_grand_cherokee' in product nodes
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:57:15,916 - INFO - ✅ Match found for product_ID 'ev' in product nodes
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:57:15,916 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:57:15,916 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:57:15,916 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:57:15,916 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:57:17,418 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:17,418 - INFO - {
+  "relationships": [
+    {
+      "source": "company_polestar",
+      "type": "owns",
+      "target": "factory_chengdu_china"
+    },
+    {
+      "source": "company_polestar",
+      "type": "owns",
+      "target": "factory_south_carolina_usa"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "forms",
+      "target": "joint_venture_polestar"
+    },
+    {
+      "source": "company_geely",
+      "type": "forms",
+      "target": "joint_venture_polestar"
+    }
+  ]
+}
+2025-09-24 00:57:17,418 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:17,418 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:57:17,418 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:57:19,234 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:19,235 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polestar_3",
+      "target": "factory_chengdu_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_polestar_3",
+      "target": "factory_south_carolina_usa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:57:19,235 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:19,235 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:57:19,235 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:57:20,256 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:20,256 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:57:20,256 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:20,256 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:57:20,256 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:57:21,381 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:21,381 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:57:21,381 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:21,480 - INFO - ✅ Updated Article ID: 68d2e8f16610d16cff96eb0d with 17 nodes and combined text.

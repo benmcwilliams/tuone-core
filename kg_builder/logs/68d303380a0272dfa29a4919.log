@@ -1,0 +1,185 @@
+2025-09-24 00:30:26,784 - INFO - 🔍 Text length: 3895 characters
+2025-09-24 00:30:26,784 - INFO - 📌 Processing Article ID: 68d303380a0272dfa29a4919 — Renault hits 4m Kangoo milestone
+2025-09-24 00:30:26,784 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:30:30,060 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:30,060 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_maubeuge",
+        "type": "factory",
+        "name": "Maubeuge",
+        "location": {
+          "city": "Maubeuge",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_renault_maubeuge_overhaul",
+        "type": "investment",
+        "name": "Renault Maubeuge Overhaul",
+        "amount": "\u20ac450 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_renault_maubeuge_upgrade_1994",
+        "type": "investment",
+        "name": "Renault Maubeuge Upgrade 1994",
+        "amount": "\u20ac500 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kangoo",
+        "type": "product",
+        "name": "Kangoo"
+      },
+      {
+        "id": "product_kangoo_ze",
+        "type": "product",
+        "name": "Kangoo Z.E."
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-24 00:30:30,060 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:30,061 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:30:30,061 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:30:30,061 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:30:31,347 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:31,347 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_renault_maubeuge_overhaul",
+      "status": "completed",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_renault_maubeuge_upgrade_1994",
+      "status": "completed",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:30:31,347 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:31,348 - INFO - ✅ Match found for investment_ID 'investment_renault_maubeuge_overhaul' in investment nodes
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'status': completed
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:30:31,348 - INFO - ✅ Match found for investment_ID 'investment_renault_maubeuge_upgrade_1994' in investment nodes
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'status': completed
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-24 00:30:31,348 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:30:31,348 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:30:31,348 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:30:33,851 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:33,851 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_kangoo",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_kangoo_ze",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:30:33,851 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:33,851 - INFO - ✅ Match found for product_ID 'product_kangoo' in product nodes
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:30:33,852 - INFO - ✅ Match found for product_ID 'product_kangoo_ze' in product nodes
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:30:33,852 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:30:33,852 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:30:33,852 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:30:33,852 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:30:33,852 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:30:34,655 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:34,655 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault",
+      "type": "owns",
+      "target": "factory_maubeuge"
+    }
+  ]
+}
+2025-09-24 00:30:34,655 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:34,655 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:30:34,655 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:30:36,054 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:36,054 - INFO - {
+  "relationships": [
+    {
+      "source": "product_kangoo",
+      "target": "factory_maubeuge",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_kangoo_ze",
+      "target": "factory_maubeuge",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_maubeuge",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:30:36,054 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:36,054 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:30:36,054 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:30:36,716 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:36,716 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:30:36,716 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:36,717 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:30:36,717 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:30:37,952 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:30:37,952 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_renault_maubeuge_overhaul",
+      "type": "funds",
+      "target": "factory_maubeuge"
+    },
+    {
+      "source": "investment_renault_maubeuge_upgrade_1994",
+      "type": "funds",
+      "target": "factory_maubeuge"
+    }
+  ]
+}
+2025-09-24 00:30:37,953 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:30:38,043 - INFO - ✅ Updated Article ID: 68d303380a0272dfa29a4919 with 7 nodes and combined text.

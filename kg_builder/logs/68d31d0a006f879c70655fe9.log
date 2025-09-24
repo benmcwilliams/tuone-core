@@ -1,0 +1,115 @@
+2025-09-24 00:22:35,506 - INFO - 🔍 Text length: 1621 characters
+2025-09-24 00:22:35,506 - INFO - 📌 Processing Article ID: 68d31d0a006f879c70655fe9 — New coating said to extend battery life
+2025-09-24 00:22:35,506 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:22:37,454 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:37,454 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lotte_chemical",
+        "type": "company",
+        "name": "Lotte Chemical"
+      },
+      {
+        "id": "company_soelect",
+        "type": "company",
+        "name": "Soelect"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lithium_metal_anode_factory",
+        "type": "investment",
+        "name": "lithium metal anode factory",
+        "amount": "US$200m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_polymer_electrolyte_coating_materials",
+        "type": "product",
+        "name": "solid polymer electrolyte coating materials"
+      },
+      {
+        "id": "product_lithium_metal_anode",
+        "type": "product",
+        "name": "lithium metal anode"
+      }
+    ]
+  }
+}
+2025-09-24 00:22:37,454 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:37,454 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:22:37,454 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:22:37,454 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:22:38,770 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:38,770 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lithium_metal_anode_factory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:22:38,770 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:38,770 - INFO - ✅ Match found for investment_ID 'investment_lithium_metal_anode_factory' in investment nodes
+2025-09-24 00:22:38,771 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:22:38,771 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:22:38,771 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:22:38,771 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:22:38,771 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:22:40,624 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:40,625 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_polymer_electrolyte_coating_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_lithium_metal_anode",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:22:40,625 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:40,625 - INFO - ✅ Match found for product_ID 'product_solid_polymer_electrolyte_coating_materials' in product nodes
+2025-09-24 00:22:40,625 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:22:40,625 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 00:22:40,625 - INFO - ✅ Match found for product_ID 'product_lithium_metal_anode' in product nodes
+2025-09-24 00:22:40,625 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:22:40,625 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:22:40,625 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:22:40,625 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 00:22:40,625 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:22:40,625 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:22:41,237 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:41,238 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:22:41,238 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:41,238 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:22:41,238 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:22:41,921 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:41,922 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:22:41,922 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:41,922 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:22:41,922 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:22:43,081 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:43,081 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lithium_metal_anode_factory",
+      "target": "product_lithium_metal_anode",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:22:43,081 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:43,174 - INFO - ✅ Updated Article ID: 68d31d0a006f879c70655fe9 with 5 nodes and combined text.

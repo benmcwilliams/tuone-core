@@ -1,0 +1,115 @@
+2025-09-24 01:29:09,601 - INFO - 🔍 Text length: 1111 characters
+2025-09-24 01:29:09,601 - INFO - 📌 Processing Article ID: 689dafefbd0ed12886bc653a — Posco Future M to Cooperate with CNGR on LFP Cathode Materials
+2025-09-24 01:29:09,601 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:29:12,247 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:29:12,248 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_future_m",
+        "type": "company",
+        "name": "Posco Future M"
+      },
+      {
+        "id": "company_cngr",
+        "type": "company",
+        "name": "CNGR"
+      },
+      {
+        "id": "company_fino",
+        "type": "company",
+        "name": "FINO"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_c_p_new_material_technology",
+        "type": "joint_venture",
+        "name": "C&P New Material Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pohang_north_gyeongsang_province",
+        "type": "factory",
+        "name": "Pohang Factory",
+        "location": {
+          "city": "Pohang",
+          "country": "South Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_cathode_materials",
+        "type": "product",
+        "name": "LFP Cathode Materials"
+      }
+    ]
+  }
+}
+2025-09-24 01:29:12,248 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:29:12,248 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:29:12,248 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:29:12,248 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:29:12,248 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:29:13,607 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:29:13,607 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_cathode_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 01:29:13,608 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:29:13,608 - INFO - ✅ Match found for product_ID 'product_lfp_cathode_materials' in product nodes
+2025-09-24 01:29:13,608 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:29:13,608 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 01:29:13,608 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:29:13,608 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:29:13,608 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:29:15,247 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:29:15,248 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_future_m",
+      "type": "forms",
+      "target": "joint_venture_c_p_new_material_technology"
+    },
+    {
+      "source": "company_cngr",
+      "type": "forms",
+      "target": "joint_venture_c_p_new_material_technology"
+    },
+    {
+      "source": "company_fino",
+      "type": "forms",
+      "target": "joint_venture_c_p_new_material_technology"
+    },
+    {
+      "source": "joint_venture_c_p_new_material_technology",
+      "type": "owns",
+      "target": "factory_pohang_north_gyeongsang_province"
+    }
+  ]
+}
+2025-09-24 01:29:15,248 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:29:15,248 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:29:15,248 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:29:16,351 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:29:16,351 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lfp_cathode_materials",
+      "target": "factory_pohang_north_gyeongsang_province",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:29:16,351 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:29:16,351 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:29:16,351 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:29:16,441 - INFO - ✅ Updated Article ID: 689dafefbd0ed12886bc653a with 6 nodes and combined text.

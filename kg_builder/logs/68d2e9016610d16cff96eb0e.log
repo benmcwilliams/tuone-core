@@ -1,0 +1,111 @@
+2025-09-24 00:57:00,843 - INFO - 🔍 Text length: 2619 characters
+2025-09-24 00:57:00,844 - INFO - 📌 Processing Article ID: 68d2e9016610d16cff96eb0e — China sales fall in February
+2025-09-24 00:57:00,844 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:57:04,179 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:04,179 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_saic_volkswagen",
+        "type": "company",
+        "name": "SAIC Volkswagen"
+      },
+      {
+        "id": "company_saic_gm_wuling",
+        "type": "company",
+        "name": "SAIC-GM-Wuling"
+      },
+      {
+        "id": "company_saic_gm",
+        "type": "company",
+        "name": "SAIC-GM"
+      },
+      {
+        "id": "company_saic_motor",
+        "type": "company",
+        "name": "SAIC Motor"
+      },
+      {
+        "id": "company_faw_group",
+        "type": "company",
+        "name": "FAW Group"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_gac_group",
+        "type": "company",
+        "name": "GAC Group"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      },
+      {
+        "id": "company_geely_auto",
+        "type": "company",
+        "name": "Geely Auto"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_saic_gm_wuling",
+        "type": "joint_venture",
+        "name": "SAIC-GM-Wuling"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nev",
+        "type": "product",
+        "name": "new energy vehicle (NEV)"
+      }
+    ]
+  }
+}
+2025-09-24 00:57:04,179 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:04,179 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:57:04,179 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:57:04,179 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:57:04,179 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:57:05,612 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:05,612 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_nev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:57:05,612 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:05,612 - INFO - ✅ Match found for product_ID 'product_nev' in product nodes
+2025-09-24 00:57:05,612 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:57:05,612 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:57:05,612 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:57:05,612 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:57:05,612 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:57:06,913 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:06,913 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:57:06,913 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:06,913 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:57:06,914 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:57:07,608 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:57:07,608 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:57:07,608 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:57:07,608 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:57:07,608 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:57:07,696 - INFO - ✅ Updated Article ID: 68d2e9016610d16cff96eb0e with 12 nodes and combined text.

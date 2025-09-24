@@ -1,0 +1,167 @@
+2025-09-24 00:25:32,706 - INFO - 🔍 Text length: 1617 characters
+2025-09-24 00:25:32,707 - INFO - 📌 Processing Article ID: 68d303e10a0272dfa29a4931 — Hyundai building new European R&D centre
+2025-09-24 00:25:32,707 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:25:35,422 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:35,423 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      },
+      {
+        "id": "company_hyundai_motor_europe_technical_center",
+        "type": "company",
+        "name": "Hyundai Motor Europe Technical Center"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rhine_main_metro_region_germany",
+        "type": "factory",
+        "name": "Rhine-Main Metropolitan Region R&D Centre",
+        "location": {
+          "city": "Rhine-Main Metropolitan Region",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_motor_group_rd",
+        "type": "investment",
+        "name": "Hyundai Motor Group R&D Investment",
+        "amount": "null",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_driver_assistance_systems",
+        "type": "product",
+        "name": "driver assistance systems (ADAS)"
+      },
+      {
+        "id": "product_infotainment",
+        "type": "product",
+        "name": "infotainment"
+      },
+      {
+        "id": "product_electrification",
+        "type": "product",
+        "name": "electrification"
+      }
+    ]
+  }
+}
+2025-09-24 00:25:35,423 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:35,423 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:25:35,423 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:25:35,423 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:25:36,754 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:36,754 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_motor_group_rd",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 00:25:36,754 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:36,754 - INFO - ✅ Match found for investment_ID 'investment_hyundai_motor_group_rd' in investment nodes
+2025-09-24 00:25:36,754 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 00:25:36,754 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:25:36,754 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 00:25:36,754 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:25:36,754 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:25:38,364 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:38,364 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_driver_assistance_systems",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_infotainment",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_electrification",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:25:38,364 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:38,364 - INFO - ✅ Match found for product_ID 'product_driver_assistance_systems' in product nodes
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:25:38,365 - INFO - ✅ Match found for product_ID 'product_infotainment' in product nodes
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:25:38,365 - INFO - ✅ Match found for product_ID 'product_electrification' in product nodes
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 00:25:38,365 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:25:38,365 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:25:38,365 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:25:38,365 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:25:39,714 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:39,714 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_group",
+      "type": "owns",
+      "target": "factory_rhine_main_metro_region_germany"
+    }
+  ]
+}
+2025-09-24 00:25:39,714 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:39,714 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:25:39,714 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:25:41,058 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:41,058 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:25:41,058 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:41,058 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:25:41,058 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:25:41,914 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:41,915 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:25:41,915 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:41,915 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:25:41,915 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:25:43,615 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:43,615 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_motor_group_rd",
+      "target": "factory_rhine_main_metro_region_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_hyundai_motor_group_rd",
+      "target": "product_driver_assistance_systems",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_motor_group_rd",
+      "target": "product_infotainment",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hyundai_motor_group_rd",
+      "target": "product_electrification",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:25:43,615 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:43,714 - INFO - ✅ Updated Article ID: 68d303e10a0272dfa29a4931 with 7 nodes and combined text.

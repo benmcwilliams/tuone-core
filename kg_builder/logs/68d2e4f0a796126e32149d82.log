@@ -1,0 +1,131 @@
+2025-09-24 01:16:09,830 - INFO - 🔍 Text length: 1597 characters
+2025-09-24 01:16:09,830 - INFO - 📌 Processing Article ID: 68d2e4f0a796126e32149d82 — ANGI Energy Systems begins construction of Midwest’s first hydrogen testing plant
+2025-09-24 01:16:09,830 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:16:12,279 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:12,279 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_angi_energy_systems",
+        "type": "company",
+        "name": "ANGI Energy Systems"
+      },
+      {
+        "id": "company_fastech",
+        "type": "company",
+        "name": "FASTECH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_janesville_wisconsin",
+        "type": "factory",
+        "name": "Janesville Hydrogen Refuelling Test Facility",
+        "location": {
+          "city": "Janesville",
+          "country": "US"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_janesville_hydrogen_refuelling_test_facility",
+        "type": "investment",
+        "name": "Janesville Hydrogen Refuelling Test Facility",
+        "amount": "$4 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_refuelling_technology",
+        "type": "product",
+        "name": "hydrogen refuelling technology"
+      }
+    ]
+  }
+}
+2025-09-24 01:16:12,279 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:12,279 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:16:12,279 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:16:12,279 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:16:13,830 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:13,830 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_janesville_hydrogen_refuelling_test_facility",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:16:13,830 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:13,830 - INFO - ✅ Match found for investment_ID 'investment_janesville_hydrogen_refuelling_test_facility' in investment nodes
+2025-09-24 01:16:13,830 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 01:16:13,830 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:16:13,830 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:16:13,830 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:16:13,830 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:16:15,160 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:15,161 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hydrogen_refuelling_technology",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-24 01:16:15,161 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:15,161 - INFO - ✅ Match found for product_ID 'product_hydrogen_refuelling_technology' in product nodes
+2025-09-24 01:16:15,161 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 01:16:15,161 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 01:16:15,161 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:16:15,161 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:16:15,161 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:16:16,083 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:16,083 - INFO - {
+  "relationships": [
+    {
+      "source": "company_angi_energy_systems",
+      "type": "owns",
+      "target": "factory_janesville_wisconsin"
+    }
+  ]
+}
+2025-09-24 01:16:16,084 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:16,084 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:16:16,084 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:16:16,619 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:16,619 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:16:16,619 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:16,619 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:16:16,619 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:16:17,294 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:17,294 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:16:17,294 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:17,294 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:16:17,294 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:16:18,564 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:18,565 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_janesville_hydrogen_refuelling_test_facility",
+      "target": "factory_janesville_wisconsin",
+      "type": "funds"
+    },
+    {
+      "source": "investment_janesville_hydrogen_refuelling_test_facility",
+      "target": "product_hydrogen_refuelling_technology",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:16:18,565 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:18,660 - INFO - ✅ Updated Article ID: 68d2e4f0a796126e32149d82 with 5 nodes and combined text.

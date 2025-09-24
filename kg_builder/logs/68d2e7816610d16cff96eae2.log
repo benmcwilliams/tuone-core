@@ -1,0 +1,123 @@
+2025-09-24 01:04:38,292 - INFO - 🔍 Text length: 1687 characters
+2025-09-24 01:04:38,292 - INFO - 📌 Processing Article ID: 68d2e7816610d16cff96eae2 — Citroen to assemble BEVs in Indonesia
+2025-09-24 01:04:38,292 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:04:41,177 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:04:41,178 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_citroen",
+        "type": "company",
+        "name": "Citroen"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_indomobil_group",
+        "type": "company",
+        "name": "Indomobil Group"
+      },
+      {
+        "id": "astra_international",
+        "type": "company",
+        "name": "Astra International",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_india_citroen",
+        "type": "joint_venture",
+        "name": "India Citroen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_indonesia_citroen",
+        "type": "factory",
+        "name": "Citroen Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery electric vehicles (BEVs)"
+      },
+      {
+        "id": "product_e_c3",
+        "type": "product",
+        "name": "E-C3"
+      }
+    ]
+  }
+}
+2025-09-24 01:04:41,178 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:04:41,178 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:04:41,178 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:04:41,178 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:04:41,178 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:04:42,737 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:04:42,737 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_e_c3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 01:04:42,737 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:04:42,737 - INFO - ✅ Match found for product_ID 'product_battery_electric_vehicles' in product nodes
+2025-09-24 01:04:42,737 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:04:42,737 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:04:42,737 - INFO - ✅ Match found for product_ID 'product_e_c3' in product nodes
+2025-09-24 01:04:42,737 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:04:42,737 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:04:42,737 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:04:42,738 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:04:42,738 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:04:43,864 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:04:43,864 - INFO - {
+  "relationships": [
+    {
+      "source": "company_citroen",
+      "type": "owns",
+      "target": "factory_indonesia_citroen"
+    }
+  ]
+}
+2025-09-24 01:04:43,864 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:04:43,864 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:04:43,864 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:04:44,903 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:04:44,903 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_indonesia_citroen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:04:44,903 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:04:44,903 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:04:44,903 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:04:44,988 - INFO - ✅ Updated Article ID: 68d2e7816610d16cff96eae2 with 8 nodes and combined text.

@@ -1,0 +1,101 @@
+2025-09-24 00:31:41,269 - INFO - 🔍 Text length: 3607 characters
+2025-09-24 00:31:41,269 - INFO - 📌 Processing Article ID: 68d303100a0272dfa29a4914 — Chinese OEMs in Russia, Stellantis tensions, Canada forecast – the week in data
+2025-09-24 00:31:41,269 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:31:43,466 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:31:43,466 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_dongfeng",
+        "type": "company",
+        "name": "Dongfeng"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kaluga_russia",
+        "type": "factory",
+        "name": "Kaluga Plant",
+        "location": {
+          "city": "Kaluga",
+          "country": "Russia"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_batteries",
+        "type": "product",
+        "name": "solid-state batteries"
+      },
+      {
+        "id": "product_ev_hybrid_vehicles",
+        "type": "product",
+        "name": "EV and hybrid vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 00:31:43,466 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:31:43,466 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:31:43,466 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:31:43,466 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:31:43,466 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:31:45,116 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:31:45,116 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_ev_hybrid_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:31:45,116 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:31:45,116 - INFO - ✅ Match found for product_ID 'product_solid_state_batteries' in product nodes
+2025-09-24 00:31:45,116 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:31:45,116 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 00:31:45,116 - INFO - ✅ Match found for product_ID 'product_ev_hybrid_vehicles' in product nodes
+2025-09-24 00:31:45,116 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:31:45,116 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:31:45,116 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:31:45,116 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:31:45,116 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:31:46,658 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:31:46,659 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_kaluga_russia"
+    }
+  ]
+}
+2025-09-24 00:31:46,659 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:31:46,659 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:31:46,659 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:31:48,296 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:31:48,296 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_hybrid_vehicles",
+      "target": "factory_kaluga_russia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:31:48,296 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:31:48,296 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:31:48,296 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:31:48,393 - INFO - ✅ Updated Article ID: 68d303100a0272dfa29a4914 with 5 nodes and combined text.

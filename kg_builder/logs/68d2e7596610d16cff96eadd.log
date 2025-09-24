@@ -1,0 +1,83 @@
+2025-09-24 01:05:15,196 - INFO - 🔍 Text length: 1852 characters
+2025-09-24 01:05:15,196 - INFO - 📌 Processing Article ID: 68d2e7596610d16cff96eadd — Lyten producing lithium sulphur batteries with greater than 90% yield
+2025-09-24 01:05:15,196 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:05:16,778 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:16,779 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lyten",
+        "type": "company",
+        "name": "Lyten"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_san_jose_pilot_production_facility",
+        "type": "factory",
+        "name": "San Jose Pilot Production Facility",
+        "location": {
+          "city": "San Jose",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_sulphur_battery",
+        "type": "product",
+        "name": "lithium-sulphur battery"
+      }
+    ]
+  }
+}
+2025-09-24 01:05:16,779 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:16,779 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:05:16,779 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:05:16,779 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:05:16,779 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:05:17,931 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:17,931 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_sulphur_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:05:17,931 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:17,931 - INFO - ✅ Match found for product_ID 'product_lithium_sulphur_battery' in product nodes
+2025-09-24 01:05:17,931 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:05:17,931 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:05:17,931 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:05:17,931 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:05:17,931 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:05:18,987 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:18,987 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lyten",
+      "type": "owns",
+      "target": "factory_san_jose_pilot_production_facility"
+    }
+  ]
+}
+2025-09-24 01:05:18,987 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:18,987 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:05:18,987 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:05:21,839 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:21,839 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_sulphur_battery",
+      "target": "factory_san_jose_pilot_production_facility",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:05:21,839 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:21,839 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:05:21,839 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:05:21,930 - INFO - ✅ Updated Article ID: 68d2e7596610d16cff96eadd with 3 nodes and combined text.

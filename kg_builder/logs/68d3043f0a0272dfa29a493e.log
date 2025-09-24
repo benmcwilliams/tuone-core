@@ -1,0 +1,144 @@
+2025-09-24 00:23:13,345 - INFO - 🔍 Text length: 3786 characters
+2025-09-24 00:23:13,345 - INFO - 📌 Processing Article ID: 68d3043f0a0272dfa29a493e — UAW targets non union US plants
+2025-09-24 00:23:13,345 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:23:15,748 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:15,749 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_glovis",
+        "type": "company",
+        "name": "Glovis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_georgetown_kentucky",
+        "type": "factory",
+        "name": "Georgetown Assembly Complex",
+        "location": {
+          "city": "Georgetown",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_montgomery_alabama",
+        "type": "factory",
+        "name": "Montgomery Assembly Plant",
+        "location": {
+          "city": "Montgomery",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_camry",
+        "type": "product",
+        "name": "Camry"
+      },
+      {
+        "id": "product_rav4_suv",
+        "type": "product",
+        "name": "RAV 4 SUV"
+      },
+      {
+        "id": "product_lexus_es",
+        "type": "product",
+        "name": "Lexus ES"
+      }
+    ]
+  }
+}
+2025-09-24 00:23:15,749 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:15,749 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:23:15,749 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:23:15,749 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:23:15,749 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:23:17,692 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:17,693 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_camry",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_rav4_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_lexus_es",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-24 00:23:17,693 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:17,693 - INFO - ✅ Match found for product_ID 'product_camry' in product nodes
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:23:17,693 - INFO - ✅ Match found for product_ID 'product_rav4_suv' in product nodes
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:23:17,693 - INFO - ✅ Match found for product_ID 'product_lexus_es' in product nodes
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:23:17,693 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:23:17,693 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:23:17,693 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:23:17,693 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:23:18,746 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:18,746 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_georgetown_kentucky"
+    },
+    {
+      "source": "company_hyundai",
+      "type": "owns",
+      "target": "factory_montgomery_alabama"
+    }
+  ]
+}
+2025-09-24 00:23:18,746 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:18,746 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:23:18,746 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:23:20,457 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:20,457 - INFO - {
+  "relationships": [
+    {
+      "source": "product_camry",
+      "target": "factory_georgetown_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rav4_suv",
+      "target": "factory_georgetown_kentucky",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lexus_es",
+      "target": "factory_georgetown_kentucky",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:23:20,457 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:20,458 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:23:20,458 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:23:20,554 - INFO - ✅ Updated Article ID: 68d3043f0a0272dfa29a493e with 8 nodes and combined text.

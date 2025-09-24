@@ -1,0 +1,148 @@
+2025-09-24 00:46:54,927 - INFO - 🔍 Text length: 2115 characters
+2025-09-24 00:46:54,928 - INFO - 📌 Processing Article ID: 68d2eac36610d16cff96eb41 — Taiwan’s FDI into China drops to lowest level in two decades
+2025-09-24 00:46:54,928 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:46:57,027 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:46:57,027 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_foxconn",
+        "type": "company",
+        "name": "Foxconn"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_1",
+        "type": "investment",
+        "name": "Foxconn India Expansion",
+        "amount": "$1.5bn",
+        "status": "announced"
+      },
+      {
+        "id": "investment_2",
+        "type": "investment",
+        "name": "Foxconn Tamil Nadu Plant",
+        "amount": "$200m",
+        "status": "announced"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tamil_nadu_india",
+        "type": "factory",
+        "name": "Tamil Nadu Components Manufacturing Plant",
+        "location": {
+          "city": "Tamil Nadu",
+          "country": "India"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_components",
+        "type": "product",
+        "name": "components"
+      }
+    ]
+  }
+}
+2025-09-24 00:46:57,027 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:46:57,027 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:46:57,027 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:46:57,027 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:46:57,849 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:46:57,849 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_1",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_2",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:46:57,849 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:46:57,849 - INFO - ✅ Match found for investment_ID 'investment_1' in investment nodes
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:46:57,850 - INFO - ✅ Match found for investment_ID 'investment_2' in investment nodes
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:46:57,850 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:46:57,850 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:46:57,850 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:46:59,126 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:46:59,126 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_components",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 00:46:59,127 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:46:59,127 - INFO - ✅ Match found for product_ID 'product_components' in product nodes
+2025-09-24 00:46:59,127 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 00:46:59,127 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:46:59,127 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:46:59,127 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:46:59,898 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:46:59,898 - INFO - {
+  "relationships": [
+    {
+      "source": "company_foxconn",
+      "type": "owns",
+      "target": "factory_tamil_nadu_india"
+    }
+  ]
+}
+2025-09-24 00:46:59,898 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:46:59,898 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:46:59,898 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:47:00,718 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:00,718 - INFO - {
+  "relationships": [
+    {
+      "source": "product_components",
+      "target": "factory_tamil_nadu_india",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:47:00,718 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:00,718 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:47:00,718 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:47:01,537 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:01,537 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:47:01,537 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:01,537 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:47:01,537 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:47:02,286 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:47:02,286 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_2",
+      "target": "factory_tamil_nadu_india",
+      "type": "funds"
+    },
+    {
+      "source": "investment_2",
+      "target": "product_components",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:47:02,286 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:47:02,378 - INFO - ✅ Updated Article ID: 68d2eac36610d16cff96eb41 with 5 nodes and combined text.

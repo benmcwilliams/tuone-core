@@ -1,0 +1,99 @@
+2025-09-24 01:35:07,500 - INFO - 🔍 Text length: 1395 characters
+2025-09-24 01:35:07,500 - INFO - 📌 Processing Article ID: 689231273770ecb5d617843b — Novo Energy to Halve Its Workforce
+2025-09-24 01:35:07,500 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:35:09,812 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:35:09,813 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_novo_energy",
+        "type": "company",
+        "name": "Novo Energy"
+      },
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_novo_energy_northvolt",
+        "type": "joint_venture",
+        "name": "Novo Energy Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gothenburg",
+        "type": "factory",
+        "name": "Gothenburg Battery Factory",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 01:35:09,813 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:35:09,813 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:35:09,813 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:35:09,813 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:35:09,813 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:35:10,786 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:35:10,786 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:35:10,786 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:35:10,786 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 01:35:10,786 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:35:10,786 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:35:10,786 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:35:10,786 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:35:10,786 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:35:12,423 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:35:12,423 - INFO - {
+  "relationships": [
+    {
+      "source": "company_novo_energy",
+      "type": "forms",
+      "target": "joint_venture_novo_energy_northvolt"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "forms",
+      "target": "joint_venture_novo_energy_northvolt"
+    },
+    {
+      "source": "joint_venture_novo_energy_northvolt",
+      "type": "owns",
+      "target": "factory_gothenburg"
+    }
+  ]
+}
+2025-09-24 01:35:12,424 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:35:12,424 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:35:12,424 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:35:13,506 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:35:13,506 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:35:13,506 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:35:13,506 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:35:13,506 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:35:13,599 - INFO - ✅ Updated Article ID: 689231273770ecb5d617843b with 5 nodes and combined text.

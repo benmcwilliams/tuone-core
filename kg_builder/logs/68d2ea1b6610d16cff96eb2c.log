@@ -1,0 +1,137 @@
+2025-09-24 00:50:57,372 - INFO - 🔍 Text length: 6546 characters
+2025-09-24 00:50:57,372 - INFO - 📌 Processing Article ID: 68d2ea1b6610d16cff96eb2c — Recycling batteries the sustainable way with Aqua Metals
+2025-09-24 00:50:57,372 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:50:59,828 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:50:59,828 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aqua_metals",
+        "type": "company",
+        "name": "Aqua Metals"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_recycling_campus",
+        "type": "factory",
+        "name": "recycling campus",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_aquarefining_process",
+        "type": "product",
+        "name": "AquaRefining process"
+      },
+      {
+        "id": "product_lithium_hydroxide",
+        "type": "product",
+        "name": "lithium hydroxide"
+      },
+      {
+        "id": "product_lithium_carbonate",
+        "type": "product",
+        "name": "lithium carbonate"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-24 00:50:59,828 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:50:59,829 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:50:59,829 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:50:59,829 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:50:59,829 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:51:01,980 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:51:01,980 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_aquarefining_process",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_lithium_hydroxide",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_lithium_carbonate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 00:51:01,980 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:51:01,980 - INFO - ✅ Match found for product_ID 'product_aquarefining_process' in product nodes
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:51:01,980 - INFO - ✅ Match found for product_ID 'product_lithium_hydroxide' in product nodes
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:51:01,980 - INFO - ✅ Match found for product_ID 'product_lithium_carbonate' in product nodes
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:51:01,980 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:51:01,980 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:51:01,980 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:51:01,980 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:51:01,980 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:51:02,902 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:51:02,902 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aqua_metals",
+      "type": "owns",
+      "target": "factory_recycling_campus"
+    }
+  ]
+}
+2025-09-24 00:51:02,902 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:51:02,902 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:51:02,902 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:51:06,484 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:51:06,485 - INFO - {
+  "relationships": [
+    {
+      "source": "product_black_mass",
+      "target": "factory_recycling_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_aquarefining_process",
+      "target": "factory_recycling_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_hydroxide",
+      "target": "factory_recycling_campus",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_carbonate",
+      "target": "factory_recycling_campus",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:51:06,485 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:51:06,485 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:51:06,485 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:51:06,570 - INFO - ✅ Updated Article ID: 68d2ea1b6610d16cff96eb2c with 6 nodes and combined text.

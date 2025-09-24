@@ -1,0 +1,208 @@
+2025-09-24 01:27:26,751 - INFO - 🔍 Text length: 1234 characters
+2025-09-24 01:27:26,751 - INFO - 📌 Processing Article ID: 68c15472e596289ce84230e6 — Natron Energy Ceases Operations
+2025-09-24 01:27:26,751 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:27:30,206 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:30,207 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_natron_energy",
+        "type": "company",
+        "name": "Natron Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_holland_michigan",
+        "type": "factory",
+        "name": "Holland Plant",
+        "location": {
+          "city": "Holland",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_santa_clara_california",
+        "type": "factory",
+        "name": "Santa Clara Headquarters",
+        "location": {
+          "city": "Santa Clara",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_edgecombe_county_north_carolina",
+        "type": "factory",
+        "name": "Edgecombe County Factory",
+        "location": {
+          "city": "Edgecombe County",
+          "country": "United States"
+        },
+        "status": "cancelled"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_edgecombe_county_factory",
+        "type": "investment",
+        "name": "Edgecombe County Factory",
+        "amount": "1.4 billion US dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_24_gigawatt_hours_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "24 gigawatt-hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sodium_ion_battery",
+        "type": "product",
+        "name": "sodium-ion battery"
+      }
+    ]
+  }
+}
+2025-09-24 01:27:30,207 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:30,207 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:27:30,207 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:27:31,103 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:31,103 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_24_gigawatt_hours_announced",
+      "status": "cancelled",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:27:31,103 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:31,103 - INFO - ✅ Match found for capacity_ID 'capacity_24_gigawatt_hours_announced' in capacity nodes
+2025-09-24 01:27:31,103 - INFO -   ➕ Set field 'status': cancelled
+2025-09-24 01:27:31,103 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:27:31,103 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:27:31,103 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:27:31,103 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:27:32,426 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:32,426 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_edgecombe_county_factory",
+      "status": "cancelled",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:27:32,426 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:32,426 - INFO - ✅ Match found for investment_ID 'investment_edgecombe_county_factory' in investment nodes
+2025-09-24 01:27:32,426 - INFO -   ➕ Set field 'status': cancelled
+2025-09-24 01:27:32,426 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:27:32,427 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:27:32,427 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:27:32,427 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:27:33,565 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:33,565 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sodium_ion_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:27:33,565 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:33,565 - INFO - ✅ Match found for product_ID 'product_sodium_ion_battery' in product nodes
+2025-09-24 01:27:33,565 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:27:33,565 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:27:33,565 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:27:33,565 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:27:33,566 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:27:35,314 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:35,314 - INFO - {
+  "relationships": [
+    {
+      "source": "company_natron_energy",
+      "type": "owns",
+      "target": "factory_holland_michigan"
+    },
+    {
+      "source": "company_natron_energy",
+      "type": "owns",
+      "target": "factory_santa_clara_california"
+    },
+    {
+      "source": "company_natron_energy",
+      "type": "owns",
+      "target": "factory_edgecombe_county_north_carolina"
+    }
+  ]
+}
+2025-09-24 01:27:35,314 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:35,315 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:27:35,315 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:27:37,149 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:37,149 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_24_gigawatt_hours_announced",
+      "target": "factory_edgecombe_county_north_carolina",
+      "type": "at"
+    },
+    {
+      "source": "capacity_24_gigawatt_hours_announced",
+      "target": "product_sodium_ion_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_sodium_ion_battery",
+      "target": "factory_holland_michigan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sodium_ion_battery",
+      "target": "factory_santa_clara_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:27:37,149 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:37,149 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:27:37,149 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:27:38,151 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:38,151 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:27:38,151 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:38,151 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:27:38,151 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:27:39,608 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:27:39,608 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_edgecombe_county_factory",
+      "target": "factory_edgecombe_county_north_carolina",
+      "type": "funds"
+    },
+    {
+      "source": "investment_edgecombe_county_factory",
+      "target": "capacity_24_gigawatt_hours_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_edgecombe_county_factory",
+      "target": "product_sodium_ion_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:27:39,608 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:27:39,695 - INFO - ✅ Updated Article ID: 68c15472e596289ce84230e6 with 7 nodes and combined text.

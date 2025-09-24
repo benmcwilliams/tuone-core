@@ -1,0 +1,126 @@
+2025-09-24 01:20:31,863 - INFO - 🔍 Text length: 2638 characters
+2025-09-24 01:20:31,863 - INFO - 📌 Processing Article ID: 68cbbd8cb69105950303b359 — Nissan to halve production of Leaf EV due to battery shortage
+2025-09-24 01:20:31,863 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:20:34,070 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:34,070 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      },
+      {
+        "id": "company_aesc",
+        "type": "company",
+        "name": "AESC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tochigi_japan",
+        "type": "factory",
+        "name": "Tochigi Plant",
+        "location": {
+          "city": "Tochigi",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_sunderland_uk",
+        "type": "factory",
+        "name": "Sunderland Plant",
+        "location": {
+          "city": "Sunderland",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_leaf_ev",
+        "type": "product",
+        "name": "Leaf EV"
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-24 01:20:34,071 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:34,071 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:20:34,071 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:20:34,071 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:20:34,071 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:20:35,671 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:35,671 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_leaf_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:20:35,671 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:35,671 - INFO - ✅ Match found for product_ID 'product_leaf_ev' in product nodes
+2025-09-24 01:20:35,671 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:20:35,671 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:20:35,671 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-24 01:20:35,671 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:20:35,671 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:20:35,671 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:20:35,671 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:20:35,672 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:20:36,695 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:36,695 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_tochigi_japan"
+    },
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_sunderland_uk"
+    }
+  ]
+}
+2025-09-24 01:20:36,695 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:36,695 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:20:36,695 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:20:37,967 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:37,968 - INFO - {
+  "relationships": [
+    {
+      "source": "product_leaf_ev",
+      "target": "factory_tochigi_japan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_leaf_ev",
+      "target": "factory_sunderland_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_tochigi_japan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:20:37,968 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:37,968 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:20:37,968 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:20:38,059 - INFO - ✅ Updated Article ID: 68cbbd8cb69105950303b359 with 6 nodes and combined text.

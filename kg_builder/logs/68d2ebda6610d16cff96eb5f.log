@@ -1,0 +1,121 @@
+2025-09-24 00:41:55,402 - INFO - 🔍 Text length: 2460 characters
+2025-09-24 00:41:55,402 - INFO - 📌 Processing Article ID: 68d2ebda6610d16cff96eb5f — BASF agrees new battery recycling deal
+2025-09-24 00:41:55,402 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:41:58,419 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:41:58,420 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_stena_recycling",
+        "type": "company",
+        "name": "Stena Recycling"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_halmstad",
+        "type": "factory",
+        "name": "Halmstad",
+        "location": {
+          "city": "Halmstad",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_schwarzheide",
+        "type": "factory",
+        "name": "Schwarzheide",
+        "location": {
+          "city": "Schwarzheide",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      },
+      {
+        "id": "product_cathode_active_materials",
+        "type": "product",
+        "name": "cathode active materials"
+      }
+    ]
+  }
+}
+2025-09-24 00:41:58,420 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:41:58,420 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:41:58,420 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:41:58,420 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:41:58,420 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:42:00,059 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:42:00,060 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_cathode_active_materials",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:42:00,060 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:42:00,060 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 00:42:00,060 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:42:00,060 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:42:00,060 - INFO - ✅ Match found for product_ID 'product_cathode_active_materials' in product nodes
+2025-09-24 00:42:00,060 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:42:00,060 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:42:00,060 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:42:00,060 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:42:00,060 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:42:01,699 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:42:01,700 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stena_recycling",
+      "type": "owns",
+      "target": "factory_halmstad"
+    },
+    {
+      "source": "company_basf",
+      "type": "owns",
+      "target": "factory_schwarzheide"
+    }
+  ]
+}
+2025-09-24 00:42:01,700 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:42:01,700 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:42:01,700 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:42:02,707 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:42:02,707 - INFO - {
+  "relationships": [
+    {
+      "source": "product_black_mass",
+      "target": "factory_halmstad",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cathode_active_materials",
+      "target": "factory_schwarzheide",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:42:02,707 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:42:02,707 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:42:02,707 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:42:02,800 - INFO - ✅ Updated Article ID: 68d2ebda6610d16cff96eb5f with 6 nodes and combined text.

@@ -1,0 +1,140 @@
+2025-09-24 00:22:51,675 - INFO - 🔍 Text length: 6076 characters
+2025-09-24 00:22:51,675 - INFO - 📌 Processing Article ID: 68d304590a0272dfa29a4941 — Red Sea crisis to cause cross-sector disruption for “a few months at least”
+2025-09-24 00:22:51,675 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:22:54,521 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:54,522 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_shell",
+        "type": "company",
+        "name": "Shell"
+      },
+      {
+        "id": "company_bp",
+        "type": "company",
+        "name": "BP"
+      },
+      {
+        "id": "company_equnor",
+        "type": "company",
+        "name": "Equinor"
+      },
+      {
+        "id": "company_qatar_energy",
+        "type": "company",
+        "name": "Qatar Energy"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      },
+      {
+        "id": "company_vw_group",
+        "type": "company",
+        "name": "VW Group"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_maersk",
+        "type": "company",
+        "name": "Maersk"
+      },
+      {
+        "id": "company_hapag_lloyd",
+        "type": "company",
+        "name": "Hapag-Lloyd"
+      },
+      {
+        "id": "company_cosco",
+        "type": "company",
+        "name": "COSCO"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_berlin_germany",
+        "type": "factory",
+        "name": "Berlin Factory",
+        "location": {
+          "city": "Berlin",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lng",
+        "type": "product",
+        "name": "LNG"
+      },
+      {
+        "id": "product_vehicles",
+        "type": "product",
+        "name": "vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 00:22:54,522 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:54,522 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:22:54,522 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:22:54,522 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:22:54,522 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:22:56,190 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:56,190 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lng",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:22:56,190 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:56,190 - INFO - ✅ Match found for product_ID 'product_lng' in product nodes
+2025-09-24 00:22:56,191 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 00:22:56,191 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 00:22:56,191 - INFO - ✅ Match found for product_ID 'product_vehicles' in product nodes
+2025-09-24 00:22:56,191 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:22:56,191 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:22:56,191 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:22:56,191 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:22:56,191 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:22:56,984 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:56,984 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_berlin_germany"
+    }
+  ]
+}
+2025-09-24 00:22:56,984 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:56,984 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:22:56,984 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:22:57,722 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:22:57,722 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:22:57,722 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:22:57,722 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:22:57,722 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:22:57,823 - INFO - ✅ Updated Article ID: 68d304590a0272dfa29a4941 with 14 nodes and combined text.

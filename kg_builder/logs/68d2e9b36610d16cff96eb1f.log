@@ -1,0 +1,77 @@
+2025-09-24 00:53:28,018 - INFO - 🔍 Text length: 719 characters
+2025-09-24 00:53:28,018 - INFO - 📌 Processing Article ID: 68d2e9b36610d16cff96eb1f — Volvo cutting truck output?
+2025-09-24 00:53:28,018 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:53:29,441 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:29,441 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tuve_plant",
+        "type": "factory",
+        "name": "Tuve plant",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heavy_truck",
+        "type": "product",
+        "name": "heavy truck"
+      }
+    ]
+  }
+}
+2025-09-24 00:53:29,441 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:29,441 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:53:29,442 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:53:29,442 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:53:29,442 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:53:31,132 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:31,133 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_heavy_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-24 00:53:31,133 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:31,133 - INFO - ✅ Match found for product_ID 'product_heavy_truck' in product nodes
+2025-09-24 00:53:31,133 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:53:31,133 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:53:31,133 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:53:31,133 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:53:31,133 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:53:31,932 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:31,932 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo",
+      "type": "owns",
+      "target": "factory_tuve_plant"
+    }
+  ]
+}
+2025-09-24 00:53:31,932 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:31,932 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:53:31,932 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:53:32,687 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:32,687 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:53:32,688 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:32,688 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:53:32,688 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:53:32,769 - INFO - ✅ Updated Article ID: 68d2e9b36610d16cff96eb1f with 3 nodes and combined text.
