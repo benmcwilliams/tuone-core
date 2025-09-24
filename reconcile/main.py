@@ -16,7 +16,7 @@ from facilities import write_facilities
 from attach_events import attach_events
 from assign_phase import process_documents
 from phase_summary import compute_summaries
-from project_page import output_plots
+from plot import output_plots
 
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
