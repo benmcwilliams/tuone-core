@@ -426,16 +426,40 @@ def build_pivot_flex(
     """
     Filters df on product_lv1/product_lv2 (optional), groups by index_by + stack_col,
     returns a wide pivot with stack_col values as columns and a 'total__' helper.
+    Skips gracefully (returns empty DF) if needed columns are missing.
     """
-    # ✅ Start from full data; filter only when not ALL/*/None
     sub = df.copy()
 
+    # Optional filtering on lv1/lv2
     if lv1 not in (None, "ALL", "*"):
+        if "product_lv1" not in sub.columns:
+            print(f"[skip] Missing column 'product_lv1' for lv1={lv1}")
+            return pd.DataFrame()
         sub = sub[sub["product_lv1"] == lv1]
+
     if lv2 not in (None, "ALL", "*"):
+        if "product_lv2" not in sub.columns:
+            print(f"[skip] Missing column 'product_lv2' for lv2={lv2}")
+            return pd.DataFrame()
         sub = sub[sub["product_lv2"] == lv2]
 
     if sub.empty:
+        return pd.DataFrame()
+
+    # ---- Requirements check
+    needed_cols = set(index_by) | {stack_col, value_col}
+    missing = [c for c in needed_cols if c not in sub.columns]
+    if missing:
+        print(f"[skip] Missing columns {missing} for lv1={lv1}, lv2={lv2}; skipping chart")
+        return pd.DataFrame()
+
+    # Ensure numeric value_col (coerce if needed)
+    if not np.issubdtype(sub[value_col].dtype, np.number):
+        sub[value_col] = pd.to_numeric(sub[value_col], errors="coerce")
+
+    # If everything is NaN after coercion, skip
+    if sub[value_col].notna().sum() == 0:
+        print(f"[skip] '{value_col}' has no numeric values after coercion; skipping chart")
         return pd.DataFrame()
 
     group_by = _dedup_seq(list(index_by) + [stack_col])
@@ -446,12 +470,16 @@ def build_pivot_flex(
            .reset_index()
     )
 
+    # If grouping produced no rows (all NaN summed out), skip
+    if grouped.empty:
+        return pd.DataFrame()
+
     pivot = (
         grouped.pivot_table(index=index_by, columns=stack_col, values=value_col, fill_value=0.0)
                .fillna(0.0)
     )
 
-    # Keep declared stack order (if provided), then any leftovers
+    # Respect declared stack order first, then append leftovers
     if stack_order:
         leftovers = [c for c in pivot.columns if c not in stack_order]
         pivot = pivot.reindex(columns=list(stack_order) + leftovers, fill_value=0.0)
@@ -470,36 +498,32 @@ def build_pivot_flex(
 # Batch runner (multi-metric, flexible stacking)
 # -------------------------------------------------
 def _apply_filters(df: pd.DataFrame, filters: Dict[str, Any]) -> pd.DataFrame:
-    """
-    Supports:
-      - Categorical: {"col": ["A","B"]} or {"col": "A"}
-      - Numeric mins/maxes: {"capacity_min": 1000, "investment_max": 5e6}
-      - Not-in lists: {"status_not": ["announced"]}
-      - Regex contains: {"owner_regex": ".*sa.*"}  (case-insensitive)
-      - Date mins/maxes: {"operational_on_min": "2021-01-01", "operational_on_max": "2024-12-31"}
-    """
     sub = df.copy()
-
     for key, val in (filters or {}).items():
+        if key.endswith(("_min", "_max", "_not", "_regex")):
+            base = key.rsplit("_", 1)[0]
+        else:
+            base = key
+
+        # >>> SKIP if the column doesn't exist
+        if base not in sub.columns:
+            print(f"[skip][filters] column '{base}' not in DataFrame; skipping this filter")
+            continue
+
         if key.endswith("_min"):
-            base = key[:-4]
             sub = sub[sub[base] >= val]
         elif key.endswith("_max"):
-            base = key[:-4]
             sub = sub[sub[base] <= val]
         elif key.endswith("_not"):
-            base = key[:-4]
             vals = val if isinstance(val, (list, tuple, set)) else [val]
             sub = sub[~sub[base].isin(vals)]
         elif key.endswith("_regex"):
-            base = key[:-6]
             sub = sub[sub[base].astype(str).str.contains(val, case=False, regex=True, na=False)]
         else:
-            # categorical include
             vals = val if isinstance(val, (list, tuple, set)) else [val]
-            sub = sub[sub[key].isin(vals)]
-
+            sub = sub[sub[base].isin(vals)]
     return sub
+
 
 def _run_single_batch(df: pd.DataFrame, cfg: Dict[str, Any]) -> None:
     """
@@ -864,11 +888,11 @@ def output_plots():
                     "x_unit": "Capacity (units)"
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells by company and status",        "filename": "capacity_battery_cells_announced_company_status.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs by company and status","filename": "capacity_battery_modules_rannounced_company_status.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells by status by company and status",          "filename": "capacity_solar_announced_company_status.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity - Solar polysilicon by company and status",    "filename": "capacity_solar_polysilicon_announced_company_status.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers by company and status",   "filename": "capacity_solar_ingot_wafer_announced_company_status.png"},
+                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells by company and status",        "filename": "capacity_battery_cells_company_status.png"},
+                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs by company and status","filename": "capacity_battery_modules_company_status.png"},
+                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells by status by company and status",          "filename": "capacity_solar_company_status.png"},
+                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity - Solar polysilicon by company and status",    "filename": "capacity_solar_polysilicon_company_status.png"},
+                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers by company and status",   "filename": "capacity_solar_ingot_wafer_company_status.png"},
                     {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity -Electric vehicles by company and status",    "filename": "capacity_electric_vehicles_announced_company_status.png"}
                 ]
             },
@@ -1014,7 +1038,7 @@ def output_plots():
                     "x_unit": "EUR"
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Investment - Battery cells by status and country",        "filename": "investment_battery_cells_status_country.png"},
+                     {"lv1": "battery", "lv2": "cell",         "title": "Investment - Battery cells by status and country",        "filename": "investment_battery_cells_status_country.png"},
                     {"lv1": "battery", "lv2": "module_pack",  "title": "Investment - Battery modules/packs by status and country","filename": "investment_battery_modules_status_country.png"},
                     {"lv1": "solar",   "lv2": "cell",         "title": "Investment - Solar cells by status and country",          "filename": "investment_solar_cells_status_country.png"},
                     {"lv1": "solar",   "lv2": "polysilicon",  "title": "Investment - Solar polysilicon by status and country",    "filename": "investment_solar_polysilicon_status_country.png"},
@@ -1254,73 +1278,6 @@ def output_plots():
                     {"lv1": "vehicle", "lv2": "electric",     "title": "Investment -Electric vehicles construction and operational by quarter",    "filename": "investment_electric_vehicles_construction_operational_quarter.png"}
                 ]
             },
-            # All tech capacity--------------------------------------------------
-            {
-            "name": "capacity_by_productlv1_country_construction_operational",
-            "output_dir": str(output_dir / "COUNTRY"),
-            "value_col": "capacity",
-            "stack": { "column": "product_lv1" },
-            "filters": { "status": ["under construction", "operational"], "product_lv1": ["battery", "vehicle", "solar"]  },
-            "index_by": ["iso2"],
-            "plot": {
-                "order_by": "total_desc",
-                "orientation": "hbar",
-                "normalize": False,
-                "show_value_labels": True,
-                "legend_outside": False,
-                "legend_ncol": 2,
-                "dpi": 300,
-                "figsize": [11, 7],
-                "x_unit": "Capacity (units)"
-            },
-            "charts": [
-                {"lv1": "ALL", "lv2": "ALL", "title": "Capacity by country (stacked by product level 1)", "filename": "capacity_by_country_stack_lv1_construction_operational.png"}
-            ]
-            },
-            {
-                "name": "capacity_by_productlv1_HQ_construction_operational",
-                "output_dir": str(output_dir / "HQ"),
-                "value_col": "capacity",
-                "stack": { "column": "product_lv1" },
-                "filters": { "status": ["under construction", "operational"], "product_lv1": ["battery", "vehicle", "solar"]  },
-                "index_by": ["regionHQ"],
-                "plot": {
-                    "order_by": "total_desc",
-                    "orientation": "hbar",
-                    "normalize": False,
-                    "show_value_labels": True,
-                    "legend_outside": False,
-                    "legend_ncol": 2,
-                    "dpi": 300,
-                    "figsize": [11, 7],
-                    "x_unit": "Capacity (units)"
-                },
-                "charts": [
-                    {"lv1": "ALL", "lv2": "ALL", "title": "Capacity by HQ region (stacked by product level 1)", "filename": "capacity_by_HQ_stack_lv1_construction_operational.png"}
-                ]
-            },
-            {
-                "name": "capacity_quarter_by_productlv1_construction_operational",
-                "output_dir": str(output_dir / "QUARTER"),
-                "value_col": "capacity",
-                "stack": { "column": "product_lv1" },
-                "filters": { "status": ["under construction", "operational"], "product_lv1": ["battery", "vehicle", "solar"] },
-                "index_by": ["announced_on_quarter"],
-                "plot": {
-                    "orientation": "vbar",
-                    "order_by": "index_asc",
-                    "normalize": False,
-                    "show_value_labels": True,
-                    "legend_outside": False,
-                    "legend_ncol": 2,
-                    "dpi": 300,
-                    "figsize": [11, 7],
-                    "x_unit": "Announced quarter"
-                },
-                "charts": [
-                    {"lv1": "ALL", "lv2": "ALL", "title": "Capacity by quarter (stacked by product level 1)", "filename": "capacity_quarter_stack_lv1_construction_operational.png"}
-                ]
-            },
             # All tech investment--------------------------------------------------
             {
                 "name": "investment_by_productlv1_country_construction_operational",
@@ -1424,6 +1381,9 @@ def output_plots():
         normalize_to_demand=False,
         title="Capacity vs demand by product LV2 (absolute, dashed = demand)"
     )
+
+if __name__ == "__main__":
+    output_plots()
 
 
 
