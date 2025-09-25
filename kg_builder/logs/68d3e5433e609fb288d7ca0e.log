@@ -1,0 +1,190 @@
+2025-09-24 22:18:49,696 - INFO - 🔍 Text length: 1142 characters
+2025-09-24 22:18:49,696 - INFO - 📌 Processing Article ID: 68d3e5433e609fb288d7ca0e — Gigafactory Heide: Next Step for Northvolt
+2025-09-24 22:18:49,696 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:18:52,501 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:52,501 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_heide_germany",
+        "type": "factory",
+        "name": "Heide Gigafactory",
+        "location": {
+          "city": "Heide",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_northvolt_gigafactory",
+        "type": "investment",
+        "name": "Northvolt Gigafactory",
+        "amount": "4.5 billion euros",
+        "status": "announced"
+      },
+      {
+        "id": "investment_germany_support",
+        "type": "investment",
+        "name": "Germany Support",
+        "amount": "902 million euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "60 gigawatt-hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 22:18:52,501 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:52,501 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:18:52,501 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:18:53,545 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:53,546 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:18:53,546 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:53,546 - INFO - ✅ Match found for capacity_ID 'capacity_60_gwh_announced' in capacity nodes
+2025-09-24 22:18:53,546 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:18:53,546 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:18:53,546 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:18:53,546 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:18:53,546 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:18:55,636 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:55,636 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_northvolt_gigafactory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_germany_support",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:18:55,636 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:55,636 - INFO - ✅ Match found for investment_ID 'investment_northvolt_gigafactory' in investment nodes
+2025-09-24 22:18:55,636 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:18:55,636 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:18:55,636 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:18:55,636 - INFO - ✅ Match found for investment_ID 'investment_germany_support' in investment nodes
+2025-09-24 22:18:55,636 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:18:55,637 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:18:55,637 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:18:55,637 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:18:55,637 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:18:56,658 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:56,659 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:18:56,659 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:56,659 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 22:18:56,659 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:18:56,659 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:18:56,659 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:18:56,659 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:18:56,659 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:18:57,375 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:57,375 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_heide_germany"
+    }
+  ]
+}
+2025-09-24 22:18:57,375 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:57,375 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:18:57,375 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:18:58,942 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:58,942 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60_gwh_announced",
+      "target": "factory_heide_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60_gwh_announced",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_heide_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:18:58,942 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:58,943 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:18:58,943 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:18:59,713 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:18:59,713 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:18:59,713 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:18:59,713 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:18:59,713 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:19:03,112 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:03,112 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_northvolt_gigafactory",
+      "target": "factory_heide_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_northvolt_gigafactory",
+      "target": "capacity_60_gwh_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_northvolt_gigafactory",
+      "target": "product_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:19:03,112 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:03,203 - INFO - ✅ Updated Article ID: 68d3e5433e609fb288d7ca0e with 6 nodes and combined text.

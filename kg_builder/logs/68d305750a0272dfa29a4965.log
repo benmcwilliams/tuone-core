@@ -1,0 +1,168 @@
+2025-09-23 23:18:49,043 - INFO - 🔍 Text length: 1157 characters
+2025-09-23 23:18:49,043 - INFO - 📌 Processing Article ID: 68d305750a0272dfa29a4965 — Locals nix Tesla expansion
+2025-09-23 23:18:49,043 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:18:51,874 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:18:51,875 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gruenheide_germany",
+        "type": "factory",
+        "name": "Gruenheide Factory",
+        "location": {
+          "city": "Gruenheide",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gigawatt_hours_battery_expansion",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 gigawatt hours battery production and 1m cars per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_500,000_cars a year_operational_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "500,000 cars a year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      },
+      {
+        "id": "product_cars",
+        "type": "product",
+        "name": "cars"
+      }
+    ]
+  }
+}
+2025-09-23 23:18:51,875 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:18:51,875 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 23:18:51,875 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 23:19:04,021 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:19:04,021 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gigawatt_hours_battery_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_500,000_cars a year_operational_unclear",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-23 23:19:04,021 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:19:04,021 - INFO - ✅ Match found for capacity_ID 'capacity_100_gigawatt_hours_battery_expansion' in capacity nodes
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'additional': True
+2025-09-23 23:19:04,021 - INFO - ✅ Match found for capacity_ID 'capacity_500,000_cars a year_operational_unclear' in capacity nodes
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'status': operational
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:19:04,021 - INFO -   ➕ Set field 'additional': False
+2025-09-23 23:19:04,021 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:19:04,021 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:19:04,021 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:19:05,744 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:19:05,745 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cars",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:19:05,745 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:19:05,745 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-23 23:19:05,745 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 23:19:05,745 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:19:05,745 - INFO - ✅ Match found for product_ID 'product_cars' in product nodes
+2025-09-23 23:19:05,745 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:19:05,745 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:19:05,745 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:19:05,745 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:19:05,745 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:19:07,074 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:19:07,074 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_gruenheide_germany"
+    }
+  ]
+}
+2025-09-23 23:19:07,074 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:19:07,074 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:19:07,074 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:19:09,430 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:19:09,430 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gigawatt_hours_battery_expansion",
+      "target": "factory_gruenheide_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gigawatt_hours_battery_expansion",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_gruenheide_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_500,000_cars a year_operational_unclear",
+      "target": "factory_gruenheide_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500,000_cars a year_operational_unclear",
+      "target": "product_cars",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cars",
+      "target": "factory_gruenheide_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:19:09,430 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:19:09,430 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:19:09,430 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:19:09,525 - INFO - ✅ Updated Article ID: 68d305750a0272dfa29a4965 with 6 nodes and combined text.

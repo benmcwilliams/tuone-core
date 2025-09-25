@@ -1,0 +1,132 @@
+2025-09-25 01:59:46,855 - INFO - 🔍 Text length: 1149 characters
+2025-09-25 01:59:46,855 - INFO - 📌 Processing Article ID: 68d3c4a03e609fb288d7c611 — Leoni opens Romania factory
+2025-09-25 01:59:46,855 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:59:50,969 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:50,969 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_leoni_wiring_systems",
+        "type": "company",
+        "name": "Leoni Wiring Systems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_beius_romania",
+        "type": "factory",
+        "name": "Beius Factory",
+        "location": {
+          "city": "Beius",
+          "country": "Romania"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_refurbishment_beius",
+        "type": "investment",
+        "name": "Refurbishment of Beius Factory",
+        "amount": "EUR17.5m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_wiring_systems_commercial_vehicles",
+        "type": "product",
+        "name": "wiring systems for commercial vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 01:59:50,969 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:50,969 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:59:50,969 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:59:50,969 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:59:51,888 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:51,888 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_refurbishment_beius",
+      "status": "completed",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:59:51,888 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:51,888 - INFO - ✅ Match found for investment_ID 'investment_refurbishment_beius' in investment nodes
+2025-09-25 01:59:51,888 - INFO -   ➕ Set field 'status': completed
+2025-09-25 01:59:51,888 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 01:59:51,888 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:59:51,888 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:59:51,888 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:59:53,936 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:53,937 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_wiring_systems_commercial_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:59:53,937 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:53,937 - INFO - ✅ Match found for product_ID 'product_wiring_systems_commercial_vehicles' in product nodes
+2025-09-25 01:59:53,937 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:59:53,937 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:59:53,937 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:59:53,937 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:59:53,937 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:59:54,958 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:54,959 - INFO - {
+  "relationships": [
+    {
+      "source": "company_leoni_wiring_systems",
+      "type": "owns",
+      "target": "factory_beius_romania"
+    }
+  ]
+}
+2025-09-25 01:59:54,959 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:54,959 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:59:54,959 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:59:58,029 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:58,030 - INFO - {
+  "relationships": [
+    {
+      "source": "product_wiring_systems_commercial_vehicles",
+      "target": "factory_beius_romania",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:59:58,030 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:58,030 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:59:58,030 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:59:59,261 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:59,261 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:59:59,261 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:59,261 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:59:59,261 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:00:00,592 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:00,592 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_refurbishment_beius",
+      "target": "factory_beius_romania",
+      "type": "funds"
+    },
+    {
+      "source": "investment_refurbishment_beius",
+      "target": "product_wiring_systems_commercial_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 02:00:00,592 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:00,673 - INFO - ✅ Updated Article ID: 68d3c4a03e609fb288d7c611 with 4 nodes and combined text.

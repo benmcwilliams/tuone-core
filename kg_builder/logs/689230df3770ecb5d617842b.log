@@ -1,0 +1,132 @@
+2025-09-24 01:37:41,520 - INFO - 🔍 Text length: 1421 characters
+2025-09-24 01:37:41,520 - INFO - 📌 Processing Article ID: 689230df3770ecb5d617842b — Legal Dispute Stops Construction of Gotion Battery Plant in Michigan
+2025-09-24 01:37:41,520 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:37:44,055 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:44,055 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gotion_inc",
+        "type": "company",
+        "name": "Gotion Inc."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mecosta_county_michigan",
+        "type": "factory",
+        "name": "Mecosta County Battery Cell Manufacturing Facility",
+        "location": {
+          "city": "Mecosta County",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gotion_mecosta_battery_cell",
+        "type": "investment",
+        "name": "Gotion Mecosta Battery Cell Investment",
+        "amount": "2.36 billion US dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cell",
+        "type": "product",
+        "name": "battery cell"
+      }
+    ]
+  }
+}
+2025-09-24 01:37:44,055 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:44,056 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:37:44,056 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:37:44,056 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:37:45,411 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:45,411 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gotion_mecosta_battery_cell",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:37:45,411 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:45,412 - INFO - ✅ Match found for investment_ID 'investment_gotion_mecosta_battery_cell' in investment nodes
+2025-09-24 01:37:45,412 - INFO -   ➕ Set field 'status': announced
+2025-09-24 01:37:45,412 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:37:45,412 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:37:45,412 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:37:45,412 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:37:46,443 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:46,443 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:37:46,443 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:46,444 - INFO - ✅ Match found for product_ID 'product_battery_cell' in product nodes
+2025-09-24 01:37:46,444 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:37:46,444 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:37:46,444 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:37:46,444 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:37:46,444 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:37:47,156 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:47,156 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gotion_inc",
+      "type": "owns",
+      "target": "factory_mecosta_county_michigan"
+    }
+  ]
+}
+2025-09-24 01:37:47,157 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:47,157 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:37:47,157 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:37:47,900 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:47,901 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cell",
+      "target": "factory_mecosta_county_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:37:47,901 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:47,901 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:37:47,901 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:37:48,480 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:48,480 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:37:48,480 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:48,480 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:37:48,480 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:37:50,035 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:37:50,035 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gotion_mecosta_battery_cell",
+      "target": "factory_mecosta_county_michigan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_gotion_mecosta_battery_cell",
+      "target": "product_battery_cell",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:37:50,035 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:37:50,121 - INFO - ✅ Updated Article ID: 689230df3770ecb5d617842b with 4 nodes and combined text.

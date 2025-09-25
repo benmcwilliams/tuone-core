@@ -1,0 +1,178 @@
+2025-09-24 22:12:31,130 - INFO - 🔍 Text length: 909 characters
+2025-09-24 22:12:31,130 - INFO - 📌 Processing Article ID: 68d3e5a73e609fb288d7ca2c — BTR plant Anoden-Produktion in Marokko
+2025-09-24 22:12:31,130 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:12:33,387 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:33,387 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_btr_new_material_group",
+        "type": "company",
+        "name": "BTR New Material Group"
+      },
+      {
+        "id": "company_btr_mediterranean_new_material_technology",
+        "type": "company",
+        "name": "BTR Mediterranean New Material Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tanger_technology_city",
+        "type": "factory",
+        "name": "Tanger Technology City",
+        "location": {
+          "city": "Tanger",
+          "country": "Morocco"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tanger_technology_city",
+        "type": "investment",
+        "name": "Tanger Technology City",
+        "amount": "366 million dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "60,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_anodenmaterial",
+        "type": "product",
+        "name": "Anodenmaterial"
+      }
+    ]
+  }
+}
+2025-09-24 22:12:33,387 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:33,387 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:12:33,387 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:12:34,514 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:34,514 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60k_tons_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:12:34,514 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:34,514 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tons_per_year' in capacity nodes
+2025-09-24 22:12:34,514 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:12:34,514 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:12:34,514 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:12:34,514 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:12:34,514 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:12:35,434 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:35,434 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tanger_technology_city",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:12:35,434 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:35,434 - INFO - ✅ Match found for investment_ID 'investment_tanger_technology_city' in investment nodes
+2025-09-24 22:12:35,434 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:12:35,434 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:12:35,434 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:12:35,434 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:12:35,434 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:12:36,867 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:36,867 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_anodenmaterial",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 22:12:36,867 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:36,867 - INFO - ✅ Match found for product_ID 'product_anodenmaterial' in product nodes
+2025-09-24 22:12:36,867 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:12:36,867 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:12:36,867 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:12:36,867 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:12:36,867 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:12:37,889 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:37,889 - INFO - {
+  "relationships": [
+    {
+      "source": "company_btr_new_material_group",
+      "type": "owns",
+      "target": "factory_tanger_technology_city"
+    }
+  ]
+}
+2025-09-24 22:12:37,889 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:37,889 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:12:37,889 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:12:41,575 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:41,575 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "factory_tanger_technology_city",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "product_anodenmaterial",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_anodenmaterial",
+      "target": "factory_tanger_technology_city",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:12:41,575 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:41,575 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:12:41,576 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:12:42,190 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:42,190 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:12:42,190 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:42,190 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:12:42,190 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:12:43,723 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:12:43,723 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tanger_technology_city",
+      "target": "factory_tanger_technology_city",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tanger_technology_city",
+      "target": "capacity_60k_tons_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_tanger_technology_city",
+      "target": "product_anodenmaterial",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:12:43,723 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:12:43,813 - INFO - ✅ Updated Article ID: 68d3e5a73e609fb288d7ca2c with 6 nodes and combined text.

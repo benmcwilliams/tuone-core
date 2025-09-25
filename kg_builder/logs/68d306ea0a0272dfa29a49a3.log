@@ -1,0 +1,106 @@
+2025-09-23 23:06:53,757 - INFO - 🔍 Text length: 2240 characters
+2025-09-23 23:06:53,758 - INFO - 📌 Processing Article ID: 68d306ea0a0272dfa29a49a3 — Ineos starts building pickups
+2025-09-23 23:06:53,758 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:06:56,221 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:56,221 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ineos_automotive",
+        "type": "company",
+        "name": "Ineos Automotive"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hambach_france",
+        "type": "factory",
+        "name": "Hambach (former Smart) factory",
+        "location": {
+          "city": "Hambach",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_quartermaster_double_cab_pickup_truck",
+        "type": "product",
+        "name": "Quartermaster double cab pickup truck"
+      },
+      {
+        "id": "product_grenadier_station_wagon",
+        "type": "product",
+        "name": "Grenadier Station Wagon"
+      }
+    ]
+  }
+}
+2025-09-23 23:06:56,221 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:56,221 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:06:56,221 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:06:56,221 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:06:56,221 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:06:57,948 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:57,948 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_quartermaster_double_cab_pickup_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_grenadier_station_wagon",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 23:06:57,948 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:57,948 - INFO - ✅ Match found for product_ID 'product_quartermaster_double_cab_pickup_truck' in product nodes
+2025-09-23 23:06:57,949 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:06:57,949 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:06:57,949 - INFO - ✅ Match found for product_ID 'product_grenadier_station_wagon' in product nodes
+2025-09-23 23:06:57,949 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:06:57,949 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:06:57,949 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:06:57,949 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:06:57,949 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:06:59,603 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:59,603 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ineos_automotive",
+      "type": "owns",
+      "target": "factory_hambach_france"
+    }
+  ]
+}
+2025-09-23 23:06:59,604 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:59,604 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:06:59,604 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:07:00,934 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:07:00,934 - INFO - {
+  "relationships": [
+    {
+      "source": "product_quartermaster_double_cab_pickup_truck",
+      "target": "factory_hambach_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_grenadier_station_wagon",
+      "target": "factory_hambach_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:07:00,934 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:07:00,934 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:07:00,934 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:07:01,018 - INFO - ✅ Updated Article ID: 68d306ea0a0272dfa29a49a3 with 5 nodes and combined text.

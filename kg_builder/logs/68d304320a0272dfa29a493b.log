@@ -1,0 +1,199 @@
+2025-09-24 00:23:41,755 - INFO - 🔍 Text length: 1219 characters
+2025-09-24 00:23:41,755 - INFO - 📌 Processing Article ID: 68d304320a0272dfa29a493b — Samsung SDI inks new cathode deal
+2025-09-24 00:23:41,755 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:23:46,259 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:46,260 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecopro_bm",
+        "type": "company",
+        "name": "EcoPro BM"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_gm",
+        "type": "company",
+        "name": "GM"
+      },
+      {
+        "id": "company_hyundai_kia",
+        "type": "company",
+        "name": "Hyundai-Kia"
+      },
+      {
+        "id": "company_ecopro",
+        "type": "company",
+        "name": "EcoPro"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ecopro_em",
+        "type": "joint_venture",
+        "name": "EcoPro EM"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pohang_south_korea",
+        "type": "factory",
+        "name": "Pohang Plant",
+        "location": {
+          "city": "Pohang",
+          "country": "South Korea"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ecopro_debrecen_plant",
+        "type": "investment",
+        "name": "EcoPro Debrecen Plant",
+        "amount": "KRW383bn (US$219m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nca_cathodes",
+        "type": "product",
+        "name": "NCA cathodes"
+      }
+    ]
+  }
+}
+2025-09-24 00:23:46,260 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:46,260 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:23:46,260 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:23:46,260 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:23:46,936 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:46,936 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ecopro_debrecen_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:23:46,936 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:46,937 - INFO - ✅ Match found for investment_ID 'investment_ecopro_debrecen_plant' in investment nodes
+2025-09-24 00:23:46,937 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:23:46,937 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:23:46,937 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:23:46,937 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:23:46,937 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:23:47,969 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:47,970 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_nca_cathodes",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 00:23:47,970 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:47,970 - INFO - ✅ Match found for product_ID 'product_nca_cathodes' in product nodes
+2025-09-24 00:23:47,970 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:23:47,970 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 00:23:47,970 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:23:47,970 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:23:47,970 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:23:49,847 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:49,847 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecopro",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    },
+    {
+      "source": "company_ecopro",
+      "type": "forms",
+      "target": "joint_venture_ecopro_em"
+    },
+    {
+      "source": "company_samsung_sdi",
+      "type": "forms",
+      "target": "joint_venture_ecopro_em"
+    },
+    {
+      "source": "joint_venture_ecopro_em",
+      "type": "owns",
+      "target": "factory_pohang_south_korea"
+    }
+  ]
+}
+2025-09-24 00:23:49,847 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:49,847 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:23:49,847 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:23:51,178 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:51,178 - INFO - {
+  "relationships": [
+    {
+      "source": "product_nca_cathodes",
+      "target": "factory_pohang_south_korea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nca_cathodes",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:23:51,178 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:51,179 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:23:51,179 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:23:51,940 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:51,941 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:23:51,941 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:51,941 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:23:51,941 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:23:54,149 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:23:54,149 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ecopro_debrecen_plant",
+      "target": "factory_debrecen_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ecopro_debrecen_plant",
+      "target": "product_nca_cathodes",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:23:54,150 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:23:54,240 - INFO - ✅ Updated Article ID: 68d304320a0272dfa29a493b with 12 nodes and combined text.

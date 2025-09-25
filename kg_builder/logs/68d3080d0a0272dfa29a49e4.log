@@ -1,0 +1,98 @@
+2025-09-23 22:52:46,873 - INFO - 🔍 Text length: 1016 characters
+2025-09-23 22:52:46,873 - INFO - 📌 Processing Article ID: 68d3080d0a0272dfa29a49e4 — BYD builds NEV #6m
+2025-09-23 22:52:46,873 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:52:48,729 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:52:48,729 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zhengzhou",
+        "type": "factory",
+        "name": "Zhengzhou Factory",
+        "location": {
+          "city": "Zhengzhou",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_rhd_thailand",
+        "type": "factory",
+        "name": "RHD Factory",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bao_5_hybrid_suv",
+        "type": "product",
+        "name": "BAO 5 hybrid SUV"
+      }
+    ]
+  }
+}
+2025-09-23 22:52:48,729 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:52:48,729 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 22:52:48,729 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:52:48,729 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:52:48,729 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:52:50,061 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:52:50,061 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bao_5_hybrid_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 22:52:50,062 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:52:50,062 - INFO - ✅ Match found for product_ID 'product_bao_5_hybrid_suv' in product nodes
+2025-09-23 22:52:50,062 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:52:50,062 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 22:52:50,062 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:52:50,062 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:52:50,062 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:52:51,252 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:52:51,252 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_zhengzhou"
+    },
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_rhd_thailand"
+    }
+  ]
+}
+2025-09-23 22:52:51,252 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:52:51,252 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:52:51,252 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:52:52,212 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:52:52,212 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bao_5_hybrid_suv",
+      "target": "factory_zhengzhou",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:52:52,212 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:52:52,212 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:52:52,212 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:52:52,303 - INFO - ✅ Updated Article ID: 68d3080d0a0272dfa29a49e4 with 4 nodes and combined text.

@@ -1,0 +1,87 @@
+2025-09-25 03:05:52,605 - INFO - 🔍 Text length: 3115 characters
+2025-09-25 03:05:52,605 - INFO - 📌 Processing Article ID: 68d3bf693e609fb288d7c4ec — Magna workers ratify deal after strike
+2025-09-25 03:05:52,605 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:05:54,281 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:05:54,282 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_magna",
+        "type": "company",
+        "name": "Magna"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_windsor_ontario",
+        "type": "factory",
+        "name": "Windsor Integram Seating Plant",
+        "location": {
+          "city": "Windsor",
+          "country": "Canada"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_seating_products",
+        "type": "product",
+        "name": "seating products"
+      }
+    ]
+  }
+}
+2025-09-25 03:05:54,282 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:05:54,282 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 03:05:54,282 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 03:05:54,282 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:05:54,282 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:05:55,644 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:05:55,644 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_seating_products",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 03:05:55,644 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:05:55,644 - INFO - ✅ Match found for product_ID 'product_seating_products' in product nodes
+2025-09-25 03:05:55,644 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 03:05:55,644 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:05:55,644 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:05:55,644 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:05:57,534 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:05:57,534 - INFO - {
+  "relationships": [
+    {
+      "source": "company_magna",
+      "type": "owns",
+      "target": "factory_windsor_ontario"
+    }
+  ]
+}
+2025-09-25 03:05:57,535 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:05:57,535 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:05:57,535 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:05:59,277 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:05:59,277 - INFO - {
+  "relationships": [
+    {
+      "source": "product_seating_products",
+      "target": "factory_windsor_ontario",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 03:05:59,277 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:05:59,277 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 03:05:59,277 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 03:05:59,372 - INFO - ✅ Updated Article ID: 68d3bf693e609fb288d7c4ec with 4 nodes and combined text.

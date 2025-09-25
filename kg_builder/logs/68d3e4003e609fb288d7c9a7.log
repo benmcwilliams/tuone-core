@@ -1,0 +1,152 @@
+2025-09-24 22:37:57,406 - INFO - 🔍 Text length: 971 characters
+2025-09-24 22:37:57,406 - INFO - 📌 Processing Article ID: 68d3e4003e609fb288d7c9a7 — LG Energy Solution to Supply Batteries for Ford Commercial Vehicles in Europe
+2025-09-24 22:37:57,406 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:38:01,108 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:01,108 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_poland",
+        "type": "factory",
+        "name": "LG Energy Solution\u2019s manufacturing facility",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_michigan",
+        "type": "factory",
+        "name": "LG\u2019s Michigan facility",
+        "location": {
+          "city": "Michigan",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "battery modules"
+      },
+      {
+        "id": "product_mach_e_battery",
+        "type": "product",
+        "name": "Mach-E battery"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_109gwh_announced_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "109GWh",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-09-24 22:38:01,108 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:01,108 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:38:01,108 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:38:02,227 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:02,228 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_109gwh_announced_unclear",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:38:02,228 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:02,228 - INFO - ✅ Match found for capacity_ID 'capacity_109gwh_announced_unclear' in capacity nodes
+2025-09-24 22:38:02,228 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:38:02,228 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:38:02,228 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:38:02,228 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:38:02,228 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:38:02,228 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:38:04,100 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:04,100 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_modules",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_mach_e_battery",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 22:38:04,100 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:04,100 - INFO - ✅ Match found for product_ID 'product_battery_modules' in product nodes
+2025-09-24 22:38:04,101 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:38:04,101 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:38:04,101 - INFO - ✅ Match found for product_ID 'product_mach_e_battery' in product nodes
+2025-09-24 22:38:04,101 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:38:04,101 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:38:04,101 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:38:04,101 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:38:04,101 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:38:05,402 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:05,402 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_poland"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_michigan"
+    }
+  ]
+}
+2025-09-24 22:38:05,402 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:05,402 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:38:05,402 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:38:07,041 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:07,041 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_modules",
+      "target": "factory_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mach_e_battery",
+      "target": "factory_michigan",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_109gwh_announced_unclear",
+      "target": "product_battery_modules",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 22:38:07,041 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:07,041 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:38:07,042 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:38:07,136 - INFO - ✅ Updated Article ID: 68d3e4003e609fb288d7c9a7 with 7 nodes and combined text.

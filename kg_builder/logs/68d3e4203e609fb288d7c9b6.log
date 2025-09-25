@@ -1,0 +1,177 @@
+2025-09-24 22:35:20,190 - INFO - 🔍 Text length: 1001 characters
+2025-09-24 22:35:20,190 - INFO - 📌 Processing Article ID: 68d3e4203e609fb288d7c9b6 — Stellantis Delays Investment Plans for Illinois
+2025-09-24 22:35:20,190 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:35:23,099 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:23,100 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_belvidere",
+        "type": "factory",
+        "name": "Belvidere",
+        "location": {
+          "city": "Belvidere",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_belvidere_battery_factory",
+        "type": "investment",
+        "name": "Belvidere Battery Factory",
+        "amount": "3.2 billion dollars",
+        "status": "announced"
+      },
+      {
+        "id": "investment_belvidere_upgrades",
+        "type": "investment",
+        "name": "Belvidere Upgrades",
+        "amount": "1.5 billion dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      },
+      {
+        "id": "product_electric_vehicle",
+        "type": "product",
+        "name": "electric vehicle"
+      }
+    ]
+  }
+}
+2025-09-24 22:35:23,100 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:23,100 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:35:23,100 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:35:23,100 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:35:24,326 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:24,326 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_belvidere_battery_factory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_belvidere_upgrades",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:35:24,326 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:24,326 - INFO - ✅ Match found for investment_ID 'investment_belvidere_battery_factory' in investment nodes
+2025-09-24 22:35:24,326 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:35:24,326 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:35:24,326 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:35:24,327 - INFO - ✅ Match found for investment_ID 'investment_belvidere_upgrades' in investment nodes
+2025-09-24 22:35:24,327 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:35:24,327 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 22:35:24,327 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:35:24,327 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:35:24,327 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:35:26,342 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:26,342 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_electric_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 22:35:26,342 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:26,342 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 22:35:26,342 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:35:26,342 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:35:26,342 - INFO - ✅ Match found for product_ID 'product_electric_vehicle' in product nodes
+2025-09-24 22:35:26,342 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 22:35:26,342 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 22:35:26,342 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:35:26,342 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:35:26,342 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:35:27,399 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:27,399 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_belvidere"
+    }
+  ]
+}
+2025-09-24 22:35:27,400 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:27,400 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:35:27,400 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:35:28,732 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:28,732 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_belvidere",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_vehicle",
+      "target": "factory_belvidere",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:35:28,732 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:28,732 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:35:28,732 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:35:29,345 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:29,345 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:35:29,345 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:29,345 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:35:29,345 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:35:31,195 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:35:31,195 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_belvidere_battery_factory",
+      "target": "factory_belvidere",
+      "type": "funds"
+    },
+    {
+      "source": "investment_belvidere_battery_factory",
+      "target": "product_battery",
+      "type": "targets"
+    },
+    {
+      "source": "investment_belvidere_upgrades",
+      "target": "factory_belvidere",
+      "type": "funds"
+    },
+    {
+      "source": "investment_belvidere_upgrades",
+      "target": "product_electric_vehicle",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:35:31,195 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:35:31,285 - INFO - ✅ Updated Article ID: 68d3e4203e609fb288d7c9b6 with 6 nodes and combined text.

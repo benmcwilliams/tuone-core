@@ -1,0 +1,137 @@
+2025-09-25 00:51:14,585 - INFO - 🔍 Text length: 3377 characters
+2025-09-25 00:51:14,585 - INFO - 📌 Processing Article ID: 68d3cbee3e609fb288d7c764 — China sales continue recovery in March
+2025-09-25 00:51:14,585 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:51:17,723 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:51:17,723 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_saic_motor",
+        "type": "company",
+        "name": "SAIC Motor"
+      },
+      {
+        "id": "company_alibaba",
+        "type": "company",
+        "name": "Alibaba"
+      },
+      {
+        "id": "company_changan_automobile",
+        "type": "company",
+        "name": "Changan Automobile"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      },
+      {
+        "id": "company_byd_auto",
+        "type": "company",
+        "name": "BYD Auto"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_saic_volkswagen",
+        "type": "joint_venture",
+        "name": "SAIC-Volkswagen"
+      },
+      {
+        "id": "joint_venture_shanghai_gm",
+        "type": "joint_venture",
+        "name": "Shanghai-GM"
+      },
+      {
+        "id": "joint_venture_saic_gm wuling",
+        "type": "joint_venture",
+        "name": "SAIC-GM-Wuling"
+      },
+      {
+        "id": "joint_venture_im_motors",
+        "type": "joint_venture",
+        "name": "IM Motors"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ls7_suv",
+        "type": "product",
+        "name": "LS7 SUV"
+      },
+      {
+        "id": "product_f7_electric_sedan",
+        "type": "product",
+        "name": "F7 Electric Sedan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tesla_shanghai",
+        "type": "factory",
+        "name": "Tesla Shanghai Plant",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-09-25 00:51:17,723 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:51:17,723 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:51:17,723 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:51:17,723 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:51:17,723 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:51:19,896 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:51:19,896 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ls7_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_f7_electric_sedan",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:51:19,896 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:51:19,896 - INFO - ✅ Match found for product_ID 'product_ls7_suv' in product nodes
+2025-09-25 00:51:19,896 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:51:19,897 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:51:19,897 - INFO - ✅ Match found for product_ID 'product_f7_electric_sedan' in product nodes
+2025-09-25 00:51:19,897 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:51:19,897 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:51:19,897 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:51:19,897 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:51:19,897 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:51:20,919 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:51:20,919 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_tesla_shanghai"
+    }
+  ]
+}
+2025-09-25 00:51:20,919 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:51:20,919 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:51:20,919 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:51:21,738 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:51:21,738 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:51:21,738 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:51:21,738 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:51:21,738 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:51:21,835 - INFO - ✅ Updated Article ID: 68d3cbee3e609fb288d7c764 with 13 nodes and combined text.

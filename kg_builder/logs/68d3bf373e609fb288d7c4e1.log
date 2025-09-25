@@ -1,0 +1,115 @@
+2025-09-25 03:08:23,854 - INFO - 🔍 Text length: 2975 characters
+2025-09-25 03:08:23,855 - INFO - 📌 Processing Article ID: 68d3bf373e609fb288d7c4e1 — Daimler Truck, EnBW, City of Wörth am Rhein form geothermal JV
+2025-09-25 03:08:23,855 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:08:26,223 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:08:26,223 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daimler_truck",
+        "type": "company",
+        "name": "Daimler Truck"
+      },
+      {
+        "id": "company_enbw",
+        "type": "company",
+        "name": "EnBW"
+      },
+      {
+        "id": "company_city_of_w\u00f6rth_am_rhein",
+        "type": "company",
+        "name": "City of W\u00f6rth am Rhein"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_w\u00e4rmewerk_w\u00f6rth_gmbh",
+        "type": "joint_venture",
+        "name": "W\u00e4rmeWerk W\u00f6rth GmbH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_w\u00f6rth_germany",
+        "type": "factory",
+        "name": "Mercedes-Benz plant",
+        "location": {
+          "city": "W\u00f6rth am Rhein",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_geothermal_energy",
+        "type": "product",
+        "name": "geothermal energy"
+      }
+    ]
+  }
+}
+2025-09-25 03:08:26,223 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:08:26,223 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 03:08:26,223 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 03:08:26,223 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:08:26,223 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:08:27,412 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:08:27,412 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_geothermal_energy",
+      "product_lv1": "geothermal",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-25 03:08:27,412 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:08:27,412 - INFO - ✅ Match found for product_ID 'product_geothermal_energy' in product nodes
+2025-09-25 03:08:27,413 - INFO -   ➕ Set field 'product_lv1': geothermal
+2025-09-25 03:08:27,413 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 03:08:27,413 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:08:27,413 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:08:27,413 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:08:30,011 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:08:30,011 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daimler_truck",
+      "type": "forms",
+      "target": "joint_venture_w\u00e4rmewerk_w\u00f6rth_gmbh"
+    },
+    {
+      "source": "company_enbw",
+      "type": "forms",
+      "target": "joint_venture_w\u00e4rmewerk_w\u00f6rth_gmbh"
+    },
+    {
+      "source": "company_city_of_w\u00f6rth_am_rhein",
+      "type": "forms",
+      "target": "joint_venture_w\u00e4rmewerk_w\u00f6rth_gmbh"
+    },
+    {
+      "source": "joint_venture_w\u00e4rmewerk_w\u00f6rth_gmbh",
+      "type": "owns",
+      "target": "factory_w\u00f6rth_germany"
+    }
+  ]
+}
+2025-09-25 03:08:30,012 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:08:30,012 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:08:30,012 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:08:32,572 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:08:32,572 - INFO - {
+  "relationships": [
+    {
+      "source": "product_geothermal_energy",
+      "target": "factory_w\u00f6rth_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 03:08:32,572 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:08:32,573 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 03:08:32,573 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 03:08:32,663 - INFO - ✅ Updated Article ID: 68d3bf373e609fb288d7c4e1 with 6 nodes and combined text.

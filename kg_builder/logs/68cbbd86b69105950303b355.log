@@ -1,0 +1,169 @@
+2025-09-24 01:21:03,310 - INFO - 🔍 Text length: 1696 characters
+2025-09-24 01:21:03,310 - INFO - 📌 Processing Article ID: 68cbbd86b69105950303b355 — Acciona Energia commissions 412MWp PV plant in India
+2025-09-24 01:21:03,310 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:21:06,085 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:21:06,085 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acciona_energia",
+        "type": "company",
+        "name": "Acciona Energ\u00eda"
+      },
+      {
+        "id": "company_manikaran_power_limited",
+        "type": "company",
+        "name": "Manikaran Power Limited"
+      },
+      {
+        "id": "company_waaree_energies",
+        "type": "company",
+        "name": "Waaree Energies"
+      },
+      {
+        "id": "company_juna_renewable_energy",
+        "type": "company",
+        "name": "Juna Renewable Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_juna_solar_pv_plant",
+        "type": "factory",
+        "name": "Juna solar PV plant",
+        "location": {
+          "city": "Kawani village, Rajasthan",
+          "country": "India"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_412mwp",
+        "type": "capacity",
+        "name": "",
+        "amount": "412MWp",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_800gwh_annually",
+        "type": "capacity",
+        "name": "",
+        "amount": "800GWh annually",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_modules",
+        "type": "product",
+        "name": "p-type bifacial modules"
+      },
+      {
+        "id": "solar_power",
+        "type": "product",
+        "name": "solar power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-24 01:21:06,086 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:21:06,086 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:21:06,086 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:21:08,064 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:21:08,064 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_412mwp",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_800gwh_annually",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:21:08,064 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:21:08,064 - INFO - ✅ Match found for capacity_ID 'capacity_412mwp' in capacity nodes
+2025-09-24 01:21:08,064 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:21:08,065 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:21:08,065 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:21:08,065 - INFO - ✅ Match found for capacity_ID 'capacity_800gwh_annually' in capacity nodes
+2025-09-24 01:21:08,065 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:21:08,065 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:21:08,065 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:21:08,065 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:21:08,065 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:21:08,065 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:21:09,464 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:21:09,465 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pv_modules",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "solar_power",
+      "product_lv1": "solar",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-24 01:21:09,465 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:21:09,465 - INFO - ✅ Match found for product_ID 'product_pv_modules' in product nodes
+2025-09-24 01:21:09,465 - INFO -   ➕ Set field 'product_lv1': solar
+2025-09-24 01:21:09,465 - INFO -   ➕ Set field 'product_lv2': module
+2025-09-24 01:21:09,465 - INFO - ✅ Match found for product_ID 'solar_power' in product nodes
+2025-09-24 01:21:09,465 - INFO -   ➕ Set field 'product_lv1': solar
+2025-09-24 01:21:09,465 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 01:21:09,465 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:21:09,465 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:21:09,465 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:21:10,385 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:21:10,386 - INFO - {
+  "relationships": [
+    {
+      "source": "company_acciona_energia",
+      "type": "owns",
+      "target": "factory_juna_solar_pv_plant"
+    }
+  ]
+}
+2025-09-24 01:21:10,386 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:21:10,386 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:21:10,386 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:21:12,106 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:21:12,106 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_412mwp",
+      "target": "factory_juna_solar_pv_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_800gwh_annually",
+      "target": "factory_juna_solar_pv_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "solar_power",
+      "target": "factory_juna_solar_pv_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:21:12,106 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:21:12,106 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:21:12,106 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:21:12,199 - INFO - ✅ Updated Article ID: 68cbbd86b69105950303b355 with 9 nodes and combined text.

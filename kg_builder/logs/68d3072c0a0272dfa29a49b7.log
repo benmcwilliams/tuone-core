@@ -1,0 +1,136 @@
+2025-09-23 23:02:52,871 - INFO - 🔍 Text length: 4537 characters
+2025-09-23 23:02:52,871 - INFO - 📌 Processing Article ID: 68d3072c0a0272dfa29a49b7 — Signal: UAW walk-ons, Zimmer’s BMW notes and Toyota AI/robot learning – as seen through X
+2025-09-23 23:02:52,871 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:02:55,785 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:02:55,785 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_hans_zimmer",
+        "type": "company",
+        "name": "Hans Zimmer"
+      },
+      {
+        "id": "company_lamborghini",
+        "type": "company",
+        "name": "Lamborghini"
+      },
+      {
+        "id": "company_citroen",
+        "type": "company",
+        "name": "Citroen"
+      },
+      {
+        "id": "company_lucid_motors",
+        "type": "company",
+        "name": "Lucid Motors"
+      },
+      {
+        "id": "company_saudi_public_investment_fund",
+        "type": "company",
+        "name": "Saudi Public Investment Fund"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "drake_enterprises",
+        "type": "company",
+        "name": "Drake Enterprises",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_amp_2",
+        "type": "factory",
+        "name": "AMP-2",
+        "location": {
+          "city": "null",
+          "country": "Saudi Arabia"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lucid_air",
+        "type": "product",
+        "name": "Lucid Air"
+      },
+      {
+        "id": "product_v12_hybrid_plug_in",
+        "type": "product",
+        "name": "V12 hybrid plug-in"
+      }
+    ]
+  }
+}
+2025-09-23 23:02:55,785 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:02:55,785 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:02:55,785 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:02:55,785 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:02:55,785 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:02:57,477 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:02:57,477 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lucid_air",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_v12_hybrid_plug_in",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 23:02:57,478 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:02:57,478 - INFO - ✅ Match found for product_ID 'product_lucid_air' in product nodes
+2025-09-23 23:02:57,478 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:02:57,478 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:02:57,478 - INFO - ✅ Match found for product_ID 'product_v12_hybrid_plug_in' in product nodes
+2025-09-23 23:02:57,478 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:02:57,478 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:02:57,478 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:02:57,478 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:02:57,478 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:02:58,448 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:02:58,448 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lucid_motors",
+      "type": "owns",
+      "target": "factory_amp_2"
+    }
+  ]
+}
+2025-09-23 23:02:58,448 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:02:58,448 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:02:58,448 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:02:59,369 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:02:59,370 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lucid_air",
+      "target": "factory_amp_2",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:02:59,370 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:02:59,370 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:02:59,370 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:02:59,460 - INFO - ✅ Updated Article ID: 68d3072c0a0272dfa29a49b7 with 11 nodes and combined text.

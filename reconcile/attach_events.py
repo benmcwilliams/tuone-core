@@ -19,6 +19,29 @@ logger = logging.getLogger(__name__)
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
 
+# -------------------- should be temporary, until we populate is_total values --------------------
+
+def coerce_is_total(x):
+    """
+    Normalize is_total values.
+    - Explicit False-like → False
+    - Everything else (including None, NaN, blank) → True
+    """
+    if x is None:
+        return True
+    if isinstance(x, float) and np.isnan(x):
+        return True
+    if isinstance(x, str):
+        s = x.strip().lower()
+        if s in {"false", "f", "0", "no", "n", "incremental"}:
+            return False
+        return True
+    if isinstance(x, bool):
+        return x  # keep actual boolean as-is
+    if isinstance(x, (int, np.integer)):
+        return False if x == 0 else True
+    return True
+
 # -------------------- load & normalize --------------------
 
 def load_capacities() -> pd.DataFrame:
@@ -30,6 +53,7 @@ def load_capacities() -> pd.DataFrame:
     df["capacity_normalized"] = df["capacity_normalized"].apply(parse_capacity_value)
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
     df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
     return df
 
 def load_investments() -> pd.DataFrame:
@@ -37,6 +61,7 @@ def load_investments() -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["status"] = pd.Categorical(df["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
     df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
     return df
 
 # -------------------- dedup & group --------------------
@@ -52,6 +77,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
                 additional=("additional","first"),
                 investment=("amount_EUR","first"),
                 is_total=("is_total","first"),
+                capacity_id=("capacity_id","first"),
                 investment_id=("investment_id","first"))
            .reset_index()
            .rename(columns={"pl2_union":"product_lv2"}))
@@ -92,15 +118,15 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
             "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
+            "capacity_id": r.get("capacity_id"),
             "capacity": r.get("capacity_normalized"),
-            "additional": bool(r.get("additional")),
+            "additional": bool(r.get("additional")) if pd.notna(r.get("additional")) else False,
             "investment": amt_scalar,
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-
-        evt["event_key"] = event_key_capacity(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                              evt["capacity"], evt["status"], evt["phase"])
+        
+        evt["eventID"] = evt["capacity_id"]
 
         # Impute missing amount from CAPEX, never overwrite direct amount
         if evt.get("investment") in (None, np.nan):
@@ -126,13 +152,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "articleID": [r.get("articleID")] if pd.notna(r.get("articleID")) else [],
+            "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
             "investment": amt_scalar,
             "is_total": bool(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
-        evt["event_key"] = event_key_investment(pid, evt["product_lv1"], tuple(evt["product_lv2"]),
-                                                evt["investment"], evt["status"], evt["phase"], evt.get("investment_id"))
+
+        evt["eventID"] = evt["investment_id"]
+
         # Impute missing capacity from CAPEX, never overwrite direct capacity
         if evt.get("investment") not in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
@@ -159,45 +186,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
 
 def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
     docs = {}
-    for doc in facilities_collection.find({"project_id": {"$in": pids}}, {"_id": 0, "project_id": 1, "events": 1, "event_keys": 1}):
+    for doc in facilities_collection.find(
+        {"project_id": {"$in": pids}},
+        {"_id": 0, "project_id": 1, "events": 1} 
+    ):
         docs[doc["project_id"]] = {
             "events": doc.get("events") or [],
-            "event_keys": set(doc.get("event_keys") or []),
         }
     return docs
-
-def merge_events(existing: Dict[str, Any], incoming: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
-    by_key = {e.get("event_key"): e for e in existing["events"] if e.get("event_key")}
-    keys = set(existing["event_keys"])
-
-    for e in incoming:
-        k = e.get("event_key")
-        if not k: 
-            continue
-        if k in by_key:
-            cur = by_key[k]
-
-            # keep the original articleID if present; otherwise adopt incoming
-            if not cur.get("articleID") and e.get("articleID"):
-                cur["articleID"] = e["articleID"]
-
-            # add imputed fields ONLY if missing direct counterparts
-            if "investment_imputed" in e and cur.get("amount_EUR") in (None, np.nan):
-                cur["investment_imputed"] = e["investment_imputed"]
-                cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
-            if "capacity_imputed" in e and cur.get("capacity") in (None, np.nan):
-                cur["capacity_imputed"] = e["capacity_imputed"]
-                cur["capacity_unit"] = e.get("capacity_unit", cur.get("capacity_unit"))
-                cur["imputation_basis"] = e.get("imputation_basis", cur.get("imputation_basis"))
-                cur.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
-        else:
-            by_key[k] = e
-            keys.add(k)
-
-    merged = list(by_key.values())
-    merged.sort(key=sort_key)
-    return merged, sorted(list(keys))
 
 def attach_events(dry_run: bool = False):
 
@@ -228,14 +224,30 @@ def attach_events(dry_run: bool = False):
             print(pid)
             missing += 1
             continue
-        merged_events, merged_keys = merge_events(existing[pid], events_by_pid[pid])
-        # only write if changed
-        if (len(merged_events) != len(existing[pid]["events"])) or (set(merged_keys) != existing[pid]["event_keys"]):
-            updates.append(UpdateOne({"project_id": pid}, {"$set": {
-                "events": merged_events,
-                "event_keys": merged_keys,
+
+        incoming_events = events_by_pid[pid]
+
+        # Overlay user-edited phase_num from existing by eventID
+        prior = existing[pid]["events"]
+        phase_overrides = {
+            e.get("eventID"): e.get("phase_num")
+            for e in prior
+            if e.get("eventID") and (e.get("phase_num") is not None)
+        }
+        for e in incoming_events:
+            eid = e.get("eventID")
+            if eid in phase_overrides:
+                e["phase_num"] = phase_overrides[eid]
+                e["phase_num_source"] = "user"
+
+        # Write only incoming (drops stale). No event_keys stored.
+        updates.append(UpdateOne(
+            {"project_id": pid},
+            {"$set": {
+                "events": incoming_events,
                 "last_updated_at": datetime.utcnow(),
-            }}))
+            }}
+        ))
 
     logger.info("attach_events → facilities matched: %d | missing: %d | to update: %d",
                 len(existing), missing, len(updates))

@@ -1,0 +1,118 @@
+2025-09-25 00:16:50,251 - INFO - 🔍 Text length: 5882 characters
+2025-09-25 00:16:50,251 - INFO - 📌 Processing Article ID: 68d3ceaf3e609fb288d7c808 — Volkswagen Caddy – fore-tee years of bagging profits
+2025-09-25 00:16:50,251 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:16:52,310 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:16:52,311 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_antoninek_plant",
+        "type": "factory",
+        "name": "Antoninek plant",
+        "location": {
+          "city": "Poznan",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_caddy_california",
+        "type": "product",
+        "name": "Caddy California"
+      },
+      {
+        "id": "product_california_maxi",
+        "type": "product",
+        "name": "California Maxi"
+      },
+      {
+        "id": "product_caddy_tourneo_connect",
+        "type": "product",
+        "name": "Caddy Tourneo Connect"
+      }
+    ]
+  }
+}
+2025-09-25 00:16:52,311 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:16:52,311 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:16:52,311 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:16:52,311 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:16:52,311 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:16:54,671 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:16:54,672 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_caddy_california",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_california_maxi",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_caddy_tourneo_connect",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 00:16:54,672 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:16:54,672 - INFO - ✅ Match found for product_ID 'product_caddy_california' in product nodes
+2025-09-25 00:16:54,672 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:16:54,672 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:16:54,672 - INFO - ✅ Match found for product_ID 'product_california_maxi' in product nodes
+2025-09-25 00:16:54,672 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:16:54,672 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:16:54,672 - INFO - ✅ Match found for product_ID 'product_caddy_tourneo_connect' in product nodes
+2025-09-25 00:16:54,672 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 00:16:54,672 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:16:54,672 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:16:54,672 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:16:55,618 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:16:55,618 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_antoninek_plant"
+    }
+  ]
+}
+2025-09-25 00:16:55,618 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:16:55,618 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:16:55,618 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:16:57,845 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:16:57,846 - INFO - {
+  "relationships": [
+    {
+      "source": "product_caddy_california",
+      "target": "factory_antoninek_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_california_maxi",
+      "target": "factory_antoninek_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_caddy_tourneo_connect",
+      "target": "factory_antoninek_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:16:57,846 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:16:57,846 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:16:57,846 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:16:57,934 - INFO - ✅ Updated Article ID: 68d3ceaf3e609fb288d7c808 with 5 nodes and combined text.

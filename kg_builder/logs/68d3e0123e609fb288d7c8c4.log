@@ -1,0 +1,88 @@
+2025-09-24 23:30:33,355 - INFO - 🔍 Text length: 1980 characters
+2025-09-24 23:30:33,355 - INFO - 📌 Processing Article ID: 68d3e0123e609fb288d7c8c4 — Taiwan EV maker plans US training centre
+2025-09-24 23:30:33,355 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:30:35,906 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:30:35,906 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hon_hai_technology_group",
+        "type": "company",
+        "name": "Hon Hai Technology Group"
+      },
+      {
+        "id": "company_youngstown_state_university",
+        "type": "company",
+        "name": "Youngstown State University"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lordstown_motors_plant",
+        "type": "factory",
+        "name": "Lordstown Motors plant",
+        "location": {
+          "city": "Lordstown",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_endurance_battery_powered_pickup_truck",
+        "type": "product",
+        "name": "Endurance battery-powered pickup truck"
+      }
+    ]
+  }
+}
+2025-09-24 23:30:35,907 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:30:35,907 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:30:35,907 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:30:35,907 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:30:35,907 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:30:37,215 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:30:37,215 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_endurance_battery_powered_pickup_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:30:37,215 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:30:37,215 - INFO - ✅ Match found for product_ID 'product_endurance_battery_powered_pickup_truck' in product nodes
+2025-09-24 23:30:37,215 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:30:37,215 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:30:37,215 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:30:37,215 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:30:37,215 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:30:38,768 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:30:38,769 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hon_hai_technology_group",
+      "type": "owns",
+      "target": "factory_lordstown_motors_plant"
+    }
+  ]
+}
+2025-09-24 23:30:38,769 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:30:38,769 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:30:38,769 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:30:39,895 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:30:39,895 - INFO - {
+  "relationships": [
+    {
+      "source": "product_endurance_battery_powered_pickup_truck",
+      "target": "factory_lordstown_motors_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:30:39,895 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:30:39,895 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:30:39,895 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:30:39,987 - INFO - ✅ Updated Article ID: 68d3e0123e609fb288d7c8c4 with 4 nodes and combined text.

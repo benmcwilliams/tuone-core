@@ -1,0 +1,128 @@
+2025-09-24 21:46:30,960 - INFO - 🔍 Text length: 1321 characters
+2025-09-24 21:46:30,960 - INFO - 📌 Processing Article ID: 68d3e7683e609fb288d7cabc — Umicore stoppt Bau von Batteriematerial-Fabrik in Kanada
+2025-09-24 21:46:30,960 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:46:33,729 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:33,729 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_umicore",
+        "type": "company",
+        "name": "Umicore"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_loyalist_canada",
+        "type": "factory",
+        "name": "Loyalist Battery Materials Plant",
+        "location": {
+          "city": "Loyalist",
+          "country": "Canada"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_battery_recycling_europe",
+        "type": "investment",
+        "name": "Battery Recycling Europe",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_materials",
+        "type": "product",
+        "name": "battery materials"
+      },
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      }
+    ]
+  }
+}
+2025-09-24 21:46:33,729 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:33,729 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:46:33,729 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:46:33,729 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:46:35,261 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:35,261 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_battery_recycling_europe",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:46:35,261 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:35,262 - INFO - ✅ Match found for investment_ID 'investment_battery_recycling_europe' in investment nodes
+2025-09-24 21:46:35,262 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:46:35,262 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:46:35,262 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:46:35,262 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:46:35,262 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:46:37,028 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:37,029 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_materials",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:46:37,029 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:37,029 - INFO - ✅ Match found for product_ID 'product_battery_materials' in product nodes
+2025-09-24 21:46:37,029 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:46:37,029 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:46:37,029 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 21:46:37,029 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:46:37,029 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:46:37,029 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:46:37,029 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:46:37,029 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:46:37,856 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:37,856 - INFO - {
+  "relationships": [
+    {
+      "source": "company_umicore",
+      "type": "owns",
+      "target": "factory_loyalist_canada"
+    }
+  ]
+}
+2025-09-24 21:46:37,856 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:37,856 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:46:37,856 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:46:38,940 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:38,940 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:46:38,940 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:38,940 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:46:38,940 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:46:39,433 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:39,434 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:46:39,434 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:39,434 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:46:39,434 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:46:40,047 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:46:40,048 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:46:40,048 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:46:40,149 - INFO - ✅ Updated Article ID: 68d3e7683e609fb288d7cabc with 5 nodes and combined text.

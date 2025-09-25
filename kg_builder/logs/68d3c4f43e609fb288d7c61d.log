@@ -1,0 +1,127 @@
+2025-09-25 01:57:35,179 - INFO - 🔍 Text length: 1875 characters
+2025-09-25 01:57:35,179 - INFO - 📌 Processing Article ID: 68d3c4f43e609fb288d7c61d — BMW Mini’s ‘Tiny Forest’ partnership plants over 8,000 trees
+2025-09-25 01:57:35,179 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:57:39,278 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:39,278 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mini",
+        "type": "company",
+        "name": "Mini"
+      },
+      {
+        "id": "company_earthwatch_europe",
+        "type": "company",
+        "name": "Earthwatch Europe"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mini_plant_oxford",
+        "type": "factory",
+        "name": "Mini Plant Oxford",
+        "location": {
+          "city": "Oxford",
+          "country": "UK"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_bmw_group_plant_hams_hall",
+        "type": "factory",
+        "name": "BMW Group Plant Hams Hall",
+        "location": {
+          "city": "Hams Hall",
+          "country": "UK"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_mini_plant_swindon",
+        "type": "factory",
+        "name": "Mini Plant Swindon",
+        "location": {
+          "city": "Swindon",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_tiny_forests",
+        "type": "product",
+        "name": "Tiny Forests"
+      }
+    ]
+  }
+}
+2025-09-25 01:57:39,278 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:39,278 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:57:39,278 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:57:39,278 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:57:39,278 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:57:40,300 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:40,300 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_tiny_forests",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 01:57:40,300 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:40,300 - INFO - ✅ Match found for product_ID 'product_tiny_forests' in product nodes
+2025-09-25 01:57:40,300 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:57:40,300 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:57:40,300 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:57:40,300 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:57:42,348 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:42,349 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mini",
+      "type": "owns",
+      "target": "factory_mini_plant_oxford"
+    },
+    {
+      "source": "company_mini",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_hams_hall"
+    },
+    {
+      "source": "company_mini",
+      "type": "owns",
+      "target": "factory_mini_plant_swindon"
+    }
+  ]
+}
+2025-09-25 01:57:42,349 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:42,349 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:57:42,349 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:57:44,804 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:44,804 - INFO - {
+  "relationships": [
+    {
+      "source": "product_tiny_forests",
+      "target": "factory_mini_plant_oxford",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tiny_forests",
+      "target": "factory_bmw_group_plant_hams_hall",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tiny_forests",
+      "target": "factory_mini_plant_swindon",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:57:44,804 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:44,804 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:57:44,804 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:57:44,901 - INFO - ✅ Updated Article ID: 68d3c4f43e609fb288d7c61d with 6 nodes and combined text.

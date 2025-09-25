@@ -1,0 +1,158 @@
+2025-09-25 01:57:00,146 - INFO - 🔍 Text length: 2993 characters
+2025-09-25 01:57:00,146 - INFO - 📌 Processing Article ID: 68d3c4fb3e609fb288d7c620 — CTO says Panasonic needs four more factories – report
+2025-09-25 01:57:00,147 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:57:02,514 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:02,514 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      },
+      {
+        "id": "company_mazda_motor",
+        "type": "company",
+        "name": "Mazda Motor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_panasonic_mazda",
+        "type": "joint_venture",
+        "name": "Panasonic Mazda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nevada",
+        "type": "factory",
+        "name": "Nevada Factory",
+        "location": {
+          "city": "Nevada",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_kansas",
+        "type": "factory",
+        "name": "Kansas Factory",
+        "location": {
+          "city": "Kansas",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_80gwh_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "80GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_200gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "200GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_4680_batteries",
+        "type": "product",
+        "name": "4680 batteries"
+      }
+    ]
+  }
+}
+2025-09-25 01:57:02,514 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:02,514 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:57:02,514 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:57:03,745 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:03,745 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_80gwh_under_construction",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_200gwh_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:57:03,745 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:03,746 - INFO - ✅ Match found for capacity_ID 'capacity_80gwh_under_construction' in capacity nodes
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'status': under construction
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:57:03,746 - INFO - ✅ Match found for capacity_ID 'capacity_200gwh_announced' in capacity nodes
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 01:57:03,746 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:57:03,746 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:57:03,746 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:57:03,746 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:57:04,868 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:04,868 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_4680_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-25 01:57:04,868 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:04,868 - INFO - ✅ Match found for product_ID 'product_4680_batteries' in product nodes
+2025-09-25 01:57:04,868 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:57:04,868 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 01:57:04,868 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:57:04,868 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:57:04,868 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:57:08,096 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:08,096 - INFO - {
+  "relationships": [
+    {
+      "source": "company_panasonic",
+      "type": "owns",
+      "target": "factory_nevada"
+    },
+    {
+      "source": "company_panasonic",
+      "type": "owns",
+      "target": "factory_kansas"
+    }
+  ]
+}
+2025-09-25 01:57:08,096 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:08,096 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:57:08,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:57:10,605 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:57:10,605 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_80gwh_under_construction",
+      "target": "factory_kansas",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200gwh_announced",
+      "target": "factory_nevada",
+      "type": "at"
+    }
+  ]
+}
+2025-09-25 01:57:10,605 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:57:10,606 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:57:10,606 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:57:10,693 - INFO - ✅ Updated Article ID: 68d3c4fb3e609fb288d7c620 with 8 nodes and combined text.

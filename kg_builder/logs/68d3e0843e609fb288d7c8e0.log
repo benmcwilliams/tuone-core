@@ -1,0 +1,205 @@
+2025-09-24 23:24:10,520 - INFO - 🔍 Text length: 2959 characters
+2025-09-24 23:24:10,520 - INFO - 📌 Processing Article ID: 68d3e0843e609fb288d7c8e0 — America’s best selling car of last 50 years replaced
+2025-09-24 23:24:10,520 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:24:14,310 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:24:14,310 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_gac",
+        "type": "company",
+        "name": "GAC"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_honda_gac",
+        "type": "joint_venture",
+        "name": "Honda GAC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_marsyville_ohio",
+        "type": "factory",
+        "name": "MAP",
+        "location": {
+          "city": "Marsyville",
+          "country": "USA"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_zengcheng_1_guangdong",
+        "type": "factory",
+        "name": "ZengCheng #1",
+        "location": {
+          "city": "ZengCheng",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_guangzhou_development_district_guangdong",
+        "type": "factory",
+        "name": "Guangzhou Development District Factory",
+        "location": {
+          "city": "Guangzhou",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_ayutthaya_thailand",
+        "type": "factory",
+        "name": "Ayutthaya",
+        "location": {
+          "city": "Ayutthaya",
+          "country": "Thailand"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_pegoh_malaysia",
+        "type": "factory",
+        "name": "Pegoh",
+        "location": {
+          "city": "Pegoh",
+          "country": "Malaysia"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_lagos_nigeria",
+        "type": "factory",
+        "name": "Lagos",
+        "location": {
+          "city": "Lagos",
+          "country": "Nigeria"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_honda_accord",
+        "type": "product",
+        "name": "Honda Accord"
+      }
+    ]
+  }
+}
+2025-09-24 23:24:14,310 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:24:14,310 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:24:14,310 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:24:14,310 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:24:14,310 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:24:15,902 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:24:15,902 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_honda_accord",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:24:15,902 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:24:15,902 - INFO - ✅ Match found for product_ID 'product_honda_accord' in product nodes
+2025-09-24 23:24:15,902 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:24:15,902 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:24:15,902 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:24:15,902 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:24:15,902 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:24:19,949 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:24:19,949 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "forms",
+      "target": "joint_venture_honda_gac"
+    },
+    {
+      "source": "company_gac",
+      "type": "forms",
+      "target": "joint_venture_honda_gac"
+    },
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_marsyville_ohio"
+    },
+    {
+      "source": "joint_venture_honda_gac",
+      "type": "owns",
+      "target": "factory_zengcheng_1_guangdong"
+    },
+    {
+      "source": "joint_venture_honda_gac",
+      "type": "owns",
+      "target": "factory_guangzhou_development_district_guangdong"
+    },
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_ayutthaya_thailand"
+    },
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_pegoh_malaysia"
+    },
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_lagos_nigeria"
+    }
+  ]
+}
+2025-09-24 23:24:19,949 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:24:19,949 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:24:19,949 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:24:22,509 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:24:22,509 - INFO - {
+  "relationships": [
+    {
+      "source": "product_honda_accord",
+      "target": "factory_marsyville_ohio",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_accord",
+      "target": "factory_zengcheng_1_guangdong",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_accord",
+      "target": "factory_guangzhou_development_district_guangdong",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_accord",
+      "target": "factory_ayutthaya_thailand",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_accord",
+      "target": "factory_pegoh_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_honda_accord",
+      "target": "factory_lagos_nigeria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:24:22,509 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:24:22,509 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:24:22,509 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:24:22,608 - INFO - ✅ Updated Article ID: 68d3e0843e609fb288d7c8e0 with 10 nodes and combined text.

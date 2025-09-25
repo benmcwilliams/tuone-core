@@ -1,0 +1,245 @@
+2025-09-24 21:00:18,845 - INFO - 🔍 Text length: 7475 characters
+2025-09-24 21:00:18,845 - INFO - 📌 Processing Article ID: 68d3eb163e609fb288d7cb71 — GM und BASF bauen je eine Fabrik in Kanada
+2025-09-24 21:00:18,845 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:00:22,515 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:22,516 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_posco_chemical",
+        "type": "company",
+        "name": "POSCO Chemical"
+      },
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_gm_posco_chemical",
+        "type": "joint_venture",
+        "name": "GM POSCO Chemical"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_becancour_canada",
+        "type": "factory",
+        "name": "B\u00e9cancour Gigafactory",
+        "location": {
+          "city": "B\u00e9cancour",
+          "country": "Canada"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_basf_quebec_canada",
+        "type": "factory",
+        "name": "BASF Quebec Factory",
+        "location": {
+          "city": "Quebec",
+          "country": "Canada"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gm_posco_chemical_gigafactory",
+        "type": "investment",
+        "name": "GM POSCO Chemical Gigafactory",
+        "amount": "400 million US dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_material",
+        "type": "product",
+        "name": "cathode material"
+      },
+      {
+        "id": "product_battery_materials",
+        "type": "product",
+        "name": "battery materials"
+      },
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      },
+      {
+        "id": "product_nickel_cobalt_intermediate",
+        "type": "product",
+        "name": "nickel and cobalt intermediate"
+      },
+      {
+        "id": "product_battery_metals_recycling",
+        "type": "product",
+        "name": "battery metals recycling"
+      }
+    ]
+  }
+}
+2025-09-24 21:00:22,516 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:22,516 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:00:22,516 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:00:22,516 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:00:23,541 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:23,542 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gm_posco_chemical_gigafactory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:00:23,542 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:23,542 - INFO - ✅ Match found for investment_ID 'investment_gm_posco_chemical_gigafactory' in investment nodes
+2025-09-24 21:00:23,542 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:00:23,542 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:00:23,542 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:00:23,542 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:00:23,542 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:00:26,611 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:26,612 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_battery_materials",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_nickel_cobalt_intermediate",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_battery_metals_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:00:26,612 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:26,612 - INFO - ✅ Match found for product_ID 'product_cathode_material' in product nodes
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:00:26,612 - INFO - ✅ Match found for product_ID 'product_battery_materials' in product nodes
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:00:26,612 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:00:26,612 - INFO - ✅ Match found for product_ID 'product_nickel_cobalt_intermediate' in product nodes
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 21:00:26,612 - INFO - ✅ Match found for product_ID 'product_battery_metals_recycling' in product nodes
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:00:26,612 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:00:26,613 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:00:26,613 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:00:26,613 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:00:28,558 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:28,559 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_gm_posco_chemical"
+    },
+    {
+      "source": "company_posco_chemical",
+      "type": "forms",
+      "target": "joint_venture_gm_posco_chemical"
+    },
+    {
+      "source": "joint_venture_gm_posco_chemical",
+      "type": "owns",
+      "target": "factory_becancour_canada"
+    },
+    {
+      "source": "company_basf",
+      "type": "owns",
+      "target": "factory_basf_quebec_canada"
+    }
+  ]
+}
+2025-09-24 21:00:28,559 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:28,559 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:00:28,559 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:00:30,504 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:30,504 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cathode_material",
+      "target": "factory_becancour_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_materials",
+      "target": "factory_basf_quebec_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_basf_quebec_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nickel_cobalt_intermediate",
+      "target": "factory_basf_quebec_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_metals_recycling",
+      "target": "factory_basf_quebec_canada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:00:30,504 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:30,505 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:00:30,505 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:00:32,653 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:32,654 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:00:32,654 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:32,654 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:00:32,654 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:00:34,599 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:00:34,599 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gm_posco_chemical_gigafactory",
+      "target": "factory_becancour_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_gm_posco_chemical_gigafactory",
+      "target": "product_cathode_material",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:00:34,599 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:00:34,690 - INFO - ✅ Updated Article ID: 68d3eb163e609fb288d7cb71 with 12 nodes and combined text.

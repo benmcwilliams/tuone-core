@@ -1,0 +1,178 @@
+2025-09-25 01:05:05,592 - INFO - 🔍 Text length: 2125 characters
+2025-09-25 01:05:05,592 - INFO - 📌 Processing Article ID: 68d3ca653e609fb288d7c71c — Iveco Bus returns to manufacturing in Italy with new plant
+2025-09-25 01:05:05,592 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:05:09,080 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:09,080 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iveco_group",
+        "type": "company",
+        "name": "Iveco Group"
+      },
+      {
+        "id": "company_iveco_bus",
+        "type": "company",
+        "name": "Iveco Bus"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_foggia_italy",
+        "type": "factory",
+        "name": "Foggia Plant",
+        "location": {
+          "city": "Foggia",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_iveco_foggia_plant",
+        "type": "investment",
+        "name": "Iveco Foggia Plant",
+        "amount": "\u20ac40m",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1k_buses_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,000 buses per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_zero_and_low_emission_buses",
+        "type": "product",
+        "name": "zero and low-emission buses"
+      }
+    ]
+  }
+}
+2025-09-25 01:05:09,080 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:09,080 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:05:09,081 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:05:09,999 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:09,999 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1k_buses_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:05:09,999 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:09,999 - INFO - ✅ Match found for capacity_ID 'capacity_1k_buses_per_year' in capacity nodes
+2025-09-25 01:05:09,999 - INFO -   ➕ Set field 'status': operational
+2025-09-25 01:05:09,999 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:05:09,999 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:05:09,999 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:05:09,999 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:05:10,919 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:10,919 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_iveco_foggia_plant",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:05:10,919 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:10,919 - INFO - ✅ Match found for investment_ID 'investment_iveco_foggia_plant' in investment nodes
+2025-09-25 01:05:10,919 - INFO -   ➕ Set field 'status': completed
+2025-09-25 01:05:10,919 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:05:10,919 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:05:10,919 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:05:10,919 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:05:12,352 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:12,353 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_zero_and_low_emission_buses",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:05:12,353 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:12,353 - INFO - ✅ Match found for product_ID 'product_zero_and_low_emission_buses' in product nodes
+2025-09-25 01:05:12,353 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:05:12,353 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:05:12,353 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:05:12,353 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:05:12,353 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:05:13,376 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:13,376 - INFO - {
+  "relationships": [
+    {
+      "source": "company_iveco_group",
+      "type": "owns",
+      "target": "factory_foggia_italy"
+    }
+  ]
+}
+2025-09-25 01:05:13,376 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:13,376 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:05:13,376 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:05:15,223 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:15,223 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1k_buses_per_year",
+      "target": "factory_foggia_italy",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1k_buses_per_year",
+      "target": "product_zero_and_low_emission_buses",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_zero_and_low_emission_buses",
+      "target": "factory_foggia_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:05:15,223 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:15,223 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:05:15,223 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:05:16,346 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:16,346 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:05:16,346 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:16,346 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:05:16,346 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:05:17,780 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:17,780 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_iveco_foggia_plant",
+      "target": "factory_foggia_italy",
+      "type": "funds"
+    },
+    {
+      "source": "investment_iveco_foggia_plant",
+      "target": "capacity_1k_buses_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_iveco_foggia_plant",
+      "target": "product_zero_and_low_emission_buses",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:05:17,780 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:17,869 - INFO - ✅ Updated Article ID: 68d3ca653e609fb288d7c71c with 6 nodes and combined text.

@@ -1,0 +1,195 @@
+2025-09-24 00:34:58,355 - INFO - 🔍 Text length: 2427 characters
+2025-09-24 00:34:58,355 - INFO - 📌 Processing Article ID: 68d2ec5c6610d16cff96eb6d — Iberdrola and Masdar to co-invest €15bn in Europe and US
+2025-09-24 00:34:58,355 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:35:01,426 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:01,427 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iberdrola",
+        "type": "company",
+        "name": "Iberdrola"
+      },
+      {
+        "id": "company_masdar",
+        "type": "company",
+        "name": "Masdar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_east_anglia_3",
+        "type": "factory",
+        "name": "East Anglia 3",
+        "location": {
+          "city": "null",
+          "country": "United Kingdom"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eu_us_offshore_wind_green_energy",
+        "type": "investment",
+        "name": "EU/US offshore wind and green energy",
+        "amount": "\u20ac15bn ($16.2bn)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_uk_renewable_projects",
+        "type": "investment",
+        "name": "UK renewable projects",
+        "amount": "\u00a37bn ($8.8bn)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_400mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1,400MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_offshore_wind_power",
+        "type": "product",
+        "name": "offshore wind power"
+      }
+    ]
+  }
+}
+2025-09-24 00:35:01,427 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:01,427 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 00:35:01,427 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 00:35:02,348 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:02,348 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_400mw",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 00:35:02,348 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:02,348 - INFO - ✅ Match found for capacity_ID 'capacity_1_400mw' in capacity nodes
+2025-09-24 00:35:02,349 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 00:35:02,349 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:35:02,349 - INFO -   ➕ Set field 'additional': False
+2025-09-24 00:35:02,349 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:35:02,349 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:35:03,474 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:03,474 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eu_us_offshore_wind_green_energy",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_uk_renewable_projects",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:35:03,474 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:03,474 - INFO - ✅ Match found for investment_ID 'investment_eu_us_offshore_wind_green_energy' in investment nodes
+2025-09-24 00:35:03,474 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:35:03,474 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 00:35:03,475 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:35:03,475 - INFO - ✅ Match found for investment_ID 'investment_uk_renewable_projects' in investment nodes
+2025-09-24 00:35:03,475 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:35:03,475 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 00:35:03,475 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:35:03,475 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:35:03,475 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:35:04,546 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:04,546 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_offshore_wind_power",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-24 00:35:04,546 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:04,547 - INFO - ✅ Match found for product_ID 'product_offshore_wind_power' in product nodes
+2025-09-24 00:35:04,547 - INFO -   ➕ Set field 'product_lv1': wind
+2025-09-24 00:35:04,547 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 00:35:04,547 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:35:04,547 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:35:04,547 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:35:05,829 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:05,829 - INFO - {
+  "relationships": [
+    {
+      "source": "company_iberdrola",
+      "type": "forms",
+      "target": "joint_venture_east_anglia_3"
+    },
+    {
+      "source": "company_masdar",
+      "type": "forms",
+      "target": "joint_venture_east_anglia_3"
+    },
+    {
+      "source": "joint_venture_east_anglia_3",
+      "type": "owns",
+      "target": "factory_east_anglia_3"
+    }
+  ]
+}
+2025-09-24 00:35:05,829 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:05,830 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:35:05,830 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:35:07,365 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:07,366 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_400mw",
+      "target": "factory_east_anglia_3",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_400mw",
+      "target": "product_offshore_wind_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_offshore_wind_power",
+      "target": "factory_east_anglia_3",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:35:07,366 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:07,366 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:35:07,366 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:35:08,039 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:08,039 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:35:08,040 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:08,040 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:35:08,040 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:35:10,337 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:35:10,337 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_uk_renewable_projects",
+      "target": "product_offshore_wind_power",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:35:10,337 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:35:10,433 - INFO - ✅ Updated Article ID: 68d2ec5c6610d16cff96eb6d with 7 nodes and combined text.

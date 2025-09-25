@@ -1,0 +1,83 @@
+2025-09-25 00:46:03,228 - INFO - 🔍 Text length: 5603 characters
+2025-09-25 00:46:03,229 - INFO - 📌 Processing Article ID: 68d3cc793e609fb288d7c77d — VW announces new Kassel made EV drivetrain
+2025-09-25 00:46:03,229 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:46:05,320 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:46:05,321 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kassel_germany",
+        "type": "factory",
+        "name": "Volkswagen Group Components plant",
+        "location": {
+          "city": "Kassel",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_app550_rear_wheel_drive_system",
+        "type": "product",
+        "name": "APP550 rear wheel drive system"
+      }
+    ]
+  }
+}
+2025-09-25 00:46:05,321 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:46:05,321 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:46:05,321 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:46:05,321 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:46:05,321 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:46:06,652 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:46:06,652 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_app550_rear_wheel_drive_system",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    }
+  ]
+}
+2025-09-25 00:46:06,652 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:46:06,652 - INFO - ✅ Match found for product_ID 'product_app550_rear_wheel_drive_system' in product nodes
+2025-09-25 00:46:06,652 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 00:46:06,652 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-25 00:46:06,652 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:46:06,652 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:46:06,652 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:46:07,600 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:46:07,600 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_kassel_germany"
+    }
+  ]
+}
+2025-09-25 00:46:07,600 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:46:07,600 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:46:07,600 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:46:08,801 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:46:08,801 - INFO - {
+  "relationships": [
+    {
+      "source": "product_app550_rear_wheel_drive_system",
+      "target": "factory_kassel_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:46:08,801 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:46:08,801 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:46:08,801 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:46:08,897 - INFO - ✅ Updated Article ID: 68d3cc793e609fb288d7c77d with 3 nodes and combined text.

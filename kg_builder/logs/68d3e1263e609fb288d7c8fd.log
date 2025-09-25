@@ -1,0 +1,83 @@
+2025-09-24 23:18:30,042 - INFO - 🔍 Text length: 972 characters
+2025-09-24 23:18:30,043 - INFO - 📌 Processing Article ID: 68d3e1263e609fb288d7c8fd — Start-up “tozero” Ships out Recycled Lithium
+2025-09-24 23:18:30,043 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:18:31,481 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:18:31,481 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tozero",
+        "type": "company",
+        "name": "tozero"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_karlsfeld_germany",
+        "type": "factory",
+        "name": "Karlsfeld Pilot Plant",
+        "location": {
+          "city": "Karlsfeld",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_recycled_lithium",
+        "type": "product",
+        "name": "recycled lithium"
+      }
+    ]
+  }
+}
+2025-09-24 23:18:31,481 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:18:31,481 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:18:31,481 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:18:31,481 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:18:31,481 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:18:32,914 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:18:32,915 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_recycled_lithium",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 23:18:32,915 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:18:32,915 - INFO - ✅ Match found for product_ID 'product_recycled_lithium' in product nodes
+2025-09-24 23:18:32,915 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:18:32,915 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:18:32,915 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:18:32,915 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:18:32,915 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:18:33,835 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:18:33,835 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tozero",
+      "type": "owns",
+      "target": "factory_karlsfeld_germany"
+    }
+  ]
+}
+2025-09-24 23:18:33,835 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:18:33,835 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:18:33,835 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:18:34,554 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:18:34,555 - INFO - {
+  "relationships": [
+    {
+      "source": "product_recycled_lithium",
+      "target": "factory_karlsfeld_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:18:34,555 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:18:34,555 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:18:34,555 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:18:34,647 - INFO - ✅ Updated Article ID: 68d3e1263e609fb288d7c8fd with 3 nodes and combined text.

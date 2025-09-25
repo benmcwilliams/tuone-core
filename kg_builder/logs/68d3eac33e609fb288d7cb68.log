@@ -1,0 +1,107 @@
+2025-09-24 21:01:46,370 - INFO - 🔍 Text length: 6849 characters
+2025-09-24 21:01:46,371 - INFO - 📌 Processing Article ID: 68d3eac33e609fb288d7cb68 — Hyundai/Kia unterzeichnet Vertrag mit Zelllieferanten SK Innovation
+2025-09-24 21:01:46,371 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:01:48,123 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:48,123 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_kia_motor",
+        "type": "company",
+        "name": "Kia Motor"
+      },
+      {
+        "id": "company_sk_innovation",
+        "type": "company",
+        "name": "SK Innovation"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sk_innovation_hyundai_kia",
+        "type": "investment",
+        "name": "SK Innovation Hyundai Kia Battery Cells Supply Agreement",
+        "amount": "8.6 billion dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batterycells",
+        "type": "product",
+        "name": "Batterycells"
+      }
+    ]
+  }
+}
+2025-09-24 21:01:48,123 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:48,123 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:01:48,123 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:01:48,123 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:01:50,375 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:50,376 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sk_innovation_hyundai_kia",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:01:50,376 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:50,376 - INFO - ✅ Match found for investment_ID 'investment_sk_innovation_hyundai_kia' in investment nodes
+2025-09-24 21:01:50,376 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:01:50,376 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:01:50,376 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:01:50,376 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:01:50,376 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:01:51,705 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:51,706 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batterycells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:01:51,706 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:51,706 - INFO - ✅ Match found for product_ID 'product_batterycells' in product nodes
+2025-09-24 21:01:51,706 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:01:51,706 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:01:51,706 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:01:51,706 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 21:01:51,706 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:01:51,706 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:01:53,040 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:53,040 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:01:53,040 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:53,040 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:01:53,040 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:01:53,720 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:53,720 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:01:53,721 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:53,721 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:01:53,721 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:01:54,422 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:01:54,423 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sk_innovation_hyundai_kia",
+      "target": "product_batterycells",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:01:54,423 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:01:54,518 - INFO - ✅ Updated Article ID: 68d3eac33e609fb288d7cb68 with 5 nodes and combined text.

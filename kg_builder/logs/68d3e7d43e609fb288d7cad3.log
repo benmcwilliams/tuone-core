@@ -1,0 +1,149 @@
+2025-09-24 21:32:10,075 - INFO - 🔍 Text length: 12747 characters
+2025-09-24 21:32:10,076 - INFO - 📌 Processing Article ID: 68d3e7d43e609fb288d7cad3 — Battery-News.de-Updates für Mittwoch, 27.05.2020
+2025-09-24 21:32:10,076 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:32:13,154 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:13,154 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_oxis_energy",
+        "type": "company",
+        "name": "Oxis Energy"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes Benz"
+      },
+      {
+        "id": "company_daimler",
+        "type": "company",
+        "name": "Daimler"
+      },
+      {
+        "id": "company_farasis",
+        "type": "company",
+        "name": "Farasis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brasil",
+        "type": "factory",
+        "name": "Mercedes Benz Factory",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_daimler_farasis",
+        "type": "investment",
+        "name": "Daimler Farasis Investment",
+        "amount": "480 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_li_s_zellen",
+        "type": "product",
+        "name": "Li-S-Zellen"
+      },
+      {
+        "id": "product_li_i_batterie",
+        "type": "product",
+        "name": "Li-I-Batterie"
+      }
+    ]
+  }
+}
+2025-09-24 21:32:13,154 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:13,154 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:32:13,154 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:32:13,154 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:32:13,971 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:13,971 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_daimler_farasis",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:32:13,971 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:13,971 - INFO - ✅ Match found for investment_ID 'investment_daimler_farasis' in investment nodes
+2025-09-24 21:32:13,971 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:32:13,971 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:32:13,971 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:32:13,971 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:32:13,971 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:32:15,924 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:15,925 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_li_s_zellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_li_i_batterie",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:32:15,925 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:15,925 - INFO - ✅ Match found for product_ID 'product_li_s_zellen' in product nodes
+2025-09-24 21:32:15,925 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:32:15,925 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:32:15,925 - INFO - ✅ Match found for product_ID 'product_li_i_batterie' in product nodes
+2025-09-24 21:32:15,925 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:32:15,925 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:32:15,925 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:32:15,925 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:32:15,925 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:32:17,045 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:17,045 - INFO - {
+  "relationships": [
+    {
+      "source": "company_oxis_energy",
+      "type": "owns",
+      "target": "factory_brasil"
+    }
+  ]
+}
+2025-09-24 21:32:17,045 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:17,045 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:32:17,045 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:32:18,785 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:18,785 - INFO - {
+  "relationships": [
+    {
+      "source": "product_li_s_zellen",
+      "target": "factory_brasil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:32:18,785 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:18,785 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:32:18,785 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:32:19,803 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:19,804 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:32:19,804 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:19,804 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:32:19,804 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:32:20,694 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:20,694 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:32:20,694 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:20,778 - INFO - ✅ Updated Article ID: 68d3e7d43e609fb288d7cad3 with 8 nodes and combined text.

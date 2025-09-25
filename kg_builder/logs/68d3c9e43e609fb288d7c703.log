@@ -1,0 +1,101 @@
+2025-09-25 01:09:18,208 - INFO - 🔍 Text length: 1814 characters
+2025-09-25 01:09:18,208 - INFO - 📌 Processing Article ID: 68d3c9e43e609fb288d7c703 — EV powered by sodium ion battery shown in China
+2025-09-25 01:09:18,208 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:09:20,782 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:20,783 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hina_battery",
+        "type": "company",
+        "name": "HiNa Battery"
+      },
+      {
+        "id": "company_jac_group",
+        "type": "company",
+        "name": "JAC Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_liyang_jiangsu_china",
+        "type": "factory",
+        "name": "Liyang Facility",
+        "location": {
+          "city": "Liyang",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sodium_ion_battery",
+        "type": "product",
+        "name": "Sodium Ion Battery"
+      },
+      {
+        "id": "product_hua_xianzi_ev",
+        "type": "product",
+        "name": "Hua Xianzi EV"
+      }
+    ]
+  }
+}
+2025-09-25 01:09:20,783 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:20,783 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:09:20,783 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:09:20,783 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:09:20,783 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:09:22,624 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:22,624 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sodium_ion_battery",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_hua_xianzi_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:09:22,624 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:22,624 - INFO - ✅ Match found for product_ID 'product_sodium_ion_battery' in product nodes
+2025-09-25 01:09:22,625 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:09:22,625 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 01:09:22,625 - INFO - ✅ Match found for product_ID 'product_hua_xianzi_ev' in product nodes
+2025-09-25 01:09:22,625 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:09:22,625 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:09:22,625 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:09:22,625 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:09:22,625 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:09:23,735 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:23,735 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hina_battery",
+      "type": "owns",
+      "target": "factory_liyang_jiangsu_china"
+    }
+  ]
+}
+2025-09-25 01:09:23,735 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:23,735 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:09:23,735 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:09:25,185 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:25,185 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sodium_ion_battery",
+      "target": "factory_liyang_jiangsu_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:09:25,185 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:25,185 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:09:25,185 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:09:25,284 - INFO - ✅ Updated Article ID: 68d3c9e43e609fb288d7c703 with 5 nodes and combined text.

@@ -1,0 +1,127 @@
+2025-09-24 22:39:27,816 - INFO - 🔍 Text length: 8764 characters
+2025-09-24 22:39:27,817 - INFO - 📌 Processing Article ID: 68d3e3dc3e609fb288d7c99e — “Without a High Degree of Automation, We Wonʼt Win Anything”
+2025-09-24 22:39:27,817 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:39:29,985 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:29,986 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes",
+        "type": "company",
+        "name": "Mercedes"
+      },
+      {
+        "id": "company_arthur_d_little",
+        "type": "company",
+        "name": "Arthur D. Little"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mercedes_recycling_plant",
+        "type": "factory",
+        "name": "Mercedes Recycling Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate",
+        "type": "product",
+        "name": "Lithium Iron Phosphate (LFP)"
+      },
+      {
+        "id": "product_nmc_battery",
+        "type": "product",
+        "name": "NMC Battery"
+      },
+      {
+        "id": "product_cathode_active_material",
+        "type": "product",
+        "name": "Cathode Active Material"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "Black Mass"
+      }
+    ]
+  }
+}
+2025-09-24 22:39:29,986 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:29,986 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:39:29,986 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:39:29,986 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:39:29,986 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:39:32,547 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:32,547 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_nmc_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cathode_active_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 22:39:32,547 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:32,547 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate' in product nodes
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:39:32,548 - INFO - ✅ Match found for product_ID 'product_nmc_battery' in product nodes
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:39:32,548 - INFO - ✅ Match found for product_ID 'product_cathode_active_material' in product nodes
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:39:32,548 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:39:32,548 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:39:32,548 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:39:32,548 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:39:32,548 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:39:33,671 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:33,671 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes",
+      "type": "owns",
+      "target": "factory_mercedes_recycling_plant"
+    }
+  ]
+}
+2025-09-24 22:39:33,671 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:33,671 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:39:33,671 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:39:35,514 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:35,514 - INFO - {
+  "relationships": [
+    {
+      "source": "product_black_mass",
+      "target": "factory_mercedes_recycling_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:39:35,514 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:35,514 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:39:35,514 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:39:35,651 - INFO - ✅ Updated Article ID: 68d3e3dc3e609fb288d7c99e with 7 nodes and combined text.

@@ -1,0 +1,141 @@
+2025-09-25 02:41:59,594 - INFO - 🔍 Text length: 3120 characters
+2025-09-25 02:41:59,595 - INFO - 📌 Processing Article ID: 68d3c0b03e609fb288d7c543 — JV to build new plant in Hungary
+2025-09-25 02:41:59,595 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:42:01,526 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:42:01,526 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_electronics",
+        "type": "company",
+        "name": "LG Electronics"
+      },
+      {
+        "id": "company_magna",
+        "type": "company",
+        "name": "Magna"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_lg_magna_e_powertrain",
+        "type": "joint_venture",
+        "name": "LG Magna e-Powertrain"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_miskolc_hungary",
+        "type": "factory",
+        "name": "Miskolc Factory",
+        "location": {
+          "city": "Miskolc",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      },
+      {
+        "id": "product_inverters",
+        "type": "product",
+        "name": "inverters"
+      },
+      {
+        "id": "product_on_board_chargers",
+        "type": "product",
+        "name": "on board chargers"
+      }
+    ]
+  }
+}
+2025-09-25 02:42:01,526 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:42:01,526 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:42:01,526 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:42:01,526 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:42:01,526 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:42:03,603 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:42:03,603 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_motors",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_inverters",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_on_board_chargers",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:42:03,604 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:42:03,604 - INFO - ✅ Match found for product_ID 'product_electric_motors' in product nodes
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-25 02:42:03,604 - INFO - ✅ Match found for product_ID 'product_inverters' in product nodes
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:42:03,604 - INFO - ✅ Match found for product_ID 'product_on_board_chargers' in product nodes
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:42:03,604 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:42:03,604 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:42:03,604 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:42:03,604 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:42:04,896 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:42:04,897 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_electronics",
+      "type": "forms",
+      "target": "joint_venture_lg_magna_e_powertrain"
+    },
+    {
+      "source": "company_magna",
+      "type": "forms",
+      "target": "joint_venture_lg_magna_e_powertrain"
+    },
+    {
+      "source": "joint_venture_lg_magna_e_powertrain",
+      "type": "owns",
+      "target": "factory_miskolc_hungary"
+    }
+  ]
+}
+2025-09-25 02:42:04,897 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:42:04,897 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:42:04,897 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:42:06,881 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:42:06,881 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_motors",
+      "target": "factory_miskolc_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_inverters",
+      "target": "factory_miskolc_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_on_board_chargers",
+      "target": "factory_miskolc_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:42:06,881 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:42:06,881 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:42:06,881 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:42:06,964 - INFO - ✅ Updated Article ID: 68d3c0b03e609fb288d7c543 with 7 nodes and combined text.

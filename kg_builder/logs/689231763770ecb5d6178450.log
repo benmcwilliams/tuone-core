@@ -1,0 +1,131 @@
+2025-09-24 01:32:13,210 - INFO - 🔍 Text length: 1281 characters
+2025-09-24 01:32:13,210 - INFO - 📌 Processing Article ID: 689231763770ecb5d6178450 — Northvolt to Sell Heavy Industry Battery Systems Business to Scania
+2025-09-24 01:32:13,210 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:32:16,201 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:16,201 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_scania",
+        "type": "company",
+        "name": "Scania"
+      },
+      {
+        "id": "company_epiroc",
+        "type": "company",
+        "name": "Epiroc"
+      },
+      {
+        "id": "company_konecranes",
+        "type": "company",
+        "name": "Konecranes"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_stockholm_sweden",
+        "type": "factory",
+        "name": "Stockholm Plant",
+        "location": {
+          "city": "Stockholm",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_gdansk_poland",
+        "type": "factory",
+        "name": "Gdansk Plant",
+        "location": {
+          "city": "Gdansk",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 01:32:16,201 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:16,201 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:32:16,201 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:32:16,201 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:32:16,201 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:32:17,660 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:17,660 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:32:17,660 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:17,660 - INFO - ✅ Match found for product_ID 'product_battery_systems' in product nodes
+2025-09-24 01:32:17,660 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:32:17,660 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:32:17,660 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 01:32:17,660 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:32:17,660 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:32:17,660 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:32:17,660 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:32:17,660 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:32:18,778 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:18,778 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_stockholm_sweden"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_gdansk_poland"
+    }
+  ]
+}
+2025-09-24 01:32:18,778 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:18,778 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:32:18,778 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:32:19,775 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:19,775 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_systems",
+      "target": "factory_stockholm_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_gdansk_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:32:19,775 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:19,775 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:32:19,775 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:32:19,861 - INFO - ✅ Updated Article ID: 689231763770ecb5d6178450 with 8 nodes and combined text.

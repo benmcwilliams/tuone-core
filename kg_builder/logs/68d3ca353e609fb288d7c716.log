@@ -1,0 +1,222 @@
+2025-09-25 01:05:54,521 - INFO - 🔍 Text length: 1594 characters
+2025-09-25 01:05:54,521 - INFO - 📌 Processing Article ID: 68d3ca353e609fb288d7c716 — Honda and LGES start on new Ohio battery plant
+2025-09-25 01:05:54,521 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:05:58,024 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:58,024 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_honda_lges",
+        "type": "joint_venture",
+        "name": "Honda LGES"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fayette_county_ohio",
+        "type": "factory",
+        "name": "Fayette County EV Battery Plant",
+        "location": {
+          "city": "Fayette County, near Jeffersonville",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_honda_lges_jv",
+        "type": "investment",
+        "name": "Honda LGES JV",
+        "amount": "US$3.5bn",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_honda_retooling",
+        "type": "investment",
+        "name": "Honda Retooling",
+        "amount": "US$700m",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40gwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "40GWh per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "pouch-type lithium-ion batteries"
+      },
+      {
+        "id": "product_ev_cars",
+        "type": "product",
+        "name": "EVs"
+      }
+    ]
+  }
+}
+2025-09-25 01:05:58,024 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:58,025 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:05:58,025 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:05:59,215 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:59,215 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40gwh_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:05:59,215 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:59,215 - INFO - ✅ Match found for capacity_ID 'capacity_40gwh_per_year' in capacity nodes
+2025-09-25 01:05:59,215 - INFO -   ➕ Set field 'status': under construction
+2025-09-25 01:05:59,215 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:05:59,215 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:05:59,215 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:05:59,215 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:06:00,175 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:00,176 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_honda_lges_jv",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_honda_retooling",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 01:06:00,176 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:00,176 - INFO - ✅ Match found for investment_ID 'investment_honda_lges_jv' in investment nodes
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'status': ongoing
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:06:00,176 - INFO - ✅ Match found for investment_ID 'investment_honda_retooling' in investment nodes
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 01:06:00,176 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 01:06:00,176 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:06:00,176 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:06:01,372 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:01,372 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-25 01:06:01,373 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:01,373 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-25 01:06:01,373 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:06:01,373 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 01:06:01,373 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:06:01,373 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:06:01,373 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:06:04,067 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:04,067 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "forms",
+      "target": "joint_venture_honda_lges"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_honda_lges"
+    },
+    {
+      "source": "joint_venture_honda_lges",
+      "type": "owns",
+      "target": "factory_fayette_county_ohio"
+    }
+  ]
+}
+2025-09-25 01:06:04,067 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:04,067 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:06:04,067 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:06:05,910 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:05,910 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40gwh_per_year",
+      "target": "factory_fayette_county_ohio",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40gwh_per_year",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_fayette_county_ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:06:05,910 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:05,910 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:06:05,910 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:06:06,523 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:06,524 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:06:06,524 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:06,524 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:06:06,524 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:06:08,265 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:08,265 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_honda_lges_jv",
+      "target": "factory_fayette_county_ohio",
+      "type": "funds"
+    },
+    {
+      "source": "investment_honda_lges_jv",
+      "target": "capacity_40gwh_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_honda_lges_jv",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_honda_retooling",
+      "target": "product_ev_cars",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:06:08,265 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:08,355 - INFO - ✅ Updated Article ID: 68d3ca353e609fb288d7c716 with 9 nodes and combined text.

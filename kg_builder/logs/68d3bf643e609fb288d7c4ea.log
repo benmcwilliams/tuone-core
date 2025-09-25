@@ -1,0 +1,223 @@
+2025-09-25 03:06:11,864 - INFO - 🔍 Text length: 1884 characters
+2025-09-25 03:06:11,864 - INFO - 📌 Processing Article ID: 68d3bf643e609fb288d7c4ea — BYD to announce new EV plant in Hungary
+2025-09-25 03:06:11,864 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:06:16,329 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:06:16,329 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd_auto",
+        "type": "company",
+        "name": "BYD Auto"
+      },
+      {
+        "id": "company_contemporary_amperex_technology_company_limited",
+        "type": "company",
+        "name": "Contemporary Amperex Technology Company Limited"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_komarom_hungary",
+        "type": "factory",
+        "name": "Komarom Plant",
+        "location": {
+          "city": "Komarom",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_hungary_ev_plant",
+        "type": "factory",
+        "name": "Hungary EV Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_hungary_battery_pack_assembly_plant",
+        "type": "factory",
+        "name": "Hungary Battery Pack Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_hungary_catl_plant",
+        "type": "factory",
+        "name": "Hungary CATL Plant",
+        "location": {
+          "city": "null",
+          "country": "Hungary"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gwh_battery_cells_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 gigawatt hours (GWh) battery cells per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_powered_buses",
+        "type": "product",
+        "name": "battery powered buses"
+      },
+      {
+        "id": "product_light_passenger_vehicles",
+        "type": "product",
+        "name": "light passenger vehicles"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_battery_pack_assembly",
+        "type": "product",
+        "name": "battery pack assembly"
+      }
+    ]
+  }
+}
+2025-09-25 03:06:16,330 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:06:16,330 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 03:06:16,330 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 03:06:17,913 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:06:17,913 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gwh_battery_cells_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 03:06:17,913 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:06:17,913 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh_battery_cells_per_year' in capacity nodes
+2025-09-25 03:06:17,913 - INFO -   ➕ Set field 'status': under construction
+2025-09-25 03:06:17,914 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 03:06:17,914 - INFO -   ➕ Set field 'additional': False
+2025-09-25 03:06:17,914 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 03:06:17,914 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:06:17,914 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:06:20,883 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:06:20,884 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_powered_buses",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_light_passenger_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_pack_assembly",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-25 03:06:20,884 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:06:20,884 - INFO - ✅ Match found for product_ID 'product_battery_powered_buses' in product nodes
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 03:06:20,884 - INFO - ✅ Match found for product_ID 'product_light_passenger_vehicles' in product nodes
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 03:06:20,884 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 03:06:20,884 - INFO - ✅ Match found for product_ID 'product_battery_pack_assembly' in product nodes
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 03:06:20,884 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 03:06:20,884 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:06:20,884 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:06:20,884 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:06:22,931 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:06:22,931 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_komarom_hungary"
+    },
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_hungary_ev_plant"
+    },
+    {
+      "source": "company_byd_auto",
+      "type": "owns",
+      "target": "factory_hungary_battery_pack_assembly_plant"
+    },
+    {
+      "source": "company_contemporary_amperex_technology_company_limited",
+      "type": "owns",
+      "target": "factory_hungary_catl_plant"
+    }
+  ]
+}
+2025-09-25 03:06:22,931 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:06:22,931 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:06:22,931 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:06:26,206 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:06:26,206 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gwh_battery_cells_per_year",
+      "target": "factory_hungary_catl_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh_battery_cells_per_year",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_hungary_catl_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_powered_buses",
+      "target": "factory_komarom_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_light_passenger_vehicles",
+      "target": "factory_hungary_ev_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_pack_assembly",
+      "target": "factory_hungary_battery_pack_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 03:06:26,206 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:06:26,207 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 03:06:26,207 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 03:06:26,304 - INFO - ✅ Updated Article ID: 68d3bf643e609fb288d7c4ea with 11 nodes and combined text.

@@ -1,0 +1,84 @@
+2025-09-24 22:40:37,058 - INFO - 🔍 Text length: 1557 characters
+2025-09-24 22:40:37,058 - INFO - 📌 Processing Article ID: 68d3e3c33e609fb288d7c998 — Zeekr stellt LFP-Batterien mit 5,5C-Schnellladung vor
+2025-09-24 22:40:37,058 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:40:39,211 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:40:39,211 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geely",
+        "type": "company",
+        "name": "Geely"
+      },
+      {
+        "id": "company_zeekr",
+        "type": "company",
+        "name": "Zeekr"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_eisen_phosphat_batteries",
+        "type": "product",
+        "name": "Lithium-Eisen-Phosphat (LFP) Batterien"
+      },
+      {
+        "id": "product_nickel_kobalt_mangan_batteries",
+        "type": "product",
+        "name": "Nickel-Kobalt-Mangan Batterien"
+      },
+      {
+        "id": "product_007_sedan",
+        "type": "product",
+        "name": "007 Sedan"
+      }
+    ]
+  }
+}
+2025-09-24 22:40:39,211 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:40:39,211 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:40:39,211 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:40:39,211 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:40:39,212 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:40:41,335 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:40:41,335 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_eisen_phosphat_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_nickel_kobalt_mangan_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_007_sedan",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 22:40:41,335 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:40:41,335 - INFO - ✅ Match found for product_ID 'product_lithium_eisen_phosphat_batteries' in product nodes
+2025-09-24 22:40:41,335 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:40:41,335 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:40:41,335 - INFO - ✅ Match found for product_ID 'product_nickel_kobalt_mangan_batteries' in product nodes
+2025-09-24 22:40:41,336 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:40:41,336 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:40:41,336 - INFO - ✅ Match found for product_ID 'product_007_sedan' in product nodes
+2025-09-24 22:40:41,336 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 22:40:41,336 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 22:40:41,336 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:40:41,336 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 22:40:41,336 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:40:41,336 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:40:41,972 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:40:41,973 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:40:41,973 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:40:41,973 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:40:41,973 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:40:42,055 - INFO - ✅ Updated Article ID: 68d3e3c33e609fb288d7c998 with 5 nodes and combined text.

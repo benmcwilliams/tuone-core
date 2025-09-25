@@ -1,0 +1,170 @@
+2025-09-24 22:29:27,797 - INFO - 🔍 Text length: 1745 characters
+2025-09-24 22:29:27,797 - INFO - 📌 Processing Article ID: 68d3e48a3e609fb288d7c9d7 — Stellantis Recycles Batteries in Turin
+2025-09-24 22:29:27,797 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:29:32,375 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:29:32,375 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mirafiori_plant",
+        "type": "factory",
+        "name": "Mirafiori plant",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_voltage_batteries",
+        "type": "product",
+        "name": "high-voltage batteries"
+      },
+      {
+        "id": "product_motors",
+        "type": "product",
+        "name": "motors"
+      },
+      {
+        "id": "product_gearboxes",
+        "type": "product",
+        "name": "gearboxes"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_parts_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 parts per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_150k_parts_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 parts per year",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-09-24 22:29:32,375 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:29:32,375 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:29:32,375 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:29:35,140 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:29:35,140 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_parts_per_year_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_150k_parts_per_year_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 22:29:35,140 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:29:35,140 - INFO - ✅ Match found for capacity_ID 'capacity_50k_parts_per_year_announced' in capacity nodes
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'additional': True
+2025-09-24 22:29:35,140 - INFO - ✅ Match found for capacity_ID 'capacity_150k_parts_per_year_announced' in capacity nodes
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:29:35,140 - INFO -   ➕ Set field 'additional': True
+2025-09-24 22:29:35,140 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:29:35,141 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:29:35,141 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:29:37,086 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:29:37,086 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_high_voltage_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_motors",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_gearboxes",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 22:29:37,086 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:29:37,086 - INFO - ✅ Match found for product_ID 'product_high_voltage_batteries' in product nodes
+2025-09-24 22:29:37,086 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:29:37,087 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:29:37,087 - INFO - ✅ Match found for product_ID 'product_motors' in product nodes
+2025-09-24 22:29:37,087 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 22:29:37,087 - INFO - ✅ Match found for product_ID 'product_gearboxes' in product nodes
+2025-09-24 22:29:37,087 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 22:29:37,087 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:29:37,087 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:29:37,087 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:29:37,906 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:29:37,906 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mirafiori_plant"
+    }
+  ]
+}
+2025-09-24 22:29:37,906 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:29:37,906 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:29:37,906 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:29:41,182 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:29:41,182 - INFO - {
+  "relationships": [
+    {
+      "source": "product_high_voltage_batteries",
+      "target": "factory_mirafiori_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_motors",
+      "target": "factory_mirafiori_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gearboxes",
+      "target": "factory_mirafiori_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_50k_parts_per_year_announced",
+      "target": "factory_mirafiori_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150k_parts_per_year_announced",
+      "target": "factory_mirafiori_plant",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 22:29:41,182 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:29:41,182 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:29:41,182 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:29:41,273 - INFO - ✅ Updated Article ID: 68d3e48a3e609fb288d7c9d7 with 7 nodes and combined text.

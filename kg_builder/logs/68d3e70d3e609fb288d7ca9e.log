@@ -1,0 +1,131 @@
+2025-09-24 21:51:49,967 - INFO - 🔍 Text length: 1292 characters
+2025-09-24 21:51:49,967 - INFO - 📌 Processing Article ID: 68d3e70d3e609fb288d7ca9e — VARTA Builds Battery Research Center in Austria
+2025-09-24 21:51:49,967 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:51:52,397 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:52,397 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_varta_ag",
+        "type": "company",
+        "name": "VARTA AG"
+      },
+      {
+        "id": "company_graz_university_of_technology",
+        "type": "company",
+        "name": "Graz University of Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_varta_innovation",
+        "type": "factory",
+        "name": "VARTA Innovation",
+        "location": {
+          "city": "Graz",
+          "country": "Austria"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_varta_innovation",
+        "type": "investment",
+        "name": "VARTA Innovation",
+        "amount": "33 million euros",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_technology",
+        "type": "product",
+        "name": "battery technology"
+      }
+    ]
+  }
+}
+2025-09-24 21:51:52,397 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:52,397 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:51:52,397 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:51:52,397 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:51:53,727 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:53,727 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_varta_innovation",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:51:53,727 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:53,727 - INFO - ✅ Match found for investment_ID 'investment_varta_innovation' in investment nodes
+2025-09-24 21:51:53,727 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 21:51:53,727 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:51:53,728 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:51:53,728 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:51:53,728 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:51:55,060 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:55,060 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_technology",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:51:55,060 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:55,060 - INFO - ✅ Match found for product_ID 'product_battery_technology' in product nodes
+2025-09-24 21:51:55,060 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:51:55,060 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:51:55,060 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:51:55,060 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:51:55,060 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:51:55,798 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:55,798 - INFO - {
+  "relationships": [
+    {
+      "source": "company_varta_ag",
+      "type": "owns",
+      "target": "factory_varta_innovation"
+    }
+  ]
+}
+2025-09-24 21:51:55,798 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:55,798 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:51:55,798 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:51:56,595 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:56,595 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:51:56,595 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:56,595 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:51:56,595 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:51:57,824 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:57,824 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:51:57,824 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:57,824 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:51:57,824 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:51:58,848 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:58,848 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_varta_innovation",
+      "target": "factory_varta_innovation",
+      "type": "funds"
+    },
+    {
+      "source": "investment_varta_innovation",
+      "target": "product_battery_technology",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:51:58,848 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:58,937 - INFO - ✅ Updated Article ID: 68d3e70d3e609fb288d7ca9e with 5 nodes and combined text.

@@ -1,0 +1,161 @@
+2025-09-24 00:48:30,350 - INFO - 🔍 Text length: 1257 characters
+2025-09-24 00:48:30,350 - INFO - 📌 Processing Article ID: 68d2ea646610d16cff96eb37 — Toyota diesel output halt continues
+2025-09-24 00:48:30,350 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:48:34,372 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:48:34,372 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor",
+        "type": "company",
+        "name": "Toyota Motor"
+      },
+      {
+        "id": "company_toyota_industries_corporation",
+        "type": "company",
+        "name": "Toyota Industries Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_japan_1",
+        "type": "factory",
+        "name": "factory 1",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_japan_2",
+        "type": "factory",
+        "name": "factory 2",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_japan_3",
+        "type": "factory",
+        "name": "factory 3",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_japan_4",
+        "type": "factory",
+        "name": "factory 4",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_land_cruiser_suv",
+        "type": "product",
+        "name": "Land Cruiser SUV"
+      },
+      {
+        "id": "product_hiace_minibus_and_van",
+        "type": "product",
+        "name": "Hiace minibus and van"
+      }
+    ]
+  }
+}
+2025-09-24 00:48:34,372 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:48:34,372 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:48:34,372 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:48:34,372 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:48:34,372 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:48:35,887 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:48:35,887 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_land_cruiser_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_hiace_minibus_and_van",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-24 00:48:35,887 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:48:35,887 - INFO - ✅ Match found for product_ID 'product_land_cruiser_suv' in product nodes
+2025-09-24 00:48:35,887 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:48:35,887 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:48:35,888 - INFO - ✅ Match found for product_ID 'product_hiace_minibus_and_van' in product nodes
+2025-09-24 00:48:35,888 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:48:35,888 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 00:48:35,888 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:48:35,888 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:48:35,888 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:48:37,154 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:48:37,154 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_japan_1"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_japan_2"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_japan_3"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_japan_4"
+    }
+  ]
+}
+2025-09-24 00:48:37,154 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:48:37,154 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:48:37,154 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:48:40,357 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:48:40,357 - INFO - {
+  "relationships": [
+    {
+      "source": "product_land_cruiser_suv",
+      "target": "factory_japan_1",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hiace_minibus_and_van",
+      "target": "factory_japan_2",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_land_cruiser_suv",
+      "target": "factory_japan_3",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hiace_minibus_and_van",
+      "target": "factory_japan_4",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:48:40,357 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:48:40,357 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:48:40,357 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:48:40,457 - INFO - ✅ Updated Article ID: 68d2ea646610d16cff96eb37 with 8 nodes and combined text.

@@ -1,0 +1,121 @@
+2025-09-25 00:29:39,503 - INFO - 🔍 Text length: 2903 characters
+2025-09-25 00:29:39,503 - INFO - 📌 Processing Article ID: 68d3cdaa3e609fb288d7c7c8 — Rivian puts Europe electric van plan on hold
+2025-09-25 00:29:39,503 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:29:41,980 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:29:41,981 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rivian",
+        "type": "company",
+        "name": "Rivian"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_rivian_mercedes_benz",
+        "type": "joint_venture",
+        "name": "Rivian Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_jawor_poland",
+        "type": "factory",
+        "name": "Jawor EV Manufacturing Site",
+        "location": {
+          "city": "Jawor",
+          "country": "Poland"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_r1t",
+        "type": "product",
+        "name": "R1T"
+      },
+      {
+        "id": "product_r1s",
+        "type": "product",
+        "name": "R1S"
+      },
+      {
+        "id": "product_edv",
+        "type": "product",
+        "name": "Electric Delivery Van (EDV)"
+      }
+    ]
+  }
+}
+2025-09-25 00:29:41,981 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:29:41,981 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:29:41,981 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:29:41,981 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:29:41,981 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:29:43,817 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:29:43,817 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_r1t",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_r1s",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_edv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:29:43,817 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:29:43,817 - INFO - ✅ Match found for product_ID 'product_r1t' in product nodes
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:29:43,817 - INFO - ✅ Match found for product_ID 'product_r1s' in product nodes
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:29:43,817 - INFO - ✅ Match found for product_ID 'product_edv' in product nodes
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:29:43,817 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:29:43,817 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:29:43,817 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:29:43,817 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:29:44,843 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:29:44,843 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_jawor_poland"
+    }
+  ]
+}
+2025-09-25 00:29:44,843 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:29:44,843 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:29:44,843 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:29:45,557 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:29:45,557 - INFO - {
+  "relationships": [
+    {
+      "source": "product_edv",
+      "target": "factory_jawor_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:29:45,557 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:29:45,557 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:29:45,557 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:29:45,653 - INFO - ✅ Updated Article ID: 68d3cdaa3e609fb288d7c7c8 with 7 nodes and combined text.

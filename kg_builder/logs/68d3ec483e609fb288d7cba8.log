@@ -1,0 +1,137 @@
+2025-09-24 19:38:21,978 - INFO - 🔍 Text length: 7651 characters
+2025-09-24 19:38:21,979 - INFO - 📌 Processing Article ID: 68d3ec483e609fb288d7cba8 — Stellantis plant nächstes Joint Venture
+2025-09-24 19:38:21,979 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:38:25,600 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:25,600 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_total",
+        "type": "company",
+        "name": "Total"
+      },
+      {
+        "id": "company_daimler",
+        "type": "company",
+        "name": "Daimler"
+      },
+      {
+        "id": "company_farasis",
+        "type": "company",
+        "name": "Farasis"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "gm",
+        "type": "company",
+        "name": "GM",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_lg_energy_solution",
+        "type": "joint_venture",
+        "name": "Stellantis LG Energy Solution"
+      },
+      {
+        "id": "joint_venture_stellantis_samsung_sdi",
+        "type": "joint_venture",
+        "name": "Stellantis Samsung SDI"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-24 19:38:25,600 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:25,600 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:38:25,601 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:38:25,601 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:38:25,601 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:38:26,945 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:26,946 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 19:38:26,946 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:26,946 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-24 19:38:26,946 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:38:26,946 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:38:26,946 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:38:26,946 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:38:26,946 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:38:28,672 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:28,673 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_lg_energy_solution"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_stellantis_lg_energy_solution"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_samsung_sdi"
+    },
+    {
+      "source": "company_samsung_sdi",
+      "type": "forms",
+      "target": "joint_venture_stellantis_samsung_sdi"
+    }
+  ]
+}
+2025-09-24 19:38:28,673 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:28,673 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:38:28,673 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:38:29,285 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:29,285 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:38:29,285 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:29,285 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:38:29,285 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:38:29,382 - INFO - ✅ Updated Article ID: 68d3ec483e609fb288d7cba8 with 12 nodes and combined text.

@@ -1,0 +1,121 @@
+2025-09-25 01:10:01,328 - INFO - 🔍 Text length: 1835 characters
+2025-09-25 01:10:01,328 - INFO - 📌 Processing Article ID: 68d3c9da3e609fb288d7c6ff — Denso trials fuel cell factory power
+2025-09-25 01:10:01,328 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:10:05,734 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:10:05,734 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_denso",
+        "type": "company",
+        "name": "Denso"
+      },
+      {
+        "id": "company_nedo",
+        "type": "company",
+        "name": "New Energy and Industrial Technology Development Organisation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nishio_plant",
+        "type": "factory",
+        "name": "Nishio Plant",
+        "location": {
+          "city": "Nishio",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_oxide_fuel_cell",
+        "type": "product",
+        "name": "Solid Oxide Fuel Cell"
+      },
+      {
+        "id": "product_storage_battery",
+        "type": "product",
+        "name": "Storage Battery"
+      },
+      {
+        "id": "product_vehicle_to_grid_system",
+        "type": "product",
+        "name": "Vehicle-to-Grid System"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "Solar Panels"
+      }
+    ]
+  }
+}
+2025-09-25 01:10:05,734 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:10:05,734 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:10:05,734 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:10:05,734 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:10:05,734 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:10:08,070 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:10:08,070 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_oxide_fuel_cell",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "product_storage_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_vehicle_to_grid_system",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-25 01:10:08,070 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:10:08,070 - INFO - ✅ Match found for product_ID 'product_solid_oxide_fuel_cell' in product nodes
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-09-25 01:10:08,070 - INFO - ✅ Match found for product_ID 'product_storage_battery' in product nodes
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:10:08,070 - INFO - ✅ Match found for product_ID 'product_vehicle_to_grid_system' in product nodes
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:10:08,070 - INFO - ✅ Match found for product_ID 'product_solar_panels' in product nodes
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv1': solar
+2025-09-25 01:10:08,070 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 01:10:08,070 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:10:08,070 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:10:08,070 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:10:08,911 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:10:08,911 - INFO - {
+  "relationships": [
+    {
+      "source": "company_denso",
+      "type": "owns",
+      "target": "factory_nishio_plant"
+    }
+  ]
+}
+2025-09-25 01:10:08,911 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:10:08,911 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:10:08,911 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:10:09,625 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:10:09,625 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:10:09,625 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:10:09,625 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:10:09,625 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:10:09,714 - INFO - ✅ Updated Article ID: 68d3c9da3e609fb288d7c6ff with 7 nodes and combined text.

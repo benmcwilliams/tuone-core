@@ -1,0 +1,96 @@
+2025-09-24 23:52:36,642 - INFO - 🔍 Text length: 1528 characters
+2025-09-24 23:52:36,642 - INFO - 📌 Processing Article ID: 68d3df0a3e609fb288d7c884 — Great Wall launches first locally assembled model in Pakistan
+2025-09-24 23:52:36,642 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:52:38,820 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:38,821 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_great_wall_motors",
+        "type": "company",
+        "name": "Great Wall Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pakistan_kd_assembly_plant",
+        "type": "factory",
+        "name": "Pakistan KD Assembly Plant",
+        "location": {
+          "city": "Lahore",
+          "country": "Pakistan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_haval_h6_hev",
+        "type": "product",
+        "name": "HAVAL H6 HEV"
+      },
+      {
+        "id": "product_haval_jolion",
+        "type": "product",
+        "name": "HAVAL JOLION"
+      }
+    ]
+  }
+}
+2025-09-24 23:52:38,821 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:38,821 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:52:38,821 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:52:38,821 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:52:38,821 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:52:40,236 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:40,236 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_haval_h6_hev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_haval_jolion",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:52:40,237 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:40,237 - INFO - ✅ Match found for product_ID 'product_haval_h6_hev' in product nodes
+2025-09-24 23:52:40,237 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:52:40,237 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:52:40,237 - INFO - ✅ Match found for product_ID 'product_haval_jolion' in product nodes
+2025-09-24 23:52:40,237 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:52:40,237 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:52:40,237 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:52:40,237 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:52:40,237 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:52:41,876 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:41,876 - INFO - {
+  "relationships": [
+    {
+      "source": "company_great_wall_motors",
+      "type": "owns",
+      "target": "factory_pakistan_kd_assembly_plant"
+    }
+  ]
+}
+2025-09-24 23:52:41,876 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:41,876 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:52:41,876 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:52:42,899 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:42,900 - INFO - {
+  "relationships": [
+    {
+      "source": "product_haval_h6_hev",
+      "target": "factory_pakistan_kd_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:52:42,900 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:42,900 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:52:42,900 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:52:42,991 - INFO - ✅ Updated Article ID: 68d3df0a3e609fb288d7c884 with 4 nodes and combined text.

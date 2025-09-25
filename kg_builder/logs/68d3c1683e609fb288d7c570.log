@@ -1,0 +1,249 @@
+2025-09-25 02:32:01,258 - INFO - 🔍 Text length: 3250 characters
+2025-09-25 02:32:01,258 - INFO - 📌 Processing Article ID: 68d3c1683e609fb288d7c570 — VW cuts EV plant jobs, expands output elsewhere
+2025-09-25 02:32:01,258 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:32:04,981 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:04,981 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zwickau",
+        "type": "factory",
+        "name": "Zwickau",
+        "location": {
+          "city": "Zwickau",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_chattanooga",
+        "type": "factory",
+        "name": "Chattanooga",
+        "location": {
+          "city": "Chattanooga",
+          "country": "US"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_brussels",
+        "type": "factory",
+        "name": "Brussels",
+        "location": {
+          "city": "Brussels",
+          "country": "Belgium"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_wolfsburg",
+        "type": "factory",
+        "name": "Wolfsburg",
+        "location": {
+          "city": "Wolfsburg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_2018",
+        "type": "investment",
+        "name": "Volkswagen 2018 Zwickau Conversion",
+        "amount": "EUR1.2bn (US$1.29bn)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id4",
+        "type": "product",
+        "name": "ID.4"
+      },
+      {
+        "id": "product_id5",
+        "type": "product",
+        "name": "ID.5"
+      },
+      {
+        "id": "product_id3",
+        "type": "product",
+        "name": "ID.3"
+      },
+      {
+        "id": "product_cupra_born",
+        "type": "product",
+        "name": "Cupra Born"
+      },
+      {
+        "id": "product_q4_etron",
+        "type": "product",
+        "name": "Q4 e-tron",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-25 02:32:04,981 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:04,982 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:32:04,982 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:32:04,982 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:32:07,314 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:07,314 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_2018",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:32:07,315 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:07,315 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_2018' in investment nodes
+2025-09-25 02:32:07,315 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:32:07,315 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 02:32:07,315 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:32:07,315 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:32:07,315 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:32:10,491 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:10,491 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id4",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_id5",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_id3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_cupra_born",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_q4_etron",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:32:10,491 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:10,491 - INFO - ✅ Match found for product_ID 'product_id4' in product nodes
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:32:10,491 - INFO - ✅ Match found for product_ID 'product_id5' in product nodes
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:32:10,491 - INFO - ✅ Match found for product_ID 'product_id3' in product nodes
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:32:10,491 - INFO - ✅ Match found for product_ID 'product_cupra_born' in product nodes
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:32:10,491 - INFO - ✅ Match found for product_ID 'product_q4_etron' in product nodes
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:32:10,491 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:32:10,491 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:32:10,491 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:32:10,491 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:32:12,535 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:12,535 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_zwickau"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_chattanooga"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_brussels"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_wolfsburg"
+    }
+  ]
+}
+2025-09-25 02:32:12,535 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:12,535 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:32:12,535 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:32:14,379 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:14,380 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id4",
+      "target": "factory_chattanooga",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id3",
+      "target": "factory_zwickau",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_q4_etron",
+      "target": "factory_zwickau",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_q4_etron",
+      "target": "factory_brussels",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id3",
+      "target": "factory_wolfsburg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:32:14,380 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:14,380 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:32:14,380 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:32:15,095 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:15,095 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:32:15,095 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:15,095 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:32:15,095 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:32:16,531 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:16,531 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_2018",
+      "type": "funds",
+      "target": "factory_zwickau"
+    }
+  ]
+}
+2025-09-25 02:32:16,531 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:16,625 - INFO - ✅ Updated Article ID: 68d3c1683e609fb288d7c570 with 11 nodes and combined text.

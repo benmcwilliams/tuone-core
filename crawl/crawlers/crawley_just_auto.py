@@ -68,8 +68,8 @@ def fetch_urls_from_sitemap(sitemap_url):
 
 def just_auto_crawler():
     category = "justauto"
-    sitemap_url = "https://www.just-auto.com/post-sitemap.xml"
-    #sitemap_url = "https://www.just-auto.com/post-sitemap4.xml"
+    #sitemap_url = "https://www.just-auto.com/post-sitemap.xml"
+    sitemap_url = "https://www.just-auto.com/post-sitemap10.xml"
     collection = get_mongo_collection()
 
     logging.info(f'\n--- 🚀 Starting crawl for {category} ---')
@@ -80,4 +80,8 @@ def just_auto_crawler():
 
     logging.info(f"🔎 New URLs to insert: {len(new_urls)}")
     save_new_urls(collection, new_urls, category)
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    just_auto_crawler()
 

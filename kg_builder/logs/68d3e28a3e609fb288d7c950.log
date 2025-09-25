@@ -1,0 +1,139 @@
+2025-09-24 23:03:53,925 - INFO - 🔍 Text length: 1073 characters
+2025-09-24 23:03:53,925 - INFO - 📌 Processing Article ID: 68d3e28a3e609fb288d7c950 — cylib Builds Battery Recycling Plant in Germany
+2025-09-24 23:03:53,925 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:03:56,587 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:03:56,587 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cylib",
+        "type": "company",
+        "name": "cylib"
+      },
+      {
+        "id": "company_currenta",
+        "type": "company",
+        "name": "Currenta"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chempark_dormagen",
+        "type": "factory",
+        "name": "Chempark Dormagen",
+        "location": {
+          "city": "North Rhine-Westphalia",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_aachen",
+        "type": "factory",
+        "name": "Aachen",
+        "location": {
+          "city": "Aachen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-24 23:03:56,587 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:03:56,588 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:03:56,588 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:03:57,611 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:03:57,612 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:03:57,612 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:03:57,612 - INFO - ✅ Match found for capacity_ID 'capacity_30k_tons_per_year' in capacity nodes
+2025-09-24 23:03:57,612 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:03:57,612 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:03:57,612 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:03:57,612 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:03:57,612 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:03:57,612 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:03:58,944 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:03:58,945 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 23:03:58,945 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:03:58,945 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 23:03:58,945 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:03:58,945 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:03:58,945 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:03:58,945 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:03:58,945 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:03:59,967 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:03:59,967 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cylib",
+      "type": "owns",
+      "target": "factory_chempark_dormagen"
+    },
+    {
+      "source": "company_cylib",
+      "type": "owns",
+      "target": "factory_aachen"
+    }
+  ]
+}
+2025-09-24 23:03:59,967 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:03:59,967 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:03:59,967 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:04:01,810 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:01,810 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30k_tons_per_year",
+      "target": "factory_chempark_dormagen",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30k_tons_per_year",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_chempark_dormagen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:04:01,811 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:01,811 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:04:01,811 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:04:01,908 - INFO - ✅ Updated Article ID: 68d3e28a3e609fb288d7c950 with 6 nodes and combined text.

@@ -1,0 +1,170 @@
+2025-09-24 23:58:30,043 - INFO - 🔍 Text length: 3240 characters
+2025-09-24 23:58:30,043 - INFO - 📌 Processing Article ID: 68d3de8c3e609fb288d7c864 — Mercedes opens Berlin digital campus
+2025-09-24 23:58:30,043 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:58:32,819 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:32,819 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_siemens",
+        "type": "company",
+        "name": "Siemens"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_berlin_marienfelde",
+        "type": "factory",
+        "name": "Berlin-Marienfelde",
+        "location": {
+          "city": "Berlin-Marienfelde",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_berlin_marienfelde",
+        "type": "investment",
+        "name": "Berlin-Marienfelde Investment",
+        "amount": "triple-digit million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_drive_components",
+        "type": "product",
+        "name": "electric drive components"
+      },
+      {
+        "id": "product_mo360_software",
+        "type": "product",
+        "name": "MO360 software applications"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      }
+    ]
+  }
+}
+2025-09-24 23:58:32,819 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:32,819 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:58:32,819 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:58:32,819 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:58:33,742 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:33,742 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_berlin_marienfelde",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:58:33,742 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:33,743 - INFO - ✅ Match found for investment_ID 'investment_berlin_marienfelde' in investment nodes
+2025-09-24 23:58:33,743 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:58:33,743 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:58:33,743 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:58:33,743 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:58:33,743 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:58:36,196 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:36,196 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_drive_components",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_mo360_software",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_electric_motors",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    }
+  ]
+}
+2025-09-24 23:58:36,196 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:36,196 - INFO - ✅ Match found for product_ID 'product_electric_drive_components' in product nodes
+2025-09-24 23:58:36,196 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 23:58:36,196 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 23:58:36,196 - INFO - ✅ Match found for product_ID 'product_mo360_software' in product nodes
+2025-09-24 23:58:36,196 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:58:36,196 - INFO - ✅ Match found for product_ID 'product_electric_motors' in product nodes
+2025-09-24 23:58:36,197 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 23:58:36,197 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 23:58:36,197 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:58:36,197 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:58:36,197 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:58:37,426 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:37,426 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_berlin_marienfelde"
+    }
+  ]
+}
+2025-09-24 23:58:37,426 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:37,426 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:58:37,426 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:58:39,253 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:39,253 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_drive_components",
+      "target": "factory_berlin_marienfelde"
+    },
+    {
+      "source": "product_electric_motors",
+      "target": "factory_berlin_marienfelde"
+    }
+  ]
+}
+2025-09-24 23:58:39,253 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:39,253 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:58:39,253 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:58:39,781 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:39,782 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:58:39,782 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:39,782 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:58:39,782 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:58:41,114 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:58:41,115 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_berlin_marienfelde",
+      "target": "factory_berlin_marienfelde",
+      "type": "funds"
+    },
+    {
+      "source": "investment_berlin_marienfelde",
+      "target": "product_electric_drive_components",
+      "type": "targets"
+    },
+    {
+      "source": "investment_berlin_marienfelde",
+      "target": "product_electric_motors",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:58:41,115 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:58:41,204 - INFO - ✅ Updated Article ID: 68d3de8c3e609fb288d7c864 with 7 nodes and combined text.

@@ -1,0 +1,206 @@
+2025-09-24 01:16:21,931 - INFO - 🔍 Text length: 1487 characters
+2025-09-24 01:16:21,931 - INFO - 📌 Processing Article ID: 68d2e4e5a796126e32149d80 — Schaeffler expanding in the US
+2025-09-24 01:16:21,931 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:16:24,889 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:24,889 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_schaeffler",
+        "type": "company",
+        "name": "Schaeffler"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wooster_ohio",
+        "type": "factory",
+        "name": "Wooster Factory",
+        "location": {
+          "city": "Wooster",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_dover_ohio",
+        "type": "factory",
+        "name": "Dover Factory",
+        "location": {
+          "city": "Dover",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dover_factory",
+        "type": "investment",
+        "name": "Dover Factory Expansion",
+        "amount": "$230m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_axles",
+        "type": "product",
+        "name": "electric axles"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      },
+      {
+        "id": "product_powertrain_components",
+        "type": "product",
+        "name": "powertrain components"
+      },
+      {
+        "id": "transmission_systems",
+        "type": "product",
+        "name": "transmission systems",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-24 01:16:24,889 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:24,889 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:16:24,889 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:16:24,889 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:16:26,226 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:26,227 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dover_factory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:16:26,227 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:26,227 - INFO - ✅ Match found for investment_ID 'investment_dover_factory' in investment nodes
+2025-09-24 01:16:26,227 - INFO -   ➕ Set field 'status': announced
+2025-09-24 01:16:26,227 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:16:26,227 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:16:26,227 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:16:26,227 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:16:28,782 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:28,782 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_axles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_electric_motors",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_powertrain_components",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "transmission_systems",
+      "product_lv1": "powertrain",
+      "product_lv2": "transmission"
+    }
+  ]
+}
+2025-09-24 01:16:28,782 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:28,782 - INFO - ✅ Match found for product_ID 'product_electric_axles' in product nodes
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:16:28,782 - INFO - ✅ Match found for product_ID 'product_electric_motors' in product nodes
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 01:16:28,782 - INFO - ✅ Match found for product_ID 'product_powertrain_components' in product nodes
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:16:28,782 - INFO - ✅ Match found for product_ID 'transmission_systems' in product nodes
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:16:28,782 - INFO -   ➕ Set field 'product_lv2': transmission
+2025-09-24 01:16:28,782 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:16:28,782 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:16:28,782 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:16:30,011 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:30,011 - INFO - {
+  "relationships": [
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_wooster_ohio"
+    },
+    {
+      "source": "company_schaeffler",
+      "type": "owns",
+      "target": "factory_dover_ohio"
+    }
+  ]
+}
+2025-09-24 01:16:30,011 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:30,011 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:16:30,011 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:16:32,570 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:32,570 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_axles",
+      "target": "factory_dover_ohio",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_motors",
+      "target": "factory_wooster_ohio",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_powertrain_components",
+      "target": "factory_wooster_ohio",
+      "type": "produced_at"
+    },
+    {
+      "source": "transmission_systems",
+      "target": "factory_wooster_ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:16:32,571 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:32,571 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:16:32,571 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:16:33,389 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:33,389 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:16:33,389 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:33,389 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:16:33,389 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:16:34,308 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:34,309 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dover_factory",
+      "target": "factory_dover_ohio",
+      "type": "funds"
+    },
+    {
+      "source": "investment_dover_factory",
+      "target": "product_electric_axles",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:16:34,309 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:34,401 - INFO - ✅ Updated Article ID: 68d2e4e5a796126e32149d80 with 8 nodes and combined text.

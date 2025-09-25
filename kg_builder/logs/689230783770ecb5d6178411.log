@@ -1,0 +1,164 @@
+2025-09-24 01:41:14,611 - INFO - 🔍 Text length: 1538 characters
+2025-09-24 01:41:14,611 - INFO - 📌 Processing Article ID: 689230783770ecb5d6178411 — Lyten to Take Over Northvolt Plant in Poland
+2025-09-24 01:41:14,611 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:41:17,890 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:41:17,890 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lyten",
+        "type": "company",
+        "name": "Lyten"
+      },
+      {
+        "id": "company_northvolt_systems",
+        "type": "company",
+        "name": "Northvolt Systems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gdansk_poland",
+        "type": "factory",
+        "name": "Northvolt Dwa ESS",
+        "location": {
+          "city": "Gdansk",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_6_gwh_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "six gigawatt-hours per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_10_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "more than ten gigawatt-hours per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      },
+      {
+        "id": "product_lithium_sulfur_batteries",
+        "type": "product",
+        "name": "lithium-sulfur batteries"
+      }
+    ]
+  }
+}
+2025-09-24 01:41:17,890 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:41:17,890 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:41:17,890 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:41:19,149 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:41:19,149 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_6_gwh_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_10_gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 01:41:19,149 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:41:19,149 - INFO - ✅ Match found for capacity_ID 'capacity_6_gwh_operational' in capacity nodes
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:41:19,149 - INFO - ✅ Match found for capacity_ID 'capacity_10_gwh_announced' in capacity nodes
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'status': announced
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 01:41:19,149 - INFO -   ➕ Set field 'additional': True
+2025-09-24 01:41:19,149 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:41:19,149 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:41:19,149 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:41:20,662 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:41:20,662 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_energy_storage_systems",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_lithium_sulfur_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:41:20,662 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:41:20,662 - INFO - ✅ Match found for product_ID 'product_energy_storage_systems' in product nodes
+2025-09-24 01:41:20,662 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:41:20,662 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 01:41:20,662 - INFO - ✅ Match found for product_ID 'product_lithium_sulfur_batteries' in product nodes
+2025-09-24 01:41:20,662 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:41:20,662 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:41:20,663 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:41:20,663 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:41:20,663 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:41:21,583 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:41:21,584 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lyten",
+      "type": "owns",
+      "target": "factory_gdansk_poland"
+    }
+  ]
+}
+2025-09-24 01:41:21,584 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:41:21,584 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:41:21,584 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:41:23,467 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:41:23,468 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_6_gwh_operational",
+      "target": "factory_gdansk_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_gwh_announced",
+      "target": "factory_gdansk_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_6_gwh_operational",
+      "target": "product_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_10_gwh_announced",
+      "target": "product_energy_storage_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_energy_storage_systems",
+      "target": "factory_gdansk_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:41:23,468 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:41:23,468 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:41:23,468 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:41:23,559 - INFO - ✅ Updated Article ID: 689230783770ecb5d6178411 with 7 nodes and combined text.

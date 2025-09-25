@@ -1,0 +1,115 @@
+2025-09-24 21:04:08,819 - INFO - 🔍 Text length: 7373 characters
+2025-09-24 21:04:08,819 - INFO - 📌 Processing Article ID: 68d3ea643e609fb288d7cb5a — BMW investiert in „sauberes Lithium“
+2025-09-24 21:04:08,820 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:04:11,589 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:11,589 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_lilac_solutions",
+        "type": "company",
+        "name": "Lilac Solutions"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_bmw_i_ventures_lilac_solutions",
+        "type": "joint_venture",
+        "name": "BMW i Ventures Lilac Solutions"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_lilac_solutions",
+        "type": "investment",
+        "name": "BMW Lilac Solutions Investment",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "lithium"
+      }
+    ]
+  }
+}
+2025-09-24 21:04:11,589 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:11,589 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:04:11,589 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:04:11,589 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:04:12,543 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:12,543 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_lilac_solutions",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:04:12,543 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:12,543 - INFO - ✅ Match found for investment_ID 'investment_bmw_lilac_solutions' in investment nodes
+2025-09-24 21:04:12,543 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:04:12,543 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:04:12,543 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:04:12,543 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:04:12,543 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:04:14,046 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:14,046 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:04:14,046 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:14,047 - INFO - ✅ Match found for product_ID 'product_lithium' in product nodes
+2025-09-24 21:04:14,047 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:04:14,047 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:04:14,047 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:04:14,047 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:04:14,047 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:04:14,660 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:14,660 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:04:14,660 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:14,660 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:04:14,660 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:04:15,377 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:15,378 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:04:15,378 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:15,378 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:04:15,378 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:04:16,606 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:16,606 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:04:16,606 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:16,606 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:04:16,606 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:04:17,630 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:04:17,630 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_lilac_solutions",
+      "target": "product_lithium",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:04:17,630 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:04:17,729 - INFO - ✅ Updated Article ID: 68d3ea643e609fb288d7cb5a with 5 nodes and combined text.

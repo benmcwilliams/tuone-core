@@ -1,0 +1,71 @@
+2025-09-25 01:51:07,381 - INFO - 🔍 Text length: 2205 characters
+2025-09-25 01:51:07,381 - INFO - 📌 Processing Article ID: 68d3c5cf3e609fb288d7c63d — Hyundai and Toyota misled customers over EV charging times
+2025-09-25 01:51:07,381 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:51:08,772 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:51:08,772 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_hyundai",
+        "type": "company",
+        "name": "Hyundai"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bz4x",
+        "type": "product",
+        "name": "bZ4X"
+      },
+      {
+        "id": "product_ioniq_5",
+        "type": "product",
+        "name": "IONIQ 5"
+      }
+    ]
+  }
+}
+2025-09-25 01:51:08,772 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:51:08,773 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:51:08,773 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:51:08,773 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:51:08,773 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:51:10,459 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:51:10,459 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bz4x",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ioniq_5",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:51:10,459 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:51:10,459 - INFO - ✅ Match found for product_ID 'product_bz4x' in product nodes
+2025-09-25 01:51:10,459 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:51:10,459 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:51:10,459 - INFO - ✅ Match found for product_ID 'product_ioniq_5' in product nodes
+2025-09-25 01:51:10,459 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:51:10,459 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:51:10,459 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:51:10,459 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-25 01:51:10,459 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:51:10,459 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:51:11,070 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:51:11,071 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:51:11,071 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:51:11,071 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:51:11,071 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:51:11,163 - INFO - ✅ Updated Article ID: 68d3c5cf3e609fb288d7c63d with 4 nodes and combined text.

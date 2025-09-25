@@ -1,0 +1,116 @@
+2025-09-24 00:44:07,207 - INFO - 🔍 Text length: 1134 characters
+2025-09-24 00:44:07,207 - INFO - 📌 Processing Article ID: 68d2eb636610d16cff96eb53 — BYD signs preliminary deal for Hungary factory
+2025-09-24 00:44:07,207 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:44:09,810 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:44:09,810 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_szeged_hungary",
+        "type": "factory",
+        "name": "Szeged Factory",
+        "location": {
+          "city": "Szeged",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_komarom_hungary",
+        "type": "factory",
+        "name": "Komarom Factory",
+        "location": {
+          "city": "Komarom",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_cars",
+        "type": "product",
+        "name": "electric cars"
+      },
+      {
+        "id": "product_electric_buses",
+        "type": "product",
+        "name": "electric buses"
+      }
+    ]
+  }
+}
+2025-09-24 00:44:09,811 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:44:09,811 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:44:09,811 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:44:09,811 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:44:09,811 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:44:11,187 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:44:11,187 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_cars",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_electric_buses",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:44:11,187 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:44:11,187 - INFO - ✅ Match found for product_ID 'product_electric_cars' in product nodes
+2025-09-24 00:44:11,187 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:44:11,187 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:44:11,187 - INFO - ✅ Match found for product_ID 'product_electric_buses' in product nodes
+2025-09-24 00:44:11,188 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:44:11,188 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:44:11,188 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:44:11,188 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:44:11,188 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:44:12,732 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:44:12,733 - INFO - {
+  "relationships": [
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_szeged_hungary"
+    },
+    {
+      "source": "company_byd",
+      "type": "owns",
+      "target": "factory_komarom_hungary"
+    }
+  ]
+}
+2025-09-24 00:44:12,733 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:44:12,733 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:44:12,733 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:44:14,110 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:44:14,110 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_cars",
+      "target": "factory_szeged_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_buses",
+      "target": "factory_komarom_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:44:14,110 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:44:14,110 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:44:14,110 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:44:14,207 - INFO - ✅ Updated Article ID: 68d2eb636610d16cff96eb53 with 5 nodes and combined text.

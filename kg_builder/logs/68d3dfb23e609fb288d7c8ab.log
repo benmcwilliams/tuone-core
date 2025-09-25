@@ -1,0 +1,162 @@
+2025-09-24 23:45:30,252 - INFO - 🔍 Text length: 1883 characters
+2025-09-24 23:45:30,252 - INFO - 📌 Processing Article ID: 68d3dfb23e609fb288d7c8ab — Foxconn announces Lordstown investments
+2025-09-24 23:45:30,252 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:45:33,019 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:33,019 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_foxconn",
+        "type": "company",
+        "name": "Foxconn"
+      },
+      {
+        "id": "company_lordstown_motors",
+        "type": "company",
+        "name": "Lordstown Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_former_general_motors ohio",
+        "type": "factory",
+        "name": "Former General Motors Ohio Factory",
+        "location": {
+          "city": "Lordstown",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lordstown_motors_class_a_common_stock",
+        "type": "investment",
+        "name": "Lordstown Motors Class A Common Stock",
+        "amount": "US$70 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_lordstown_motors_series_a_convertible_preferred_stock",
+        "type": "investment",
+        "name": "Lordstown Motors Series A Convertible Preferred Stock",
+        "amount": "up to $100m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_pickup_truck",
+        "type": "product",
+        "name": "electric pickup truck"
+      },
+      {
+        "id": "product_electric_vehicle_programme",
+        "type": "product",
+        "name": "electric vehicle programme"
+      }
+    ]
+  }
+}
+2025-09-24 23:45:33,020 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:33,020 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:45:33,020 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:45:33,020 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:45:34,558 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:34,558 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lordstown_motors_class_a_common_stock",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_lordstown_motors_series_a_convertible_preferred_stock",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 23:45:34,558 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:34,558 - INFO - ✅ Match found for investment_ID 'investment_lordstown_motors_class_a_common_stock' in investment nodes
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:45:34,558 - INFO - ✅ Match found for investment_ID 'investment_lordstown_motors_series_a_convertible_preferred_stock' in investment nodes
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:45:34,558 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:45:34,558 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:45:34,558 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:45:36,000 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:36,000 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_pickup_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_electric_vehicle_programme",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:45:36,000 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:36,000 - INFO - ✅ Match found for product_ID 'product_electric_pickup_truck' in product nodes
+2025-09-24 23:45:36,000 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:45:36,000 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:45:36,000 - INFO - ✅ Match found for product_ID 'product_electric_vehicle_programme' in product nodes
+2025-09-24 23:45:36,000 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:45:36,000 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:45:36,000 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:45:36,000 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:45:36,001 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:45:37,218 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:37,218 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lordstown_motors",
+      "type": "owns",
+      "target": "factory_former_general_motors ohio"
+    }
+  ]
+}
+2025-09-24 23:45:37,218 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:37,218 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:45:37,218 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:45:38,443 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:38,444 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_pickup_truck",
+      "target": "factory_former_general_motors ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:45:38,444 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:38,444 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:45:38,444 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:45:39,166 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:39,166 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:45:39,166 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:39,166 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:45:39,166 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:45:40,905 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:45:40,905 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lordstown_motors_series_a_convertible_preferred_stock",
+      "target": "product_electric_vehicle_programme",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:45:40,905 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:45:41,005 - INFO - ✅ Updated Article ID: 68d3dfb23e609fb288d7c8ab with 7 nodes and combined text.

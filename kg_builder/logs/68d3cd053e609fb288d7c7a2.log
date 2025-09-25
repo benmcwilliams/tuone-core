@@ -1,0 +1,114 @@
+2025-09-25 00:38:40,734 - INFO - 🔍 Text length: 3938 characters
+2025-09-25 00:38:40,735 - INFO - 📌 Processing Article ID: 68d3cd053e609fb288d7c7a2 — Bentley to axe W12 petrol engine
+2025-09-25 00:38:40,735 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:38:44,704 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:38:44,705 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bentley",
+        "type": "company",
+        "name": "Bentley"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_crewe_uk",
+        "type": "factory",
+        "name": "Crewe",
+        "location": {
+          "city": "Crewe",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_w12_engine",
+        "type": "product",
+        "name": "W12 engine"
+      },
+      {
+        "id": "product_bentley_batur",
+        "type": "product",
+        "name": "Bentley Batur"
+      },
+      {
+        "id": "product_bentayga",
+        "type": "product",
+        "name": "Bentayga"
+      }
+    ]
+  }
+}
+2025-09-25 00:38:44,705 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:38:44,705 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:38:44,705 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:38:44,705 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:38:44,705 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:38:46,548 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:38:46,548 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_w12_engine",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_bentley_batur",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_bentayga",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 00:38:46,548 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:38:46,548 - INFO - ✅ Match found for product_ID 'product_w12_engine' in product nodes
+2025-09-25 00:38:46,548 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:38:46,549 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:38:46,549 - INFO - ✅ Match found for product_ID 'product_bentley_batur' in product nodes
+2025-09-25 00:38:46,549 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:38:46,549 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:38:46,549 - INFO - ✅ Match found for product_ID 'product_bentayga' in product nodes
+2025-09-25 00:38:46,549 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:38:46,549 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:38:46,549 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:38:46,549 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:38:46,549 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:38:47,569 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:38:47,569 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bentley",
+      "type": "owns",
+      "target": "factory_crewe_uk"
+    }
+  ]
+}
+2025-09-25 00:38:47,569 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:38:47,569 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:38:47,569 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:38:48,492 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:38:48,493 - INFO - {
+  "relationships": [
+    {
+      "source": "product_w12_engine",
+      "target": "factory_crewe_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:38:48,493 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:38:48,493 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:38:48,493 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:38:48,583 - INFO - ✅ Updated Article ID: 68d3cd053e609fb288d7c7a2 with 6 nodes and combined text.

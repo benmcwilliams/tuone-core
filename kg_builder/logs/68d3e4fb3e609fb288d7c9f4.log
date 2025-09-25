@@ -1,0 +1,119 @@
+2025-09-24 22:23:28,830 - INFO - 🔍 Text length: 996 characters
+2025-09-24 22:23:28,830 - INFO - 📌 Processing Article ID: 68d3e4fb3e609fb288d7c9f4 — ABEE Begins Mass Production of Lithium Metal Anodes
+2025-09-24 22:23:28,830 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:23:31,398 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:23:31,399 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_abee",
+        "type": "company",
+        "name": "Avesta Battery and Energy Engineering"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_abee_plant",
+        "type": "factory",
+        "name": "ABEE Plant",
+        "location": {
+          "city": "null",
+          "country": "Belgium"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_38_kilometers_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "more than 38 kilometers per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_metal_anodes",
+        "type": "product",
+        "name": "lithium metal anodes"
+      }
+    ]
+  }
+}
+2025-09-24 22:23:31,399 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:23:31,399 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:23:31,399 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:23:32,422 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:23:32,423 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_38_kilometers_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:23:32,423 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:23:32,423 - INFO - ✅ Match found for capacity_ID 'capacity_38_kilometers_per_year' in capacity nodes
+2025-09-24 22:23:32,423 - INFO -   ➕ Set field 'status': operational
+2025-09-24 22:23:32,423 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:23:32,423 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:23:32,423 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:23:32,423 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:23:32,423 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:23:33,542 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:23:33,543 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_metal_anodes",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 22:23:33,543 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:23:33,543 - INFO - ✅ Match found for product_ID 'product_lithium_metal_anodes' in product nodes
+2025-09-24 22:23:33,543 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:23:33,543 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:23:33,543 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:23:33,543 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:23:33,543 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:23:35,290 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:23:35,290 - INFO - {
+  "relationships": [
+    {
+      "source": "company_abee",
+      "type": "owns",
+      "target": "factory_abee_plant"
+    }
+  ]
+}
+2025-09-24 22:23:35,290 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:23:35,290 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:23:35,290 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:23:36,858 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:23:36,858 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_38_kilometers_per_year",
+      "target": "factory_abee_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_38_kilometers_per_year",
+      "target": "product_lithium_metal_anodes",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_metal_anodes",
+      "target": "factory_abee_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:23:36,858 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:23:36,858 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:23:36,858 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:23:36,948 - INFO - ✅ Updated Article ID: 68d3e4fb3e609fb288d7c9f4 with 4 nodes and combined text.

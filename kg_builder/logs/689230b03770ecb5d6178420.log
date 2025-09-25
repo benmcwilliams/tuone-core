@@ -1,0 +1,141 @@
+2025-09-24 01:39:05,920 - INFO - 🔍 Text length: 1175 characters
+2025-09-24 01:39:05,920 - INFO - 📌 Processing Article ID: 689230b03770ecb5d6178420 — GM and Redwood to Develop Energy Storage Systems with U.S. Batteries
+2025-09-24 01:39:05,920 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:39:08,108 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:39:08,108 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_redwood_materials",
+        "type": "company",
+        "name": "Redwood Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sparks_nevada",
+        "type": "factory",
+        "name": "Sparks Facility",
+        "location": {
+          "city": "Sparks",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_energy_storage_solutions",
+        "type": "product",
+        "name": "energy storage solutions"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_12_mw_operational_greenfield",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "12 MW",
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-09-24 01:39:08,108 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:39:08,108 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:39:08,108 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:39:09,075 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:39:09,076 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_12_mw_operational_greenfield",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:39:09,076 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:39:09,076 - INFO - ✅ Match found for capacity_ID 'capacity_12_mw_operational_greenfield' in capacity nodes
+2025-09-24 01:39:09,076 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:39:09,076 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:39:09,076 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:39:09,076 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:39:09,076 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:39:09,076 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:39:10,408 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:39:10,408 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_energy_storage_solutions",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:39:10,408 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:39:10,408 - INFO - ✅ Match found for product_ID 'product_energy_storage_solutions' in product nodes
+2025-09-24 01:39:10,408 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:39:10,408 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 01:39:10,408 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-09-24 01:39:10,408 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:39:10,408 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:39:10,408 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:39:10,408 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:39:10,408 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:39:11,601 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:39:11,601 - INFO - {
+  "relationships": [
+    {
+      "source": "company_redwood_materials",
+      "type": "owns",
+      "target": "factory_sparks_nevada"
+    }
+  ]
+}
+2025-09-24 01:39:11,601 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:39:11,601 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:39:11,601 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:39:12,918 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:39:12,918 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_12_mw_operational_greenfield",
+      "target": "factory_sparks_nevada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_12_mw_operational_greenfield",
+      "target": "product_energy_storage_solutions",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_energy_storage_solutions",
+      "target": "factory_sparks_nevada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:39:12,918 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:39:12,918 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:39:12,918 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:39:13,001 - INFO - ✅ Updated Article ID: 689230b03770ecb5d6178420 with 6 nodes and combined text.

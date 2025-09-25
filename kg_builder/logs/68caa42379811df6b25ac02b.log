@@ -1,0 +1,102 @@
+2025-09-24 01:26:35,300 - INFO - 🔍 Text length: 2597 characters
+2025-09-24 01:26:35,300 - INFO - 📌 Processing Article ID: 68caa42379811df6b25ac02b — Battery Production Days to Offer Six Different Sessions
+2025-09-24 01:26:35,300 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:26:37,422 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:26:37,422 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fraunhofer_research_institution_for_battery_cell_production_ffb",
+        "type": "company",
+        "name": "Fraunhofer Research Institution for Battery Cell Production FFB"
+      },
+      {
+        "id": "company_rwth_aachen_university",
+        "type": "company",
+        "name": "RWTH Aachen University"
+      },
+      {
+        "id": "company_campus_forum",
+        "type": "company",
+        "name": "Campus Forum"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ffb_prefab",
+        "type": "factory",
+        "name": "FFB PreFab",
+        "location": {
+          "city": "M\u00fcnster",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_ffb_fab",
+        "type": "factory",
+        "name": "FFB Fab",
+        "location": {
+          "city": "M\u00fcnster",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cell",
+        "type": "product",
+        "name": "battery cell"
+      }
+    ]
+  }
+}
+2025-09-24 01:26:37,422 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:26:37,423 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:26:37,423 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:26:37,423 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:26:37,423 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:26:38,483 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:26:38,483 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:26:38,483 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:26:38,483 - INFO - ✅ Match found for product_ID 'product_battery_cell' in product nodes
+2025-09-24 01:26:38,483 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:26:38,483 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:26:38,483 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:26:38,483 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:26:38,483 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:26:40,736 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:26:40,736 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fraunhofer_research_institution_for_battery_cell_production_ffb",
+      "type": "owns",
+      "target": "factory_ffb_prefab"
+    },
+    {
+      "source": "company_fraunhofer_research_institution_for_battery_cell_production_ffb",
+      "type": "owns",
+      "target": "factory_ffb_fab"
+    }
+  ]
+}
+2025-09-24 01:26:40,736 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:26:40,736 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:26:40,736 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:26:41,863 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:26:41,863 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:26:41,863 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:26:41,863 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:26:41,863 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:26:41,966 - INFO - ✅ Updated Article ID: 68caa42379811df6b25ac02b with 6 nodes and combined text.

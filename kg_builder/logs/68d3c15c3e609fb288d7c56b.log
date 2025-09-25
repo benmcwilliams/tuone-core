@@ -1,0 +1,96 @@
+2025-09-25 02:33:17,928 - INFO - 🔍 Text length: 2445 characters
+2025-09-25 02:33:17,928 - INFO - 📌 Processing Article ID: 68d3c15c3e609fb288d7c56b — VinFast to start sales in Europe
+2025-09-25 02:33:17,928 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:33:20,122 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:20,122 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vinfast",
+        "type": "company",
+        "name": "VinFast"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northern_vietnam",
+        "type": "factory",
+        "name": "northern Vietnam",
+        "location": {
+          "city": "northern Vietnam",
+          "country": "Vietnam"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vf8",
+        "type": "product",
+        "name": "VF8"
+      },
+      {
+        "id": "product_vf9",
+        "type": "product",
+        "name": "VF9"
+      }
+    ]
+  }
+}
+2025-09-25 02:33:20,123 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:20,123 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:33:20,123 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:33:20,123 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:33:20,123 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:33:21,657 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:21,657 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vf8",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_vf9",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:33:21,657 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:21,657 - INFO - ✅ Match found for product_ID 'product_vf8' in product nodes
+2025-09-25 02:33:21,657 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:33:21,657 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:33:21,657 - INFO - ✅ Match found for product_ID 'product_vf9' in product nodes
+2025-09-25 02:33:21,657 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:33:21,657 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:33:21,657 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:33:21,657 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:33:21,657 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:33:22,869 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:22,869 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vinfast",
+      "type": "owns",
+      "target": "factory_northern_vietnam"
+    }
+  ]
+}
+2025-09-25 02:33:22,869 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:22,869 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:33:22,869 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:33:25,202 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:25,202 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vf8",
+      "target": "factory_northern_vietnam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:33:25,202 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:25,202 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:33:25,202 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:33:25,290 - INFO - ✅ Updated Article ID: 68d3c15c3e609fb288d7c56b with 4 nodes and combined text.

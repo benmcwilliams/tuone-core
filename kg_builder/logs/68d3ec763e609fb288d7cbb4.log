@@ -1,0 +1,151 @@
+2025-09-24 19:35:25,355 - INFO - 🔍 Text length: 7223 characters
+2025-09-24 19:35:25,355 - INFO - 📌 Processing Article ID: 68d3ec763e609fb288d7cbb4 — SVOLT erhöht auf 600 Gigawattstunden
+2025-09-24 19:35:25,355 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:35:29,673 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:35:29,674 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_svolt",
+        "type": "company",
+        "name": "SVOLT"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ueberherrn_saarland",
+        "type": "factory",
+        "name": "\u00dcberherrn Battery Factory",
+        "location": {
+          "city": "\u00dcberherrn",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_600_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "600 Gigawattstunden",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_24_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "24 Gigawattstunden",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "Batteries"
+      }
+    ]
+  }
+}
+2025-09-24 19:35:29,674 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:35:29,674 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 19:35:29,674 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 19:35:31,369 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:35:31,369 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_600_gwh_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_24_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 19:35:31,369 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:35:31,369 - INFO - ✅ Match found for capacity_ID 'capacity_600_gwh_announced' in capacity nodes
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'additional': False
+2025-09-24 19:35:31,370 - INFO - ✅ Match found for capacity_ID 'capacity_24_gwh_announced' in capacity nodes
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 19:35:31,370 - INFO -   ➕ Set field 'additional': False
+2025-09-24 19:35:31,370 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:35:31,370 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:35:31,370 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:35:32,781 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:35:32,781 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 19:35:32,781 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:35:32,781 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-24 19:35:32,781 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:35:32,781 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:35:32,781 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:35:32,781 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:35:32,781 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:35:34,382 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:35:34,383 - INFO - {
+  "relationships": [
+    {
+      "source": "company_svolt",
+      "type": "owns",
+      "target": "factory_ueberherrn_saarland"
+    }
+  ]
+}
+2025-09-24 19:35:34,383 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:35:34,383 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:35:34,383 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:35:39,638 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:35:39,639 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_600_gwh_announced",
+      "target": "factory_ueberherrn_saarland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_24_gwh_announced",
+      "target": "factory_ueberherrn_saarland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_600_gwh_announced",
+      "target": "product_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_24_gwh_announced",
+      "target": "product_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_ueberherrn_saarland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:35:39,639 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:35:39,639 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:35:39,639 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:35:39,724 - INFO - ✅ Updated Article ID: 68d3ec763e609fb288d7cbb4 with 6 nodes and combined text.

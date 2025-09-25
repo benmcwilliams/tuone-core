@@ -1,0 +1,93 @@
+2025-09-24 23:11:14,248 - INFO - 🔍 Text length: 6488 characters
+2025-09-24 23:11:14,248 - INFO - 📌 Processing Article ID: 68d3e1cc3e609fb288d7c924 — Start-up Recharge könnte Britishvolt wiederbeleben
+2025-09-24 23:11:14,248 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:11:16,707 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:11:16,707 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_recharge_industries",
+        "type": "company",
+        "name": "Recharge Industries"
+      },
+      {
+        "id": "company_britishvolt",
+        "type": "company",
+        "name": "Britishvolt"
+      },
+      {
+        "id": "company_scale_facilitation",
+        "type": "company",
+        "name": "Scale Facilitation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_geelong_australia",
+        "type": "factory",
+        "name": "Geelong Battery Factory",
+        "location": {
+          "city": "Geelong",
+          "country": "Australia"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 23:11:16,707 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:11:16,707 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:11:16,707 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:11:16,707 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:11:16,707 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:11:17,849 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:11:17,849 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 23:11:17,849 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:11:17,849 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 23:11:17,849 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:11:17,849 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:11:17,849 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:11:17,849 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:11:17,849 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:11:18,869 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:11:18,869 - INFO - {
+  "relationships": [
+    {
+      "source": "company_recharge_industries",
+      "type": "owns",
+      "target": "factory_geelong_australia"
+    }
+  ]
+}
+2025-09-24 23:11:18,869 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:11:18,869 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:11:18,869 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:11:20,085 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:11:20,085 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_geelong_australia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:11:20,085 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:11:20,085 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:11:20,086 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:11:20,169 - INFO - ✅ Updated Article ID: 68d3e1cc3e609fb288d7c924 with 5 nodes and combined text.

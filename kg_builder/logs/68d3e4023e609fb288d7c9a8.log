@@ -1,0 +1,149 @@
+2025-09-24 22:37:47,885 - INFO - 🔍 Text length: 1873 characters
+2025-09-24 22:37:47,885 - INFO - 📌 Processing Article ID: 68d3e4023e609fb288d7c9a8 — BASF Pauses Battery Recycling Project in Tarragona
+2025-09-24 22:37:47,885 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:37:50,759 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:50,760 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_powerco",
+        "type": "company",
+        "name": "PowerCo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tarragona_spain",
+        "type": "factory",
+        "name": "Tarragona Site",
+        "location": {
+          "city": "Tarragona",
+          "country": "Spain"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eu_clean_tech_projects",
+        "type": "investment",
+        "name": "EU Clean Tech Projects",
+        "amount": "3.6 billion euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      },
+      {
+        "id": "product_battery_materials",
+        "type": "product",
+        "name": "battery materials"
+      }
+    ]
+  }
+}
+2025-09-24 22:37:50,760 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:50,760 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:37:50,760 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:37:50,760 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:37:51,987 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:51,988 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eu_clean_tech_projects",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:37:51,988 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:51,988 - INFO - ✅ Match found for investment_ID 'investment_eu_clean_tech_projects' in investment nodes
+2025-09-24 22:37:51,988 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:37:51,988 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:37:51,988 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:37:51,988 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:37:51,988 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:37:53,729 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:53,729 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_battery_materials",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 22:37:53,729 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:53,730 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 22:37:53,730 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:37:53,730 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:37:53,730 - INFO - ✅ Match found for product_ID 'product_battery_materials' in product nodes
+2025-09-24 22:37:53,730 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 22:37:53,730 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:37:53,730 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:37:53,730 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:37:54,694 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:54,694 - INFO - {
+  "relationships": [
+    {
+      "source": "company_basf",
+      "type": "owns",
+      "target": "factory_tarragona_spain"
+    }
+  ]
+}
+2025-09-24 22:37:54,694 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:54,694 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:37:54,694 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:37:55,879 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:55,879 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_tarragona_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:37:55,879 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:55,879 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:37:55,879 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:37:56,495 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:56,495 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:37:56,495 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:56,496 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:37:56,496 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:37:57,313 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:37:57,313 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_eu_clean_tech_projects",
+      "target": "product_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:37:57,313 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:37:57,404 - INFO - ✅ Updated Article ID: 68d3e4023e609fb288d7c9a8 with 7 nodes and combined text.

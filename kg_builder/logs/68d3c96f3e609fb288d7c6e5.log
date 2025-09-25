@@ -1,0 +1,116 @@
+2025-09-25 01:15:31,505 - INFO - 🔍 Text length: 1605 characters
+2025-09-25 01:15:31,505 - INFO - 📌 Processing Article ID: 68d3c96f3e609fb288d7c6e5 — Apollo announces another BMW OEM tyre deal
+2025-09-25 01:15:31,505 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:15:33,705 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:15:33,706 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_apollo_tyres",
+        "type": "company",
+        "name": "Apollo Tyres"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gyongyoshalasz_plant",
+        "type": "factory",
+        "name": "Gyongyoshalasz plant",
+        "location": {
+          "city": "Gyongyoshalasz",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_regensburg_factory",
+        "type": "factory",
+        "name": "Regensburg factory",
+        "location": {
+          "city": "Regensburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vredestein_ultrac_summer_tyre",
+        "type": "product",
+        "name": "Vredestein Ultrac summer tyre"
+      },
+      {
+        "id": "product_ultrac_tyres",
+        "type": "product",
+        "name": "Ultrac tyres"
+      }
+    ]
+  }
+}
+2025-09-25 01:15:33,706 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:15:33,706 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:15:33,706 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:15:33,706 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:15:33,706 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:15:35,857 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:15:35,858 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vredestein_ultrac_summer_tyre",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_ultrac_tyres",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 01:15:35,858 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:15:35,858 - INFO - ✅ Match found for product_ID 'product_vredestein_ultrac_summer_tyre' in product nodes
+2025-09-25 01:15:35,858 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:15:35,858 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 01:15:35,858 - INFO - ✅ Match found for product_ID 'product_ultrac_tyres' in product nodes
+2025-09-25 01:15:35,858 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:15:35,858 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 01:15:35,858 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:15:35,858 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:15:35,858 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:15:38,344 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:15:38,344 - INFO - {
+  "relationships": [
+    {
+      "source": "company_apollo_tyres",
+      "type": "owns",
+      "target": "factory_gyongyoshalasz_plant"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_regensburg_factory"
+    }
+  ]
+}
+2025-09-25 01:15:38,344 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:15:38,344 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:15:38,344 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:15:39,543 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:15:39,543 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vredestein_ultrac_summer_tyre",
+      "target": "factory_gyongyoshalasz_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:15:39,543 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:15:39,543 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:15:39,543 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:15:39,634 - INFO - ✅ Updated Article ID: 68d3c96f3e609fb288d7c6e5 with 6 nodes and combined text.

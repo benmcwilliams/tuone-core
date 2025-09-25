@@ -1,0 +1,147 @@
+2025-09-25 01:25:50,664 - INFO - 🔍 Text length: 2432 characters
+2025-09-25 01:25:50,664 - INFO - 📌 Processing Article ID: 68d3c8723e609fb288d7c6b7 — Ford to announce new US EV battery plant
+2025-09-25 01:25:50,664 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:25:53,557 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:53,557 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_contemporary_amperex_technology",
+        "type": "company",
+        "name": "Contemporary Amperex Technology (CATL)"
+      },
+      {
+        "id": "company_hyundai_mobis",
+        "type": "company",
+        "name": "Hyundai Mobis"
+      },
+      {
+        "id": "company_arun_plus",
+        "type": "company",
+        "name": "Arun Plus"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_marshall_michigan",
+        "type": "factory",
+        "name": "Marshall Lithium Iron Phosphate Battery Plant",
+        "location": {
+          "city": "Marshall",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ford_lithium_iron_phosphate_battery_plant",
+        "type": "investment",
+        "name": "Ford Lithium Iron Phosphate Battery Plant",
+        "amount": "US$3.5bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_battery",
+        "type": "product",
+        "name": "lithium iron phosphate battery"
+      }
+    ]
+  }
+}
+2025-09-25 01:25:53,557 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:53,557 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:25:53,558 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:25:53,558 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:25:55,079 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:55,079 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ford_lithium_iron_phosphate_battery_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:25:55,079 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:55,079 - INFO - ✅ Match found for investment_ID 'investment_ford_lithium_iron_phosphate_battery_plant' in investment nodes
+2025-09-25 01:25:55,079 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:25:55,079 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:25:55,080 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:25:55,080 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:25:55,080 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:25:56,412 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:56,412 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate_battery",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-25 01:25:56,412 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:56,412 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_battery' in product nodes
+2025-09-25 01:25:56,412 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:25:56,412 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 01:25:56,412 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:25:56,412 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:25:56,412 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:25:57,948 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:57,948 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_marshall_michigan"
+    }
+  ]
+}
+2025-09-25 01:25:57,948 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:57,948 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:25:57,948 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:25:58,867 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:58,867 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_battery",
+      "target": "factory_marshall_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:25:58,867 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:58,867 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:25:58,867 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:25:59,484 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:59,484 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:25:59,484 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:59,484 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:25:59,484 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:26:00,727 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:26:00,727 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ford_lithium_iron_phosphate_battery_plant",
+      "target": "factory_marshall_michigan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ford_lithium_iron_phosphate_battery_plant",
+      "target": "product_lithium_iron_phosphate_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:26:00,727 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:26:00,820 - INFO - ✅ Updated Article ID: 68d3c8723e609fb288d7c6b7 with 7 nodes and combined text.

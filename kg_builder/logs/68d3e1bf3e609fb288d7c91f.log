@@ -1,0 +1,273 @@
+2025-09-24 23:11:57,906 - INFO - 🔍 Text length: 7270 characters
+2025-09-24 23:11:57,906 - INFO - 📌 Processing Article ID: 68d3e1bf3e609fb288d7c91f — LGES plant Werk in Europa
+2025-09-24 23:11:57,906 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:12:02,685 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:02,685 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_breslau_poland",
+        "type": "factory",
+        "name": "Breslau Factory",
+        "location": {
+          "city": "Breslau",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_ivancsa_hungary",
+        "type": "factory",
+        "name": "Ivancsa Factory",
+        "location": {
+          "city": "Ivancsa",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_gruenheide_germany",
+        "type": "factory",
+        "name": "Gruenheide Factory",
+        "location": {
+          "city": "Gruenheide",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sk_on_european_expansion",
+        "type": "investment",
+        "name": "SK On European Expansion",
+        "amount": "2 billion euros",
+        "status": "completed"
+      },
+      {
+        "id": "investment_ivancsa_factory_construction",
+        "type": "investment",
+        "name": "Ivancsa Factory Construction",
+        "amount": "2.5 billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_gwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 Gigawatt hours per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_100_gwh_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 Gigawatt hours",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_4680_cells",
+        "type": "product",
+        "name": "4680 cells"
+      },
+      {
+        "id": "product_pouch_cells",
+        "type": "product",
+        "name": "Pouch cells"
+      },
+      {
+        "id": "product_cylindrical_batteries",
+        "type": "product",
+        "name": "cylindrical batteries"
+      }
+    ]
+  }
+}
+2025-09-24 23:12:02,685 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:02,686 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:12:02,686 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:12:04,050 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:04,050 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_gwh_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_100_gwh_unclear",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 23:12:04,050 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:04,050 - INFO - ✅ Match found for capacity_ID 'capacity_30_gwh_per_year' in capacity nodes
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:12:04,050 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh_unclear' in capacity nodes
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 23:12:04,050 - INFO -   ➕ Set field 'additional': True
+2025-09-24 23:12:04,050 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:12:04,050 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:12:06,268 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:06,268 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sk_on_european_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_ivancsa_factory_construction",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:12:06,268 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:06,269 - INFO - ✅ Match found for investment_ID 'investment_sk_on_european_expansion' in investment nodes
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:12:06,269 - INFO - ✅ Match found for investment_ID 'investment_ivancsa_factory_construction' in investment nodes
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:12:06,269 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:12:06,269 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:12:06,269 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:12:08,216 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:08,216 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_4680_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_pouch_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_cylindrical_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 23:12:08,216 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:08,216 - INFO - ✅ Match found for product_ID 'product_4680_cells' in product nodes
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:12:08,216 - INFO - ✅ Match found for product_ID 'product_pouch_cells' in product nodes
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:12:08,216 - INFO - ✅ Match found for product_ID 'product_cylindrical_batteries' in product nodes
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:08,216 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:12:08,216 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:12:08,216 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:12:08,216 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:12:09,444 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:09,444 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_breslau_poland"
+    },
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_ivancsa_hungary"
+    }
+  ]
+}
+2025-09-24 23:12:09,444 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:09,444 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:12:09,444 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:12:11,697 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:11,697 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_gwh_per_year",
+      "target": "factory_ivancsa_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_gwh_per_year",
+      "target": "product_pouch_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pouch_cells",
+      "target": "factory_ivancsa_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_100_gwh_unclear",
+      "target": "factory_breslau_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh_unclear",
+      "target": "product_pouch_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pouch_cells",
+      "target": "factory_breslau_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:12:11,697 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:11,697 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:12:11,698 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:12:12,711 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:12,712 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:12:12,712 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:12,712 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:12:12,712 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:12:13,865 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:13,866 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ivancsa_factory_construction",
+      "type": "funds",
+      "target": "factory_ivancsa_hungary"
+    },
+    {
+      "source": "investment_ivancsa_factory_construction",
+      "type": "targets",
+      "target": "product_pouch_cells"
+    }
+  ]
+}
+2025-09-24 23:12:13,866 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:13,950 - INFO - ✅ Updated Article ID: 68d3e1bf3e609fb288d7c91f with 12 nodes and combined text.

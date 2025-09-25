@@ -1,0 +1,184 @@
+2025-09-24 23:14:23,242 - INFO - 🔍 Text length: 922 characters
+2025-09-24 23:14:23,242 - INFO - 📌 Processing Article ID: 68d3e1833e609fb288d7c911 — Finnish Minerals Group plans battery material plants
+2025-09-24 23:14:23,243 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:14:27,050 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:14:27,050 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_finnish_minerals_group",
+        "type": "company",
+        "name": "Finnish Minerals Group"
+      },
+      {
+        "id": "company_beijing_easpring_material_technology",
+        "type": "company",
+        "name": "Beijing Easpring Material Technology"
+      },
+      {
+        "id": "company_cngr_finland_oy",
+        "type": "company",
+        "name": "CNGR Finland Oy"
+      },
+      {
+        "id": "company_cngr_advanced_material",
+        "type": "company",
+        "name": "CNGR Advanced Material"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_finnish_minerals_group_cngr_advanced_material",
+        "type": "joint_venture",
+        "name": "Finnish Minerals Group CNGR Advanced Material"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kotka_finland",
+        "type": "factory",
+        "name": "Kotka CAM Factory",
+        "location": {
+          "city": "Kotka",
+          "country": "Finland"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_hamina_finland",
+        "type": "factory",
+        "name": "Hamina pCAM Plant",
+        "location": {
+          "city": "Hamina",
+          "country": "Finland"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_active_materials",
+        "type": "product",
+        "name": "cathode active materials (CAM)"
+      },
+      {
+        "id": "product_precursor_materials",
+        "type": "product",
+        "name": "precursor materials (pCAM)"
+      }
+    ]
+  }
+}
+2025-09-24 23:14:27,050 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:14:27,050 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:14:27,050 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:14:28,076 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:14:28,077 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_tons_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:14:28,077 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:14:28,077 - INFO - ✅ Match found for capacity_ID 'capacity_50k_tons_per_year' in capacity nodes
+2025-09-24 23:14:28,077 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:14:28,077 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:14:28,077 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:14:28,077 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:14:28,077 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:14:28,077 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:14:29,611 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:14:29,612 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_active_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_precursor_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 23:14:29,612 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:14:29,612 - INFO - ✅ Match found for product_ID 'product_cathode_active_materials' in product nodes
+2025-09-24 23:14:29,612 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:14:29,612 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 23:14:29,612 - INFO - ✅ Match found for product_ID 'product_precursor_materials' in product nodes
+2025-09-24 23:14:29,612 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:14:29,612 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 23:14:29,612 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:14:29,612 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:14:29,612 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:14:31,558 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:14:31,559 - INFO - {
+  "relationships": [
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "forms",
+      "target": "joint_venture_finnish_minerals_group_cngr_advanced_material"
+    },
+    {
+      "source": "company_cngr_advanced_material",
+      "type": "forms",
+      "target": "joint_venture_finnish_minerals_group_cngr_advanced_material"
+    },
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "owns",
+      "target": "factory_kotka_finland"
+    },
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "owns",
+      "target": "factory_hamina_finland"
+    }
+  ]
+}
+2025-09-24 23:14:31,559 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:14:31,559 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:14:31,559 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:14:33,709 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:14:33,709 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_tons_per_year",
+      "target": "factory_kotka_finland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_tons_per_year",
+      "target": "product_cathode_active_materials",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cathode_active_materials",
+      "target": "factory_kotka_finland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_precursor_materials",
+      "target": "factory_hamina_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:14:33,709 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:14:33,709 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:14:33,709 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:14:33,807 - INFO - ✅ Updated Article ID: 68d3e1833e609fb288d7c911 with 10 nodes and combined text.

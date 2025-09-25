@@ -1,0 +1,202 @@
+2025-09-25 00:07:20,453 - INFO - 🔍 Text length: 1987 characters
+2025-09-25 00:07:20,453 - INFO - 📌 Processing Article ID: 68d3cf693e609fb288d7c83a — BMW to expand EV battery production in China
+2025-09-25 00:07:20,453 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:07:23,565 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:23,566 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_contemporary_amperex_technology_company_limited",
+        "type": "company",
+        "name": "Contemporary Amperex Technology Company Limited"
+      },
+      {
+        "id": "company_eve_energy_company_ltd",
+        "type": "company",
+        "name": "EVE Energy Company Ltd"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_bmw_brilliance_automobile",
+        "type": "joint_venture",
+        "name": "BMW Brilliance Automobile"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dadong_vehicle_plant",
+        "type": "factory",
+        "name": "Dadong vehicle plant",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_lydia_assembly_plant",
+        "type": "factory",
+        "name": "Lydia assembly plant",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_shenyang_china",
+        "type": "factory",
+        "name": "Shenyang EV Battery Facility",
+        "location": {
+          "city": "Shenyang",
+          "country": "China"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_ev_battery_expansion",
+        "type": "investment",
+        "name": "BMW EV Battery Expansion",
+        "amount": "CNY10bn (US$1.4bn)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_cells",
+        "type": "product",
+        "name": "EV battery cells"
+      },
+      {
+        "id": "product_ev_battery_packs",
+        "type": "product",
+        "name": "EV battery packs"
+      }
+    ]
+  }
+}
+2025-09-25 00:07:23,566 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:23,566 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:07:23,566 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 00:07:23,566 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 00:07:24,387 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:24,387 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_ev_battery_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 00:07:24,387 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:24,387 - INFO - ✅ Match found for investment_ID 'investment_bmw_ev_battery_expansion' in investment nodes
+2025-09-25 00:07:24,387 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:07:24,387 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 00:07:24,387 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:07:24,387 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:07:24,387 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:07:25,673 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:25,673 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_ev_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-25 00:07:25,673 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:25,673 - INFO - ✅ Match found for product_ID 'product_ev_battery_cells' in product nodes
+2025-09-25 00:07:25,673 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:07:25,673 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 00:07:25,673 - INFO - ✅ Match found for product_ID 'product_ev_battery_packs' in product nodes
+2025-09-25 00:07:25,673 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:07:25,673 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 00:07:25,673 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:07:25,673 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:07:25,673 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:07:27,168 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:27,168 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "forms",
+      "target": "joint_venture_bmw_brilliance_automobile"
+    },
+    {
+      "source": "joint_venture_bmw_brilliance_automobile",
+      "type": "owns",
+      "target": "factory_shenyang_china"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_dadong_vehicle_plant"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_lydia_assembly_plant"
+    }
+  ]
+}
+2025-09-25 00:07:27,168 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:27,168 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:07:27,168 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:07:28,380 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:28,380 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_packs",
+      "target": "factory_shenyang_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_battery_cells",
+      "target": "factory_dadong_vehicle_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_battery_cells",
+      "target": "factory_lydia_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:07:28,380 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:28,380 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 00:07:28,380 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 00:07:29,301 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:29,301 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:07:29,301 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:29,302 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 00:07:29,302 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 00:07:30,222 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:07:30,222 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_ev_battery_expansion",
+      "target": "factory_shenyang_china",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 00:07:30,222 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:07:30,315 - INFO - ✅ Updated Article ID: 68d3cf693e609fb288d7c83a with 10 nodes and combined text.

@@ -1,0 +1,119 @@
+2025-09-24 23:07:01,352 - INFO - 🔍 Text length: 1221 characters
+2025-09-24 23:07:01,353 - INFO - 📌 Processing Article ID: 68d3e22a3e609fb288d7c93c — Octillion Inaugurates Battery System Facility in Nevada
+2025-09-24 23:07:01,353 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:07:02,771 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:02,771 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_octillion_power_systems",
+        "type": "company",
+        "name": "Octillion Power Systems"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_reno_nevada",
+        "type": "factory",
+        "name": "Reno Facility",
+        "location": {
+          "city": "Reno",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_gigawatt_hour_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "one gigawatt-hour",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      }
+    ]
+  }
+}
+2025-09-24 23:07:02,771 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:02,771 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:07:02,771 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:07:04,928 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:04,928 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_gigawatt_hour_announced",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:07:04,928 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:04,928 - INFO - ✅ Match found for capacity_ID 'capacity_1_gigawatt_hour_announced' in capacity nodes
+2025-09-24 23:07:04,928 - INFO -   ➕ Set field 'status': operational
+2025-09-24 23:07:04,928 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:07:04,928 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:07:04,928 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:07:04,928 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:07:04,928 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:07:06,848 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:06,849 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:07:06,849 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:06,849 - INFO - ✅ Match found for product_ID 'product_battery_systems' in product nodes
+2025-09-24 23:07:06,849 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:07:06,849 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:07:06,849 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:07:06,849 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:07:06,849 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:07:08,637 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:08,637 - INFO - {
+  "relationships": [
+    {
+      "source": "company_octillion_power_systems",
+      "type": "owns",
+      "target": "factory_reno_nevada"
+    }
+  ]
+}
+2025-09-24 23:07:08,637 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:08,637 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:07:08,637 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:07:12,439 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:12,439 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_gigawatt_hour_announced",
+      "target": "factory_reno_nevada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gigawatt_hour_announced",
+      "target": "product_battery_systems",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_reno_nevada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:07:12,439 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:12,439 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:07:12,439 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:07:12,530 - INFO - ✅ Updated Article ID: 68d3e22a3e609fb288d7c93c with 4 nodes and combined text.

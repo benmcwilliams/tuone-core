@@ -1,0 +1,166 @@
+2025-09-24 23:32:53,697 - INFO - 🔍 Text length: 1286 characters
+2025-09-24 23:32:53,697 - INFO - 📌 Processing Article ID: 68d3dfdb3e609fb288d7c8b7 — Posco and GS plan EV battery recycling
+2025-09-24 23:32:53,697 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:32:55,985 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:32:55,985 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_holdings",
+        "type": "company",
+        "name": "Posco Holdings"
+      },
+      {
+        "id": "company_gs_energy_corporation",
+        "type": "company",
+        "name": "GS Energy Corporation"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_posco_gs_eco_materials",
+        "type": "joint_venture",
+        "name": "Posco GS Eco Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_poland_ev_battery_recycling_plant",
+        "type": "factory",
+        "name": "EV Battery Recycling Plant",
+        "location": {
+          "city": "null",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_posco_gs_eco_materials",
+        "type": "investment",
+        "name": "Posco GS Eco Materials",
+        "amount": "KRW170bn (US$120m)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_posco_global_battery_materials_business",
+        "type": "investment",
+        "name": "Posco Global Battery Materials Business",
+        "amount": "KRW25trn (US$18bn)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_recycling",
+        "type": "product",
+        "name": "EV Battery Recycling"
+      }
+    ]
+  }
+}
+2025-09-24 23:32:55,985 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:32:55,985 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:32:55,985 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:32:55,985 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:32:58,137 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:32:58,138 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_posco_gs_eco_materials",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_posco_global_battery_materials_business",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:32:58,138 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:32:58,138 - INFO - ✅ Match found for investment_ID 'investment_posco_gs_eco_materials' in investment nodes
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:32:58,138 - INFO - ✅ Match found for investment_ID 'investment_posco_global_battery_materials_business' in investment nodes
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:32:58,138 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:32:58,138 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:32:58,138 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:32:59,571 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:32:59,571 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 23:32:59,571 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:32:59,571 - INFO - ✅ Match found for product_ID 'product_ev_battery_recycling' in product nodes
+2025-09-24 23:32:59,571 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:32:59,571 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:32:59,571 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:32:59,571 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:32:59,571 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:33:00,905 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:00,905 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_holdings",
+      "type": "forms",
+      "target": "joint_venture_posco_gs_eco_materials"
+    },
+    {
+      "source": "company_gs_energy_corporation",
+      "type": "forms",
+      "target": "joint_venture_posco_gs_eco_materials"
+    },
+    {
+      "source": "company_posco_holdings",
+      "type": "owns",
+      "target": "factory_poland_ev_battery_recycling_plant"
+    }
+  ]
+}
+2025-09-24 23:33:00,906 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:00,906 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:33:00,906 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:33:01,613 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:01,613 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_recycling",
+      "target": "factory_poland_ev_battery_recycling_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:33:01,613 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:01,613 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:33:01,613 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:33:02,130 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:02,130 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:33:02,130 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:02,131 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:33:02,131 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:33:03,155 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:03,156 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_posco_gs_eco_materials",
+      "target": "product_ev_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:33:03,156 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:03,255 - INFO - ✅ Updated Article ID: 68d3dfdb3e609fb288d7c8b7 with 7 nodes and combined text.

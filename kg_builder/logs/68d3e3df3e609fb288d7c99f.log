@@ -1,0 +1,135 @@
+2025-09-24 22:39:19,467 - INFO - 🔍 Text length: 1294 characters
+2025-09-24 22:39:19,467 - INFO - 📌 Processing Article ID: 68d3e3df3e609fb288d7c99f — Hydrovolt Extends Recycling Business to France
+2025-09-24 22:39:19,467 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:39:22,614 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:22,614 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hydrovolt",
+        "type": "company",
+        "name": "Hydrovolt"
+      },
+      {
+        "id": "company_norsk_hydro",
+        "type": "company",
+        "name": "Norsk Hydro"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hydrovolt",
+        "type": "joint_venture",
+        "name": "Hydrovolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hordain_france",
+        "type": "factory",
+        "name": "Hordain Facility",
+        "location": {
+          "city": "Hordain",
+          "country": "France"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_fredrikstad_norway",
+        "type": "factory",
+        "name": "Fredrikstad Recycling Facility",
+        "location": {
+          "city": "Fredrikstad",
+          "country": "Norway"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      }
+    ]
+  }
+}
+2025-09-24 22:39:22,614 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:22,614 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:39:22,614 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:39:22,614 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:39:22,614 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:39:23,945 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:23,945 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 22:39:23,945 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:23,946 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 22:39:23,946 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:39:23,946 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:39:23,946 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:39:23,946 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:39:23,946 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:39:26,299 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:26,300 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hydrovolt",
+      "type": "forms",
+      "target": "joint_venture_hydrovolt"
+    },
+    {
+      "source": "company_norsk_hydro",
+      "type": "forms",
+      "target": "joint_venture_hydrovolt"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "forms",
+      "target": "joint_venture_hydrovolt"
+    },
+    {
+      "source": "joint_venture_hydrovolt",
+      "type": "owns",
+      "target": "factory_hordain_france"
+    },
+    {
+      "source": "company_hydrovolt",
+      "type": "owns",
+      "target": "factory_fredrikstad_norway"
+    }
+  ]
+}
+2025-09-24 22:39:26,300 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:26,300 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:39:26,300 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:39:27,686 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:39:27,687 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_hordain_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_fredrikstad_norway",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:39:27,687 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:39:27,687 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:39:27,687 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:39:27,815 - INFO - ✅ Updated Article ID: 68d3e3df3e609fb288d7c99f with 7 nodes and combined text.

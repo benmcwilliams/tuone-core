@@ -1,0 +1,126 @@
+2025-09-24 22:48:14,104 - INFO - 🔍 Text length: 1170 characters
+2025-09-24 22:48:14,105 - INFO - 📌 Processing Article ID: 68d3e3373e609fb288d7c96f — BMW and Bosch receive “E-Mobility Production Awards
+2025-09-24 22:48:14,105 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:48:16,767 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:16,767 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bosch",
+        "type": "company",
+        "name": "Bosch"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_trumpf",
+        "type": "company",
+        "name": "Trumpf"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hildesheim",
+        "type": "factory",
+        "name": "Hildesheim Plant",
+        "location": {
+          "city": "Hildesheim",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_dingolfing",
+        "type": "factory",
+        "name": "Dingolfing Plant",
+        "location": {
+          "city": "Dingolfing",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_e_motor",
+        "type": "product",
+        "name": "E-Motor"
+      },
+      {
+        "id": "product_battery_system",
+        "type": "product",
+        "name": "Battery System"
+      }
+    ]
+  }
+}
+2025-09-24 22:48:16,767 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:16,768 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:48:16,768 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:48:16,768 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:48:16,768 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:48:18,918 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:18,918 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_e_motor",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_battery_system",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 22:48:18,918 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:18,918 - INFO - ✅ Match found for product_ID 'product_e_motor' in product nodes
+2025-09-24 22:48:18,918 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 22:48:18,918 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 22:48:18,918 - INFO - ✅ Match found for product_ID 'product_battery_system' in product nodes
+2025-09-24 22:48:18,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:48:18,918 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:48:18,918 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:48:18,918 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:48:18,919 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:48:19,941 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:19,942 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bosch",
+      "type": "owns",
+      "target": "factory_hildesheim"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_dingolfing"
+    }
+  ]
+}
+2025-09-24 22:48:19,942 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:19,942 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:48:19,942 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:48:21,375 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:21,376 - INFO - {
+  "relationships": [
+    {
+      "source": "product_e_motor",
+      "target": "factory_hildesheim",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_system",
+      "target": "factory_dingolfing",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:48:21,376 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:21,376 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:48:21,376 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:48:21,470 - INFO - ✅ Updated Article ID: 68d3e3373e609fb288d7c96f with 7 nodes and combined text.

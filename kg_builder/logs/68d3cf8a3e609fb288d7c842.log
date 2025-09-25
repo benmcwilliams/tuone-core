@@ -1,0 +1,108 @@
+2025-09-25 00:06:04,599 - INFO - 🔍 Text length: 2503 characters
+2025-09-25 00:06:04,600 - INFO - 📌 Processing Article ID: 68d3cf8a3e609fb288d7c842 — LGES books record revenue and profit
+2025-09-25 00:06:04,600 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:06:08,921 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:08,921 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_gm_jv",
+        "type": "joint_venture",
+        "name": "GM JV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ohio",
+        "type": "factory",
+        "name": "Ultium Cells plant",
+        "location": {
+          "city": "Ohio",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery",
+        "type": "product",
+        "name": "EV battery"
+      },
+      {
+        "id": "product_ess",
+        "type": "product",
+        "name": "ESS"
+      }
+    ]
+  }
+}
+2025-09-25 00:06:08,921 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:08,922 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:06:08,922 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:06:08,922 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:06:08,922 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:06:10,350 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:10,351 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_ess",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:06:10,351 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:10,351 - INFO - ✅ Match found for product_ID 'product_ev_battery' in product nodes
+2025-09-25 00:06:10,351 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:06:10,351 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:06:10,351 - INFO - ✅ Match found for product_ID 'product_ess' in product nodes
+2025-09-25 00:06:10,351 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:06:10,351 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:06:10,351 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:06:10,351 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:06:10,351 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:06:11,988 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:11,988 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_gm_jv"
+    },
+    {
+      "source": "joint_venture_gm_jv",
+      "type": "owns",
+      "target": "factory_ohio"
+    }
+  ]
+}
+2025-09-25 00:06:11,988 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:11,988 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:06:11,988 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:06:13,012 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:13,012 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery",
+      "target": "factory_ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:06:13,012 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:13,012 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:06:13,012 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:06:13,098 - INFO - ✅ Updated Article ID: 68d3cf8a3e609fb288d7c842 with 5 nodes and combined text.

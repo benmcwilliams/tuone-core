@@ -1,0 +1,124 @@
+2025-09-24 23:26:01,390 - INFO - 🔍 Text length: 2504 characters
+2025-09-24 23:26:01,390 - INFO - 📌 Processing Article ID: 68d3e0693e609fb288d7c8d8 — Duke Energy Builds Advanced Simple-Cycle Gas Power Plant
+2025-09-24 23:26:01,390 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:26:04,606 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:26:04,606 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_duke_energy",
+        "type": "company",
+        "name": "Duke Energy"
+      },
+      {
+        "id": "company_siemens_energy",
+        "type": "company",
+        "name": "Siemens Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lincoln_combustion_turbine_station",
+        "type": "factory",
+        "name": "Lincoln Combustion Turbine Station",
+        "location": {
+          "city": "North Carolina",
+          "country": "US"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_410_9mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "410.9MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sgt6_9000hl_turbine",
+        "type": "product",
+        "name": "SGT6-9000HL turbine"
+      }
+    ]
+  }
+}
+2025-09-24 23:26:04,606 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:26:04,606 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:26:04,606 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:26:05,831 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:26:05,832 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_410_9mw",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:26:05,832 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:26:05,832 - INFO - ✅ Match found for capacity_ID 'capacity_410_9mw' in capacity nodes
+2025-09-24 23:26:05,832 - INFO -   ➕ Set field 'status': operational
+2025-09-24 23:26:05,832 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:26:05,832 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:26:05,832 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:26:05,832 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:26:05,832 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:27:16,078 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:27:16,078 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sgt6_9000hl_turbine",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    }
+  ]
+}
+2025-09-24 23:27:16,078 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:27:16,078 - INFO - ✅ Match found for product_ID 'product_sgt6_9000hl_turbine' in product nodes
+2025-09-24 23:27:16,078 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 23:27:16,078 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-24 23:27:16,078 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:27:16,078 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:27:16,078 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:27:17,110 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:27:17,110 - INFO - {
+  "relationships": [
+    {
+      "source": "company_duke_energy",
+      "type": "owns",
+      "target": "factory_lincoln_combustion_turbine_station"
+    }
+  ]
+}
+2025-09-24 23:27:17,110 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:27:17,110 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:27:17,110 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:27:19,060 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:27:19,061 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_410_9mw",
+      "target": "factory_lincoln_combustion_turbine_station",
+      "type": "at"
+    },
+    {
+      "source": "capacity_410_9mw",
+      "target": "product_sgt6_9000hl_turbine",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_sgt6_9000hl_turbine",
+      "target": "factory_lincoln_combustion_turbine_station",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:27:19,061 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:27:19,061 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:27:19,061 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:27:19,146 - INFO - ✅ Updated Article ID: 68d3e0693e609fb288d7c8d8 with 5 nodes and combined text.

@@ -1,0 +1,123 @@
+2025-09-24 20:55:22,780 - INFO - 🔍 Text length: 8005 characters
+2025-09-24 20:55:22,781 - INFO - 📌 Processing Article ID: 68d3eb8f3e609fb288d7cb89 — Zellproduktion bei Varta in Planung
+2025-09-24 20:55:22,781 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 20:55:25,039 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:25,039 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_varta",
+        "type": "company",
+        "name": "Varta"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_varta_battery_expansion",
+        "type": "investment",
+        "name": "Varta Battery Expansion",
+        "amount": "300 million Euro",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_21700_batterierundzellen",
+        "type": "product",
+        "name": "21700 Batterierundzellen"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "Lithium-Ionen-Batterien"
+      },
+      {
+        "id": "product_knopfzellen",
+        "type": "product",
+        "name": "Knopfzellen"
+      }
+    ]
+  }
+}
+2025-09-24 20:55:25,039 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:25,039 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 20:55:25,039 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 20:55:25,039 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 20:55:26,063 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:26,063 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_varta_battery_expansion",
+      "status": "completed",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 20:55:26,063 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:26,063 - INFO - ✅ Match found for investment_ID 'investment_varta_battery_expansion' in investment nodes
+2025-09-24 20:55:26,063 - INFO -   ➕ Set field 'status': completed
+2025-09-24 20:55:26,063 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 20:55:26,063 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 20:55:26,063 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 20:55:26,063 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 20:55:28,929 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:28,929 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_21700_batterierundzellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_knopfzellen",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 20:55:28,929 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:28,929 - INFO - ✅ Match found for product_ID 'product_21700_batterierundzellen' in product nodes
+2025-09-24 20:55:28,929 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:55:28,929 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 20:55:28,930 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 20:55:28,930 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:55:28,930 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 20:55:28,930 - INFO - ✅ Match found for product_ID 'product_knopfzellen' in product nodes
+2025-09-24 20:55:28,930 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:55:28,930 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 20:55:28,930 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 20:55:28,930 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 20:55:28,930 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 20:55:28,930 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 20:55:30,876 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:30,876 - INFO - {
+  "relationships": []
+}
+2025-09-24 20:55:30,876 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:30,876 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 20:55:30,876 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 20:55:33,208 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:33,208 - INFO - {
+  "relationships": []
+}
+2025-09-24 20:55:33,208 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:33,208 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 20:55:33,208 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 20:55:35,690 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:55:35,690 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_varta_battery_expansion",
+      "target": "product_21700_batterierundzellen",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 20:55:35,690 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:55:35,778 - INFO - ✅ Updated Article ID: 68d3eb8f3e609fb288d7cb89 with 5 nodes and combined text.

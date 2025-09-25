@@ -1,0 +1,76 @@
+2025-09-25 01:42:53,359 - INFO - 🔍 Text length: 1145 characters
+2025-09-25 01:42:53,360 - INFO - 📌 Processing Article ID: 68d3c6e53e609fb288d7c669 — Fisker makes first US deliveries
+2025-09-25 01:42:53,360 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:42:55,882 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:42:55,882 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fisker",
+        "type": "company",
+        "name": "Fisker"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_los_angeles",
+        "type": "factory",
+        "name": "Los Angeles Facility",
+        "location": {
+          "city": "Los Angeles",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ocean_suv",
+        "type": "product",
+        "name": "Ocean SUV"
+      }
+    ]
+  }
+}
+2025-09-25 01:42:55,882 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:42:55,882 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:42:55,882 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:42:55,882 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:42:55,882 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:42:56,986 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:42:56,986 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ocean_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:42:56,986 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:42:56,986 - INFO - ✅ Match found for product_ID 'product_ocean_suv' in product nodes
+2025-09-25 01:42:56,986 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:42:56,986 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:42:56,986 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:42:56,986 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:42:56,986 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:42:57,868 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:42:57,869 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fisker",
+      "type": "owns",
+      "target": "factory_los_angeles"
+    }
+  ]
+}
+2025-09-25 01:42:57,869 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:42:57,869 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:42:57,869 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:42:58,521 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:42:58,521 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:42:58,522 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:42:58,522 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:42:58,522 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:42:58,611 - INFO - ✅ Updated Article ID: 68d3c6e53e609fb288d7c669 with 3 nodes and combined text.

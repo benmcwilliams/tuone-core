@@ -1,0 +1,134 @@
+2025-09-25 01:28:45,478 - INFO - 🔍 Text length: 1200 characters
+2025-09-25 01:28:45,478 - INFO - 📌 Processing Article ID: 68d3c8323e609fb288d7c6aa — Conti sells Russian plant
+2025-09-25 01:28:45,478 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:28:47,950 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:28:47,950 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_continental",
+        "type": "company",
+        "name": "Continental"
+      },
+      {
+        "id": "company_s8_capital",
+        "type": "company",
+        "name": "S8 Capital"
+      },
+      {
+        "id": "company_mettem",
+        "type": "company",
+        "name": "Mettem"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_continental_mettem",
+        "type": "joint_venture",
+        "name": "Continental Mettem"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kaluga_russia",
+        "type": "factory",
+        "name": "Kaluga Plant",
+        "location": {
+          "city": "Kaluga",
+          "country": "Russia"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_passenger_car_tyres",
+        "type": "product",
+        "name": "passenger car tyres"
+      },
+      {
+        "id": "product_power_steering_lines",
+        "type": "product",
+        "name": "power steering lines"
+      },
+      {
+        "id": "product_air_suspension_parts",
+        "type": "product",
+        "name": "parts for air suspension systems"
+      }
+    ]
+  }
+}
+2025-09-25 01:28:47,950 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:28:47,950 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:28:47,950 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:28:47,950 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:28:47,950 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:28:49,794 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:28:49,794 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_passenger_car_tyres",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_power_steering_lines",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_air_suspension_parts",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 01:28:49,794 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:28:49,794 - INFO - ✅ Match found for product_ID 'product_passenger_car_tyres' in product nodes
+2025-09-25 01:28:49,795 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:28:49,795 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:28:49,795 - INFO - ✅ Match found for product_ID 'product_power_steering_lines' in product nodes
+2025-09-25 01:28:49,795 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:28:49,795 - INFO - ✅ Match found for product_ID 'product_air_suspension_parts' in product nodes
+2025-09-25 01:28:49,795 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:28:49,795 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:28:49,795 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:28:49,795 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:28:50,819 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:28:50,819 - INFO - {
+  "relationships": [
+    {
+      "source": "company_continental",
+      "type": "owns",
+      "target": "factory_kaluga_russia"
+    }
+  ]
+}
+2025-09-25 01:28:50,819 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:28:50,820 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:28:50,820 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:28:52,345 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:28:52,345 - INFO - {
+  "relationships": [
+    {
+      "source": "product_passenger_car_tyres",
+      "target": "factory_kaluga_russia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_power_steering_lines",
+      "target": "factory_kaluga_russia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_air_suspension_parts",
+      "target": "factory_kaluga_russia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:28:52,345 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:28:52,345 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:28:52,345 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:28:52,441 - INFO - ✅ Updated Article ID: 68d3c8323e609fb288d7c6aa with 8 nodes and combined text.

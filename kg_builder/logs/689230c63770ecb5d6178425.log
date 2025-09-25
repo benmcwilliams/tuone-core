@@ -1,0 +1,88 @@
+2025-09-24 01:38:38,228 - INFO - 🔍 Text length: 921 characters
+2025-09-24 01:38:38,228 - INFO - 📌 Processing Article ID: 689230c63770ecb5d6178425 — Toyota Tsusho to Get Battery Separators from Asahi Kasei in the USA
+2025-09-24 01:38:38,228 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:38:39,923 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:38:39,923 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_asahi_kasei",
+        "type": "company",
+        "name": "Asahi Kasei"
+      },
+      {
+        "id": "company_toyota_tsusho",
+        "type": "company",
+        "name": "Toyota Tsusho"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_charlotte_north_carolina",
+        "type": "factory",
+        "name": "Charlotte Separator Plant",
+        "location": {
+          "city": "Charlotte",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_coated_hipore_separators",
+        "type": "product",
+        "name": "coated Hipore separators"
+      }
+    ]
+  }
+}
+2025-09-24 01:38:39,923 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:38:39,923 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:38:39,924 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:38:39,924 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:38:39,924 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:38:40,898 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:38:40,898 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_coated_hipore_separators",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 01:38:40,898 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:38:40,899 - INFO - ✅ Match found for product_ID 'product_coated_hipore_separators' in product nodes
+2025-09-24 01:38:40,899 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:38:40,899 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 01:38:40,899 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:38:40,899 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:38:40,899 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:38:42,040 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:38:42,040 - INFO - {
+  "relationships": [
+    {
+      "source": "company_asahi_kasei",
+      "type": "owns",
+      "target": "factory_charlotte_north_carolina"
+    }
+  ]
+}
+2025-09-24 01:38:42,040 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:38:42,040 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:38:42,040 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:38:43,065 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:38:43,065 - INFO - {
+  "relationships": [
+    {
+      "source": "product_coated_hipore_separators",
+      "target": "factory_charlotte_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:38:43,065 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:38:43,065 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:38:43,065 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:38:43,158 - INFO - ✅ Updated Article ID: 689230c63770ecb5d6178425 with 4 nodes and combined text.

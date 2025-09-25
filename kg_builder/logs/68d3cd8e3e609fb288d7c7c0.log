@@ -1,0 +1,128 @@
+2025-09-25 00:31:05,525 - INFO - 🔍 Text length: 2016 characters
+2025-09-25 00:31:05,525 - INFO - 📌 Processing Article ID: 68d3cd8e3e609fb288d7c7c0 — South Korea’s Charzin, Tide establish Indonesia EV charging JV
+2025-09-25 00:31:05,525 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:31:08,605 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:31:08,606 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_charzin",
+        "type": "company",
+        "name": "Charzin"
+      },
+      {
+        "id": "company_tide_company",
+        "type": "company",
+        "name": "Tide Company"
+      },
+      {
+        "id": "company_ciwaru_transaksi_elektronik",
+        "type": "company",
+        "name": "Ciwaru Transaksi Elektronik"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_charzin_tide_cetho",
+        "type": "joint_venture",
+        "name": "Charzin Tide Cetho"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cikarang_indonesia",
+        "type": "factory",
+        "name": "Cikarang Plant",
+        "location": {
+          "city": "Cikarang",
+          "country": "Indonesia"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_charging_platform",
+        "type": "product",
+        "name": "EV Charging Platform"
+      },
+      {
+        "id": "product_hyundai_ioniq_5",
+        "type": "product",
+        "name": "Hyundai Ioniq 5"
+      }
+    ]
+  }
+}
+2025-09-25 00:31:08,606 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:31:08,606 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:31:08,606 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:31:08,606 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:31:08,606 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:31:11,475 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:31:11,475 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_charging_platform",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_hyundai_ioniq_5",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:31:11,476 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:31:11,476 - INFO - ✅ Match found for product_ID 'product_ev_charging_platform' in product nodes
+2025-09-25 00:31:11,476 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:31:11,476 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:31:11,476 - INFO - ✅ Match found for product_ID 'product_hyundai_ioniq_5' in product nodes
+2025-09-25 00:31:11,476 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:31:11,476 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:31:11,476 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:31:11,476 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:31:11,476 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:31:13,766 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:31:13,767 - INFO - {
+  "relationships": [
+    {
+      "source": "company_charzin",
+      "type": "forms",
+      "target": "joint_venture_charzin_tide_cetho"
+    },
+    {
+      "source": "company_tide_company",
+      "type": "forms",
+      "target": "joint_venture_charzin_tide_cetho"
+    },
+    {
+      "source": "company_ciwaru_transaksi_elektronik",
+      "type": "forms",
+      "target": "joint_venture_charzin_tide_cetho"
+    },
+    {
+      "source": "company_ciwaru_transaksi_elektronik",
+      "type": "owns",
+      "target": "factory_cikarang_indonesia"
+    }
+  ]
+}
+2025-09-25 00:31:13,767 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:31:13,767 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:31:13,767 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:31:14,544 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:31:14,544 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hyundai_ioniq_5",
+      "target": "factory_cikarang_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:31:14,544 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:31:14,544 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:31:14,544 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:31:14,637 - INFO - ✅ Updated Article ID: 68d3cd8e3e609fb288d7c7c0 with 7 nodes and combined text.

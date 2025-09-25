@@ -1,0 +1,155 @@
+2025-09-25 01:14:37,385 - INFO - 🔍 Text length: 1833 characters
+2025-09-25 01:14:37,385 - INFO - 📌 Processing Article ID: 68d3c97a3e609fb288d7c6e9 — SEK readies Mexico factory
+2025-09-25 01:14:37,385 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:14:40,322 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:40,322 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skf",
+        "type": "company",
+        "name": "SKF"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_monterrey_mexico",
+        "type": "factory",
+        "name": "Monterrey Factory",
+        "location": {
+          "city": "Monterrey",
+          "country": "Mexico"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sek700m_skf_mexico",
+        "type": "investment",
+        "name": "SEK700m SKF Mexico Investment",
+        "amount": "SEK700m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_deep_groove_ball_bearings",
+        "type": "product",
+        "name": "deep groove ball bearings (DGBB)"
+      },
+      {
+        "id": "product_tapered_roller_bearings",
+        "type": "product",
+        "name": "tapered roller bearings (TRB)"
+      }
+    ]
+  }
+}
+2025-09-25 01:14:40,322 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:40,322 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:14:40,323 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:14:40,323 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:14:41,173 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:41,173 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sek700m_skf_mexico",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:14:41,173 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:41,174 - INFO - ✅ Match found for investment_ID 'investment_sek700m_skf_mexico' in investment nodes
+2025-09-25 01:14:41,174 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:14:41,174 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:14:41,174 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:14:41,174 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:14:41,174 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:14:42,710 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:42,711 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_deep_groove_ball_bearings",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_tapered_roller_bearings",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:14:42,711 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:42,711 - INFO - ✅ Match found for product_ID 'product_deep_groove_ball_bearings' in product nodes
+2025-09-25 01:14:42,711 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:14:42,711 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:14:42,711 - INFO - ✅ Match found for product_ID 'product_tapered_roller_bearings' in product nodes
+2025-09-25 01:14:42,711 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:14:42,711 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:14:42,711 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:14:42,711 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:14:42,711 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:14:43,719 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:43,719 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skf",
+      "type": "owns",
+      "target": "factory_monterrey_mexico"
+    }
+  ]
+}
+2025-09-25 01:14:43,720 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:43,720 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:14:43,720 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:14:45,577 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:45,577 - INFO - {
+  "relationships": [
+    {
+      "source": "product_deep_groove_ball_bearings",
+      "target": "factory_monterrey_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tapered_roller_bearings",
+      "target": "factory_monterrey_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:14:45,577 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:45,577 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:14:45,578 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:14:46,191 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:46,191 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:14:46,191 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:46,192 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:14:46,192 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:14:47,525 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:14:47,525 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sek700m_skf_mexico",
+      "target": "factory_monterrey_mexico",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sek700m_skf_mexico",
+      "target": "product_deep_groove_ball_bearings",
+      "type": "targets"
+    },
+    {
+      "source": "investment_sek700m_skf_mexico",
+      "target": "product_tapered_roller_bearings",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:14:47,525 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:14:47,623 - INFO - ✅ Updated Article ID: 68d3c97a3e609fb288d7c6e9 with 5 nodes and combined text.

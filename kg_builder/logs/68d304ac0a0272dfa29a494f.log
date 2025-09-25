@@ -1,0 +1,154 @@
+2025-09-23 23:23:11,898 - INFO - 🔍 Text length: 2227 characters
+2025-09-23 23:23:11,899 - INFO - 📌 Processing Article ID: 68d304ac0a0272dfa29a494f — Symbio JV opens H2 gigafactory
+2025-09-23 23:23:11,899 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:23:15,193 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:23:15,193 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_forvia",
+        "type": "company",
+        "name": "Forvia"
+      },
+      {
+        "id": "company_michelin",
+        "type": "company",
+        "name": "Michelin"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_symbio",
+        "type": "joint_venture",
+        "name": "Symbio"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_symphony",
+        "type": "factory",
+        "name": "SymphonHy",
+        "location": {
+          "city": "Saint-Fons",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_symbio_fuel_cells",
+        "type": "product",
+        "name": "Symbio fuel cells"
+      },
+      {
+        "id": "product_peugeot_e_expert",
+        "type": "product",
+        "name": "Peugeot e-Expert"
+      },
+      {
+        "id": "product_citroen_e_jumpy",
+        "type": "product",
+        "name": "Citroen e-Jumpy"
+      },
+      {
+        "id": "product_opel_vivaro_e",
+        "type": "product",
+        "name": "Opel Vivaro-e"
+      }
+    ]
+  }
+}
+2025-09-23 23:23:15,193 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:23:15,193 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:23:15,193 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:23:15,194 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:23:15,194 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:23:17,651 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:23:17,652 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_symbio_fuel_cells",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "product_peugeot_e_expert",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_citroen_e_jumpy",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_opel_vivaro_e",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:23:17,652 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:23:17,652 - INFO - ✅ Match found for product_ID 'product_symbio_fuel_cells' in product nodes
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-09-23 23:23:17,652 - INFO - ✅ Match found for product_ID 'product_peugeot_e_expert' in product nodes
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:23:17,652 - INFO - ✅ Match found for product_ID 'product_citroen_e_jumpy' in product nodes
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:23:17,652 - INFO - ✅ Match found for product_ID 'product_opel_vivaro_e' in product nodes
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:23:17,652 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:23:17,652 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:23:17,652 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:23:17,652 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:23:19,391 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:23:19,391 - INFO - {
+  "relationships": [
+    {
+      "source": "company_forvia",
+      "type": "forms",
+      "target": "joint_venture_symbio"
+    },
+    {
+      "source": "company_michelin",
+      "type": "forms",
+      "target": "joint_venture_symbio"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_symbio"
+    },
+    {
+      "source": "joint_venture_symbio",
+      "type": "owns",
+      "target": "factory_symphony"
+    }
+  ]
+}
+2025-09-23 23:23:19,391 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:23:19,392 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:23:19,392 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:23:20,929 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:23:20,929 - INFO - {
+  "relationships": [
+    {
+      "source": "product_symbio_fuel_cells",
+      "target": "factory_symphony",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:23:20,929 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:23:20,929 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:23:20,929 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:23:21,018 - INFO - ✅ Updated Article ID: 68d304ac0a0272dfa29a494f with 9 nodes and combined text.

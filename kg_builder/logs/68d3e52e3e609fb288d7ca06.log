@@ -1,0 +1,189 @@
+2025-09-24 22:20:32,653 - INFO - 🔍 Text length: 1857 characters
+2025-09-24 22:20:32,653 - INFO - 📌 Processing Article ID: 68d3e52e3e609fb288d7ca06 — Northvolt Cuts Projects After Realignment
+2025-09-24 22:20:32,653 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:20:35,066 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:35,067 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northvolt_drei",
+        "type": "factory",
+        "name": "Northvolt Drei",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_ett",
+        "type": "factory",
+        "name": "Northvolt Ett",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_fem",
+        "type": "factory",
+        "name": "Northvolt Fem",
+        "location": {
+          "city": "Borl\u00e4nge",
+          "country": "Sweden"
+        },
+        "status": "unclear"
+      },
+      {
+        "id": "factory_northvolt_dwa",
+        "type": "factory",
+        "name": "Northvolt Dwa",
+        "location": {
+          "city": "Gdansk",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_northvolt_six",
+        "type": "factory",
+        "name": "Northvolt Six",
+        "location": {
+          "city": "null",
+          "country": "Canada"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_material",
+        "type": "product",
+        "name": "cathode material"
+      },
+      {
+        "id": "product_cell",
+        "type": "product",
+        "name": "cell"
+      },
+      {
+        "id": "product_lithium_metal",
+        "type": "product",
+        "name": "lithium metal"
+      }
+    ]
+  }
+}
+2025-09-24 22:20:35,067 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:35,067 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:20:35,067 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:20:35,067 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:20:35,067 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:20:36,703 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:36,704 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_lithium_metal",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:20:36,704 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:36,704 - INFO - ✅ Match found for product_ID 'product_cathode_material' in product nodes
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:20:36,704 - INFO - ✅ Match found for product_ID 'product_cell' in product nodes
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:20:36,704 - INFO - ✅ Match found for product_ID 'product_lithium_metal' in product nodes
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:20:36,704 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:20:36,704 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:20:36,704 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:20:36,704 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:20:38,239 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:38,239 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_drei"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_ett"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_fem"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_dwa"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_six"
+    }
+  ]
+}
+2025-09-24 22:20:38,239 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:38,240 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:20:38,240 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:20:40,393 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:40,393 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cell",
+      "target": "factory_northvolt_drei",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cathode_material",
+      "target": "factory_northvolt_ett",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cell",
+      "target": "factory_northvolt_ett",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cell",
+      "target": "factory_northvolt_six",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cathode_material",
+      "target": "factory_northvolt_fem",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:20:40,393 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:40,393 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:20:40,393 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:20:40,492 - INFO - ✅ Updated Article ID: 68d3e52e3e609fb288d7ca06 with 9 nodes and combined text.

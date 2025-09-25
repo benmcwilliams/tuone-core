@@ -1,0 +1,149 @@
+2025-09-25 00:01:41,747 - INFO - 🔍 Text length: 1654 characters
+2025-09-25 00:01:41,747 - INFO - 📌 Processing Article ID: 68d3de633e609fb288d7c856 — Toyota to cut output in January due to parts shortages
+2025-09-25 00:01:41,747 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:01:46,157 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:01:46,157 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor",
+        "type": "company",
+        "name": "Toyota Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toyota_tahara_plant",
+        "type": "factory",
+        "name": "Toyota Tahara plant",
+        "location": {
+          "city": "Tahara",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_hino_hamura_plant",
+        "type": "factory",
+        "name": "Hino Hamura plant",
+        "location": {
+          "city": "Hamura",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_landcruiser_prage",
+        "type": "product",
+        "name": "LandCruiser Prage"
+      },
+      {
+        "id": "product_4runner",
+        "type": "product",
+        "name": "4Runner"
+      },
+      {
+        "id": "product_lexus_gx",
+        "type": "product",
+        "name": "Lexus GX"
+      }
+    ]
+  }
+}
+2025-09-25 00:01:46,157 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:01:46,157 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:01:46,157 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:01:46,158 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:01:46,158 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:01:48,714 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:01:48,714 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_landcruiser_prage",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_4runner",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_lexus_gx",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 00:01:48,714 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:01:48,714 - INFO - ✅ Match found for product_ID 'product_landcruiser_prage' in product nodes
+2025-09-25 00:01:48,714 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:01:48,715 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:01:48,715 - INFO - ✅ Match found for product_ID 'product_4runner' in product nodes
+2025-09-25 00:01:48,715 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:01:48,715 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:01:48,715 - INFO - ✅ Match found for product_ID 'product_lexus_gx' in product nodes
+2025-09-25 00:01:48,715 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:01:48,715 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:01:48,715 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:01:48,715 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:01:48,715 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:01:50,456 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:01:50,456 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_toyota_tahara_plant"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_hino_hamura_plant"
+    }
+  ]
+}
+2025-09-25 00:01:50,456 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:01:50,456 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:01:50,456 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:01:53,617 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:01:53,617 - INFO - {
+  "relationships": [
+    {
+      "source": "product_landcruiser_prage",
+      "target": "factory_toyota_tahara_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_4runner",
+      "target": "factory_toyota_tahara_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lexus_gx",
+      "target": "factory_toyota_tahara_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_landcruiser_prage",
+      "target": "factory_hino_hamura_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_4runner",
+      "target": "factory_hino_hamura_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lexus_gx",
+      "target": "factory_hino_hamura_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:01:53,617 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:01:53,617 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:01:53,617 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:01:53,705 - INFO - ✅ Updated Article ID: 68d3de633e609fb288d7c856 with 6 nodes and combined text.

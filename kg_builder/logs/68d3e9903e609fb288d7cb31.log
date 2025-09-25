@@ -1,0 +1,267 @@
+2025-09-24 21:13:18,643 - INFO - 🔍 Text length: 8202 characters
+2025-09-24 21:13:18,643 - INFO - 📌 Processing Article ID: 68d3e9903e609fb288d7cb31 — VW gibt Batterie-Geschäft an neue AG
+2025-09-24 21:13:18,643 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:13:23,167 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:23,167 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_salzgitter_germany",
+        "type": "factory",
+        "name": "Salzgitter",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_skelleftea_sweden",
+        "type": "factory",
+        "name": "Skellefte\u00e5",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_salzgitter_germany",
+        "type": "investment",
+        "name": "Salzgitter Investment",
+        "amount": "two billion Euro",
+        "status": "announced"
+      },
+      {
+        "id": "investment_volkswagen_e_fahrzeuge",
+        "type": "investment",
+        "name": "Volkswagen E-Fahrzeuge Investment",
+        "amount": "52 billion Euro",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_gigawatt_hours_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 Gigawatt hours per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_40_gigawatt_hours_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 Gigawatt hours per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriezellen",
+        "type": "product",
+        "name": "Batteriezellen"
+      },
+      {
+        "id": "product_elektrofahrzeuge",
+        "type": "product",
+        "name": "Elektrofahrzeuge"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "volkswagen_northvolt",
+        "type": "joint_venture",
+        "name": "Volkswagen Northvolt",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-09-24 21:13:23,168 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:23,168 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:13:23,168 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:13:25,216 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:25,217 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_gigawatt_hours_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_40_gigawatt_hours_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 21:13:25,217 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:25,217 - INFO - ✅ Match found for capacity_ID 'capacity_20_gigawatt_hours_per_year' in capacity nodes
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:13:25,217 - INFO - ✅ Match found for capacity_ID 'capacity_40_gigawatt_hours_per_year' in capacity nodes
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:13:25,217 - INFO -   ➕ Set field 'additional': True
+2025-09-24 21:13:25,217 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:13:25,217 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:13:26,342 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:26,342 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_salzgitter_germany",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_volkswagen_e_fahrzeuge",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:13:26,342 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:26,343 - INFO - ✅ Match found for investment_ID 'investment_salzgitter_germany' in investment nodes
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:13:26,343 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_e_fahrzeuge' in investment nodes
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:13:26,343 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:13:26,343 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:13:26,343 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:13:28,287 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:28,287 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriezellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_elektrofahrzeuge",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 21:13:28,287 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:28,288 - INFO - ✅ Match found for product_ID 'product_batteriezellen' in product nodes
+2025-09-24 21:13:28,288 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:13:28,288 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:13:28,288 - INFO - ✅ Match found for product_ID 'product_elektrofahrzeuge' in product nodes
+2025-09-24 21:13:28,288 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 21:13:28,288 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 21:13:28,288 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:13:28,288 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:13:28,288 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:13:29,721 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:29,722 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_salzgitter_germany"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_skelleftea_sweden"
+    }
+  ]
+}
+2025-09-24 21:13:29,722 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:29,722 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:13:29,722 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:13:31,767 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:31,768 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_gigawatt_hours_per_year",
+      "target": "factory_salzgitter_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40_gigawatt_hours_per_year",
+      "target": "factory_salzgitter_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20_gigawatt_hours_per_year",
+      "target": "product_batteriezellen",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_40_gigawatt_hours_per_year",
+      "target": "product_batteriezellen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_salzgitter_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_skelleftea_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:13:31,768 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:31,768 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:13:31,768 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:13:34,119 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:34,120 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:13:34,120 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:34,120 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:13:34,120 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:13:36,273 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:13:36,274 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_salzgitter_germany",
+      "type": "funds",
+      "target": "factory_salzgitter_germany"
+    },
+    {
+      "source": "investment_salzgitter_germany",
+      "type": "enables",
+      "target": "capacity_20_gigawatt_hours_per_year"
+    },
+    {
+      "source": "investment_salzgitter_germany",
+      "type": "enables",
+      "target": "capacity_40_gigawatt_hours_per_year"
+    }
+  ]
+}
+2025-09-24 21:13:36,274 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:13:36,391 - INFO - ✅ Updated Article ID: 68d3e9903e609fb288d7cb31 with 11 nodes and combined text.

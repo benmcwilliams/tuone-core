@@ -1,0 +1,154 @@
+2025-09-25 02:02:37,053 - INFO - 🔍 Text length: 1764 characters
+2025-09-25 02:02:37,053 - INFO - 📌 Processing Article ID: 68d3c4703e609fb288d7c608 — LGES extends cobalt sourcing contract with Electra
+2025-09-25 02:02:37,053 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:02:40,854 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:02:40,854 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_electra_battery_materials",
+        "type": "company",
+        "name": "Electra Battery Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toronto_ontario",
+        "type": "factory",
+        "name": "Toronto Cobalt Sulphate Refinery",
+        "location": {
+          "city": "Toronto",
+          "country": "Canada"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_black_mass_recycling_plant",
+        "type": "factory",
+        "name": "Black Mass Recycling Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_ev_battery_plants_north_america",
+        "type": "factory",
+        "name": "EV Battery Plants",
+        "location": {
+          "city": "null",
+          "country": "North America"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cobalt_sulphate",
+        "type": "product",
+        "name": "cobalt sulphate"
+      },
+      {
+        "id": "product_refined_battery_grade_cobalt",
+        "type": "product",
+        "name": "refined battery grade cobalt"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-25 02:02:40,854 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:02:40,854 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:02:40,854 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:02:40,854 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:02:40,854 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:02:43,936 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:02:43,937 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cobalt_sulphate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_refined_battery_grade_cobalt",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-25 02:02:43,937 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:02:43,937 - INFO - ✅ Match found for product_ID 'product_cobalt_sulphate' in product nodes
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-25 02:02:43,937 - INFO - ✅ Match found for product_ID 'product_refined_battery_grade_cobalt' in product nodes
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 02:02:43,937 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-25 02:02:43,937 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-25 02:02:43,937 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:02:43,937 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:02:43,937 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:02:45,972 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:02:45,972 - INFO - {
+  "relationships": [
+    {
+      "source": "company_electra_battery_materials",
+      "type": "owns",
+      "target": "factory_toronto_ontario"
+    },
+    {
+      "source": "company_electra_battery_materials",
+      "type": "owns",
+      "target": "factory_black_mass_recycling_plant"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_ev_battery_plants_north_america"
+    }
+  ]
+}
+2025-09-25 02:02:45,972 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:02:45,972 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:02:45,973 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:02:47,404 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:02:47,404 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cobalt_sulphate",
+      "target": "factory_toronto_ontario",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_black_mass",
+      "target": "factory_black_mass_recycling_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_refined_battery_grade_cobalt",
+      "target": "factory_ev_battery_plants_north_america",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:02:47,404 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:02:47,404 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:02:47,404 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:02:47,501 - INFO - ✅ Updated Article ID: 68d3c4703e609fb288d7c608 with 8 nodes and combined text.

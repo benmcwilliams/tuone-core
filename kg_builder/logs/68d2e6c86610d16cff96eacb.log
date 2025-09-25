@@ -1,0 +1,116 @@
+2025-09-24 01:07:59,136 - INFO - 🔍 Text length: 937 characters
+2025-09-24 01:07:59,136 - INFO - 📌 Processing Article ID: 68d2e6c86610d16cff96eacb — Volvo Cars builds last diesel
+2025-09-24 01:07:59,136 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:08:01,291 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:08:01,291 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_torslanda",
+        "type": "factory",
+        "name": "Torslanda",
+        "location": {
+          "city": "Torslanda",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_ghent",
+        "type": "factory",
+        "name": "Ghent",
+        "location": {
+          "city": "Ghent",
+          "country": "Belgium"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_xc90",
+        "type": "product",
+        "name": "XC90"
+      },
+      {
+        "id": "product_v60",
+        "type": "product",
+        "name": "V60"
+      }
+    ]
+  }
+}
+2025-09-24 01:08:01,291 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:08:01,291 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:08:01,291 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:08:01,291 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:08:01,291 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:08:02,830 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:08:02,831 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_xc90",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_v60",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 01:08:02,831 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:08:02,831 - INFO - ✅ Match found for product_ID 'product_xc90' in product nodes
+2025-09-24 01:08:02,831 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:08:02,831 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:08:02,831 - INFO - ✅ Match found for product_ID 'product_v60' in product nodes
+2025-09-24 01:08:02,831 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:08:02,831 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:08:02,831 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:08:02,831 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:08:02,831 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:08:03,649 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:08:03,650 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_torslanda"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_ghent"
+    }
+  ]
+}
+2025-09-24 01:08:03,650 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:08:03,650 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:08:03,650 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:08:05,373 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:08:05,373 - INFO - {
+  "relationships": [
+    {
+      "source": "product_xc90",
+      "target": "factory_torslanda",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_v60",
+      "target": "factory_ghent",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:08:05,373 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:08:05,373 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:08:05,373 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:08:05,462 - INFO - ✅ Updated Article ID: 68d2e6c86610d16cff96eacb with 5 nodes and combined text.

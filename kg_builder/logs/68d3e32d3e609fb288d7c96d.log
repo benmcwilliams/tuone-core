@@ -1,0 +1,168 @@
+2025-09-24 22:48:36,732 - INFO - 🔍 Text length: 6728 characters
+2025-09-24 22:48:36,732 - INFO - 📌 Processing Article ID: 68d3e32d3e609fb288d7c96d — Freyr prüft Bau einer LFP-Fabrik
+2025-09-24 22:48:36,732 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:48:40,421 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:40,422 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_freyr_battery",
+        "type": "company",
+        "name": "Freyr Battery"
+      },
+      {
+        "id": "company_finnish_minerals_group",
+        "type": "company",
+        "name": "Finnish Minerals Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_freyr_finnish_minerals",
+        "type": "joint_venture",
+        "name": "Freyr Finnish Minerals"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gigavaasa_vaasa",
+        "type": "factory",
+        "name": "GigaVaasa",
+        "location": {
+          "city": "Vaasa",
+          "country": "Finland"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "20,000 tons per year",
+        "status": "unclear"
+      },
+      {
+        "id": "capacity_60k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "60,000 tons per year",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_cathode_material",
+        "type": "product",
+        "name": "LFP Cathode Material"
+      }
+    ]
+  }
+}
+2025-09-24 22:48:40,422 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:40,422 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:48:40,422 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:48:41,651 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:41,651 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20k_tons_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_60k_tons_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:48:41,651 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:41,651 - INFO - ✅ Match found for capacity_ID 'capacity_20k_tons_per_year' in capacity nodes
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:48:41,651 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tons_per_year' in capacity nodes
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:48:41,651 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:48:41,651 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:48:41,651 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:48:41,652 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:48:42,879 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:42,879 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 22:48:42,879 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:42,880 - INFO - ✅ Match found for product_ID 'product_lfp_cathode_material' in product nodes
+2025-09-24 22:48:42,880 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:48:42,880 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:48:42,880 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:48:42,880 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:48:42,880 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:48:44,633 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:44,633 - INFO - {
+  "relationships": [
+    {
+      "source": "company_freyr_battery",
+      "type": "forms",
+      "target": "joint_venture_freyr_finnish_minerals"
+    },
+    {
+      "source": "company_finnish_minerals_group",
+      "type": "forms",
+      "target": "joint_venture_freyr_finnish_minerals"
+    },
+    {
+      "source": "joint_venture_freyr_finnish_minerals",
+      "type": "owns",
+      "target": "factory_gigavaasa_vaasa"
+    }
+  ]
+}
+2025-09-24 22:48:44,633 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:44,633 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:48:44,633 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:48:47,283 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:47,283 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20k_tons_per_year",
+      "target": "factory_gigavaasa_vaasa",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "factory_gigavaasa_vaasa",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20k_tons_per_year",
+      "target": "product_lfp_cathode_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "product_lfp_cathode_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lfp_cathode_material",
+      "target": "factory_gigavaasa_vaasa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:48:47,283 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:47,283 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:48:47,283 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:48:47,381 - INFO - ✅ Updated Article ID: 68d3e32d3e609fb288d7c96d with 7 nodes and combined text.

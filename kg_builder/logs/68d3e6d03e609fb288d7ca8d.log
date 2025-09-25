@@ -1,0 +1,228 @@
+2025-09-24 21:54:41,044 - INFO - 🔍 Text length: 1746 characters
+2025-09-24 21:54:41,044 - INFO - 📌 Processing Article ID: 68d3e6d03e609fb288d7ca8d — German government grants Northvolt 600 million euros
+2025-09-24 21:54:41,044 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:54:43,611 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:43,611 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_kfw_bank",
+        "type": "company",
+        "name": "KfW Bank"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northvolt_drei",
+        "type": "factory",
+        "name": "Northvolt Drei",
+        "location": {
+          "city": "Heide",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_convertible_bond",
+        "type": "investment",
+        "name": "Convertible Bond",
+        "amount": "600 million euros",
+        "status": "announced"
+      },
+      {
+        "id": "investment_ipcei_funding",
+        "type": "investment",
+        "name": "IPCEI Funding",
+        "amount": "155 million euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60_gigawatt_hours",
+        "type": "capacity",
+        "name": null,
+        "amount": "60 gigawatt hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      },
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      }
+    ]
+  }
+}
+2025-09-24 21:54:43,611 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:43,611 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:54:43,611 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:54:45,250 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:45,250 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60_gigawatt_hours",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:54:45,250 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:45,250 - INFO - ✅ Match found for capacity_ID 'capacity_60_gigawatt_hours' in capacity nodes
+2025-09-24 21:54:45,250 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:54:45,250 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:54:45,250 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:54:45,250 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:54:45,250 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:54:46,581 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:46,581 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_convertible_bond",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_ipcei_funding",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:54:46,581 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:46,582 - INFO - ✅ Match found for investment_ID 'investment_convertible_bond' in investment nodes
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:54:46,582 - INFO - ✅ Match found for investment_ID 'investment_ipcei_funding' in investment nodes
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:54:46,582 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:54:46,582 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:54:46,582 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:54:48,116 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:48,116 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:54:48,116 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:48,116 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 21:54:48,116 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:54:48,116 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:54:48,116 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 21:54:48,116 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:54:48,116 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:54:48,116 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:54:48,116 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:54:48,116 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:54:49,125 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:49,126 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_northvolt_drei"
+    }
+  ]
+}
+2025-09-24 21:54:49,126 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:49,126 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:54:49,126 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:54:50,779 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:50,780 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60_gigawatt_hours",
+      "target": "factory_northvolt_drei",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60_gigawatt_hours",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_northvolt_drei",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_northvolt_drei",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:54:50,780 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:50,780 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:54:50,780 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:54:51,446 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:51,446 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:54:51,446 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:51,446 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:54:51,446 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:54:53,543 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:53,543 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_convertible_bond",
+      "target": "factory_northvolt_drei",
+      "type": "funds"
+    },
+    {
+      "source": "investment_convertible_bond",
+      "target": "product_battery",
+      "type": "targets"
+    },
+    {
+      "source": "investment_convertible_bond",
+      "target": "product_battery_recycling",
+      "type": "targets"
+    },
+    {
+      "source": "investment_ipcei_funding",
+      "target": "factory_northvolt_drei",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ipcei_funding",
+      "target": "product_battery",
+      "type": "targets"
+    },
+    {
+      "source": "investment_ipcei_funding",
+      "target": "product_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:54:53,543 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:53,627 - INFO - ✅ Updated Article ID: 68d3e6d03e609fb288d7ca8d with 8 nodes and combined text.

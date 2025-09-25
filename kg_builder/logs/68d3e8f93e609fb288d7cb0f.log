@@ -1,0 +1,247 @@
+2025-09-24 21:21:04,570 - INFO - 🔍 Text length: 7803 characters
+2025-09-24 21:21:04,570 - INFO - 📌 Processing Article ID: 68d3e8f93e609fb288d7cb0f — Geplante Fabrik setzt auf Natriumchlorid
+2025-09-24 21:21:04,570 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:21:08,579 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:08,580 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bae_batteries",
+        "type": "company",
+        "name": "BAE Batteries"
+      },
+      {
+        "id": "company_dpu_investment",
+        "type": "company",
+        "name": "DPU Investment"
+      },
+      {
+        "id": "company_netracon",
+        "type": "company",
+        "name": "Netracon"
+      },
+      {
+        "id": "company_une",
+        "type": "company",
+        "name": "UNE"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_cse",
+        "type": "joint_venture",
+        "name": "CSE"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_berlin_germany",
+        "type": "factory",
+        "name": "Berlin Salt Battery Factory",
+        "location": {
+          "city": "Berlin",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cse_berlin_salt_battery_factory",
+        "type": "investment",
+        "name": "CSE Berlin Salt Battery Factory",
+        "amount": "39 million Euro",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_mwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 MWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_1_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_natriumchlorid_batterie",
+        "type": "product",
+        "name": "Natriumchlorid-Batterie (Sodium Chloride Battery)"
+      }
+    ]
+  }
+}
+2025-09-24 21:21:08,580 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:08,580 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:21:08,580 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:21:10,215 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:10,216 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_mwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_1_gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 21:21:10,216 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:10,216 - INFO - ✅ Match found for capacity_ID 'capacity_300_mwh_announced' in capacity nodes
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:21:10,216 - INFO - ✅ Match found for capacity_ID 'capacity_1_gwh_announced' in capacity nodes
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:21:10,216 - INFO -   ➕ Set field 'additional': True
+2025-09-24 21:21:10,216 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:21:10,216 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:21:11,240 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:11,240 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cse_berlin_salt_battery_factory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:21:11,240 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:11,240 - INFO - ✅ Match found for investment_ID 'investment_cse_berlin_salt_battery_factory' in investment nodes
+2025-09-24 21:21:11,240 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:21:11,240 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:21:11,241 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:21:11,241 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:21:11,241 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:21:12,570 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:12,571 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_natriumchlorid_batterie",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:21:12,571 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:12,571 - INFO - ✅ Match found for product_ID 'product_natriumchlorid_batterie' in product nodes
+2025-09-24 21:21:12,571 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:21:12,571 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:21:12,571 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:21:12,571 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:21:12,571 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:21:15,380 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:15,381 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bae_batteries",
+      "type": "forms",
+      "target": "joint_venture_cse"
+    },
+    {
+      "source": "company_dpu_investment",
+      "type": "forms",
+      "target": "joint_venture_cse"
+    },
+    {
+      "source": "company_netracon",
+      "type": "forms",
+      "target": "joint_venture_cse"
+    },
+    {
+      "source": "company_une",
+      "type": "forms",
+      "target": "joint_venture_cse"
+    },
+    {
+      "source": "joint_venture_cse",
+      "type": "owns",
+      "target": "factory_berlin_germany"
+    }
+  ]
+}
+2025-09-24 21:21:15,381 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:15,381 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:21:15,381 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:21:17,485 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:17,486 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_mwh_announced",
+      "target": "factory_berlin_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_gwh_announced",
+      "target": "factory_berlin_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_mwh_announced",
+      "target": "product_natriumchlorid_batterie",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_gwh_announced",
+      "target": "product_natriumchlorid_batterie",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_natriumchlorid_batterie",
+      "target": "factory_berlin_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:21:17,486 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:17,486 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:21:17,486 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:21:18,202 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:18,203 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:21:18,203 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:18,203 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:21:18,203 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:21:20,454 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:21:20,455 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cse_berlin_salt_battery_factory",
+      "target": "factory_berlin_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_cse_berlin_salt_battery_factory",
+      "target": "product_natriumchlorid_batterie",
+      "type": "targets"
+    },
+    {
+      "source": "investment_cse_berlin_salt_battery_factory",
+      "target": "capacity_300_mwh_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_cse_berlin_salt_battery_factory",
+      "target": "capacity_1_gwh_announced",
+      "type": "enables"
+    }
+  ]
+}
+2025-09-24 21:21:20,455 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:21:20,547 - INFO - ✅ Updated Article ID: 68d3e8f93e609fb288d7cb0f with 10 nodes and combined text.

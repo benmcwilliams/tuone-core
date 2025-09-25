@@ -1,0 +1,200 @@
+2025-09-23 23:05:04,126 - INFO - 🔍 Text length: 6658 characters
+2025-09-23 23:05:04,126 - INFO - 📌 Processing Article ID: 68d306fb0a0272dfa29a49ac — UAW strikes Stellantis truck plant
+2025-09-23 23:05:04,126 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:05:08,497 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:05:08,498 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sterling_heights",
+        "type": "factory",
+        "name": "Sterling Heights Assembly Plant",
+        "location": {
+          "city": "Sterling Heights",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_warren_michigan",
+        "type": "factory",
+        "name": "Warren Truck Assembly Plant",
+        "location": {
+          "city": "Warren",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_saltillo_mexico",
+        "type": "factory",
+        "name": "Saltillo Plant",
+        "location": {
+          "city": "Saltillo",
+          "country": "Mexico"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_toledo_ohio",
+        "type": "factory",
+        "name": "Toledo Assembly Complex",
+        "location": {
+          "city": "Toledo",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300,000 vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ram_1500",
+        "type": "product",
+        "name": "Ram 1500"
+      },
+      {
+        "id": "product_ram_classic",
+        "type": "product",
+        "name": "Ram Classic"
+      },
+      {
+        "id": "product_heavy_duty_ram",
+        "type": "product",
+        "name": "Heavy Duty Ram"
+      }
+    ]
+  }
+}
+2025-09-23 23:05:08,498 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:05:08,498 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 23:05:08,498 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 23:05:09,728 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:05:09,728 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_vehicles_per_year",
+      "status": "unclear",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-23 23:05:09,728 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:05:09,728 - INFO - ✅ Match found for capacity_ID 'capacity_300k_vehicles_per_year' in capacity nodes
+2025-09-23 23:05:09,728 - INFO -   ➕ Set field 'status': unclear
+2025-09-23 23:05:09,728 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:05:09,728 - INFO -   ➕ Set field 'additional': False
+2025-09-23 23:05:09,729 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:05:09,729 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:05:09,729 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:05:12,002 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:05:12,003 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ram_1500",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_ram_classic",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_heavy_duty_ram",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-23 23:05:12,003 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:05:12,003 - INFO - ✅ Match found for product_ID 'product_ram_1500' in product nodes
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:05:12,003 - INFO - ✅ Match found for product_ID 'product_ram_classic' in product nodes
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:05:12,003 - INFO - ✅ Match found for product_ID 'product_heavy_duty_ram' in product nodes
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:05:12,003 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-23 23:05:12,003 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:05:12,003 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:05:12,003 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:05:13,617 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:05:13,617 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_sterling_heights"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_warren_michigan"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_saltillo_mexico"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_toledo_ohio"
+    }
+  ]
+}
+2025-09-23 23:05:13,617 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:05:13,618 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:05:13,618 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:05:16,005 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:05:16,006 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_vehicles_per_year",
+      "target": "factory_sterling_heights",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_vehicles_per_year",
+      "target": "product_ram_1500",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ram_1500",
+      "target": "factory_sterling_heights",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ram_classic",
+      "target": "factory_warren_michigan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_heavy_duty_ram",
+      "target": "factory_saltillo_mexico",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:05:16,006 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:05:16,006 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:05:16,006 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:05:16,089 - INFO - ✅ Updated Article ID: 68d306fb0a0272dfa29a49ac with 9 nodes and combined text.

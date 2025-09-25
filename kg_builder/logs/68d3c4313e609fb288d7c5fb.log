@@ -1,0 +1,83 @@
+2025-09-25 02:05:00,114 - INFO - 🔍 Text length: 903 characters
+2025-09-25 02:05:00,114 - INFO - 📌 Processing Article ID: 68d3c4313e609fb288d7c5fb — Tesla finally builds a Cybertruck
+2025-09-25 02:05:00,114 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:05:01,820 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:01,820 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_texas",
+        "type": "factory",
+        "name": "Texas Factory",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cybertruck",
+        "type": "product",
+        "name": "Cybertruck"
+      }
+    ]
+  }
+}
+2025-09-25 02:05:01,820 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:01,820 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:05:01,820 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:05:01,820 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:05:01,820 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:05:03,088 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:03,088 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cybertruck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:05:03,088 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:03,088 - INFO - ✅ Match found for product_ID 'product_cybertruck' in product nodes
+2025-09-25 02:05:03,088 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:05:03,088 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:05:03,088 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:05:03,088 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:05:03,088 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:05:05,006 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:05,006 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_texas"
+    }
+  ]
+}
+2025-09-25 02:05:05,006 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:05,006 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:05:05,006 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:05:07,388 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:07,388 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cybertruck",
+      "target": "factory_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:05:07,388 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:07,388 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:05:07,389 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:05:07,473 - INFO - ✅ Updated Article ID: 68d3c4313e609fb288d7c5fb with 3 nodes and combined text.

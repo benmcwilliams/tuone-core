@@ -1,0 +1,159 @@
+2025-09-25 01:59:35,182 - INFO - 🔍 Text length: 1995 characters
+2025-09-25 01:59:35,183 - INFO - 📌 Processing Article ID: 68d3c4a73e609fb288d7c612 — Cornish lithium miner secures funding
+2025-09-25 01:59:35,183 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:59:38,578 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:38,578 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cornish_lithium",
+        "type": "company",
+        "name": "Cornish Lithium"
+      },
+      {
+        "id": "company_uk_infrastructure_bank",
+        "type": "company",
+        "name": "UK Infrastructure Bank"
+      },
+      {
+        "id": "company_energy_minerals_group",
+        "type": "company",
+        "name": "Energy & Minerals Group"
+      },
+      {
+        "id": "company_techmet",
+        "type": "company",
+        "name": "TechMet"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_trelavour_downs_cornwall",
+        "type": "factory",
+        "name": "Trelavour Downs",
+        "location": {
+          "city": "Cornwall",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cornish_lithium_funding",
+        "type": "investment",
+        "name": "Cornish Lithium Funding",
+        "amount": "GBP53.6m (US$67m)",
+        "status": "completed"
+      },
+      {
+        "id": "investment_crowdcube_shares",
+        "type": "investment",
+        "name": "Crowdcube Shares",
+        "amount": "GBP6.9m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_hydroxide",
+        "type": "product",
+        "name": "battery grade lithium hydroxide"
+      }
+    ]
+  }
+}
+2025-09-25 01:59:38,578 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:38,578 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:59:38,578 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:59:38,578 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:59:39,497 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:39,497 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cornish_lithium_funding",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_crowdcube_shares",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 01:59:39,497 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:39,497 - INFO - ✅ Match found for investment_ID 'investment_cornish_lithium_funding' in investment nodes
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:59:39,497 - INFO - ✅ Match found for investment_ID 'investment_crowdcube_shares' in investment nodes
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 01:59:39,497 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 01:59:39,497 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:59:39,498 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:59:40,827 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:40,827 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_hydroxide",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-25 01:59:40,827 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:40,828 - INFO - ✅ Match found for product_ID 'product_lithium_hydroxide' in product nodes
+2025-09-25 01:59:40,828 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-25 01:59:40,828 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-25 01:59:40,828 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:59:40,828 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:59:40,828 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:59:41,647 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:41,648 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cornish_lithium",
+      "type": "owns",
+      "target": "factory_trelavour_downs_cornwall"
+    }
+  ]
+}
+2025-09-25 01:59:41,648 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:41,648 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:59:41,648 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:59:43,740 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:43,741 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_hydroxide",
+      "target": "factory_trelavour_downs_cornwall",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:59:43,741 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:43,741 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:59:43,741 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:59:45,844 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:45,844 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:59:45,844 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:45,844 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:59:45,845 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:59:46,769 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:46,770 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cornish_lithium_funding",
+      "target": "product_lithium_hydroxide",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:59:46,770 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:46,853 - INFO - ✅ Updated Article ID: 68d3c4a73e609fb288d7c612 with 8 nodes and combined text.

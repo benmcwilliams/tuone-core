@@ -1,0 +1,141 @@
+2025-09-24 23:21:26,881 - INFO - 🔍 Text length: 1386 characters
+2025-09-24 23:21:26,882 - INFO - 📌 Processing Article ID: 68d3e0d03e609fb288d7c8ed — Posco starts on nickel refining plant
+2025-09-24 23:21:26,882 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:21:29,043 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:29,043 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_posco_group",
+        "type": "company",
+        "name": "Posco Group"
+      },
+      {
+        "id": "company_posco_chemical_company",
+        "type": "company",
+        "name": "Posco Chemical Company"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gwangyang_south_korea",
+        "type": "factory",
+        "name": "Gwangyang Nickel Processing Plant",
+        "location": {
+          "city": "Gwangyang",
+          "country": "South Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "20,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_purity_nickel",
+        "type": "product",
+        "name": "high purity nickel"
+      },
+      {
+        "id": "product_ev_battery_components",
+        "type": "product",
+        "name": "EV battery components"
+      }
+    ]
+  }
+}
+2025-09-24 23:21:29,043 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:29,044 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:21:29,044 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:21:30,580 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:30,580 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:21:30,580 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:30,580 - INFO - ✅ Match found for capacity_ID 'capacity_20k_tons_per_year' in capacity nodes
+2025-09-24 23:21:30,580 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:21:30,580 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:21:30,580 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:21:30,580 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:21:30,580 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:21:30,580 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:21:32,114 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:32,115 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_high_purity_nickel",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_ev_battery_components",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 23:21:32,115 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:32,115 - INFO - ✅ Match found for product_ID 'product_high_purity_nickel' in product nodes
+2025-09-24 23:21:32,115 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:21:32,115 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:21:32,115 - INFO - ✅ Match found for product_ID 'product_ev_battery_components' in product nodes
+2025-09-24 23:21:32,115 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:21:32,115 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:21:32,115 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:21:32,115 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:21:33,375 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:33,375 - INFO - {
+  "relationships": [
+    {
+      "source": "company_posco_group",
+      "type": "owns",
+      "target": "factory_gwangyang_south_korea"
+    }
+  ]
+}
+2025-09-24 23:21:33,375 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:33,375 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:21:33,375 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:21:37,136 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:37,137 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20k_tons_per_year",
+      "target": "factory_gwangyang_south_korea",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20k_tons_per_year",
+      "target": "product_high_purity_nickel",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_high_purity_nickel",
+      "target": "factory_gwangyang_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:21:37,137 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:37,137 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:21:37,137 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:21:37,229 - INFO - ✅ Updated Article ID: 68d3e0d03e609fb288d7c8ed with 7 nodes and combined text.

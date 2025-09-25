@@ -1,0 +1,154 @@
+2025-09-24 21:12:32,675 - INFO - 🔍 Text length: 6982 characters
+2025-09-24 21:12:32,675 - INFO - 📌 Processing Article ID: 68d3e9aa3e609fb288d7cb37 — Trumpf und Cellforce Group schließen Partnerschaft
+2025-09-24 21:12:32,675 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:12:36,472 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:36,472 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cellforce_group",
+        "type": "company",
+        "name": "Cellforce Group GmbH"
+      },
+      {
+        "id": "company_trumpf",
+        "type": "company",
+        "name": "TRUMPF"
+      },
+      {
+        "id": "company_porsche_ag",
+        "type": "company",
+        "name": "Porsche AG"
+      },
+      {
+        "id": "company_customcells_holding_gmbh",
+        "type": "company",
+        "name": "CUSTOMCELLS Holding GmbH"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_porsche_customcells",
+        "type": "joint_venture",
+        "name": "Porsche CUSTOMCELLS"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_reutlingen_germany",
+        "type": "factory",
+        "name": "Reutlingen Factory",
+        "location": {
+          "city": "Reutlingen",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 MWh per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_pouch_cells",
+        "type": "product",
+        "name": "Hochleistungs-Lithium-Ionen-Pouch-Zellen"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "Lithium-Ionen-Batterien"
+      }
+    ]
+  }
+}
+2025-09-24 21:12:36,472 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:36,472 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:12:36,472 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:12:37,802 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:37,802 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mwh_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:12:37,802 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:37,802 - INFO - ✅ Match found for capacity_ID 'capacity_100_mwh_per_year' in capacity nodes
+2025-09-24 21:12:37,802 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:12:37,802 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:12:37,802 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:12:37,802 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:12:37,802 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:12:37,802 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:12:39,546 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:39,546 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_pouch_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:12:39,546 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:39,546 - INFO - ✅ Match found for product_ID 'product_lithium_ion_pouch_cells' in product nodes
+2025-09-24 21:12:39,546 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:12:39,546 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:12:39,546 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 21:12:39,546 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:12:39,547 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:12:39,547 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:12:39,547 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:12:39,547 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:12:41,284 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:41,285 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cellforce_group",
+      "type": "owns",
+      "target": "factory_reutlingen_germany"
+    }
+  ]
+}
+2025-09-24 21:12:41,285 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:41,285 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:12:41,285 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:12:42,515 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:42,515 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mwh_per_year",
+      "target": "factory_reutlingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mwh_per_year",
+      "target": "product_lithium_ion_pouch_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_pouch_cells",
+      "target": "factory_reutlingen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:12:42,515 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:42,515 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:12:42,515 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:12:42,609 - INFO - ✅ Updated Article ID: 68d3e9aa3e609fb288d7cb37 with 9 nodes and combined text.

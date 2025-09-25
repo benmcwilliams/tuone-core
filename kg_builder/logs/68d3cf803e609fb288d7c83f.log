@@ -1,0 +1,162 @@
+2025-09-25 00:06:38,370 - INFO - 🔍 Text length: 1588 characters
+2025-09-25 00:06:38,370 - INFO - 📌 Processing Article ID: 68d3cf803e609fb288d7c83f — GM Toledo factory to make BEV truck powertrains
+2025-09-25 00:06:38,370 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:06:42,017 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:42,017 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_toledo_propulsion_systems",
+        "type": "factory",
+        "name": "Toledo Propulsion Systems",
+        "location": {
+          "city": "Toledo",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_usd_760m_announced",
+        "type": "investment",
+        "name": "US$760m investment",
+        "amount": "US$760m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_usd_1_9bn_completed",
+        "type": "investment",
+        "name": "US$1.9bn investment",
+        "amount": "US$1.9bn",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_drive_units",
+        "type": "product",
+        "name": "EV drive units"
+      },
+      {
+        "id": "product_battery_electric_trucks",
+        "type": "product",
+        "name": "battery electric trucks"
+      }
+    ]
+  }
+}
+2025-09-25 00:06:42,017 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:42,017 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:06:42,017 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 00:06:42,017 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 00:06:43,732 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:43,733 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_usd_760m_announced",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_usd_1_9bn_completed",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 00:06:43,733 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:43,733 - INFO - ✅ Match found for investment_ID 'investment_usd_760m_announced' in investment nodes
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:06:43,733 - INFO - ✅ Match found for investment_ID 'investment_usd_1_9bn_completed' in investment nodes
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'status': completed
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 00:06:43,733 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:06:43,733 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:06:43,733 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:06:45,269 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:45,269 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_drive_units",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_battery_electric_trucks",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:06:45,269 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:45,269 - INFO - ✅ Match found for product_ID 'product_ev_drive_units' in product nodes
+2025-09-25 00:06:45,269 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 00:06:45,269 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-25 00:06:45,269 - INFO - ✅ Match found for product_ID 'product_battery_electric_trucks' in product nodes
+2025-09-25 00:06:45,270 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:06:45,270 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:06:45,270 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:06:45,270 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:06:45,270 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:06:46,703 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:46,703 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_toledo_propulsion_systems"
+    }
+  ]
+}
+2025-09-25 00:06:46,703 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:46,704 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:06:46,704 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:06:47,934 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:47,934 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_drive_units",
+      "target": "factory_toledo_propulsion_systems",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:06:47,934 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:47,934 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 00:06:47,934 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 00:06:49,057 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:49,057 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:06:49,058 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:49,058 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 00:06:49,058 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 00:06:49,982 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:06:49,982 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_usd_760m_announced",
+      "target": "factory_toledo_propulsion_systems",
+      "type": "funds"
+    },
+    {
+      "source": "investment_usd_760m_announced",
+      "target": "product_ev_drive_units",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 00:06:49,982 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:06:50,073 - INFO - ✅ Updated Article ID: 68d3cf803e609fb288d7c83f with 6 nodes and combined text.

@@ -1,0 +1,179 @@
+2025-09-24 01:19:07,491 - INFO - 🔍 Text length: 2516 characters
+2025-09-24 01:19:07,491 - INFO - 📌 Processing Article ID: 68d2e444a796126e32149d70 — BMW Group announces X5 with five drivetrain variants
+2025-09-24 01:19:07,491 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:19:12,009 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:12,009 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      },
+      {
+        "id": "company_toyota_motor_corporation",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "BMW Group\u2019s new plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_munich_germany",
+        "type": "factory",
+        "name": "BMW Group\u2019s competence centre",
+        "location": {
+          "city": "Munich",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_steyr_austria",
+        "type": "factory",
+        "name": "BMW Group Plant Steyr",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_landshut_germany",
+        "type": "factory",
+        "name": "BMW Group plant",
+        "location": {
+          "city": "Landshut",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bmw_ix5_hydrogen",
+        "type": "product",
+        "name": "BMW iX5 Hydrogen"
+      },
+      {
+        "id": "product_bmw_ix3",
+        "type": "product",
+        "name": "BMW iX3"
+      },
+      {
+        "id": "bmw_x5",
+        "type": "product",
+        "name": "BMW X5",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        ".status": ""
+      }
+    ]
+  }
+}
+2025-09-24 01:19:12,009 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:12,009 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:19:12,009 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:19:12,009 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:19:12,009 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:19:13,901 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:13,901 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bmw_ix5_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_bmw_ix3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "bmw_x5",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:19:13,901 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:13,901 - INFO - ✅ Match found for product_ID 'product_bmw_ix5_hydrogen' in product nodes
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 01:19:13,901 - INFO - ✅ Match found for product_ID 'product_bmw_ix3' in product nodes
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:19:13,901 - INFO - ✅ Match found for product_ID 'bmw_x5' in product nodes
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:19:13,901 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:19:13,902 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:19:13,902 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:19:13,902 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:19:15,798 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:15,799 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    },
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_munich_germany"
+    },
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_steyr_austria"
+    },
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_landshut_germany"
+    }
+  ]
+}
+2025-09-24 01:19:15,799 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:15,799 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:19:15,799 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:19:17,571 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:17,571 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bmw_ix3",
+      "target": "factory_debrecen_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_ix5_hydrogen",
+      "target": "factory_munich_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_ix5_hydrogen",
+      "target": "factory_steyr_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_ix5_hydrogen",
+      "target": "factory_landshut_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:19:17,572 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:17,572 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:19:17,572 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:19:17,662 - INFO - ✅ Updated Article ID: 68d2e444a796126e32149d70 with 9 nodes and combined text.

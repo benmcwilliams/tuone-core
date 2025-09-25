@@ -1,0 +1,169 @@
+2025-09-24 21:25:49,253 - INFO - 🔍 Text length: 7838 characters
+2025-09-24 21:25:49,253 - INFO - 📌 Processing Article ID: 68d3e8683e609fb288d7caf3 — Flexible Batteriezell-Forschungsfertigung startet in Tübingen
+2025-09-24 21:25:49,253 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:25:52,542 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:52,542 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_custom_cells_itzehoe_gmbh",
+        "type": "company",
+        "name": "Custom Cells Itzehoe GmbH"
+      },
+      {
+        "id": "company_custom_cells_tuebingen",
+        "type": "company",
+        "name": "Custom Cells T\u00fcbingen"
+      },
+      {
+        "id": "company_p3_automotive",
+        "type": "company",
+        "name": "P3 Automotive"
+      },
+      {
+        "id": "company_zsw",
+        "type": "company",
+        "name": "Zentrum f\u00fcr Sonnenenergie- und Wasserstoff-Forschung Baden-W\u00fcrttemberg (ZSW)"
+      },
+      {
+        "id": "company_daimler_ag",
+        "type": "company",
+        "name": "Daimler AG"
+      },
+      {
+        "id": "company_manz_ag",
+        "type": "company",
+        "name": "Manz AG"
+      },
+      {
+        "id": "company_andreas_stihl_ag_co_kg",
+        "type": "company",
+        "name": "ANDREAS STIHL AG & Co. KG"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_custom_cells",
+        "type": "joint_venture",
+        "name": "Custom Cells"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tuebingen",
+        "type": "factory",
+        "name": "T\u00fcbingen Production Site",
+        "location": {
+          "city": "T\u00fcbingen",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_komvar_project",
+        "type": "investment",
+        "name": "KomVar Project",
+        "amount": "8.2 million Euro",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batter_cells",
+        "type": "product",
+        "name": "Lithium-Ion Battery Cells"
+      }
+    ]
+  }
+}
+2025-09-24 21:25:52,542 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:52,542 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:25:52,542 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:25:52,543 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:25:53,896 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:53,896 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_komvar_project",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:25:53,896 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:53,896 - INFO - ✅ Match found for investment_ID 'investment_komvar_project' in investment nodes
+2025-09-24 21:25:53,896 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 21:25:53,896 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:25:53,896 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:25:53,896 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:25:53,896 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:25:55,196 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:55,196 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batter_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:25:55,196 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:55,196 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batter_cells' in product nodes
+2025-09-24 21:25:55,196 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:25:55,196 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:25:55,196 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:25:55,196 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:25:55,196 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:25:56,937 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:56,937 - INFO - {
+  "relationships": [
+    {
+      "source": "company_custom_cells_tuebingen",
+      "type": "owns",
+      "target": "factory_tuebingen"
+    }
+  ]
+}
+2025-09-24 21:25:56,937 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:56,937 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:25:56,937 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:25:57,961 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:57,961 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_batter_cells",
+      "target": "factory_tuebingen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:25:57,961 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:57,961 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:25:57,961 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:25:58,882 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:25:58,882 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:25:58,882 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:25:58,883 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:25:58,883 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:26:01,281 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:26:01,281 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_komvar_project",
+      "target": "factory_tuebingen",
+      "type": "funds"
+    },
+    {
+      "source": "investment_komvar_project",
+      "target": "product_lithium_ion_batter_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:26:01,281 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:26:01,369 - INFO - ✅ Updated Article ID: 68d3e8683e609fb288d7caf3 with 11 nodes and combined text.

@@ -1,0 +1,83 @@
+2025-09-24 21:54:58,541 - INFO - 🔍 Text length: 1664 characters
+2025-09-24 21:54:58,541 - INFO - 📌 Processing Article ID: 68d3e6c83e609fb288d7ca8b — LABCO’s Advanced Battery Test Centre: Elevating EV Component Safety and Performance to New Heights
+2025-09-24 21:54:58,541 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:54:59,789 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:59,789 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_labco",
+        "type": "company",
+        "name": "LABCO"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_labco_battery_test_centre",
+        "type": "factory",
+        "name": "LABCO Battery Test Centre",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_testing",
+        "type": "product",
+        "name": "battery testing"
+      }
+    ]
+  }
+}
+2025-09-24 21:54:59,789 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:59,789 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:54:59,789 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:54:59,789 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:54:59,790 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:55:00,917 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:00,917 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_testing",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:55:00,917 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:00,918 - INFO - ✅ Match found for product_ID 'product_battery_testing' in product nodes
+2025-09-24 21:55:00,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:55:00,918 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:55:00,918 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:55:00,918 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:55:00,918 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:55:01,837 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:01,837 - INFO - {
+  "relationships": [
+    {
+      "source": "company_labco",
+      "type": "owns",
+      "target": "factory_labco_battery_test_centre"
+    }
+  ]
+}
+2025-09-24 21:55:01,837 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:01,837 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:55:01,837 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:55:03,374 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:03,374 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_testing",
+      "target": "factory_labco_battery_test_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:55:03,374 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:03,374 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:55:03,374 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:55:03,476 - INFO - ✅ Updated Article ID: 68d3e6c83e609fb288d7ca8b with 3 nodes and combined text.

@@ -1,0 +1,147 @@
+2025-09-25 02:59:00,636 - INFO - 🔍 Text length: 1246 characters
+2025-09-25 02:59:00,636 - INFO - 📌 Processing Article ID: 68d3bfd33e609fb288d7c507 — Stellantis opens battery tech centre
+2025-09-25 02:59:00,636 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:59:02,687 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:02,687 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mirafiori_complex",
+        "type": "factory",
+        "name": "Mirafiori Complex",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_windsor_canada",
+        "type": "factory",
+        "name": "Windsor Centre",
+        "location": {
+          "city": "Windsor",
+          "country": "Canada"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_mirafiori_centre",
+        "type": "investment",
+        "name": "Stellantis Mirafiori Centre",
+        "amount": "EUR40m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_technology",
+        "type": "product",
+        "name": "battery packs, modules, high voltage cells, and software"
+      }
+    ]
+  }
+}
+2025-09-25 02:59:02,687 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:02,687 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:59:02,687 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:59:02,687 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:59:03,711 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:03,711 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_mirafiori_centre",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:59:03,711 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:03,711 - INFO - ✅ Match found for investment_ID 'investment_stellantis_mirafiori_centre' in investment nodes
+2025-09-25 02:59:03,711 - INFO -   ➕ Set field 'status': completed
+2025-09-25 02:59:03,711 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 02:59:03,711 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:59:03,711 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:59:03,711 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:59:04,836 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:04,837 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_technology",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-25 02:59:04,837 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:04,837 - INFO - ✅ Match found for product_ID 'product_battery_technology' in product nodes
+2025-09-25 02:59:04,837 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:59:04,837 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 02:59:04,837 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:59:04,837 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:59:04,837 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:59:07,335 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:07,335 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mirafiori_complex"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_windsor_canada"
+    }
+  ]
+}
+2025-09-25 02:59:07,335 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:07,335 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:59:07,335 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:59:09,652 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:09,652 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_technology",
+      "target": "factory_mirafiori_complex",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:59:09,652 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:09,652 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:59:09,652 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:59:10,777 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:10,777 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:59:10,777 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:10,777 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:59:10,777 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:59:12,004 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:59:12,004 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_mirafiori_centre",
+      "target": "factory_mirafiori_complex",
+      "type": "funds"
+    },
+    {
+      "source": "investment_stellantis_mirafiori_centre",
+      "target": "product_battery_technology",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 02:59:12,004 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:59:12,103 - INFO - ✅ Updated Article ID: 68d3bfd33e609fb288d7c507 with 5 nodes and combined text.

@@ -1,0 +1,72 @@
+2025-09-25 02:31:55,527 - INFO - 🔍 Text length: 2373 characters
+2025-09-25 02:31:55,528 - INFO - 📌 Processing Article ID: 68d3c16b3e609fb288d7c571 — Kia signs comprehensive EV battery value chain deal
+2025-09-25 02:31:55,528 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:31:57,380 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:31:57,381 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia_corporation",
+        "type": "company",
+        "name": "Kia Corporation"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ev_battery_supply_chain",
+        "type": "joint_venture",
+        "name": "EV Battery Supply Chain"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_as_a_service",
+        "type": "product",
+        "name": "Battery as a Service"
+      }
+    ]
+  }
+}
+2025-09-25 02:31:57,381 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:31:57,381 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:31:57,381 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:31:57,381 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:31:57,381 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:31:58,813 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:31:58,813 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_as_a_service",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:31:58,813 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:31:58,813 - INFO - ✅ Match found for product_ID 'product_battery_as_a_service' in product nodes
+2025-09-25 02:31:58,813 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:31:58,813 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:31:58,814 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:31:58,814 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:31:58,814 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:32:00,247 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:00,247 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia_corporation",
+      "type": "forms",
+      "target": "joint_venture_ev_battery_supply_chain"
+    }
+  ]
+}
+2025-09-25 02:32:00,247 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:00,247 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:32:00,247 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:32:01,170 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:32:01,170 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:32:01,170 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:32:01,170 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:32:01,170 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:32:01,256 - INFO - ✅ Updated Article ID: 68d3c16b3e609fb288d7c571 with 3 nodes and combined text.

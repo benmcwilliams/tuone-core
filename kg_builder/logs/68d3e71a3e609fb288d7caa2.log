@@ -1,0 +1,97 @@
+2025-09-24 21:50:58,521 - INFO - 🔍 Text length: 1357 characters
+2025-09-24 21:50:58,521 - INFO - 📌 Processing Article ID: 68d3e71a3e609fb288d7caa2 — Swiss Battery Start-up Raises Three Million Euros
+2025-09-24 21:50:58,521 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:51:00,562 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:00,562 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_8inks",
+        "type": "company",
+        "name": "8inks"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_pre_seed_round",
+        "type": "investment",
+        "name": "Pre-seed round",
+        "amount": "three million euros",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_multi_layer_coating",
+        "type": "product",
+        "name": "multi-layer coating"
+      }
+    ]
+  }
+}
+2025-09-24 21:51:00,562 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:00,562 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:51:00,562 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:51:00,562 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:51:01,710 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:01,710 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_pre_seed_round",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:51:01,711 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:01,711 - INFO - ✅ Match found for investment_ID 'investment_pre_seed_round' in investment nodes
+2025-09-24 21:51:01,711 - INFO -   ➕ Set field 'status': completed
+2025-09-24 21:51:01,711 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:51:01,711 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:51:01,711 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:51:01,711 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:51:03,350 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:03,351 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_multi_layer_coating",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 21:51:03,351 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:03,351 - INFO - ✅ Match found for product_ID 'product_multi_layer_coating' in product nodes
+2025-09-24 21:51:03,351 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:51:03,351 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:51:03,351 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:51:03,351 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 21:51:03,351 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:51:03,351 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:51:04,474 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:04,474 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:51:04,474 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:04,474 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:51:04,474 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:51:05,157 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:05,158 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:51:05,158 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:05,158 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:51:05,158 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:51:06,316 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:51:06,317 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_pre_seed_round",
+      "target": "product_multi_layer_coating",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:51:06,317 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:51:06,408 - INFO - ✅ Updated Article ID: 68d3e71a3e609fb288d7caa2 with 3 nodes and combined text.

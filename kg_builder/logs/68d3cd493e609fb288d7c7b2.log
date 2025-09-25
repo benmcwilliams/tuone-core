@@ -1,0 +1,206 @@
+2025-09-25 00:34:27,049 - INFO - 🔍 Text length: 1616 characters
+2025-09-25 00:34:27,049 - INFO - 📌 Processing Article ID: 68d3cd493e609fb288d7c7b2 — Ford signs $4.5bn deal for new nickel plant in Indonesia
+2025-09-25 00:34:27,050 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:34:29,415 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:29,415 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_pt_vale_indonesia",
+        "type": "company",
+        "name": "PT Vale Indonesia"
+      },
+      {
+        "id": "company_zhejiang_huayou_cobalt",
+        "type": "company",
+        "name": "Zhejiang Huayou Cobalt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nickel_processing_plant",
+        "type": "factory",
+        "name": "nickel processing plant",
+        "location": {
+          "city": "Pomalaa, south-east Sulawesi",
+          "country": "Indonesia"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ford_nickel_processing_plant",
+        "type": "investment",
+        "name": "Ford Nickel Processing Plant",
+        "amount": "$4.5bn",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nickel_hydroxide_precipitate",
+        "type": "product",
+        "name": "mixed hydroxide precipitate"
+      },
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "electric vehicle (EV) batteries"
+      }
+    ]
+  }
+}
+2025-09-25 00:34:29,415 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:29,416 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 00:34:29,416 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 00:34:30,132 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:30,132 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_tonnes_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 00:34:30,132 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:30,132 - INFO - ✅ Match found for capacity_ID 'capacity_120k_tonnes_per_year' in capacity nodes
+2025-09-25 00:34:30,132 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:34:30,132 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 00:34:30,132 - INFO -   ➕ Set field 'additional': False
+2025-09-25 00:34:30,132 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 00:34:30,132 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 00:34:31,055 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:31,055 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ford_nickel_processing_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 00:34:31,055 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:31,055 - INFO - ✅ Match found for investment_ID 'investment_ford_nickel_processing_plant' in investment nodes
+2025-09-25 00:34:31,055 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:34:31,055 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 00:34:31,055 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:34:31,055 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:34:31,056 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:34:32,999 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:32,999 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_nickel_hydroxide_precipitate",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_ev_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:34:32,999 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:32,999 - INFO - ✅ Match found for product_ID 'product_nickel_hydroxide_precipitate' in product nodes
+2025-09-25 00:34:32,999 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:34:33,000 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 00:34:33,000 - INFO - ✅ Match found for product_ID 'product_ev_batteries' in product nodes
+2025-09-25 00:34:33,000 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:34:33,000 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:34:33,000 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:34:33,000 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:34:33,000 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:34:35,967 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:35,967 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "forms",
+      "target": "joint_venture_nickel_processing"
+    },
+    {
+      "source": "company_pt_vale_indonesia",
+      "type": "forms",
+      "target": "joint_venture_nickel_processing"
+    },
+    {
+      "source": "company_zhejiang_huayou_cobalt",
+      "type": "forms",
+      "target": "joint_venture_nickel_processing"
+    },
+    {
+      "source": "joint_venture_nickel_processing",
+      "type": "owns",
+      "target": "factory_nickel_processing_plant"
+    }
+  ]
+}
+2025-09-25 00:34:35,968 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:35,968 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:34:35,968 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:34:37,505 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:37,505 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_tonnes_per_year",
+      "target": "factory_nickel_processing_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_tonnes_per_year",
+      "target": "product_nickel_hydroxide_precipitate",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_nickel_hydroxide_precipitate",
+      "target": "factory_nickel_processing_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:34:37,505 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:37,505 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 00:34:37,505 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 00:34:38,119 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:38,119 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:34:38,119 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:38,119 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 00:34:38,119 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 00:34:39,864 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:39,864 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ford_nickel_processing_plant",
+      "target": "factory_nickel_processing_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ford_nickel_processing_plant",
+      "target": "product_nickel_hydroxide_precipitate",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 00:34:39,864 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:39,954 - INFO - ✅ Updated Article ID: 68d3cd493e609fb288d7c7b2 with 8 nodes and combined text.

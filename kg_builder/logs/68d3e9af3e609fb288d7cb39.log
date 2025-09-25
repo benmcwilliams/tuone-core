@@ -1,0 +1,164 @@
+2025-09-24 21:12:14,645 - INFO - 🔍 Text length: 7473 characters
+2025-09-24 21:12:14,646 - INFO - 📌 Processing Article ID: 68d3e9af3e609fb288d7cb39 — Wird LG Chem neuer Batterielieferant von Tesla?
+2025-09-24 21:12:14,646 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:12:17,162 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:17,163 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      },
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gigafactory_3",
+        "type": "factory",
+        "name": "Gigafactory 3",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_nanjing",
+        "type": "factory",
+        "name": "Nanjing",
+        "location": {
+          "city": "Nanjing",
+          "country": "China"
+        },
+        "status": "unclear"
+      },
+      {
+        "id": "factory_fremont",
+        "type": "factory",
+        "name": "Fremont",
+        "location": {
+          "city": "Fremont",
+          "country": "USA"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_2170_cells",
+        "type": "product",
+        "name": "2170 cells"
+      },
+      {
+        "id": "product_model_3",
+        "type": "product",
+        "name": "Model 3"
+      },
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      }
+    ]
+  }
+}
+2025-09-24 21:12:17,163 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:17,163 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:12:17,163 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:12:17,163 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:12:17,163 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:12:19,295 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:19,295 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_2170_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_model_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_model_y",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 21:12:19,296 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:19,296 - INFO - ✅ Match found for product_ID 'product_2170_cells' in product nodes
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:12:19,296 - INFO - ✅ Match found for product_ID 'product_model_3' in product nodes
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 21:12:19,296 - INFO - ✅ Match found for product_ID 'product_model_y' in product nodes
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 21:12:19,296 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 21:12:19,296 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:12:19,296 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:12:19,296 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:12:21,111 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:21,112 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_gigafactory_3"
+    },
+    {
+      "source": "company_lg_chem",
+      "type": "owns",
+      "target": "factory_nanjing"
+    },
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_fremont"
+    }
+  ]
+}
+2025-09-24 21:12:21,112 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:21,112 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:12:21,112 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:12:23,365 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:23,365 - INFO - {
+  "relationships": [
+    {
+      "source": "product_model_3",
+      "target": "factory_gigafactory_3",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_model_y",
+      "target": "factory_fremont",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_2170_cells",
+      "target": "factory_nanjing",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:12:23,365 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:23,365 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:12:23,366 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:12:23,459 - INFO - ✅ Updated Article ID: 68d3e9af3e609fb288d7cb39 with 10 nodes and combined text.

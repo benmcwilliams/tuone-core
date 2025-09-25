@@ -1,0 +1,118 @@
+2025-09-25 00:22:19,785 - INFO - 🔍 Text length: 2889 characters
+2025-09-25 00:22:19,785 - INFO - 📌 Processing Article ID: 68d3ce213e609fb288d7c7ec — China car sales fall in November
+2025-09-25 00:22:19,785 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:22:21,949 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:21,949 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_saic_motor",
+        "type": "company",
+        "name": "SAIC Motor"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_geely_auto",
+        "type": "company",
+        "name": "Geely Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_plant",
+        "type": "factory",
+        "name": "Shanghai Plant",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nev",
+        "type": "product",
+        "name": "New Energy Vehicles (NEVs)"
+      },
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "Electric Vehicles (EVs)"
+      },
+      {
+        "id": "product_hybrid",
+        "type": "product",
+        "name": "Hybrid Vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 00:22:21,949 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:21,950 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:22:21,950 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:22:21,950 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:22:21,950 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:22:23,482 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:23,482 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_nev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_hybrid",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:22:23,482 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:23,482 - INFO - ✅ Match found for product_ID 'product_nev' in product nodes
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:22:23,482 - INFO - ✅ Match found for product_ID 'product_ev' in product nodes
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:22:23,482 - INFO - ✅ Match found for product_ID 'product_hybrid' in product nodes
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:23,482 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:22:23,482 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:22:23,482 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:22:23,482 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:22:24,199 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:24,199 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_shanghai_plant"
+    }
+  ]
+}
+2025-09-25 00:22:24,199 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:24,199 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:22:24,200 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:22:25,252 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:25,253 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:22:25,253 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:25,253 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:22:25,253 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:22:25,343 - INFO - ✅ Updated Article ID: 68d3ce213e609fb288d7c7ec with 8 nodes and combined text.

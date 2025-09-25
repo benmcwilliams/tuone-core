@@ -1,0 +1,118 @@
+2025-09-24 01:32:19,863 - INFO - 🔍 Text length: 1454 characters
+2025-09-24 01:32:19,863 - INFO - 📌 Processing Article ID: 689231733770ecb5d617844f — Porsche Acquires Majority Stake in VARTA Subsidiary V4Drive
+2025-09-24 01:32:19,863 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:32:22,196 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:22,196 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_porsche_ag",
+        "type": "company",
+        "name": "Porsche AG"
+      },
+      {
+        "id": "company_v4drive_gmbh",
+        "type": "company",
+        "name": "V4Drive GmbH"
+      },
+      {
+        "id": "company_varta_ag",
+        "type": "company",
+        "name": "VARTA AG"
+      },
+      {
+        "id": "company_porsche_werkzeugbau_gmbh",
+        "type": "company",
+        "name": "Porsche Werkzeugbau GmbH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ellwangen",
+        "type": "factory",
+        "name": "Ellwangen",
+        "location": {
+          "city": "Ellwangen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_noerdlingen",
+        "type": "factory",
+        "name": "N\u00f6rdlingen",
+        "location": {
+          "city": "N\u00f6rdlingen",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cylindrical_lithium_ion_cells",
+        "type": "product",
+        "name": "cylindrical lithium-ion cells"
+      }
+    ]
+  }
+}
+2025-09-24 01:32:22,196 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:22,196 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:32:22,196 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:32:22,196 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:32:22,196 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:32:23,311 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:23,311 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cylindrical_lithium_ion_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:32:23,311 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:23,312 - INFO - ✅ Match found for product_ID 'product_cylindrical_lithium_ion_cells' in product nodes
+2025-09-24 01:32:23,312 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:32:23,312 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:32:23,312 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:32:23,312 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:32:23,312 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:32:24,588 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:24,588 - INFO - {
+  "relationships": [
+    {
+      "source": "company_v4drive_gmbh",
+      "type": "owns",
+      "target": "factory_ellwangen"
+    },
+    {
+      "source": "company_v4drive_gmbh",
+      "type": "owns",
+      "target": "factory_noerdlingen"
+    }
+  ]
+}
+2025-09-24 01:32:24,588 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:24,588 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:32:24,588 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:32:25,865 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:32:25,865 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cylindrical_lithium_ion_cells",
+      "target": "factory_ellwangen",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cylindrical_lithium_ion_cells",
+      "target": "factory_noerdlingen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:32:25,865 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:32:25,865 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:32:25,865 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:32:25,955 - INFO - ✅ Updated Article ID: 689231733770ecb5d617844f with 7 nodes and combined text.

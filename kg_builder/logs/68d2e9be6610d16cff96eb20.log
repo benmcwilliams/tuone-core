@@ -1,0 +1,143 @@
+2025-09-24 00:53:17,092 - INFO - 🔍 Text length: 1912 characters
+2025-09-24 00:53:17,092 - INFO - 📌 Processing Article ID: 68d2e9be6610d16cff96eb20 — Volkswagen Group China to step up investment in JV with JAC Motors
+2025-09-24 00:53:17,092 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:53:20,632 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:20,633 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_group_china",
+        "type": "company",
+        "name": "Volkswagen Group China"
+      },
+      {
+        "id": "company_jac_motors",
+        "type": "company",
+        "name": "JAC Motors"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_volkswagen_jac",
+        "type": "joint_venture",
+        "name": "Volkswagen JAC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hefei_china",
+        "type": "factory",
+        "name": "Hefei Factory",
+        "location": {
+          "city": "Hefei",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_jac_increase",
+        "type": "investment",
+        "name": "Volkswagen JAC Increase",
+        "amount": "$900m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicle_models",
+        "type": "product",
+        "name": "electric vehicle models"
+      }
+    ]
+  }
+}
+2025-09-24 00:53:20,633 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:20,633 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:53:20,633 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:53:20,633 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:53:21,555 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:21,556 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_jac_increase",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:53:21,556 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:21,556 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_jac_increase' in investment nodes
+2025-09-24 00:53:21,557 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:53:21,557 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 00:53:21,557 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:53:21,557 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:53:21,557 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:53:22,857 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:22,857 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_vehicle_models",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:53:22,857 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:22,857 - INFO - ✅ Match found for product_ID 'product_electric_vehicle_models' in product nodes
+2025-09-24 00:53:22,857 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:53:22,857 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:53:22,857 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:53:22,857 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:53:22,857 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:53:25,445 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:25,446 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_group_china",
+      "type": "forms",
+      "target": "joint_venture_volkswagen_jac"
+    },
+    {
+      "source": "company_jac_motors",
+      "type": "forms",
+      "target": "joint_venture_volkswagen_jac"
+    },
+    {
+      "source": "joint_venture_volkswagen_jac",
+      "type": "owns",
+      "target": "factory_hefei_china"
+    }
+  ]
+}
+2025-09-24 00:53:25,446 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:25,446 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:53:25,446 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:53:26,675 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:26,675 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicle_models",
+      "target": "factory_hefei_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:53:26,675 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:26,675 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:53:26,675 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:53:27,199 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:27,200 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:53:27,200 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:27,200 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:53:27,200 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:53:27,931 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:53:27,931 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:53:27,931 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:53:28,016 - INFO - ✅ Updated Article ID: 68d2e9be6610d16cff96eb20 with 6 nodes and combined text.

@@ -1,0 +1,105 @@
+2025-09-24 23:47:12,548 - INFO - 🔍 Text length: 2076 characters
+2025-09-24 23:47:12,549 - INFO - 📌 Processing Article ID: 68d3df823e609fb288d7c8a1 — ‘Quantum inspired’ technology for vehicle production launched in Japan
+2025-09-24 23:47:12,549 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:47:14,910 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:47:14,910 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fujitsu",
+        "type": "company",
+        "name": "Fujitsu"
+      },
+      {
+        "id": "company_toyota_systems",
+        "type": "company",
+        "name": "Toyota Systems"
+      },
+      {
+        "id": "company_toyota_motor",
+        "type": "company",
+        "name": "Toyota Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tsutsumi_assembly_plant",
+        "type": "factory",
+        "name": "Tsutsumi assembly plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_digital_annealer",
+        "type": "product",
+        "name": "Digital Annealer"
+      },
+      {
+        "id": "product_vehicle_production_instruction_system",
+        "type": "product",
+        "name": "Vehicle Production Instruction System"
+      }
+    ]
+  }
+}
+2025-09-24 23:47:14,910 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:47:14,910 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:47:14,910 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:47:14,910 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:47:14,910 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:47:19,273 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:47:19,274 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_digital_annealer",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_vehicle_production_instruction_system",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:47:19,274 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:47:19,274 - INFO - ✅ Match found for product_ID 'product_digital_annealer' in product nodes
+2025-09-24 23:47:19,274 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:47:19,274 - INFO - ✅ Match found for product_ID 'product_vehicle_production_instruction_system' in product nodes
+2025-09-24 23:47:19,274 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:47:19,274 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:47:19,274 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:47:19,274 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:47:19,274 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:47:20,439 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:47:20,439 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_tsutsumi_assembly_plant"
+    }
+  ]
+}
+2025-09-24 23:47:20,439 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:47:20,439 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:47:20,439 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:47:21,462 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:47:21,462 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vehicle_production_instruction_system",
+      "target": "factory_tsutsumi_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:47:21,462 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:47:21,462 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:47:21,462 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:47:21,553 - INFO - ✅ Updated Article ID: 68d3df823e609fb288d7c8a1 with 6 nodes and combined text.

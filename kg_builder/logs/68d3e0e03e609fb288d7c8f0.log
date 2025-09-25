@@ -1,0 +1,219 @@
+2025-09-24 23:20:59,243 - INFO - 🔍 Text length: 1811 characters
+2025-09-24 23:20:59,244 - INFO - 📌 Processing Article ID: 68d3e0e03e609fb288d7c8f0 — ONE spending $1.6bn on 20GWh Michigan cell factory
+2025-09-24 23:20:59,244 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:21:01,703 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:01,704 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_one",
+        "type": "company",
+        "name": "Our Next Energy (ONE)"
+      },
+      {
+        "id": "company_6k_energy",
+        "type": "company",
+        "name": "6K Energy"
+      },
+      {
+        "id": "company_dte_energy",
+        "type": "company",
+        "name": "DTE Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_one_circle",
+        "type": "factory",
+        "name": "ONE Circle",
+        "location": {
+          "city": "Van Buren Township",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_one_circle",
+        "type": "investment",
+        "name": "ONE Circle Investment",
+        "amount": "US$1.6bn",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20gwh",
+        "type": "capacity",
+        "name": null,
+        "amount": "20GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_cells",
+        "type": "product",
+        "name": "LFP cells"
+      },
+      {
+        "id": "product_anode_free_cells",
+        "type": "product",
+        "name": "anode free cells"
+      },
+      {
+        "id": "product_battery_cell",
+        "type": "product",
+        "name": "battery cell"
+      }
+    ]
+  }
+}
+2025-09-24 23:21:01,704 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:01,704 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:21:01,704 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:21:02,829 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:02,829 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20gwh",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:21:02,830 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:02,830 - INFO - ✅ Match found for capacity_ID 'capacity_20gwh' in capacity nodes
+2025-09-24 23:21:02,830 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:21:02,830 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:21:02,830 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:21:02,830 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:21:02,830 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:21:03,546 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:03,547 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_one_circle",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:21:03,547 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:03,547 - INFO - ✅ Match found for investment_ID 'investment_one_circle' in investment nodes
+2025-09-24 23:21:03,547 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:21:03,547 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:21:03,547 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:21:03,547 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:21:03,547 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:21:05,447 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:05,447 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_anode_free_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 23:21:05,447 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:05,447 - INFO - ✅ Match found for product_ID 'product_lfp_cells' in product nodes
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:21:05,448 - INFO - ✅ Match found for product_ID 'product_anode_free_cells' in product nodes
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:21:05,448 - INFO - ✅ Match found for product_ID 'product_battery_cell' in product nodes
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:21:05,448 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:21:05,448 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:21:05,448 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:21:05,448 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:21:06,365 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:06,365 - INFO - {
+  "relationships": [
+    {
+      "source": "company_one",
+      "type": "owns",
+      "target": "factory_one_circle"
+    }
+  ]
+}
+2025-09-24 23:21:06,365 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:06,365 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:21:06,365 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:21:07,950 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:07,950 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20gwh",
+      "target": "factory_one_circle",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20gwh",
+      "target": "product_battery_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cell",
+      "target": "factory_one_circle",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:21:07,951 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:07,951 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:21:07,951 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:21:08,484 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:08,485 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:21:08,485 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:08,485 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:21:08,485 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:21:10,304 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:21:10,304 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_one_circle",
+      "target": "factory_one_circle",
+      "type": "funds"
+    },
+    {
+      "source": "investment_one_circle",
+      "target": "capacity_20gwh",
+      "type": "enables"
+    },
+    {
+      "source": "investment_one_circle",
+      "target": "product_lfp_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_one_circle",
+      "target": "product_anode_free_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_one_circle",
+      "target": "product_battery_cell",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:21:10,304 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:21:10,400 - INFO - ✅ Updated Article ID: 68d3e0e03e609fb288d7c8f0 with 9 nodes and combined text.

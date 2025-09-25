@@ -1,0 +1,99 @@
+2025-09-24 01:34:02,269 - INFO - 🔍 Text length: 1292 characters
+2025-09-24 01:34:02,269 - INFO - 📌 Processing Article ID: 689231553770ecb5d6178444 — GM and LG Plan Mass Production of Prismatic LMR Battery Cells
+2025-09-24 01:34:02,270 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:34:04,666 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:04,667 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ultium_cells",
+        "type": "joint_venture",
+        "name": "Ultium Cells"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_warren_michigan",
+        "type": "factory",
+        "name": "Warren Development Center",
+        "location": {
+          "city": "Warren",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_prismatic_lithium_manganese_rich_battery_cells",
+        "type": "product",
+        "name": "prismatic lithium-manganese-rich (LMR) battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 01:34:04,667 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:04,667 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:34:04,667 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:34:04,667 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:34:04,667 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:34:06,069 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:06,069 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_prismatic_lithium_manganese_rich_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:34:06,069 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:06,070 - INFO - ✅ Match found for product_ID 'product_prismatic_lithium_manganese_rich_battery_cells' in product nodes
+2025-09-24 01:34:06,070 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:34:06,070 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:34:06,070 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:34:06,070 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:34:06,070 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:34:07,746 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:07,747 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "joint_venture_ultium_cells",
+      "type": "owns",
+      "target": "factory_warren_michigan"
+    }
+  ]
+}
+2025-09-24 01:34:07,747 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:07,747 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:34:07,747 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:34:08,429 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:08,429 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:34:08,429 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:08,429 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:34:08,429 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:34:08,511 - INFO - ✅ Updated Article ID: 689231553770ecb5d6178444 with 5 nodes and combined text.

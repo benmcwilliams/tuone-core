@@ -1,0 +1,178 @@
+2025-09-25 01:04:21,149 - INFO - 🔍 Text length: 5367 characters
+2025-09-25 01:04:21,149 - INFO - 📌 Processing Article ID: 68d3ca793e609fb288d7c721 — Volkswagen Group plans huge cell factory for Canada
+2025-09-25 01:04:21,149 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:04:23,712 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:23,712 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      },
+      {
+        "id": "company_powerco_se",
+        "type": "company",
+        "name": "PowerCo SE"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_st_thomas_canada",
+        "type": "factory",
+        "name": "St. Thomas Gigafactory",
+        "location": {
+          "city": "St. Thomas",
+          "country": "Canada"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_st_thomas_gigafactory",
+        "type": "investment",
+        "name": "St. Thomas Gigafactory",
+        "amount": "up to \u20ac4.8 billion / CAD$ 7 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_90_gwh",
+        "type": "capacity",
+        "name": null,
+        "amount": "up to 90 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-25 01:04:23,712 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:23,712 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:04:23,712 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:04:24,840 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:24,840 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_90_gwh",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:04:24,840 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:24,840 - INFO - ✅ Match found for capacity_ID 'capacity_90_gwh' in capacity nodes
+2025-09-25 01:04:24,840 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:04:24,840 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:04:24,840 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:04:24,840 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:04:24,840 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:04:25,571 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:25,572 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_st_thomas_gigafactory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:04:25,572 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:25,572 - INFO - ✅ Match found for investment_ID 'investment_st_thomas_gigafactory' in investment nodes
+2025-09-25 01:04:25,572 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:04:25,572 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:04:25,572 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:04:25,572 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:04:25,572 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:04:26,682 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:26,683 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-25 01:04:26,683 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:26,683 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-25 01:04:26,683 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:04:26,683 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 01:04:26,683 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:04:26,683 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:04:26,683 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:04:27,500 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:27,500 - INFO - {
+  "relationships": [
+    {
+      "source": "company_powerco_se",
+      "type": "owns",
+      "target": "factory_st_thomas_canada"
+    }
+  ]
+}
+2025-09-25 01:04:27,500 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:27,500 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:04:27,500 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:04:29,447 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:29,447 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_90_gwh",
+      "target": "factory_st_thomas_canada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_90_gwh",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_st_thomas_canada",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:04:29,447 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:29,447 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:04:29,448 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:04:30,266 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:30,266 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:04:30,266 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:30,266 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:04:30,266 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:04:31,516 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:04:31,516 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_st_thomas_gigafactory",
+      "target": "factory_st_thomas_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_st_thomas_gigafactory",
+      "target": "capacity_90_gwh",
+      "type": "enables"
+    },
+    {
+      "source": "investment_st_thomas_gigafactory",
+      "target": "product_battery_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:04:31,517 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:04:31,607 - INFO - ✅ Updated Article ID: 68d3ca793e609fb288d7c721 with 6 nodes and combined text.

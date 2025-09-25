@@ -1,0 +1,184 @@
+2025-09-24 19:29:50,406 - INFO - 🔍 Text length: 8136 characters
+2025-09-24 19:29:50,407 - INFO - 📌 Processing Article ID: 68d3ece23e609fb288d7cbcf — QuantumScape sammelt Geld für schnellere Entwicklung
+2025-09-24 19:29:50,407 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:29:56,042 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:56,042 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_quantumscape",
+        "type": "company",
+        "name": "QuantumScape"
+      },
+      {
+        "id": "company_vw",
+        "type": "company",
+        "name": "VW"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_qs_0",
+        "type": "factory",
+        "name": "QS-0",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_qs_1",
+        "type": "factory",
+        "name": "QS-1",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vw_quantumscape",
+        "type": "investment",
+        "name": "VW QuantumScape Investment",
+        "amount": "200 million Euro",
+        "status": "completed"
+      },
+      {
+        "id": "investment_quantumscape_public_offering",
+        "type": "investment",
+        "name": "QuantumScape Public Offering",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_battery",
+        "type": "product",
+        "name": "solid state battery"
+      }
+    ]
+  }
+}
+2025-09-24 19:29:56,042 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:56,042 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:29:56,043 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 19:29:56,043 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 19:29:58,706 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:58,707 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vw_quantumscape",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_quantumscape_public_offering",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 19:29:58,707 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:58,707 - INFO - ✅ Match found for investment_ID 'investment_vw_quantumscape' in investment nodes
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'status': completed
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:29:58,707 - INFO - ✅ Match found for investment_ID 'investment_quantumscape_public_offering' in investment nodes
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:29:58,707 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 19:29:58,707 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:29:58,707 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:30:00,037 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:30:00,038 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 19:30:00,038 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:30:00,038 - INFO - ✅ Match found for product_ID 'product_solid_state_battery' in product nodes
+2025-09-24 19:30:00,038 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:30:00,038 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 19:30:00,038 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:30:00,038 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:30:00,038 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:30:01,906 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:30:01,906 - INFO - {
+  "relationships": [
+    {
+      "source": "company_quantumscape",
+      "type": "owns",
+      "target": "factory_qs_0"
+    },
+    {
+      "source": "company_quantumscape",
+      "type": "owns",
+      "target": "factory_qs_1"
+    }
+  ]
+}
+2025-09-24 19:30:01,906 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:30:01,906 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:30:01,907 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:30:02,904 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:30:02,904 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solid_state_battery",
+      "target": "factory_qs_0",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solid_state_battery",
+      "target": "factory_qs_1",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:30:02,904 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:30:02,904 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 19:30:02,904 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 19:30:03,926 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:30:03,927 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:30:03,927 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:30:03,927 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 19:30:03,927 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 19:30:05,318 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:30:05,318 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_vw_quantumscape",
+      "target": "factory_qs_0",
+      "type": "funds"
+    },
+    {
+      "source": "investment_vw_quantumscape",
+      "target": "product_solid_state_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 19:30:05,318 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:30:05,415 - INFO - ✅ Updated Article ID: 68d3ece23e609fb288d7cbcf with 9 nodes and combined text.

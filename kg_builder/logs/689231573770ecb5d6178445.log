@@ -1,0 +1,161 @@
+2025-09-24 01:33:53,881 - INFO - 🔍 Text length: 1151 characters
+2025-09-24 01:33:53,881 - INFO - 📌 Processing Article ID: 689231573770ecb5d6178445 — Panasonic Energy Opens Second Battery Factory in the U.S.
+2025-09-24 01:33:53,881 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:33:56,781 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:33:56,781 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_panasonic_energy",
+        "type": "company",
+        "name": "Panasonic Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_de_soto",
+        "type": "factory",
+        "name": "De Soto Factory",
+        "location": {
+          "city": "De Soto",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_nevada",
+        "type": "factory",
+        "name": "Nevada Factory",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_32_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "32 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_41_gwh_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "41 GWh",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_2170_type_cells",
+        "type": "product",
+        "name": "2170-type cells"
+      }
+    ]
+  }
+}
+2025-09-24 01:33:56,781 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:33:56,781 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:33:56,781 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:33:57,794 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:33:57,794 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_32_gwh_announced",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_41_gwh_operational",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:33:57,794 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:33:57,794 - INFO - ✅ Match found for capacity_ID 'capacity_32_gwh_announced' in capacity nodes
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:33:57,794 - INFO - ✅ Match found for capacity_ID 'capacity_41_gwh_operational' in capacity nodes
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:33:57,794 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:33:57,794 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:33:57,794 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:33:57,795 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:33:58,893 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:33:58,893 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_2170_type_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 01:33:58,893 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:33:58,893 - INFO - ✅ Match found for product_ID 'product_2170_type_cells' in product nodes
+2025-09-24 01:33:58,893 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:33:58,893 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:33:58,894 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:33:58,894 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:33:58,894 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:34:00,231 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:00,231 - INFO - {
+  "relationships": [
+    {
+      "source": "company_panasonic_energy",
+      "type": "owns",
+      "target": "factory_de_soto"
+    },
+    {
+      "source": "company_panasonic_energy",
+      "type": "owns",
+      "target": "factory_nevada"
+    }
+  ]
+}
+2025-09-24 01:34:00,231 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:00,231 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:34:00,231 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:34:02,177 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:34:02,178 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_32_gwh_announced",
+      "target": "factory_de_soto",
+      "type": "at"
+    },
+    {
+      "source": "capacity_41_gwh_operational",
+      "target": "factory_nevada",
+      "type": "at"
+    },
+    {
+      "source": "capacity_32_gwh_announced",
+      "target": "product_2170_type_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_2170_type_cells",
+      "target": "factory_de_soto",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_41_gwh_operational",
+      "target": "product_2170_type_cells",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 01:34:02,178 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:34:02,178 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:34:02,178 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:34:02,268 - INFO - ✅ Updated Article ID: 689231573770ecb5d6178445 with 6 nodes and combined text.

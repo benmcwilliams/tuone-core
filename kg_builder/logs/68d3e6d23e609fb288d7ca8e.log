@@ -1,0 +1,119 @@
+2025-09-24 21:54:34,385 - INFO - 🔍 Text length: 1597 characters
+2025-09-24 21:54:34,385 - INFO - 📌 Processing Article ID: 68d3e6d23e609fb288d7ca8e — Li-Cycle opens first German recycling plant
+2025-09-24 21:54:34,385 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:54:36,034 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:36,034 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_magdeburg_germany",
+        "type": "factory",
+        "name": "Magdeburg Spoke",
+        "location": {
+          "city": "Magdeburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30k_metric_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30,000 metric tons per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-24 21:54:36,034 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:36,034 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:54:36,034 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:54:37,160 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:37,160 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30k_metric_tons_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:54:37,160 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:37,160 - INFO - ✅ Match found for capacity_ID 'capacity_30k_metric_tons_per_year' in capacity nodes
+2025-09-24 21:54:37,160 - INFO -   ➕ Set field 'status': operational
+2025-09-24 21:54:37,160 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:54:37,160 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:54:37,161 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:54:37,161 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:54:37,161 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:54:38,433 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:38,433 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:54:38,434 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:38,434 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 21:54:38,434 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:54:38,434 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:54:38,434 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:54:38,434 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:54:38,434 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:54:39,311 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:39,311 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_magdeburg_germany"
+    }
+  ]
+}
+2025-09-24 21:54:39,311 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:39,311 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:54:39,311 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:54:40,948 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:54:40,949 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30k_metric_tons_per_year",
+      "target": "factory_magdeburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30k_metric_tons_per_year",
+      "target": "product_black_mass",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_black_mass",
+      "target": "factory_magdeburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:54:40,949 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:54:40,949 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:54:40,949 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:54:41,043 - INFO - ✅ Updated Article ID: 68d3e6d23e609fb288d7ca8e with 4 nodes and combined text.

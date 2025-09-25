@@ -1,0 +1,126 @@
+2025-09-24 01:05:31,680 - INFO - 🔍 Text length: 1609 characters
+2025-09-24 01:05:31,680 - INFO - 📌 Processing Article ID: 68d2e7506610d16cff96eadb — GAC Aion to build EV plant in Indonesia
+2025-09-24 01:05:31,680 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:05:34,189 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:34,190 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gac_aion",
+        "type": "company",
+        "name": "GAC Aion New Energy Automobile"
+      },
+      {
+        "id": "company_gac_group",
+        "type": "company",
+        "name": "GAC Group"
+      },
+      {
+        "id": "company_indomobil_group",
+        "type": "company",
+        "name": "Indomobil Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_indonesia_ev_assembly_plant",
+        "type": "factory",
+        "name": "Indonesia EV Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_thailand_ev_assembly_plant",
+        "type": "factory",
+        "name": "Thailand EV Assembly Plant",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_y_plus",
+        "type": "product",
+        "name": "Y Plus"
+      },
+      {
+        "id": "product_hyper_ht",
+        "type": "product",
+        "name": "Hyper HT"
+      }
+    ]
+  }
+}
+2025-09-24 01:05:34,190 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:34,190 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:05:34,190 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:05:34,190 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:05:34,190 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:05:35,763 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:35,763 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_y_plus",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_hyper_ht",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 01:05:35,763 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:35,763 - INFO - ✅ Match found for product_ID 'product_y_plus' in product nodes
+2025-09-24 01:05:35,763 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:05:35,763 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:05:35,763 - INFO - ✅ Match found for product_ID 'product_hyper_ht' in product nodes
+2025-09-24 01:05:35,763 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:05:35,763 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:05:35,763 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:05:35,763 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:05:35,763 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:05:37,795 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:37,795 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gac_aion",
+      "type": "owns",
+      "target": "factory_indonesia_ev_assembly_plant"
+    },
+    {
+      "source": "company_gac_aion",
+      "type": "owns",
+      "target": "factory_thailand_ev_assembly_plant"
+    }
+  ]
+}
+2025-09-24 01:05:37,795 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:37,795 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:05:37,795 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:05:38,851 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:05:38,852 - INFO - {
+  "relationships": [
+    {
+      "source": "product_y_plus",
+      "target": "factory_indonesia_ev_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hyper_ht",
+      "target": "factory_indonesia_ev_assembly_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:05:38,852 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:05:38,852 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:05:38,852 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:05:38,944 - INFO - ✅ Updated Article ID: 68d2e7506610d16cff96eadb with 7 nodes and combined text.

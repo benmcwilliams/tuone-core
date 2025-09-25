@@ -1,0 +1,190 @@
+2025-09-24 01:16:43,925 - INFO - 🔍 Text length: 1117 characters
+2025-09-24 01:16:43,925 - INFO - 📌 Processing Article ID: 68d2e4dba796126e32149d7e — EV parts maker starts on new factory
+2025-09-24 01:16:43,925 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:16:47,575 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:47,575 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jfe_shoji",
+        "type": "company",
+        "name": "JFE Shoji"
+      },
+      {
+        "id": "company_jfe_shoji_serbia",
+        "type": "company",
+        "name": "JFE Shoji Serbia"
+      },
+      {
+        "id": "company_toyo_tires",
+        "type": "company",
+        "name": "Toyo Tires"
+      },
+      {
+        "id": "company_nidec",
+        "type": "company",
+        "name": "Nidec"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_indjija_serbia",
+        "type": "factory",
+        "name": "Indjija Factory",
+        "location": {
+          "city": "Indjija",
+          "country": "Serbia"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_indjija_factory",
+        "type": "investment",
+        "name": "Indjija Factory",
+        "amount": "EUR50m (US$54.5m)",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_jfe_shoji_serbia_establishment",
+        "type": "investment",
+        "name": "JFE Shoji Serbia Establishment",
+        "amount": "663.9m dinars ($6.2m/EUR5.7m)",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_metal_parts",
+        "type": "product",
+        "name": "metal parts"
+      },
+      {
+        "id": "product_rotors",
+        "type": "product",
+        "name": "rotors"
+      },
+      {
+        "id": "product_electric_motors",
+        "type": "product",
+        "name": "electric motors"
+      }
+    ]
+  }
+}
+2025-09-24 01:16:47,575 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:47,575 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:16:47,575 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:16:47,575 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:16:48,748 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:48,748 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_indjija_factory",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_jfe_shoji_serbia_establishment",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:16:48,748 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:48,748 - INFO - ✅ Match found for investment_ID 'investment_indjija_factory' in investment nodes
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:16:48,748 - INFO - ✅ Match found for investment_ID 'investment_jfe_shoji_serbia_establishment' in investment nodes
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'status': completed
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:16:48,748 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:16:48,748 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:16:48,748 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:16:50,947 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:50,948 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_metal_parts",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_rotors",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    },
+    {
+      "product_ID": "product_electric_motors",
+      "product_lv1": "powertrain",
+      "product_lv2": "electric_motor"
+    }
+  ]
+}
+2025-09-24 01:16:50,948 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:50,948 - INFO - ✅ Match found for product_ID 'product_metal_parts' in product nodes
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:16:50,948 - INFO - ✅ Match found for product_ID 'product_rotors' in product nodes
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 01:16:50,948 - INFO - ✅ Match found for product_ID 'product_electric_motors' in product nodes
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:16:50,948 - INFO -   ➕ Set field 'product_lv2': electric_motor
+2025-09-24 01:16:50,948 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:16:50,948 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:16:50,948 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:16:51,858 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:51,858 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jfe_shoji",
+      "type": "owns",
+      "target": "factory_indjija_serbia"
+    }
+  ]
+}
+2025-09-24 01:16:51,858 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:51,858 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:16:51,858 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:16:53,249 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:53,249 - INFO - {
+  "relationships": [
+    {
+      "source": "product_metal_parts",
+      "target": "factory_indjija_serbia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:16:53,249 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:53,249 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:16:53,249 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:16:53,842 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:53,842 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:16:53,842 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:53,842 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:16:53,842 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:16:55,035 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:55,035 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_indjija_factory",
+      "target": "factory_indjija_serbia",
+      "type": "funds"
+    },
+    {
+      "source": "investment_indjija_factory",
+      "target": "product_metal_parts",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:16:55,035 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:55,123 - INFO - ✅ Updated Article ID: 68d2e4dba796126e32149d7e with 10 nodes and combined text.

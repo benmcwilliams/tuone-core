@@ -1,0 +1,111 @@
+2025-09-24 00:36:11,456 - INFO - 🔍 Text length: 3450 characters
+2025-09-24 00:36:11,457 - INFO - 📌 Processing Article ID: 68d2ec496610d16cff96eb68 — Signal: Turkey joins EU in cracking down on Chinese EV imports
+2025-09-24 00:36:11,457 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:36:13,916 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:36:13,917 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_togg",
+        "type": "company",
+        "name": "Togg"
+      },
+      {
+        "id": "company_farasis",
+        "type": "company",
+        "name": "Farasis"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_siro_battery_development_and_production_campus",
+        "type": "factory",
+        "name": "Siro Battery Development and Production Campus",
+        "location": {
+          "city": "null",
+          "country": "Turkey"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_togg_t10x",
+        "type": "product",
+        "name": "Togg T10X"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 00:36:13,917 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:36:13,917 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:36:13,917 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:36:13,917 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:36:13,917 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:36:15,462 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:36:15,463 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_togg_t10x",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:36:15,463 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:36:15,463 - INFO - ✅ Match found for product_ID 'product_togg_t10x' in product nodes
+2025-09-24 00:36:15,463 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:36:15,463 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:36:15,463 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 00:36:15,463 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 00:36:15,463 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:36:15,463 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:36:15,463 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:36:15,463 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:36:16,543 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:36:16,543 - INFO - {
+  "relationships": [
+    {
+      "source": "company_togg",
+      "type": "forms",
+      "target": "company_farasis"
+    },
+    {
+      "source": "company_farasis",
+      "type": "owns",
+      "target": "factory_siro_battery_development_and_production_campus"
+    }
+  ]
+}
+2025-09-24 00:36:16,543 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:36:16,543 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:36:16,544 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:36:17,306 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:36:17,306 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_siro_battery_development_and_production_campus",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:36:17,306 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:36:17,306 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:36:17,306 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:36:17,406 - INFO - ✅ Updated Article ID: 68d2ec496610d16cff96eb68 with 6 nodes and combined text.

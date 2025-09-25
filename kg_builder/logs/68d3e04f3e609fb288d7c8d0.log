@@ -1,0 +1,83 @@
+2025-09-24 23:28:31,466 - INFO - 🔍 Text length: 1282 characters
+2025-09-24 23:28:31,466 - INFO - 📌 Processing Article ID: 68d3e04f3e609fb288d7c8d0 — Mobis announces new supply deal with Mercedes
+2025-09-24 23:28:31,466 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:28:33,223 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:33,223 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mobis",
+        "type": "company",
+        "name": "Mobis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mccalla_alabama",
+        "type": "factory",
+        "name": "McCalla Factory",
+        "location": {
+          "city": "McCalla",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_chassis_module",
+        "type": "product",
+        "name": "Chassis Module"
+      }
+    ]
+  }
+}
+2025-09-24 23:28:33,223 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:33,223 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:28:33,223 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:28:33,223 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:28:33,223 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:28:34,554 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:34,554 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_chassis_module",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:28:34,554 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:34,554 - INFO - ✅ Match found for product_ID 'product_chassis_module' in product nodes
+2025-09-24 23:28:34,554 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:34,554 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:28:34,554 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:28:34,554 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:28:34,554 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:28:35,373 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:35,373 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mobis",
+      "type": "owns",
+      "target": "factory_mccalla_alabama"
+    }
+  ]
+}
+2025-09-24 23:28:35,373 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:35,373 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:28:35,373 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:28:36,192 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:36,192 - INFO - {
+  "relationships": [
+    {
+      "source": "product_chassis_module",
+      "target": "factory_mccalla_alabama",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:28:36,192 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:36,193 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:28:36,193 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:28:36,276 - INFO - ✅ Updated Article ID: 68d3e04f3e609fb288d7c8d0 with 3 nodes and combined text.

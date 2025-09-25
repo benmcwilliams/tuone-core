@@ -1,0 +1,132 @@
+2025-09-24 19:28:41,488 - INFO - 🔍 Text length: 6683 characters
+2025-09-24 19:28:41,488 - INFO - 📌 Processing Article ID: 68d3ed173e609fb288d7cbd8 — Eramet und Suez planen Recycling-Werk
+2025-09-24 19:28:41,488 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:28:44,672 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:28:44,672 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eramet",
+        "type": "company",
+        "name": "Eramet"
+      },
+      {
+        "id": "company_suez",
+        "type": "company",
+        "name": "Suez"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_recycling_anlage_france",
+        "type": "factory",
+        "name": "Recycling-Anlage",
+        "location": {
+          "city": "null",
+          "country": "France"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_raffinerie_france",
+        "type": "factory",
+        "name": "Raffinerie",
+        "location": {
+          "city": "null",
+          "country": "France"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_components",
+        "type": "product",
+        "name": "Lithium-Ionen-Batterie-Komponenten"
+      },
+      {
+        "id": "product_schwarze_masse",
+        "type": "product",
+        "name": "schwarze Masse"
+      },
+      {
+        "id": "product_hydrometallurgische_raffination",
+        "type": "product",
+        "name": "hydrometallurgische Raffination"
+      }
+    ]
+  }
+}
+2025-09-24 19:28:44,672 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:28:44,673 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:28:44,673 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:28:44,673 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:28:44,673 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:28:47,183 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:28:47,183 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_battery_components",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_schwarze_masse",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_hydrometallurgische_raffination",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 19:28:47,183 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:28:47,183 - INFO - ✅ Match found for product_ID 'product_lithium_ion_battery_components' in product nodes
+2025-09-24 19:28:47,183 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 19:28:47,183 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 19:28:47,183 - INFO - ✅ Match found for product_ID 'product_schwarze_masse' in product nodes
+2025-09-24 19:28:47,183 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 19:28:47,183 - INFO - ✅ Match found for product_ID 'product_hydrometallurgische_raffination' in product nodes
+2025-09-24 19:28:47,183 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 19:28:47,183 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:28:47,183 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:28:47,183 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:28:48,148 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:28:48,148 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eramet",
+      "type": "owns",
+      "target": "factory_recycling_anlage_france"
+    },
+    {
+      "source": "company_eramet",
+      "type": "owns",
+      "target": "factory_raffinerie_france"
+    }
+  ]
+}
+2025-09-24 19:28:48,148 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:28:48,149 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:28:48,149 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:28:49,685 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:28:49,685 - INFO - {
+  "relationships": [
+    {
+      "source": "product_schwarze_masse",
+      "target": "factory_recycling_anlage_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrometallurgische_raffination",
+      "target": "factory_raffinerie_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:28:49,685 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:28:49,685 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:28:49,685 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:28:49,776 - INFO - ✅ Updated Article ID: 68d3ed173e609fb288d7cbd8 with 7 nodes and combined text.

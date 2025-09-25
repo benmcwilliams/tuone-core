@@ -1,0 +1,154 @@
+2025-09-24 21:47:23,265 - INFO - 🔍 Text length: 1369 characters
+2025-09-24 21:47:23,265 - INFO - 📌 Processing Article ID: 68d3e7553e609fb288d7cab7 — ICL plant LFP-Kathodenmaterial-Produktion in Spanien
+2025-09-24 21:47:23,265 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:47:25,337 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:25,337 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_icl",
+        "type": "company",
+        "name": "ICL"
+      },
+      {
+        "id": "company_shenzhen_dynanonic",
+        "type": "company",
+        "name": "Shenzhen Dynanonic"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_icl_shenzhen_dynanonic",
+        "type": "joint_venture",
+        "name": "ICL Shenzhen Dynanonic"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sallent_spain",
+        "type": "factory",
+        "name": "Sallent Factory",
+        "location": {
+          "city": "Sallent",
+          "country": "Spain"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_285_million_euro_announced",
+        "type": "investment",
+        "name": "285 Million Euro Investment",
+        "amount": "285 million Euro",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_cathode_material",
+        "type": "product",
+        "name": "Lithium-Iron Phosphate Cathode Material"
+      }
+    ]
+  }
+}
+2025-09-24 21:47:25,337 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:25,337 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:47:25,337 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:47:25,337 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:47:26,361 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:26,361 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_285_million_euro_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:47:26,361 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:26,361 - INFO - ✅ Match found for investment_ID 'investment_285_million_euro_announced' in investment nodes
+2025-09-24 21:47:26,361 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:47:26,361 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:47:26,361 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:47:26,361 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:47:26,361 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:47:28,410 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:28,410 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 21:47:28,410 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:28,410 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_cathode_material' in product nodes
+2025-09-24 21:47:28,410 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:47:28,410 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:47:28,410 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:47:28,410 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:47:28,410 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:47:29,842 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:29,843 - INFO - {
+  "relationships": [
+    {
+      "source": "company_icl",
+      "type": "forms",
+      "target": "joint_venture_icl_shenzhen_dynanonic"
+    },
+    {
+      "source": "company_shenzhen_dynanonic",
+      "type": "forms",
+      "target": "joint_venture_icl_shenzhen_dynanonic"
+    },
+    {
+      "source": "joint_venture_icl_shenzhen_dynanonic",
+      "type": "owns",
+      "target": "factory_sallent_spain"
+    }
+  ]
+}
+2025-09-24 21:47:29,843 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:29,843 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:47:29,843 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:47:30,967 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:30,967 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_cathode_material",
+      "target": "factory_sallent_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:47:30,967 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:30,967 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:47:30,967 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:47:31,710 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:31,710 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:47:31,710 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:31,710 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:47:31,710 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:47:33,017 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:33,017 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_285_million_euro_announced",
+      "target": "product_lithium_iron_phosphate_cathode_material",
+      "type": "targets"
+    },
+    {
+      "source": "investment_285_million_euro_announced",
+      "target": "factory_sallent_spain",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-24 21:47:33,017 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:33,109 - INFO - ✅ Updated Article ID: 68d3e7553e609fb288d7cab7 with 6 nodes and combined text.

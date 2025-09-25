@@ -1,0 +1,196 @@
+2025-09-23 23:06:22,910 - INFO - 🔍 Text length: 1688 characters
+2025-09-23 23:06:22,910 - INFO - 📌 Processing Article ID: 68d306ee0a0272dfa29a49a5 — JLR opens EV test facility
+2025-09-23 23:06:22,910 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:06:26,267 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:26,267 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_whitely_engineering_centre",
+        "type": "factory",
+        "name": "Whitley Engineering Centre",
+        "location": {
+          "city": "Coventry",
+          "country": "England"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_future_energy_lab",
+        "type": "investment",
+        "name": "Future Energy Lab",
+        "amount": "GBP250m",
+        "status": "completed"
+      },
+      {
+        "id": "investment_electrification_models",
+        "type": "investment",
+        "name": "Electrification Models",
+        "amount": "GBP15bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_testing",
+        "type": "product",
+        "name": "EV Testing"
+      },
+      {
+        "id": "product_electric_drive_unit_manufacturing",
+        "type": "product",
+        "name": "Electric Drive Unit Manufacturing"
+      },
+      {
+        "id": "product_ev_systems",
+        "type": "product",
+        "name": "EV Systems"
+      },
+      {
+        "id": "product_electric_range_rover",
+        "type": "product",
+        "name": "Electric Range Rover"
+      }
+    ]
+  }
+}
+2025-09-23 23:06:26,268 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:26,268 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:06:26,268 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:06:26,268 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:06:27,435 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:27,435 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_future_energy_lab",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_electrification_models",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-23 23:06:27,435 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:27,435 - INFO - ✅ Match found for investment_ID 'investment_future_energy_lab' in investment nodes
+2025-09-23 23:06:27,435 - INFO -   ➕ Set field 'status': completed
+2025-09-23 23:06:27,436 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-23 23:06:27,436 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:06:27,436 - INFO - ✅ Match found for investment_ID 'investment_electrification_models' in investment nodes
+2025-09-23 23:06:27,436 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:06:27,436 - INFO -   ➕ Set field 'phase': unclear
+2025-09-23 23:06:27,436 - INFO -   ➕ Set field 'is_total': False
+2025-09-23 23:06:27,436 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:06:27,436 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:06:29,703 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:29,703 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_testing",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_electric_drive_unit_manufacturing",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_ev_systems",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_electric_range_rover",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:06:29,703 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:29,704 - INFO - ✅ Match found for product_ID 'product_ev_testing' in product nodes
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:06:29,704 - INFO - ✅ Match found for product_ID 'product_electric_drive_unit_manufacturing' in product nodes
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:06:29,704 - INFO - ✅ Match found for product_ID 'product_ev_systems' in product nodes
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-23 23:06:29,704 - INFO - ✅ Match found for product_ID 'product_electric_range_rover' in product nodes
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:06:29,704 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:06:29,704 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:06:29,704 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:06:29,704 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:06:30,700 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:30,700 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jaguar_land_rover",
+      "type": "owns",
+      "target": "factory_whitely_engineering_centre"
+    }
+  ]
+}
+2025-09-23 23:06:30,701 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:30,701 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:06:30,701 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:06:31,457 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:31,457 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:06:31,457 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:31,457 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:06:31,457 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:06:32,013 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:32,013 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:06:32,013 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:32,013 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:06:32,013 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:06:33,388 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:06:33,388 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_future_energy_lab",
+      "target": "factory_whitely_engineering_centre",
+      "type": "funds"
+    },
+    {
+      "source": "investment_future_energy_lab",
+      "target": "product_ev_testing",
+      "type": "targets"
+    },
+    {
+      "source": "investment_future_energy_lab",
+      "target": "product_electric_drive_unit_manufacturing",
+      "type": "targets"
+    },
+    {
+      "source": "investment_future_energy_lab",
+      "target": "product_ev_systems",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-23 23:06:33,389 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:06:33,479 - INFO - ✅ Updated Article ID: 68d306ee0a0272dfa29a49a5 with 9 nodes and combined text.

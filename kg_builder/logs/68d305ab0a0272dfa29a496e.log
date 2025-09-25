@@ -1,0 +1,179 @@
+2025-09-23 23:16:56,340 - INFO - 🔍 Text length: 1871 characters
+2025-09-23 23:16:56,340 - INFO - 📌 Processing Article ID: 68d305ab0a0272dfa29a496e — Volvo Cars to establish a mobility innovation centre
+2025-09-23 23:16:56,340 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:16:59,244 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:16:59,244 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_vectura_fastigheter",
+        "type": "company",
+        "name": "Vectura Fastigheter"
+      },
+      {
+        "id": "company_next_step_group",
+        "type": "company",
+        "name": "Next Step Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_novo",
+        "type": "joint_venture",
+        "name": "Novo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_torslanda_sweden",
+        "type": "factory",
+        "name": "Torslanda Plant",
+        "location": {
+          "city": "Torslanda",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_mobility_innovation_destination_torslanda",
+        "type": "factory",
+        "name": "Mobility Innovation Destination Torslanda",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sek10_billion_torslanda_plant",
+        "type": "investment",
+        "name": "SEK10 billion Torslanda Plant",
+        "amount": "SEK10 billion (approximately $946 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_next_generation_fully_electric_car",
+        "type": "product",
+        "name": "next-generation fully electric car"
+      }
+    ]
+  }
+}
+2025-09-23 23:16:59,244 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:16:59,244 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:16:59,244 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:16:59,244 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:17:01,214 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:01,214 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sek10_billion_torslanda_plant",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-23 23:17:01,214 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:01,214 - INFO - ✅ Match found for investment_ID 'investment_sek10_billion_torslanda_plant' in investment nodes
+2025-09-23 23:17:01,214 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:17:01,214 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:17:01,214 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:17:01,214 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:17:01,214 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:17:02,555 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:02,555 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_next_generation_fully_electric_car",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 23:17:02,555 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:02,555 - INFO - ✅ Match found for product_ID 'product_next_generation_fully_electric_car' in product nodes
+2025-09-23 23:17:02,555 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 23:17:02,555 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 23:17:02,555 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:17:02,555 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:17:02,555 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:17:04,504 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:04,504 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_torslanda_sweden"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "forms",
+      "target": "joint_venture_novo"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "forms",
+      "target": "joint_venture_novo"
+    },
+    {
+      "source": "joint_venture_novo",
+      "type": "owns",
+      "target": "factory_mobility_innovation_destination_torslanda"
+    }
+  ]
+}
+2025-09-23 23:17:04,504 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:04,504 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:17:04,505 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:17:05,524 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:05,525 - INFO - {
+  "relationships": [
+    {
+      "source": "product_next_generation_fully_electric_car",
+      "target": "factory_torslanda_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:17:05,525 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:05,525 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:17:05,525 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:17:06,168 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:06,169 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:17:06,169 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:06,169 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:17:06,169 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:17:07,778 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:17:07,778 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sek10_billion_torslanda_plant",
+      "target": "factory_torslanda_sweden",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sek10_billion_torslanda_plant",
+      "target": "product_next_generation_fully_electric_car",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-23 23:17:07,778 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:17:07,869 - INFO - ✅ Updated Article ID: 68d305ab0a0272dfa29a496e with 9 nodes and combined text.

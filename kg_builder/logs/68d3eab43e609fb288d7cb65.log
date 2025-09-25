@@ -1,0 +1,149 @@
+2025-09-24 21:02:25,800 - INFO - 🔍 Text length: 7900 characters
+2025-09-24 21:02:25,801 - INFO - 📌 Processing Article ID: 68d3eab43e609fb288d7cb65 — Li-Cycle errichtet erste Batterierecyclinganlage in den USA
+2025-09-24 21:02:25,801 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:02:28,162 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:28,163 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_monroe_county_new_york",
+        "type": "factory",
+        "name": "Monroe County Battery Recycling Facility",
+        "location": {
+          "city": "Monroe County",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_li_cycle_monroe_county",
+        "type": "investment",
+        "name": "Li-Cycle Monroe County Investment",
+        "amount": "$23.3 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_new_york_empire_state_development",
+        "type": "investment",
+        "name": "New York Empire State Development Investment",
+        "amount": "$450,000",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_recycling",
+        "type": "product",
+        "name": "lithium-ion battery recycling"
+      }
+    ]
+  }
+}
+2025-09-24 21:02:28,163 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:28,163 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:02:28,163 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:02:28,163 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:02:31,029 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:31,030 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_li_cycle_monroe_county",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_new_york_empire_state_development",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:02:31,030 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:31,030 - INFO - ✅ Match found for investment_ID 'investment_li_cycle_monroe_county' in investment nodes
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:02:31,030 - INFO - ✅ Match found for investment_ID 'investment_new_york_empire_state_development' in investment nodes
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:02:31,030 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:02:31,031 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:02:31,031 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:02:34,204 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:34,204 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:02:34,204 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:34,204 - INFO - ✅ Match found for product_ID 'product_lithium_ion_battery_recycling' in product nodes
+2025-09-24 21:02:34,204 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:02:34,204 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:02:34,204 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:02:34,204 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:02:34,205 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:02:34,920 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:34,920 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_monroe_county_new_york"
+    }
+  ]
+}
+2025-09-24 21:02:34,921 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:34,921 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:02:34,921 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:02:36,151 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:36,151 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_battery_recycling",
+      "target": "factory_monroe_county_new_york",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:02:36,151 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:36,152 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:02:36,152 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:02:37,583 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:37,583 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:02:37,583 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:37,583 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:02:37,583 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:02:38,685 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:38,685 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_li_cycle_monroe_county",
+      "target": "factory_monroe_county_new_york",
+      "type": "funds"
+    },
+    {
+      "source": "investment_li_cycle_monroe_county",
+      "target": "product_lithium_ion_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:02:38,685 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:38,778 - INFO - ✅ Updated Article ID: 68d3eab43e609fb288d7cb65 with 5 nodes and combined text.

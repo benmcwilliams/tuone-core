@@ -1,0 +1,133 @@
+2025-09-25 00:55:52,749 - INFO - 🔍 Text length: 5572 characters
+2025-09-25 00:55:52,749 - INFO - 📌 Processing Article ID: 68d3cb7a3e609fb288d7c74b — Volkswagen shows ID sub-brand flagship ID.7
+2025-09-25 00:55:52,749 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:55:55,559 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:55:55,559 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_cariad",
+        "type": "company",
+        "name": "CARIAD"
+      },
+      {
+        "id": "company_volkswagen_group_components",
+        "type": "company",
+        "name": "Volkswagen Group Components"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_emden_germany",
+        "type": "factory",
+        "name": "Volkswagen plant",
+        "location": {
+          "city": "Emden",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_kassel_germany",
+        "type": "factory",
+        "name": "Volkswagen Group Components plant",
+        "location": {
+          "city": "Kassel",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id7",
+        "type": "product",
+        "name": "ID.7"
+      },
+      {
+        "id": "product_id3",
+        "type": "product",
+        "name": "ID.3"
+      },
+      {
+        "id": "product_id_buzz_long_wheelbase",
+        "type": "product",
+        "name": "ID. Buzz with long wheelbase"
+      },
+      {
+        "id": "product_id_2all",
+        "type": "product",
+        "name": "ID. 2all"
+      },
+      {
+        "id": "product_meb_platform",
+        "type": "product",
+        "name": "MEB platform"
+      }
+    ]
+  }
+}
+2025-09-25 00:55:55,559 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:55:55,559 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:55:55,559 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:55:55,560 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:55:55,560 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:55:56,993 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:55:56,993 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id7",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:55:56,993 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:55:56,993 - INFO - ✅ Match found for product_ID 'product_id7' in product nodes
+2025-09-25 00:55:56,993 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:55:56,993 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:55:56,993 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:55:56,993 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:55:56,993 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:55:59,861 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:55:59,861 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_emden_germany"
+    },
+    {
+      "source": "company_volkswagen_group_components",
+      "type": "owns",
+      "target": "factory_kassel_germany"
+    }
+  ]
+}
+2025-09-25 00:55:59,861 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:55:59,861 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:55:59,861 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:56:01,465 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:56:01,465 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id7",
+      "target": "factory_emden_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id7",
+      "target": "factory_kassel_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:56:01,465 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:56:01,466 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:56:01,466 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:56:01,556 - INFO - ✅ Updated Article ID: 68d3cb7a3e609fb288d7c74b with 10 nodes and combined text.

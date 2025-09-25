@@ -1,0 +1,168 @@
+2025-09-24 00:55:08,967 - INFO - 🔍 Text length: 1266 characters
+2025-09-24 00:55:08,967 - INFO - 📌 Processing Article ID: 68d2e9536610d16cff96eb17 — Maruti Suzuki adds vehicle assembly line at Manesar plant
+2025-09-24 00:55:08,967 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:55:13,431 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:55:13,431 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_maruti_suzuki",
+        "type": "company",
+        "name": "Maruti Suzuki"
+      },
+      {
+        "id": "company_suzuki_motor",
+        "type": "company",
+        "name": "Suzuki Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_manesar_india",
+        "type": "factory",
+        "name": "Manesar Facility",
+        "location": {
+          "city": "Manesar",
+          "country": "India"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100,000 vehicles per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_900k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "900,000 vehicles per annum",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_4m_units_per_annum",
+        "type": "capacity",
+        "name": "",
+        "amount": "4m vehicles per annum",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vehicles",
+        "type": "product",
+        "name": "vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 00:55:13,431 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:55:13,431 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 00:55:13,431 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 00:55:15,018 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:55:15,018 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_units_per_year",
+      "status": "operational",
+      "phase": "expansion",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_900k_units_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_4m_units_per_annum",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 00:55:15,018 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:55:15,019 - INFO - ✅ Match found for capacity_ID 'capacity_100k_units_per_year' in capacity nodes
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'status': operational
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'additional': True
+2025-09-24 00:55:15,019 - INFO - ✅ Match found for capacity_ID 'capacity_900k_units_per_year' in capacity nodes
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'status': operational
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'additional': False
+2025-09-24 00:55:15,019 - INFO - ✅ Match found for capacity_ID 'capacity_4m_units_per_annum' in capacity nodes
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 00:55:15,019 - INFO -   ➕ Set field 'additional': True
+2025-09-24 00:55:15,019 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:55:15,019 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:55:15,019 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:55:16,184 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:55:16,184 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 00:55:16,184 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:55:16,184 - INFO - ✅ Match found for product_ID 'product_vehicles' in product nodes
+2025-09-24 00:55:16,184 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:55:16,184 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 00:55:16,184 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:55:16,184 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:55:16,184 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:55:17,122 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:55:17,122 - INFO - {
+  "relationships": [
+    {
+      "source": "company_maruti_suzuki",
+      "type": "owns",
+      "target": "factory_manesar_india"
+    }
+  ]
+}
+2025-09-24 00:55:17,122 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:55:17,122 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:55:17,122 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:55:19,163 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:55:19,163 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "factory_manesar_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_units_per_year",
+      "target": "product_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_900k_units_per_year",
+      "target": "factory_manesar_india",
+      "type": "at"
+    },
+    {
+      "source": "capacity_900k_units_per_year",
+      "target": "product_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_4m_units_per_annum",
+      "target": "product_vehicles",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 00:55:19,163 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:55:19,163 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:55:19,163 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:55:19,260 - INFO - ✅ Updated Article ID: 68d2e9536610d16cff96eb17 with 7 nodes and combined text.

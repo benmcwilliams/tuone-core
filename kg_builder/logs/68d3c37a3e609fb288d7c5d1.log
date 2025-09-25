@@ -1,0 +1,121 @@
+2025-09-25 02:12:51,775 - INFO - 🔍 Text length: 1118 characters
+2025-09-25 02:12:51,775 - INFO - 📌 Processing Article ID: 68d3c37a3e609fb288d7c5d1 — ‘Parts shortage’ closes GM Brightdrop plant
+2025-09-25 02:12:51,775 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:12:54,239 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:12:54,240 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_brightdrop",
+        "type": "company",
+        "name": "BrightDrop"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cami_plant",
+        "type": "factory",
+        "name": "CAMI plant",
+        "location": {
+          "city": "Ingersoll",
+          "country": "Canada"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_ohio_plant",
+        "type": "factory",
+        "name": "Ohio plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_brightdrop_electric_delivery_vans",
+        "type": "product",
+        "name": "BrightDrop electric delivery vans"
+      },
+      {
+        "id": "product_ultium_batteries",
+        "type": "product",
+        "name": "Ultium batteries"
+      }
+    ]
+  }
+}
+2025-09-25 02:12:54,240 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:12:54,240 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:12:54,240 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:12:54,240 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:12:54,240 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:12:56,493 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:12:56,493 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_brightdrop_electric_delivery_vans",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ultium_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:12:56,493 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:12:56,494 - INFO - ✅ Match found for product_ID 'product_brightdrop_electric_delivery_vans' in product nodes
+2025-09-25 02:12:56,494 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:12:56,494 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:12:56,494 - INFO - ✅ Match found for product_ID 'product_ultium_batteries' in product nodes
+2025-09-25 02:12:56,494 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:12:56,494 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:12:56,494 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:12:56,494 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:12:56,494 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:12:58,950 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:12:58,950 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_cami_plant"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_ohio_plant"
+    }
+  ]
+}
+2025-09-25 02:12:58,950 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:12:58,950 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:12:58,950 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:13:00,385 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:00,385 - INFO - {
+  "relationships": [
+    {
+      "source": "product_brightdrop_electric_delivery_vans",
+      "target": "factory_cami_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ultium_batteries",
+      "target": "factory_ohio_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:13:00,386 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:00,386 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:13:00,386 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:13:00,474 - INFO - ✅ Updated Article ID: 68d3c37a3e609fb288d7c5d1 with 6 nodes and combined text.

@@ -1,0 +1,83 @@
+2025-09-24 21:53:16,256 - INFO - 🔍 Text length: 883 characters
+2025-09-24 21:53:16,257 - INFO - 📌 Processing Article ID: 68d3e6e83e609fb288d7ca95 — Panasonic is Ready for Mass Production of 4680 Battery
+2025-09-24 21:53:16,257 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:53:18,018 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:53:18,018 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_panasonic_energy",
+        "type": "company",
+        "name": "Panasonic Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wakayama_plant",
+        "type": "factory",
+        "name": "Wakayama Plant",
+        "location": {
+          "city": "Wakayama",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_4680_format_cylindrical_lithium_ion_batteries",
+        "type": "product",
+        "name": "4680-format cylindrical lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-24 21:53:18,018 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:53:18,018 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:53:18,018 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:53:18,018 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:53:18,018 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:53:20,051 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:53:20,051 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_4680_format_cylindrical_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:53:20,052 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:53:20,052 - INFO - ✅ Match found for product_ID 'product_4680_format_cylindrical_lithium_ion_batteries' in product nodes
+2025-09-24 21:53:20,052 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:53:20,052 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:53:20,052 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:53:20,052 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:53:20,052 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:53:21,315 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:53:21,315 - INFO - {
+  "relationships": [
+    {
+      "source": "company_panasonic_energy",
+      "type": "owns",
+      "target": "factory_wakayama_plant"
+    }
+  ]
+}
+2025-09-24 21:53:21,315 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:53:21,316 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:53:21,316 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:53:22,098 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:53:22,099 - INFO - {
+  "relationships": [
+    {
+      "source": "product_4680_format_cylindrical_lithium_ion_batteries",
+      "target": "factory_wakayama_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:53:22,099 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:53:22,099 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:53:22,099 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:53:22,194 - INFO - ✅ Updated Article ID: 68d3e6e83e609fb288d7ca95 with 3 nodes and combined text.

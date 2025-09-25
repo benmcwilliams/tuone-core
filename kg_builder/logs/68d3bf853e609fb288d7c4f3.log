@@ -1,0 +1,126 @@
+2025-09-25 03:03:50,542 - INFO - 🔍 Text length: 1407 characters
+2025-09-25 03:03:50,543 - INFO - 📌 Processing Article ID: 68d3bf853e609fb288d7c4f3 — Tesla plant investment triples
+2025-09-25 03:03:50,543 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:03:52,357 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:52,357 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_monterrey_mexico",
+        "type": "factory",
+        "name": "Monterrey Factory",
+        "location": {
+          "city": "Monterrey",
+          "country": "Mexico"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tesla_mexico",
+        "type": "investment",
+        "name": "Tesla Mexico Investment",
+        "amount": "$15bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-25 03:03:52,357 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:52,357 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 03:03:52,357 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 03:03:52,357 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 03:03:54,390 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:54,391 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tesla_mexico",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 03:03:54,391 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:54,391 - INFO - ✅ Match found for investment_ID 'investment_tesla_mexico' in investment nodes
+2025-09-25 03:03:54,391 - INFO -   ➕ Set field 'status': announced
+2025-09-25 03:03:54,391 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 03:03:54,391 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 03:03:54,391 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:03:54,391 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:03:55,782 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:55,782 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 03:03:55,782 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:55,782 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-25 03:03:55,782 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 03:03:55,782 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 03:03:55,782 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:03:55,782 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:03:55,782 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:03:57,010 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:57,010 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_monterrey_mexico"
+    }
+  ]
+}
+2025-09-25 03:03:57,010 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:57,011 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:03:57,011 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:03:59,159 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:59,159 - INFO - {
+  "relationships": []
+}
+2025-09-25 03:03:59,159 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:59,159 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 03:03:59,159 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 03:04:00,080 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:04:00,080 - INFO - {
+  "relationships": []
+}
+2025-09-25 03:04:00,080 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:04:00,080 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 03:04:00,080 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 03:04:01,208 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:04:01,208 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tesla_mexico",
+      "target": "factory_monterrey_mexico",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tesla_mexico",
+      "target": "product_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 03:04:01,208 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:04:01,297 - INFO - ✅ Updated Article ID: 68d3bf853e609fb288d7c4f3 with 4 nodes and combined text.

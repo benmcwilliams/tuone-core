@@ -1,0 +1,146 @@
+2025-09-24 21:47:56,360 - INFO - 🔍 Text length: 1173 characters
+2025-09-24 21:47:56,360 - INFO - 📌 Processing Article ID: 68d3e74f3e609fb288d7cab4 — Li-Cycle starts recycling in Magdeburg
+2025-09-24 21:47:56,360 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:47:58,616 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:58,617 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_magdeburg_germany",
+        "type": "factory",
+        "name": "Magdeburg Plant",
+        "location": {
+          "city": "Magdeburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "10,000 tons per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_10k_tons_per_year_2",
+        "type": "capacity",
+        "name": "",
+        "amount": "10,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery_recycling",
+        "type": "product",
+        "name": "lithium-ion battery recycling"
+      }
+    ]
+  }
+}
+2025-09-24 21:47:58,617 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:58,617 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:47:58,617 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:47:59,845 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:59,845 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10k_tons_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_10k_tons_per_year_2",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 21:47:59,845 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:59,845 - INFO - ✅ Match found for capacity_ID 'capacity_10k_tons_per_year' in capacity nodes
+2025-09-24 21:47:59,845 - INFO -   ➕ Set field 'status': operational
+2025-09-24 21:47:59,845 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:47:59,845 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:47:59,845 - INFO - ✅ Match found for capacity_ID 'capacity_10k_tons_per_year_2' in capacity nodes
+2025-09-24 21:47:59,846 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:47:59,846 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:47:59,846 - INFO -   ➕ Set field 'additional': True
+2025-09-24 21:47:59,846 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:47:59,846 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:47:59,846 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:48:01,212 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:48:01,213 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:48:01,213 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:48:01,213 - INFO - ✅ Match found for product_ID 'product_lithium_ion_battery_recycling' in product nodes
+2025-09-24 21:48:01,213 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:48:01,213 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:48:01,213 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:48:01,213 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:48:01,213 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:48:02,507 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:48:02,507 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_magdeburg_germany"
+    }
+  ]
+}
+2025-09-24 21:48:02,507 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:48:02,507 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:48:02,507 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:48:06,092 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:48:06,092 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10k_tons_per_year",
+      "target": "factory_magdeburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10k_tons_per_year_2",
+      "target": "factory_magdeburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10k_tons_per_year",
+      "target": "product_lithium_ion_battery_recycling",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_10k_tons_per_year_2",
+      "target": "product_lithium_ion_battery_recycling",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_battery_recycling",
+      "target": "factory_magdeburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:48:06,092 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:48:06,092 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:48:06,092 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:48:06,189 - INFO - ✅ Updated Article ID: 68d3e74f3e609fb288d7cab4 with 5 nodes and combined text.

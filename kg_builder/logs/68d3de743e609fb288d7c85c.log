@@ -1,0 +1,178 @@
+2025-09-24 23:59:45,731 - INFO - 🔍 Text length: 1528 characters
+2025-09-24 23:59:45,731 - INFO - 📌 Processing Article ID: 68d3de743e609fb288d7c85c — Volvo to produce battery modules in Ghent
+2025-09-24 23:59:45,731 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:59:47,882 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:47,882 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_group",
+        "type": "company",
+        "name": "Volvo Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ghent_belgium",
+        "type": "factory",
+        "name": "Ghent Battery Module Factory",
+        "location": {
+          "city": "Ghent",
+          "country": "Belgium"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_gothenburg_sweden",
+        "type": "factory",
+        "name": "Gothenburg Truck Assembly Plant",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ghent_battery_module",
+        "type": "investment",
+        "name": "Ghent Battery Module Investment",
+        "amount": "EUR75m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "battery modules"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_heavy_duty_electric_trucks",
+        "type": "product",
+        "name": "heavy duty electric trucks"
+      }
+    ]
+  }
+}
+2025-09-24 23:59:47,882 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:47,882 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:59:47,882 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:59:47,882 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:59:50,135 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:50,135 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ghent_battery_module",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:59:50,135 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:50,135 - INFO - ✅ Match found for investment_ID 'investment_ghent_battery_module' in investment nodes
+2025-09-24 23:59:50,135 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:59:50,135 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:59:50,135 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:59:50,135 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:59:50,135 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:59:52,253 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:52,254 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_modules",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_heavy_duty_electric_trucks",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:59:52,254 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:52,254 - INFO - ✅ Match found for product_ID 'product_battery_modules' in product nodes
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 23:59:52,254 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:59:52,254 - INFO - ✅ Match found for product_ID 'product_heavy_duty_electric_trucks' in product nodes
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:59:52,254 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:59:52,254 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:59:52,254 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:59:52,254 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:59:53,404 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:53,404 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_group",
+      "type": "owns",
+      "target": "factory_ghent_belgium"
+    },
+    {
+      "source": "company_volvo_group",
+      "type": "owns",
+      "target": "factory_gothenburg_sweden"
+    }
+  ]
+}
+2025-09-24 23:59:53,404 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:53,404 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:59:53,404 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:59:54,334 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:54,335 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_modules",
+      "target": "factory_ghent_belgium",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_heavy_duty_electric_trucks",
+      "target": "factory_gothenburg_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:59:54,335 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:54,335 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:59:54,335 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:59:55,458 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:55,459 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:59:55,459 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:55,459 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:59:55,459 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:59:56,594 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:59:56,594 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ghent_battery_module",
+      "target": "factory_ghent_belgium",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ghent_battery_module",
+      "target": "product_battery_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:59:56,594 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:59:56,676 - INFO - ✅ Updated Article ID: 68d3de743e609fb288d7c85c with 7 nodes and combined text.

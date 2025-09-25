@@ -1,0 +1,116 @@
+2025-09-24 01:16:55,125 - INFO - 🔍 Text length: 2443 characters
+2025-09-24 01:16:55,125 - INFO - 📌 Processing Article ID: 68d2e4d5a796126e32149d7d — Nissan to launch ASSB production in 2028
+2025-09-24 01:16:55,125 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:16:56,890 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:56,890 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan_motor",
+        "type": "company",
+        "name": "Nissan Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_yokohama_pilot_plant",
+        "type": "factory",
+        "name": "Yokohama Pilot Plant",
+        "location": {
+          "city": "Yokohama",
+          "country": "Japan"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_kanagawa_research_centre",
+        "type": "factory",
+        "name": "Kanagawa Research Centre",
+        "location": {
+          "city": "Kanagawa",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_all_solid_state_batteries",
+        "type": "product",
+        "name": "all solid state batteries (ASSBs)"
+      },
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery electric vehicles (BEVs)"
+      }
+    ]
+  }
+}
+2025-09-24 01:16:56,890 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:56,890 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:16:56,890 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:16:56,890 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:16:56,890 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:16:58,295 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:58,295 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_all_solid_state_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 01:16:58,295 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:58,295 - INFO - ✅ Match found for product_ID 'product_all_solid_state_batteries' in product nodes
+2025-09-24 01:16:58,296 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:16:58,296 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:16:58,296 - INFO - ✅ Match found for product_ID 'product_battery_electric_vehicles' in product nodes
+2025-09-24 01:16:58,296 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 01:16:58,296 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 01:16:58,296 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:16:58,296 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:16:58,296 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:16:59,533 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:16:59,533 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan_motor",
+      "type": "owns",
+      "target": "factory_yokohama_pilot_plant"
+    },
+    {
+      "source": "company_nissan_motor",
+      "type": "owns",
+      "target": "factory_kanagawa_research_centre"
+    }
+  ]
+}
+2025-09-24 01:16:59,533 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:16:59,533 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:16:59,533 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:17:00,661 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:00,661 - INFO - {
+  "relationships": [
+    {
+      "source": "product_all_solid_state_batteries",
+      "target": "factory_yokohama_pilot_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_all_solid_state_batteries",
+      "target": "factory_kanagawa_research_centre",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:17:00,661 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:00,661 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:17:00,661 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:17:00,763 - INFO - ✅ Updated Article ID: 68d2e4d5a796126e32149d7d with 5 nodes and combined text.

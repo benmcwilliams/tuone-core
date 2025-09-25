@@ -1,0 +1,98 @@
+2025-09-24 01:46:43,851 - INFO - 🔍 Text length: 1211 characters
+2025-09-24 01:46:43,851 - INFO - 📌 Processing Article ID: 689230073770ecb5d61783ee — Northvolt Lays off Most of Its Staff in Sweden
+2025-09-24 01:46:43,851 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:46:45,293 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:46:45,293 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_skelleftea_sweden",
+        "type": "factory",
+        "name": "Skellefte\u00e5 Plant",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_heide_germany",
+        "type": "factory",
+        "name": "Heide Plant",
+        "location": {
+          "city": "Heide",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 01:46:45,293 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:46:45,293 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:46:45,293 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:46:45,293 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:46:45,293 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:46:46,918 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:46:46,918 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:46:46,918 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:46:46,918 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 01:46:46,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:46:46,918 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:46:46,918 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:46:46,918 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:46:46,918 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:46:48,354 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:46:48,354 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_skelleftea_sweden"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_heide_germany"
+    }
+  ]
+}
+2025-09-24 01:46:48,354 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:46:48,354 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:46:48,355 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:46:49,165 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:46:49,166 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_skelleftea_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:46:49,166 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:46:49,166 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:46:49,166 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:46:49,267 - INFO - ✅ Updated Article ID: 689230073770ecb5d61783ee with 4 nodes and combined text.

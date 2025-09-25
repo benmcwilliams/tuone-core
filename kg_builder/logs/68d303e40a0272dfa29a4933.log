@@ -1,0 +1,162 @@
+2025-09-24 00:25:18,415 - INFO - 🔍 Text length: 1085 characters
+2025-09-24 00:25:18,415 - INFO - 📌 Processing Article ID: 68d303e40a0272dfa29a4933 — Toyota US plant starts on new turbo engine line
+2025-09-24 00:25:18,415 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:25:21,190 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:21,191 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_alabama",
+        "type": "factory",
+        "name": "Alabama Plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_turbo_engine_line",
+        "type": "investment",
+        "name": "Turbo Engine Line Expansion",
+        "amount": "US$222m",
+        "status": "completed"
+      },
+      {
+        "id": "investment_alabama_plant_total",
+        "type": "investment",
+        "name": "Alabama Plant Total Investment",
+        "amount": "$1.5bn",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_i_force_2_4_litre_turbo_engine",
+        "type": "product",
+        "name": "i-Force 2.4-litre turbo engine"
+      },
+      {
+        "id": "product_tacoma_hybrid",
+        "type": "product",
+        "name": "Tacoma hybrid"
+      }
+    ]
+  }
+}
+2025-09-24 00:25:21,191 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:21,191 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:25:21,191 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:25:21,191 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:25:22,315 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:22,315 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_turbo_engine_line",
+      "status": "completed",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_alabama_plant_total",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:25:22,316 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:22,316 - INFO - ✅ Match found for investment_ID 'investment_turbo_engine_line' in investment nodes
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'status': completed
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 00:25:22,316 - INFO - ✅ Match found for investment_ID 'investment_alabama_plant_total' in investment nodes
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'status': completed
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 00:25:22,316 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:25:22,316 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:25:22,316 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:25:23,828 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:23,828 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_i_force_2_4_litre_turbo_engine",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_tacoma_hybrid",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:25:23,829 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:23,829 - INFO - ✅ Match found for product_ID 'product_i_force_2_4_litre_turbo_engine' in product nodes
+2025-09-24 00:25:23,829 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 00:25:23,829 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-24 00:25:23,829 - INFO - ✅ Match found for product_ID 'product_tacoma_hybrid' in product nodes
+2025-09-24 00:25:23,829 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:25:23,829 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:25:23,829 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:25:23,829 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:25:23,829 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:25:24,780 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:24,781 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_alabama"
+    }
+  ]
+}
+2025-09-24 00:25:24,781 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:24,781 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:25:24,781 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:25:26,004 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:26,004 - INFO - {
+  "relationships": [
+    {
+      "source": "product_i_force_2_4_litre_turbo_engine",
+      "target": "factory_alabama",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:25:26,004 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:26,004 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:25:26,005 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:25:26,684 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:26,684 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:25:26,684 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:26,684 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:25:26,684 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:25:27,681 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:25:27,681 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_turbo_engine_line",
+      "target": "product_i_force_2_4_litre_turbo_engine",
+      "type": "targets"
+    },
+    {
+      "source": "investment_turbo_engine_line",
+      "target": "factory_alabama",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-24 00:25:27,681 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:25:27,784 - INFO - ✅ Updated Article ID: 68d303e40a0272dfa29a4933 with 6 nodes and combined text.

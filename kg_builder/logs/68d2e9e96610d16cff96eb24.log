@@ -1,0 +1,144 @@
+2025-09-24 00:52:38,130 - INFO - 🔍 Text length: 1644 characters
+2025-09-24 00:52:38,130 - INFO - 📌 Processing Article ID: 68d2e9e96610d16cff96eb24 — BMW starts Mini hatchback output
+2025-09-24 00:52:38,130 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:52:40,489 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:52:40,489 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxford",
+        "type": "factory",
+        "name": "Oxford",
+        "location": {
+          "city": "Oxford",
+          "country": "England"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_swinden",
+        "type": "factory",
+        "name": "Swindon",
+        "location": {
+          "city": "Swindon",
+          "country": "England"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_hams_hall",
+        "type": "factory",
+        "name": "Hams Hall",
+        "location": {
+          "city": "North Warwickshire",
+          "country": "England"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mini_cooper_hatchback",
+        "type": "product",
+        "name": "Mini Cooper hatchback"
+      },
+      {
+        "id": "product_aceman",
+        "type": "product",
+        "name": "Aceman"
+      },
+      {
+        "id": "product_countryman",
+        "type": "product",
+        "name": "Countryman"
+      }
+    ]
+  }
+}
+2025-09-24 00:52:40,489 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:52:40,490 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 00:52:40,490 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 00:52:40,490 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:52:40,490 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:52:42,845 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:52:42,845 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_mini_cooper_hatchback",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_aceman",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_countryman",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 00:52:42,846 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:52:42,846 - INFO - ✅ Match found for product_ID 'product_mini_cooper_hatchback' in product nodes
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:52:42,846 - INFO - ✅ Match found for product_ID 'product_aceman' in product nodes
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:52:42,846 - INFO - ✅ Match found for product_ID 'product_countryman' in product nodes
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 00:52:42,846 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 00:52:42,846 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:52:42,846 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:52:42,846 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:52:44,267 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:52:44,267 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_oxford"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_swinden"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_hams_hall"
+    }
+  ]
+}
+2025-09-24 00:52:44,267 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:52:44,267 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:52:44,267 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:52:45,406 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:52:45,406 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mini_cooper_hatchback",
+      "target": "factory_oxford",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_countryman",
+      "target": "factory_oxford",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 00:52:45,406 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:52:45,407 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 00:52:45,407 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 00:52:45,498 - INFO - ✅ Updated Article ID: 68d2e9e96610d16cff96eb24 with 7 nodes and combined text.

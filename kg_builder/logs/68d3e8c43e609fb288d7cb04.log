@@ -1,0 +1,206 @@
+2025-09-24 21:23:07,757 - INFO - 🔍 Text length: 7450 characters
+2025-09-24 21:23:07,757 - INFO - 📌 Processing Article ID: 68d3e8c43e609fb288d7cb04 — CALB plant Fabrik an europäischem Standort
+2025-09-24 21:23:07,757 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:23:11,765 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:11,765 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_calb",
+        "type": "company",
+        "name": "CALB"
+      },
+      {
+        "id": "company_drees_sommer",
+        "type": "company",
+        "name": "Drees & Sommer"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_europe",
+        "type": "factory",
+        "name": "Batteriefabrik",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_hefei_china",
+        "type": "factory",
+        "name": "Gigafabrik",
+        "location": {
+          "city": "Hefei",
+          "country": "China"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 Gigawattstunden",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_300_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 Gigawattstunden",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_50_gwh_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "50 Gigawattstunden",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriezellen",
+        "type": "product",
+        "name": "Batteriezellen"
+      },
+      {
+        "id": "product_energiespeicher",
+        "type": "product",
+        "name": "Energiespeicher"
+      }
+    ]
+  }
+}
+2025-09-24 21:23:11,765 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:11,765 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:23:11,765 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:23:14,735 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:14,735 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_300_gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_50_gwh_under_construction",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:23:14,735 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:14,735 - INFO - ✅ Match found for capacity_ID 'capacity_20_gwh_announced' in capacity nodes
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:23:14,735 - INFO - ✅ Match found for capacity_ID 'capacity_300_gwh_announced' in capacity nodes
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:23:14,735 - INFO - ✅ Match found for capacity_ID 'capacity_50_gwh_under_construction' in capacity nodes
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:23:14,735 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:23:14,735 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:23:14,736 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:23:14,736 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:23:16,372 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:16,372 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriezellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_energiespeicher",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:23:16,372 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:16,372 - INFO - ✅ Match found for product_ID 'product_batteriezellen' in product nodes
+2025-09-24 21:23:16,372 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:23:16,372 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:23:16,372 - INFO - ✅ Match found for product_ID 'product_energiespeicher' in product nodes
+2025-09-24 21:23:16,372 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:23:16,372 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:23:16,372 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:23:16,372 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:23:16,372 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:23:17,498 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:17,499 - INFO - {
+  "relationships": [
+    {
+      "source": "company_calb",
+      "type": "owns",
+      "target": "factory_europe"
+    },
+    {
+      "source": "company_calb",
+      "type": "owns",
+      "target": "factory_hefei_china"
+    }
+  ]
+}
+2025-09-24 21:23:17,499 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:17,499 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:23:17,499 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:23:20,059 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:20,060 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_gwh_announced",
+      "target": "factory_europe",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20_gwh_announced",
+      "target": "product_batteriezellen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_europe",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_50_gwh_under_construction",
+      "target": "factory_hefei_china",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50_gwh_under_construction",
+      "target": "product_batteriezellen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_hefei_china",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_300_gwh_announced",
+      "target": "product_batteriezellen",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 21:23:20,060 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:20,060 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:23:20,060 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:23:20,153 - INFO - ✅ Updated Article ID: 68d3e8c43e609fb288d7cb04 with 9 nodes and combined text.

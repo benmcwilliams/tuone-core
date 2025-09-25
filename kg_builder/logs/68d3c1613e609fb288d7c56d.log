@@ -1,0 +1,101 @@
+2025-09-25 02:32:59,427 - INFO - 🔍 Text length: 1909 characters
+2025-09-25 02:32:59,428 - INFO - 📌 Processing Article ID: 68d3c1613e609fb288d7c56d — Nokian Tyres joins Polestar 0
+2025-09-25 02:32:59,428 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:33:01,075 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:01,075 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nokian_tyres",
+        "type": "company",
+        "name": "Nokian Tyres"
+      },
+      {
+        "id": "company_polestar",
+        "type": "company",
+        "name": "Polestar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_romania",
+        "type": "factory",
+        "name": "Romania Tyre Factory",
+        "location": {
+          "city": "null",
+          "country": "Romania"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_climate_neutral_premium_tyres",
+        "type": "product",
+        "name": "climate neutral premium tyres"
+      },
+      {
+        "id": "product_green_step_concept_tyre",
+        "type": "product",
+        "name": "Green Step concept tyre"
+      }
+    ]
+  }
+}
+2025-09-25 02:33:01,075 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:01,075 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:33:01,076 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:33:01,076 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:33:01,076 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:33:02,612 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:02,613 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_climate_neutral_premium_tyres",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_green_step_concept_tyre",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:33:02,613 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:02,613 - INFO - ✅ Match found for product_ID 'product_climate_neutral_premium_tyres' in product nodes
+2025-09-25 02:33:02,613 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:33:02,613 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:33:02,613 - INFO - ✅ Match found for product_ID 'product_green_step_concept_tyre' in product nodes
+2025-09-25 02:33:02,613 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:33:02,613 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:33:02,613 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:33:02,613 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:33:02,613 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:33:04,250 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:04,250 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nokian_tyres",
+      "type": "owns",
+      "target": "factory_romania"
+    }
+  ]
+}
+2025-09-25 02:33:04,250 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:04,250 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:33:04,250 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:33:05,173 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:33:05,173 - INFO - {
+  "relationships": [
+    {
+      "source": "product_climate_neutral_premium_tyres",
+      "target": "factory_romania",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:33:05,174 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:33:05,174 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:33:05,174 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:33:05,263 - INFO - ✅ Updated Article ID: 68d3c1613e609fb288d7c56d with 5 nodes and combined text.

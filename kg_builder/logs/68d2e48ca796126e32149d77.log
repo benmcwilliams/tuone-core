@@ -1,0 +1,180 @@
+2025-09-24 01:17:49,882 - INFO - 🔍 Text length: 1369 characters
+2025-09-24 01:17:49,882 - INFO - 📌 Processing Article ID: 68d2e48ca796126e32149d77 — JLR wants 250 electrification engineers to boost next-gen EVs
+2025-09-24 01:17:49,882 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:17:53,570 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:53,570 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      },
+      {
+        "id": "company_agratas",
+        "type": "company",
+        "name": "Agratas"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gaydon_enginnering_centre",
+        "type": "factory",
+        "name": "Gaydon Engineering Centre",
+        "location": {
+          "city": "Gaydon",
+          "country": "UK"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_future_energy_lab_whitley",
+        "type": "factory",
+        "name": "Future Energy Lab",
+        "location": {
+          "city": "Whitley, Coventry",
+          "country": "UK"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_somerset_gigafactory",
+        "type": "factory",
+        "name": "Somerset Gigafactory",
+        "location": {
+          "city": "Somerset",
+          "country": "UK"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_future_energy_lab_whitley",
+        "type": "investment",
+        "name": "Future Energy Lab Whitley",
+        "amount": "\u00a3250m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_electric_drive_units",
+        "type": "product",
+        "name": "Electric Drive Units (EDUs)"
+      }
+    ]
+  }
+}
+2025-09-24 01:17:53,570 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:53,570 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:17:53,570 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:17:53,570 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:17:54,491 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:54,492 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_future_energy_lab_whitley",
+      "status": "ongoing",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 01:17:54,492 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:54,492 - INFO - ✅ Match found for investment_ID 'investment_future_energy_lab_whitley' in investment nodes
+2025-09-24 01:17:54,492 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 01:17:54,492 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 01:17:54,492 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 01:17:54,492 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:17:54,492 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:17:56,231 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:56,231 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_electric_drive_units",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:17:56,231 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:56,231 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 01:17:56,231 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:17:56,231 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 01:17:56,231 - INFO - ✅ Match found for product_ID 'product_electric_drive_units' in product nodes
+2025-09-24 01:17:56,231 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-24 01:17:56,231 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:17:56,231 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:17:56,231 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:17:56,231 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:17:57,917 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:57,917 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jaguar_land_rover",
+      "type": "owns",
+      "target": "factory_gaydon_enginnering_centre"
+    },
+    {
+      "source": "company_jaguar_land_rover",
+      "type": "owns",
+      "target": "factory_future_energy_lab_whitley"
+    },
+    {
+      "source": "company_agratas",
+      "type": "owns",
+      "target": "factory_somerset_gigafactory"
+    }
+  ]
+}
+2025-09-24 01:17:57,917 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:57,917 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:17:57,917 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:17:58,997 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:58,997 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_somerset_gigafactory",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_drive_units",
+      "target": "factory_future_energy_lab_whitley",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:17:58,998 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:58,998 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:17:58,998 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:17:59,632 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:17:59,632 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:17:59,632 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:17:59,633 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:17:59,633 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:18:00,636 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:18:00,636 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_future_energy_lab_whitley",
+      "target": "factory_future_energy_lab_whitley",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-24 01:18:00,636 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:18:00,730 - INFO - ✅ Updated Article ID: 68d2e48ca796126e32149d77 with 8 nodes and combined text.

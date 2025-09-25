@@ -1,0 +1,238 @@
+2025-09-24 23:07:12,531 - INFO - 🔍 Text length: 1269 characters
+2025-09-24 23:07:12,531 - INFO - 📌 Processing Article ID: 68d3e2283e609fb288d7c93b — SVOLT Abandons Plans for European Production
+2025-09-24 23:07:12,531 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:07:16,372 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:16,372 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_svolt_energy",
+        "type": "company",
+        "name": "SVOLT Energy"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_saarland_germany",
+        "type": "factory",
+        "name": "Saarland Factory",
+        "location": {
+          "city": "Saarland",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_brandenburg_germany",
+        "type": "factory",
+        "name": "Brandenburg Factory",
+        "location": {
+          "city": "Brandenburg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_saarland_factory",
+        "type": "investment",
+        "name": "Saarland Factory Investment",
+        "amount": "around \u20ac2 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_24_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "24 GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_16_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "16 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_modules_and_packs",
+        "type": "product",
+        "name": "battery modules and packs"
+      },
+      {
+        "id": "product_cell",
+        "type": "product",
+        "name": "cell"
+      }
+    ]
+  }
+}
+2025-09-24 23:07:16,372 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:16,372 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:07:16,373 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:07:17,807 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:17,807 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_24_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_16_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:07:17,807 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:17,807 - INFO - ✅ Match found for capacity_ID 'capacity_24_gwh_announced' in capacity nodes
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:07:17,807 - INFO - ✅ Match found for capacity_ID 'capacity_16_gwh_announced' in capacity nodes
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:07:17,807 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:07:17,807 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:07:17,807 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:07:18,523 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:18,523 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_saarland_factory",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:07:18,523 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:18,523 - INFO - ✅ Match found for investment_ID 'investment_saarland_factory' in investment nodes
+2025-09-24 23:07:18,523 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:07:18,523 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:07:18,523 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:07:18,523 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:07:18,523 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:07:20,266 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:20,266 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_modules_and_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 23:07:20,266 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:20,266 - INFO - ✅ Match found for product_ID 'product_battery_modules_and_packs' in product nodes
+2025-09-24 23:07:20,266 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:07:20,266 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 23:07:20,266 - INFO - ✅ Match found for product_ID 'product_cell' in product nodes
+2025-09-24 23:07:20,266 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:07:20,266 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 23:07:20,266 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:07:20,266 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:07:20,266 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:07:22,003 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:22,003 - INFO - {
+  "relationships": [
+    {
+      "source": "company_svolt_energy",
+      "type": "owns",
+      "target": "factory_saarland_germany"
+    },
+    {
+      "source": "company_svolt_energy",
+      "type": "owns",
+      "target": "factory_brandenburg_germany"
+    }
+  ]
+}
+2025-09-24 23:07:22,003 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:22,003 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:07:22,003 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:07:24,461 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:24,461 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_24_gwh_announced",
+      "target": "factory_saarland_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_16_gwh_announced",
+      "target": "factory_brandenburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_24_gwh_announced",
+      "target": "product_battery_modules_and_packs",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_16_gwh_announced",
+      "target": "product_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_modules_and_packs",
+      "target": "factory_saarland_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cell",
+      "target": "factory_brandenburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:07:24,461 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:24,462 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:07:24,462 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:07:25,076 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:25,076 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:07:25,076 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:25,076 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:07:25,076 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:07:26,510 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:07:26,510 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_saarland_factory",
+      "target": "factory_saarland_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_saarland_factory",
+      "target": "capacity_24_gwh_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_saarland_factory",
+      "target": "product_battery_modules_and_packs",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:07:26,510 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:07:26,600 - INFO - ✅ Updated Article ID: 68d3e2283e609fb288d7c93b with 9 nodes and combined text.

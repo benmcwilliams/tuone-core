@@ -1,0 +1,209 @@
+2025-09-24 00:49:42,279 - INFO - 🔍 Text length: 2430 characters
+2025-09-24 00:49:42,280 - INFO - 📌 Processing Article ID: 68d2ea346610d16cff96eb32 — Electra gets $5m from Canada for EV supply chain
+2025-09-24 00:49:42,280 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 00:49:47,981 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:47,981 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_electra_battery_materials_corporation",
+        "type": "company",
+        "name": "Electra Battery Materials Corporation"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_temiskaming_shores_canada",
+        "type": "factory",
+        "name": "Temiskaming Shores Refinery",
+        "location": {
+          "city": "Temiskaming Shores",
+          "country": "Canada"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_canada_electra_refinery",
+        "type": "investment",
+        "name": "Canada Electra Refinery",
+        "amount": "$5 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_5_million_ev_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.5 million electric vehicles annually",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cobalt_sulphate",
+        "type": "product",
+        "name": "battery grade cobalt sulphate"
+      },
+      {
+        "id": "product_nickel_sulphate",
+        "type": "product",
+        "name": "nickel sulphate"
+      },
+      {
+        "id": "product_black_mass_material",
+        "type": "product",
+        "name": "black mass material"
+      }
+    ]
+  }
+}
+2025-09-24 00:49:47,981 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:47,981 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 00:49:47,981 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 00:49:49,069 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:49,069 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_5_million_ev_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 00:49:49,070 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:49,070 - INFO - ✅ Match found for capacity_ID 'capacity_1_5_million_ev_per_year' in capacity nodes
+2025-09-24 00:49:49,070 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:49:49,070 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:49:49,070 - INFO -   ➕ Set field 'additional': False
+2025-09-24 00:49:49,070 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 00:49:49,070 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 00:49:50,298 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:50,299 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_canada_electra_refinery",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 00:49:50,299 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:50,299 - INFO - ✅ Match found for investment_ID 'investment_canada_electra_refinery' in investment nodes
+2025-09-24 00:49:50,299 - INFO -   ➕ Set field 'status': announced
+2025-09-24 00:49:50,299 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 00:49:50,299 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 00:49:50,299 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 00:49:50,299 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 00:49:51,936 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:51,936 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cobalt_sulphate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_nickel_sulphate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_black_mass_material",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 00:49:51,937 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:51,937 - INFO - ✅ Match found for product_ID 'product_cobalt_sulphate' in product nodes
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:49:51,937 - INFO - ✅ Match found for product_ID 'product_nickel_sulphate' in product nodes
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:49:51,937 - INFO - ✅ Match found for product_ID 'product_black_mass_material' in product nodes
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 00:49:51,937 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 00:49:51,937 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 00:49:51,937 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 00:49:51,937 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 00:49:53,678 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:53,678 - INFO - {
+  "relationships": [
+    {
+      "source": "company_electra_battery_materials_corporation",
+      "type": "owns",
+      "target": "factory_temiskaming_shores_canada"
+    }
+  ]
+}
+2025-09-24 00:49:53,678 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:53,678 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 00:49:53,678 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 00:49:56,238 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:56,238 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cobalt_sulphate",
+      "target": "factory_temiskaming_shores_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nickel_sulphate",
+      "target": "factory_temiskaming_shores_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_black_mass_material",
+      "target": "factory_temiskaming_shores_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_1_5_million_ev_per_year",
+      "target": "factory_temiskaming_shores_canada",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 00:49:56,238 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:56,238 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 00:49:56,238 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 00:49:56,884 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:56,884 - INFO - {
+  "relationships": []
+}
+2025-09-24 00:49:56,884 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:56,884 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 00:49:56,884 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 00:49:58,299 - INFO - ✅ OpenAI returned output:
+2025-09-24 00:49:58,299 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_canada_electra_refinery",
+      "target": "factory_temiskaming_shores_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_canada_electra_refinery",
+      "target": "product_cobalt_sulphate",
+      "type": "targets"
+    },
+    {
+      "source": "investment_canada_electra_refinery",
+      "target": "product_nickel_sulphate",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 00:49:58,299 - INFO - POST-PROCESSING STARTING.
+2025-09-24 00:49:58,389 - INFO - ✅ Updated Article ID: 68d2ea346610d16cff96eb32 with 8 nodes and combined text.

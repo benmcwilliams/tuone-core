@@ -1,0 +1,156 @@
+2025-09-24 22:10:01,038 - INFO - 🔍 Text length: 1271 characters
+2025-09-24 22:10:01,039 - INFO - 📌 Processing Article ID: 68d3e5d13e609fb288d7ca38 — Daimler Truck, Cummins und Paccar gründen Batterie-Joint-Venture
+2025-09-24 22:10:01,039 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:10:03,396 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:10:03,396 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_daimler_truck",
+        "type": "company",
+        "name": "Daimler Truck"
+      },
+      {
+        "id": "company_accelera",
+        "type": "company",
+        "name": "Accelera"
+      },
+      {
+        "id": "company_paccar",
+        "type": "company",
+        "name": "Paccar"
+      },
+      {
+        "id": "company_eve_energy",
+        "type": "company",
+        "name": "EVE Energy"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_amplify_cell_technologies",
+        "type": "joint_venture",
+        "name": "Amplify Cell Technologies"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_marshall_county_mississippi",
+        "type": "factory",
+        "name": "Marshall County Battery Factory",
+        "location": {
+          "city": "Marshall County",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_21_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "21 Gigawatt hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_cells",
+        "type": "product",
+        "name": "Lithium Iron Phosphate Cells"
+      }
+    ]
+  }
+}
+2025-09-24 22:10:03,396 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:10:03,396 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:10:03,396 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:10:04,162 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:10:04,163 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_21_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:10:04,163 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:10:04,163 - INFO - ✅ Match found for capacity_ID 'capacity_21_gwh_announced' in capacity nodes
+2025-09-24 22:10:04,163 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:10:04,163 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:10:04,163 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:10:04,163 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:10:04,163 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:10:04,163 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:10:05,547 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:10:05,547 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 22:10:05,547 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:10:05,547 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_cells' in product nodes
+2025-09-24 22:10:05,547 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:10:05,547 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:10:05,547 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:10:05,547 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:10:05,547 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:10:09,852 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:10:09,853 - INFO - {
+  "relationships": [
+    {
+      "source": "company_daimler_truck",
+      "type": "forms",
+      "target": "joint_venture_amplify_cell_technologies"
+    },
+    {
+      "source": "company_accelera",
+      "type": "forms",
+      "target": "joint_venture_amplify_cell_technologies"
+    },
+    {
+      "source": "company_paccar",
+      "type": "forms",
+      "target": "joint_venture_amplify_cell_technologies"
+    },
+    {
+      "source": "joint_venture_amplify_cell_technologies",
+      "type": "owns",
+      "target": "factory_marshall_county_mississippi"
+    }
+  ]
+}
+2025-09-24 22:10:09,853 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:10:09,853 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:10:09,853 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:10:14,353 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:10:14,353 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_21_gwh_announced",
+      "target": "factory_marshall_county_mississippi",
+      "type": "at"
+    },
+    {
+      "source": "capacity_21_gwh_announced",
+      "target": "product_lithium_iron_phosphate_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_iron_phosphate_cells",
+      "target": "factory_marshall_county_mississippi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:10:14,353 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:10:14,353 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:10:14,353 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:10:14,444 - INFO - ✅ Updated Article ID: 68d3e5d13e609fb288d7ca38 with 8 nodes and combined text.

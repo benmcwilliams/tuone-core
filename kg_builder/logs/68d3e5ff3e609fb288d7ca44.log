@@ -1,0 +1,83 @@
+2025-09-24 22:08:06,349 - INFO - 🔍 Text length: 1305 characters
+2025-09-24 22:08:06,349 - INFO - 📌 Processing Article ID: 68d3e5ff3e609fb288d7ca44 — Li-Cycle Expands Recycling Partnership in the EU
+2025-09-24 22:08:06,349 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:08:07,991 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:08:07,992 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_magdeburg_germany",
+        "type": "factory",
+        "name": "Magdeburg Plant",
+        "location": {
+          "city": "Magdeburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-24 22:08:07,992 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:08:07,992 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:08:07,992 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:08:07,992 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:08:07,992 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:08:09,628 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:08:09,628 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 22:08:09,628 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:08:09,628 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 22:08:09,628 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:08:09,628 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:08:09,628 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:08:09,628 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:08:09,628 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:08:10,550 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:08:10,550 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_magdeburg_germany"
+    }
+  ]
+}
+2025-09-24 22:08:10,550 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:08:10,551 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:08:10,551 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:08:11,578 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:08:11,578 - INFO - {
+  "relationships": [
+    {
+      "source": "product_black_mass",
+      "target": "factory_magdeburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:08:11,578 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:08:11,578 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:08:11,578 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:08:11,661 - INFO - ✅ Updated Article ID: 68d3e5ff3e609fb288d7ca44 with 3 nodes and combined text.

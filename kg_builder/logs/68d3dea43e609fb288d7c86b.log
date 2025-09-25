@@ -1,0 +1,114 @@
+2025-09-24 23:57:03,809 - INFO - 🔍 Text length: 9360 characters
+2025-09-24 23:57:03,810 - INFO - 📌 Processing Article ID: 68d3dea43e609fb288d7c86b — New Mazda PHEV reorientates driveline
+2025-09-24 23:57:03,810 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:57:05,863 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:57:05,863 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda",
+        "type": "company",
+        "name": "Mazda"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_us_plant",
+        "type": "factory",
+        "name": "US plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cx60",
+        "type": "product",
+        "name": "CX-60"
+      },
+      {
+        "id": "product_cx50",
+        "type": "product",
+        "name": "CX-50"
+      },
+      {
+        "id": "product_cx5",
+        "type": "product",
+        "name": "CX-5"
+      }
+    ]
+  }
+}
+2025-09-24 23:57:05,863 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:57:05,863 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:57:05,863 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:57:05,863 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:57:05,863 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:57:07,709 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:57:07,709 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cx60",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_cx50",
+      "product_lv1": "vehicle",
+      "product_lv2": "unclear"
+    },
+    {
+      "product_ID": "product_cx5",
+      "product_lv1": "vehicle",
+      "product_lv2": "unclear"
+    }
+  ]
+}
+2025-09-24 23:57:07,709 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:57:07,709 - INFO - ✅ Match found for product_ID 'product_cx60' in product nodes
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:57:07,709 - INFO - ✅ Match found for product_ID 'product_cx50' in product nodes
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv2': unclear
+2025-09-24 23:57:07,709 - INFO - ✅ Match found for product_ID 'product_cx5' in product nodes
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:57:07,709 - INFO -   ➕ Set field 'product_lv2': unclear
+2025-09-24 23:57:07,710 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:57:07,710 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:57:07,710 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:57:09,139 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:57:09,139 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda",
+      "type": "owns",
+      "target": "factory_us_plant"
+    }
+  ]
+}
+2025-09-24 23:57:09,140 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:57:09,140 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:57:09,140 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:57:10,268 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:57:10,268 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cx50",
+      "target": "factory_us_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:57:10,268 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:57:10,268 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:57:10,268 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:57:10,356 - INFO - ✅ Updated Article ID: 68d3dea43e609fb288d7c86b with 6 nodes and combined text.

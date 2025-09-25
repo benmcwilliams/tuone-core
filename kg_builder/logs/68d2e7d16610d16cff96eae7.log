@@ -1,0 +1,121 @@
+2025-09-24 01:03:35,244 - INFO - 🔍 Text length: 1157 characters
+2025-09-24 01:03:35,245 - INFO - 📌 Processing Article ID: 68d2e7d16610d16cff96eae7 — German parts maker eyes Bulgaria
+2025-09-24 01:03:35,245 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:03:36,790 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:03:36,790 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kayser_automotive_systems",
+        "type": "company",
+        "name": "Kayser Automotive Systems"
+      },
+      {
+        "id": "company_bulgarian_property_developments",
+        "type": "company",
+        "name": "Bulgarian Property Developments"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pleven_bulgaria",
+        "type": "factory",
+        "name": "BPD Pleven",
+        "location": {
+          "city": "Pleven",
+          "country": "Bulgaria"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pipe_systems",
+        "type": "product",
+        "name": "pipe systems"
+      },
+      {
+        "id": "product_valves",
+        "type": "product",
+        "name": "valves"
+      },
+      {
+        "id": "product_tanks",
+        "type": "product",
+        "name": "tanks"
+      }
+    ]
+  }
+}
+2025-09-24 01:03:36,790 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:03:36,790 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:03:36,790 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:03:36,790 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:03:36,790 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:03:39,255 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:03:39,255 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pipe_systems",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_valves",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_tanks",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 01:03:39,255 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:03:39,255 - INFO - ✅ Match found for product_ID 'product_pipe_systems' in product nodes
+2025-09-24 01:03:39,255 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 01:03:39,255 - INFO - ✅ Match found for product_ID 'product_valves' in product nodes
+2025-09-24 01:03:39,255 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 01:03:39,255 - INFO - ✅ Match found for product_ID 'product_tanks' in product nodes
+2025-09-24 01:03:39,255 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 01:03:39,255 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:03:39,255 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:03:39,255 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:03:39,969 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:03:39,969 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kayser_automotive_systems",
+      "type": "owns",
+      "target": "factory_pleven_bulgaria"
+    }
+  ]
+}
+2025-09-24 01:03:39,969 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:03:39,969 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:03:39,969 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:03:41,085 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:03:41,085 - INFO - {
+  "relationships": [
+    {
+      "source": "product_pipe_systems",
+      "target": "factory_pleven_bulgaria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_valves",
+      "target": "factory_pleven_bulgaria",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_tanks",
+      "target": "factory_pleven_bulgaria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:03:41,085 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:03:41,086 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:03:41,086 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:03:41,171 - INFO - ✅ Updated Article ID: 68d2e7d16610d16cff96eae7 with 6 nodes and combined text.

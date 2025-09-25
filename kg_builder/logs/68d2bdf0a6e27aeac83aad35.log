@@ -1,0 +1,179 @@
+2025-09-23 17:42:06,424 - INFO - 🔍 Text length: 3481 characters
+2025-09-23 17:42:06,424 - INFO - 📌 Processing Article ID: 68d2bdf0a6e27aeac83aad35 — Next BMW X5 to launch with fuel cell option
+2025-09-23 17:42:06,424 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 17:42:09,985 - INFO - ✅ OpenAI returned output:
+2025-09-23 17:42:09,985 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_munich_germany",
+        "type": "factory",
+        "name": "Munich",
+        "location": {
+          "city": "Munich",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_steyr_austria",
+        "type": "factory",
+        "name": "Steyr",
+        "location": {
+          "city": "Steyr",
+          "country": "Austria"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_landshut_germany",
+        "type": "factory",
+        "name": "Landshut",
+        "location": {
+          "city": "Landshut",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_spartanburg_usa",
+        "type": "factory",
+        "name": "Spartanburg",
+        "location": {
+          "city": "Spartanburg",
+          "country": "USA"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ix5_hydrogen",
+        "type": "product",
+        "name": "iX5 Hydrogen"
+      },
+      {
+        "id": "product_x5",
+        "type": "product",
+        "name": "X5"
+      },
+      {
+        "id": "fuel_cell system",
+        "type": "product",
+        "name": "fuel cell system",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-23 17:42:09,986 - INFO - POST-PROCESSING STARTING.
+2025-09-23 17:42:09,986 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 17:42:09,986 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 17:42:09,986 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 17:42:09,986 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 17:42:12,272 - INFO - ✅ OpenAI returned output:
+2025-09-23 17:42:12,272 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ix5_hydrogen",
+      "product_lv1": "vehicle",
+      "product_lv2": "hydrogen"
+    },
+    {
+      "product_ID": "product_x5",
+      "product_lv1": "vehicle",
+      "product_lv2": "hydrogen"
+    },
+    {
+      "product_ID": "fuel_cell system",
+      "product_lv1": "hydrogen",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 17:42:12,272 - INFO - POST-PROCESSING STARTING.
+2025-09-23 17:42:12,272 - INFO - ✅ Match found for product_ID 'product_ix5_hydrogen' in product nodes
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv2': hydrogen
+2025-09-23 17:42:12,272 - INFO - ✅ Match found for product_ID 'product_x5' in product nodes
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv2': hydrogen
+2025-09-23 17:42:12,272 - INFO - ✅ Match found for product_ID 'fuel_cell system' in product nodes
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-23 17:42:12,272 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 17:42:12,272 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 17:42:12,272 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 17:42:12,272 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 17:42:14,190 - INFO - ✅ OpenAI returned output:
+2025-09-23 17:42:14,190 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_munich_germany"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_steyr_austria"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_landshut_germany"
+    },
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_spartanburg_usa"
+    }
+  ]
+}
+2025-09-23 17:42:14,190 - INFO - POST-PROCESSING STARTING.
+2025-09-23 17:42:14,190 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 17:42:14,190 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 17:42:19,100 - INFO - ✅ OpenAI returned output:
+2025-09-23 17:42:19,101 - INFO - {
+  "relationships": [
+    {
+      "source": "fuel_cell system",
+      "target": "factory_munich_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "fuel_cell system",
+      "target": "factory_steyr_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "fuel_cell system",
+      "target": "factory_landshut_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_x5",
+      "target": "factory_spartanburg_usa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 17:42:19,101 - INFO - POST-PROCESSING STARTING.
+2025-09-23 17:42:19,101 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 17:42:19,101 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 17:42:19,189 - INFO - ✅ Updated Article ID: 68d2bdf0a6e27aeac83aad35 with 9 nodes and combined text.

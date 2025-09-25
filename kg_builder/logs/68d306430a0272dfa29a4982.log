@@ -1,0 +1,238 @@
+2025-09-23 23:13:02,991 - INFO - 🔍 Text length: 2241 characters
+2025-09-23 23:13:02,991 - INFO - 📌 Processing Article ID: 68d306430a0272dfa29a4982 — Canada to invest C$1bn in Umicore plant
+2025-09-23 23:13:02,991 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:13:05,802 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:05,802 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_umicore",
+        "type": "company",
+        "name": "Umicore"
+      },
+      {
+        "id": "company_government_of_canada",
+        "type": "company",
+        "name": "Government of Canada"
+      },
+      {
+        "id": "company_government_of_ontario",
+        "type": "company",
+        "name": "Government of Ontario"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ottawa_canada",
+        "type": "factory",
+        "name": "Ottawa Battery Plant",
+        "location": {
+          "city": "Ottawa",
+          "country": "Canada"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_government_of_canada_ottawa_battery_plant",
+        "type": "investment",
+        "name": "Government of Canada Ottawa Battery Plant",
+        "amount": "C$551.3 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_government_of_ontario_ottawa_battery_plant",
+        "type": "investment",
+        "name": "Government of Ontario Ottawa Battery Plant",
+        "amount": "C$424.6 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_800k_evs_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "800,000 EVs per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_active_materials",
+        "type": "product",
+        "name": "cathode active materials (CAM)"
+      },
+      {
+        "id": "product_precursor_active_materials",
+        "type": "product",
+        "name": "precursor active materials (pCAM)"
+      }
+    ]
+  }
+}
+2025-09-23 23:13:05,802 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:05,802 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-23 23:13:05,802 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-23 23:13:06,826 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:06,826 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_800k_evs_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-23 23:13:06,826 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:06,826 - INFO - ✅ Match found for capacity_ID 'capacity_800k_evs_per_year' in capacity nodes
+2025-09-23 23:13:06,826 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:13:06,826 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-23 23:13:06,826 - INFO -   ➕ Set field 'additional': False
+2025-09-23 23:13:06,826 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-23 23:13:06,827 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-23 23:13:08,362 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:08,362 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_government_of_canada_ottawa_battery_plant",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_government_of_ontario_ottawa_battery_plant",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-23 23:13:08,362 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:08,362 - INFO - ✅ Match found for investment_ID 'investment_government_of_canada_ottawa_battery_plant' in investment nodes
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:13:08,362 - INFO - ✅ Match found for investment_ID 'investment_government_of_ontario_ottawa_battery_plant' in investment nodes
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'status': announced
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'phase': expansion
+2025-09-23 23:13:08,362 - INFO -   ➕ Set field 'is_total': True
+2025-09-23 23:13:08,362 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:13:08,362 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:13:10,000 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:10,000 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_active_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_precursor_active_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-23 23:13:10,000 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:10,000 - INFO - ✅ Match found for product_ID 'product_cathode_active_materials' in product nodes
+2025-09-23 23:13:10,000 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 23:13:10,000 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-23 23:13:10,001 - INFO - ✅ Match found for product_ID 'product_precursor_active_materials' in product nodes
+2025-09-23 23:13:10,001 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-23 23:13:10,001 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-23 23:13:10,001 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:13:10,001 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:13:10,001 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:13:10,942 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:10,943 - INFO - {
+  "relationships": [
+    {
+      "source": "company_umicore",
+      "type": "owns",
+      "target": "factory_ottawa_canada"
+    }
+  ]
+}
+2025-09-23 23:13:10,943 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:10,943 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:13:10,943 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:13:12,663 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:12,663 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_800k_evs_per_year",
+      "target": "product_cathode_active_materials",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_800k_evs_per_year",
+      "target": "product_precursor_active_materials",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cathode_active_materials",
+      "target": "factory_ottawa_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_precursor_active_materials",
+      "target": "factory_ottawa_canada",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_800k_evs_per_year",
+      "target": "factory_ottawa_canada",
+      "type": "at"
+    }
+  ]
+}
+2025-09-23 23:13:12,663 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:12,663 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-23 23:13:12,663 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-23 23:13:13,298 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:13,299 - INFO - {
+  "relationships": []
+}
+2025-09-23 23:13:13,299 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:13,299 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-23 23:13:13,299 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-23 23:13:17,069 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:13:17,069 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_government_of_canada_ottawa_battery_plant",
+      "target": "factory_ottawa_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_government_of_ontario_ottawa_battery_plant",
+      "target": "factory_ottawa_canada",
+      "type": "funds"
+    },
+    {
+      "source": "investment_government_of_canada_ottawa_battery_plant",
+      "target": "product_cathode_active_materials",
+      "type": "targets"
+    },
+    {
+      "source": "investment_government_of_canada_ottawa_battery_plant",
+      "target": "product_precursor_active_materials",
+      "type": "targets"
+    },
+    {
+      "source": "investment_government_of_ontario_ottawa_battery_plant",
+      "target": "product_cathode_active_materials",
+      "type": "targets"
+    },
+    {
+      "source": "investment_government_of_ontario_ottawa_battery_plant",
+      "target": "product_precursor_active_materials",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-23 23:13:17,069 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:13:17,168 - INFO - ✅ Updated Article ID: 68d306430a0272dfa29a4982 with 9 nodes and combined text.

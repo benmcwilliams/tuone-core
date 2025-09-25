@@ -90,6 +90,10 @@ df["project_key_tuple"] = list(zip(
 df["project_key_str"] = df["project_key_tuple"].apply(lambda t: "|".join(map(str, t)))
 df["project_id"] = df["project_key_str"].apply(lambda s: str(uuid.uuid5(NS, s)))
 df["article_id"] = "prod_DB"
+df["capacity_id"] = df.apply(
+    lambda row: f"{row['article_id']}_{row['project_id']}_{row['capacity_normalized']}", 
+    axis=1
+)
 
 # --- clean excel output ---
 

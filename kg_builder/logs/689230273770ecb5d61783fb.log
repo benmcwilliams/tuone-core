@@ -1,0 +1,132 @@
+2025-09-24 01:44:46,299 - INFO - 🔍 Text length: 1071 characters
+2025-09-24 01:44:46,300 - INFO - 📌 Processing Article ID: 689230273770ecb5d61783fb — LiCAP Technologies Commissions Dry Coating Line for Battery Cathodes
+2025-09-24 01:44:46,300 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:44:48,151 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:44:48,151 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_licap_technologies",
+        "type": "company",
+        "name": "LiCAP Technologies"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dry_coating_line",
+        "type": "factory",
+        "name": "dry coating line",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_mwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 MWh per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dry_coatings",
+        "type": "product",
+        "name": "dry coatings"
+      },
+      {
+        "id": "product_cathode_film",
+        "type": "product",
+        "name": "cathode film"
+      }
+    ]
+  }
+}
+2025-09-24 01:44:48,151 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:44:48,151 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:44:48,151 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:44:49,058 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:44:49,059 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_mwh_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:44:49,059 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:44:49,059 - INFO - ✅ Match found for capacity_ID 'capacity_300_mwh_per_year' in capacity nodes
+2025-09-24 01:44:49,059 - INFO -   ➕ Set field 'status': operational
+2025-09-24 01:44:49,059 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:44:49,059 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:44:49,059 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 01:44:49,059 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:44:49,059 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:44:50,475 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:44:50,475 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_dry_coatings",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_cathode_film",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:44:50,475 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:44:50,475 - INFO - ✅ Match found for product_ID 'product_dry_coatings' in product nodes
+2025-09-24 01:44:50,475 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:44:50,475 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 01:44:50,475 - INFO - ✅ Match found for product_ID 'product_cathode_film' in product nodes
+2025-09-24 01:44:50,475 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:44:50,475 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:44:50,475 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:44:50,476 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:44:50,476 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:44:51,392 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:44:51,392 - INFO - {
+  "relationships": [
+    {
+      "source": "company_licap_technologies",
+      "type": "owns",
+      "target": "factory_dry_coating_line"
+    }
+  ]
+}
+2025-09-24 01:44:51,392 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:44:51,392 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:44:51,392 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:44:52,855 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:44:52,856 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_mwh_per_year",
+      "target": "factory_dry_coating_line",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_mwh_per_year",
+      "target": "product_dry_coatings",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_dry_coatings",
+      "target": "factory_dry_coating_line",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:44:52,856 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:44:52,856 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 01:44:52,856 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 01:44:52,947 - INFO - ✅ Updated Article ID: 689230273770ecb5d61783fb with 5 nodes and combined text.

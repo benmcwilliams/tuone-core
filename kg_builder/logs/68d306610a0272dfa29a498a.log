@@ -1,0 +1,108 @@
+2025-09-23 23:11:28,510 - INFO - 🔍 Text length: 9860 characters
+2025-09-23 23:11:28,510 - INFO - 📌 Processing Article ID: 68d306610a0272dfa29a498a — From landfill to automobile: The introduction of bio-based ‘plastic’
+2025-09-23 23:11:28,510 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 23:11:31,523 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:31,523 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ubq_materials",
+        "type": "company",
+        "name": "UBQ Materials"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_israel",
+        "type": "factory",
+        "name": "UBQ Plant",
+        "location": {
+          "city": "null",
+          "country": "Israel"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_netherlands",
+        "type": "factory",
+        "name": "UBQ Plant",
+        "location": {
+          "city": "null",
+          "country": "Netherlands"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ubq_material",
+        "type": "product",
+        "name": "UBQ material"
+      }
+    ]
+  }
+}
+2025-09-23 23:11:31,523 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:31,523 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 23:11:31,523 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 23:11:31,524 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 23:11:31,524 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 23:11:32,809 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:32,809 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ubq_material",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-23 23:11:32,809 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:32,809 - INFO - ✅ Match found for product_ID 'product_ubq_material' in product nodes
+2025-09-23 23:11:32,809 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-23 23:11:32,809 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-23 23:11:32,809 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 23:11:32,809 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 23:11:32,809 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 23:11:34,319 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:34,320 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ubq_materials",
+      "type": "owns",
+      "target": "factory_israel"
+    },
+    {
+      "source": "company_ubq_materials",
+      "type": "owns",
+      "target": "factory_netherlands"
+    }
+  ]
+}
+2025-09-23 23:11:34,320 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:34,320 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 23:11:34,320 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 23:11:35,687 - INFO - ✅ OpenAI returned output:
+2025-09-23 23:11:35,687 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ubq_material",
+      "target": "factory_israel",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ubq_material",
+      "target": "factory_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 23:11:35,687 - INFO - POST-PROCESSING STARTING.
+2025-09-23 23:11:35,687 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 23:11:35,687 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 23:11:35,785 - INFO - ✅ Updated Article ID: 68d306610a0272dfa29a498a with 5 nodes and combined text.

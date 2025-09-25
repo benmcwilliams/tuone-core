@@ -1,0 +1,235 @@
+2025-09-25 03:10:46,816 - INFO - 🔍 Text length: 2323 characters
+2025-09-25 03:10:46,816 - INFO - 📌 Processing Article ID: 68d3beef3e609fb288d7c4d5 — Siemens to invest US$500 million in US manufacturing 2023
+2025-09-25 03:10:46,816 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:10:51,800 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:51,800 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_siemens",
+        "type": "company",
+        "name": "Siemens"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fort_worth",
+        "type": "factory",
+        "name": "Fort Worth Facility",
+        "location": {
+          "city": "Fort Worth",
+          "country": "United States"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_dallas_fort_worth",
+        "type": "factory",
+        "name": "Dallas-Fort Worth Plant",
+        "location": {
+          "city": "Dallas-Fort Worth",
+          "country": "United States"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_grand_prairie",
+        "type": "factory",
+        "name": "Grand Prairie Plant",
+        "location": {
+          "city": "Grand Prairie",
+          "country": "United States"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_pomona",
+        "type": "factory",
+        "name": "Pomona Plant",
+        "location": {
+          "city": "Pomona",
+          "country": "United States"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_lexington_north_carolina",
+        "type": "factory",
+        "name": "Lexington Rail Facility",
+        "location": {
+          "city": "Lexington",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_siemens_usd_150_million_dallas_fort_worth",
+        "type": "investment",
+        "name": "Siemens US$150 million Dallas-Fort Worth",
+        "amount": "US$150 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_siemens_usd_220_million_lexington_north_carolina",
+        "type": "investment",
+        "name": "Siemens US$220 million Lexington North Carolina",
+        "amount": "US$220 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrical_equipment",
+        "type": "product",
+        "name": "electrical equipment"
+      },
+      {
+        "id": "product_rail_manufacturing",
+        "type": "product",
+        "name": "rail manufacturing"
+      }
+    ]
+  }
+}
+2025-09-25 03:10:51,800 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:51,800 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 03:10:51,800 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 03:10:51,800 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 03:10:53,477 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:53,477 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_siemens_usd_150_million_dallas_fort_worth",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_siemens_usd_220_million_lexington_north_carolina",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 03:10:53,477 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:53,478 - INFO - ✅ Match found for investment_ID 'investment_siemens_usd_150_million_dallas_fort_worth' in investment nodes
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'status': completed
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 03:10:53,478 - INFO - ✅ Match found for investment_ID 'investment_siemens_usd_220_million_lexington_north_carolina' in investment nodes
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'status': announced
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 03:10:53,478 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 03:10:53,478 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:10:53,478 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:10:55,015 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:55,015 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electrical_equipment",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_rail_manufacturing",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 03:10:55,015 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:55,015 - INFO - ✅ Match found for product_ID 'product_electrical_equipment' in product nodes
+2025-09-25 03:10:55,015 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 03:10:55,015 - INFO - ✅ Match found for product_ID 'product_rail_manufacturing' in product nodes
+2025-09-25 03:10:55,015 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 03:10:55,015 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:10:55,015 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:10:55,015 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:10:57,164 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:57,165 - INFO - {
+  "relationships": [
+    {
+      "source": "company_siemens",
+      "type": "owns",
+      "target": "factory_fort_worth"
+    },
+    {
+      "source": "company_siemens",
+      "type": "owns",
+      "target": "factory_dallas_fort_worth"
+    },
+    {
+      "source": "company_siemens",
+      "type": "owns",
+      "target": "factory_grand_prairie"
+    },
+    {
+      "source": "company_siemens",
+      "type": "owns",
+      "target": "factory_pomona"
+    },
+    {
+      "source": "company_siemens",
+      "type": "owns",
+      "target": "factory_lexington_north_carolina"
+    }
+  ]
+}
+2025-09-25 03:10:57,165 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:57,165 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:10:57,165 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:10:58,598 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:58,599 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electrical_equipment",
+      "target": "factory_dallas_fort_worth",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rail_manufacturing",
+      "target": "factory_lexington_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 03:10:58,599 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:58,599 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 03:10:58,599 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 03:10:59,724 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:10:59,724 - INFO - {
+  "relationships": []
+}
+2025-09-25 03:10:59,724 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:10:59,724 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 03:10:59,724 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 03:11:03,104 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:11:03,104 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_siemens_usd_150_million_dallas_fort_worth",
+      "type": "funds",
+      "target": "factory_dallas_fort_worth"
+    },
+    {
+      "source": "investment_siemens_usd_150_million_dallas_fort_worth",
+      "type": "targets",
+      "target": "product_electrical_equipment"
+    },
+    {
+      "source": "investment_siemens_usd_220_million_lexington_north_carolina",
+      "type": "funds",
+      "target": "factory_lexington_north_carolina"
+    },
+    {
+      "source": "investment_siemens_usd_220_million_lexington_north_carolina",
+      "type": "targets",
+      "target": "product_rail_manufacturing"
+    }
+  ]
+}
+2025-09-25 03:11:03,104 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:11:03,194 - INFO - ✅ Updated Article ID: 68d3beef3e609fb288d7c4d5 with 10 nodes and combined text.

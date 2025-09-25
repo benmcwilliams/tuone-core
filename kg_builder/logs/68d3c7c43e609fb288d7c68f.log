@@ -1,0 +1,214 @@
+2025-09-25 01:34:16,477 - INFO - 🔍 Text length: 5228 characters
+2025-09-25 01:34:16,477 - INFO - 📌 Processing Article ID: 68d3c7c43e609fb288d7c68f — Hyundai-Kia aims to be top three EV player by 2030
+2025-09-25 01:34:16,477 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:34:18,729 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:18,729 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor",
+        "type": "company",
+        "name": "Hyundai Motor"
+      },
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      },
+      {
+        "id": "company_hyundai_mobis",
+        "type": "company",
+        "name": "Hyundai Mobis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kia_pbv_plant",
+        "type": "factory",
+        "name": "Kia PBV Plant",
+        "location": {
+          "city": "null",
+          "country": "Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hyundai_kia_ev_sector",
+        "type": "investment",
+        "name": "Hyundai Kia EV Sector",
+        "amount": "KRW 24 trillion (approximately USD 18 billion)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_51m_units_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.51 million units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev9",
+        "type": "product",
+        "name": "EV9"
+      },
+      {
+        "id": "product_ioniq_7",
+        "type": "product",
+        "name": "IONIQ 7"
+      },
+      {
+        "id": "product_pbv",
+        "type": "product",
+        "name": "purpose-built vehicle (PBV)"
+      }
+    ]
+  }
+}
+2025-09-25 01:34:18,729 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:18,729 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:34:18,729 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:34:19,968 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:19,969 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_51m_units_per_year_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:34:19,969 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:19,969 - INFO - ✅ Match found for capacity_ID 'capacity_1_51m_units_per_year_announced' in capacity nodes
+2025-09-25 01:34:19,969 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:34:19,969 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 01:34:19,969 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:34:19,969 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:34:19,969 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:34:21,492 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:21,492 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hyundai_kia_ev_sector",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:34:21,492 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:21,492 - INFO - ✅ Match found for investment_ID 'investment_hyundai_kia_ev_sector' in investment nodes
+2025-09-25 01:34:21,492 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:34:21,492 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 01:34:21,493 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:34:21,493 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:34:21,493 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:34:23,334 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:23,334 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev9",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ioniq_7",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_pbv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:34:23,334 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:23,334 - INFO - ✅ Match found for product_ID 'product_ev9' in product nodes
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:34:23,334 - INFO - ✅ Match found for product_ID 'product_ioniq_7' in product nodes
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:34:23,334 - INFO - ✅ Match found for product_ID 'product_pbv' in product nodes
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:34:23,334 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:34:23,334 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:34:23,334 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:34:23,334 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:34:24,258 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:24,258 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_kia_pbv_plant"
+    }
+  ]
+}
+2025-09-25 01:34:24,258 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:24,258 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:34:24,258 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:34:27,943 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:27,943 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_51m_units_per_year_announced",
+      "target": "factory_kia_pbv_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_51m_units_per_year_announced",
+      "target": "product_ev9",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1_51m_units_per_year_announced",
+      "target": "product_ioniq_7",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev9",
+      "target": "factory_kia_pbv_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ioniq_7",
+      "target": "factory_kia_pbv_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pbv",
+      "target": "factory_kia_pbv_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:34:27,943 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:27,943 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:34:27,943 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:34:28,559 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:28,559 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:34:28,559 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:28,559 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:34:28,559 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:34:29,683 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:29,684 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hyundai_kia_ev_sector",
+      "type": "funds",
+      "target": "factory_kia_pbv_plant"
+    }
+  ]
+}
+2025-09-25 01:34:29,684 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:29,783 - INFO - ✅ Updated Article ID: 68d3c7c43e609fb288d7c68f with 9 nodes and combined text.

@@ -1,0 +1,173 @@
+2025-09-24 01:31:32,751 - INFO - 🔍 Text length: 1157 characters
+2025-09-24 01:31:32,751 - INFO - 📌 Processing Article ID: 689231823770ecb5d6178454 — AESC Receives Government Guarantees for Gigafactory in Sunderland
+2025-09-24 01:31:32,751 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:31:34,425 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:34,425 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aesc",
+        "type": "company",
+        "name": "AESC"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sunderland",
+        "type": "factory",
+        "name": "Sunderland Gigafactory",
+        "location": {
+          "city": "Sunderland",
+          "country": "United Kingdom"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sunderland_gigafactory",
+        "type": "investment",
+        "name": "Sunderland Gigafactory",
+        "amount": "1.2 billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_12_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "12 gigawatt-hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 01:31:34,425 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:34,426 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 01:31:34,426 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 01:31:35,384 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:35,384 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_12_gwh_announced",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 01:31:35,384 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:35,384 - INFO - ✅ Match found for capacity_ID 'capacity_12_gwh_announced' in capacity nodes
+2025-09-24 01:31:35,384 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 01:31:35,384 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:31:35,384 - INFO -   ➕ Set field 'additional': False
+2025-09-24 01:31:35,384 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:31:35,384 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:31:36,213 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:36,213 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sunderland_gigafactory",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:31:36,213 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:36,213 - INFO - ✅ Match found for investment_ID 'investment_sunderland_gigafactory' in investment nodes
+2025-09-24 01:31:36,213 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 01:31:36,213 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:31:36,213 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:31:36,213 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:31:36,213 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:31:37,603 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:37,603 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:31:37,603 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:37,603 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 01:31:37,603 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:31:37,603 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:31:37,603 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:31:37,603 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:31:37,603 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:31:38,846 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:38,846 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aesc",
+      "type": "owns",
+      "target": "factory_sunderland"
+    }
+  ]
+}
+2025-09-24 01:31:38,846 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:38,846 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:31:38,846 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:31:40,453 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:40,453 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_12_gwh_announced",
+      "target": "factory_sunderland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_12_gwh_announced",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_sunderland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:31:40,453 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:40,453 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:31:40,453 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:31:41,065 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:41,066 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:31:41,066 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:41,066 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:31:41,066 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:31:43,114 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:31:43,114 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sunderland_gigafactory",
+      "target": "factory_sunderland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sunderland_gigafactory",
+      "target": "capacity_12_gwh_announced",
+      "type": "enables"
+    },
+    {
+      "source": "investment_sunderland_gigafactory",
+      "target": "product_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:31:43,114 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:31:43,202 - INFO - ✅ Updated Article ID: 689231823770ecb5d6178454 with 5 nodes and combined text.

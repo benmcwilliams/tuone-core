@@ -66,6 +66,17 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         else:
             capacity = latest["capacity"]
 
+    # # ---- Investment logic ----
+    # inv_rows = [c for c in phase_caps if c.get("event_type") == "investment" and c.get("investment") is not None]
+    # inv_rows.sort(key=lambda c: parse_date(c["date"]), reverse=True)
+    # investment = None
+    # if inv_rows:
+    #     latest = inv_rows[0]
+    #     if latest.get("is_total") is False and prev_investment is not None:
+    #         investment = prev_investment + latest["investment"]
+    #     else:
+    #         investment = latest["investment"]
+
     summary = {
         "status": best["status"],
         "capacity": capacity,

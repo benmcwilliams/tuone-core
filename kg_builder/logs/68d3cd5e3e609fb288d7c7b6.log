@@ -1,0 +1,204 @@
+2025-09-25 00:33:39,127 - INFO - 🔍 Text length: 1837 characters
+2025-09-25 00:33:39,127 - INFO - 📌 Processing Article ID: 68d3cd5e3e609fb288d7c7b6 — BMW Mini plant will build EVs – report
+2025-09-25 00:33:39,127 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:33:42,004 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:42,004 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_bmw_great_wall_motor",
+        "type": "joint_venture",
+        "name": "BMW Great Wall Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cowley_oxford",
+        "type": "factory",
+        "name": "Cowley Plant",
+        "location": {
+          "city": "Cowley, near Oxford",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_leipzig_germany",
+        "type": "factory",
+        "name": "Leipzig Plant",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_cowley_plant",
+        "type": "investment",
+        "name": "BMW Cowley Plant",
+        "amount": "GBP600m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_automotive_transformation_fund_bmw",
+        "type": "investment",
+        "name": "Automotive Transformation Fund - BMW",
+        "amount": "GBP75m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_mini",
+        "type": "product",
+        "name": "Electric Mini"
+      },
+      {
+        "id": "product_countryman",
+        "type": "product",
+        "name": "Countryman"
+      }
+    ]
+  }
+}
+2025-09-25 00:33:42,004 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:42,004 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:33:42,004 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 00:33:42,004 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 00:33:43,231 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:43,231 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_cowley_plant",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_automotive_transformation_fund_bmw",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 00:33:43,231 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:43,231 - INFO - ✅ Match found for investment_ID 'investment_bmw_cowley_plant' in investment nodes
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:33:43,232 - INFO - ✅ Match found for investment_ID 'investment_automotive_transformation_fund_bmw' in investment nodes
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 00:33:43,232 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 00:33:43,232 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:33:43,232 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:33:45,031 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:45,031 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_mini",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_countryman",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:33:45,031 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:45,031 - INFO - ✅ Match found for product_ID 'product_electric_mini' in product nodes
+2025-09-25 00:33:45,031 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:33:45,031 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:33:45,031 - INFO - ✅ Match found for product_ID 'product_countryman' in product nodes
+2025-09-25 00:33:45,031 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:33:45,031 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:33:45,032 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:33:45,032 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:33:45,032 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:33:46,405 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:46,406 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_cowley_oxford"
+    },
+    {
+      "source": "company_bmw",
+      "type": "forms",
+      "target": "joint_venture_bmw_great_wall_motor"
+    },
+    {
+      "source": "company_great_wall_motor",
+      "type": "forms",
+      "target": "joint_venture_bmw_great_wall_motor"
+    },
+    {
+      "source": "joint_venture_bmw_great_wall_motor",
+      "type": "owns",
+      "target": "factory_leipzig_germany"
+    }
+  ]
+}
+2025-09-25 00:33:46,406 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:46,406 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:33:46,406 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:33:48,045 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:48,045 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_mini",
+      "target": "factory_cowley_oxford",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_countryman",
+      "target": "factory_leipzig_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:33:48,045 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:48,045 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 00:33:48,045 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 00:33:48,659 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:48,659 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:33:48,659 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:48,659 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 00:33:48,659 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 00:33:49,685 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:33:49,686 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_cowley_plant",
+      "target": "factory_cowley_oxford",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmw_cowley_plant",
+      "target": "product_electric_mini",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 00:33:49,686 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:33:49,792 - INFO - ✅ Updated Article ID: 68d3cd5e3e609fb288d7c7b6 with 9 nodes and combined text.

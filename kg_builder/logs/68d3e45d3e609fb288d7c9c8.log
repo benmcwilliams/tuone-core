@@ -1,0 +1,169 @@
+2025-09-24 22:32:24,012 - INFO - 🔍 Text length: 3858 characters
+2025-09-24 22:32:24,012 - INFO - 📌 Processing Article ID: 68d3e45d3e609fb288d7c9c8 — U.S. Battery Industry Pushes for Innovation and Flexibility
+2025-09-24 22:32:24,012 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:32:26,562 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:26,562 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_spectrapower",
+        "type": "company",
+        "name": "SpectraPower"
+      },
+      {
+        "id": "company_smud",
+        "type": "company",
+        "name": "SMUD"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fraunhofer_ffb",
+        "type": "factory",
+        "name": "Fraunhofer FFB",
+        "location": {
+          "city": "M\u00fcnster",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_sacramento_california",
+        "type": "factory",
+        "name": "Sacramento Battery Production Facility",
+        "location": {
+          "city": "Sacramento",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_california_epic_4",
+        "type": "investment",
+        "name": "California EPIC 4",
+        "amount": "20 million dollars",
+        "status": "announced"
+      },
+      {
+        "id": "investment_fraunhofer_ffb",
+        "type": "investment",
+        "name": "Fraunhofer FFB Expansion",
+        "amount": "680 million euros",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_technology",
+        "type": "product",
+        "name": "battery technology"
+      }
+    ]
+  }
+}
+2025-09-24 22:32:26,562 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:26,562 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:32:26,562 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:32:26,562 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:32:29,735 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:29,735 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_california_epic_4",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_fraunhofer_ffb",
+      "status": "unclear",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 22:32:29,735 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:29,735 - INFO - ✅ Match found for investment_ID 'investment_california_epic_4' in investment nodes
+2025-09-24 22:32:29,735 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:32:29,736 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:32:29,736 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 22:32:29,736 - INFO - ✅ Match found for investment_ID 'investment_fraunhofer_ffb' in investment nodes
+2025-09-24 22:32:29,736 - INFO -   ➕ Set field 'status': unclear
+2025-09-24 22:32:29,736 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 22:32:29,736 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 22:32:29,736 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:32:29,736 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:32:31,781 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:31,782 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_technology",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:32:31,782 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:31,782 - INFO - ✅ Match found for product_ID 'product_battery_technology' in product nodes
+2025-09-24 22:32:31,782 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:32:31,782 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:32:31,782 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:32:31,782 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:32:31,782 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:32:33,113 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:33,113 - INFO - {
+  "relationships": [
+    {
+      "source": "company_spectrapower",
+      "type": "owns",
+      "target": "factory_fraunhofer_ffb"
+    },
+    {
+      "source": "company_spectrapower",
+      "type": "owns",
+      "target": "factory_sacramento_california"
+    }
+  ]
+}
+2025-09-24 22:32:33,113 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:33,113 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:32:33,113 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:32:34,751 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:34,751 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_technology",
+      "target": "factory_fraunhofer_ffb",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_technology",
+      "target": "factory_sacramento_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:32:34,751 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:34,752 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:32:34,752 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:32:35,469 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:35,469 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:32:35,469 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:35,469 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:32:35,469 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:32:36,492 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:32:36,492 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_california_epic_4",
+      "type": "targets",
+      "target": "product_battery_technology"
+    }
+  ]
+}
+2025-09-24 22:32:36,492 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:32:36,581 - INFO - ✅ Updated Article ID: 68d3e45d3e609fb288d7c9c8 with 7 nodes and combined text.

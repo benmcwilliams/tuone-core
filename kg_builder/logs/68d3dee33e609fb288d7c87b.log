@@ -1,0 +1,105 @@
+2025-09-24 23:53:56,430 - INFO - 🔍 Text length: 1527 characters
+2025-09-24 23:53:56,430 - INFO - 📌 Processing Article ID: 68d3dee33e609fb288d7c87b — Honda cuts output plan on supply chain issues
+2025-09-24 23:53:56,430 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:53:58,266 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:53:58,266 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda",
+        "type": "company",
+        "name": "Honda"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_suzuka",
+        "type": "factory",
+        "name": "Suzuka",
+        "location": {
+          "city": "Suzuka",
+          "country": "Japan"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_saitama",
+        "type": "factory",
+        "name": "Saitama",
+        "location": {
+          "city": "Saitama",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vezel_sport_utility_vehicle",
+        "type": "product",
+        "name": "Vezel sport utility vehicle"
+      },
+      {
+        "id": "product_land_cruiser",
+        "type": "product",
+        "name": "Land Cruiser"
+      }
+    ]
+  }
+}
+2025-09-24 23:53:58,266 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:53:58,266 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:53:58,266 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:53:58,266 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:53:58,266 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:53:59,805 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:53:59,805 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vezel_sport_utility_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_land_cruiser",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:53:59,805 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:53:59,805 - INFO - ✅ Match found for product_ID 'product_vezel_sport_utility_vehicle' in product nodes
+2025-09-24 23:53:59,805 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:53:59,805 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:53:59,805 - INFO - ✅ Match found for product_ID 'product_land_cruiser' in product nodes
+2025-09-24 23:53:59,805 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:53:59,805 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:53:59,805 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:53:59,805 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:53:59,805 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:54:00,928 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:54:00,928 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_suzuka"
+    },
+    {
+      "source": "company_honda",
+      "type": "owns",
+      "target": "factory_saitama"
+    }
+  ]
+}
+2025-09-24 23:54:00,928 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:54:00,928 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:54:00,928 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:54:01,524 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:54:01,524 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:54:01,524 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:54:01,525 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:54:01,525 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:54:01,608 - INFO - ✅ Updated Article ID: 68d3dee33e609fb288d7c87b with 5 nodes and combined text.

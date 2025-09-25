@@ -1,0 +1,108 @@
+2025-09-24 22:28:05,425 - INFO - 🔍 Text length: 1429 characters
+2025-09-24 22:28:05,425 - INFO - 📌 Processing Article ID: 68d3e4953e609fb288d7c9dc — SK On plant intelligente Batterieproduktion
+2025-09-24 22:28:05,426 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:28:08,409 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:28:08,409 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      },
+      {
+        "id": "company_beckhoff_automation",
+        "type": "company",
+        "name": "Beckhoff Automation"
+      },
+      {
+        "id": "company_cisco",
+        "type": "company",
+        "name": "Cisco"
+      },
+      {
+        "id": "company_ifm_electronic",
+        "type": "company",
+        "name": "IFM Electronic"
+      },
+      {
+        "id": "company_yaskawa_electric_korea",
+        "type": "company",
+        "name": "Yaskawa Electric Korea"
+      },
+      {
+        "id": "company_woowon_technology",
+        "type": "company",
+        "name": "Woowon Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_seosan_south_korea",
+        "type": "factory",
+        "name": "Werk 3",
+        "location": {
+          "city": "Seosan",
+          "country": "South Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_production",
+        "type": "product",
+        "name": "Steuerungs- und Kommunikationssysteme"
+      }
+    ]
+  }
+}
+2025-09-24 22:28:08,409 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:28:08,409 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:28:08,409 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:28:08,409 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:28:08,410 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:28:09,635 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:28:09,635 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_production",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:28:09,635 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:28:09,636 - INFO - ✅ Match found for product_ID 'product_battery_production' in product nodes
+2025-09-24 22:28:09,636 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:28:09,636 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:28:09,636 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:28:09,636 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:28:09,636 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:28:11,376 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:28:11,377 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_seosan_south_korea"
+    }
+  ]
+}
+2025-09-24 22:28:11,377 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:28:11,377 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:28:11,377 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:28:12,365 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:28:12,365 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_production",
+      "target": "factory_seosan_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:28:12,365 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:28:12,365 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:28:12,365 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:28:12,453 - INFO - ✅ Updated Article ID: 68d3e4953e609fb288d7c9dc with 8 nodes and combined text.

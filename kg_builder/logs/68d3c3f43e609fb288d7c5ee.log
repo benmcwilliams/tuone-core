@@ -1,0 +1,49 @@
+2025-09-25 02:07:49,074 - INFO - 🔍 Text length: 2288 characters
+2025-09-25 02:07:49,074 - INFO - 📌 Processing Article ID: 68d3c3f43e609fb288d7c5ee — VW denies China human rights claims
+2025-09-25 02:07:49,074 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:07:50,255 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:07:50,255 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_urumqi_china",
+        "type": "factory",
+        "name": "Urumqi Plant",
+        "location": {
+          "city": "Urumqi",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-09-25 02:07:50,255 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:07:50,255 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:07:50,255 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:07:50,255 - INFO - ⏭️ Skipping products – no nodes of type 'product' found.
+2025-09-25 02:07:50,256 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:07:50,256 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:07:50,256 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:07:51,230 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:07:51,230 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_urumqi_china"
+    }
+  ]
+}
+2025-09-25 02:07:51,230 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:07:51,230 - INFO - 🛑 Skipping technological: required nodes ['product', 'capacity'] not present.
+2025-09-25 02:07:51,230 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:07:51,230 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:07:51,314 - INFO - ✅ Updated Article ID: 68d3c3f43e609fb288d7c5ee with 2 nodes and combined text.

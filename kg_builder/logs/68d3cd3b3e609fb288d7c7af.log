@@ -1,0 +1,147 @@
+2025-09-25 00:34:58,054 - INFO - 🔍 Text length: 1749 characters
+2025-09-25 00:34:58,054 - INFO - 📌 Processing Article ID: 68d3cd3b3e609fb288d7c7af — Comau supplies welding system to Chinese BEV maker
+2025-09-25 00:34:58,054 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:35:00,647 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:00,647 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_comau",
+        "type": "company",
+        "name": "Comau"
+      },
+      {
+        "id": "company_hycan_automotive_technology",
+        "type": "company",
+        "name": "Hycan Automotive Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hangzhou",
+        "type": "factory",
+        "name": "Hangzhou",
+        "location": {
+          "city": "Hangzhou",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "200,000 units per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bev_a06_sedan",
+        "type": "product",
+        "name": "BEV A06 sedan"
+      },
+      {
+        "id": "product_z03_suv",
+        "type": "product",
+        "name": "Z03 SUV"
+      }
+    ]
+  }
+}
+2025-09-25 00:35:00,647 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:00,647 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 00:35:00,647 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 00:35:01,981 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:01,981 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200k_units_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 00:35:01,981 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:01,981 - INFO - ✅ Match found for capacity_ID 'capacity_200k_units_per_year' in capacity nodes
+2025-09-25 00:35:01,981 - INFO -   ➕ Set field 'status': operational
+2025-09-25 00:35:01,981 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 00:35:01,981 - INFO -   ➕ Set field 'additional': False
+2025-09-25 00:35:01,981 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:35:01,981 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:35:01,981 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:35:03,515 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:03,515 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bev_a06_sedan",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_z03_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:35:03,515 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:03,515 - INFO - ✅ Match found for product_ID 'product_bev_a06_sedan' in product nodes
+2025-09-25 00:35:03,515 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:35:03,515 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:35:03,515 - INFO - ✅ Match found for product_ID 'product_z03_suv' in product nodes
+2025-09-25 00:35:03,515 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:35:03,515 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:35:03,515 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:35:03,515 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:35:03,516 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:35:04,539 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:04,540 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hycan_automotive_technology",
+      "type": "owns",
+      "target": "factory_hangzhou"
+    }
+  ]
+}
+2025-09-25 00:35:04,540 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:04,540 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:35:04,540 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:35:06,077 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:06,077 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200k_units_per_year",
+      "target": "factory_hangzhou",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200k_units_per_year",
+      "target": "product_bev_a06_sedan",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_200k_units_per_year",
+      "target": "product_z03_suv",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_bev_a06_sedan",
+      "target": "factory_hangzhou",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_z03_suv",
+      "target": "factory_hangzhou",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:35:06,077 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:06,077 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:35:06,077 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:35:06,174 - INFO - ✅ Updated Article ID: 68d3cd3b3e609fb288d7c7af with 6 nodes and combined text.

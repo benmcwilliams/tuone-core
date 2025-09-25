@@ -1,0 +1,157 @@
+2025-09-24 22:50:59,881 - INFO - 🔍 Text length: 1331 characters
+2025-09-24 22:50:59,881 - INFO - 📌 Processing Article ID: 68d3e2db3e609fb288d7c961 — Silicon Anodes: PEM and Nanoloy Collaborate
+2025-09-24 22:50:59,881 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:51:03,066 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:51:03,066 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rwth_aachen_university",
+        "type": "company",
+        "name": "RWTH Aachen University"
+      },
+      {
+        "id": "company_pem_motion",
+        "type": "company",
+        "name": "PEM Motion"
+      },
+      {
+        "id": "company_nanoloy",
+        "type": "company",
+        "name": "Nanoloy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_electric_mobility_laboratory",
+        "type": "factory",
+        "name": "Electric Mobility Laboratory",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_eu_gigawatt_hour",
+        "type": "factory",
+        "name": "EU Gigawatt Hour",
+        "location": {
+          "city": "null",
+          "country": "EU"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_ten_gigawatt_hour",
+        "type": "capacity",
+        "name": "",
+        "amount": "ten gigawatt-hour",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_silicon_anodes",
+        "type": "product",
+        "name": "silicon anodes"
+      },
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-09-24 22:51:03,066 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:51:03,067 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:51:03,067 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:51:03,987 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:51:03,987 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_ten_gigawatt_hour",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:51:03,987 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:51:03,987 - INFO - ✅ Match found for capacity_ID 'capacity_ten_gigawatt_hour' in capacity nodes
+2025-09-24 22:51:03,987 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:51:03,987 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:51:03,987 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:51:03,987 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:51:03,987 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:51:03,987 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:51:06,159 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:51:06,159 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_silicon_anodes",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:51:06,159 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:51:06,159 - INFO - ✅ Match found for product_ID 'product_silicon_anodes' in product nodes
+2025-09-24 22:51:06,159 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:51:06,159 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:51:06,159 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-09-24 22:51:06,159 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:51:06,159 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:51:06,159 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:51:06,159 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:51:06,159 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:51:07,879 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:51:07,879 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rwth_aachen_university",
+      "type": "owns",
+      "target": "factory_electric_mobility_laboratory"
+    },
+    {
+      "source": "company_nanoloy",
+      "type": "owns",
+      "target": "factory_eu_gigawatt_hour"
+    }
+  ]
+}
+2025-09-24 22:51:07,879 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:51:07,879 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:51:07,879 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:51:09,824 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:51:09,824 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_ten_gigawatt_hour",
+      "target": "factory_eu_gigawatt_hour",
+      "type": "at"
+    },
+    {
+      "source": "capacity_ten_gigawatt_hour",
+      "target": "product_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_eu_gigawatt_hour",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:51:09,824 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:51:09,824 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:51:09,824 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:51:09,919 - INFO - ✅ Updated Article ID: 68d3e2db3e609fb288d7c961 with 8 nodes and combined text.

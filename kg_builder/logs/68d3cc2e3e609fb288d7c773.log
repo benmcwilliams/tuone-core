@@ -1,0 +1,83 @@
+2025-09-25 00:48:11,269 - INFO - 🔍 Text length: 2343 characters
+2025-09-25 00:48:11,269 - INFO - 📌 Processing Article ID: 68d3cc2e3e609fb288d7c773 — Polestar opens dedicated design studio in Gothenburg
+2025-09-25 00:48:11,269 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:48:12,707 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:48:12,707 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_polestar",
+        "type": "company",
+        "name": "Polestar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gothenburg_sweden",
+        "type": "factory",
+        "name": "Gothenburg Design Studio",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polestar_3",
+        "type": "product",
+        "name": "Polestar 3"
+      }
+    ]
+  }
+}
+2025-09-25 00:48:12,708 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:48:12,708 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:48:12,708 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:48:12,708 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:48:12,708 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:48:14,038 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:48:14,039 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_polestar_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:48:14,039 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:48:14,039 - INFO - ✅ Match found for product_ID 'product_polestar_3' in product nodes
+2025-09-25 00:48:14,039 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:48:14,039 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:48:14,039 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:48:14,039 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:48:14,039 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:48:14,958 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:48:14,958 - INFO - {
+  "relationships": [
+    {
+      "source": "company_polestar",
+      "type": "owns",
+      "target": "factory_gothenburg_sweden"
+    }
+  ]
+}
+2025-09-25 00:48:14,958 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:48:14,958 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:48:14,959 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:48:15,881 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:48:15,881 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polestar_3",
+      "target": "factory_gothenburg_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:48:15,881 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:48:15,882 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:48:15,882 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:48:15,968 - INFO - ✅ Updated Article ID: 68d3cc2e3e609fb288d7c773 with 3 nodes and combined text.

@@ -1,0 +1,132 @@
+2025-09-24 01:19:56,851 - INFO - 🔍 Text length: 1227 characters
+2025-09-24 01:19:56,851 - INFO - 📌 Processing Article ID: 68cbbd95b69105950303b35d — DEKRA Opens Battery Testing Center in Klettwitz
+2025-09-24 01:19:56,851 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 01:19:58,755 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:58,756 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_dekra",
+        "type": "company",
+        "name": "DEKRA"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_klettwitz_germany",
+        "type": "factory",
+        "name": "Klettwitz Battery Testing Center",
+        "location": {
+          "city": "Klettwitz",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_klettwitz_battery_testing_center",
+        "type": "investment",
+        "name": "Klettwitz Battery Testing Center",
+        "amount": "tens of millions",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_testing",
+        "type": "product",
+        "name": "battery testing"
+      }
+    ]
+  }
+}
+2025-09-24 01:19:58,756 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:58,756 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 01:19:58,756 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 01:19:58,756 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 01:19:59,627 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:19:59,627 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_klettwitz_battery_testing_center",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 01:19:59,627 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:19:59,627 - INFO - ✅ Match found for investment_ID 'investment_klettwitz_battery_testing_center' in investment nodes
+2025-09-24 01:19:59,627 - INFO -   ➕ Set field 'status': completed
+2025-09-24 01:19:59,627 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 01:19:59,627 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 01:19:59,627 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 01:19:59,627 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 01:20:00,720 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:00,721 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_testing",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 01:20:00,721 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:00,721 - INFO - ✅ Match found for product_ID 'product_battery_testing' in product nodes
+2025-09-24 01:20:00,721 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 01:20:00,721 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 01:20:00,721 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 01:20:00,721 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 01:20:00,721 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 01:20:01,976 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:01,977 - INFO - {
+  "relationships": [
+    {
+      "source": "company_dekra",
+      "type": "owns",
+      "target": "factory_klettwitz_germany"
+    }
+  ]
+}
+2025-09-24 01:20:01,977 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:01,977 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 01:20:01,977 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 01:20:02,900 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:02,900 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_testing",
+      "target": "factory_klettwitz_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 01:20:02,901 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:02,901 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 01:20:02,901 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 01:20:03,619 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:03,619 - INFO - {
+  "relationships": []
+}
+2025-09-24 01:20:03,619 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:03,620 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 01:20:03,620 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 01:20:04,713 - INFO - ✅ OpenAI returned output:
+2025-09-24 01:20:04,713 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_klettwitz_battery_testing_center",
+      "target": "factory_klettwitz_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_klettwitz_battery_testing_center",
+      "target": "product_battery_testing",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 01:20:04,713 - INFO - POST-PROCESSING STARTING.
+2025-09-24 01:20:04,809 - INFO - ✅ Updated Article ID: 68cbbd95b69105950303b35d with 4 nodes and combined text.

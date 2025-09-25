@@ -1,0 +1,88 @@
+2025-09-23 22:51:34,486 - INFO - 🔍 Text length: 1078 characters
+2025-09-23 22:51:34,487 - INFO - 📌 Processing Article ID: 68d308280a0272dfa29a49ea — TI Fluid Systems completes Hungary M&A
+2025-09-23 22:51:34,487 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-23 22:51:36,509 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:51:36,510 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ti_fluid_systems",
+        "type": "company",
+        "name": "TI Fluid Systems"
+      },
+      {
+        "id": "company_cascade_engineering_europe",
+        "type": "company",
+        "name": "Cascade Engineering Europe"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_budapest_hungary",
+        "type": "factory",
+        "name": "Budapest Factory",
+        "location": {
+          "city": "Budapest",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_thermal_fluid_connectors",
+        "type": "product",
+        "name": "thermal fluid connectors"
+      }
+    ]
+  }
+}
+2025-09-23 22:51:36,510 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:51:36,510 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-23 22:51:36,510 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-23 22:51:36,510 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-23 22:51:36,510 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-23 22:51:38,367 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:51:38,367 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_thermal_fluid_connectors",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-23 22:51:38,368 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:51:38,368 - INFO - ✅ Match found for product_ID 'product_thermal_fluid_connectors' in product nodes
+2025-09-23 22:51:38,368 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-23 22:51:38,368 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-23 22:51:38,368 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-23 22:51:38,368 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-23 22:51:38,368 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-23 22:51:40,296 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:51:40,296 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ti_fluid_systems",
+      "type": "owns",
+      "target": "factory_budapest_hungary"
+    }
+  ]
+}
+2025-09-23 22:51:40,296 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:51:40,296 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-23 22:51:40,296 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-23 22:51:42,020 - INFO - ✅ OpenAI returned output:
+2025-09-23 22:51:42,020 - INFO - {
+  "relationships": [
+    {
+      "source": "product_thermal_fluid_connectors",
+      "target": "factory_budapest_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-23 22:51:42,020 - INFO - POST-PROCESSING STARTING.
+2025-09-23 22:51:42,020 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-23 22:51:42,020 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-23 22:51:42,110 - INFO - ✅ Updated Article ID: 68d308280a0272dfa29a49ea with 4 nodes and combined text.
