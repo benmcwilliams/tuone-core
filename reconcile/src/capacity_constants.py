@@ -12,10 +12,16 @@ DEFAULT_UNIT_MAP = {
     ("solar", "ingot_wafer"): "gigawatt",
     ("solar", "cell"): "gigawatt",
     ("solar", "module"): "gigawatt",
-    ("solar", "deployment"): "gigawatt",
+    ("solar", "deployment"): "megawatt",
     #vehicle
     ("vehicle", "electric"): "vehicle",
-    ("vehicle", "fossil"): "vehicle"
+    ("vehicle", "fossil"): "vehicle",
+    #wind
+    ("wind", "deployment"): "megawatt",
+    #nuclear
+    ("nuclear", "deployment"): "megawatt",
+    #hydro
+    ("hydroelectric", "deployment"): "megawatt"
 }
 
 

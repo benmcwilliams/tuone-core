@@ -54,7 +54,7 @@ grouped_facilities_cols = [
 grouped_capacities_cols = [
     "inst_canon", "inst_type", "owner_label", "iso2", "factory", "admin_group_key", 
     "product", "product_lv1", "product_lv2", "factory_status", "date",
-    "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", "additional", 
+    "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", "additional", "capacity_id", 
     "project_id", "project_key_str", "cluster_id",
     "investment", "amount_EUR", "investment_status", "investment_phase", "is_total", 
     "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
