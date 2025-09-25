@@ -52,34 +52,34 @@ def main(update_mongo_metadata=False):
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
 
-    # logging.info("🗞️ Flattening articles...")
-    # run_flatten_articles()
+    logging.info("🗞️ Flattening articles...")
+    run_flatten_articles()
 
-    # logging.info("🉑 Merging nodes and relationships...")
-    # logging.info("- - - FACTORY_TECH_SPEC")
-    # run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-    # logging.info("- - - COMPANY_JV_SPEC")
-    # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-    # logging.info("- - - INVESTMENT_FUNDS_SPEC")
-    # run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
+    logging.info("🉑 Merging nodes and relationships...")
+    logging.info("- - - FACTORY_TECH_SPEC")
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
+    logging.info("- - - COMPANY_JV_SPEC")
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    logging.info("- - - INVESTMENT_FUNDS_SPEC")
+    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 
-    # logging.info("🏭 Building registry union (direct + capacity + investment)…")
-    # build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
+    logging.info("🏭 Building registry union (direct + capacity + investment)…")
+    build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
 
-    # logging.info("Normalising capacities")
-    # run_capacity_normalisation_pipeline()
+    logging.info("Normalising capacities")
+    run_capacity_normalisation_pipeline()
 
-    # logging.info("Normalising investments")
-    # run_investment_normalisation_pipeline(
-    #     FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
-    # )
-    # run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
+    logging.info("Normalising investments")
+    run_investment_normalisation_pipeline(
+        FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
+    )
+    run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
 
-    # logging.info("🫂 Grouping projects...")
-    # for in_path, out_path, output_cols in GROUP_SPEC:
-    #     print(in_path)
-    #     logging.info(f"Processing: {in_path} → {out_path}")
-    #     group_projects(in_path, out_path, output_cols)
+    logging.info("🫂 Grouping projects...")
+    for in_path, out_path, output_cols in GROUP_SPEC:
+        print(in_path)
+        logging.info(f"Processing: {in_path} → {out_path}")
+        group_projects(in_path, out_path, output_cols)
 
     logging.info("🏭 Importing facilities")
     write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
