@@ -1,0 +1,155 @@
+2025-09-24 21:56:32,063 - INFO - 🔍 Text length: 1169 characters
+2025-09-24 21:56:32,064 - INFO - 📌 Processing Article ID: 68d3e69f3e609fb288d7ca82 — Kyburz and Vitesco Collaborate on Battery Recycling
+2025-09-24 21:56:32,064 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:56:34,241 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:56:34,242 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kyburz",
+        "type": "company",
+        "name": "Kyburz"
+      },
+      {
+        "id": "company_vitesco_technologies",
+        "type": "company",
+        "name": "Vitesco Technologies"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_freienstein_switzerland",
+        "type": "factory",
+        "name": "Freienstein Recycling Plant",
+        "location": {
+          "city": "Freienstein",
+          "country": "Switzerland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_limbach_oberfrohna_saxony",
+        "type": "factory",
+        "name": "Limbach-Oberfrohna Liberty Plant",
+        "location": {
+          "city": "Limbach-Oberfrohna",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_batteries",
+        "type": "product",
+        "name": "LFP batteries"
+      },
+      {
+        "id": "product_sodium_ion_batteries",
+        "type": "product",
+        "name": "sodium-ion batteries"
+      },
+      {
+        "id": "product_cathodes",
+        "type": "product",
+        "name": "cathodes"
+      },
+      {
+        "id": "product_anodes",
+        "type": "product",
+        "name": "anodes"
+      }
+    ]
+  }
+}
+2025-09-24 21:56:34,242 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:56:34,242 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:56:34,242 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:56:34,242 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:56:34,242 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:56:36,457 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:56:36,457 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_sodium_ion_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_cathodes",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_anodes",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 21:56:36,457 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:56:36,457 - INFO - ✅ Match found for product_ID 'product_lfp_batteries' in product nodes
+2025-09-24 21:56:36,457 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:56:36,458 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:56:36,458 - INFO - ✅ Match found for product_ID 'product_sodium_ion_batteries' in product nodes
+2025-09-24 21:56:36,458 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:56:36,458 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:56:36,458 - INFO - ✅ Match found for product_ID 'product_cathodes' in product nodes
+2025-09-24 21:56:36,458 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 21:56:36,458 - INFO - ✅ Match found for product_ID 'product_anodes' in product nodes
+2025-09-24 21:56:36,458 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 21:56:36,458 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:56:36,458 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:56:36,458 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:56:37,537 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:56:37,538 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kyburz",
+      "type": "owns",
+      "target": "factory_freienstein_switzerland"
+    },
+    {
+      "source": "company_kyburz",
+      "type": "owns",
+      "target": "factory_limbach_oberfrohna_saxony"
+    }
+  ]
+}
+2025-09-24 21:56:37,538 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:56:37,538 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:56:37,538 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:56:38,915 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:56:38,915 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cathodes",
+      "target": "factory_freienstein_switzerland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_anodes",
+      "target": "factory_freienstein_switzerland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cathodes",
+      "target": "factory_limbach_oberfrohna_saxony",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_anodes",
+      "target": "factory_limbach_oberfrohna_saxony",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:56:38,915 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:56:38,915 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:56:38,915 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:56:39,014 - INFO - ✅ Updated Article ID: 68d3e69f3e609fb288d7ca82 with 8 nodes and combined text.

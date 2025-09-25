@@ -1,0 +1,151 @@
+2025-09-24 23:31:45,928 - INFO - 🔍 Text length: 2351 characters
+2025-09-24 23:31:45,928 - INFO - 📌 Processing Article ID: 68d3dff63e609fb288d7c8bd — Toyota unveils new EV for China
+2025-09-24 23:31:45,928 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:31:49,529 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:49,529 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_faw_toyota",
+        "type": "company",
+        "name": "FAW Toyota"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_aisin",
+        "type": "company",
+        "name": "Aisin"
+      },
+      {
+        "id": "company_denso",
+        "type": "company",
+        "name": "Denso"
+      },
+      {
+        "id": "company_contemporary_amperex_technology",
+        "type": "company",
+        "name": "Contemporary Amperex Technology"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_byd_toyota_ev_technology",
+        "type": "joint_venture",
+        "name": "BYD Toyota EV Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tianjin_china",
+        "type": "factory",
+        "name": "Tianjin Factory",
+        "location": {
+          "city": "Tianjin",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bz3",
+        "type": "product",
+        "name": "BZ3"
+      },
+      {
+        "id": "product_bz4x",
+        "type": "product",
+        "name": "bZ4X"
+      },
+      {
+        "id": "product_lithium_iron_phosphate_batteries",
+        "type": "product",
+        "name": "lithium iron phosphate (LFP) batteries"
+      }
+    ]
+  }
+}
+2025-09-24 23:31:49,529 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:49,529 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:31:49,529 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:31:49,529 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:31:49,529 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:31:51,475 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:51,475 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bz3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_bz4x",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_lithium_iron_phosphate_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 23:31:51,475 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:51,475 - INFO - ✅ Match found for product_ID 'product_bz3' in product nodes
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:31:51,475 - INFO - ✅ Match found for product_ID 'product_bz4x' in product nodes
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:31:51,475 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_batteries' in product nodes
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:31:51,475 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 23:31:51,475 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:31:51,475 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:31:51,475 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:31:54,958 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:54,958 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "forms",
+      "target": "joint_venture_byd_toyota_ev_technology"
+    },
+    {
+      "source": "company_byd",
+      "type": "forms",
+      "target": "joint_venture_byd_toyota_ev_technology"
+    },
+    {
+      "source": "company_faw_toyota",
+      "type": "owns",
+      "target": "factory_tianjin_china"
+    }
+  ]
+}
+2025-09-24 23:31:54,958 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:54,958 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:31:54,958 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:31:55,880 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:55,881 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bz3",
+      "target": "factory_tianjin_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:31:55,881 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:55,881 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:31:55,881 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:31:55,972 - INFO - ✅ Updated Article ID: 68d3dff63e609fb288d7c8bd with 11 nodes and combined text.

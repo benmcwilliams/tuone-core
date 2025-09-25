@@ -1,0 +1,107 @@
+2025-09-25 01:22:50,645 - INFO - 🔍 Text length: 1043 characters
+2025-09-25 01:22:50,645 - INFO - 📌 Processing Article ID: 68d3c8bf3e609fb288d7c6c5 — Stellantis eyes small EV production in Spain – reports
+2025-09-25 01:22:50,645 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:22:52,774 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:52,775 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_madrid_spain",
+        "type": "factory",
+        "name": "Madrid Plant",
+        "location": {
+          "city": "Madrid",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_vigo_spain",
+        "type": "factory",
+        "name": "Vigo Plant",
+        "location": {
+          "city": "Vigo",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_zaragoza_spain",
+        "type": "factory",
+        "name": "Zaragoza Plant",
+        "location": {
+          "city": "Zaragoza",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_small_electric_vehicles",
+        "type": "product",
+        "name": "small electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 01:22:52,775 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:52,775 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:22:52,775 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:22:52,775 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:22:52,776 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:22:54,341 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:54,341 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_small_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:22:54,341 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:54,341 - INFO - ✅ Match found for product_ID 'product_small_electric_vehicles' in product nodes
+2025-09-25 01:22:54,341 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:22:54,341 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:22:54,341 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:22:54,341 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:22:54,341 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:22:56,714 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:56,714 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_madrid_spain"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_vigo_spain"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_zaragoza_spain"
+    }
+  ]
+}
+2025-09-25 01:22:56,714 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:56,714 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:22:56,714 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:22:57,197 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:57,197 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:22:57,197 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:57,197 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:22:57,197 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:22:57,284 - INFO - ✅ Updated Article ID: 68d3c8bf3e609fb288d7c6c5 with 5 nodes and combined text.

@@ -1,0 +1,185 @@
+2025-09-24 23:31:23,017 - INFO - 🔍 Text length: 5188 characters
+2025-09-24 23:31:23,017 - INFO - 📌 Processing Article ID: 68d3dfff3e609fb288d7c8bf — Where is the best place to set up an automotive manufacturing facility in the Texarkana region?
+2025-09-24 23:31:23,017 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:31:25,975 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:25,976 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla_inc",
+        "type": "company",
+        "name": "Tesla Inc."
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_austin_texas",
+        "type": "factory",
+        "name": "Austin Campus",
+        "location": {
+          "city": "Austin",
+          "country": "United States"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_arlington_texas",
+        "type": "factory",
+        "name": "Arlington Plant",
+        "location": {
+          "city": "Arlington",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_texarkana_texas",
+        "type": "factory",
+        "name": "Texarkana Plant",
+        "location": {
+          "city": "Texarkana",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tesla_austin_campus",
+        "type": "investment",
+        "name": "Tesla Austin Campus",
+        "amount": "$700 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_es_suvs",
+        "type": "product",
+        "name": "ES SUVs"
+      },
+      {
+        "id": "product_pick_ups",
+        "type": "product",
+        "name": "pick-ups"
+      }
+    ]
+  }
+}
+2025-09-24 23:31:25,976 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:25,976 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:31:25,976 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:31:25,976 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:31:27,102 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:27,103 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tesla_austin_campus",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:31:27,103 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:27,103 - INFO - ✅ Match found for investment_ID 'investment_tesla_austin_campus' in investment nodes
+2025-09-24 23:31:27,103 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:31:27,103 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 23:31:27,103 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:31:27,103 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:31:27,103 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:31:28,947 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:28,948 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_es_suvs",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_pick_ups",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-24 23:31:28,948 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:28,948 - INFO - ✅ Match found for product_ID 'product_es_suvs' in product nodes
+2025-09-24 23:31:28,948 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:31:28,948 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 23:31:28,948 - INFO - ✅ Match found for product_ID 'product_pick_ups' in product nodes
+2025-09-24 23:31:28,948 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:31:28,948 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 23:31:28,948 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:31:28,948 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:31:28,948 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:31:30,687 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:30,687 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla_inc",
+      "type": "owns",
+      "target": "factory_austin_texas"
+    },
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_arlington_texas"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_texarkana_texas"
+    }
+  ]
+}
+2025-09-24 23:31:30,687 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:30,687 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:31:30,687 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:31:31,812 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:31,812 - INFO - {
+  "relationships": [
+    {
+      "source": "product_es_suvs",
+      "target": "factory_arlington_texas",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pick_ups",
+      "target": "factory_austin_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:31:31,812 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:31,812 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:31:31,812 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:31:32,529 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:32,529 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:31:32,529 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:32,529 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:31:32,529 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:31:33,455 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:31:33,455 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tesla_austin_campus",
+      "target": "factory_austin_texas",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-24 23:31:33,455 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:31:33,556 - INFO - ✅ Updated Article ID: 68d3dfff3e609fb288d7c8bf with 9 nodes and combined text.

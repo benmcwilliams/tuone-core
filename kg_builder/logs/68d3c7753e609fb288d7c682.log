@@ -1,0 +1,142 @@
+2025-09-25 01:36:57,649 - INFO - 🔍 Text length: 1349 characters
+2025-09-25 01:36:57,649 - INFO - 📌 Processing Article ID: 68d3c7753e609fb288d7c682 — Britishvolt owner’s offices raided by Australian police
+2025-09-25 01:36:57,649 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:37:00,731 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:00,731 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_britishvolt",
+        "type": "company",
+        "name": "Britishvolt"
+      },
+      {
+        "id": "company_scale_facilitation",
+        "type": "company",
+        "name": "Scale Facilitation"
+      },
+      {
+        "id": "company_recharge_industries",
+        "type": "company",
+        "name": "Recharge Industries"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_blyth_northumberland",
+        "type": "factory",
+        "name": "Blyth Plant",
+        "location": {
+          "city": "Blyth",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_britishvolt_plant",
+        "type": "investment",
+        "name": "Britishvolt Plant",
+        "amount": "US$4bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery",
+        "type": "product",
+        "name": "EV Battery"
+      }
+    ]
+  }
+}
+2025-09-25 01:37:00,731 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:00,731 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:37:00,731 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:37:00,732 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:37:02,981 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:02,982 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_britishvolt_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:37:02,982 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:02,982 - INFO - ✅ Match found for investment_ID 'investment_britishvolt_plant' in investment nodes
+2025-09-25 01:37:02,982 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:37:02,982 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:37:02,982 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:37:02,982 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:37:02,982 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:37:04,516 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:04,516 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:37:04,516 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:04,516 - INFO - ✅ Match found for product_ID 'product_ev_battery' in product nodes
+2025-09-25 01:37:04,516 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:37:04,516 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:37:04,516 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:37:04,516 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:37:04,516 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:37:05,848 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:05,848 - INFO - {
+  "relationships": [
+    {
+      "source": "company_britishvolt",
+      "type": "owns",
+      "target": "factory_blyth_northumberland"
+    }
+  ]
+}
+2025-09-25 01:37:05,848 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:05,848 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:37:05,848 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:37:06,767 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:06,768 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery",
+      "target": "factory_blyth_northumberland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:37:06,768 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:06,768 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:37:06,768 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:37:07,792 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:07,792 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:37:07,792 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:07,792 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:37:07,792 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:37:09,966 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:37:09,966 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_britishvolt_plant",
+      "target": "factory_blyth_northumberland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_britishvolt_plant",
+      "target": "product_ev_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:37:09,966 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:37:10,058 - INFO - ✅ Updated Article ID: 68d3c7753e609fb288d7c682 with 6 nodes and combined text.

@@ -1,0 +1,95 @@
+2025-09-25 02:13:29,556 - INFO - 🔍 Text length: 1521 characters
+2025-09-25 02:13:29,556 - INFO - 📌 Processing Article ID: 68d3c3603e609fb288d7c5ce — L&F, Mitsubishi to develop new battery anodes
+2025-09-25 02:13:29,556 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:13:31,281 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:31,281 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lf",
+        "type": "company",
+        "name": "L&F"
+      },
+      {
+        "id": "company_mitsubishi_chemical",
+        "type": "company",
+        "name": "Mitsubishi Chemical"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_lf_mitsubishi_chemical",
+        "type": "joint_venture",
+        "name": "L&F Mitsubishi Chemical"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_anodes",
+        "type": "product",
+        "name": "anodes"
+      },
+      {
+        "id": "product_high_nickel_cathode_materials",
+        "type": "product",
+        "name": "high nickel cathode materials"
+      }
+    ]
+  }
+}
+2025-09-25 02:13:31,281 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:31,282 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:13:31,282 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:13:31,282 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:13:31,282 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:13:33,049 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:33,050 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_anodes",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_high_nickel_cathode_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-25 02:13:33,050 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:33,050 - INFO - ✅ Match found for product_ID 'product_anodes' in product nodes
+2025-09-25 02:13:33,050 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:13:33,050 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 02:13:33,050 - INFO - ✅ Match found for product_ID 'product_high_nickel_cathode_materials' in product nodes
+2025-09-25 02:13:33,050 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:13:33,050 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 02:13:33,050 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:13:33,050 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:13:33,050 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:13:34,075 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:34,076 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lf",
+      "type": "forms",
+      "target": "joint_venture_lf_mitsubishi_chemical"
+    },
+    {
+      "source": "company_mitsubishi_chemical",
+      "type": "forms",
+      "target": "joint_venture_lf_mitsubishi_chemical"
+    }
+  ]
+}
+2025-09-25 02:13:34,076 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:34,076 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:13:34,076 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:13:35,107 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:35,107 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:13:35,107 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:35,107 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:13:35,107 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:13:35,185 - INFO - ✅ Updated Article ID: 68d3c3603e609fb288d7c5ce with 5 nodes and combined text.

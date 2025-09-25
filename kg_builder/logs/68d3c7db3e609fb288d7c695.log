@@ -1,0 +1,140 @@
+2025-09-25 01:33:06,119 - INFO - 🔍 Text length: 4782 characters
+2025-09-25 01:33:06,119 - INFO - 📌 Processing Article ID: 68d3c7db3e609fb288d7c695 — Ford establishes Latitude AI subsidiary for automated driving tech
+2025-09-25 01:33:06,119 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:33:09,932 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:33:09,932 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_latitude_ai",
+        "type": "company",
+        "name": "Latitude AI"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_latitude_ai_pittsburgh",
+        "type": "factory",
+        "name": "Latitude AI Headquarters",
+        "location": {
+          "city": "Pittsburgh",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_latitude_ai_dearborn",
+        "type": "factory",
+        "name": "Latitude AI Engineering Hub",
+        "location": {
+          "city": "Dearborn",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_latitude_ai_palo_alto",
+        "type": "factory",
+        "name": "Latitude AI Engineering Hub",
+        "location": {
+          "city": "Palo Alto",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_latitude_ai_greenville",
+        "type": "factory",
+        "name": "Latitude AI Test Track Facility",
+        "location": {
+          "city": "Greenville",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automated_driving_technology",
+        "type": "product",
+        "name": "automated driving technology"
+      },
+      {
+        "id": "product_ford_bluecruise",
+        "type": "product",
+        "name": "Ford BlueCruise"
+      }
+    ]
+  }
+}
+2025-09-25 01:33:09,932 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:33:09,932 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:33:09,932 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:33:09,932 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:33:09,932 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:33:11,482 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:33:11,482 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_automated_driving_technology",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ford_bluecruise",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:33:11,482 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:33:11,482 - INFO - ✅ Match found for product_ID 'product_automated_driving_technology' in product nodes
+2025-09-25 01:33:11,482 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:33:11,482 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:33:11,482 - INFO - ✅ Match found for product_ID 'product_ford_bluecruise' in product nodes
+2025-09-25 01:33:11,482 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:33:11,482 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:33:11,482 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:33:11,482 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:33:11,482 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:33:12,780 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:33:12,781 - INFO - {
+  "relationships": [
+    {
+      "source": "company_latitude_ai",
+      "type": "owns",
+      "target": "factory_latitude_ai_pittsburgh"
+    },
+    {
+      "source": "company_latitude_ai",
+      "type": "owns",
+      "target": "factory_latitude_ai_dearborn"
+    },
+    {
+      "source": "company_latitude_ai",
+      "type": "owns",
+      "target": "factory_latitude_ai_palo_alto"
+    },
+    {
+      "source": "company_latitude_ai",
+      "type": "owns",
+      "target": "factory_latitude_ai_greenville"
+    }
+  ]
+}
+2025-09-25 01:33:12,781 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:33:12,781 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:33:12,781 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:33:15,381 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:33:15,382 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:33:15,382 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:33:15,382 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:33:15,382 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:33:15,473 - INFO - ✅ Updated Article ID: 68d3c7db3e609fb288d7c695 with 8 nodes and combined text.

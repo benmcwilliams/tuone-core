@@ -1,0 +1,162 @@
+2025-09-25 01:25:27,833 - INFO - 🔍 Text length: 3456 characters
+2025-09-25 01:25:27,834 - INFO - 📌 Processing Article ID: 68d3c8873e609fb288d7c6ba — Volvo to close Europe bus body plant
+2025-09-25 01:25:27,834 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:25:30,708 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:30,709 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_buses",
+        "type": "company",
+        "name": "Volvo Buses"
+      },
+      {
+        "id": "company_vargas_holding",
+        "type": "company",
+        "name": "Vargas Holding"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wroclaw_poland",
+        "type": "factory",
+        "name": "Wroclaw Factory",
+        "location": {
+          "city": "Wroclaw",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_restructuring_provision_sek1_3bn",
+        "type": "investment",
+        "name": "Restructuring Provision",
+        "amount": "SEK1.3bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bus_chassis",
+        "type": "product",
+        "name": "bus chassis"
+      },
+      {
+        "id": "product_complete_buses",
+        "type": "product",
+        "name": "complete buses"
+      },
+      {
+        "id": "product_coaches",
+        "type": "product",
+        "name": "coaches"
+      }
+    ]
+  }
+}
+2025-09-25 01:25:30,709 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:30,709 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:25:30,709 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:25:30,709 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:25:31,731 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:31,732 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_restructuring_provision_sek1_3bn",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:25:31,732 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:31,732 - INFO - ✅ Match found for investment_ID 'investment_restructuring_provision_sek1_3bn' in investment nodes
+2025-09-25 01:25:31,732 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:25:31,732 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 01:25:31,732 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:25:31,732 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:25:31,732 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:25:33,374 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:33,374 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bus_chassis",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_complete_buses",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_coaches",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:25:33,374 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:33,374 - INFO - ✅ Match found for product_ID 'product_bus_chassis' in product nodes
+2025-09-25 01:25:33,374 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:25:33,374 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:25:33,374 - INFO - ✅ Match found for product_ID 'product_complete_buses' in product nodes
+2025-09-25 01:25:33,375 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:25:33,375 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:25:33,375 - INFO - ✅ Match found for product_ID 'product_coaches' in product nodes
+2025-09-25 01:25:33,375 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:25:33,375 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:25:33,375 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:25:33,375 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:25:33,375 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:25:34,393 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:34,393 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo_buses",
+      "type": "owns",
+      "target": "factory_wroclaw_poland"
+    }
+  ]
+}
+2025-09-25 01:25:34,393 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:34,394 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:25:34,394 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:25:37,363 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:37,364 - INFO - {
+  "relationships": [
+    {
+      "source": "product_bus_chassis",
+      "target": "factory_wroclaw_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_complete_buses",
+      "target": "factory_wroclaw_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_coaches",
+      "target": "factory_wroclaw_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:25:37,364 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:37,364 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:25:37,364 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:25:37,850 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:37,850 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:25:37,850 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:37,850 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:25:37,850 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:25:38,797 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:38,797 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:25:38,797 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:38,889 - INFO - ✅ Updated Article ID: 68d3c8873e609fb288d7c6ba with 7 nodes and combined text.

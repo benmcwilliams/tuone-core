@@ -1,0 +1,174 @@
+2025-09-25 03:07:32,145 - INFO - 🔍 Text length: 2350 characters
+2025-09-25 03:07:32,145 - INFO - 📌 Processing Article ID: 68d3bf503e609fb288d7c4e5 — LGES talks EV battery JV for India
+2025-09-25 03:07:32,145 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:07:36,640 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:07:36,641 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_jsw_group",
+        "type": "company",
+        "name": "JSW Group"
+      },
+      {
+        "id": "company_contemporary_amperex_technology",
+        "type": "company",
+        "name": "Contemporary Amperex Technology"
+      },
+      {
+        "id": "company_panasonic_holdings",
+        "type": "company",
+        "name": "Panasonic Holdings"
+      },
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      },
+      {
+        "id": "company_tvs_motor",
+        "type": "company",
+        "name": "TVS Motor"
+      },
+      {
+        "id": "company_ola_electric",
+        "type": "company",
+        "name": "Ola Electric"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_jsw_lges",
+        "type": "joint_venture",
+        "name": "JSW LGES"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_8gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "8GWh per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_20gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "20GWh per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      }
+    ]
+  }
+}
+2025-09-25 03:07:36,641 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:07:36,641 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 03:07:36,641 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 03:07:37,965 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:07:37,965 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_8gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_20gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-25 03:07:37,965 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:07:37,965 - INFO - ✅ Match found for capacity_ID 'capacity_8gwh_announced' in capacity nodes
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'status': announced
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'additional': False
+2025-09-25 03:07:37,965 - INFO - ✅ Match found for capacity_ID 'capacity_20gwh_announced' in capacity nodes
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'status': announced
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 03:07:37,965 - INFO -   ➕ Set field 'additional': True
+2025-09-25 03:07:37,965 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 03:07:37,965 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:07:37,965 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:07:39,734 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:07:39,734 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_energy_storage_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 03:07:39,735 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:07:39,735 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-25 03:07:39,735 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 03:07:39,735 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 03:07:39,735 - INFO - ✅ Match found for product_ID 'product_energy_storage_systems' in product nodes
+2025-09-25 03:07:39,735 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 03:07:39,735 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 03:07:39,735 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:07:39,735 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:07:39,735 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:07:40,961 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:07:40,962 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jsw_group",
+      "type": "forms",
+      "target": "joint_venture_jsw_lges"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_jsw_lges"
+    }
+  ]
+}
+2025-09-25 03:07:40,962 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:07:40,962 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:07:40,962 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:07:42,191 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:07:42,191 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_8gwh_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_20gwh_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-25 03:07:42,191 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:07:42,192 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 03:07:42,192 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 03:07:42,282 - INFO - ✅ Updated Article ID: 68d3bf503e609fb288d7c4e5 with 12 nodes and combined text.

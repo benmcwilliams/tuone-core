@@ -1,0 +1,133 @@
+2025-09-25 01:34:57,214 - INFO - 🔍 Text length: 5547 characters
+2025-09-25 01:34:57,214 - INFO - 📌 Processing Article ID: 68d3c7b43e609fb288d7c68c — Leading innovators in air bags for the automotive industry
+2025-09-25 01:34:57,214 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:34:59,893 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:34:59,893 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyobo",
+        "type": "company",
+        "name": "Toyobo"
+      },
+      {
+        "id": "company_indorama_polyester_industries",
+        "type": "company",
+        "name": "Indorama Polyester Industries"
+      },
+      {
+        "id": "company_indorama_ventures",
+        "type": "company",
+        "name": "Indorama Ventures"
+      },
+      {
+        "id": "company_kolon_industries",
+        "type": "company",
+        "name": "Kolon Industries"
+      },
+      {
+        "id": "company_toray_industries",
+        "type": "company",
+        "name": "Toray Industries"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_toyobo_indorama",
+        "type": "joint_venture",
+        "name": "Toyobo Indorama"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rayong_thailand",
+        "type": "factory",
+        "name": "Rayong Plant",
+        "location": {
+          "city": "Rayong Province",
+          "country": "Thailand"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_performance_nylon_yarns",
+        "type": "product",
+        "name": "high performance nylon yarns"
+      },
+      {
+        "id": "product_air_bags",
+        "type": "product",
+        "name": "air bags"
+      }
+    ]
+  }
+}
+2025-09-25 01:34:59,893 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:34:59,893 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:34:59,893 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:34:59,893 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:34:59,893 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:35:01,633 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:35:01,634 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_high_performance_nylon_yarns",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_air_bags",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:35:01,634 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:35:01,634 - INFO - ✅ Match found for product_ID 'product_high_performance_nylon_yarns' in product nodes
+2025-09-25 01:35:01,634 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:35:01,634 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:35:01,634 - INFO - ✅ Match found for product_ID 'product_air_bags' in product nodes
+2025-09-25 01:35:01,634 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:35:01,634 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:35:01,634 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:35:01,634 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:35:01,634 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:35:04,295 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:35:04,295 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyobo",
+      "type": "forms",
+      "target": "joint_venture_toyobo_indorama"
+    },
+    {
+      "source": "company_indorama_polyester_industries",
+      "type": "forms",
+      "target": "joint_venture_toyobo_indorama"
+    },
+    {
+      "source": "joint_venture_toyobo_indorama",
+      "type": "owns",
+      "target": "factory_rayong_thailand"
+    }
+  ]
+}
+2025-09-25 01:35:04,295 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:35:04,295 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:35:04,295 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:35:05,527 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:35:05,528 - INFO - {
+  "relationships": [
+    {
+      "source": "product_high_performance_nylon_yarns",
+      "target": "factory_rayong_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:35:05,528 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:35:05,528 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:35:05,528 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:35:05,618 - INFO - ✅ Updated Article ID: 68d3c7b43e609fb288d7c68c with 9 nodes and combined text.

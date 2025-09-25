@@ -1,0 +1,81 @@
+2025-09-25 01:47:05,503 - INFO - 🔍 Text length: 771 characters
+2025-09-25 01:47:05,503 - INFO - 📌 Processing Article ID: 68d3c66b3e609fb288d7c654 — Geek+ updates BMW Brilliance warehouse operations
+2025-09-25 01:47:05,503 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:47:08,687 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:47:08,687 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_geek_plus",
+        "type": "company",
+        "name": "Geek+"
+      },
+      {
+        "id": "company_bmw_brilliance_automotive",
+        "type": "company",
+        "name": "BMW Brilliance Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bba_china",
+        "type": "factory",
+        "name": "BBA Factory",
+        "location": {
+          "city": "null",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_amr",
+        "type": "product",
+        "name": "AMR"
+      }
+    ]
+  }
+}
+2025-09-25 01:47:08,687 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:47:08,687 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:47:08,688 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:47:08,688 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:47:08,688 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:47:09,811 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:47:09,812 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_amr",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 01:47:09,812 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:47:09,812 - INFO - ✅ Match found for product_ID 'product_amr' in product nodes
+2025-09-25 01:47:09,812 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:47:09,812 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:47:09,812 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:47:09,812 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:47:10,746 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:47:10,746 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_brilliance_automotive",
+      "type": "owns",
+      "target": "factory_bba_china"
+    }
+  ]
+}
+2025-09-25 01:47:10,746 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:47:10,747 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:47:10,747 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:47:11,481 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:47:11,481 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:47:11,481 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:47:11,481 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:47:11,481 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:47:11,568 - INFO - ✅ Updated Article ID: 68d3c66b3e609fb288d7c654 with 4 nodes and combined text.

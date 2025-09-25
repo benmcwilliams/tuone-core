@@ -1,0 +1,178 @@
+2025-09-24 21:02:14,429 - INFO - 🔍 Text length: 7929 characters
+2025-09-24 21:02:14,429 - INFO - 📌 Processing Article ID: 68d3eabd3e609fb288d7cb66 — QuantumScape fokussiert Festkörperbatterie Entwicklung. VW und Apple erste Kunden?
+2025-09-24 21:02:14,430 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:02:17,409 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:17,410 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_quantumscape",
+        "type": "company",
+        "name": "QuantumScape"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_apple",
+        "type": "company",
+        "name": "Apple"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_qs_0",
+        "type": "factory",
+        "name": "QS-0",
+        "location": {
+          "city": "San Jos\u00e9",
+          "country": "USA"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_quantumscape",
+        "type": "investment",
+        "name": "Volkswagen QuantumScape Investment",
+        "amount": "200 million Euro",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_cells_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100,000 cells per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_batteries",
+        "type": "product",
+        "name": "solid state batteries"
+      }
+    ]
+  }
+}
+2025-09-24 21:02:17,410 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:17,410 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:02:17,410 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:02:18,640 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:18,641 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_cells_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:02:18,641 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:18,641 - INFO - ✅ Match found for capacity_ID 'capacity_100k_cells_per_year' in capacity nodes
+2025-09-24 21:02:18,641 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:02:18,641 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:02:18,641 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:02:18,641 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:02:18,641 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:02:19,458 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:19,458 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_quantumscape",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:02:19,458 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:19,458 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_quantumscape' in investment nodes
+2025-09-24 21:02:19,458 - INFO -   ➕ Set field 'status': completed
+2025-09-24 21:02:19,459 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:02:19,459 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:02:19,459 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:02:19,459 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:02:20,892 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:20,892 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:02:20,892 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:20,892 - INFO - ✅ Match found for product_ID 'product_solid_state_batteries' in product nodes
+2025-09-24 21:02:20,892 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:02:20,892 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:02:20,892 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:02:20,892 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:02:20,892 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:02:21,608 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:21,609 - INFO - {
+  "relationships": [
+    {
+      "source": "company_quantumscape",
+      "type": "owns",
+      "target": "factory_qs_0"
+    }
+  ]
+}
+2025-09-24 21:02:21,609 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:21,609 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:02:21,609 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:02:23,242 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:23,243 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_cells_per_year",
+      "target": "factory_qs_0",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_cells_per_year",
+      "target": "product_solid_state_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solid_state_batteries",
+      "target": "factory_qs_0",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:02:23,243 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:23,243 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:02:23,243 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:02:24,270 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:24,270 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:02:24,270 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:24,270 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:02:24,270 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:02:25,706 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:02:25,707 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_quantumscape",
+      "type": "funds",
+      "target": "factory_qs_0"
+    },
+    {
+      "source": "investment_volkswagen_quantumscape",
+      "type": "targets",
+      "target": "product_solid_state_batteries"
+    }
+  ]
+}
+2025-09-24 21:02:25,707 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:02:25,799 - INFO - ✅ Updated Article ID: 68d3eabd3e609fb288d7cb66 with 7 nodes and combined text.

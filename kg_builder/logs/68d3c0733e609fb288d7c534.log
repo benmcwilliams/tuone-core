@@ -1,0 +1,96 @@
+2025-09-25 02:44:42,607 - INFO - 🔍 Text length: 2008 characters
+2025-09-25 02:44:42,607 - INFO - 📌 Processing Article ID: 68d3c0733e609fb288d7c534 — UAE-based NWTN shows models at Pebble Beach
+2025-09-25 02:44:42,607 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:44:44,769 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:44,769 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nwtn",
+        "type": "company",
+        "name": "NWTN Inc."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_abu_dhabi",
+        "type": "factory",
+        "name": "vehicle assembly facility",
+        "location": {
+          "city": "Abu Dhabi",
+          "country": "UAE"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_rabdan_muse",
+        "type": "product",
+        "name": "Rabdan Muse"
+      },
+      {
+        "id": "product_gravity_zero_platform",
+        "type": "product",
+        "name": "Gravity Zero Platform"
+      }
+    ]
+  }
+}
+2025-09-25 02:44:44,769 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:44,769 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:44:44,769 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:44:44,769 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:44:44,769 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:44:46,232 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:46,233 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_rabdan_muse",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_gravity_zero_platform",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:44:46,233 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:46,233 - INFO - ✅ Match found for product_ID 'product_rabdan_muse' in product nodes
+2025-09-25 02:44:46,233 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:44:46,233 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:44:46,233 - INFO - ✅ Match found for product_ID 'product_gravity_zero_platform' in product nodes
+2025-09-25 02:44:46,233 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:44:46,233 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:44:46,233 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:44:46,233 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:44:46,233 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:44:47,329 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:47,329 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nwtn",
+      "type": "owns",
+      "target": "factory_abu_dhabi"
+    }
+  ]
+}
+2025-09-25 02:44:47,329 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:47,329 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:44:47,329 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:44:48,376 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:48,377 - INFO - {
+  "relationships": [
+    {
+      "source": "product_rabdan_muse",
+      "target": "factory_abu_dhabi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:44:48,377 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:48,377 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:44:48,377 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:44:48,465 - INFO - ✅ Updated Article ID: 68d3c0733e609fb288d7c534 with 4 nodes and combined text.

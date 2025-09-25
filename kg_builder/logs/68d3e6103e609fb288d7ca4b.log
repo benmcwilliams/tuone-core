@@ -1,0 +1,76 @@
+2025-09-24 22:06:36,388 - INFO - 🔍 Text length: 1023 characters
+2025-09-24 22:06:36,388 - INFO - 📌 Processing Article ID: 68d3e6103e609fb288d7ca4b — Aumann Takes Over Coating Specialist Lacom
+2025-09-24 22:06:36,388 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:06:38,393 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:06:38,394 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aumann",
+        "type": "company",
+        "name": "Aumann"
+      },
+      {
+        "id": "company_lacom_gmbh",
+        "type": "company",
+        "name": "LACOM GmbH"
+      },
+      {
+        "id": "company_kiener_maschinenbau_gmbh",
+        "type": "company",
+        "name": "Kiener Maschinenbau GmbH"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_laminating_and_coating_equipment",
+        "type": "product",
+        "name": "laminating and coating equipment"
+      },
+      {
+        "id": "product_battery_module_and_pack_assembly",
+        "type": "product",
+        "name": "battery module and pack assembly"
+      }
+    ]
+  }
+}
+2025-09-24 22:06:38,394 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:06:38,394 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:06:38,394 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:06:38,394 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:06:38,394 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:06:40,170 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:06:40,170 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_laminating_and_coating_equipment",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_battery_module_and_pack_assembly",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 22:06:40,170 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:06:40,171 - INFO - ✅ Match found for product_ID 'product_laminating_and_coating_equipment' in product nodes
+2025-09-24 22:06:40,171 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:06:40,171 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:06:40,171 - INFO - ✅ Match found for product_ID 'product_battery_module_and_pack_assembly' in product nodes
+2025-09-24 22:06:40,171 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:06:40,171 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:06:40,171 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:06:40,171 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 22:06:40,171 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:06:40,171 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:06:40,745 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:06:40,745 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:06:40,745 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:06:40,746 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:06:40,746 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:06:40,831 - INFO - ✅ Updated Article ID: 68d3e6103e609fb288d7ca4b with 5 nodes and combined text.

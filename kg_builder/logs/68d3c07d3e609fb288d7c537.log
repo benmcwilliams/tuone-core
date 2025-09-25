@@ -1,0 +1,119 @@
+2025-09-25 02:44:19,584 - INFO - 🔍 Text length: 1286 characters
+2025-09-25 02:44:19,584 - INFO - 📌 Processing Article ID: 68d3c07d3e609fb288d7c537 — Stellantis exploring potential collaboration with Leapmotor
+2025-09-25 02:44:19,584 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:44:22,056 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:22,056 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_leapmotor",
+        "type": "company",
+        "name": "Leapmotor"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_xpeng",
+        "type": "company",
+        "name": "Xpeng"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_xpeng",
+        "type": "investment",
+        "name": "Volkswagen Xpeng Investment",
+        "amount": "US$700m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cell_to_chassis_batteries",
+        "type": "product",
+        "name": "cell-to-chassis batteries"
+      },
+      {
+        "id": "product_range_extenders",
+        "type": "product",
+        "name": "range extenders"
+      }
+    ]
+  }
+}
+2025-09-25 02:44:22,056 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:22,056 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:44:22,056 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:44:22,056 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:44:22,930 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:22,930 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_xpeng",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:44:22,930 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:22,930 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_xpeng' in investment nodes
+2025-09-25 02:44:22,930 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:44:22,930 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 02:44:22,930 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:44:22,930 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:44:22,930 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:44:24,715 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:24,715 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cell_to_chassis_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_range_extenders",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 02:44:24,716 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:24,716 - INFO - ✅ Match found for product_ID 'product_cell_to_chassis_batteries' in product nodes
+2025-09-25 02:44:24,716 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:44:24,716 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 02:44:24,716 - INFO - ✅ Match found for product_ID 'product_range_extenders' in product nodes
+2025-09-25 02:44:24,716 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:44:24,716 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 02:44:24,716 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:44:24,716 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-25 02:44:24,716 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:44:24,716 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:44:25,328 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:25,329 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:44:25,329 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:25,329 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:44:25,329 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:44:25,940 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:25,940 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:44:25,940 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:25,940 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:44:25,940 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:44:27,785 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:44:27,785 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:44:27,785 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:44:27,876 - INFO - ✅ Updated Article ID: 68d3c07d3e609fb288d7c537 with 7 nodes and combined text.

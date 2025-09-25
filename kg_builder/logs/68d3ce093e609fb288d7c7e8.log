@@ -1,0 +1,124 @@
+2025-09-25 00:22:52,526 - INFO - 🔍 Text length: 2706 characters
+2025-09-25 00:22:52,526 - INFO - 📌 Processing Article ID: 68d3ce093e609fb288d7c7e8 — Rolls Royce car workers win record pay deal
+2025-09-25 00:22:52,526 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:22:55,022 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:55,022 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rolls_royce_motor_cars",
+        "type": "company",
+        "name": "Rolls Royce Motor Cars"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goodwood_west_sussex",
+        "type": "factory",
+        "name": "Goodwood",
+        "location": {
+          "city": "West Sussex",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ghost",
+        "type": "product",
+        "name": "Ghost"
+      },
+      {
+        "id": "product_wraith",
+        "type": "product",
+        "name": "Wraith"
+      },
+      {
+        "id": "product_cullinan",
+        "type": "product",
+        "name": "Cullinan"
+      }
+    ]
+  }
+}
+2025-09-25 00:22:55,022 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:55,022 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:22:55,022 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:22:55,022 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:22:55,022 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:22:56,967 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:56,967 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ghost",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_wraith",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_cullinan",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 00:22:56,967 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:56,967 - INFO - ✅ Match found for product_ID 'product_ghost' in product nodes
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:22:56,967 - INFO - ✅ Match found for product_ID 'product_wraith' in product nodes
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:22:56,967 - INFO - ✅ Match found for product_ID 'product_cullinan' in product nodes
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:22:56,967 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:22:56,967 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:22:56,967 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:22:56,967 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:22:58,094 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:58,094 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rolls_royce_motor_cars",
+      "type": "owns",
+      "target": "factory_goodwood_west_sussex"
+    }
+  ]
+}
+2025-09-25 00:22:58,094 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:58,094 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:22:58,095 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:22:59,732 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:22:59,733 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ghost",
+      "target": "factory_goodwood_west_sussex",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_wraith",
+      "target": "factory_goodwood_west_sussex",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cullinan",
+      "target": "factory_goodwood_west_sussex",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:22:59,733 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:22:59,733 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:22:59,733 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:22:59,823 - INFO - ✅ Updated Article ID: 68d3ce093e609fb288d7c7e8 with 6 nodes and combined text.

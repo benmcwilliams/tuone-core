@@ -1,0 +1,191 @@
+2025-09-24 21:47:33,110 - INFO - 🔍 Text length: 1380 characters
+2025-09-24 21:47:33,111 - INFO - 📌 Processing Article ID: 68d3e7533e609fb288d7cab6 — LG: Baubeginn für US-Kathodenanlage
+2025-09-24 21:47:33,111 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:47:35,027 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:35,027 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_clarksville_tennessee",
+        "type": "factory",
+        "name": "Clarksville Factory",
+        "location": {
+          "city": "Clarksville",
+          "country": "USA"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lg_chem_phase_1",
+        "type": "investment",
+        "name": "LG Chem Phase 1",
+        "amount": "1.6 billion US-Dollar",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60k_tons_per_year",
+        "type": "capacity",
+        "name": null,
+        "amount": "60,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ncma_cathode_material",
+        "type": "product",
+        "name": "NCMA Cathode Material"
+      },
+      {
+        "id": "product_cathode_material",
+        "type": "product",
+        "name": "Cathode Material"
+      }
+    ]
+  }
+}
+2025-09-24 21:47:35,027 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:35,027 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:47:35,027 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:47:37,216 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:37,216 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:47:37,216 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:37,216 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tons_per_year' in capacity nodes
+2025-09-24 21:47:37,216 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 21:47:37,216 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:47:37,216 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:47:37,217 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:47:37,217 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:47:38,852 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:38,852 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lg_chem_phase_1",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:47:38,852 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:38,852 - INFO - ✅ Match found for investment_ID 'investment_lg_chem_phase_1' in investment nodes
+2025-09-24 21:47:38,852 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 21:47:38,852 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:47:38,852 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:47:38,852 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:47:38,852 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:47:40,389 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:40,389 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ncma_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 21:47:40,389 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:40,389 - INFO - ✅ Match found for product_ID 'product_ncma_cathode_material' in product nodes
+2025-09-24 21:47:40,389 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:47:40,389 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:47:40,389 - INFO - ✅ Match found for product_ID 'product_cathode_material' in product nodes
+2025-09-24 21:47:40,389 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:47:40,389 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:47:40,389 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:47:40,389 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:47:40,390 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:47:41,310 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:41,310 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_chem",
+      "type": "owns",
+      "target": "factory_clarksville_tennessee"
+    }
+  ]
+}
+2025-09-24 21:47:41,310 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:41,310 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:47:41,310 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:47:43,052 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:43,053 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "factory_clarksville_tennessee",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tons_per_year",
+      "target": "product_cathode_material",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cathode_material",
+      "target": "factory_clarksville_tennessee",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:47:43,053 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:43,053 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:47:43,053 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:47:44,179 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:44,180 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:47:44,180 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:44,180 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:47:44,180 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:47:47,045 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:47:47,045 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lg_chem_phase_1",
+      "target": "factory_clarksville_tennessee",
+      "type": "funds"
+    },
+    {
+      "source": "investment_lg_chem_phase_1",
+      "target": "capacity_60k_tons_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_lg_chem_phase_1",
+      "target": "product_ncma_cathode_material",
+      "type": "targets"
+    },
+    {
+      "source": "investment_lg_chem_phase_1",
+      "target": "product_cathode_material",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:47:47,045 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:47:47,135 - INFO - ✅ Updated Article ID: 68d3e7533e609fb288d7cab6 with 6 nodes and combined text.

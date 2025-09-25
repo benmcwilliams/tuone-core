@@ -1,0 +1,116 @@
+2025-09-24 23:28:05,443 - INFO - 🔍 Text length: 2121 characters
+2025-09-24 23:28:05,443 - INFO - 📌 Processing Article ID: 68d3e05b3e609fb288d7c8d3 — Tesla Q3 volume below forecasts – report
+2025-09-24 23:28:05,443 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:28:07,305 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:07,306 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_shanghai_china",
+        "type": "factory",
+        "name": "Shanghai Factory",
+        "location": {
+          "city": "Shanghai",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_model_s",
+        "type": "product",
+        "name": "Model S"
+      },
+      {
+        "id": "product_model_x",
+        "type": "product",
+        "name": "Model X"
+      },
+      {
+        "id": "product_model_3",
+        "type": "product",
+        "name": "Model 3"
+      },
+      {
+        "id": "product_model_y",
+        "type": "product",
+        "name": "Model Y"
+      }
+    ]
+  }
+}
+2025-09-24 23:28:07,306 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:07,306 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:28:07,306 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:28:07,306 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:28:07,306 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:28:09,151 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:09,151 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_model_s",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_model_x",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_model_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_model_y",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:28:09,151 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:09,152 - INFO - ✅ Match found for product_ID 'product_model_s' in product nodes
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:09,152 - INFO - ✅ Match found for product_ID 'product_model_x' in product nodes
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:09,152 - INFO - ✅ Match found for product_ID 'product_model_3' in product nodes
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:09,152 - INFO - ✅ Match found for product_ID 'product_model_y' in product nodes
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:09,152 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:09,152 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:28:09,152 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:28:09,152 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:28:10,070 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:10,071 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_shanghai_china"
+    }
+  ]
+}
+2025-09-24 23:28:10,071 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:10,071 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:28:10,071 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:28:10,891 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:10,891 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:28:10,891 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:10,891 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:28:10,891 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:28:10,983 - INFO - ✅ Updated Article ID: 68d3e05b3e609fb288d7c8d3 with 6 nodes and combined text.

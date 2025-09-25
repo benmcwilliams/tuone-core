@@ -1,0 +1,99 @@
+2025-09-25 02:49:13,143 - INFO - 🔍 Text length: 1915 characters
+2025-09-25 02:49:13,143 - INFO - 📌 Processing Article ID: 68d3c0223e609fb288d7c51b — Now Saudi Arabia talks a Tesla factory
+2025-09-25 02:49:13,143 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:49:15,409 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:49:15,410 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_lucid_group",
+        "type": "company",
+        "name": "Lucid Group"
+      },
+      {
+        "id": "company_saudi_public_investment_fund",
+        "type": "company",
+        "name": "Saudi Public Investment Fund"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_red_sea_coast_saudi_arabia",
+        "type": "factory",
+        "name": "Red Sea Coast Plant",
+        "location": {
+          "city": "Red Sea Coast",
+          "country": "Saudi Arabia"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_metals",
+        "type": "product",
+        "name": "EV metals"
+      },
+      {
+        "id": "product_cobalt",
+        "type": "product",
+        "name": "cobalt"
+      }
+    ]
+  }
+}
+2025-09-25 02:49:15,410 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:49:15,410 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:49:15,410 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:49:15,410 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:49:15,410 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:49:17,561 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:49:17,562 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_metals",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cobalt",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 02:49:17,562 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:49:17,562 - INFO - ✅ Match found for product_ID 'product_ev_metals' in product nodes
+2025-09-25 02:49:17,562 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:49:17,562 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:49:17,562 - INFO - ✅ Match found for product_ID 'product_cobalt' in product nodes
+2025-09-25 02:49:17,562 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 02:49:17,562 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:49:17,562 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:49:17,562 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:49:18,822 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:49:18,823 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_red_sea_coast_saudi_arabia"
+    }
+  ]
+}
+2025-09-25 02:49:18,823 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:49:18,823 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:49:18,823 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:49:20,121 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:49:20,122 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:49:20,122 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:49:20,122 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:49:20,122 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:49:20,209 - INFO - ✅ Updated Article ID: 68d3c0223e609fb288d7c51b with 6 nodes and combined text.

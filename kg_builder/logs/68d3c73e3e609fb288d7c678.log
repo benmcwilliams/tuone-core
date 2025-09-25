@@ -1,0 +1,147 @@
+2025-09-25 01:39:16,611 - INFO - 🔍 Text length: 1557 characters
+2025-09-25 01:39:16,611 - INFO - 📌 Processing Article ID: 68d3c73e3e609fb288d7c678 — Chinese OEM claims EV build time within two hours
+2025-09-25 01:39:16,612 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:39:18,971 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:39:18,971 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_guizhou_changjiang_automobile_co_ltd",
+        "type": "company",
+        "name": "Guizhou Changjiang Automobile Co., Ltd"
+      },
+      {
+        "id": "company_chery",
+        "type": "company",
+        "name": "Chery"
+      },
+      {
+        "id": "company_byd",
+        "type": "company",
+        "name": "BYD"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gui_an_new_district",
+        "type": "factory",
+        "name": "Gui\u2019an New District",
+        "location": {
+          "city": "Gui\u2019an New District",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_210k_ev_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "210,000 EVs per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_light_trucks",
+        "type": "product",
+        "name": "electric light trucks"
+      },
+      {
+        "id": "product_new_energy_vehicles",
+        "type": "product",
+        "name": "new energy vehicles (EVs)"
+      }
+    ]
+  }
+}
+2025-09-25 01:39:18,971 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:39:18,971 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:39:18,971 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:39:20,957 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:39:20,957 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_210k_ev_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:39:20,957 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:39:20,957 - INFO - ✅ Match found for capacity_ID 'capacity_210k_ev_per_year' in capacity nodes
+2025-09-25 01:39:20,957 - INFO -   ➕ Set field 'status': operational
+2025-09-25 01:39:20,957 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:39:20,957 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:39:20,957 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:39:20,957 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:39:20,957 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:39:22,861 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:39:22,861 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_light_trucks",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_new_energy_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:39:22,861 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:39:22,861 - INFO - ✅ Match found for product_ID 'product_electric_light_trucks' in product nodes
+2025-09-25 01:39:22,861 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:39:22,861 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:39:22,861 - INFO - ✅ Match found for product_ID 'product_new_energy_vehicles' in product nodes
+2025-09-25 01:39:22,861 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:39:22,861 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:39:22,861 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:39:22,861 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:39:22,861 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:39:24,008 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:39:24,009 - INFO - {
+  "relationships": [
+    {
+      "source": "company_guizhou_changjiang_automobile_co_ltd",
+      "type": "owns",
+      "target": "factory_gui_an_new_district"
+    }
+  ]
+}
+2025-09-25 01:39:24,009 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:39:24,009 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:39:24,009 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:39:25,626 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:39:25,626 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_210k_ev_per_year",
+      "target": "factory_gui_an_new_district",
+      "type": "at"
+    },
+    {
+      "source": "capacity_210k_ev_per_year",
+      "target": "product_new_energy_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_new_energy_vehicles",
+      "target": "factory_gui_an_new_district",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:39:25,626 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:39:25,626 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:39:25,626 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:39:25,719 - INFO - ✅ Updated Article ID: 68d3c73e3e609fb288d7c678 with 8 nodes and combined text.

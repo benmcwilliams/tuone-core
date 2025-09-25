@@ -1,0 +1,107 @@
+2025-09-24 19:38:01,453 - INFO - 🔍 Text length: 7460 characters
+2025-09-24 19:38:01,453 - INFO - 📌 Processing Article ID: 68d3ec553e609fb288d7cbab — GM auf der jagt nach Teslas Innovations-geschwindigkeit
+2025-09-24 19:38:01,453 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:38:03,687 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:03,688 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gm",
+        "type": "company",
+        "name": "GM"
+      },
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      },
+      {
+        "id": "company_honda_motors",
+        "type": "company",
+        "name": "Honda Motors"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gm_electromobility",
+        "type": "investment",
+        "name": "GM Electromobility",
+        "amount": "27 billion dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ultium_battery",
+        "type": "product",
+        "name": "Ultium-Battery"
+      }
+    ]
+  }
+}
+2025-09-24 19:38:03,688 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:03,688 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:38:03,688 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 19:38:03,688 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 19:38:06,373 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:06,373 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gm_electromobility",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 19:38:06,373 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:06,373 - INFO - ✅ Match found for investment_ID 'investment_gm_electromobility' in investment nodes
+2025-09-24 19:38:06,373 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:38:06,373 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:38:06,373 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:38:06,373 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:38:06,373 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:38:07,574 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:07,574 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ultium_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 19:38:07,574 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:07,574 - INFO - ✅ Match found for product_ID 'product_ultium_battery' in product nodes
+2025-09-24 19:38:07,574 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:38:07,574 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:38:07,574 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:38:07,574 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 19:38:07,574 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:38:07,574 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:38:08,292 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:08,292 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:38:08,292 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:08,293 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 19:38:08,293 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 19:38:10,125 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:10,125 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:38:10,125 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:10,125 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 19:38:10,125 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 19:38:10,954 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:10,954 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gm_electromobility",
+      "type": "targets",
+      "target": "product_ultium_battery"
+    }
+  ]
+}
+2025-09-24 19:38:10,955 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:11,049 - INFO - ✅ Updated Article ID: 68d3ec553e609fb288d7cbab with 5 nodes and combined text.

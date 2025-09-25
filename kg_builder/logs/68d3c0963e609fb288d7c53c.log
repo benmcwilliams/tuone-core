@@ -1,0 +1,88 @@
+2025-09-25 02:43:17,534 - INFO - 🔍 Text length: 981 characters
+2025-09-25 02:43:17,534 - INFO - 📌 Processing Article ID: 68d3c0963e609fb288d7c53c — Fiat 600e production starts
+2025-09-25 02:43:17,534 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:43:20,815 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:43:20,816 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_fiat",
+        "type": "company",
+        "name": "Fiat"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy_poland",
+        "type": "factory",
+        "name": "Tychy Plant",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fiat_600e",
+        "type": "product",
+        "name": "Fiat 600e"
+      }
+    ]
+  }
+}
+2025-09-25 02:43:20,816 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:43:20,816 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:43:20,816 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:43:20,816 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:43:20,816 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:43:23,244 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:43:23,244 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_fiat_600e",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:43:23,244 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:43:23,244 - INFO - ✅ Match found for product_ID 'product_fiat_600e' in product nodes
+2025-09-25 02:43:23,244 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:43:23,244 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:43:23,244 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:43:23,244 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:43:23,244 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:43:24,179 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:43:24,179 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_tychy_poland"
+    }
+  ]
+}
+2025-09-25 02:43:24,179 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:43:24,179 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:43:24,179 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:43:25,013 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:43:25,013 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fiat_600e",
+      "target": "factory_tychy_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:43:25,013 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:43:25,013 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:43:25,013 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:43:25,109 - INFO - ✅ Updated Article ID: 68d3c0963e609fb288d7c53c with 4 nodes and combined text.

@@ -1,0 +1,135 @@
+2025-09-25 02:30:35,553 - INFO - 🔍 Text length: 828 characters
+2025-09-25 02:30:35,553 - INFO - 📌 Processing Article ID: 68d3c1833e609fb288d7c577 — Polestar 4 China production starts
+2025-09-25 02:30:35,553 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:30:37,656 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:30:37,656 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_polestar",
+        "type": "company",
+        "name": "Polestar"
+      },
+      {
+        "id": "company_geely_holding",
+        "type": "company",
+        "name": "Geely Holding"
+      },
+      {
+        "id": "company_geely_group",
+        "type": "company",
+        "name": "Geely Group"
+      },
+      {
+        "id": "company_renault_korea_motors",
+        "type": "company",
+        "name": "Renault Korea Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hangzhou_bay",
+        "type": "factory",
+        "name": "Hangzhou Bay",
+        "location": {
+          "city": "Hangzhou Bay",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_busan",
+        "type": "factory",
+        "name": "Busan",
+        "location": {
+          "city": "Busan",
+          "country": "South Korea"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polestar_4",
+        "type": "product",
+        "name": "Polestar 4"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "geely_group and renault korea motors",
+        "type": "joint_venture",
+        "name": "Geely Group and Renault Korea Motors",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ]
+  }
+}
+2025-09-25 02:30:37,656 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:30:37,656 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:30:37,656 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:30:37,656 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:30:37,656 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:30:39,556 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:30:39,556 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_polestar_4",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:30:39,556 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:30:39,556 - INFO - ✅ Match found for product_ID 'product_polestar_4' in product nodes
+2025-09-25 02:30:39,556 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:30:39,556 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:30:39,556 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:30:39,556 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:30:39,556 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:30:41,295 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:30:41,295 - INFO - {
+  "relationships": [
+    {
+      "source": "company_geely_holding",
+      "type": "owns",
+      "target": "factory_hangzhou_bay"
+    },
+    {
+      "source": "geely_group and renault korea motors",
+      "type": "forms",
+      "target": "joint_venture_busan"
+    },
+    {
+      "source": "joint_venture_busan",
+      "type": "owns",
+      "target": "factory_busan"
+    }
+  ]
+}
+2025-09-25 02:30:41,295 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:30:41,296 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:30:41,296 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:30:42,525 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:30:42,525 - INFO - {
+  "relationships": [
+    {
+      "source": "product_polestar_4",
+      "target": "factory_hangzhou_bay",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_polestar_4",
+      "target": "factory_busan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:30:42,525 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:30:42,525 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:30:42,525 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:30:42,610 - INFO - ✅ Updated Article ID: 68d3c1833e609fb288d7c577 with 8 nodes and combined text.

@@ -1,0 +1,192 @@
+2025-09-25 01:20:13,465 - INFO - 🔍 Text length: 3004 characters
+2025-09-25 01:20:13,465 - INFO - 📌 Processing Article ID: 68d3c90e3e609fb288d7c6d0 — JLR wants GBP500m subsidy to make EV batteries in UK – reports
+2025-09-25 01:20:13,465 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:20:16,848 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:16,848 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      },
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_somerset_uk",
+        "type": "factory",
+        "name": "Somerset Battery Factory",
+        "location": {
+          "city": "Somerset",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_port_talbot_uk",
+        "type": "factory",
+        "name": "Port Talbot Steelworks",
+        "location": {
+          "city": "Port Talbot",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_uk_government_jlr_subsidy",
+        "type": "investment",
+        "name": "UK Government JLR Subsidy",
+        "amount": "GBP500m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_port_talbot_upgrade",
+        "type": "investment",
+        "name": "Port Talbot Upgrade",
+        "amount": "GBP300m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_lower_emission_steel",
+        "type": "product",
+        "name": "lower emission steel"
+      }
+    ]
+  }
+}
+2025-09-25 01:20:16,848 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:16,848 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:20:16,848 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:20:16,848 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:20:18,176 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:18,176 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_uk_government_jlr_subsidy",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_port_talbot_upgrade",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 01:20:18,176 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:18,176 - INFO - ✅ Match found for investment_ID 'investment_uk_government_jlr_subsidy' in investment nodes
+2025-09-25 01:20:18,176 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:20:18,176 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:20:18,176 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:20:18,176 - INFO - ✅ Match found for investment_ID 'investment_port_talbot_upgrade' in investment nodes
+2025-09-25 01:20:18,176 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:20:18,177 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 01:20:18,177 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 01:20:18,177 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:20:18,177 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:20:19,610 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:19,610 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_lower_emission_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:20:19,610 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:19,610 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-25 01:20:19,610 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:20:19,610 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 01:20:19,610 - INFO - ✅ Match found for product_ID 'product_lower_emission_steel' in product nodes
+2025-09-25 01:20:19,610 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-25 01:20:19,610 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:20:19,610 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:20:19,610 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:20:19,610 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:20:21,967 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:21,967 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_motors",
+      "type": "owns",
+      "target": "factory_somerset_uk"
+    },
+    {
+      "source": "company_tata_motors",
+      "type": "owns",
+      "target": "factory_port_talbot_uk"
+    }
+  ]
+}
+2025-09-25 01:20:21,967 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:21,967 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:20:21,967 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:20:23,808 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:23,808 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_somerset_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lower_emission_steel",
+      "target": "factory_port_talbot_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:20:23,808 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:23,808 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:20:23,808 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:20:24,525 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:24,526 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:20:24,526 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:24,526 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:20:24,526 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:20:25,857 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:20:25,857 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_uk_government_jlr_subsidy",
+      "target": "factory_somerset_uk",
+      "type": "funds"
+    },
+    {
+      "source": "investment_port_talbot_upgrade",
+      "target": "factory_port_talbot_uk",
+      "type": "funds"
+    },
+    {
+      "source": "investment_port_talbot_upgrade",
+      "target": "product_lower_emission_steel",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:20:25,857 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:20:25,953 - INFO - ✅ Updated Article ID: 68d3c90e3e609fb288d7c6d0 with 8 nodes and combined text.

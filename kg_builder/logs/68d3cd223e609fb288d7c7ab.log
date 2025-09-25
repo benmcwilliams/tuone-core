@@ -1,0 +1,128 @@
+2025-09-25 00:35:46,727 - INFO - 🔍 Text length: 3019 characters
+2025-09-25 00:35:46,727 - INFO - 📌 Processing Article ID: 68d3cd223e609fb288d7c7ab — Škoda develops AI-based camera system to detect maintenance needs
+2025-09-25 00:35:46,727 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:35:48,878 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:48,878 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_skoda_auto",
+        "type": "company",
+        "name": "\u0160koda Auto"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mlada_boleslav",
+        "type": "factory",
+        "name": "Mlad\u00e1 Boleslav Plant",
+        "location": {
+          "city": "Mlad\u00e1 Boleslav",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_kvasiny",
+        "type": "factory",
+        "name": "Kvasiny Plant",
+        "location": {
+          "city": "Kvasiny",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_magic_eye",
+        "type": "product",
+        "name": "Magic Eye"
+      },
+      {
+        "id": "product_enyaq_iv",
+        "type": "product",
+        "name": "Enyaq iV"
+      },
+      {
+        "id": "product_octavia",
+        "type": "product",
+        "name": "Octavia"
+      }
+    ]
+  }
+}
+2025-09-25 00:35:48,878 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:48,879 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:35:48,879 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:35:48,879 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:35:48,879 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:35:50,974 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:50,974 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_magic_eye",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_enyaq_iv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_octavia",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 00:35:50,974 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:50,974 - INFO - ✅ Match found for product_ID 'product_magic_eye' in product nodes
+2025-09-25 00:35:50,974 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 00:35:50,974 - INFO - ✅ Match found for product_ID 'product_enyaq_iv' in product nodes
+2025-09-25 00:35:50,974 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:35:50,974 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:35:50,974 - INFO - ✅ Match found for product_ID 'product_octavia' in product nodes
+2025-09-25 00:35:50,975 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:35:50,975 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:35:50,975 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:35:50,975 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:35:50,975 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:35:53,076 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:53,077 - INFO - {
+  "relationships": [
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_mlada_boleslav"
+    },
+    {
+      "source": "company_skoda_auto",
+      "type": "owns",
+      "target": "factory_kvasiny"
+    }
+  ]
+}
+2025-09-25 00:35:53,077 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:53,077 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:35:53,077 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:35:55,124 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:35:55,124 - INFO - {
+  "relationships": [
+    {
+      "source": "product_enyaq_iv",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_octavia",
+      "target": "factory_mlada_boleslav",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:35:55,124 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:35:55,124 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:35:55,125 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:35:55,215 - INFO - ✅ Updated Article ID: 68d3cd223e609fb288d7c7ab with 6 nodes and combined text.

@@ -1,0 +1,218 @@
+2025-09-24 21:11:57,540 - INFO - 🔍 Text length: 6826 characters
+2025-09-24 21:11:57,541 - INFO - 📌 Processing Article ID: 68d3e9b43e609fb288d7cb3a — Toyota investiert über fünf Milliarden Dollar
+2025-09-24 21:11:57,541 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:12:02,679 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:02,680 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_prime_planet_energy_solutions_co",
+        "type": "joint_venture",
+        "name": "Prime Planet Energy & Solutions Co"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_himeji_werk",
+        "type": "factory",
+        "name": "Himeji-Werk",
+        "location": {
+          "city": "Himeji",
+          "country": "Japan"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_north_carolina",
+        "type": "factory",
+        "name": "North Carolina Battery Plant",
+        "location": {
+          "city": "North Carolina",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_us_japan",
+        "type": "investment",
+        "name": "Toyota US and Japan Investment",
+        "amount": "730 billion Yen",
+        "status": "announced"
+      },
+      {
+        "id": "investment_himeji_werk",
+        "type": "investment",
+        "name": "Himeji-Werk Investment",
+        "amount": "400 billion Yen",
+        "status": "announced"
+      },
+      {
+        "id": "investment_north_carolina_battery_plant",
+        "type": "investment",
+        "name": "North Carolina Battery Plant Investment",
+        "amount": "1.3 billion US Dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriezellen_fuer_elektrautos",
+        "type": "product",
+        "name": "Batteriezellen f\u00fcr Elektroautos"
+      }
+    ]
+  }
+}
+2025-09-24 21:12:02,680 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:02,680 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:12:02,680 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:12:02,680 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:12:05,091 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:05,091 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_us_japan",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_himeji_werk",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_north_carolina_battery_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:12:05,091 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:05,091 - INFO - ✅ Match found for investment_ID 'investment_toyota_us_japan' in investment nodes
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:12:05,091 - INFO - ✅ Match found for investment_ID 'investment_himeji_werk' in investment nodes
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:12:05,091 - INFO - ✅ Match found for investment_ID 'investment_north_carolina_battery_plant' in investment nodes
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:12:05,091 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:12:05,092 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:12:05,092 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:12:06,367 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:06,367 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriezellen_fuer_elektrautos",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:12:06,368 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:06,368 - INFO - ✅ Match found for product_ID 'product_batteriezellen_fuer_elektrautos' in product nodes
+2025-09-24 21:12:06,368 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:12:06,368 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:12:06,368 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:12:06,368 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:12:06,368 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:12:08,110 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:08,110 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "forms",
+      "target": "joint_venture_prime_planet_energy_solutions_co"
+    },
+    {
+      "source": "company_panasonic",
+      "type": "forms",
+      "target": "joint_venture_prime_planet_energy_solutions_co"
+    },
+    {
+      "source": "joint_venture_prime_planet_energy_solutions_co",
+      "type": "owns",
+      "target": "factory_himeji_werk"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_north_carolina"
+    }
+  ]
+}
+2025-09-24 21:12:08,111 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:08,111 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:12:08,111 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:12:10,769 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:10,770 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batteriezellen_fuer_elektrautos",
+      "target": "factory_himeji_werk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteriezellen_fuer_elektrautos",
+      "target": "factory_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:12:10,770 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:10,770 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:12:10,770 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:12:11,588 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:11,589 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:12:11,589 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:11,589 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:12:11,589 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:12:14,558 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:12:14,558 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_himeji_werk",
+      "type": "funds",
+      "target": "factory_himeji_werk"
+    },
+    {
+      "source": "investment_north_carolina_battery_plant",
+      "type": "funds",
+      "target": "factory_north_carolina"
+    },
+    {
+      "source": "investment_himeji_werk",
+      "type": "targets",
+      "target": "product_batteriezellen_fuer_elektrautos"
+    },
+    {
+      "source": "investment_north_carolina_battery_plant",
+      "type": "targets",
+      "target": "product_batteriezellen_fuer_elektrautos"
+    }
+  ]
+}
+2025-09-24 21:12:14,558 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:12:14,644 - INFO - ✅ Updated Article ID: 68d3e9b43e609fb288d7cb3a with 9 nodes and combined text.

@@ -1,0 +1,172 @@
+2025-09-25 02:10:01,524 - INFO - 🔍 Text length: 2901 characters
+2025-09-25 02:10:01,524 - INFO - 📌 Processing Article ID: 68d3c3b53e609fb288d7c5e3 — Proton seeks investors for high tech supplier park
+2025-09-25 02:10:01,524 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:10:04,079 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:04,079 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_proton_holdings",
+        "type": "company",
+        "name": "Proton Holdings"
+      },
+      {
+        "id": "company_drb_hicom",
+        "type": "company",
+        "name": "DRB-Hicom"
+      },
+      {
+        "id": "company_zhejiang_geely_holding",
+        "type": "company",
+        "name": "Zhejiang Geely Holding"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tanjung_halim_plant",
+        "type": "factory",
+        "name": "Tanjung Halim Plant",
+        "location": {
+          "city": "Tanjung Malim",
+          "country": "Malaysia"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tanjung_halim_plant",
+        "type": "investment",
+        "name": "Tanjung Halim Plant Upgrade",
+        "amount": "MYR140m (US$31m)",
+        "status": "completed"
+      },
+      {
+        "id": "investment_ahtv",
+        "type": "investment",
+        "name": "AHTV Investment",
+        "amount": "MYR32bn (US$7bn)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_geely_hybrid_suv",
+        "type": "product",
+        "name": "Geely based hybrid SUV"
+      },
+      {
+        "id": "product_battery_model",
+        "type": "product",
+        "name": "battery model"
+      }
+    ]
+  }
+}
+2025-09-25 02:10:04,079 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:04,079 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:10:04,079 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:10:04,079 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:10:05,994 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:05,994 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tanjung_halim_plant",
+      "status": "completed",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_ahtv",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 02:10:05,994 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:05,994 - INFO - ✅ Match found for investment_ID 'investment_tanjung_halim_plant' in investment nodes
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'status': completed
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:10:05,994 - INFO - ✅ Match found for investment_ID 'investment_ahtv' in investment nodes
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 02:10:05,994 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 02:10:05,994 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:10:05,995 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:10:08,388 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:08,388 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_geely_hybrid_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "hybrid"
+    },
+    {
+      "product_ID": "product_battery_model",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:10:08,388 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:08,388 - INFO - ✅ Match found for product_ID 'product_geely_hybrid_suv' in product nodes
+2025-09-25 02:10:08,388 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:10:08,388 - INFO -   ➕ Set field 'product_lv2': hybrid
+2025-09-25 02:10:08,388 - INFO - ✅ Match found for product_ID 'product_battery_model' in product nodes
+2025-09-25 02:10:08,388 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:10:08,388 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:10:08,388 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:10:08,388 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:10:08,389 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:10:09,578 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:09,578 - INFO - {
+  "relationships": [
+    {
+      "source": "company_proton_holdings",
+      "type": "owns",
+      "target": "factory_tanjung_halim_plant"
+    }
+  ]
+}
+2025-09-25 02:10:09,578 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:09,578 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:10:09,578 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:10:11,931 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:11,931 - INFO - {
+  "relationships": [
+    {
+      "source": "product_geely_hybrid_suv",
+      "target": "factory_tanjung_halim_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_model",
+      "target": "factory_tanjung_halim_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:10:11,931 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:11,931 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:10:11,931 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:10:12,444 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:12,445 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:10:12,445 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:12,445 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:10:12,445 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:10:14,082 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:10:14,083 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tanjung_halim_plant",
+      "target": "factory_tanjung_halim_plant",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 02:10:14,083 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:10:14,174 - INFO - ✅ Updated Article ID: 68d3c3b53e609fb288d7c5e3 with 8 nodes and combined text.

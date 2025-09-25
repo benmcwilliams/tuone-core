@@ -1,0 +1,90 @@
+2025-09-24 22:34:07,479 - INFO - 🔍 Text length: 1377 characters
+2025-09-24 22:34:07,480 - INFO - 📌 Processing Article ID: 68d3e43b3e609fb288d7c9be — TU Freiberg Investigates Battery Shredding
+2025-09-24 22:34:07,480 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:34:08,961 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:34:08,961 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tu_bergakademie_freiberg",
+        "type": "company",
+        "name": "TU Bergakademie Freiberg"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tu_freiberg",
+        "type": "factory",
+        "name": "TU Freiberg",
+        "location": {
+          "city": "Freiberg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-24 22:34:08,962 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:34:08,962 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:34:08,962 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:34:08,962 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:34:08,962 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:34:10,808 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:34:10,808 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:34:10,808 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:34:10,808 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 22:34:10,808 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:34:10,808 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:34:10,808 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 22:34:10,808 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:34:10,808 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:34:10,808 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:34:10,808 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:34:10,808 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:34:12,030 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:34:12,030 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tu_bergakademie_freiberg",
+      "type": "owns",
+      "target": "factory_tu_freiberg"
+    }
+  ]
+}
+2025-09-24 22:34:12,030 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:34:12,030 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:34:12,030 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:34:12,647 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:34:12,647 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:34:12,647 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:34:12,647 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:34:12,647 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:34:12,740 - INFO - ✅ Updated Article ID: 68d3e43b3e609fb288d7c9be with 4 nodes and combined text.

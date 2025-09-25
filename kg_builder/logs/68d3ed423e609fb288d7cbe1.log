@@ -1,0 +1,166 @@
+2025-09-24 19:26:57,035 - INFO - 🔍 Text length: 7351 characters
+2025-09-24 19:26:57,036 - INFO - 📌 Processing Article ID: 68d3ed423e609fb288d7cbe1 — CATL investiert fünf Milliarden Dollar
+2025-09-24 19:26:57,036 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:27:00,364 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:00,364 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      },
+      {
+        "id": "company_millennial_lithium",
+        "type": "company",
+        "name": "Millennial Lithium"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_battery_recycling_china",
+        "type": "factory",
+        "name": "battery recycling facility",
+        "location": {
+          "city": "null",
+          "country": "China"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_battery_recycling_china",
+        "type": "investment",
+        "name": "battery recycling facility",
+        "amount": "five billion US dollars",
+        "status": "announced"
+      },
+      {
+        "id": "investment_millennial_lithium_acquisition",
+        "type": "investment",
+        "name": "millennial lithium acquisition",
+        "amount": "377 million Canadian dollars",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "battery recycling"
+      },
+      {
+        "id": "product_lithium_ions_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-24 19:27:00,364 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:00,364 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:27:00,364 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 19:27:00,364 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 19:27:02,030 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:02,032 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_battery_recycling_china",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_millennial_lithium_acquisition",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 19:27:02,032 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:02,032 - INFO - ✅ Match found for investment_ID 'investment_battery_recycling_china' in investment nodes
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:27:02,032 - INFO - ✅ Match found for investment_ID 'investment_millennial_lithium_acquisition' in investment nodes
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'status': completed
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:27:02,032 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 19:27:02,033 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:27:02,033 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:27:04,543 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:04,544 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_lithium_ions_batteries",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 19:27:04,544 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:04,544 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 19:27:04,544 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 19:27:04,544 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 19:27:04,544 - INFO - ✅ Match found for product_ID 'product_lithium_ions_batteries' in product nodes
+2025-09-24 19:27:04,544 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 19:27:04,544 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:27:04,544 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:27:04,544 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:27:05,951 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:05,951 - INFO - {
+  "relationships": [
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_battery_recycling_china"
+    }
+  ]
+}
+2025-09-24 19:27:05,951 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:05,951 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:27:05,952 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:27:07,081 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:07,081 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_battery_recycling_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:27:07,081 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:07,081 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 19:27:07,081 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 19:27:08,512 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:08,512 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:27:08,512 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:08,512 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 19:27:08,513 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 19:27:09,595 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:27:09,595 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_battery_recycling_china",
+      "target": "factory_battery_recycling_china",
+      "type": "funds"
+    },
+    {
+      "source": "investment_battery_recycling_china",
+      "target": "product_battery_recycling",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 19:27:09,595 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:27:09,694 - INFO - ✅ Updated Article ID: 68d3ed423e609fb288d7cbe1 with 7 nodes and combined text.

@@ -1,0 +1,234 @@
+2025-09-24 22:19:45,604 - INFO - 🔍 Text length: 1516 characters
+2025-09-24 22:19:45,604 - INFO - 📌 Processing Article ID: 68d3e5353e609fb288d7ca09 — Toyota Plans to Start Battery Production in North Carolina in 2025
+2025-09-24 22:19:45,604 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:19:50,319 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:50,319 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_north_carolina",
+        "type": "factory",
+        "name": "North Carolina Facility",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_georgetown_kentucky",
+        "type": "factory",
+        "name": "Georgetown Plant",
+        "location": {
+          "city": "Georgetown",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_toyota_north_carolina_facility",
+        "type": "investment",
+        "name": "Toyota North Carolina Facility",
+        "amount": "$13.9 billion",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30_gigawatt_hours_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 gigawatt-hours per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      },
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "EV batteries"
+      },
+      {
+        "id": "product_hybrid_battery_packs",
+        "type": "product",
+        "name": "hybrid battery packs"
+      }
+    ]
+  }
+}
+2025-09-24 22:19:50,319 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:50,319 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:19:50,319 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:19:51,696 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:51,696 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30_gigawatt_hours_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:19:51,696 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:51,696 - INFO - ✅ Match found for capacity_ID 'capacity_30_gigawatt_hours_per_year' in capacity nodes
+2025-09-24 22:19:51,697 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 22:19:51,697 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:19:51,697 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:19:51,697 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:19:51,697 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:19:52,631 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:52,631 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_toyota_north_carolina_facility",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:19:52,631 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:52,631 - INFO - ✅ Match found for investment_ID 'investment_toyota_north_carolina_facility' in investment nodes
+2025-09-24 22:19:52,631 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 22:19:52,631 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:19:52,632 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:19:52,632 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:19:52,632 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:19:54,514 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:54,514 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_ev_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_hybrid_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 22:19:54,514 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:54,514 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:19:54,514 - INFO - ✅ Match found for product_ID 'product_ev_batteries' in product nodes
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:19:54,514 - INFO - ✅ Match found for product_ID 'product_hybrid_battery_packs' in product nodes
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:19:54,514 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:19:54,515 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:19:54,515 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:19:54,515 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:19:55,743 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:55,744 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_north_carolina"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_georgetown_kentucky"
+    }
+  ]
+}
+2025-09-24 22:19:55,744 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:55,744 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:19:55,744 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:19:58,203 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:58,203 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30_gigawatt_hours_per_year",
+      "target": "factory_north_carolina",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_gigawatt_hours_per_year",
+      "target": "product_battery_packs",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_packs",
+      "target": "factory_north_carolina",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_batteries",
+      "target": "factory_north_carolina",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hybrid_battery_packs",
+      "target": "factory_north_carolina",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:19:58,203 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:58,204 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:19:58,204 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:19:58,918 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:19:58,918 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:19:58,918 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:19:58,918 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:19:58,918 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:20:03,528 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:03,528 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_toyota_north_carolina_facility",
+      "target": "factory_north_carolina",
+      "type": "funds"
+    },
+    {
+      "source": "investment_toyota_north_carolina_facility",
+      "target": "capacity_30_gigawatt_hours_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_toyota_north_carolina_facility",
+      "target": "product_battery_packs",
+      "type": "targets"
+    },
+    {
+      "source": "investment_toyota_north_carolina_facility",
+      "target": "product_ev_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_toyota_north_carolina_facility",
+      "target": "product_hybrid_battery_packs",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:20:03,528 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:03,615 - INFO - ✅ Updated Article ID: 68d3e5353e609fb288d7ca09 with 8 nodes and combined text.

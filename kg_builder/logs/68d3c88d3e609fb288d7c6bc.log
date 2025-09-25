@@ -1,0 +1,105 @@
+2025-09-25 01:25:10,944 - INFO - 🔍 Text length: 1880 characters
+2025-09-25 01:25:10,945 - INFO - 📌 Processing Article ID: 68d3c88d3e609fb288d7c6bc — Honda extends Pakistan shutdown
+2025-09-25 01:25:10,945 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:25:14,325 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:14,325 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_honda_motor",
+        "type": "company",
+        "name": "Honda Motor"
+      },
+      {
+        "id": "company_indus_motor",
+        "type": "company",
+        "name": "Indus Motor"
+      },
+      {
+        "id": "company_pak_suzuki_motor",
+        "type": "company",
+        "name": "Pak Suzuki Motor"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_honda_atlas_cars_pakistan",
+        "type": "joint_venture",
+        "name": "Honda Atlas Cars Pakistan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_honda_atlas_cars_pakistan",
+        "type": "factory",
+        "name": "Honda Atlas Cars Pakistan",
+        "location": {
+          "city": "null",
+          "country": "Pakistan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vehicles",
+        "type": "product",
+        "name": "vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 01:25:14,325 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:14,325 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:25:14,325 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:25:14,326 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:25:14,326 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:25:15,444 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:15,444 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:25:15,444 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:15,444 - INFO - ✅ Match found for product_ID 'product_vehicles' in product nodes
+2025-09-25 01:25:15,444 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:25:15,444 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:25:15,444 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:25:15,444 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:25:15,444 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:25:16,882 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:16,883 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda_motor",
+      "type": "forms",
+      "target": "joint_venture_honda_atlas_cars_pakistan"
+    },
+    {
+      "source": "joint_venture_honda_atlas_cars_pakistan",
+      "type": "owns",
+      "target": "factory_honda_atlas_cars_pakistan"
+    }
+  ]
+}
+2025-09-25 01:25:16,883 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:16,883 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:25:16,883 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:25:17,806 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:25:17,806 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vehicles",
+      "target": "factory_honda_atlas_cars_pakistan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:25:17,806 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:25:17,806 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:25:17,807 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:25:17,901 - INFO - ✅ Updated Article ID: 68d3c88d3e609fb288d7c6bc with 6 nodes and combined text.

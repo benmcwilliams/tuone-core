@@ -1,0 +1,131 @@
+2025-09-24 23:28:10,985 - INFO - 🔍 Text length: 1932 characters
+2025-09-24 23:28:10,985 - INFO - 📌 Processing Article ID: 68d3e0593e609fb288d7c8d2 — Britishvolt on brink of administration – reports
+2025-09-24 23:28:10,985 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:28:12,840 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:12,840 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_britishvolt",
+        "type": "company",
+        "name": "Britishvolt"
+      },
+      {
+        "id": "company_glencore",
+        "type": "company",
+        "name": "Glencore"
+      },
+      {
+        "id": "company_tata_motors",
+        "type": "company",
+        "name": "Tata Motors"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_northeast_england",
+        "type": "factory",
+        "name": "Britishvolt Gigafactory",
+        "location": {
+          "city": "northeast England",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      }
+    ],
+    "investment": [
+      {
+        "id": "investment_gbp30m_emergency_funding",
+        "type": "investment",
+        "name": "GBP30m emergency funding",
+        "amount": "GBP30m",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 23:28:12,840 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:12,840 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:28:12,840 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:28:12,840 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:28:16,118 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:16,118 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gbp30m_emergency_funding",
+      "status": "unclear",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 23:28:16,118 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:16,119 - INFO - ✅ Match found for investment_ID 'investment_gbp30m_emergency_funding' in investment nodes
+2025-09-24 23:28:16,119 - INFO -   ➕ Set field 'status': unclear
+2025-09-24 23:28:16,119 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:28:16,119 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:28:16,119 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:28:16,119 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:28:17,448 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:17,449 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:28:17,449 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:17,449 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 23:28:17,449 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:28:17,449 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:28:17,449 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:28:17,449 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:28:17,449 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:28:18,885 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:18,885 - INFO - {
+  "relationships": [
+    {
+      "source": "company_britishvolt",
+      "type": "owns",
+      "target": "factory_northeast_england"
+    }
+  ]
+}
+2025-09-24 23:28:18,885 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:18,885 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:28:18,885 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:28:19,804 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:19,804 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery",
+      "target": "factory_northeast_england",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:28:19,804 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:19,804 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:28:19,805 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:28:20,420 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:20,421 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:28:20,421 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:20,421 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:28:20,421 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:28:21,137 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:21,137 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:28:21,137 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:21,229 - INFO - ✅ Updated Article ID: 68d3e0593e609fb288d7c8d2 with 6 nodes and combined text.

@@ -1,0 +1,83 @@
+2025-09-25 00:27:25,253 - INFO - 🔍 Text length: 1538 characters
+2025-09-25 00:27:25,253 - INFO - 📌 Processing Article ID: 68d3cdd43e609fb288d7c7d4 — Stellantis to close Jeep plant
+2025-09-25 00:27:25,254 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:27:26,996 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:27:26,996 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_belvidere_illinois",
+        "type": "factory",
+        "name": "Belvidere Assembly Plant",
+        "location": {
+          "city": "Belvidere",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_jeep_cherokee",
+        "type": "product",
+        "name": "Jeep Cherokee"
+      }
+    ]
+  }
+}
+2025-09-25 00:27:26,996 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:27:26,996 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:27:26,996 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:27:26,996 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:27:26,996 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:27:28,242 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:27:28,242 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_jeep_cherokee",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:27:28,242 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:27:28,242 - INFO - ✅ Match found for product_ID 'product_jeep_cherokee' in product nodes
+2025-09-25 00:27:28,242 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:27:28,242 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:27:28,242 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:27:28,242 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:27:28,242 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:27:29,460 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:27:29,461 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_belvidere_illinois"
+    }
+  ]
+}
+2025-09-25 00:27:29,461 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:27:29,461 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:27:29,461 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:27:30,239 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:27:30,240 - INFO - {
+  "relationships": [
+    {
+      "source": "product_jeep_cherokee",
+      "target": "factory_belvidere_illinois",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:27:30,240 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:27:30,240 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:27:30,240 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:27:30,319 - INFO - ✅ Updated Article ID: 68d3cdd43e609fb288d7c7d4 with 3 nodes and combined text.

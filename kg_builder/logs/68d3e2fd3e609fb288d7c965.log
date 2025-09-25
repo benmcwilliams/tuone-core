@@ -1,0 +1,132 @@
+2025-09-24 22:50:04,965 - INFO - 🔍 Text length: 1091 characters
+2025-09-24 22:50:04,966 - INFO - 📌 Processing Article ID: 68d3e2fd3e609fb288d7c965 — CNGR plant Precursor-Anlage in Indonesien
+2025-09-24 22:50:04,966 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:50:07,667 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:07,668 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cngr_advanced_material",
+        "type": "company",
+        "name": "CNGR Advanced Material"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_indonesia_battery_precursor_plant",
+        "type": "factory",
+        "name": "battery precursor plant",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cngr_battery_precursor_plant",
+        "type": "investment",
+        "name": "cngr battery precursor plant",
+        "amount": "10 billion US dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_precursor_materials",
+        "type": "product",
+        "name": "battery precursor materials"
+      }
+    ]
+  }
+}
+2025-09-24 22:50:07,668 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:07,668 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:50:07,668 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:50:07,668 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:50:08,998 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:08,998 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cngr_battery_precursor_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:50:08,998 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:08,998 - INFO - ✅ Match found for investment_ID 'investment_cngr_battery_precursor_plant' in investment nodes
+2025-09-24 22:50:08,998 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:50:08,998 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:50:08,998 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:50:08,998 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:50:08,998 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:50:10,125 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:10,125 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_precursor_materials",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 22:50:10,125 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:10,125 - INFO - ✅ Match found for product_ID 'product_battery_precursor_materials' in product nodes
+2025-09-24 22:50:10,125 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:50:10,125 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:50:10,125 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:50:10,125 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:50:10,125 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:50:11,251 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:11,251 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cngr_advanced_material",
+      "type": "owns",
+      "target": "factory_indonesia_battery_precursor_plant"
+    }
+  ]
+}
+2025-09-24 22:50:11,251 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:11,251 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:50:11,251 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:50:12,891 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:12,891 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_precursor_materials",
+      "target": "factory_indonesia_battery_precursor_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:50:12,891 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:12,891 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:50:12,891 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:50:14,632 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:14,632 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:50:14,633 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:14,633 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:50:14,633 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:50:15,756 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:50:15,757 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cngr_battery_precursor_plant",
+      "target": "factory_indonesia_battery_precursor_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_cngr_battery_precursor_plant",
+      "target": "product_battery_precursor_materials",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:50:15,757 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:50:15,850 - INFO - ✅ Updated Article ID: 68d3e2fd3e609fb288d7c965 with 4 nodes and combined text.

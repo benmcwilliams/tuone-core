@@ -1,0 +1,228 @@
+2025-09-24 23:09:51,151 - INFO - 🔍 Text length: 1191 characters
+2025-09-24 23:09:51,151 - INFO - 📌 Processing Article ID: 68d3e1ee3e609fb288d7c92c — Li-Cycle Receives 475-Million-Dollar Loan
+2025-09-24 23:09:51,151 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:09:55,635 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:09:55,636 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_li_cycle",
+        "type": "company",
+        "name": "Li-Cycle"
+      },
+      {
+        "id": "company_us_department_of_energy",
+        "type": "company",
+        "name": "US Department of Energy"
+      },
+      {
+        "id": "company_glencore",
+        "type": "company",
+        "name": "Glencore"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rochester_hub",
+        "type": "factory",
+        "name": "Rochester Hub",
+        "location": {
+          "city": "upstate New York",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_us_department_of_energy_loan",
+        "type": "investment",
+        "name": "US Department of Energy Loan",
+        "amount": "475 million US dollars",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_8_250_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "8,250 tons per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_72_000_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "72,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_carbonate",
+        "type": "product",
+        "name": "lithium carbonate"
+      },
+      {
+        "id": "product_mixed_hydroxide_precipitate",
+        "type": "product",
+        "name": "mixed hydroxide precipitate"
+      }
+    ]
+  }
+}
+2025-09-24 23:09:55,636 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:09:55,636 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:09:55,636 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:09:57,347 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:09:57,347 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_8_250_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_72_000_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:09:57,347 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:09:57,347 - INFO - ✅ Match found for capacity_ID 'capacity_8_250_tons_per_year' in capacity nodes
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:09:57,347 - INFO - ✅ Match found for capacity_ID 'capacity_72_000_tons_per_year' in capacity nodes
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:09:57,347 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:09:57,347 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:09:57,347 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:09:58,782 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:09:58,782 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_us_department_of_energy_loan",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:09:58,782 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:09:58,782 - INFO - ✅ Match found for investment_ID 'investment_us_department_of_energy_loan' in investment nodes
+2025-09-24 23:09:58,782 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 23:09:58,782 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:09:58,782 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:09:58,782 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:09:58,782 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:10:00,306 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:10:00,306 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_carbonate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_mixed_hydroxide_precipitate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 23:10:00,306 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:10:00,306 - INFO - ✅ Match found for product_ID 'product_lithium_carbonate' in product nodes
+2025-09-24 23:10:00,306 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:10:00,306 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:10:00,306 - INFO - ✅ Match found for product_ID 'product_mixed_hydroxide_precipitate' in product nodes
+2025-09-24 23:10:00,306 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:10:00,306 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:10:00,306 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:10:00,306 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:10:00,306 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:10:01,339 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:10:01,339 - INFO - {
+  "relationships": [
+    {
+      "source": "company_li_cycle",
+      "type": "owns",
+      "target": "factory_rochester_hub"
+    }
+  ]
+}
+2025-09-24 23:10:01,339 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:10:01,339 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:10:01,339 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:10:04,031 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:10:04,031 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_8_250_tons_per_year",
+      "target": "factory_rochester_hub",
+      "type": "at"
+    },
+    {
+      "source": "capacity_72_000_tons_per_year",
+      "target": "factory_rochester_hub",
+      "type": "at"
+    },
+    {
+      "source": "capacity_8_250_tons_per_year",
+      "target": "product_lithium_carbonate",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_72_000_tons_per_year",
+      "target": "product_mixed_hydroxide_precipitate",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_carbonate",
+      "target": "factory_rochester_hub",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mixed_hydroxide_precipitate",
+      "target": "factory_rochester_hub",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:10:04,031 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:10:04,031 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:10:04,031 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:10:04,718 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:10:04,718 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:10:04,719 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:10:04,719 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:10:04,719 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:10:05,948 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:10:05,949 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_us_department_of_energy_loan",
+      "target": "factory_rochester_hub",
+      "type": "funds"
+    },
+    {
+      "source": "investment_us_department_of_energy_loan",
+      "target": "product_lithium_carbonate",
+      "type": "targets"
+    },
+    {
+      "source": "investment_us_department_of_energy_loan",
+      "target": "product_mixed_hydroxide_precipitate",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:10:05,949 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:10:06,040 - INFO - ✅ Updated Article ID: 68d3e1ee3e609fb288d7c92c with 9 nodes and combined text.

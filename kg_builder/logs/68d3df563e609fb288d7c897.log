@@ -1,0 +1,220 @@
+2025-09-24 23:49:13,089 - INFO - 🔍 Text length: 1671 characters
+2025-09-24 23:49:13,089 - INFO - 📌 Processing Article ID: 68d3df563e609fb288d7c897 — CP Foton to build Thai assembly plant
+2025-09-24 23:49:13,089 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:49:15,641 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:15,642 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_foton_motor_group",
+        "type": "company",
+        "name": "Foton Motor Group"
+      },
+      {
+        "id": "company_cp_group",
+        "type": "company",
+        "name": "CP Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_cp_foton_sales_company",
+        "type": "joint_venture",
+        "name": "CP Foton Sales Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_thailand_assembly_facility",
+        "type": "factory",
+        "name": "commercial vehicle assembly facility",
+        "location": {
+          "city": "null",
+          "country": "Thailand"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_thailand_ev_charging_network",
+        "type": "investment",
+        "name": "EV charging and battery swapping network",
+        "amount": "null",
+        "status": "announced"
+      },
+      {
+        "id": "investment_thailand_assembly_plant",
+        "type": "investment",
+        "name": "Thailand assembly plant",
+        "amount": "THB1bn (US$30m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "3,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_charging_network",
+        "type": "product",
+        "name": "EV charging and battery swapping network"
+      },
+      {
+        "id": "product_commercial_vehicles",
+        "type": "product",
+        "name": "commercial vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 23:49:15,642 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:15,642 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:49:15,642 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:49:18,096 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:18,097 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3k_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:49:18,097 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:18,097 - INFO - ✅ Match found for capacity_ID 'capacity_3k_vehicles_per_year' in capacity nodes
+2025-09-24 23:49:18,097 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:49:18,097 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:49:18,097 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:49:18,097 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:49:18,097 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:49:19,028 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:19,028 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_thailand_ev_charging_network",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_thailand_assembly_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:49:19,029 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:19,029 - INFO - ✅ Match found for investment_ID 'investment_thailand_ev_charging_network' in investment nodes
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:49:19,029 - INFO - ✅ Match found for investment_ID 'investment_thailand_assembly_plant' in investment nodes
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:49:19,029 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:49:19,029 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:49:19,029 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:49:21,067 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:21,067 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_charging_network",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_commercial_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:49:21,068 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:21,068 - INFO - ✅ Match found for product_ID 'product_ev_charging_network' in product nodes
+2025-09-24 23:49:21,068 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:49:21,068 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:49:21,068 - INFO - ✅ Match found for product_ID 'product_commercial_vehicles' in product nodes
+2025-09-24 23:49:21,068 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:49:21,068 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:49:21,068 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:49:21,068 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:49:21,068 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:49:22,397 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:22,398 - INFO - {
+  "relationships": [
+    {
+      "source": "company_foton_motor_group",
+      "type": "forms",
+      "target": "joint_venture_cp_foton_sales_company"
+    },
+    {
+      "source": "company_cp_group",
+      "type": "forms",
+      "target": "joint_venture_cp_foton_sales_company"
+    },
+    {
+      "source": "joint_venture_cp_foton_sales_company",
+      "type": "owns",
+      "target": "factory_thailand_assembly_facility"
+    }
+  ]
+}
+2025-09-24 23:49:22,398 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:22,398 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:49:22,398 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:49:23,626 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:23,627 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3k_vehicles_per_year",
+      "target": "factory_thailand_assembly_facility",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3k_vehicles_per_year",
+      "target": "product_commercial_vehicles",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_commercial_vehicles",
+      "target": "factory_thailand_assembly_facility",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:49:23,627 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:23,627 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:49:23,627 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:49:24,345 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:24,346 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:49:24,346 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:24,346 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:49:24,346 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:49:25,982 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:25,982 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_thailand_assembly_plant",
+      "target": "factory_thailand_assembly_facility",
+      "type": "funds"
+    },
+    {
+      "source": "investment_thailand_assembly_plant",
+      "target": "capacity_3k_vehicles_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-09-24 23:49:25,982 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:26,071 - INFO - ✅ Updated Article ID: 68d3df563e609fb288d7c897 with 9 nodes and combined text.

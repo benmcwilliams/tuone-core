@@ -1,0 +1,106 @@
+2025-09-24 22:30:00,533 - INFO - 🔍 Text length: 953 characters
+2025-09-24 22:30:00,533 - INFO - 📌 Processing Article ID: 68d3e4813e609fb288d7c9d4 — Toyota and Redwood Expand Collaboration
+2025-09-24 22:30:00,533 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:30:03,883 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:30:03,883 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_redwood_materials",
+        "type": "company",
+        "name": "Redwood Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_north_carolina_battery",
+        "type": "factory",
+        "name": "North Carolina Battery Factory",
+        "location": {
+          "city": "North Carolina",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_materials",
+        "type": "product",
+        "name": "cathode materials"
+      },
+      {
+        "id": "product_anode_copper_foils",
+        "type": "product",
+        "name": "anode copper foils"
+      }
+    ]
+  }
+}
+2025-09-24 22:30:03,883 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:30:03,883 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:30:03,883 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:30:03,883 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:30:03,883 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:30:05,502 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:30:05,502 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_materials",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_anode_copper_foils",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:30:05,502 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:30:05,502 - INFO - ✅ Match found for product_ID 'product_cathode_materials' in product nodes
+2025-09-24 22:30:05,502 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:30:05,503 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 22:30:05,503 - INFO - ✅ Match found for product_ID 'product_anode_copper_foils' in product nodes
+2025-09-24 22:30:05,503 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 22:30:05,503 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:30:05,503 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:30:05,503 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:30:05,503 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:30:06,679 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:30:06,680 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_north_carolina_battery"
+    }
+  ]
+}
+2025-09-24 22:30:06,680 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:30:06,680 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:30:06,680 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:30:09,753 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:30:09,753 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cathode_materials",
+      "target": "factory_north_carolina_battery",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_anode_copper_foils",
+      "target": "factory_north_carolina_battery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:30:09,753 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:30:09,753 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:30:09,753 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:30:09,850 - INFO - ✅ Updated Article ID: 68d3e4813e609fb288d7c9d4 with 5 nodes and combined text.

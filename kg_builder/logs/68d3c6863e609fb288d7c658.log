@@ -1,0 +1,87 @@
+2025-09-25 01:46:27,828 - INFO - 🔍 Text length: 1602 characters
+2025-09-25 01:46:27,828 - INFO - 📌 Processing Article ID: 68d3c6863e609fb288d7c658 — German automakers hit with human rights complaint from European NGO
+2025-09-25 01:46:27,828 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:46:29,260 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:46:29,260 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_xinjiang_china",
+        "type": "factory",
+        "name": "Xinjiang Plant",
+        "location": {
+          "city": "Xinjiang",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_quality_control_checks",
+        "type": "product",
+        "name": "quality control checks"
+      }
+    ]
+  }
+}
+2025-09-25 01:46:29,261 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:46:29,261 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:46:29,261 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:46:29,261 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:46:29,261 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:46:30,388 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:46:30,388 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_quality_control_checks",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:46:30,388 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:46:30,388 - INFO - ✅ Match found for product_ID 'product_quality_control_checks' in product nodes
+2025-09-25 01:46:30,388 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:46:30,388 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:46:30,388 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:46:30,388 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:46:30,388 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:46:31,717 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:46:31,717 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_xinjiang_china"
+    }
+  ]
+}
+2025-09-25 01:46:31,717 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:46:31,717 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:46:31,717 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:46:32,385 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:46:32,385 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:46:32,385 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:46:32,385 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:46:32,385 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:46:32,466 - INFO - ✅ Updated Article ID: 68d3c6863e609fb288d7c658 with 5 nodes and combined text.

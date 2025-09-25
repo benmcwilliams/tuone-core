@@ -1,0 +1,150 @@
+2025-09-24 22:11:28,886 - INFO - 🔍 Text length: 1178 characters
+2025-09-24 22:11:28,887 - INFO - 📌 Processing Article ID: 68d3e5be3e609fb288d7ca32 — Mazda baut Werk für Batteriemodule in Japan
+2025-09-24 22:11:28,887 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:11:31,152 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:11:31,152 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mazda_motor_corporation",
+        "type": "company",
+        "name": "Mazda Motor Corporation"
+      },
+      {
+        "id": "company_panasonic_energy",
+        "type": "company",
+        "name": "Panasonic Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_iwakuni_japan",
+        "type": "factory",
+        "name": "Iwakuni Factory",
+        "location": {
+          "city": "Iwakuni",
+          "country": "Japan"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_10_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "ten Gigawatt hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cylindrical_lithium_ion_batteries",
+        "type": "product",
+        "name": "cylindrical lithium-ion batteries"
+      },
+      {
+        "id": "product_battery_modules_and_packs",
+        "type": "product",
+        "name": "battery modules and packs"
+      },
+      {
+        "id": "product_battery_packages",
+        "type": "product",
+        "name": "battery packages"
+      }
+    ]
+  }
+}
+2025-09-24 22:11:31,152 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:11:31,153 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:11:31,153 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:11:32,793 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:11:32,794 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_10_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:11:32,794 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:11:32,794 - INFO - ✅ Match found for capacity_ID 'capacity_10_gwh_announced' in capacity nodes
+2025-09-24 22:11:32,794 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:11:32,794 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:11:32,794 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:11:32,794 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:11:32,794 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:11:32,794 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:11:35,341 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:11:35,341 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_modules_and_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_cylindrical_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_packages",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:11:35,342 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:11:35,342 - INFO - ✅ Match found for product_ID 'product_battery_modules_and_packs' in product nodes
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:11:35,342 - INFO - ✅ Match found for product_ID 'product_cylindrical_lithium_ion_batteries' in product nodes
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:11:35,342 - INFO - ✅ Match found for product_ID 'product_battery_packages' in product nodes
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:11:35,342 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:11:35,342 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:11:35,342 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:11:35,342 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:11:36,683 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:11:36,683 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mazda_motor_corporation",
+      "type": "owns",
+      "target": "factory_iwakuni_japan"
+    }
+  ]
+}
+2025-09-24 22:11:36,683 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:11:36,683 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:11:36,683 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:11:38,115 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:11:38,115 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_10_gwh_announced",
+      "target": "factory_iwakuni_japan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_10_gwh_announced",
+      "target": "product_battery_modules_and_packs",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_modules_and_packs",
+      "target": "factory_iwakuni_japan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:11:38,115 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:11:38,115 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:11:38,115 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:11:38,203 - INFO - ✅ Updated Article ID: 68d3e5be3e609fb288d7ca32 with 7 nodes and combined text.

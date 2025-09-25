@@ -1,0 +1,168 @@
+2025-09-24 21:31:55,635 - INFO - 🔍 Text length: 7192 characters
+2025-09-24 21:31:55,635 - INFO - 📌 Processing Article ID: 68d3e7d73e609fb288d7cad4 — Auch SVOLT wird Stellantis-Zulieferer
+2025-09-24 21:31:55,635 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:31:59,944 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:31:59,944 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_svolt",
+        "type": "company",
+        "name": "SVOLT"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ueberherrn_saarland",
+        "type": "factory",
+        "name": "\u00dcberherrn, Saarland",
+        "location": {
+          "city": "\u00dcberherrn",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_electromobility",
+        "type": "investment",
+        "name": "Stellantis Electromobility",
+        "amount": "30 billion euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriezellen",
+        "type": "product",
+        "name": "Batteriezellen"
+      },
+      {
+        "id": "product_hochvolt_energiespeicher",
+        "type": "product",
+        "name": "Hochvolt-Energiespeicher"
+      },
+      {
+        "id": "product_batteriemanagementsysteme",
+        "type": "product",
+        "name": "Batteriemanagementsysteme"
+      }
+    ]
+  }
+}
+2025-09-24 21:31:59,944 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:31:59,944 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:31:59,945 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:31:59,945 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:32:00,966 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:00,966 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_electromobility",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-09-24 21:32:00,966 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:00,966 - INFO - ✅ Match found for investment_ID 'investment_stellantis_electromobility' in investment nodes
+2025-09-24 21:32:00,966 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:32:00,966 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:32:00,966 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 21:32:00,966 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:32:00,966 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:32:02,912 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:02,912 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriezellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_hochvolt_energiespeicher",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_batteriemanagementsysteme",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:32:02,912 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:02,912 - INFO - ✅ Match found for product_ID 'product_batteriezellen' in product nodes
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:32:02,912 - INFO - ✅ Match found for product_ID 'product_hochvolt_energiespeicher' in product nodes
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:32:02,912 - INFO - ✅ Match found for product_ID 'product_batteriemanagementsysteme' in product nodes
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:32:02,912 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:32:02,912 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:32:02,912 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:32:02,912 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:32:04,550 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:04,550 - INFO - {
+  "relationships": [
+    {
+      "source": "company_svolt",
+      "type": "owns",
+      "target": "factory_ueberherrn_saarland"
+    }
+  ]
+}
+2025-09-24 21:32:04,550 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:04,550 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:32:04,550 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:32:05,881 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:05,882 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_ueberherrn_saarland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:32:05,882 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:05,882 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:32:05,882 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:32:08,633 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:08,633 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:32:08,633 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:08,633 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:32:08,633 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:32:09,977 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:32:09,978 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_electromobility",
+      "target": "product_batteriezellen",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_electromobility",
+      "target": "product_hochvolt_energiespeicher",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_electromobility",
+      "target": "product_batteriemanagementsysteme",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:32:09,978 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:32:10,074 - INFO - ✅ Updated Article ID: 68d3e7d73e609fb288d7cad4 with 7 nodes and combined text.

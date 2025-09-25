@@ -1,0 +1,141 @@
+2025-09-25 01:16:38,821 - INFO - 🔍 Text length: 2514 characters
+2025-09-25 01:16:38,821 - INFO - 📌 Processing Article ID: 68d3c9633e609fb288d7c6e0 — Siemens partners with FREYR to develop affordable EV batteries
+2025-09-25 01:16:38,821 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:16:41,609 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:16:41,610 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_freyr_battery",
+        "type": "company",
+        "name": "FREYR Battery"
+      },
+      {
+        "id": "company_siemens",
+        "type": "company",
+        "name": "Siemens"
+      },
+      {
+        "id": "company_nvidia",
+        "type": "company",
+        "name": "NVIDIA"
+      },
+      {
+        "id": "company_aws",
+        "type": "company",
+        "name": "AWS"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_giga_arctic",
+        "type": "factory",
+        "name": "Giga Arctic",
+        "location": {
+          "city": "null",
+          "country": "Norway"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_giga_america",
+        "type": "factory",
+        "name": "Giga America",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_solutions",
+        "type": "product",
+        "name": "EV battery solutions"
+      },
+      {
+        "id": "product_energy_storage_systems",
+        "type": "product",
+        "name": "energy storage systems"
+      }
+    ]
+  }
+}
+2025-09-25 01:16:41,610 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:16:41,610 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:16:41,610 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:16:41,610 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:16:41,610 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:16:42,998 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:16:42,999 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery_solutions",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_energy_storage_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:16:42,999 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:16:42,999 - INFO - ✅ Match found for product_ID 'product_ev_battery_solutions' in product nodes
+2025-09-25 01:16:42,999 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:16:42,999 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:16:42,999 - INFO - ✅ Match found for product_ID 'product_energy_storage_systems' in product nodes
+2025-09-25 01:16:42,999 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:16:42,999 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:16:42,999 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:16:42,999 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:16:42,999 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:16:43,897 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:16:43,897 - INFO - {
+  "relationships": [
+    {
+      "source": "company_freyr_battery",
+      "type": "owns",
+      "target": "factory_giga_arctic"
+    },
+    {
+      "source": "company_freyr_battery",
+      "type": "owns",
+      "target": "factory_giga_america"
+    }
+  ]
+}
+2025-09-25 01:16:43,897 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:16:43,897 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:16:43,897 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:16:46,923 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:16:46,923 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_battery_solutions",
+      "target": "factory_giga_arctic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_battery_solutions",
+      "target": "factory_giga_america",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_energy_storage_systems",
+      "target": "factory_giga_arctic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_energy_storage_systems",
+      "target": "factory_giga_america",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:16:46,923 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:16:46,923 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:16:46,923 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:16:47,014 - INFO - ✅ Updated Article ID: 68d3c9633e609fb288d7c6e0 with 8 nodes and combined text.

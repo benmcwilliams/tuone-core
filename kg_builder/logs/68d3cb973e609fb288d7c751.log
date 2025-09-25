@@ -1,0 +1,160 @@
+2025-09-25 00:54:35,060 - INFO - 🔍 Text length: 2926 characters
+2025-09-25 00:54:35,060 - INFO - 📌 Processing Article ID: 68d3cb973e609fb288d7c751 — Infineon announces supplier agreement with Chinese silicon carbide supplier
+2025-09-25 00:54:35,060 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:54:38,031 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:38,031 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_infineon_technologies",
+        "type": "company",
+        "name": "Infineon Technologies"
+      },
+      {
+        "id": "company_tankeblue",
+        "type": "company",
+        "name": "TanKeBlue"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kulim_malaysia",
+        "type": "factory",
+        "name": "Kulim Plant",
+        "location": {
+          "city": "Kulim",
+          "country": "Malaysia"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_villach_austria",
+        "type": "factory",
+        "name": "Villach Facility",
+        "location": {
+          "city": "Villach",
+          "country": "Austria"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_tenfold_increase_by_2027",
+        "type": "capacity",
+        "name": "",
+        "amount": "tenfold increase",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sic_wafers_and_boules",
+        "type": "product",
+        "name": "150-millimeter SiC wafers and boules"
+      },
+      {
+        "id": "product_sic_semiconductors",
+        "type": "product",
+        "name": "SiC semiconductors"
+      }
+    ]
+  }
+}
+2025-09-25 00:54:38,031 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:38,031 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 00:54:38,031 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 00:54:39,168 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:39,169 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_tenfold_increase_by_2027",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-25 00:54:39,169 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:39,169 - INFO - ✅ Match found for capacity_ID 'capacity_tenfold_increase_by_2027' in capacity nodes
+2025-09-25 00:54:39,169 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:54:39,169 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 00:54:39,169 - INFO -   ➕ Set field 'additional': True
+2025-09-25 00:54:39,169 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:54:39,169 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:54:39,169 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:54:40,984 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:40,984 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sic_wafers_and_boules",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_sic_semiconductors",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 00:54:40,984 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:40,985 - INFO - ✅ Match found for product_ID 'product_sic_wafers_and_boules' in product nodes
+2025-09-25 00:54:40,985 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 00:54:40,985 - INFO - ✅ Match found for product_ID 'product_sic_semiconductors' in product nodes
+2025-09-25 00:54:40,985 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 00:54:40,985 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:54:40,985 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:54:40,985 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:54:42,138 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:42,139 - INFO - {
+  "relationships": [
+    {
+      "source": "company_infineon_technologies",
+      "type": "owns",
+      "target": "factory_kulim_malaysia"
+    },
+    {
+      "source": "company_infineon_technologies",
+      "type": "owns",
+      "target": "factory_villach_austria"
+    }
+  ]
+}
+2025-09-25 00:54:42,139 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:42,139 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:54:42,139 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:54:44,522 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:44,522 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_tenfold_increase_by_2027",
+      "target": "factory_kulim_malaysia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_tenfold_increase_by_2027",
+      "target": "factory_villach_austria",
+      "type": "at"
+    },
+    {
+      "source": "product_sic_semiconductors",
+      "target": "factory_kulim_malaysia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sic_semiconductors",
+      "target": "factory_villach_austria",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_tenfold_increase_by_2027",
+      "target": "product_sic_semiconductors",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-25 00:54:44,522 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:44,522 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:54:44,522 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:54:44,614 - INFO - ✅ Updated Article ID: 68d3cb973e609fb288d7c751 with 7 nodes and combined text.

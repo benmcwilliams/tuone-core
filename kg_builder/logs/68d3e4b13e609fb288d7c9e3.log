@@ -1,0 +1,191 @@
+2025-09-24 22:26:48,407 - INFO - 🔍 Text length: 1371 characters
+2025-09-24 22:26:48,407 - INFO - 📌 Processing Article ID: 68d3e4b13e609fb288d7c9e3 — LG Chem to Purchase Lithium from ExxonMobil
+2025-09-24 22:26:48,407 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:26:51,617 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:51,618 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      },
+      {
+        "id": "company_exxonmobil",
+        "type": "company",
+        "name": "ExxonMobil"
+      },
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tennessee_cathode_plant",
+        "type": "factory",
+        "name": "Tennessee Cathode Plant",
+        "location": {
+          "city": "Tennessee",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tennessee_cathode_plant",
+        "type": "investment",
+        "name": "Tennessee Cathode Plant",
+        "amount": "approximately 1.6 billion US dollars",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_60k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "60,000 tonnes per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_carbonate",
+        "type": "product",
+        "name": "lithium carbonate"
+      },
+      {
+        "id": "product_cathode",
+        "type": "product",
+        "name": "cathode"
+      }
+    ]
+  }
+}
+2025-09-24 22:26:51,618 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:51,618 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:26:51,618 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:26:52,657 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:52,657 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_60k_tonnes_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:26:52,657 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:52,657 - INFO - ✅ Match found for capacity_ID 'capacity_60k_tonnes_per_year' in capacity nodes
+2025-09-24 22:26:52,657 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 22:26:52,657 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:26:52,657 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:26:52,657 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:26:52,657 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:26:53,439 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:53,439 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tennessee_cathode_plant",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:26:53,439 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:53,439 - INFO - ✅ Match found for investment_ID 'investment_tennessee_cathode_plant' in investment nodes
+2025-09-24 22:26:53,440 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 22:26:53,440 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:26:53,440 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:26:53,440 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:26:53,440 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:26:54,909 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:54,910 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_carbonate",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_cathode",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:26:54,910 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:54,910 - INFO - ✅ Match found for product_ID 'product_lithium_carbonate' in product nodes
+2025-09-24 22:26:54,910 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:26:54,910 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:26:54,910 - INFO - ✅ Match found for product_ID 'product_cathode' in product nodes
+2025-09-24 22:26:54,910 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:26:54,910 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:26:54,910 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:26:54,910 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:26:54,910 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:26:55,949 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:55,949 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_chem",
+      "type": "owns",
+      "target": "factory_tennessee_cathode_plant"
+    }
+  ]
+}
+2025-09-24 22:26:55,949 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:55,950 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:26:55,950 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:26:57,789 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:57,790 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_60k_tonnes_per_year",
+      "target": "factory_tennessee_cathode_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60k_tonnes_per_year",
+      "target": "product_cathode",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_cathode",
+      "target": "factory_tennessee_cathode_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:26:57,790 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:57,790 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:26:57,790 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:26:58,349 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:58,349 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:26:58,350 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:58,350 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:26:58,350 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:26:59,579 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:26:59,579 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tennessee_cathode_plant",
+      "target": "factory_tennessee_cathode_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tennessee_cathode_plant",
+      "target": "capacity_60k_tonnes_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-09-24 22:26:59,579 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:26:59,669 - INFO - ✅ Updated Article ID: 68d3e4b13e609fb288d7c9e3 with 8 nodes and combined text.

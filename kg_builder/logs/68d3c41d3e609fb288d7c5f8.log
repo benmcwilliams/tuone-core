@@ -1,0 +1,120 @@
+2025-09-25 02:05:28,341 - INFO - 🔍 Text length: 1164 characters
+2025-09-25 02:05:28,341 - INFO - 📌 Processing Article ID: 68d3c41d3e609fb288d7c5f8 — Porsche opens trial ‘charging lounge’
+2025-09-25 02:05:28,341 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:05:31,456 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:31,457 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_porsche",
+        "type": "company",
+        "name": "Porsche"
+      },
+      {
+        "id": "company_alpitronic",
+        "type": "company",
+        "name": "Alpitronic"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bingen_am_rhein_germany",
+        "type": "factory",
+        "name": "Bingen am Rhein Charging Lounge",
+        "location": {
+          "city": "Bingen am Rhein",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dc_fast_charging_station",
+        "type": "product",
+        "name": "DC Fast Charging Station"
+      },
+      {
+        "id": "product_ac_charging_station",
+        "type": "product",
+        "name": "AC Charging Station"
+      },
+      {
+        "id": "product_heat_pump",
+        "type": "product",
+        "name": "Heat Pump"
+      },
+      {
+        "id": "product_photovoltaic_solar_cells",
+        "type": "product",
+        "name": "Photovoltaic Solar Cells"
+      }
+    ]
+  }
+}
+2025-09-25 02:05:31,457 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:31,457 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:05:31,457 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:05:31,457 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:05:31,457 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:05:34,524 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:34,525 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_dc_fast_charging_station",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ac_charging_station",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_heat_pump",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_photovoltaic_solar_cells",
+      "product_lv1": "solar",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-25 02:05:34,525 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:34,525 - INFO - ✅ Match found for product_ID 'product_dc_fast_charging_station' in product nodes
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:05:34,525 - INFO - ✅ Match found for product_ID 'product_ac_charging_station' in product nodes
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:05:34,525 - INFO - ✅ Match found for product_ID 'product_heat_pump' in product nodes
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 02:05:34,525 - INFO - ✅ Match found for product_ID 'product_photovoltaic_solar_cells' in product nodes
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv1': solar
+2025-09-25 02:05:34,525 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 02:05:34,525 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:05:34,525 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:05:34,525 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:05:35,548 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:35,548 - INFO - {
+  "relationships": [
+    {
+      "source": "company_porsche",
+      "type": "owns",
+      "target": "factory_bingen_am_rhein_germany"
+    }
+  ]
+}
+2025-09-25 02:05:35,548 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:35,548 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:05:35,548 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:05:36,368 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:05:36,368 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:05:36,368 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:05:36,368 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:05:36,368 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:05:36,461 - INFO - ✅ Updated Article ID: 68d3c41d3e609fb288d7c5f8 with 7 nodes and combined text.

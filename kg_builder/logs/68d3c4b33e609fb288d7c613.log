@@ -1,0 +1,58 @@
+2025-09-25 01:59:31,085 - INFO - 🔍 Text length: 2946 characters
+2025-09-25 01:59:31,085 - INFO - 📌 Processing Article ID: 68d3c4b33e609fb288d7c613 — EU not budging on EV tariffs
+2025-09-25 01:59:31,085 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:59:32,123 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:32,123 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acea",
+        "type": "company",
+        "name": "ACEA"
+      },
+      {
+        "id": "company_smm",
+        "type": "company",
+        "name": "SMMT"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "EVs"
+      }
+    ]
+  }
+}
+2025-09-25 01:59:32,123 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:32,123 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:59:32,123 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:59:32,123 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:59:32,123 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:59:33,353 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:33,353 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:59:33,353 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:33,353 - INFO - ✅ Match found for product_ID 'product_ev' in product nodes
+2025-09-25 01:59:33,353 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:59:33,353 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:59:33,353 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:59:33,353 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-25 01:59:33,353 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:59:33,353 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:59:35,094 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:59:35,095 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:59:35,095 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:59:35,095 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:59:35,095 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:59:35,181 - INFO - ✅ Updated Article ID: 68d3c4b33e609fb288d7c613 with 3 nodes and combined text.

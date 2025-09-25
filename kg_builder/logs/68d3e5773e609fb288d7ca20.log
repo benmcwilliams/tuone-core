@@ -1,0 +1,138 @@
+2025-09-24 22:15:00,923 - INFO - 🔍 Text length: 996 characters
+2025-09-24 22:15:00,923 - INFO - 📌 Processing Article ID: 68d3e5773e609fb288d7ca20 — Ultium Delivers First Battery Cells to GM in Tennessee
+2025-09-24 22:15:00,923 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:15:04,006 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:15:04,006 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ultium_cells",
+        "type": "joint_venture",
+        "name": "Ultium Cells"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_spring_hill_assembly_plant",
+        "type": "factory",
+        "name": "Spring Hill Assembly Plant",
+        "location": {
+          "city": "Spring Hill",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_warren_ohio",
+        "type": "factory",
+        "name": "Warren Plant",
+        "location": {
+          "city": "Warren",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_cadillac_lyriq",
+        "type": "product",
+        "name": "Cadillac Lyriq"
+      }
+    ]
+  }
+}
+2025-09-24 22:15:04,006 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:15:04,006 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:15:04,006 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:15:04,006 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:15:04,006 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:15:05,857 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:15:05,857 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_cadillac_lyriq",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 22:15:05,857 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:15:05,857 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 22:15:05,857 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:15:05,857 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:15:05,857 - INFO - ✅ Match found for product_ID 'product_cadillac_lyriq' in product nodes
+2025-09-24 22:15:05,857 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 22:15:05,857 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 22:15:05,857 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:15:05,857 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:15:05,857 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:15:09,535 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:15:09,536 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_ultium_cells"
+    },
+    {
+      "source": "joint_venture_ultium_cells",
+      "type": "owns",
+      "target": "factory_spring_hill_assembly_plant"
+    },
+    {
+      "source": "joint_venture_ultium_cells",
+      "type": "owns",
+      "target": "factory_warren_ohio"
+    }
+  ]
+}
+2025-09-24 22:15:09,536 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:15:09,536 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:15:09,536 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:15:10,763 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:15:10,763 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_spring_hill_assembly_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_warren_ohio",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:15:10,764 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:15:10,764 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:15:10,764 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:15:10,855 - INFO - ✅ Updated Article ID: 68d3e5773e609fb288d7ca20 with 7 nodes and combined text.

@@ -1,0 +1,114 @@
+2025-09-24 23:12:29,401 - INFO - 🔍 Text length: 1408 characters
+2025-09-24 23:12:29,401 - INFO - 📌 Processing Article ID: 68d3e1b03e609fb288d7c91c — Anlagenbauer HYNN kooperiert mit Aachener Hochschule
+2025-09-24 23:12:29,401 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:12:31,562 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:31,562 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hynn",
+        "type": "company",
+        "name": "HYNN"
+      },
+      {
+        "id": "company_pem_motion",
+        "type": "company",
+        "name": "PEM Motion"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pem_hauptsitz",
+        "type": "factory",
+        "name": "PEM Hauptsitz",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "Lithium-Ionen-Batterien"
+      },
+      {
+        "id": "product_cell_finalization",
+        "type": "product",
+        "name": "Zellfinalisierung"
+      },
+      {
+        "id": "product_cell_manufacturing",
+        "type": "product",
+        "name": "Zellfertigung"
+      }
+    ]
+  }
+}
+2025-09-24 23:12:31,563 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:31,563 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:12:31,563 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:12:31,563 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:12:31,563 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:12:33,917 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:33,918 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cell_finalization",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cell_manufacturing",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:12:33,918 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:33,918 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:12:33,918 - INFO - ✅ Match found for product_ID 'product_cell_finalization' in product nodes
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:12:33,918 - INFO - ✅ Match found for product_ID 'product_cell_manufacturing' in product nodes
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:12:33,918 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:12:33,918 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:12:33,918 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:12:33,918 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:12:34,838 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:34,838 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hynn",
+      "type": "owns",
+      "target": "factory_pem_hauptsitz"
+    }
+  ]
+}
+2025-09-24 23:12:34,838 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:34,838 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:12:34,838 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:12:36,067 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:12:36,067 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cell_manufacturing",
+      "target": "factory_pem_hauptsitz",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:12:36,067 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:12:36,067 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:12:36,067 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:12:36,163 - INFO - ✅ Updated Article ID: 68d3e1b03e609fb288d7c91c with 6 nodes and combined text.

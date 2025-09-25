@@ -1,0 +1,194 @@
+2025-09-24 23:04:22,751 - INFO - 🔍 Text length: 1109 characters
+2025-09-24 23:04:22,752 - INFO - 📌 Processing Article ID: 68d3e2813e609fb288d7c94d — Sigma Lithium Receives Financing for Second Factory in Brazil
+2025-09-24 23:04:22,752 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:04:25,474 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:25,475 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sigma_lithium",
+        "type": "company",
+        "name": "Sigma Lithium"
+      },
+      {
+        "id": "company_bndes",
+        "type": "company",
+        "name": "BNDES"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vale_do_jequitinhonha_brazil",
+        "type": "factory",
+        "name": "Vale do Jequitinhonha Lithium Concentrate Plant",
+        "location": {
+          "city": "Vale do Jequitinhonha",
+          "country": "Brazil"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bndes_loan",
+        "type": "investment",
+        "name": "BNDES Loan",
+        "amount": "90 million US dollars",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_270k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "270,000 tons per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_520k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "520,000 tons per year",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_concentrate",
+        "type": "product",
+        "name": "lithium concentrate"
+      }
+    ]
+  }
+}
+2025-09-24 23:04:25,475 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:25,475 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:04:25,475 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:04:27,308 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:27,308 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_270k_tons_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_520k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 23:04:27,308 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:27,308 - INFO - ✅ Match found for capacity_ID 'capacity_270k_tons_per_year' in capacity nodes
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'status': operational
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:04:27,309 - INFO - ✅ Match found for capacity_ID 'capacity_520k_tons_per_year' in capacity nodes
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:04:27,309 - INFO -   ➕ Set field 'additional': True
+2025-09-24 23:04:27,309 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:04:27,309 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:04:28,333 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:28,333 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bndes_loan",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:04:28,333 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:28,333 - INFO - ✅ Match found for investment_ID 'investment_bndes_loan' in investment nodes
+2025-09-24 23:04:28,333 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 23:04:28,333 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:04:28,333 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:04:28,333 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:04:28,333 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:04:30,380 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:30,380 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_concentrate",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 23:04:30,380 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:30,380 - INFO - ✅ Match found for product_ID 'product_lithium_concentrate' in product nodes
+2025-09-24 23:04:30,380 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:04:30,380 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:04:30,380 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:04:30,380 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:04:31,403 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:31,404 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sigma_lithium",
+      "type": "owns",
+      "target": "factory_vale_do_jequitinhonha_brazil"
+    }
+  ]
+}
+2025-09-24 23:04:31,404 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:31,404 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:04:31,404 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:04:34,067 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:34,067 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_270k_tons_per_year",
+      "target": "factory_vale_do_jequitinhonha_brazil",
+      "type": "at"
+    },
+    {
+      "source": "capacity_520k_tons_per_year",
+      "target": "factory_vale_do_jequitinhonha_brazil",
+      "type": "at"
+    },
+    {
+      "source": "capacity_520k_tons_per_year",
+      "target": "product_lithium_concentrate",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_concentrate",
+      "target": "factory_vale_do_jequitinhonha_brazil",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:04:34,067 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:34,067 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:04:34,068 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:04:34,885 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:34,886 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:04:34,886 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:34,886 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:04:34,886 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:04:36,114 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:04:36,114 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bndes_loan",
+      "target": "factory_vale_do_jequitinhonha_brazil",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bndes_loan",
+      "target": "product_lithium_concentrate",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:04:36,114 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:04:36,202 - INFO - ✅ Updated Article ID: 68d3e2813e609fb288d7c94d with 7 nodes and combined text.

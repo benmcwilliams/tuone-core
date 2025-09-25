@@ -1,0 +1,162 @@
+2025-09-25 01:21:56,384 - INFO - 🔍 Text length: 1507 characters
+2025-09-25 01:21:56,384 - INFO - 📌 Processing Article ID: 68d3c8e53e609fb288d7c6c9 — SK Signet and TeraWatt Infrastructure agree charger deal
+2025-09-25 01:21:56,384 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:22:00,783 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:00,784 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_signet",
+        "type": "company",
+        "name": "SK Signet"
+      },
+      {
+        "id": "company_terawatt_infrastructure",
+        "type": "company",
+        "name": "TeraWatt Infrastructure"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_texas",
+        "type": "factory",
+        "name": "Texas Factory",
+        "location": {
+          "city": "Texas",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_texas_factory",
+        "type": "investment",
+        "name": "Texas Factory Investment",
+        "amount": "US$15m",
+        "status": "completed"
+      },
+      {
+        "id": "investment_uk_charging_stations",
+        "type": "investment",
+        "name": "UK Charging Stations Investment",
+        "amount": "KRW10bn (US$7.7m)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_charging_equipment",
+        "type": "product",
+        "name": "EV Charging Equipment"
+      },
+      {
+        "id": "product_ultra_fast_chargers",
+        "type": "product",
+        "name": "Ultra Fast Chargers"
+      }
+    ]
+  }
+}
+2025-09-25 01:22:00,784 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:00,784 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:22:00,784 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:22:00,784 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:22:03,141 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:03,141 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_texas_factory",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_uk_charging_stations",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 01:22:03,141 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:03,141 - INFO - ✅ Match found for investment_ID 'investment_texas_factory' in investment nodes
+2025-09-25 01:22:03,141 - INFO -   ➕ Set field 'status': completed
+2025-09-25 01:22:03,141 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:22:03,141 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:22:03,142 - INFO - ✅ Match found for investment_ID 'investment_uk_charging_stations' in investment nodes
+2025-09-25 01:22:03,142 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:22:03,142 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:22:03,142 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 01:22:03,142 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:22:03,142 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:22:04,820 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:04,820 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_charging_equipment",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ultra_fast_chargers",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:22:04,820 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:04,820 - INFO - ✅ Match found for product_ID 'product_ev_charging_equipment' in product nodes
+2025-09-25 01:22:04,820 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:22:04,820 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:22:04,820 - INFO - ✅ Match found for product_ID 'product_ultra_fast_chargers' in product nodes
+2025-09-25 01:22:04,820 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:22:04,820 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:22:04,821 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:22:04,821 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:22:04,821 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:22:05,803 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:05,803 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_signet",
+      "type": "owns",
+      "target": "factory_texas"
+    }
+  ]
+}
+2025-09-25 01:22:05,803 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:05,803 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:22:05,804 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:22:08,159 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:08,159 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_charging_equipment",
+      "target": "factory_texas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:22:08,159 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:08,160 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:22:08,160 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:22:08,976 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:08,976 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:22:08,976 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:08,976 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:22:08,976 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:22:10,014 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:22:10,014 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_texas_factory",
+      "target": "factory_texas",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 01:22:10,014 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:22:10,108 - INFO - ✅ Updated Article ID: 68d3c8e53e609fb288d7c6c9 with 7 nodes and combined text.

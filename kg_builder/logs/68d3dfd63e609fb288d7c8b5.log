@@ -1,0 +1,123 @@
+2025-09-24 23:33:12,059 - INFO - 🔍 Text length: 1653 characters
+2025-09-24 23:33:12,059 - INFO - 📌 Processing Article ID: 68d3dfd63e609fb288d7c8b5 — Parts shortage forces Toyota to cut more output
+2025-09-24 23:33:12,060 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:33:14,094 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:14,095 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota_motor",
+        "type": "company",
+        "name": "Toyota Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_takaoka",
+        "type": "factory",
+        "name": "Takaoka",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_tahara",
+        "type": "factory",
+        "name": "Tahara",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_miyata",
+        "type": "factory",
+        "name": "Miyata",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_suvs",
+        "type": "product",
+        "name": "SUVs"
+      }
+    ]
+  }
+}
+2025-09-24 23:33:14,095 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:14,095 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:33:14,095 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:33:14,095 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:33:14,095 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:33:15,237 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:15,237 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_suvs",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:33:15,237 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:15,237 - INFO - ✅ Match found for product_ID 'product_suvs' in product nodes
+2025-09-24 23:33:15,237 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:33:15,237 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:33:15,237 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:33:15,237 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:33:15,237 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:33:16,979 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:16,979 - INFO - {
+  "relationships": [
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_takaoka"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_tahara"
+    },
+    {
+      "source": "company_toyota_motor",
+      "type": "owns",
+      "target": "factory_miyata"
+    }
+  ]
+}
+2025-09-24 23:33:16,979 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:16,979 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:33:16,979 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:33:18,209 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:33:18,210 - INFO - {
+  "relationships": [
+    {
+      "source": "product_suvs",
+      "target": "factory_takaoka",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_suvs",
+      "target": "factory_tahara",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_suvs",
+      "target": "factory_miyata",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:33:18,210 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:33:18,210 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:33:18,210 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:33:18,299 - INFO - ✅ Updated Article ID: 68d3dfd63e609fb288d7c8b5 with 5 nodes and combined text.

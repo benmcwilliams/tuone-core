@@ -1,0 +1,101 @@
+2025-09-25 02:18:02,282 - INFO - 🔍 Text length: 1351 characters
+2025-09-25 02:18:02,282 - INFO - 📌 Processing Article ID: 68d3c2d23e609fb288d7c5b8 — Nexeon to supply Panasonic
+2025-09-25 02:18:02,283 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:18:04,027 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:18:04,027 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_panasonic_energy",
+        "type": "company",
+        "name": "Panasonic Energy"
+      },
+      {
+        "id": "company_nexeon",
+        "type": "company",
+        "name": "Nexeon"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_de_soto_kansas",
+        "type": "factory",
+        "name": "De Soto Facility",
+        "location": {
+          "city": "De Soto",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_silicon_anode_material",
+        "type": "product",
+        "name": "silicon anode material"
+      },
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-09-25 02:18:04,027 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:18:04,028 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:18:04,028 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:18:04,028 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:18:04,028 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:18:05,461 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:18:05,461 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_silicon_anode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-25 02:18:05,461 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:18:05,462 - INFO - ✅ Match found for product_ID 'product_silicon_anode_material' in product nodes
+2025-09-25 02:18:05,462 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:18:05,462 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 02:18:05,462 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-25 02:18:05,462 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:18:05,462 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 02:18:05,462 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:18:05,462 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:18:05,462 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:18:06,694 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:18:06,694 - INFO - {
+  "relationships": [
+    {
+      "source": "company_panasonic_energy",
+      "type": "owns",
+      "target": "factory_de_soto_kansas"
+    }
+  ]
+}
+2025-09-25 02:18:06,694 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:18:06,694 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:18:06,694 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:18:07,614 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:18:07,614 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_de_soto_kansas",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:18:07,614 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:18:07,615 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:18:07,615 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:18:07,709 - INFO - ✅ Updated Article ID: 68d3c2d23e609fb288d7c5b8 with 5 nodes and combined text.

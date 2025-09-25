@@ -1,0 +1,233 @@
+2025-09-24 22:47:57,827 - INFO - 🔍 Text length: 1784 characters
+2025-09-24 22:47:57,827 - INFO - 📌 Processing Article ID: 68d3e3383e609fb288d7c970 — PowerCo und Umicore JV baut erste Produktionsstätte in Polen
+2025-09-24 22:47:57,827 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:48:01,099 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:01,100 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powerco",
+        "type": "company",
+        "name": "PowerCo"
+      },
+      {
+        "id": "company_umicore",
+        "type": "company",
+        "name": "Umicore"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ionway",
+        "type": "joint_venture",
+        "name": "IONWAY"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nysa_poland",
+        "type": "factory",
+        "name": "Nysa Factory",
+        "location": {
+          "city": "Nysa",
+          "country": "Poland"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_salzgitter_germany",
+        "type": "factory",
+        "name": "Salzgitter Cell Factory",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_poland",
+        "type": "investment",
+        "name": "Poland Investment",
+        "amount": "up to 1.7 billion Euro",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_160_gwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "160 Gigawatt hours per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pcam",
+        "type": "product",
+        "name": "pCAM"
+      },
+      {
+        "id": "product_cam",
+        "type": "product",
+        "name": "CAM"
+      }
+    ]
+  }
+}
+2025-09-24 22:48:01,100 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:01,100 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:48:01,100 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:48:03,250 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:03,250 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_160_gwh_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:48:03,250 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:03,250 - INFO - ✅ Match found for capacity_ID 'capacity_160_gwh_per_year' in capacity nodes
+2025-09-24 22:48:03,250 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:48:03,250 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:48:03,250 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:48:03,250 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:48:03,250 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:48:05,298 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:05,298 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_poland",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:48:05,298 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:05,298 - INFO - ✅ Match found for investment_ID 'investment_poland' in investment nodes
+2025-09-24 22:48:05,298 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:48:05,298 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:48:05,298 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:48:05,298 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:48:05,298 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:48:06,526 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:06,526 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pcam",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    },
+    {
+      "product_ID": "product_cam",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 22:48:06,526 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:06,526 - INFO - ✅ Match found for product_ID 'product_pcam' in product nodes
+2025-09-24 22:48:06,526 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:48:06,526 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:48:06,526 - INFO - ✅ Match found for product_ID 'product_cam' in product nodes
+2025-09-24 22:48:06,526 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:48:06,526 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 22:48:06,526 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:48:06,526 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:48:06,526 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:48:08,448 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:08,448 - INFO - {
+  "relationships": [
+    {
+      "source": "company_powerco",
+      "type": "forms",
+      "target": "joint_venture_ionway"
+    },
+    {
+      "source": "company_umicore",
+      "type": "forms",
+      "target": "joint_venture_ionway"
+    },
+    {
+      "source": "joint_venture_ionway",
+      "type": "owns",
+      "target": "factory_nysa_poland"
+    },
+    {
+      "source": "company_powerco",
+      "type": "owns",
+      "target": "factory_salzgitter_germany"
+    }
+  ]
+}
+2025-09-24 22:48:08,448 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:08,448 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:48:08,448 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:48:10,828 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:10,828 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_160_gwh_per_year",
+      "target": "factory_nysa_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_160_gwh_per_year",
+      "target": "product_pcam",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_160_gwh_per_year",
+      "target": "product_cam",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pcam",
+      "target": "factory_nysa_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cam",
+      "target": "factory_nysa_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:48:10,828 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:10,828 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:48:10,828 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:48:12,260 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:12,261 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:48:12,261 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:12,261 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:48:12,261 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:48:14,002 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:48:14,002 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_poland",
+      "target": "factory_nysa_poland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_poland",
+      "target": "product_pcam",
+      "type": "targets"
+    },
+    {
+      "source": "investment_poland",
+      "target": "product_cam",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:48:14,002 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:48:14,103 - INFO - ✅ Updated Article ID: 68d3e3383e609fb288d7c970 with 9 nodes and combined text.

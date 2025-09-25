@@ -1,0 +1,161 @@
+2025-09-25 02:15:57,967 - INFO - 🔍 Text length: 876 characters
+2025-09-25 02:15:57,967 - INFO - 📌 Processing Article ID: 68d3c2fa3e609fb288d7c5c0 — Bosch makes HFCEV modules for Nikola
+2025-09-25 02:15:57,967 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:16:01,059 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:01,060 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bosch",
+        "type": "company",
+        "name": "Bosch"
+      },
+      {
+        "id": "company_nikola",
+        "type": "company",
+        "name": "Nikola"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_germany",
+        "type": "factory",
+        "name": "Germany",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_chongqing_china",
+        "type": "factory",
+        "name": "Chongqing, China",
+        "location": {
+          "city": "Chongqing",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_wuxi_plant",
+        "type": "factory",
+        "name": "Wuxi plant",
+        "location": {
+          "city": "Wuxi",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bosch_hydrogen_technology",
+        "type": "investment",
+        "name": "Bosch hydrogen technology",
+        "amount": "EUR2.5bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_fuel_cell_power_module",
+        "type": "product",
+        "name": "hydrogen fuel cell power module"
+      }
+    ]
+  }
+}
+2025-09-25 02:16:01,060 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:01,060 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:16:01,060 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:16:01,060 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:16:01,992 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:01,993 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bosch_hydrogen_technology",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:16:01,993 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:01,993 - INFO - ✅ Match found for investment_ID 'investment_bosch_hydrogen_technology' in investment nodes
+2025-09-25 02:16:01,993 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:16:01,993 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 02:16:01,993 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:16:01,993 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:16:01,993 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:16:04,116 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:04,117 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hydrogen_fuel_cell_power_module",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-25 02:16:04,117 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:04,117 - INFO - ✅ Match found for product_ID 'product_hydrogen_fuel_cell_power_module' in product nodes
+2025-09-25 02:16:04,117 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 02:16:04,117 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 02:16:04,117 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:16:04,117 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:16:04,117 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:16:05,653 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:05,654 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bosch",
+      "type": "owns",
+      "target": "factory_germany"
+    },
+    {
+      "source": "company_bosch",
+      "type": "owns",
+      "target": "factory_chongqing_china"
+    },
+    {
+      "source": "company_bosch",
+      "type": "owns",
+      "target": "factory_wuxi_plant"
+    }
+  ]
+}
+2025-09-25 02:16:05,654 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:05,654 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:16:05,654 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:16:07,290 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:07,291 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hydrogen_fuel_cell_power_module",
+      "target": "factory_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen_fuel_cell_power_module",
+      "target": "factory_chongqing_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:16:07,291 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:07,291 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:16:07,291 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:16:07,801 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:07,801 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:16:07,801 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:07,801 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:16:07,801 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:16:08,415 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:16:08,415 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:16:08,415 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:16:08,506 - INFO - ✅ Updated Article ID: 68d3c2fa3e609fb288d7c5c0 with 7 nodes and combined text.

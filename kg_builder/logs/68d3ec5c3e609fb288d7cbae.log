@@ -1,0 +1,196 @@
+2025-09-24 19:36:45,032 - INFO - 🔍 Text length: 7201 characters
+2025-09-24 19:36:45,032 - INFO - 📌 Processing Article ID: 68d3ec5c3e609fb288d7cbae — E-Mobil-Komponenten: BMW investiert in Standort Leipzig
+2025-09-24 19:36:45,032 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:36:48,297 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:36:48,297 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_leipzig",
+        "type": "factory",
+        "name": "Leipzig",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_leipzig_2020_2024",
+        "type": "investment",
+        "name": "BMW Leipzig 2020-2024",
+        "amount": "800 million Euro",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriemodul",
+        "type": "product",
+        "name": "Batteriemodul"
+      },
+      {
+        "id": "product_zelllack",
+        "type": "product",
+        "name": "Zelllack"
+      },
+      {
+        "id": "product_hochvoltbatterie",
+        "type": "product",
+        "name": "Hochvoltbatterie"
+      },
+      {
+        "id": "product_mini_countryman",
+        "type": "product",
+        "name": "MINI Countryman"
+      }
+    ]
+  }
+}
+2025-09-24 19:36:48,297 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:36:48,298 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:36:48,298 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 19:36:48,298 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 19:36:49,778 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:36:49,778 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_leipzig_2020_2024",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 19:36:49,778 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:36:49,778 - INFO - ✅ Match found for investment_ID 'investment_bmw_leipzig_2020_2024' in investment nodes
+2025-09-24 19:36:49,778 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:36:49,778 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 19:36:49,778 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:36:49,778 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:36:49,779 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:36:53,128 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:36:53,129 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriemodul",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_zelllack",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_hochvoltbatterie",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_mini_countryman",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 19:36:53,129 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:36:53,129 - INFO - ✅ Match found for product_ID 'product_batteriemodul' in product nodes
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 19:36:53,129 - INFO - ✅ Match found for product_ID 'product_zelllack' in product nodes
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:36:53,129 - INFO - ✅ Match found for product_ID 'product_hochvoltbatterie' in product nodes
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:36:53,129 - INFO - ✅ Match found for product_ID 'product_mini_countryman' in product nodes
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 19:36:53,129 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 19:36:53,129 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:36:53,130 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:36:53,130 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:36:55,382 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:36:55,383 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_leipzig"
+    }
+  ]
+}
+2025-09-24 19:36:55,383 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:36:55,383 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:36:55,383 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:36:58,658 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:36:58,659 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batteriemodul",
+      "target": "factory_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_zelllack",
+      "target": "factory_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hochvoltbatterie",
+      "target": "factory_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_countryman",
+      "target": "factory_leipzig",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:36:58,659 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:36:58,659 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 19:36:58,659 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 19:37:00,809 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:37:00,809 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:37:00,809 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:37:00,809 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 19:37:00,809 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 19:37:03,880 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:37:03,881 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_leipzig_2020_2024",
+      "target": "factory_leipzig",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmw_leipzig_2020_2024",
+      "target": "product_batteriemodul",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_leipzig_2020_2024",
+      "target": "product_zelllack",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_leipzig_2020_2024",
+      "target": "product_hochvoltbatterie",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 19:37:03,881 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:37:03,969 - INFO - ✅ Updated Article ID: 68d3ec5c3e609fb288d7cbae with 7 nodes and combined text.

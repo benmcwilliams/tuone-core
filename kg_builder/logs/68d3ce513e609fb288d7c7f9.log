@@ -1,0 +1,136 @@
+2025-09-25 00:19:38,425 - INFO - 🔍 Text length: 1235 characters
+2025-09-25 00:19:38,426 - INFO - 📌 Processing Article ID: 68d3ce513e609fb288d7c7f9 — Kolon expands tyre cord plant in Vietnam
+2025-09-25 00:19:38,426 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:19:41,484 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:19:41,485 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kolon_industries",
+        "type": "company",
+        "name": "Kolon Industries"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_binh_duong_vietnam",
+        "type": "factory",
+        "name": "Binh Duong Polyester Tyre Cord Plant",
+        "location": {
+          "city": "Binh Duong",
+          "country": "Vietnam"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_19_2k_tons_per_year_expanded",
+        "type": "capacity",
+        "name": "",
+        "amount": "19,200 tons per year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_103_2k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "103,200 tons per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_polyester_tyre_cord",
+        "type": "product",
+        "name": "polyester tyre cord"
+      }
+    ]
+  }
+}
+2025-09-25 00:19:41,485 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:19:41,485 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 00:19:41,485 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 00:19:43,431 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:19:43,432 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_19_2k_tons_per_year_expanded",
+      "status": "operational",
+      "phase": "expansion",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_103_2k_tons_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 00:19:43,432 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:19:43,432 - INFO - ✅ Match found for capacity_ID 'capacity_19_2k_tons_per_year_expanded' in capacity nodes
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'status': operational
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'additional': False
+2025-09-25 00:19:43,432 - INFO - ✅ Match found for capacity_ID 'capacity_103_2k_tons_per_year' in capacity nodes
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'status': operational
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 00:19:43,432 - INFO -   ➕ Set field 'additional': False
+2025-09-25 00:19:43,432 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:19:43,432 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:19:43,432 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:19:44,759 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:19:44,759 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_polyester_tyre_cord",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:19:44,759 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:19:44,759 - INFO - ✅ Match found for product_ID 'product_polyester_tyre_cord' in product nodes
+2025-09-25 00:19:44,759 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:19:44,759 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:19:44,759 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:19:44,759 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:19:44,759 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:19:45,784 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:19:45,784 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kolon_industries",
+      "type": "owns",
+      "target": "factory_binh_duong_vietnam"
+    }
+  ]
+}
+2025-09-25 00:19:45,784 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:19:45,784 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:19:45,784 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:19:47,832 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:19:47,832 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_19_2k_tons_per_year_expanded",
+      "target": "factory_binh_duong_vietnam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_19_2k_tons_per_year_expanded",
+      "target": "product_polyester_tyre_cord",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_polyester_tyre_cord",
+      "target": "factory_binh_duong_vietnam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:19:47,832 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:19:47,832 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:19:47,832 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:19:47,924 - INFO - ✅ Updated Article ID: 68d3ce513e609fb288d7c7f9 with 5 nodes and combined text.

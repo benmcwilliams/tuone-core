@@ -1,0 +1,95 @@
+2025-09-24 23:27:59,813 - INFO - 🔍 Text length: 1369 characters
+2025-09-24 23:27:59,813 - INFO - 📌 Processing Article ID: 68d3e05d3e609fb288d7c8d4 — Nio mulls investment in Australian lithium miner
+2025-09-24 23:27:59,813 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:28:01,978 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:01,978 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nio",
+        "type": "company",
+        "name": "Nio"
+      },
+      {
+        "id": "company_greenwing_resources",
+        "type": "company",
+        "name": "Greenwing Resources"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ev_us",
+        "type": "factory",
+        "name": "EV factory",
+        "location": {
+          "city": "null",
+          "country": "US"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_carbonate",
+        "type": "product",
+        "name": "battery grade lithium carbonate"
+      },
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "EV batteries"
+      }
+    ]
+  }
+}
+2025-09-24 23:28:01,978 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:01,978 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:28:01,978 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:28:01,978 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:28:01,978 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:28:03,722 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:03,723 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_carbonate",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_ev_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:28:03,723 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:03,723 - INFO - ✅ Match found for product_ID 'product_lithium_carbonate' in product nodes
+2025-09-24 23:28:03,723 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:28:03,723 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:28:03,723 - INFO - ✅ Match found for product_ID 'product_ev_batteries' in product nodes
+2025-09-24 23:28:03,723 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:28:03,723 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:28:03,723 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:28:03,723 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:28:03,723 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:28:04,436 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:04,436 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nio",
+      "type": "owns",
+      "target": "factory_ev_us"
+    }
+  ]
+}
+2025-09-24 23:28:04,436 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:04,436 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:28:04,436 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:28:05,357 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:05,357 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:28:05,358 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:05,358 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:28:05,358 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:28:05,442 - INFO - ✅ Updated Article ID: 68d3e05d3e609fb288d7c8d4 with 5 nodes and combined text.

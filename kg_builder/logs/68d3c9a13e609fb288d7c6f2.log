@@ -1,0 +1,140 @@
+2025-09-25 01:12:45,345 - INFO - 🔍 Text length: 8657 characters
+2025-09-25 01:12:45,345 - INFO - 📌 Processing Article ID: 68d3c9a13e609fb288d7c6f2 — How Lebanon’s private sector is thriving amid crisis
+2025-09-25 01:12:45,345 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:12:47,530 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:12:47,530 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hagecor_international",
+        "type": "company",
+        "name": "Hagecor International"
+      },
+      {
+        "id": "company_multilane",
+        "type": "company",
+        "name": "MultiLane"
+      },
+      {
+        "id": "company_has_architect",
+        "type": "company",
+        "name": "HAS Architect"
+      },
+      {
+        "id": "company_outerpond",
+        "type": "company",
+        "name": "Outerpond"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_houmal_technology_park",
+        "type": "factory",
+        "name": "Houmal Technology Park",
+        "location": {
+          "city": "Houmal",
+          "country": "Lebanon"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_berytus_sofa",
+        "type": "product",
+        "name": "Berytus Sofa"
+      },
+      {
+        "id": "product_high_speed_io_test_and_measurement_solutions",
+        "type": "product",
+        "name": "High-Speed I/O Test and Measurement Solutions"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500kw_solar_plant",
+        "type": "capacity",
+        "name": "",
+        "amount": "500kW",
+        "status": "under construction"
+      }
+    ]
+  }
+}
+2025-09-25 01:12:47,530 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:12:47,530 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:12:47,530 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:12:51,310 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:12:51,311 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500kw_solar_plant",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:12:51,311 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:12:51,311 - INFO - ✅ Match found for capacity_ID 'capacity_500kw_solar_plant' in capacity nodes
+2025-09-25 01:12:51,311 - INFO -   ➕ Set field 'status': under construction
+2025-09-25 01:12:51,311 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:12:51,311 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:12:51,311 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:12:51,311 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:12:51,311 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:12:53,418 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:12:53,418 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_berytus_sofa",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_high_speed_io_test_and_measurement_solutions",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 01:12:53,418 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:12:53,419 - INFO - ✅ Match found for product_ID 'product_berytus_sofa' in product nodes
+2025-09-25 01:12:53,419 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:12:53,419 - INFO - ✅ Match found for product_ID 'product_high_speed_io_test_and_measurement_solutions' in product nodes
+2025-09-25 01:12:53,419 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:12:53,419 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:12:53,419 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:12:53,419 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:12:54,800 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:12:54,800 - INFO - {
+  "relationships": [
+    {
+      "source": "company_multilane",
+      "type": "owns",
+      "target": "factory_houmal_technology_park"
+    }
+  ]
+}
+2025-09-25 01:12:54,800 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:12:54,800 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:12:54,800 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:12:56,541 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:12:56,541 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500kw_solar_plant",
+      "target": "factory_houmal_technology_park",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_high_speed_io_test_and_measurement_solutions",
+      "target": "factory_houmal_technology_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:12:56,541 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:12:56,541 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:12:56,541 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:12:56,644 - INFO - ✅ Updated Article ID: 68d3c9a13e609fb288d7c6f2 with 8 nodes and combined text.

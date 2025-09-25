@@ -1,0 +1,127 @@
+2025-09-25 01:05:37,203 - INFO - 🔍 Text length: 2521 characters
+2025-09-25 01:05:37,204 - INFO - 📌 Processing Article ID: 68d3ca443e609fb288d7c719 — Wolfspeed and ZF plan chip R&D centre in Nuremberg
+2025-09-25 01:05:37,204 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:05:40,001 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:40,002 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_zf",
+        "type": "company",
+        "name": "ZF"
+      },
+      {
+        "id": "company_wolfspeed",
+        "type": "company",
+        "name": "Wolfspeed"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_zf_wolfspeed",
+        "type": "joint_venture",
+        "name": "ZF and Wolfspeed"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_nuremberg_germany",
+        "type": "factory",
+        "name": "Nuremberg R&D Centre",
+        "location": {
+          "city": "Nuremberg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_ensdorf_saarland",
+        "type": "factory",
+        "name": "Ensdorf Silicon Carbide Chip Factory",
+        "location": {
+          "city": "Ensdorf",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_silicon_carbide_chip",
+        "type": "product",
+        "name": "silicon carbide chip"
+      },
+      {
+        "id": "product_power_electronics",
+        "type": "product",
+        "name": "power electronics"
+      }
+    ]
+  }
+}
+2025-09-25 01:05:40,002 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:40,002 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:05:40,002 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:05:40,002 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:05:40,002 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:05:41,561 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:41,561 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_silicon_carbide_chip",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_power_electronics",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 01:05:41,561 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:41,561 - INFO - ✅ Match found for product_ID 'product_silicon_carbide_chip' in product nodes
+2025-09-25 01:05:41,561 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 01:05:41,561 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:05:41,562 - INFO - ✅ Match found for product_ID 'product_power_electronics' in product nodes
+2025-09-25 01:05:41,562 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 01:05:41,562 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:05:41,562 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:05:41,562 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:05:42,868 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:42,868 - INFO - {
+  "relationships": [
+    {
+      "source": "company_zf",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "company_wolfspeed",
+      "type": "forms",
+      "target": "joint_venture_zf_wolfspeed"
+    },
+    {
+      "source": "company_wolfspeed",
+      "type": "owns",
+      "target": "factory_ensdorf_saarland"
+    }
+  ]
+}
+2025-09-25 01:05:42,869 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:42,869 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:05:42,869 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:05:44,406 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:05:44,406 - INFO - {
+  "relationships": [
+    {
+      "source": "product_silicon_carbide_chip",
+      "target": "factory_ensdorf_saarland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:05:44,406 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:05:44,406 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:05:44,406 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:05:44,499 - INFO - ✅ Updated Article ID: 68d3ca443e609fb288d7c719 with 7 nodes and combined text.

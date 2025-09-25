@@ -1,0 +1,88 @@
+2025-09-24 21:17:15,609 - INFO - 🔍 Text length: 7741 characters
+2025-09-24 21:17:15,609 - INFO - 📌 Processing Article ID: 68d3e9473e609fb288d7cb22 — Rennen ums Material: VW sucht Partner
+2025-09-24 21:17:15,609 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:17:19,098 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:17:19,098 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_salzgitter",
+        "type": "factory",
+        "name": "Salzgitter",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_materials",
+        "type": "product",
+        "name": "battery materials"
+      }
+    ]
+  }
+}
+2025-09-24 21:17:19,098 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:17:19,099 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:17:19,099 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:17:19,099 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:17:19,099 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:17:20,329 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:17:20,329 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_materials",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:17:20,330 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:17:20,330 - INFO - ✅ Match found for product_ID 'product_battery_materials' in product nodes
+2025-09-24 21:17:20,330 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:17:20,330 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:17:20,330 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:17:20,330 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:17:20,330 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:17:22,477 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:17:22,477 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_salzgitter"
+    }
+  ]
+}
+2025-09-24 21:17:22,477 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:17:22,477 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:17:22,477 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:17:25,447 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:17:25,448 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_materials",
+      "target": "factory_salzgitter",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:17:25,448 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:17:25,448 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:17:25,448 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:17:25,538 - INFO - ✅ Updated Article ID: 68d3e9473e609fb288d7cb22 with 4 nodes and combined text.

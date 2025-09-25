@@ -1,0 +1,137 @@
+2025-09-24 21:59:11,404 - INFO - 🔍 Text length: 6810 characters
+2025-09-24 21:59:11,404 - INFO - 📌 Processing Article ID: 68d3e6813e609fb288d7ca73 — Tesla plant Batterie-Werk mit CATL in USA
+2025-09-24 21:59:11,404 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:59:13,969 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:13,970 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_battery_plant_us",
+        "type": "factory",
+        "name": "battery plant",
+        "location": {
+          "city": "null",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tesla_expansion_strategy",
+        "type": "investment",
+        "name": "Tesla expansion strategy",
+        "amount": "22 billion dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_iron_phosphate_batteries",
+        "type": "product",
+        "name": "lithium iron phosphate batteries"
+      }
+    ]
+  }
+}
+2025-09-24 21:59:13,970 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:13,970 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:59:13,970 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:59:13,970 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:59:14,788 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:14,788 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tesla_expansion_strategy",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:59:14,788 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:14,788 - INFO - ✅ Match found for investment_ID 'investment_tesla_expansion_strategy' in investment nodes
+2025-09-24 21:59:14,788 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:59:14,788 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:59:14,788 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:59:14,788 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:59:14,788 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:59:16,120 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:16,121 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_iron_phosphate_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:59:16,121 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:16,121 - INFO - ✅ Match found for product_ID 'product_lithium_iron_phosphate_batteries' in product nodes
+2025-09-24 21:59:16,121 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:59:16,121 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:59:16,121 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:59:16,121 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:59:16,121 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:59:17,553 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:17,553 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "owns",
+      "target": "factory_battery_plant_us"
+    }
+  ]
+}
+2025-09-24 21:59:17,553 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:17,553 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:59:17,553 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:59:19,805 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:19,805 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_iron_phosphate_batteries",
+      "target": "factory_battery_plant_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:59:19,805 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:19,806 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:59:19,806 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:59:20,421 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:20,421 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:59:20,421 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:20,421 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:59:20,421 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:59:21,957 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:59:21,957 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tesla_expansion_strategy",
+      "target": "factory_battery_plant_us",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tesla_expansion_strategy",
+      "target": "product_lithium_iron_phosphate_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:59:21,957 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:59:22,052 - INFO - ✅ Updated Article ID: 68d3e6813e609fb288d7ca73 with 5 nodes and combined text.

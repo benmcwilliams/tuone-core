@@ -1,0 +1,96 @@
+2025-09-25 00:25:29,631 - INFO - 🔍 Text length: 2996 characters
+2025-09-25 00:25:29,631 - INFO - 📌 Processing Article ID: 68d3cdef3e609fb288d7c7db — Hyundai and KT to co-develop 6G connected technology
+2025-09-25 00:25:29,632 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:25:31,480 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:25:31,480 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_group",
+        "type": "company",
+        "name": "Hyundai Motor Group"
+      },
+      {
+        "id": "company_kt_corporation",
+        "type": "company",
+        "name": "KT Corporation"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hyundai_kt",
+        "type": "joint_venture",
+        "name": "Hyundai KT"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_6g_autonomous_driving_technology",
+        "type": "product",
+        "name": "6G based autonomous driving technology"
+      },
+      {
+        "id": "product_aam_networks",
+        "type": "product",
+        "name": "AAM networks"
+      },
+      {
+        "id": "product_ev_charging_infrastructure",
+        "type": "product",
+        "name": "EV charging infrastructure"
+      }
+    ]
+  }
+}
+2025-09-25 00:25:31,481 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:25:31,481 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:25:31,481 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:25:31,481 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:25:31,481 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:25:33,439 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:25:33,439 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_6g_autonomous_driving_technology",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_aam_networks",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_ev_charging_infrastructure",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:25:33,439 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:25:33,439 - INFO - ✅ Match found for product_ID 'product_6g_autonomous_driving_technology' in product nodes
+2025-09-25 00:25:33,439 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:25:33,439 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:25:33,439 - INFO - ✅ Match found for product_ID 'product_aam_networks' in product nodes
+2025-09-25 00:25:33,440 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 00:25:33,440 - INFO - ✅ Match found for product_ID 'product_ev_charging_infrastructure' in product nodes
+2025-09-25 00:25:33,440 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:25:33,440 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:25:33,440 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:25:33,440 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:25:33,440 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:25:33,948 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:25:33,948 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:25:33,949 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:25:33,949 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:25:33,949 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:25:34,735 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:25:34,736 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:25:34,736 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:25:34,736 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:25:34,736 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:25:34,830 - INFO - ✅ Updated Article ID: 68d3cdef3e609fb288d7c7db with 6 nodes and combined text.

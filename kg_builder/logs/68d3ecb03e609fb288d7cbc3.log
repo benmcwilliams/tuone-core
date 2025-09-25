@@ -1,0 +1,266 @@
+2025-09-24 19:32:05,258 - INFO - 🔍 Text length: 7426 characters
+2025-09-24 19:32:05,258 - INFO - 📌 Processing Article ID: 68d3ecb03e609fb288d7cbc3 — Northvolt: VW legt 500 Millionen Euro nach
+2025-09-24 19:32:05,258 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:32:11,727 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:11,727 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_skelleftea_sweden",
+        "type": "factory",
+        "name": "Skellefte\u00e5 Factory",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_salzgitter_germany",
+        "type": "factory",
+        "name": "Salzgitter Factory",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_northvolt_2023",
+        "type": "investment",
+        "name": "Volkswagen Northvolt 2023",
+        "amount": "500 million Euro",
+        "status": "completed"
+      },
+      {
+        "id": "investment_northvolt_expansion",
+        "type": "investment",
+        "name": "Northvolt Expansion",
+        "amount": "2.26 billion Euro",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_volkswagen_northvolt_2019",
+        "type": "investment",
+        "name": "Volkswagen Northvolt 2019",
+        "amount": "900 million Euro",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40_gigawatt_hours_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 Gigawatt hours",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_60_gigawatt_hours_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "60 Gigawatt hours",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batterycells",
+        "type": "product",
+        "name": "Batterycells"
+      },
+      {
+        "id": "product_battery_recycling",
+        "type": "product",
+        "name": "Battery Recycling"
+      }
+    ]
+  }
+}
+2025-09-24 19:32:11,727 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:11,727 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 19:32:11,728 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 19:32:14,116 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:14,116 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40_gigawatt_hours_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_60_gigawatt_hours_under_construction",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 19:32:14,116 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:14,117 - INFO - ✅ Match found for capacity_ID 'capacity_40_gigawatt_hours_announced' in capacity nodes
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'status': announced
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'additional': True
+2025-09-24 19:32:14,117 - INFO - ✅ Match found for capacity_ID 'capacity_60_gigawatt_hours_under_construction' in capacity nodes
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 19:32:14,117 - INFO -   ➕ Set field 'additional': False
+2025-09-24 19:32:14,117 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 19:32:14,117 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 19:32:15,414 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:15,414 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_northvolt_2023",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_northvolt_expansion",
+      "status": "ongoing",
+      "phase": "expansion",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_volkswagen_northvolt_2019",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 19:32:15,414 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:15,414 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_northvolt_2023' in investment nodes
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'status': completed
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 19:32:15,414 - INFO - ✅ Match found for investment_ID 'investment_northvolt_expansion' in investment nodes
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'status': ongoing
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 19:32:15,414 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:32:15,415 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_northvolt_2019' in investment nodes
+2025-09-24 19:32:15,415 - INFO -   ➕ Set field 'status': completed
+2025-09-24 19:32:15,415 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 19:32:15,415 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 19:32:15,415 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:32:15,415 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:32:17,231 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:17,231 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batterycells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 19:32:17,231 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:17,231 - INFO - ✅ Match found for product_ID 'product_batterycells' in product nodes
+2025-09-24 19:32:17,232 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:32:17,232 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 19:32:17,232 - INFO - ✅ Match found for product_ID 'product_battery_recycling' in product nodes
+2025-09-24 19:32:17,232 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 19:32:17,232 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 19:32:17,232 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:32:17,232 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:32:17,232 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:32:18,997 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:18,997 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_skelleftea_sweden"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_salzgitter_germany"
+    }
+  ]
+}
+2025-09-24 19:32:18,998 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:18,998 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:32:18,998 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:32:23,708 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:23,709 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40_gigawatt_hours_announced",
+      "target": "factory_skelleftea_sweden",
+      "type": "at"
+    },
+    {
+      "source": "capacity_60_gigawatt_hours_under_construction",
+      "target": "factory_skelleftea_sweden",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40_gigawatt_hours_announced",
+      "target": "product_batterycells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_60_gigawatt_hours_under_construction",
+      "target": "product_batterycells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batterycells",
+      "target": "factory_skelleftea_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_recycling",
+      "target": "factory_salzgitter_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_40_gigawatt_hours_announced",
+      "target": "factory_salzgitter_germany",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_60_gigawatt_hours_under_construction",
+      "target": "factory_salzgitter_germany",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-09-24 19:32:23,709 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:23,709 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 19:32:23,709 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 19:32:25,652 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:25,653 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:32:25,653 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:25,653 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 19:32:25,653 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 19:32:26,520 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:32:26,521 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:32:26,521 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:32:26,616 - INFO - ✅ Updated Article ID: 68d3ecb03e609fb288d7cbc3 with 11 nodes and combined text.

@@ -1,0 +1,97 @@
+2025-09-24 22:41:10,110 - INFO - 🔍 Text length: 1326 characters
+2025-09-24 22:41:10,111 - INFO - 📌 Processing Article ID: 68d3e3b43e609fb288d7c994 — Northvolt Relocates Lithium Metal Research to Sweden
+2025-09-24 22:41:10,111 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:41:12,693 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:41:12,693 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_cuberg",
+        "type": "company",
+        "name": "Cuberg"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vasteras_sweden",
+        "type": "factory",
+        "name": "Northvolt Labs R&D campus",
+        "location": {
+          "city": "V\u00e4ster\u00e5s",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_skelleftea_sweden",
+        "type": "factory",
+        "name": "Swedish battery factory",
+        "location": {
+          "city": "Skellefte\u00e5",
+          "country": "Sweden"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_metal_battery_technology",
+        "type": "product",
+        "name": "lithium metal battery technology"
+      }
+    ]
+  }
+}
+2025-09-24 22:41:12,693 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:41:12,694 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:41:12,694 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:41:12,694 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:41:12,694 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:41:14,025 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:41:14,025 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_metal_battery_technology",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:41:14,026 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:41:14,026 - INFO - ✅ Match found for product_ID 'product_lithium_metal_battery_technology' in product nodes
+2025-09-24 22:41:14,026 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:41:14,026 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:41:14,026 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:41:14,026 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:41:14,026 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:41:15,356 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:41:15,356 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_vasteras_sweden"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_skelleftea_sweden"
+    }
+  ]
+}
+2025-09-24 22:41:15,356 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:41:15,357 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:41:15,357 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:41:16,174 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:41:16,174 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:41:16,174 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:41:16,175 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:41:16,175 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:41:16,273 - INFO - ✅ Updated Article ID: 68d3e3b43e609fb288d7c994 with 5 nodes and combined text.

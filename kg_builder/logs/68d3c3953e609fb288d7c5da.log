@@ -1,0 +1,107 @@
+2025-09-25 02:11:22,995 - INFO - 🔍 Text length: 2017 characters
+2025-09-25 02:11:22,995 - INFO - 📌 Processing Article ID: 68d3c3953e609fb288d7c5da — Vulcan and Stellantis to develop geothermal renewable energy
+2025-09-25 02:11:22,995 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:11:25,161 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:25,162 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_vulcan_energy_resources",
+        "type": "company",
+        "name": "Vulcan Energy Resources"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_vulcan",
+        "type": "joint_venture",
+        "name": "Stellantis Vulcan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mulhouse_france",
+        "type": "factory",
+        "name": "Mulhouse Industrial Site",
+        "location": {
+          "city": "Mulhouse",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_geothermal_energy",
+        "type": "product",
+        "name": "geothermal energy"
+      },
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "lithium"
+      }
+    ]
+  }
+}
+2025-09-25 02:11:25,162 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:25,162 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:11:25,162 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:11:25,162 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:11:25,162 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:11:26,889 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:26,889 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_geothermal_energy",
+      "product_lv1": "geothermal",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_lithium",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 02:11:26,889 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:26,889 - INFO - ✅ Match found for product_ID 'product_geothermal_energy' in product nodes
+2025-09-25 02:11:26,889 - INFO -   ➕ Set field 'product_lv1': geothermal
+2025-09-25 02:11:26,889 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 02:11:26,889 - INFO - ✅ Match found for product_ID 'product_lithium' in product nodes
+2025-09-25 02:11:26,889 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-25 02:11:26,889 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:11:26,889 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:11:26,889 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:11:27,916 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:27,916 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mulhouse_france"
+    }
+  ]
+}
+2025-09-25 02:11:27,916 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:27,916 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:11:27,916 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:11:29,963 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:29,964 - INFO - {
+  "relationships": [
+    {
+      "source": "product_geothermal_energy",
+      "target": "factory_mulhouse_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:11:29,964 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:29,964 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:11:29,964 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:11:30,055 - INFO - ✅ Updated Article ID: 68d3c3953e609fb288d7c5da with 6 nodes and combined text.

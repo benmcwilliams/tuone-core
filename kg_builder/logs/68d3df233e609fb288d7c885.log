@@ -1,0 +1,105 @@
+2025-09-24 23:52:30,958 - INFO - 🔍 Text length: 1464 characters
+2025-09-24 23:52:30,958 - INFO - 📌 Processing Article ID: 68d3df233e609fb288d7c885 — PTT targets 7,000 EV charging stations in Thailand
+2025-09-24 23:52:30,958 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:52:33,279 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:33,280 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ptt_oil_and_retail_business",
+        "type": "company",
+        "name": "PTT Oil and Retail Business"
+      },
+      {
+        "id": "company_hon_hai_technology_group",
+        "type": "company",
+        "name": "Hon Hai Technology Group"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_horizon_plus",
+        "type": "joint_venture",
+        "name": "Horizon Plus"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chonburi_thailand",
+        "type": "factory",
+        "name": "Chonburi Plant",
+        "location": {
+          "city": "Chonburi",
+          "country": "Thailand"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electric_vehicles",
+        "type": "product",
+        "name": "battery electric vehicles"
+      }
+    ]
+  }
+}
+2025-09-24 23:52:33,280 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:33,280 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:52:33,280 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:52:33,280 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:52:33,280 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:52:34,401 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:34,401 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:52:34,401 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:34,401 - INFO - ✅ Match found for product_ID 'product_battery_electric_vehicles' in product nodes
+2025-09-24 23:52:34,401 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:52:34,401 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:52:34,401 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:52:34,401 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:52:34,401 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:52:35,526 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:35,526 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ptt_oil_and_retail_business",
+      "type": "forms",
+      "target": "joint_venture_horizon_plus"
+    },
+    {
+      "source": "company_hon_hai_technology_group",
+      "type": "forms",
+      "target": "joint_venture_horizon_plus"
+    },
+    {
+      "source": "joint_venture_horizon_plus",
+      "type": "owns",
+      "target": "factory_chonburi_thailand"
+    }
+  ]
+}
+2025-09-24 23:52:35,526 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:35,526 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:52:35,526 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:52:36,549 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:52:36,549 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electric_vehicles",
+      "target": "factory_chonburi_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:52:36,549 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:52:36,549 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:52:36,549 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:52:36,640 - INFO - ✅ Updated Article ID: 68d3df233e609fb288d7c885 with 5 nodes and combined text.

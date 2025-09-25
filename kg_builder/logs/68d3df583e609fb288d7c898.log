@@ -1,0 +1,106 @@
+2025-09-24 23:49:05,707 - INFO - 🔍 Text length: 1716 characters
+2025-09-24 23:49:05,707 - INFO - 📌 Processing Article ID: 68d3df583e609fb288d7c898 — Punch to sell Renault LCV engines
+2025-09-24 23:49:05,707 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:49:08,266 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:08,266 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_renault_group",
+        "type": "company",
+        "name": "Renault Group"
+      },
+      {
+        "id": "company_punch_torino",
+        "type": "company",
+        "name": "Punch Torino"
+      },
+      {
+        "id": "company_general_motors_oem_sales",
+        "type": "company",
+        "name": "General Motors OEM Sales"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cleon_plant",
+        "type": "factory",
+        "name": "Cl\u00e9on plant",
+        "location": {
+          "city": "Normandy",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_four_cylinder_diesel_engines",
+        "type": "product",
+        "name": "four cylinder diesel engines"
+      },
+      {
+        "id": "product_hydrogen_fuelled_internal_combustion_engines",
+        "type": "product",
+        "name": "hydrogen fuelled internal combustion engines"
+      }
+    ]
+  }
+}
+2025-09-24 23:49:08,266 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:08,266 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:49:08,266 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:49:08,266 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:49:08,266 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:49:09,806 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:09,806 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_four_cylinder_diesel_engines",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_hydrogen_fuelled_internal_combustion_engines",
+      "product_lv1": "hydrogen",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:49:09,806 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:09,807 - INFO - ✅ Match found for product_ID 'product_four_cylinder_diesel_engines' in product nodes
+2025-09-24 23:49:09,807 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:49:09,807 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-24 23:49:09,807 - INFO - ✅ Match found for product_ID 'product_hydrogen_fuelled_internal_combustion_engines' in product nodes
+2025-09-24 23:49:09,807 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 23:49:09,807 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:49:09,807 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:49:09,807 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:49:09,807 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:49:10,834 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:10,835 - INFO - {
+  "relationships": [
+    {
+      "source": "company_renault_group",
+      "type": "owns",
+      "target": "factory_cleon_plant"
+    }
+  ]
+}
+2025-09-24 23:49:10,835 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:10,835 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:49:10,835 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:49:12,979 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:49:12,979 - INFO - {
+  "relationships": [
+    {
+      "source": "product_four_cylinder_diesel_engines",
+      "target": "factory_cleon_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:49:12,979 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:49:12,979 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:49:12,979 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:49:13,088 - INFO - ✅ Updated Article ID: 68d3df583e609fb288d7c898 with 6 nodes and combined text.

@@ -1,0 +1,182 @@
+2025-09-25 02:27:01,577 - INFO - 🔍 Text length: 3034 characters
+2025-09-25 02:27:01,577 - INFO - 📌 Processing Article ID: 68d3c1d93e609fb288d7c58d — Denso invests $63m in Michigan thermal manufacturing plant
+2025-09-25 02:27:01,577 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:27:04,918 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:04,918 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_denso",
+        "type": "company",
+        "name": "Denso"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_battle_creek_michigan",
+        "type": "factory",
+        "name": "Battle Creek Thermal Facility",
+        "location": {
+          "city": "Battle Creek",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_york_township_michigan",
+        "type": "factory",
+        "name": "York Township Battery Lab",
+        "location": {
+          "city": "York Township",
+          "country": "United States"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_denso_battle_creek",
+        "type": "investment",
+        "name": "Denso Battle Creek Investment",
+        "amount": "$63m (Y9.29bn)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_toyota_us_spending",
+        "type": "investment",
+        "name": "Toyota US Spending",
+        "amount": "$8bn",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_thermal_manufacturing",
+        "type": "product",
+        "name": "thermal manufacturing"
+      },
+      {
+        "id": "product_battery_lab",
+        "type": "product",
+        "name": "battery lab"
+      }
+    ]
+  }
+}
+2025-09-25 02:27:04,918 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:04,919 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:27:04,919 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:27:04,919 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:27:06,513 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:06,513 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_denso_battle_creek",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_toyota_us_spending",
+      "status": "ongoing",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:27:06,513 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:06,513 - INFO - ✅ Match found for investment_ID 'investment_denso_battle_creek' in investment nodes
+2025-09-25 02:27:06,513 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:27:06,513 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-25 02:27:06,513 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 02:27:06,513 - INFO - ✅ Match found for investment_ID 'investment_toyota_us_spending' in investment nodes
+2025-09-25 02:27:06,513 - INFO -   ➕ Set field 'status': ongoing
+2025-09-25 02:27:06,513 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 02:27:06,514 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:27:06,514 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:27:06,514 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:27:08,239 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:08,239 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_thermal_manufacturing",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_lab",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:27:08,239 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:08,239 - INFO - ✅ Match found for product_ID 'product_thermal_manufacturing' in product nodes
+2025-09-25 02:27:08,239 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:27:08,239 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:27:08,239 - INFO - ✅ Match found for product_ID 'product_battery_lab' in product nodes
+2025-09-25 02:27:08,239 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:27:08,239 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:27:08,239 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:27:08,240 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:27:08,240 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:27:09,218 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:09,219 - INFO - {
+  "relationships": [
+    {
+      "source": "company_denso",
+      "type": "owns",
+      "target": "factory_battle_creek_michigan"
+    },
+    {
+      "source": "company_toyota",
+      "type": "owns",
+      "target": "factory_york_township_michigan"
+    }
+  ]
+}
+2025-09-25 02:27:09,219 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:09,219 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:27:09,219 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:27:11,678 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:11,678 - INFO - {
+  "relationships": [
+    {
+      "source": "product_thermal_manufacturing",
+      "target": "factory_battle_creek_michigan",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_lab",
+      "target": "factory_york_township_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:27:11,679 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:11,679 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:27:11,679 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:27:14,135 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:14,136 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:27:14,136 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:14,136 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:27:14,136 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:27:15,471 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:27:15,471 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_denso_battle_creek",
+      "target": "factory_battle_creek_michigan",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 02:27:15,471 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:27:15,563 - INFO - ✅ Updated Article ID: 68d3c1d93e609fb288d7c58d with 8 nodes and combined text.

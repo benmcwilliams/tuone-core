@@ -1,0 +1,146 @@
+2025-09-24 21:15:41,712 - INFO - 🔍 Text length: 7302 characters
+2025-09-24 21:15:41,713 - INFO - 📌 Processing Article ID: 68d3e95d3e609fb288d7cb28 — Morrow Batteries plant erste norwegische Gigafactory
+2025-09-24 21:15:41,713 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:15:44,891 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:15:44,891 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_morrow_batteries",
+        "type": "company",
+        "name": "Morrow Batteries"
+      },
+      {
+        "id": "company_adger_energi",
+        "type": "company",
+        "name": "Adger Energi"
+      },
+      {
+        "id": "company_noah_as",
+        "type": "company",
+        "name": "NOAH AS"
+      },
+      {
+        "id": "company_bellona",
+        "type": "company",
+        "name": "Bellona"
+      },
+      {
+        "id": "company_sintef",
+        "type": "company",
+        "name": "SINTEF"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_morrow_batteries",
+        "type": "joint_venture",
+        "name": "Morrow Batteries"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_agder_norway",
+        "type": "factory",
+        "name": "Agder Gigafactory",
+        "location": {
+          "city": "Agder",
+          "country": "Norway"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_32_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "32 GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteriezellentechnologie",
+        "type": "product",
+        "name": "Batteriezellentechnologie"
+      }
+    ]
+  }
+}
+2025-09-24 21:15:44,891 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:15:44,891 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:15:44,891 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:15:48,780 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:15:48,780 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_32_gwh",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:15:48,780 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:15:48,780 - INFO - ✅ Match found for capacity_ID 'capacity_32_gwh' in capacity nodes
+2025-09-24 21:15:48,780 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:15:48,780 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:15:48,781 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:15:48,781 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:15:48,781 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:15:48,781 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:15:50,008 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:15:50,008 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteriezellentechnologie",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:15:50,008 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:15:50,008 - INFO - ✅ Match found for product_ID 'product_batteriezellentechnologie' in product nodes
+2025-09-24 21:15:50,008 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:15:50,008 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:15:50,009 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:15:50,009 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:15:50,009 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:15:51,546 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:15:51,546 - INFO - {
+  "relationships": [
+    {
+      "source": "company_morrow_batteries",
+      "type": "owns",
+      "target": "factory_agder_norway"
+    }
+  ]
+}
+2025-09-24 21:15:51,546 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:15:51,546 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:15:51,546 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:15:55,410 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:15:55,410 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_32_gwh",
+      "target": "factory_agder_norway",
+      "type": "at"
+    },
+    {
+      "source": "capacity_32_gwh",
+      "target": "product_batteriezellentechnologie",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_batteriezellentechnologie",
+      "target": "factory_agder_norway",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:15:55,410 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:15:55,410 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:15:55,410 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:15:55,493 - INFO - ✅ Updated Article ID: 68d3e95d3e609fb288d7cb28 with 9 nodes and combined text.

@@ -1,0 +1,143 @@
+2025-09-24 21:50:49,008 - INFO - 🔍 Text length: 1592 characters
+2025-09-24 21:50:49,008 - INFO - 📌 Processing Article ID: 68d3e71d3e609fb288d7caa3 — Novo Energy: Wind power project ensures sustainable electricity supply
+2025-09-24 21:50:49,008 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:50:51,981 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:50:51,981 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      },
+      {
+        "id": "company_eolus",
+        "type": "company",
+        "name": "Eolus"
+      },
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_gothenburg_port_authority",
+        "type": "company",
+        "name": "Gothenburg Port Authority"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_northvolt_volvo_cars",
+        "type": "joint_venture",
+        "name": "Northvolt and Volvo Cars"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gothenburg_sweden",
+        "type": "factory",
+        "name": "Gothenburg Battery Factory",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_4_to_4.5_twh_announced_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "4 to 4.5 terawatt hours per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_offshore_wind_power",
+        "type": "product",
+        "name": "offshore wind power"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-09-24 21:50:51,981 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:50:51,981 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:50:51,982 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:50:54,439 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:50:54,440 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_4_to_4.5_twh_announced_unclear",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:50:54,440 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:50:54,440 - INFO - ✅ Match found for capacity_ID 'capacity_4_to_4.5_twh_announced_unclear' in capacity nodes
+2025-09-24 21:50:54,440 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:50:54,440 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:50:54,440 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:50:54,440 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:50:54,440 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:50:54,440 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:50:56,487 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:50:56,487 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_offshore_wind_power",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:50:56,487 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:50:56,487 - INFO - ✅ Match found for product_ID 'product_offshore_wind_power' in product nodes
+2025-09-24 21:50:56,487 - INFO -   ➕ Set field 'product_lv1': wind
+2025-09-24 21:50:56,487 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 21:50:56,487 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-09-24 21:50:56,488 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:50:56,488 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:50:56,488 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:50:56,488 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:50:56,488 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:50:57,100 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:50:57,100 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:50:57,100 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:50:57,100 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:50:57,100 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:50:58,436 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:50:58,436 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_4_to_4.5_twh_announced_unclear",
+      "target": "product_offshore_wind_power",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_offshore_wind_power",
+      "target": "factory_gothenburg_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:50:58,436 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:50:58,436 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:50:58,436 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:50:58,520 - INFO - ✅ Updated Article ID: 68d3e71d3e609fb288d7caa3 with 9 nodes and combined text.

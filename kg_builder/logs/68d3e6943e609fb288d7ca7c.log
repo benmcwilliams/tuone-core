@@ -1,0 +1,151 @@
+2025-09-24 21:57:50,096 - INFO - 🔍 Text length: 1144 characters
+2025-09-24 21:57:50,096 - INFO - 📌 Processing Article ID: 68d3e6943e609fb288d7ca7c — Elektrodenfolien: BASF und WHW Recycling kooperieren
+2025-09-24 21:57:50,096 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:57:53,459 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:57:53,459 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_whw_recycling",
+        "type": "company",
+        "name": "WHW Recycling"
+      },
+      {
+        "id": "company_walch_holding",
+        "type": "company",
+        "name": "Walch Holding"
+      },
+      {
+        "id": "company_fecupral",
+        "type": "company",
+        "name": "Fecupral"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_whw",
+        "type": "joint_venture",
+        "name": "WHW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_baudenbach_germany",
+        "type": "factory",
+        "name": "Baudenbach Facility",
+        "location": {
+          "city": "Baudenbach",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_kathodenmaterial",
+        "type": "product",
+        "name": "Kathodenmaterial"
+      },
+      {
+        "id": "product_anodenabfaelle",
+        "type": "product",
+        "name": "Anodenabf\u00e4lle"
+      },
+      {
+        "id": "product_kathodenfolienabfaelle",
+        "type": "product",
+        "name": "Kathodenfolienabf\u00e4lle"
+      }
+    ]
+  }
+}
+2025-09-24 21:57:53,460 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:57:53,460 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:57:53,460 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:57:53,460 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:57:53,460 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:57:55,633 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:57:55,633 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_kathodenmaterial",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_anodenabfaelle",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_kathodenfolienabfaelle",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    }
+  ]
+}
+2025-09-24 21:57:55,633 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:57:55,633 - INFO - ✅ Match found for product_ID 'product_kathodenmaterial' in product nodes
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:57:55,633 - INFO - ✅ Match found for product_ID 'product_anodenabfaelle' in product nodes
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:57:55,633 - INFO - ✅ Match found for product_ID 'product_kathodenfolienabfaelle' in product nodes
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 21:57:55,633 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 21:57:55,633 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:57:55,633 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:57:55,633 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:57:57,168 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:57:57,168 - INFO - {
+  "relationships": [
+    {
+      "source": "company_whw_recycling",
+      "type": "forms",
+      "target": "joint_venture_whw"
+    },
+    {
+      "source": "company_walch_holding",
+      "type": "forms",
+      "target": "joint_venture_whw"
+    },
+    {
+      "source": "company_fecupral",
+      "type": "forms",
+      "target": "joint_venture_whw"
+    },
+    {
+      "source": "joint_venture_whw",
+      "type": "owns",
+      "target": "factory_baudenbach_germany"
+    }
+  ]
+}
+2025-09-24 21:57:57,168 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:57:57,169 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:57:57,169 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:57:58,500 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:57:58,500 - INFO - {
+  "relationships": [
+    {
+      "source": "product_kathodenfolienabfaelle",
+      "target": "factory_baudenbach_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_anodenabfaelle",
+      "target": "factory_baudenbach_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:57:58,500 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:57:58,500 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:57:58,500 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:57:58,589 - INFO - ✅ Updated Article ID: 68d3e6943e609fb288d7ca7c with 9 nodes and combined text.

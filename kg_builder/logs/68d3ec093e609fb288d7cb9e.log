@@ -1,0 +1,180 @@
+2025-09-24 20:52:03,930 - INFO - 🔍 Text length: 6790 characters
+2025-09-24 20:52:03,930 - INFO - 📌 Processing Article ID: 68d3ec093e609fb288d7cb9e — VW erwägt Gigafactory in den USA
+2025-09-24 20:52:03,930 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 20:52:08,120 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:08,120 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chattanooga_us",
+        "type": "factory",
+        "name": "Chattanooga Factory",
+        "location": {
+          "city": "Chattanooga",
+          "country": "USA"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_batteriezellenfabrik_us",
+        "type": "factory",
+        "name": "Batteriezellenfabrik",
+        "location": {
+          "city": "null",
+          "country": "USA"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_kfz_produktionswerk_us",
+        "type": "factory",
+        "name": "Kfz Produktionswerk",
+        "location": {
+          "city": "Chattanooga",
+          "country": "USA"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_600k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "600,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id_buzz",
+        "type": "product",
+        "name": "ID. Buzz"
+      },
+      {
+        "id": "product_batteriezellen",
+        "type": "product",
+        "name": "Batteriezellen"
+      },
+      {
+        "id": "product_kfz",
+        "type": "product",
+        "name": "Kfz"
+      }
+    ]
+  }
+}
+2025-09-24 20:52:08,120 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:08,120 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 20:52:08,120 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 20:52:09,860 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:09,861 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_600k_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 20:52:09,861 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:09,861 - INFO - ✅ Match found for capacity_ID 'capacity_600k_vehicles_per_year' in capacity nodes
+2025-09-24 20:52:09,861 - INFO -   ➕ Set field 'status': announced
+2025-09-24 20:52:09,861 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 20:52:09,861 - INFO -   ➕ Set field 'additional': True
+2025-09-24 20:52:09,861 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 20:52:09,861 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 20:52:09,861 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 20:52:11,603 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:11,603 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id_buzz",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_batteriezellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_kfz",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 20:52:11,603 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:11,603 - INFO - ✅ Match found for product_ID 'product_id_buzz' in product nodes
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 20:52:11,604 - INFO - ✅ Match found for product_ID 'product_batteriezellen' in product nodes
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 20:52:11,604 - INFO - ✅ Match found for product_ID 'product_kfz' in product nodes
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 20:52:11,604 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 20:52:11,604 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 20:52:11,604 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 20:52:11,604 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 20:52:12,933 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:12,933 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_chattanooga_us"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_batteriezellenfabrik_us"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_kfz_produktionswerk_us"
+    }
+  ]
+}
+2025-09-24 20:52:12,933 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:12,933 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 20:52:12,933 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 20:52:15,288 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:15,289 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_600k_vehicles_per_year",
+      "target": "factory_kfz_produktionswerk_us",
+      "type": "at"
+    },
+    {
+      "source": "capacity_600k_vehicles_per_year",
+      "target": "product_kfz",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_kfz",
+      "target": "factory_kfz_produktionswerk_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteriezellen",
+      "target": "factory_batteriezellenfabrik_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 20:52:15,289 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:15,289 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 20:52:15,289 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 20:52:15,379 - INFO - ✅ Updated Article ID: 68d3ec093e609fb288d7cb9e with 8 nodes and combined text.

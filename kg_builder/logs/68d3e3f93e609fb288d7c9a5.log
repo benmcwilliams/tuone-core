@@ -1,0 +1,98 @@
+2025-09-24 22:38:19,835 - INFO - 🔍 Text length: 1120 characters
+2025-09-24 22:38:19,835 - INFO - 📌 Processing Article ID: 68d3e3f93e609fb288d7c9a5 — BASF Abandons Plans for Nickel-Cobalt Refinery in Indonesia
+2025-09-24 22:38:19,835 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:38:21,390 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:21,390 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_eramet",
+        "type": "company",
+        "name": "Eramet"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_basf_eramet",
+        "type": "joint_venture",
+        "name": "BASF Eramet"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_weda_bay_indonesia",
+        "type": "factory",
+        "name": "Weda Bay Nickel-Cobalt Refinery Complex",
+        "location": {
+          "city": "Weda Bay",
+          "country": "Indonesia"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_precursors",
+        "type": "product",
+        "name": "cathode precursors"
+      }
+    ]
+  }
+}
+2025-09-24 22:38:21,391 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:21,391 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:38:21,391 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:38:21,391 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:38:21,391 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:38:22,505 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:22,505 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_precursors",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 22:38:22,505 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:22,505 - INFO - ✅ Match found for product_ID 'product_cathode_precursors' in product nodes
+2025-09-24 22:38:22,505 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 22:38:22,505 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:38:22,505 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:38:22,505 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:38:23,835 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:23,835 - INFO - {
+  "relationships": [
+    {
+      "source": "company_basf",
+      "type": "forms",
+      "target": "joint_venture_basf_eramet"
+    },
+    {
+      "source": "company_eramet",
+      "type": "forms",
+      "target": "joint_venture_basf_eramet"
+    },
+    {
+      "source": "joint_venture_basf_eramet",
+      "type": "owns",
+      "target": "factory_weda_bay_indonesia"
+    }
+  ]
+}
+2025-09-24 22:38:23,835 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:23,835 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:38:23,835 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:38:24,859 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:38:24,859 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:38:24,859 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:38:24,859 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:38:24,859 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:38:24,955 - INFO - ✅ Updated Article ID: 68d3e3f93e609fb288d7c9a5 with 5 nodes and combined text.

@@ -1,0 +1,137 @@
+2025-09-24 22:24:44,804 - INFO - 🔍 Text length: 1037 characters
+2025-09-24 22:24:44,804 - INFO - 📌 Processing Article ID: 68d3e4e53e609fb288d7c9ee — Chinese Ganfeng Lithium Plans Joint Venture in Turkey
+2025-09-24 22:24:44,804 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:24:47,380 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:24:47,380 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ganfeng_lienergy",
+        "type": "company",
+        "name": "Ganfeng LiEnergy"
+      },
+      {
+        "id": "company_yigit_aku",
+        "type": "company",
+        "name": "Y\u0130\u011e\u0130T AK\u00dc"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ganfeng_yigit",
+        "type": "joint_venture",
+        "name": "Ganfeng Y\u0130\u011e\u0130T"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "five gigawatt-hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_batteries",
+        "type": "product",
+        "name": "lithium batteries"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-09-24 22:24:47,381 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:24:47,381 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:24:47,381 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:24:48,303 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:24:48,303 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:24:48,303 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:24:48,303 - INFO - ✅ Match found for capacity_ID 'capacity_5_gwh_announced' in capacity nodes
+2025-09-24 22:24:48,303 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:24:48,303 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:24:48,303 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:24:48,303 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:24:48,303 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:24:48,303 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:24:50,043 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:24:50,043 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 22:24:50,043 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:24:50,043 - INFO - ✅ Match found for product_ID 'product_lithium_batteries' in product nodes
+2025-09-24 22:24:50,043 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:24:50,043 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:24:50,043 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-09-24 22:24:50,043 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:24:50,043 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 22:24:50,043 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:24:50,043 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:24:50,043 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:24:51,475 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:24:51,476 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ganfeng_lienergy",
+      "type": "forms",
+      "target": "joint_venture_ganfeng_yigit"
+    },
+    {
+      "source": "company_yigit_aku",
+      "type": "forms",
+      "target": "joint_venture_ganfeng_yigit"
+    }
+  ]
+}
+2025-09-24 22:24:51,476 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:24:51,476 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:24:51,476 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:24:53,545 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:24:53,545 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "product_lithium_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_5_gwh_announced",
+      "target": "product_battery_packs",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_batteries",
+      "target": "product_battery_packs",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:24:53,545 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:24:53,545 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:24:53,545 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:24:53,630 - INFO - ✅ Updated Article ID: 68d3e4e53e609fb288d7c9ee with 6 nodes and combined text.

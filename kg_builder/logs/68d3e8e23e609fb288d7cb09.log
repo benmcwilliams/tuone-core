@@ -1,0 +1,132 @@
+2025-09-24 21:22:14,515 - INFO - 🔍 Text length: 6595 characters
+2025-09-24 21:22:14,516 - INFO - 📌 Processing Article ID: 68d3e8e23e609fb288d7cb09 — Elektrolytwerk-Bau: „Lotte“ erwägt Marl
+2025-09-24 21:22:14,516 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:22:17,187 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:17,187 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lotte_chemical",
+        "type": "company",
+        "name": "Lotte Chemical"
+      },
+      {
+        "id": "company_sasol_chemical",
+        "type": "company",
+        "name": "Sasol Chemical"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_daesan_south_korea",
+        "type": "factory",
+        "name": "Daesan Battery Electrolyte Plant",
+        "location": {
+          "city": "Daesan",
+          "country": "South Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lotte_chemical_battery_electrolyte_plant",
+        "type": "investment",
+        "name": "Lotte Chemical Battery Electrolyte Plant",
+        "amount": "2.84 billion Euro",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_electrolyte",
+        "type": "product",
+        "name": "Battery Electrolyte"
+      }
+    ]
+  }
+}
+2025-09-24 21:22:17,187 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:17,188 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:22:17,188 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:22:17,188 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:22:18,519 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:18,519 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lotte_chemical_battery_electrolyte_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:22:18,519 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:18,519 - INFO - ✅ Match found for investment_ID 'investment_lotte_chemical_battery_electrolyte_plant' in investment nodes
+2025-09-24 21:22:18,519 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:22:18,519 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:22:18,519 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:22:18,519 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:22:18,519 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:22:19,788 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:19,788 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_electrolyte",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 21:22:19,788 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:19,788 - INFO - ✅ Match found for product_ID 'product_battery_electrolyte' in product nodes
+2025-09-24 21:22:19,788 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:22:19,788 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 21:22:19,788 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:22:19,788 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:22:19,789 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:22:20,770 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:20,770 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lotte_chemical",
+      "type": "owns",
+      "target": "factory_daesan_south_korea"
+    }
+  ]
+}
+2025-09-24 21:22:20,770 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:20,770 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:22:20,770 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:22:21,896 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:21,896 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_electrolyte",
+      "target": "factory_daesan_south_korea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:22:21,896 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:21,896 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:22:21,896 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:22:22,818 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:22,819 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:22:22,819 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:22,819 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:22:22,819 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:22:24,457 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:22:24,457 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lotte_chemical_battery_electrolyte_plant",
+      "target": "product_battery_electrolyte",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:22:24,457 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:22:24,557 - INFO - ✅ Updated Article ID: 68d3e8e23e609fb288d7cb09 with 5 nodes and combined text.

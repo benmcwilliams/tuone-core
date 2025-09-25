@@ -1,0 +1,88 @@
+2025-09-24 21:55:29,275 - INFO - 🔍 Text length: 1328 characters
+2025-09-24 21:55:29,275 - INFO - 📌 Processing Article ID: 68d3e6b53e609fb288d7ca86 — Koc Revokes Pact for Turkey Battery JV
+2025-09-24 21:55:29,275 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:55:31,330 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:31,331 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_koc_holding",
+        "type": "company",
+        "name": "Koc Holding"
+      },
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_koc_ford_lg_energy_solution",
+        "type": "joint_venture",
+        "name": "Koc Ford LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ford_otosan_plant",
+        "type": "factory",
+        "name": "Ford Otosan plant",
+        "location": {
+          "city": "Kocaeli",
+          "country": "Turkey"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 21:55:31,331 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:31,331 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:55:31,331 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:55:31,331 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:55:31,331 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:55:32,865 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:32,865 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:55:32,865 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:32,865 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 21:55:32,865 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:55:32,865 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:55:32,866 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:55:32,866 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:55:32,866 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:55:33,591 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:33,591 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:55:33,591 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:33,591 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:55:33,591 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:55:34,605 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:34,605 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:55:34,605 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:34,605 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:55:34,605 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:55:34,694 - INFO - ✅ Updated Article ID: 68d3e6b53e609fb288d7ca86 with 6 nodes and combined text.

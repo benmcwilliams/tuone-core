@@ -1,0 +1,231 @@
+2025-09-25 02:00:00,675 - INFO - 🔍 Text length: 1863 characters
+2025-09-25 02:00:00,675 - INFO - 📌 Processing Article ID: 68d3c4983e609fb288d7c610 — Mitsubishi to build EV in Indonesia
+2025-09-25 02:00:00,675 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:00:03,052 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:03,052 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mitsubishi_motors",
+        "type": "company",
+        "name": "Mitsubishi Motors"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_mitsubishi_motors_krama_yudha",
+        "type": "joint_venture",
+        "name": "Mitsubishi Motors Krama Yudha"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bekasi_indonesia",
+        "type": "factory",
+        "name": "Bekasi Plant",
+        "location": {
+          "city": "Bekasi",
+          "country": "Indonesia"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_mitsubishi_indonesia_expansion",
+        "type": "investment",
+        "name": "Mitsubishi Indonesia Expansion",
+        "amount": "IDR5.7trn (US$375m)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_250k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "250,000 units per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_minicab_miev",
+        "type": "product",
+        "name": "Minicab MiEV"
+      },
+      {
+        "id": "product_xpander",
+        "type": "product",
+        "name": "Xpander"
+      },
+      {
+        "id": "product_pajero",
+        "type": "product",
+        "name": "Pajero"
+      },
+      {
+        "id": "product_nissan_livina",
+        "type": "product",
+        "name": "Nissan Livina"
+      }
+    ]
+  }
+}
+2025-09-25 02:00:03,052 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:03,052 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 02:00:03,052 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 02:00:03,922 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:03,922 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_250k_units_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 02:00:03,922 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:03,922 - INFO - ✅ Match found for capacity_ID 'capacity_250k_units_per_year' in capacity nodes
+2025-09-25 02:00:03,922 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:00:03,922 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 02:00:03,923 - INFO -   ➕ Set field 'additional': False
+2025-09-25 02:00:03,923 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:00:03,923 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:00:04,996 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:04,996 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_mitsubishi_indonesia_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:00:04,996 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:04,996 - INFO - ✅ Match found for investment_ID 'investment_mitsubishi_indonesia_expansion' in investment nodes
+2025-09-25 02:00:04,996 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:00:04,996 - INFO -   ➕ Set field 'phase': expansion
+2025-09-25 02:00:04,996 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:00:04,996 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:00:04,996 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:00:07,247 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:07,247 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_minicab_miev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_xpander",
+      "product_lv1": "vehicle",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_pajero",
+      "product_lv1": "vehicle",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_nissan_livina",
+      "product_lv1": "vehicle",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-25 02:00:07,247 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:07,247 - INFO - ✅ Match found for product_ID 'product_minicab_miev' in product nodes
+2025-09-25 02:00:07,247 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:00:07,247 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:00:07,247 - INFO - ✅ Match found for product_ID 'product_xpander' in product nodes
+2025-09-25 02:00:07,247 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:00:07,247 - INFO - ✅ Match found for product_ID 'product_pajero' in product nodes
+2025-09-25 02:00:07,247 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:00:07,247 - INFO - ✅ Match found for product_ID 'product_nissan_livina' in product nodes
+2025-09-25 02:00:07,247 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:00:07,247 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:00:07,247 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:00:07,247 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:00:09,911 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:09,912 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mitsubishi_motors",
+      "type": "forms",
+      "target": "joint_venture_mitsubishi_motors_krama_yudha"
+    },
+    {
+      "source": "joint_venture_mitsubishi_motors_krama_yudha",
+      "type": "owns",
+      "target": "factory_bekasi_indonesia"
+    }
+  ]
+}
+2025-09-25 02:00:09,912 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:09,912 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:00:09,912 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:00:12,778 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:12,779 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_250k_units_per_year",
+      "target": "factory_bekasi_indonesia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_250k_units_per_year",
+      "target": "product_minicab_miev",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_minicab_miev",
+      "target": "factory_bekasi_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_xpander",
+      "target": "factory_bekasi_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_pajero",
+      "target": "factory_bekasi_indonesia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nissan_livina",
+      "target": "factory_bekasi_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:00:12,779 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:12,779 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:00:12,779 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:00:14,419 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:14,419 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:00:14,419 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:14,419 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:00:14,419 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:00:15,337 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:00:15,338 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_mitsubishi_indonesia_expansion",
+      "target": "factory_bekasi_indonesia",
+      "type": "funds"
+    },
+    {
+      "source": "investment_mitsubishi_indonesia_expansion",
+      "target": "capacity_250k_units_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-09-25 02:00:15,338 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:00:15,424 - INFO - ✅ Updated Article ID: 68d3c4983e609fb288d7c610 with 9 nodes and combined text.

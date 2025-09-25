@@ -1,0 +1,195 @@
+2025-09-24 22:25:31,705 - INFO - 🔍 Text length: 8740 characters
+2025-09-24 22:25:31,705 - INFO - 📌 Processing Article ID: 68d3e4cd3e609fb288d7c9e9 — Batterieproduktion in Europa (Stand: Februar 2023)
+2025-09-24 22:25:31,705 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:25:34,791 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:34,792 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_britishvolt",
+        "type": "company",
+        "name": "Britishvolt"
+      },
+      {
+        "id": "company_recharge_industries",
+        "type": "company",
+        "name": "Recharge Industries"
+      },
+      {
+        "id": "company_tata",
+        "type": "company",
+        "name": "Tata"
+      },
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      },
+      {
+        "id": "company_nanotech_energy",
+        "type": "company",
+        "name": "Nanotech Energy"
+      },
+      {
+        "id": "company_elinor",
+        "type": "company",
+        "name": "Elinor"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      },
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_trondheim_norway",
+        "type": "factory",
+        "name": "Trondheim Gigafactory",
+        "location": {
+          "city": "Trondheim",
+          "country": "Norway"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen Battery Plant",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nanotech_energy_gb",
+        "type": "investment",
+        "name": "Nanotech Energy UK Factory",
+        "amount": "1 billion Euro",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_cells",
+        "type": "product",
+        "name": "LFP Cells"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "Battery Cells"
+      }
+    ]
+  }
+}
+2025-09-24 22:25:34,792 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:34,792 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:25:34,792 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:25:34,792 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:25:35,712 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:35,713 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nanotech_energy_gb",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:25:35,713 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:35,713 - INFO - ✅ Match found for investment_ID 'investment_nanotech_energy_gb' in investment nodes
+2025-09-24 22:25:35,713 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:25:35,713 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:25:35,713 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:25:35,713 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:25:35,713 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:25:41,037 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:41,037 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 22:25:41,038 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:41,038 - INFO - ✅ Match found for product_ID 'product_lfp_cells' in product nodes
+2025-09-24 22:25:41,038 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:25:41,038 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:25:41,038 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 22:25:41,038 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:25:41,038 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:25:41,038 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:25:41,038 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:25:41,038 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:25:42,677 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:42,678 - INFO - {
+  "relationships": [
+    {
+      "source": "company_elinor",
+      "type": "owns",
+      "target": "factory_trondheim_norway"
+    },
+    {
+      "source": "company_samsung_sdi",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-09-24 22:25:42,678 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:42,678 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:25:42,678 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:25:43,802 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:43,802 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lfp_cells",
+      "target": "factory_trondheim_norway",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:25:43,803 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:43,803 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:25:43,803 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:25:44,520 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:44,521 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:25:44,521 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:44,521 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:25:44,521 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:25:45,851 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:25:45,851 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nanotech_energy_gb",
+      "target": "factory_trondheim_norway",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nanotech_energy_gb",
+      "target": "product_lfp_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:25:45,851 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:25:45,947 - INFO - ✅ Updated Article ID: 68d3e4cd3e609fb288d7c9e9 with 13 nodes and combined text.

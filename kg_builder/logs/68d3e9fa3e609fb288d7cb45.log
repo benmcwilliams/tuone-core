@@ -1,0 +1,195 @@
+2025-09-24 21:10:01,801 - INFO - 🔍 Text length: 7423 characters
+2025-09-24 21:10:01,801 - INFO - 📌 Processing Article ID: 68d3e9fa3e609fb288d7cb45 — China: SKI investiert eine Milliarde Dollar
+2025-09-24 21:10:01,801 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:10:03,954 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:03,954 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_innovation",
+        "type": "company",
+        "name": "SK Innovation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_china_battery",
+        "type": "factory",
+        "name": "China Battery Factory",
+        "location": {
+          "city": "null",
+          "country": "China"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_sk_innovation_china_battery",
+        "type": "investment",
+        "name": "SK Innovation China Battery Investment",
+        "amount": "1 billion US dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_gigawatt_hours_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 Gigawatt hours",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_500_gigawatt_hours_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "500 Gigawatt hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 21:10:03,954 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:03,954 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:10:03,954 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:10:05,183 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:05,184 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_gigawatt_hours_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_500_gigawatt_hours_announced",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 21:10:05,184 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:05,184 - INFO - ✅ Match found for capacity_ID 'capacity_200_gigawatt_hours_announced' in capacity nodes
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:10:05,184 - INFO - ✅ Match found for capacity_ID 'capacity_500_gigawatt_hours_announced' in capacity nodes
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 21:10:05,184 - INFO -   ➕ Set field 'additional': False
+2025-09-24 21:10:05,184 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:10:05,184 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:10:07,333 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:07,334 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_sk_innovation_china_battery",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:10:07,334 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:07,334 - INFO - ✅ Match found for investment_ID 'investment_sk_innovation_china_battery' in investment nodes
+2025-09-24 21:10:07,334 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:10:07,334 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 21:10:07,334 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:10:07,334 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:10:07,334 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:10:08,473 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:08,473 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:10:08,473 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:08,474 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 21:10:08,474 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:10:08,474 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:10:08,474 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:10:08,474 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:10:08,474 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:10:09,641 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:09,641 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_innovation",
+      "type": "owns",
+      "target": "factory_china_battery"
+    }
+  ]
+}
+2025-09-24 21:10:09,641 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:09,641 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:10:09,641 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:10:12,353 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:12,353 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_gigawatt_hours_announced",
+      "target": "factory_china_battery",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500_gigawatt_hours_announced",
+      "target": "factory_china_battery",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_gigawatt_hours_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_500_gigawatt_hours_announced",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_china_battery",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:10:12,353 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:12,354 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:10:12,354 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:10:13,784 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:13,784 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:10:13,784 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:13,785 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:10:13,785 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:10:15,117 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:10:15,117 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_sk_innovation_china_battery",
+      "target": "factory_china_battery",
+      "type": "funds"
+    },
+    {
+      "source": "investment_sk_innovation_china_battery",
+      "target": "product_battery_cells",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:10:15,117 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:10:15,209 - INFO - ✅ Updated Article ID: 68d3e9fa3e609fb288d7cb45 with 6 nodes and combined text.

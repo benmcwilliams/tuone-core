@@ -1,0 +1,132 @@
+2025-09-25 02:19:43,040 - INFO - 🔍 Text length: 837 characters
+2025-09-25 02:19:43,041 - INFO - 📌 Processing Article ID: 68d3c2ac3e609fb288d7c5ae — Kostal to make EV chargers in North Macedonia
+2025-09-25 02:19:43,041 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:19:44,588 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:44,588 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kostal",
+        "type": "company",
+        "name": "Kostal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ohrid_north_macedonia",
+        "type": "factory",
+        "name": "Ohrid Production Facility",
+        "location": {
+          "city": "Ohrid",
+          "country": "North Macedonia"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_kostal_eur50m_usd53_6_million_announced",
+        "type": "investment",
+        "name": "Kostal EUR50m (US$53.6 million) investment",
+        "amount": "EUR50m (US$53.6 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_chargers",
+        "type": "product",
+        "name": "chargers for electric and hybrid vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 02:19:44,588 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:44,588 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:19:44,588 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:19:44,588 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:19:45,612 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:45,612 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_kostal_eur50m_usd53_6_million_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:19:45,612 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:45,612 - INFO - ✅ Match found for investment_ID 'investment_kostal_eur50m_usd53_6_million_announced' in investment nodes
+2025-09-25 02:19:45,612 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:19:45,612 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 02:19:45,612 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:19:45,612 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:19:45,612 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:19:46,942 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:46,942 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_chargers",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:19:46,942 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:46,942 - INFO - ✅ Match found for product_ID 'product_ev_chargers' in product nodes
+2025-09-25 02:19:46,942 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:19:46,942 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:19:46,942 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:19:46,942 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:19:46,942 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:19:47,864 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:47,864 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kostal",
+      "type": "owns",
+      "target": "factory_ohrid_north_macedonia"
+    }
+  ]
+}
+2025-09-25 02:19:47,864 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:47,864 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:19:47,864 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:19:50,425 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:50,425 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev_chargers",
+      "target": "factory_ohrid_north_macedonia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:19:50,425 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:50,425 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:19:50,425 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:19:50,937 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:50,937 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:19:50,937 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:50,938 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:19:50,938 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:19:52,618 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:19:52,618 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_kostal_eur50m_usd53_6_million_announced",
+      "target": "product_ev_chargers",
+      "type": "targets"
+    },
+    {
+      "source": "investment_kostal_eur50m_usd53_6_million_announced",
+      "target": "factory_ohrid_north_macedonia",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 02:19:52,618 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:19:52,710 - INFO - ✅ Updated Article ID: 68d3c2ac3e609fb288d7c5ae with 4 nodes and combined text.

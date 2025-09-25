@@ -1,0 +1,163 @@
+2025-09-24 23:55:40,261 - INFO - 🔍 Text length: 8065 characters
+2025-09-24 23:55:40,262 - INFO - 📌 Processing Article ID: 68d3dec83e609fb288d7c873 — Is the World Cup bringing foreign investment to Qatar?
+2025-09-24 23:55:40,262 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:55:43,331 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:55:43,331 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_google",
+        "type": "company",
+        "name": "Google"
+      },
+      {
+        "id": "company_microsoft",
+        "type": "company",
+        "name": "Microsoft"
+      },
+      {
+        "id": "company_ilife_digital",
+        "type": "company",
+        "name": "iLife Digital"
+      },
+      {
+        "id": "company_ubs_group",
+        "type": "company",
+        "name": "UBS Group"
+      },
+      {
+        "id": "centara",
+        "type": "company",
+        "name": "Centara",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      },
+      {
+        "id": "hilton",
+        "type": "company",
+        "name": "Hilton",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      },
+      {
+        "id": "marriott",
+        "type": "company",
+        "name": "Marriott",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_qatar_free_zone",
+        "type": "factory",
+        "name": "Qatar Free Zone",
+        "location": {
+          "city": "Qatar Free Zone",
+          "country": "Qatar"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_350k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "350,000 units annually",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pc_manufacturing_plant",
+        "type": "product",
+        "name": "PC manufacturing plant"
+      }
+    ]
+  }
+}
+2025-09-24 23:55:43,331 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:55:43,331 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:55:43,331 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:55:44,661 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:55:44,661 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_350k_units_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:55:44,661 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:55:44,661 - INFO - ✅ Match found for capacity_ID 'capacity_350k_units_per_year' in capacity nodes
+2025-09-24 23:55:44,661 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:55:44,661 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:55:44,661 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:55:44,661 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:55:44,661 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:55:44,661 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:55:45,786 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:55:45,786 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pc_manufacturing_plant",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 23:55:45,786 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:55:45,786 - INFO - ✅ Match found for product_ID 'product_pc_manufacturing_plant' in product nodes
+2025-09-24 23:55:45,786 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:55:45,786 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:55:45,786 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:55:45,786 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:55:46,942 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:55:46,942 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ilife_digital",
+      "type": "owns",
+      "target": "factory_qatar_free_zone"
+    }
+  ]
+}
+2025-09-24 23:55:46,942 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:55:46,942 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:55:46,942 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:55:48,654 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:55:48,654 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_350k_units_per_year",
+      "target": "factory_qatar_free_zone",
+      "type": "at"
+    },
+    {
+      "source": "capacity_350k_units_per_year",
+      "target": "product_pc_manufacturing_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pc_manufacturing_plant",
+      "target": "factory_qatar_free_zone",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:55:48,654 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:55:48,654 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:55:48,654 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:55:48,749 - INFO - ✅ Updated Article ID: 68d3dec83e609fb288d7c873 with 10 nodes and combined text.

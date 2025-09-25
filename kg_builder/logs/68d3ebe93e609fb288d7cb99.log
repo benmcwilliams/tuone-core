@@ -1,0 +1,127 @@
+2025-09-24 20:52:52,406 - INFO - 🔍 Text length: 7483 characters
+2025-09-24 20:52:52,406 - INFO - 📌 Processing Article ID: 68d3ebe93e609fb288d7cb99 — Microvast beliefert Safra mit Batterien
+2025-09-24 20:52:52,406 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 20:52:56,248 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:56,249 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_microvast",
+        "type": "company",
+        "name": "Microvast"
+      },
+      {
+        "id": "company_safra",
+        "type": "company",
+        "name": "Safra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ludwigsfelde_germany",
+        "type": "factory",
+        "name": "Ludwigsfelde Factory",
+        "location": {
+          "city": "Ludwigsfelde",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batterypacks",
+        "type": "product",
+        "name": "Batterypacks"
+      },
+      {
+        "id": "product_electric_hybrid_buses",
+        "type": "product",
+        "name": "Electric and Hybrid Buses"
+      },
+      {
+        "id": "product_batterycells",
+        "type": "product",
+        "name": "Batterycells"
+      },
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "Battery Modules"
+      }
+    ]
+  }
+}
+2025-09-24 20:52:56,249 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:56,249 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 20:52:56,249 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 20:52:56,249 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 20:52:56,249 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 20:52:59,936 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:52:59,936 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batterypacks",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_electric_hybrid_buses",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_batterycells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_modules",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-24 20:52:59,936 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:52:59,936 - INFO - ✅ Match found for product_ID 'product_batterypacks' in product nodes
+2025-09-24 20:52:59,936 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:52:59,936 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 20:52:59,937 - INFO - ✅ Match found for product_ID 'product_electric_hybrid_buses' in product nodes
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 20:52:59,937 - INFO - ✅ Match found for product_ID 'product_batterycells' in product nodes
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 20:52:59,937 - INFO - ✅ Match found for product_ID 'product_battery_modules' in product nodes
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:52:59,937 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 20:52:59,937 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 20:52:59,937 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 20:52:59,937 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 20:53:03,418 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:53:03,419 - INFO - {
+  "relationships": [
+    {
+      "source": "company_microvast",
+      "type": "owns",
+      "target": "factory_ludwigsfelde_germany"
+    }
+  ]
+}
+2025-09-24 20:53:03,419 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:53:03,419 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 20:53:03,419 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 20:53:05,568 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:53:05,568 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_modules",
+      "target": "factory_ludwigsfelde_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 20:53:05,568 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:53:05,569 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 20:53:05,569 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 20:53:05,650 - INFO - ✅ Updated Article ID: 68d3ebe93e609fb288d7cb99 with 7 nodes and combined text.

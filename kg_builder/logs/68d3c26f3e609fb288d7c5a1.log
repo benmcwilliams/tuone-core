@@ -1,0 +1,126 @@
+2025-09-25 02:23:32,510 - INFO - 🔍 Text length: 2043 characters
+2025-09-25 02:23:32,510 - INFO - 📌 Processing Article ID: 68d3c26f3e609fb288d7c5a1 — PPG opens battery pack application centre in China
+2025-09-25 02:23:32,510 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:23:35,470 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:35,470 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ppg",
+        "type": "company",
+        "name": "PPG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_battery_pack_application_centre",
+        "type": "factory",
+        "name": "battery pack application centre",
+        "location": {
+          "city": "Tianjin",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_battery_pack_application_centre",
+        "type": "investment",
+        "name": "battery pack application centre",
+        "amount": "$30-million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_battery_coatings",
+        "type": "product",
+        "name": "EV battery coatings"
+      }
+    ]
+  }
+}
+2025-09-25 02:23:35,470 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:35,470 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:23:35,470 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:23:35,470 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:23:36,530 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:36,530 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_battery_pack_application_centre",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:23:36,530 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:36,530 - INFO - ✅ Match found for investment_ID 'investment_battery_pack_application_centre' in investment nodes
+2025-09-25 02:23:36,530 - INFO -   ➕ Set field 'status': completed
+2025-09-25 02:23:36,530 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 02:23:36,530 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:23:36,530 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:23:36,530 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:23:37,647 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:37,647 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_battery_coatings",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:23:37,647 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:37,647 - INFO - ✅ Match found for product_ID 'product_ev_battery_coatings' in product nodes
+2025-09-25 02:23:37,647 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:23:37,647 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:23:37,648 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:23:37,648 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:23:37,648 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:23:38,492 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:38,492 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ppg",
+      "type": "owns",
+      "target": "factory_battery_pack_application_centre"
+    }
+  ]
+}
+2025-09-25 02:23:38,492 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:38,492 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:23:38,492 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:23:39,296 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:39,296 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:23:39,296 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:39,296 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:23:39,296 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:23:40,897 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:40,897 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:23:40,897 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:40,897 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:23:40,897 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:23:42,266 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:23:42,266 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_battery_pack_application_centre",
+      "target": "factory_battery_pack_application_centre",
+      "type": "funds"
+    },
+    {
+      "source": "investment_battery_pack_application_centre",
+      "target": "product_ev_battery_coatings",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 02:23:42,266 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:23:42,356 - INFO - ✅ Updated Article ID: 68d3c26f3e609fb288d7c5a1 with 4 nodes and combined text.

@@ -1,0 +1,114 @@
+2025-09-25 00:34:04,627 - INFO - 🔍 Text length: 1924 characters
+2025-09-25 00:34:04,627 - INFO - 📌 Processing Article ID: 68d3cd573e609fb288d7c7b4 — SK On resumes US battery cell production for Ford
+2025-09-25 00:34:04,627 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:34:06,889 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:06,889 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sk_on",
+        "type": "company",
+        "name": "SK On"
+      },
+      {
+        "id": "company_ford_motor_company",
+        "type": "company",
+        "name": "Ford Motor Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_georgia_us",
+        "type": "factory",
+        "name": "Georgia Plant",
+        "location": {
+          "city": "Georgia",
+          "country": "United States"
+        }
+      },
+      {
+        "id": "factory_michigan_us",
+        "type": "factory",
+        "name": "Michigan Assembly Plant",
+        "location": {
+          "city": "Michigan",
+          "country": "United States"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_f150_lightning",
+        "type": "product",
+        "name": "F-150 Lightning"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-25 00:34:06,889 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:06,889 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:34:06,889 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:34:06,889 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:34:06,889 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:34:08,524 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:08,524 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_f150_lightning",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-25 00:34:08,525 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:08,525 - INFO - ✅ Match found for product_ID 'product_f150_lightning' in product nodes
+2025-09-25 00:34:08,525 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:34:08,525 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:34:08,525 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-25 00:34:08,525 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 00:34:08,525 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-25 00:34:08,525 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:34:08,525 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:34:08,525 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:34:09,651 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:09,651 - INFO - {
+  "relationships": [
+    {
+      "source": "company_sk_on",
+      "type": "owns",
+      "target": "factory_georgia_us"
+    },
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_michigan_us"
+    }
+  ]
+}
+2025-09-25 00:34:09,651 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:09,651 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:34:09,651 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:34:10,778 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:34:10,778 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_georgia_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:34:10,779 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:34:10,779 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:34:10,779 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:34:10,868 - INFO - ✅ Updated Article ID: 68d3cd573e609fb288d7c7b4 with 6 nodes and combined text.

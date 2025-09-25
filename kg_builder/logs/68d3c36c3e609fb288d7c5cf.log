@@ -1,0 +1,149 @@
+2025-09-25 02:13:19,936 - INFO - 🔍 Text length: 5754 characters
+2025-09-25 02:13:19,937 - INFO - 📌 Processing Article ID: 68d3c36c3e609fb288d7c5cf — Deal of the Week: Punch Group and Vitesco Technologies Italy
+2025-09-25 02:13:19,937 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:13:22,299 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:22,299 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vitesco_technologies",
+        "type": "company",
+        "name": "Vitesco Technologies"
+      },
+      {
+        "id": "company_punch_group",
+        "type": "company",
+        "name": "Punch Group"
+      },
+      {
+        "id": "company_punch_torino_spa",
+        "type": "company",
+        "name": "Punch Torino SpA"
+      },
+      {
+        "id": "company_vitesco_technologies_italy_srl",
+        "type": "company",
+        "name": "Vitesco Technologies Italy Srl"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pisa_tuscany",
+        "type": "factory",
+        "name": "Vitesco Technologies Italy Srl",
+        "location": {
+          "city": "Pisa",
+          "country": "Italy"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_turin_italy",
+        "type": "factory",
+        "name": "General Motors Propulsion Engineering Center",
+        "location": {
+          "city": "Turin",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ice_tech_injectors",
+        "type": "product",
+        "name": "ICE tech injectors"
+      },
+      {
+        "id": "product_fuel_distribution_systems",
+        "type": "product",
+        "name": "fuel distribution systems"
+      },
+      {
+        "id": "product_exhaust_treatment_systems",
+        "type": "product",
+        "name": "exhaust treatment systems"
+      }
+    ]
+  }
+}
+2025-09-25 02:13:22,299 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:22,300 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:13:22,300 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:13:22,300 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:13:22,300 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:13:24,345 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:24,345 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ice_tech_injectors",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_fuel_distribution_systems",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_exhaust_treatment_systems",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    }
+  ]
+}
+2025-09-25 02:13:24,345 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:24,345 - INFO - ✅ Match found for product_ID 'product_ice_tech_injectors' in product nodes
+2025-09-25 02:13:24,345 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:13:24,346 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-25 02:13:24,346 - INFO - ✅ Match found for product_ID 'product_fuel_distribution_systems' in product nodes
+2025-09-25 02:13:24,346 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:13:24,346 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-25 02:13:24,346 - INFO - ✅ Match found for product_ID 'product_exhaust_treatment_systems' in product nodes
+2025-09-25 02:13:24,346 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-09-25 02:13:24,346 - INFO -   ➕ Set field 'product_lv2': engine
+2025-09-25 02:13:24,346 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:13:24,346 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:13:24,346 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:13:26,686 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:26,686 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vitesco_technologies",
+      "type": "owns",
+      "target": "factory_pisa_tuscany"
+    },
+    {
+      "source": "company_punch_group",
+      "type": "owns",
+      "target": "factory_turin_italy"
+    }
+  ]
+}
+2025-09-25 02:13:26,686 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:26,686 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:13:26,687 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:13:29,466 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:13:29,467 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ice_tech_injectors",
+      "target": "factory_pisa_tuscany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fuel_distribution_systems",
+      "target": "factory_pisa_tuscany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_exhaust_treatment_systems",
+      "target": "factory_pisa_tuscany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:13:29,467 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:13:29,467 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:13:29,467 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:13:29,554 - INFO - ✅ Updated Article ID: 68d3c36c3e609fb288d7c5cf with 9 nodes and combined text.

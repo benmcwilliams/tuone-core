@@ -1,0 +1,143 @@
+2025-09-24 21:55:13,094 - INFO - 🔍 Text length: 10450 characters
+2025-09-24 21:55:13,094 - INFO - 📌 Processing Article ID: 68d3e6bb3e609fb288d7ca88 — “Cell Manufacturers are Forced to Take Significant Investment Risks”
+2025-09-24 21:55:13,094 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:55:16,790 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:16,790 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_svolt",
+        "type": "company",
+        "name": "SVOLT"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_saft",
+        "type": "company",
+        "name": "Saft"
+      },
+      {
+        "id": "company_mercedes",
+        "type": "company",
+        "name": "Mercedes"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      },
+      {
+        "id": "company_solid_power",
+        "type": "company",
+        "name": "Solid Power"
+      },
+      {
+        "id": "company_quantumscape",
+        "type": "company",
+        "name": "QuantumScape"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_automotive_cells_company",
+        "type": "joint_venture",
+        "name": "Automotive Cells Company"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_heide_germany",
+        "type": "factory",
+        "name": "Heide",
+        "location": {
+          "city": "Heide",
+          "country": "Germany"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solid_state_batteries",
+        "type": "product",
+        "name": "solid-state batteries"
+      },
+      {
+        "id": "product_cathode_materials",
+        "type": "product",
+        "name": "cathode materials"
+      }
+    ]
+  }
+}
+2025-09-24 21:55:16,790 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:16,790 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:55:16,790 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:55:16,790 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:55:16,790 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:55:18,561 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:18,561 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solid_state_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_cathode_materials",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 21:55:18,561 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:18,561 - INFO - ✅ Match found for product_ID 'product_solid_state_batteries' in product nodes
+2025-09-24 21:55:18,561 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:55:18,561 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:55:18,561 - INFO - ✅ Match found for product_ID 'product_cathode_materials' in product nodes
+2025-09-24 21:55:18,561 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:55:18,561 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:55:18,561 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:55:18,561 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:55:18,561 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:55:19,657 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:19,657 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_heide_germany"
+    }
+  ]
+}
+2025-09-24 21:55:19,657 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:19,657 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:55:19,657 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:55:20,617 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:20,617 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solid_state_batteries",
+      "target": "factory_heide_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:55:20,617 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:20,617 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:55:20,617 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:55:20,698 - INFO - ✅ Updated Article ID: 68d3e6bb3e609fb288d7ca88 with 13 nodes and combined text.

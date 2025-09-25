@@ -1,0 +1,118 @@
+2025-09-25 00:13:52,087 - INFO - 🔍 Text length: 1777 characters
+2025-09-25 00:13:52,087 - INFO - 📌 Processing Article ID: 68d3cedb3e609fb288d7c818 — Hyundai signs for hydrogen truck JV in China
+2025-09-25 00:13:52,088 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:13:55,779 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:13:55,780 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyundai_motor_company",
+        "type": "company",
+        "name": "Hyundai Motor Company"
+      },
+      {
+        "id": "company_china_international_capital_corporation",
+        "type": "company",
+        "name": "China International Capital Corporation"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hyundai_ccm",
+        "type": "joint_venture",
+        "name": "Hyundai CCM"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sichuan_china",
+        "type": "factory",
+        "name": "Sichuan Manufacturing and R&D Hub",
+        "location": {
+          "city": "Sichuan",
+          "country": "China"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen_powered_commercial_vehicle",
+        "type": "product",
+        "name": "hydrogen powered commercial vehicle"
+      },
+      {
+        "id": "product_hydrogen_fuel_cell",
+        "type": "product",
+        "name": "hydrogen fuel cell"
+      }
+    ]
+  }
+}
+2025-09-25 00:13:55,780 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:13:55,780 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:13:55,780 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:13:55,780 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:13:55,780 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:13:58,438 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:13:58,438 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hydrogen_powered_commercial_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_hydrogen_fuel_cell",
+      "product_lv1": "hydrogen",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:13:58,438 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:13:58,438 - INFO - ✅ Match found for product_ID 'product_hydrogen_powered_commercial_vehicle' in product nodes
+2025-09-25 00:13:58,438 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:13:58,438 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:13:58,438 - INFO - ✅ Match found for product_ID 'product_hydrogen_fuel_cell' in product nodes
+2025-09-25 00:13:58,438 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 00:13:58,438 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:13:58,438 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:13:58,438 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:13:58,438 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:14:00,590 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:14:00,590 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "forms",
+      "target": "joint_venture_hyundai_ccm"
+    },
+    {
+      "source": "company_china_international_capital_corporation",
+      "type": "forms",
+      "target": "joint_venture_hyundai_ccm"
+    },
+    {
+      "source": "company_hyundai_motor_company",
+      "type": "owns",
+      "target": "factory_sichuan_china"
+    }
+  ]
+}
+2025-09-25 00:14:00,590 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:14:00,590 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:14:00,590 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:14:01,311 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:14:01,311 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hydrogen_powered_commercial_vehicle",
+      "target": "factory_sichuan_china",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:14:01,311 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:14:01,311 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:14:01,311 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:14:01,396 - INFO - ✅ Updated Article ID: 68d3cedb3e609fb288d7c818 with 6 nodes and combined text.

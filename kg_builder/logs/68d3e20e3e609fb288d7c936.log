@@ -1,0 +1,157 @@
+2025-09-24 23:08:13,502 - INFO - 🔍 Text length: 1181 characters
+2025-09-24 23:08:13,502 - INFO - 📌 Processing Article ID: 68d3e20e3e609fb288d7c936 — LG Energy to Supply 200,000 Battery Modules to ICPT
+2025-09-24 23:08:13,502 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:08:16,892 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:08:16,892 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_impact_clean_power_technology",
+        "type": "company",
+        "name": "Impact Clean Power Technology"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wroclaw_poland",
+        "type": "factory",
+        "name": "Wroclaw Plant",
+        "location": {
+          "city": "Wroclaw",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_gigafactoryx_pruszkow",
+        "type": "factory",
+        "name": "GigafactoryX",
+        "location": {
+          "city": "Pruszkow",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_70_gigawatt_hours_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "70 gigawatt-hours",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ncm_lithium_ion_battery_modules",
+        "type": "product",
+        "name": "NCM lithium-ion battery modules"
+      },
+      {
+        "id": "product_battery_packs_and_systems",
+        "type": "product",
+        "name": "battery packs and systems"
+      }
+    ]
+  }
+}
+2025-09-24 23:08:16,892 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:08:16,892 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:08:16,892 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:08:17,914 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:08:17,914 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_70_gigawatt_hours_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:08:17,914 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:08:17,914 - INFO - ✅ Match found for capacity_ID 'capacity_70_gigawatt_hours_operational' in capacity nodes
+2025-09-24 23:08:17,914 - INFO -   ➕ Set field 'status': operational
+2025-09-24 23:08:17,914 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:08:17,915 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:08:17,915 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:08:17,915 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:08:17,915 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:08:20,169 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:08:20,169 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ncm_lithium_ion_battery_modules",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_battery_packs_and_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:08:20,169 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:08:20,169 - INFO - ✅ Match found for product_ID 'product_ncm_lithium_ion_battery_modules' in product nodes
+2025-09-24 23:08:20,169 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:08:20,169 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 23:08:20,169 - INFO - ✅ Match found for product_ID 'product_battery_packs_and_systems' in product nodes
+2025-09-24 23:08:20,169 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:08:20,169 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:08:20,169 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:08:20,169 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:08:20,169 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:08:21,195 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:08:21,195 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_wroclaw_poland"
+    },
+    {
+      "source": "company_impact_clean_power_technology",
+      "type": "owns",
+      "target": "factory_gigafactoryx_pruszkow"
+    }
+  ]
+}
+2025-09-24 23:08:21,195 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:08:21,195 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:08:21,195 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:08:24,121 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:08:24,121 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_70_gigawatt_hours_operational",
+      "target": "factory_wroclaw_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_70_gigawatt_hours_operational",
+      "target": "product_ncm_lithium_ion_battery_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ncm_lithium_ion_battery_modules",
+      "target": "factory_wroclaw_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ncm_lithium_ion_battery_modules",
+      "target": "factory_gigafactoryx_pruszkow",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:08:24,121 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:08:24,121 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:08:24,121 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:08:24,210 - INFO - ✅ Updated Article ID: 68d3e20e3e609fb288d7c936 with 7 nodes and combined text.

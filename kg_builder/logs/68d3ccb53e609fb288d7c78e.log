@@ -1,0 +1,136 @@
+2025-09-25 00:43:04,997 - INFO - 🔍 Text length: 12045 characters
+2025-09-25 00:43:04,997 - INFO - 📌 Processing Article ID: 68d3ccb53e609fb288d7c78e — New Ford Ranger Raptor: dino-might
+2025-09-25 00:43:04,997 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:43:08,488 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:08,489 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford_motor_company",
+        "type": "company",
+        "name": "Ford Motor Company"
+      },
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_toyota_motor_sales_usa",
+        "type": "company",
+        "name": "Toyota Motor Sales USA"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wayne_plant",
+        "type": "factory",
+        "name": "Wayne plant",
+        "location": {
+          "city": "Wayne",
+          "country": "USA"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ranger_raptor",
+        "type": "product",
+        "name": "Ranger Raptor"
+      },
+      {
+        "id": "product_amarok",
+        "type": "product",
+        "name": "Amarok"
+      },
+      {
+        "id": "product_mustang_mach_e",
+        "type": "product",
+        "name": "Mustang Mach-E"
+      },
+      {
+        "id": "product_ranger_extender",
+        "type": "product",
+        "name": "Ranger Extender"
+      }
+    ]
+  }
+}
+2025-09-25 00:43:08,489 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:08,489 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:43:08,489 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:43:08,489 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:43:08,489 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:43:13,712 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:13,712 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ranger_raptor",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_amarok",
+      "product_lv1": "vehicle",
+      "product_lv2": "unclear"
+    },
+    {
+      "product_ID": "product_mustang_mach_e",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ranger_extender",
+      "product_lv1": "vehicle",
+      "product_lv2": "unclear"
+    }
+  ]
+}
+2025-09-25 00:43:13,713 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:13,713 - INFO - ✅ Match found for product_ID 'product_ranger_raptor' in product nodes
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 00:43:13,713 - INFO - ✅ Match found for product_ID 'product_amarok' in product nodes
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv2': unclear
+2025-09-25 00:43:13,713 - INFO - ✅ Match found for product_ID 'product_mustang_mach_e' in product nodes
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:43:13,713 - INFO - ✅ Match found for product_ID 'product_ranger_extender' in product nodes
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:43:13,713 - INFO -   ➕ Set field 'product_lv2': unclear
+2025-09-25 00:43:13,713 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:43:13,713 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:43:13,713 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:43:14,767 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:14,767 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford_motor_company",
+      "type": "owns",
+      "target": "factory_wayne_plant"
+    }
+  ]
+}
+2025-09-25 00:43:14,767 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:14,767 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:43:14,767 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:43:15,759 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:15,759 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ranger_raptor",
+      "target": "factory_wayne_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:43:15,759 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:15,759 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:43:15,759 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:43:15,853 - INFO - ✅ Updated Article ID: 68d3ccb53e609fb288d7c78e with 9 nodes and combined text.

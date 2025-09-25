@@ -1,0 +1,127 @@
+2025-09-25 00:24:08,531 - INFO - 🔍 Text length: 1381 characters
+2025-09-25 00:24:08,531 - INFO - 📌 Processing Article ID: 68d3cdfa3e609fb288d7c7e2 — VW Group could delay Trinity flagship EV – reports
+2025-09-25 00:24:08,532 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:24:10,390 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:10,390 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vw_group",
+        "type": "company",
+        "name": "VW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wolfsburg_germany",
+        "type": "factory",
+        "name": "Wolfsburg Facility",
+        "location": {
+          "city": "Wolfsburg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eur2bn_trinity_greenfield",
+        "type": "investment",
+        "name": "EUR2bn Trinity Greenfield",
+        "amount": "EUR2bn",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_trinity_ev",
+        "type": "product",
+        "name": "Trinity EV"
+      }
+    ]
+  }
+}
+2025-09-25 00:24:10,390 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:10,390 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:24:10,390 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 00:24:10,390 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 00:24:12,642 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:12,643 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eur2bn_trinity_greenfield",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 00:24:12,643 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:12,643 - INFO - ✅ Match found for investment_ID 'investment_eur2bn_trinity_greenfield' in investment nodes
+2025-09-25 00:24:12,643 - INFO -   ➕ Set field 'status': announced
+2025-09-25 00:24:12,643 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 00:24:12,643 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 00:24:12,643 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:24:12,643 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:24:13,878 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:13,878 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_trinity_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:24:13,878 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:13,878 - INFO - ✅ Match found for product_ID 'product_trinity_ev' in product nodes
+2025-09-25 00:24:13,878 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:24:13,878 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:24:13,878 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:24:13,878 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:24:13,878 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:24:15,406 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:15,407 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vw_group",
+      "type": "owns",
+      "target": "factory_wolfsburg_germany"
+    }
+  ]
+}
+2025-09-25 00:24:15,407 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:15,407 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:24:15,407 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:24:16,534 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:16,535 - INFO - {
+  "relationships": [
+    {
+      "source": "product_trinity_ev",
+      "target": "factory_wolfsburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:24:16,535 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:16,535 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 00:24:16,535 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 00:24:17,456 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:17,456 - INFO - {
+  "relationships": []
+}
+2025-09-25 00:24:17,456 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:17,457 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 00:24:17,457 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 00:24:18,379 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:24:18,379 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_eur2bn_trinity_greenfield",
+      "target": "factory_wolfsburg_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 00:24:18,379 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:24:18,472 - INFO - ✅ Updated Article ID: 68d3cdfa3e609fb288d7c7e2 with 4 nodes and combined text.

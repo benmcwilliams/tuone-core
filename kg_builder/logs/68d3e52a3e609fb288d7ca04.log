@@ -1,0 +1,168 @@
+2025-09-24 22:20:52,752 - INFO - 🔍 Text length: 6927 characters
+2025-09-24 22:20:52,752 - INFO - 📌 Processing Article ID: 68d3e52a3e609fb288d7ca04 — Rock Tech startet Lithium-Konverter-Bau
+2025-09-24 22:20:52,752 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:20:55,136 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:55,136 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rock_tech_lithium",
+        "type": "company",
+        "name": "Rock Tech Lithium"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_guben_germany",
+        "type": "factory",
+        "name": "Guben Lithium Converter",
+        "location": {
+          "city": "Guben",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_guben_lithium_converter",
+        "type": "investment",
+        "name": "Guben Lithium Converter",
+        "amount": "683 million US dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_24k_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "24,000 tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_hydroxide",
+        "type": "product",
+        "name": "batterief\u00e4higes Lithiumhydroxid"
+      }
+    ]
+  }
+}
+2025-09-24 22:20:55,136 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:55,136 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:20:55,136 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:20:56,057 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:56,058 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_24k_tons_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 22:20:56,058 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:56,058 - INFO - ✅ Match found for capacity_ID 'capacity_24k_tons_per_year' in capacity nodes
+2025-09-24 22:20:56,058 - INFO -   ➕ Set field 'status': under construction
+2025-09-24 22:20:56,058 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:20:56,058 - INFO -   ➕ Set field 'additional': False
+2025-09-24 22:20:56,058 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:20:56,058 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:20:57,081 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:57,081 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_guben_lithium_converter",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:20:57,081 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:57,081 - INFO - ✅ Match found for investment_ID 'investment_guben_lithium_converter' in investment nodes
+2025-09-24 22:20:57,081 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:20:57,081 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 22:20:57,081 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:20:57,082 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:20:57,082 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:20:58,208 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:58,209 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_hydroxide",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 22:20:58,209 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:58,209 - INFO - ✅ Match found for product_ID 'product_lithium_hydroxide' in product nodes
+2025-09-24 22:20:58,209 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:20:58,209 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 22:20:58,209 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:20:58,209 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:20:58,209 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:20:59,335 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:20:59,335 - INFO - {
+  "relationships": [
+    {
+      "source": "company_rock_tech_lithium",
+      "type": "owns",
+      "target": "factory_guben_germany"
+    }
+  ]
+}
+2025-09-24 22:20:59,335 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:20:59,335 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:20:59,335 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:21:01,038 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:21:01,039 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_24k_tons_per_year",
+      "target": "factory_guben_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_24k_tons_per_year",
+      "target": "product_lithium_hydroxide",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_hydroxide",
+      "target": "factory_guben_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:21:01,039 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:21:01,039 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:21:01,039 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:21:01,587 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:21:01,587 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:21:01,587 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:21:01,587 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:21:01,587 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:21:04,044 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:21:04,045 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_guben_lithium_converter",
+      "target": "factory_guben_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_guben_lithium_converter",
+      "target": "product_lithium_hydroxide",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:21:04,045 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:21:04,136 - INFO - ✅ Updated Article ID: 68d3e52a3e609fb288d7ca04 with 5 nodes and combined text.

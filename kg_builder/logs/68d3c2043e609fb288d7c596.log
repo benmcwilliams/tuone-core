@@ -1,0 +1,83 @@
+2025-09-25 02:25:20,153 - INFO - 🔍 Text length: 3599 characters
+2025-09-25 02:25:20,153 - INFO - 📌 Processing Article ID: 68d3c2043e609fb288d7c596 — Kia Europe appoints Pierre-Martin Bos as Director PBV
+2025-09-25 02:25:20,153 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:25:21,800 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:25:21,800 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hwaseong",
+        "type": "factory",
+        "name": "Hwaseong PBV Production Facility",
+        "location": {
+          "city": "Hwaseong",
+          "country": "South Korea"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pbv",
+        "type": "product",
+        "name": "Purpose Built Vehicles (PBVs)"
+      }
+    ]
+  }
+}
+2025-09-25 02:25:21,800 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:25:21,800 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:25:21,800 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:25:21,800 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:25:21,800 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:25:23,031 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:25:23,031 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pbv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:25:23,031 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:25:23,032 - INFO - ✅ Match found for product_ID 'product_pbv' in product nodes
+2025-09-25 02:25:23,032 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:25:23,032 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:25:23,032 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:25:23,032 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:25:23,032 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:25:24,360 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:25:24,360 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_hwaseong"
+    }
+  ]
+}
+2025-09-25 02:25:24,360 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:25:24,360 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:25:24,360 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:25:25,565 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:25:25,566 - INFO - {
+  "relationships": [
+    {
+      "source": "product_pbv",
+      "target": "factory_hwaseong",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:25:25,566 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:25:25,566 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:25:25,566 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:25:25,653 - INFO - ✅ Updated Article ID: 68d3c2043e609fb288d7c596 with 3 nodes and combined text.

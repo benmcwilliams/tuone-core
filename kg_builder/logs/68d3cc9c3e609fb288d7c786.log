@@ -1,0 +1,138 @@
+2025-09-25 00:44:25,669 - INFO - 🔍 Text length: 2402 characters
+2025-09-25 00:44:25,669 - INFO - 📌 Processing Article ID: 68d3cc9c3e609fb288d7c786 — Toyota to adapt FCV tech to decarbonise factories
+2025-09-25 00:44:25,669 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:44:28,345 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:44:28,345 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_toyota",
+        "type": "company",
+        "name": "Toyota Motor Corporation"
+      },
+      {
+        "id": "company_denso",
+        "type": "company",
+        "name": "Denso"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_denso_plant",
+        "type": "factory",
+        "name": "Denso plant",
+        "location": {
+          "city": "null",
+          "country": "Japan"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrolysis_equipment",
+        "type": "product",
+        "name": "electrolysis equipment"
+      },
+      {
+        "id": "product_fuel_cell_stack",
+        "type": "product",
+        "name": "fuel cell stack"
+      },
+      {
+        "id": "product_fuel_cell_electric_vehicle",
+        "type": "product",
+        "name": "fuel cell electric vehicle"
+      },
+      {
+        "id": "product_stationary_generator",
+        "type": "product",
+        "name": "stationary generator"
+      },
+      {
+        "id": "product_fc_truck",
+        "type": "product",
+        "name": "fuel cell truck"
+      }
+    ]
+  }
+}
+2025-09-25 00:44:28,345 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:44:28,345 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:44:28,345 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:44:28,345 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:44:28,345 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:44:31,156 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:44:31,156 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electrolysis_equipment",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "product_fuel_cell_stack",
+      "product_lv1": "hydrogen",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_fuel_cell_electric_vehicle",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_stationary_generator",
+      "product_lv1": "hydrogen",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_fc_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 00:44:31,156 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:44:31,156 - INFO - ✅ Match found for product_ID 'product_electrolysis_equipment' in product nodes
+2025-09-25 00:44:31,156 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 00:44:31,156 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-09-25 00:44:31,157 - INFO - ✅ Match found for product_ID 'product_fuel_cell_stack' in product nodes
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 00:44:31,157 - INFO - ✅ Match found for product_ID 'product_fuel_cell_electric_vehicle' in product nodes
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:44:31,157 - INFO - ✅ Match found for product_ID 'product_stationary_generator' in product nodes
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-25 00:44:31,157 - INFO - ✅ Match found for product_ID 'product_fc_truck' in product nodes
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:44:31,157 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 00:44:31,157 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:44:31,157 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:44:31,157 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:44:32,134 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:44:32,135 - INFO - {
+  "relationships": [
+    {
+      "source": "company_denso",
+      "type": "owns",
+      "target": "factory_denso_plant"
+    }
+  ]
+}
+2025-09-25 00:44:32,135 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:44:32,135 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:44:32,135 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:44:33,161 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:44:33,161 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electrolysis_equipment",
+      "target": "factory_denso_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:44:33,161 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:44:33,161 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:44:33,161 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:44:33,257 - INFO - ✅ Updated Article ID: 68d3cc9c3e609fb288d7c786 with 8 nodes and combined text.

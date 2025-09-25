@@ -1,0 +1,110 @@
+2025-09-25 02:48:06,790 - INFO - 🔍 Text length: 1947 characters
+2025-09-25 02:48:06,790 - INFO - 📌 Processing Article ID: 68d3c0343e609fb288d7c522 — Agreement for wage boost for GM Ultium workers
+2025-09-25 02:48:06,790 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:48:10,590 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:48:10,591 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_general_motors_lg_energy_solution",
+        "type": "joint_venture",
+        "name": "General Motors and LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ultium_battery_plant",
+        "type": "factory",
+        "name": "Ultium Battery Plant",
+        "location": {
+          "city": "Ohio",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_modules",
+        "type": "product",
+        "name": "battery modules"
+      }
+    ]
+  }
+}
+2025-09-25 02:48:10,591 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:48:10,591 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:48:10,591 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:48:10,591 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:48:10,591 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:48:12,125 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:48:12,126 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_modules",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-25 02:48:12,126 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:48:12,126 - INFO - ✅ Match found for product_ID 'product_battery_modules' in product nodes
+2025-09-25 02:48:12,126 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:48:12,126 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 02:48:12,126 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:48:12,126 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:48:12,126 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:48:13,765 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:48:13,765 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "forms",
+      "target": "joint_venture_general_motors_lg_energy_solution"
+    },
+    {
+      "source": "company_lg_energy_solution",
+      "type": "forms",
+      "target": "joint_venture_general_motors_lg_energy_solution"
+    },
+    {
+      "source": "joint_venture_general_motors_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_ultium_battery_plant"
+    }
+  ]
+}
+2025-09-25 02:48:13,765 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:48:13,765 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:48:13,765 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:48:14,689 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:48:14,689 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_modules",
+      "target": "factory_ultium_battery_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:48:14,690 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:48:14,690 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:48:14,690 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:48:14,780 - INFO - ✅ Updated Article ID: 68d3c0343e609fb288d7c522 with 6 nodes and combined text.

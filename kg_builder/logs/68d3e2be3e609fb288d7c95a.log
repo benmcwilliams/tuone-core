@@ -1,0 +1,201 @@
+2025-09-24 23:02:00,816 - INFO - 🔍 Text length: 1395 characters
+2025-09-24 23:02:00,816 - INFO - 📌 Processing Article ID: 68d3e2be3e609fb288d7c95a — Altilium Launches LFP Battery Recycling in the UK
+2025-09-24 23:02:00,816 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:02:03,844 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:02:03,844 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_altilium",
+        "type": "company",
+        "name": "Altilium"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_plymouth",
+        "type": "factory",
+        "name": "Plymouth Plant",
+        "location": {
+          "city": "Plymouth",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_teesside",
+        "type": "factory",
+        "name": "Teesside Facility",
+        "location": {
+          "city": "Teesside",
+          "country": "United Kingdom"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_kg_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 kilograms per day",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_150k_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "150,000 vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_batteries",
+        "type": "product",
+        "name": "LFP batteries"
+      },
+      {
+        "id": "product_nmc_batteries",
+        "type": "product",
+        "name": "NMC batteries"
+      },
+      {
+        "id": "product_black_mass",
+        "type": "product",
+        "name": "black mass"
+      }
+    ]
+  }
+}
+2025-09-24 23:02:03,844 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:02:03,845 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:02:03,845 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:02:05,658 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:02:05,659 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_kg_per_day",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_150k_vehicles_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-24 23:02:05,659 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:02:05,659 - INFO - ✅ Match found for capacity_ID 'capacity_300_kg_per_day' in capacity nodes
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'status': operational
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:02:05,659 - INFO - ✅ Match found for capacity_ID 'capacity_150k_vehicles_per_year' in capacity nodes
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:02:05,659 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:02:05,659 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:02:05,659 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:02:05,659 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:02:08,972 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:02:08,972 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_nmc_batteries",
+      "product_lv1": "recycling",
+      "product_lv2": "battery"
+    },
+    {
+      "product_ID": "product_black_mass",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 23:02:08,973 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:02:08,973 - INFO - ✅ Match found for product_ID 'product_lfp_batteries' in product nodes
+2025-09-24 23:02:08,973 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:02:08,973 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:02:08,973 - INFO - ✅ Match found for product_ID 'product_nmc_batteries' in product nodes
+2025-09-24 23:02:08,973 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-24 23:02:08,973 - INFO -   ➕ Set field 'product_lv2': battery
+2025-09-24 23:02:08,973 - INFO - ✅ Match found for product_ID 'product_black_mass' in product nodes
+2025-09-24 23:02:08,973 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 23:02:08,973 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:02:08,973 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:02:08,973 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:02:10,124 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:02:10,124 - INFO - {
+  "relationships": [
+    {
+      "source": "company_altilium",
+      "type": "owns",
+      "target": "factory_plymouth"
+    },
+    {
+      "source": "company_altilium",
+      "type": "owns",
+      "target": "factory_teesside"
+    }
+  ]
+}
+2025-09-24 23:02:10,124 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:02:10,124 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:02:10,124 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:02:13,369 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:02:13,369 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_kg_per_day",
+      "target": "factory_plymouth",
+      "type": "at"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "factory_teesside",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_kg_per_day",
+      "target": "product_black_mass",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_lfp_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_150k_vehicles_per_year",
+      "target": "product_nmc_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_black_mass",
+      "target": "factory_plymouth",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lfp_batteries",
+      "target": "factory_teesside",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_nmc_batteries",
+      "target": "factory_teesside",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:02:13,369 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:02:13,369 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:02:13,369 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:02:13,461 - INFO - ✅ Updated Article ID: 68d3e2be3e609fb288d7c95a with 8 nodes and combined text.

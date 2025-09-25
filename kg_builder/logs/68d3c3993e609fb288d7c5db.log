@@ -1,0 +1,95 @@
+2025-09-25 02:11:18,074 - INFO - 🔍 Text length: 741 characters
+2025-09-25 02:11:18,074 - INFO - 📌 Processing Article ID: 68d3c3993e609fb288d7c5db — Fuso to trial battery swaps in Japan
+2025-09-25 02:11:18,074 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:11:19,622 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:19,622 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fuso",
+        "type": "company",
+        "name": "Fuso"
+      },
+      {
+        "id": "company_ample",
+        "type": "company",
+        "name": "Ample"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_fuso_ample",
+        "type": "joint_venture",
+        "name": "Fuso Ample"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_swapping",
+        "type": "product",
+        "name": "battery swapping"
+      },
+      {
+        "id": "product_e_canter_light_truck",
+        "type": "product",
+        "name": "eCanter light truck"
+      }
+    ]
+  }
+}
+2025-09-25 02:11:19,622 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:19,622 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:11:19,622 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:11:19,622 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:11:19,622 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:11:21,159 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:21,159 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_swapping",
+      "product_lv1": "battery",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_e_canter_light_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 02:11:21,159 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:21,159 - INFO - ✅ Match found for product_ID 'product_battery_swapping' in product nodes
+2025-09-25 02:11:21,159 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:11:21,159 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-25 02:11:21,159 - INFO - ✅ Match found for product_ID 'product_e_canter_light_truck' in product nodes
+2025-09-25 02:11:21,159 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:11:21,160 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:11:21,160 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:11:21,160 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:11:21,160 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:11:22,281 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:22,281 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fuso",
+      "type": "forms",
+      "target": "joint_venture_fuso_ample"
+    },
+    {
+      "source": "company_ample",
+      "type": "forms",
+      "target": "joint_venture_fuso_ample"
+    }
+  ]
+}
+2025-09-25 02:11:22,281 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:22,281 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:11:22,281 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:11:22,898 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:11:22,898 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:11:22,898 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:11:22,898 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:11:22,898 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:11:22,993 - INFO - ✅ Updated Article ID: 68d3c3993e609fb288d7c5db with 5 nodes and combined text.

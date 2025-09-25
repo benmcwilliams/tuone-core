@@ -1,0 +1,102 @@
+2025-09-24 22:04:15,531 - INFO - 🔍 Text length: 1321 characters
+2025-09-24 22:04:15,531 - INFO - 📌 Processing Article ID: 68d3e6343e609fb288d7ca58 — Vulcan Energy Starts Lithium Extraction in Landau
+2025-09-24 22:04:15,531 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:04:17,077 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:04:17,077 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vulcan_energy_resources",
+        "type": "company",
+        "name": "Vulcan Energy Resources"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_landau_germany",
+        "type": "factory",
+        "name": "Lithium Extraction Optimization Plant (LEOP)",
+        "location": {
+          "city": "Landau",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_insheim_germany",
+        "type": "factory",
+        "name": "Insheim Pilot Plant",
+        "location": {
+          "city": "Insheim",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_chloride",
+        "type": "product",
+        "name": "lithium chloride"
+      }
+    ]
+  }
+}
+2025-09-24 22:04:17,077 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:04:17,077 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 22:04:17,077 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 22:04:17,077 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:04:17,077 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:04:18,611 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:04:18,612 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_chloride",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 22:04:18,612 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:04:18,612 - INFO - ✅ Match found for product_ID 'product_lithium_chloride' in product nodes
+2025-09-24 22:04:18,612 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 22:04:18,612 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:04:18,612 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:04:18,612 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:04:20,045 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:04:20,045 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vulcan_energy_resources",
+      "type": "owns",
+      "target": "factory_landau_germany"
+    },
+    {
+      "source": "company_vulcan_energy_resources",
+      "type": "owns",
+      "target": "factory_insheim_germany"
+    }
+  ]
+}
+2025-09-24 22:04:20,045 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:04:20,045 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:04:20,045 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:04:22,419 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:04:22,419 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium_chloride",
+      "target": "factory_landau_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_lithium_chloride",
+      "target": "factory_insheim_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:04:22,419 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:04:22,419 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 22:04:22,419 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 22:04:22,510 - INFO - ✅ Updated Article ID: 68d3e6343e609fb288d7ca58 with 4 nodes and combined text.

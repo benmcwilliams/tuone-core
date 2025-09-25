@@ -1,0 +1,168 @@
+2025-09-24 20:58:09,081 - INFO - 🔍 Text length: 7453 characters
+2025-09-24 20:58:09,081 - INFO - 📌 Processing Article ID: 68d3eb423e609fb288d7cb7d — Nissan forciert Batterieoffensive
+2025-09-24 20:58:09,081 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 20:58:12,157 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:12,158 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nissan",
+        "type": "company",
+        "name": "Nissan"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_canton_mississippi",
+        "type": "factory",
+        "name": "Canton Assembly Plant",
+        "location": {
+          "city": "Canton",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_nissan_canton",
+        "type": "investment",
+        "name": "Nissan Canton Investment",
+        "amount": "500 million US dollars",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batterypacks",
+        "type": "product",
+        "name": "Batterypacks"
+      },
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "Electric Vehicles"
+      },
+      {
+        "id": "product_lithium_ion_cells",
+        "type": "product",
+        "name": "Lithium-Ion Cells"
+      }
+    ]
+  }
+}
+2025-09-24 20:58:12,158 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:12,158 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 20:58:12,158 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 20:58:12,158 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 20:58:14,309 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:14,309 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_nissan_canton",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 20:58:14,309 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:14,309 - INFO - ✅ Match found for investment_ID 'investment_nissan_canton' in investment nodes
+2025-09-24 20:58:14,310 - INFO -   ➕ Set field 'status': announced
+2025-09-24 20:58:14,310 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-24 20:58:14,310 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 20:58:14,310 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 20:58:14,310 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 20:58:16,665 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:16,665 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batterypacks",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_lithium_ion_cells",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-24 20:58:16,665 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:16,665 - INFO - ✅ Match found for product_ID 'product_batterypacks' in product nodes
+2025-09-24 20:58:16,665 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:58:16,665 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-24 20:58:16,665 - INFO - ✅ Match found for product_ID 'product_electric_vehicles' in product nodes
+2025-09-24 20:58:16,665 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 20:58:16,665 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 20:58:16,665 - INFO - ✅ Match found for product_ID 'product_lithium_ion_cells' in product nodes
+2025-09-24 20:58:16,666 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 20:58:16,666 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-24 20:58:16,666 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 20:58:16,666 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 20:58:16,666 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 20:58:18,711 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:18,711 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nissan",
+      "type": "owns",
+      "target": "factory_canton_mississippi"
+    }
+  ]
+}
+2025-09-24 20:58:18,711 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:18,711 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 20:58:18,711 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 20:58:19,939 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:19,940 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batterypacks",
+      "target": "factory_canton_mississippi",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_canton_mississippi",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 20:58:19,940 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:19,940 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 20:58:19,940 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 20:58:21,170 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:21,170 - INFO - {
+  "relationships": []
+}
+2025-09-24 20:58:21,170 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:21,170 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 20:58:21,170 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 20:58:22,182 - INFO - ✅ OpenAI returned output:
+2025-09-24 20:58:22,183 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_nissan_canton",
+      "target": "factory_canton_mississippi",
+      "type": "funds"
+    },
+    {
+      "source": "investment_nissan_canton",
+      "target": "product_batterypacks",
+      "type": "targets"
+    },
+    {
+      "source": "investment_nissan_canton",
+      "target": "product_electric_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 20:58:22,183 - INFO - POST-PROCESSING STARTING.
+2025-09-24 20:58:22,272 - INFO - ✅ Updated Article ID: 68d3eb423e609fb288d7cb7d with 6 nodes and combined text.

@@ -1,0 +1,114 @@
+2025-09-25 02:36:37,902 - INFO - 🔍 Text length: 5289 characters
+2025-09-25 02:36:37,902 - INFO - 📌 Processing Article ID: 68d3c11a3e609fb288d7c55d — Deal focus: will Turkey tempt Tesla?
+2025-09-25 02:36:37,902 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:36:40,935 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:36:40,936 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_bASF",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_seawind_catamarans",
+        "type": "company",
+        "name": "Seawind Catamarans"
+      },
+      {
+        "id": "company_weg",
+        "type": "company",
+        "name": "WEG"
+      },
+      {
+        "id": "company_b\u00f6llhoff",
+        "type": "company",
+        "name": "B\u00f6llhoff"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_istanbul_turkey",
+        "type": "factory",
+        "name": "Istanbul Gigafactory",
+        "location": {
+          "city": "Istanbul",
+          "country": "Turkey"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_bursa_turkey",
+        "type": "factory",
+        "name": "Bursa Gigafactory",
+        "location": {
+          "city": "Bursa",
+          "country": "Turkey"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev",
+        "type": "product",
+        "name": "electric vehicles"
+      },
+      {
+        "id": "product_battery_manufacturing",
+        "type": "product",
+        "name": "battery manufacturing"
+      }
+    ]
+  }
+}
+2025-09-25 02:36:40,936 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:36:40,936 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:36:40,936 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:36:40,936 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:36:40,936 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:36:42,675 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:36:42,675 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery_manufacturing",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:36:42,675 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:36:42,675 - INFO - ✅ Match found for product_ID 'product_ev' in product nodes
+2025-09-25 02:36:42,676 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:36:42,676 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:36:42,676 - INFO - ✅ Match found for product_ID 'product_battery_manufacturing' in product nodes
+2025-09-25 02:36:42,676 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:36:42,676 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:36:42,676 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:36:42,676 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:36:42,676 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:36:44,414 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:36:44,415 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:36:44,415 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:36:44,415 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:36:44,415 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:36:45,134 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:36:45,134 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:36:45,134 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:36:45,134 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:36:45,134 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:36:45,221 - INFO - ✅ Updated Article ID: 68d3c11a3e609fb288d7c55d with 9 nodes and combined text.

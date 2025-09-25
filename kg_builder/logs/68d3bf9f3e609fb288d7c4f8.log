@@ -1,0 +1,93 @@
+2025-09-25 03:02:55,858 - INFO - 🔍 Text length: 1892 characters
+2025-09-25 03:02:55,859 - INFO - 📌 Processing Article ID: 68d3bf9f3e609fb288d7c4f8 — GM coming back to Europe with EVs
+2025-09-25 03:02:55,859 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 03:02:59,259 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:02:59,259 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_cadillac",
+        "type": "company",
+        "name": "Cadillac"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_spring_hill_tennessee",
+        "type": "factory",
+        "name": "Spring Hill Plant",
+        "location": {
+          "city": "Spring Hill",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lyriq_ev",
+        "type": "product",
+        "name": "Lyriq EV"
+      }
+    ]
+  }
+}
+2025-09-25 03:02:59,259 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:02:59,259 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 03:02:59,259 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 03:02:59,259 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 03:02:59,259 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 03:03:00,480 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:00,481 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lyriq_ev",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 03:03:00,481 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:00,481 - INFO - ✅ Match found for product_ID 'product_lyriq_ev' in product nodes
+2025-09-25 03:03:00,481 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 03:03:00,481 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 03:03:00,481 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 03:03:00,481 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 03:03:00,481 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 03:03:02,528 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:02,529 - INFO - {
+  "relationships": [
+    {
+      "source": "company_general_motors",
+      "type": "owns",
+      "target": "factory_spring_hill_tennessee"
+    }
+  ]
+}
+2025-09-25 03:03:02,529 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:02,529 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 03:03:02,529 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 03:03:03,659 - INFO - ✅ OpenAI returned output:
+2025-09-25 03:03:03,660 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lyriq_ev",
+      "target": "factory_spring_hill_tennessee",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 03:03:03,660 - INFO - POST-PROCESSING STARTING.
+2025-09-25 03:03:03,660 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 03:03:03,660 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 03:03:03,750 - INFO - ✅ Updated Article ID: 68d3bf9f3e609fb288d7c4f8 with 5 nodes and combined text.

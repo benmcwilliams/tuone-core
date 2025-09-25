@@ -1,0 +1,198 @@
+2025-09-24 22:16:40,374 - INFO - 🔍 Text length: 1202 characters
+2025-09-24 22:16:40,374 - INFO - 📌 Processing Article ID: 68d3e55a3e609fb288d7ca18 — Lyten Acquires Cuberg Manufacturing Assets
+2025-09-24 22:16:40,374 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 22:16:43,712 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:43,712 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lyten",
+        "type": "company",
+        "name": "Lyten"
+      },
+      {
+        "id": "company_cuberg",
+        "type": "company",
+        "name": "Cuberg"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_san_leandro_california",
+        "type": "factory",
+        "name": "San Leandro Facility",
+        "location": {
+          "city": "San Leandro",
+          "country": "United States"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_san_jose_california",
+        "type": "factory",
+        "name": "San Jose Facility",
+        "location": {
+          "city": "San Jose",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lyten_san_leandro_san_jose",
+        "type": "investment",
+        "name": "Lyten San Leandro and San Jose Investment",
+        "amount": "up to 20 million US dollars",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_200_mwh_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "200 megawatt-hours per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_sulfur_battery",
+        "type": "product",
+        "name": "lithium-sulfur battery"
+      }
+    ]
+  }
+}
+2025-09-24 22:16:43,712 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:43,712 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 22:16:43,712 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 22:16:44,665 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:44,665 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_200_mwh_per_year",
+      "status": "announced",
+      "phase": "retrofit",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 22:16:44,665 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:44,665 - INFO - ✅ Match found for capacity_ID 'capacity_200_mwh_per_year' in capacity nodes
+2025-09-24 22:16:44,665 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:16:44,665 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-24 22:16:44,665 - INFO -   ➕ Set field 'additional': True
+2025-09-24 22:16:44,665 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 22:16:44,665 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 22:16:45,484 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:45,484 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lyten_san_leandro_san_jose",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 22:16:45,484 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:45,484 - INFO - ✅ Match found for investment_ID 'investment_lyten_san_leandro_san_jose' in investment nodes
+2025-09-24 22:16:45,484 - INFO -   ➕ Set field 'status': announced
+2025-09-24 22:16:45,484 - INFO -   ➕ Set field 'phase': retrofit
+2025-09-24 22:16:45,484 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 22:16:45,484 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 22:16:45,484 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 22:16:46,816 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:46,816 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_sulfur_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 22:16:46,816 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:46,816 - INFO - ✅ Match found for product_ID 'product_lithium_sulfur_battery' in product nodes
+2025-09-24 22:16:46,816 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 22:16:46,816 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 22:16:46,816 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 22:16:46,816 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 22:16:46,816 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 22:16:47,889 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:47,890 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lyten",
+      "type": "owns",
+      "target": "factory_san_leandro_california"
+    },
+    {
+      "source": "company_lyten",
+      "type": "owns",
+      "target": "factory_san_jose_california"
+    }
+  ]
+}
+2025-09-24 22:16:47,890 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:47,890 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 22:16:47,890 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 22:16:51,427 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:51,427 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_200_mwh_per_year",
+      "target": "factory_san_leandro_california",
+      "type": "at"
+    },
+    {
+      "source": "capacity_200_mwh_per_year",
+      "target": "product_lithium_sulfur_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_sulfur_battery",
+      "target": "factory_san_leandro_california",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 22:16:51,427 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:51,428 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 22:16:51,428 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 22:16:52,268 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:16:52,268 - INFO - {
+  "relationships": []
+}
+2025-09-24 22:16:52,268 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:16:52,268 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 22:16:52,268 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 22:17:00,645 - INFO - ✅ OpenAI returned output:
+2025-09-24 22:17:00,646 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lyten_san_leandro_san_jose",
+      "target": "factory_san_leandro_california",
+      "type": "funds"
+    },
+    {
+      "source": "investment_lyten_san_leandro_san_jose",
+      "target": "factory_san_jose_california",
+      "type": "funds"
+    },
+    {
+      "source": "investment_lyten_san_leandro_san_jose",
+      "target": "product_lithium_sulfur_battery",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 22:17:00,646 - INFO - POST-PROCESSING STARTING.
+2025-09-24 22:17:00,734 - INFO - ✅ Updated Article ID: 68d3e55a3e609fb288d7ca18 with 8 nodes and combined text.

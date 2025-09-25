@@ -1,0 +1,100 @@
+2025-09-24 19:29:44,026 - INFO - 🔍 Text length: 9999 characters
+2025-09-24 19:29:44,026 - INFO - 📌 Processing Article ID: 68d3ecef3e609fb288d7cbd0 — Tesla vor Einstieg in Serienfertigung von Batteriezellen?
+2025-09-24 19:29:44,026 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:29:46,405 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:46,406 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      },
+      {
+        "id": "company_maxwell_technologies",
+        "type": "company",
+        "name": "Maxwell Technologies"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_tesla_panasonic",
+        "type": "joint_venture",
+        "name": "Tesla Panasonic"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "Lithium-Ion Batteries"
+      },
+      {
+        "id": "product_ultracapacitors",
+        "type": "product",
+        "name": "Ultracapacitors"
+      }
+    ]
+  }
+}
+2025-09-24 19:29:46,406 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:46,406 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:29:46,406 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:29:46,406 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:29:46,406 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:29:48,261 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:48,262 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_ultracapacitors",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 19:29:48,262 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:48,262 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 19:29:48,262 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:29:48,262 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 19:29:48,262 - INFO - ✅ Match found for product_ID 'product_ultracapacitors' in product nodes
+2025-09-24 19:29:48,262 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:29:48,262 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 19:29:48,262 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:29:48,262 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:29:48,262 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:29:49,487 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:49,487 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tesla",
+      "type": "forms",
+      "target": "joint_venture_tesla_panasonic"
+    },
+    {
+      "source": "company_panasonic",
+      "type": "forms",
+      "target": "joint_venture_tesla_panasonic"
+    }
+  ]
+}
+2025-09-24 19:29:49,487 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:49,487 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:29:49,487 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:29:50,307 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:29:50,308 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:29:50,308 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:29:50,308 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:29:50,308 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:29:50,405 - INFO - ✅ Updated Article ID: 68d3ecef3e609fb288d7cbd0 with 6 nodes and combined text.

@@ -1,0 +1,131 @@
+2025-09-25 00:54:28,300 - INFO - 🔍 Text length: 4247 characters
+2025-09-25 00:54:28,301 - INFO - 📌 Processing Article ID: 68d3cb9e3e609fb288d7c752 — AI, real time data driving early development of autonomous vehicles
+2025-09-25 00:54:28,301 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:54:31,238 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:31,238 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      },
+      {
+        "id": "company_dxc_technology",
+        "type": "company",
+        "name": "DXC Technology"
+      },
+      {
+        "id": "company_honda_manufacturing_of_alabama",
+        "type": "company",
+        "name": "Honda Manufacturing of Alabama"
+      },
+      {
+        "id": "company_splunk",
+        "type": "company",
+        "name": "Splunk"
+      },
+      {
+        "id": "company_continental_ag",
+        "type": "company",
+        "name": "Continental AG"
+      },
+      {
+        "id": "company_nvidia",
+        "type": "company",
+        "name": "NVIDIA"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_ford_vw",
+        "type": "joint_venture",
+        "name": "Argo.ai"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_honda_manufacturing_of_alabama",
+        "type": "factory",
+        "name": "Honda Manufacturing of Alabama",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      },
+      {
+        "id": "factory_argo_ai",
+        "type": "factory",
+        "name": "Argo.ai",
+        "location": {
+          "city": "null",
+          "country": "null"
+        }
+      }
+    ],
+    "products": [
+      {
+        "id": "product_adas",
+        "type": "product",
+        "name": "Advanced Driver Assistance Systems"
+      }
+    ]
+  }
+}
+2025-09-25 00:54:31,238 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:31,239 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:54:31,239 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:54:31,239 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:54:31,239 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:54:32,515 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:32,516 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_adas",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:54:32,516 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:32,516 - INFO - ✅ Match found for product_ID 'product_adas' in product nodes
+2025-09-25 00:54:32,516 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:54:32,516 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:54:32,516 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:54:32,516 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:54:32,516 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:54:33,843 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:33,843 - INFO - {
+  "relationships": [
+    {
+      "source": "company_honda_manufacturing_of_alabama",
+      "type": "owns",
+      "target": "factory_honda_manufacturing_of_alabama"
+    },
+    {
+      "source": "joint_venture_ford_vw",
+      "type": "owns",
+      "target": "factory_argo_ai"
+    }
+  ]
+}
+2025-09-25 00:54:33,843 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:33,843 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:54:33,843 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:54:34,969 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:54:34,970 - INFO - {
+  "relationships": [
+    {
+      "source": "product_adas",
+      "target": "factory_argo_ai"
+    },
+    {
+      "source": "product_adas",
+      "target": "factory_honda_manufacturing_of_alabama"
+    }
+  ]
+}
+2025-09-25 00:54:34,970 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:54:34,970 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:54:34,970 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:54:35,058 - INFO - ✅ Updated Article ID: 68d3cb9e3e609fb288d7c752 with 10 nodes and combined text.

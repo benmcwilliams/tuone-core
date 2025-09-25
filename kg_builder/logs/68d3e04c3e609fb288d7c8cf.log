@@ -1,0 +1,119 @@
+2025-09-24 23:28:36,277 - INFO - 🔍 Text length: 1565 characters
+2025-09-24 23:28:36,277 - INFO - 📌 Processing Article ID: 68d3e04c3e609fb288d7c8cf — EA unveils electric mini truck in Thailand
+2025-09-24 23:28:36,277 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:28:38,855 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:38,855 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_energy_absolute",
+        "type": "company",
+        "name": "Energy Absolute"
+      },
+      {
+        "id": "company_amita_technologies",
+        "type": "company",
+        "name": "Amita Technologies"
+      },
+      {
+        "id": "company_mine_mobility",
+        "type": "company",
+        "name": "Mine Mobility"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chachoengsao_thailand",
+        "type": "factory",
+        "name": "Chachoengsao Factory",
+        "location": {
+          "city": "Chachoengsao",
+          "country": "Thailand"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mt30_mini_truck",
+        "type": "product",
+        "name": "MT30 Mini Truck"
+      },
+      {
+        "id": "product_h2_ev_public_bus",
+        "type": "product",
+        "name": "H2 EV Public Bus"
+      },
+      {
+        "id": "product_battery_powered_passenger_boat",
+        "type": "product",
+        "name": "Battery Powered Passenger Boat"
+      }
+    ]
+  }
+}
+2025-09-24 23:28:38,855 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:38,856 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:28:38,856 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:28:38,856 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:28:38,856 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:28:41,285 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:41,285 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_mt30_mini_truck",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_h2_ev_public_bus",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery_powered_passenger_boat",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 23:28:41,285 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:41,285 - INFO - ✅ Match found for product_ID 'product_mt30_mini_truck' in product nodes
+2025-09-24 23:28:41,285 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:41,285 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:41,285 - INFO - ✅ Match found for product_ID 'product_h2_ev_public_bus' in product nodes
+2025-09-24 23:28:41,285 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:41,285 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:41,285 - INFO - ✅ Match found for product_ID 'product_battery_powered_passenger_boat' in product nodes
+2025-09-24 23:28:41,286 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 23:28:41,286 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 23:28:41,286 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:28:41,286 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:28:41,286 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:28:42,340 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:42,340 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mine_mobility",
+      "type": "owns",
+      "target": "factory_chachoengsao_thailand"
+    }
+  ]
+}
+2025-09-24 23:28:42,340 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:42,340 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:28:42,340 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:28:43,156 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:28:43,156 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mt30_mini_truck",
+      "target": "factory_chachoengsao_thailand",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:28:43,156 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:28:43,156 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:28:43,157 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:28:43,249 - INFO - ✅ Updated Article ID: 68d3e04c3e609fb288d7c8cf with 7 nodes and combined text.

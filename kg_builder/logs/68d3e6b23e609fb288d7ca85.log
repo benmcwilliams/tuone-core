@@ -1,0 +1,124 @@
+2025-09-24 21:55:34,695 - INFO - 🔍 Text length: 1263 characters
+2025-09-24 21:55:34,696 - INFO - 📌 Processing Article ID: 68d3e6b23e609fb288d7ca85 — Gigafactory Location: Does Porsche Consider Brandenburg?
+2025-09-24 21:55:34,696 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:55:37,740 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:37,740 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_porsche",
+        "type": "company",
+        "name": "Porsche"
+      },
+      {
+        "id": "company_cellforce",
+        "type": "company",
+        "name": "Cellforce"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_reutlingen_germany",
+        "type": "factory",
+        "name": "Reutlingen Factory",
+        "location": {
+          "city": "Reutlingen",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_20_gigawatt_hours_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "20 gigawatt-hours",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-24 21:55:37,740 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:37,740 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 21:55:37,740 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 21:55:38,701 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:38,702 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_20_gigawatt_hours_unclear",
+      "status": "unclear",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 21:55:38,702 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:38,702 - INFO - ✅ Match found for capacity_ID 'capacity_20_gigawatt_hours_unclear' in capacity nodes
+2025-09-24 21:55:38,702 - INFO -   ➕ Set field 'status': unclear
+2025-09-24 21:55:38,702 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:55:38,702 - INFO -   ➕ Set field 'additional': True
+2025-09-24 21:55:38,702 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:55:38,702 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:55:38,702 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:55:39,929 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:39,929 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:55:39,929 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:39,929 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-24 21:55:39,929 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:55:39,929 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:55:39,929 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:55:39,929 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:55:39,929 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:55:40,810 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:40,810 - INFO - {
+  "relationships": [
+    {
+      "source": "company_porsche",
+      "type": "owns",
+      "target": "factory_reutlingen_germany"
+    }
+  ]
+}
+2025-09-24 21:55:40,811 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:40,811 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:55:40,811 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:55:42,797 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:55:42,797 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_20_gigawatt_hours_unclear",
+      "target": "factory_reutlingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_20_gigawatt_hours_unclear",
+      "target": "product_battery_cells",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_reutlingen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:55:42,797 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:55:42,797 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:55:42,797 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:55:42,892 - INFO - ✅ Updated Article ID: 68d3e6b23e609fb288d7ca85 with 5 nodes and combined text.

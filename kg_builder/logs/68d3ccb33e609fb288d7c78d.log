@@ -1,0 +1,105 @@
+2025-09-25 00:43:15,855 - INFO - 🔍 Text length: 2639 characters
+2025-09-25 00:43:15,855 - INFO - 📌 Processing Article ID: 68d3ccb33e609fb288d7c78d — Stellantis signs MoU to make vehicles in South Africa
+2025-09-25 00:43:15,855 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 00:43:17,704 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:17,704 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_industrial_development_corporation",
+        "type": "company",
+        "name": "Industrial Development Corporation"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_south_africa",
+        "type": "factory",
+        "name": "manufacturing plant",
+        "location": {
+          "city": "null",
+          "country": "South Africa"
+        },
+        "status": "announced"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_stellantis_idc",
+        "type": "joint_venture",
+        "name": "Stellantis IDC"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_vehicles",
+        "type": "product",
+        "name": "vehicles"
+      }
+    ]
+  }
+}
+2025-09-25 00:43:17,704 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:17,705 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 00:43:17,705 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 00:43:17,705 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 00:43:17,705 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 00:43:19,240 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:19,240 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 00:43:19,240 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:19,240 - INFO - ✅ Match found for product_ID 'product_vehicles' in product nodes
+2025-09-25 00:43:19,240 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 00:43:19,240 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 00:43:19,240 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 00:43:19,240 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 00:43:19,240 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 00:43:20,878 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:20,879 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "forms",
+      "target": "joint_venture_stellantis_idc"
+    },
+    {
+      "source": "company_industrial_development_corporation",
+      "type": "forms",
+      "target": "joint_venture_stellantis_idc"
+    },
+    {
+      "source": "joint_venture_stellantis_idc",
+      "type": "owns",
+      "target": "factory_south_africa"
+    }
+  ]
+}
+2025-09-25 00:43:20,879 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:20,879 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 00:43:20,879 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 00:43:21,774 - INFO - ✅ OpenAI returned output:
+2025-09-25 00:43:21,774 - INFO - {
+  "relationships": [
+    {
+      "source": "product_vehicles",
+      "target": "factory_south_africa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 00:43:21,774 - INFO - POST-PROCESSING STARTING.
+2025-09-25 00:43:21,774 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 00:43:21,774 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 00:43:21,862 - INFO - ✅ Updated Article ID: 68d3ccb33e609fb288d7c78d with 5 nodes and combined text.

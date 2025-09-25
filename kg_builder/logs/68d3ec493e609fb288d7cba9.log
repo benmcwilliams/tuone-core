@@ -1,0 +1,76 @@
+2025-09-24 19:38:16,801 - INFO - 🔍 Text length: 7676 characters
+2025-09-24 19:38:16,801 - INFO - 📌 Processing Article ID: 68d3ec493e609fb288d7cba9 — LFP-Zellchemie für künftige Tesla-Batterien
+2025-09-24 19:38:16,801 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:38:19,249 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:19,250 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tesla",
+        "type": "company",
+        "name": "Tesla"
+      },
+      {
+        "id": "company_panasonic",
+        "type": "company",
+        "name": "Panasonic"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lfp_battery",
+        "type": "product",
+        "name": "LFP Battery"
+      },
+      {
+        "id": "product_model_3",
+        "type": "product",
+        "name": "Model 3"
+      }
+    ]
+  }
+}
+2025-09-24 19:38:19,250 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:19,250 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:38:19,250 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:38:19,250 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:38:19,250 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:38:20,992 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:20,993 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lfp_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_model_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-24 19:38:20,993 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:20,993 - INFO - ✅ Match found for product_ID 'product_lfp_battery' in product nodes
+2025-09-24 19:38:20,993 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 19:38:20,993 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 19:38:20,993 - INFO - ✅ Match found for product_ID 'product_model_3' in product nodes
+2025-09-24 19:38:20,993 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-24 19:38:20,993 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-24 19:38:20,993 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:38:20,993 - INFO - 🛑 Skipping ownership: required nodes ['factory', 'joint_venture'] not present.
+2025-09-24 19:38:20,993 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:38:20,993 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:38:21,895 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:21,895 - INFO - {
+  "relationships": []
+}
+2025-09-24 19:38:21,895 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:21,895 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:38:21,895 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:38:21,977 - INFO - ✅ Updated Article ID: 68d3ec493e609fb288d7cba9 with 5 nodes and combined text.

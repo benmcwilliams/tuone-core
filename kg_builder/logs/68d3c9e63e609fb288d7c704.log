@@ -1,0 +1,117 @@
+2025-09-25 01:09:11,848 - INFO - 🔍 Text length: 1303 characters
+2025-09-25 01:09:11,848 - INFO - 📌 Processing Article ID: 68d3c9e63e609fb288d7c704 — Unipart boosts 2022 turnover and profit
+2025-09-25 01:09:11,848 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:09:14,847 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:14,847 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_unipart_group",
+        "type": "company",
+        "name": "Unipart Group"
+      },
+      {
+        "id": "company_jcb",
+        "type": "company",
+        "name": "JCB"
+      },
+      {
+        "id": "company_airbus",
+        "type": "company",
+        "name": "Airbus"
+      },
+      {
+        "id": "company_lotus_evija",
+        "type": "company",
+        "name": "Lotus Evija"
+      },
+      {
+        "id": "company_jaguar_land_rover",
+        "type": "company",
+        "name": "Jaguar Land Rover"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_unipart_manufacturing_electric_vehicle_battery_production",
+        "type": "joint_venture",
+        "name": "Unipart Manufacturing Electric Vehicle Battery Production"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mercia_park",
+        "type": "factory",
+        "name": "Mercia Park",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      },
+      {
+        "id": "product_lotus_evija_hypercar",
+        "type": "product",
+        "name": "Lotus Evija hypercar"
+      }
+    ]
+  }
+}
+2025-09-25 01:09:14,847 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:14,847 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:09:14,847 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 01:09:14,848 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:09:14,848 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:09:16,380 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:16,380 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_lotus_evija_hypercar",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-09-25 01:09:16,380 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:16,380 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-09-25 01:09:16,380 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:09:16,380 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 01:09:16,380 - INFO - ✅ Match found for product_ID 'product_lotus_evija_hypercar' in product nodes
+2025-09-25 01:09:16,380 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 01:09:16,380 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 01:09:16,380 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:09:16,380 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:09:16,380 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:09:17,400 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:17,400 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:09:17,400 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:17,400 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:09:17,400 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:09:18,117 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:09:18,117 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_packs",
+      "target": "factory_mercia_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:09:18,117 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:09:18,117 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 01:09:18,117 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 01:09:18,206 - INFO - ✅ Updated Article ID: 68d3c9e63e609fb288d7c704 with 9 nodes and combined text.

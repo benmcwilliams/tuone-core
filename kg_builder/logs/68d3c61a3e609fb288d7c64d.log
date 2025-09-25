@@ -1,0 +1,142 @@
+2025-09-25 01:48:08,888 - INFO - 🔍 Text length: 1127 characters
+2025-09-25 01:48:08,889 - INFO - 📌 Processing Article ID: 68d3c61a3e609fb288d7c64d — Element 25 to supply GM with manganese sulphate – report
+2025-09-25 01:48:08,889 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:48:11,764 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:11,765 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_element_25",
+        "type": "company",
+        "name": "Element 25"
+      },
+      {
+        "id": "company_general_motors",
+        "type": "company",
+        "name": "General Motors"
+      },
+      {
+        "id": "company_queensland_pacific_metals",
+        "type": "company",
+        "name": "Queensland Pacific Metals"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_louisiana",
+        "type": "factory",
+        "name": "battery grade manganese sulphate plant",
+        "location": {
+          "city": "Louisiana",
+          "country": "United States"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_$85m_loan",
+        "type": "investment",
+        "name": "$85m loan",
+        "amount": "$85m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_manganese_sulphate",
+        "type": "product",
+        "name": "manganese sulphate"
+      }
+    ]
+  }
+}
+2025-09-25 01:48:11,765 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:11,765 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 01:48:11,765 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:48:11,765 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:48:14,002 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:14,002 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_$85m_loan",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-09-25 01:48:14,002 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:14,002 - INFO - ✅ Match found for investment_ID 'investment_$85m_loan' in investment nodes
+2025-09-25 01:48:14,002 - INFO -   ➕ Set field 'status': announced
+2025-09-25 01:48:14,002 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:48:14,002 - INFO -   ➕ Set field 'is_total': False
+2025-09-25 01:48:14,002 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:48:14,002 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:48:15,393 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:15,393 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_manganese_sulphate",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-09-25 01:48:15,393 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:15,394 - INFO - ✅ Match found for product_ID 'product_manganese_sulphate' in product nodes
+2025-09-25 01:48:15,394 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 01:48:15,394 - INFO -   ➕ Set field 'product_lv2': eam
+2025-09-25 01:48:15,394 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:48:15,394 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:48:15,394 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:48:16,279 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:16,279 - INFO - {
+  "relationships": [
+    {
+      "source": "company_element_25",
+      "type": "owns",
+      "target": "factory_louisiana"
+    }
+  ]
+}
+2025-09-25 01:48:16,279 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:16,279 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:48:16,279 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:48:17,213 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:17,214 - INFO - {
+  "relationships": [
+    {
+      "source": "product_manganese_sulphate",
+      "target": "factory_louisiana",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:48:17,214 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:17,214 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:48:17,214 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:48:17,715 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:17,715 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:48:17,715 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:17,715 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:48:17,715 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:48:19,546 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:48:19,546 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_$85m_loan",
+      "target": "factory_louisiana",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 01:48:19,546 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:48:19,631 - INFO - ✅ Updated Article ID: 68d3c61a3e609fb288d7c64d with 7 nodes and combined text.

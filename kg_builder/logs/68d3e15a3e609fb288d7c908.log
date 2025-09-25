@@ -1,0 +1,244 @@
+2025-09-24 23:15:56,036 - INFO - 🔍 Text length: 1469 characters
+2025-09-24 23:15:56,036 - INFO - 📌 Processing Article ID: 68d3e15a3e609fb288d7c908 — AESC erhält staatliche Förderung in Frankreich
+2025-09-24 23:15:56,036 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:16:09,453 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:09,454 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aesc",
+        "type": "company",
+        "name": "AESC"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_douai_france",
+        "type": "factory",
+        "name": "Douai Gigafactory",
+        "location": {
+          "city": "Douai",
+          "country": "France"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eu_aid",
+        "type": "investment",
+        "name": "EU Aid",
+        "amount": "48 million Euro",
+        "status": "announced"
+      },
+      {
+        "id": "investment_eib_funding",
+        "type": "investment",
+        "name": "EIB Funding",
+        "amount": "450 million Euro",
+        "status": "completed"
+      },
+      {
+        "id": "investment_total_project",
+        "type": "investment",
+        "name": "Total Project",
+        "amount": "1.3 billion Euro",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_9_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "9 Gigawatt hours",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_30_gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "30 Gigawatt hours",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "Lithium-Ion Batteries"
+      }
+    ]
+  }
+}
+2025-09-24 23:16:09,454 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:09,454 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-24 23:16:09,454 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-24 23:16:10,885 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:10,885 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_9_gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_30_gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-09-24 23:16:10,885 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:10,886 - INFO - ✅ Match found for capacity_ID 'capacity_9_gwh_announced' in capacity nodes
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'additional': False
+2025-09-24 23:16:10,886 - INFO - ✅ Match found for capacity_ID 'capacity_30_gwh_announced' in capacity nodes
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 23:16:10,886 - INFO -   ➕ Set field 'additional': True
+2025-09-24 23:16:10,886 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 23:16:10,886 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 23:16:12,728 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:12,728 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eu_aid",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_eib_funding",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_total_project",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 23:16:12,728 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:12,728 - INFO - ✅ Match found for investment_ID 'investment_eu_aid' in investment nodes
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'is_total': False
+2025-09-24 23:16:12,728 - INFO - ✅ Match found for investment_ID 'investment_eib_funding' in investment nodes
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'status': completed
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'phase': unclear
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:16:12,728 - INFO - ✅ Match found for investment_ID 'investment_total_project' in investment nodes
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'status': announced
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-24 23:16:12,728 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 23:16:12,728 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:16:12,728 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:16:13,855 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:13,855 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-24 23:16:13,855 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:13,855 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-09-24 23:16:13,855 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 23:16:13,855 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 23:16:13,855 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:16:13,856 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:16:13,856 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:16:14,777 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:14,777 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aesc",
+      "type": "owns",
+      "target": "factory_douai_france"
+    }
+  ]
+}
+2025-09-24 23:16:14,777 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:14,777 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:16:14,777 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:16:17,848 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:17,848 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_9_gwh_announced",
+      "target": "factory_douai_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_30_gwh_announced",
+      "target": "factory_douai_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_9_gwh_announced",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_30_gwh_announced",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_douai_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:16:17,848 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:17,848 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 23:16:17,848 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 23:16:18,770 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:18,770 - INFO - {
+  "relationships": []
+}
+2025-09-24 23:16:18,770 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:18,770 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 23:16:18,770 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 23:16:19,998 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:16:19,998 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_eu_aid",
+      "target": "factory_douai_france",
+      "type": "funds"
+    },
+    {
+      "source": "investment_total_project",
+      "target": "factory_douai_france",
+      "type": "funds"
+    },
+    {
+      "source": "investment_total_project",
+      "target": "capacity_9_gwh_announced",
+      "type": "targets"
+    },
+    {
+      "source": "investment_total_project",
+      "target": "capacity_30_gwh_announced",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 23:16:19,998 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:16:20,093 - INFO - ✅ Updated Article ID: 68d3e15a3e609fb288d7c908 with 9 nodes and combined text.

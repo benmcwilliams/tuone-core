@@ -1,0 +1,77 @@
+2025-09-25 02:58:21,103 - INFO - 🔍 Text length: 1230 characters
+2025-09-25 02:58:21,104 - INFO - 📌 Processing Article ID: 68d3bfe53e609fb288d7c50b — Great Wall says Angola ‘a key market’
+2025-09-25 02:58:21,104 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:58:22,953 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:58:22,953 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_great_wall_motor",
+        "type": "company",
+        "name": "Great Wall Motor"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_xushui_smart_factory",
+        "type": "factory",
+        "name": "Xushui Smart Factory",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_automobiles",
+        "type": "product",
+        "name": "automobiles"
+      }
+    ]
+  }
+}
+2025-09-25 02:58:22,953 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:58:22,953 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:58:22,953 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:58:22,953 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:58:22,953 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:58:24,039 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:58:24,040 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_automobiles",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-09-25 02:58:24,040 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:58:24,040 - INFO - ✅ Match found for product_ID 'product_automobiles' in product nodes
+2025-09-25 02:58:24,040 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:58:24,040 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-09-25 02:58:24,040 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:58:24,040 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:58:24,040 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:58:25,987 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:58:25,988 - INFO - {
+  "relationships": [
+    {
+      "source": "company_great_wall_motor",
+      "type": "owns",
+      "target": "factory_xushui_smart_factory"
+    }
+  ]
+}
+2025-09-25 02:58:25,988 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:58:25,988 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:58:25,988 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:58:26,641 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:58:26,641 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:58:26,641 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:58:26,641 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:58:26,641 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:58:26,723 - INFO - ✅ Updated Article ID: 68d3bfe53e609fb288d7c50b with 3 nodes and combined text.

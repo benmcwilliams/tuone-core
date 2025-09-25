@@ -1,0 +1,168 @@
+2025-09-25 02:24:29,153 - INFO - 🔍 Text length: 840 characters
+2025-09-25 02:24:29,153 - INFO - 📌 Processing Article ID: 68d3c2393e609fb288d7c59b — VW orders Mobis battery systems
+2025-09-25 02:24:29,153 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:24:32,368 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:24:32,369 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_hyundai_mobis",
+        "type": "company",
+        "name": "Hyundai Mobis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_spain",
+        "type": "factory",
+        "name": "Spain Factory",
+        "location": {
+          "city": "null",
+          "country": "Spain"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_korea",
+        "type": "factory",
+        "name": "Korea Factory",
+        "location": {
+          "city": "null",
+          "country": "Korea"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_czech_republic",
+        "type": "factory",
+        "name": "Czech Republic Factory",
+        "location": {
+          "city": "null",
+          "country": "Czech Republic"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_us",
+        "type": "factory",
+        "name": "US Factory",
+        "location": {
+          "city": "null",
+          "country": "US"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_indonesia",
+        "type": "factory",
+        "name": "Indonesia Factory",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_system_assemblies",
+        "type": "product",
+        "name": "battery system assemblies"
+      }
+    ]
+  }
+}
+2025-09-25 02:24:32,369 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:24:32,369 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:24:32,369 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-25 02:24:32,369 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:24:32,369 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:24:33,671 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:24:33,671 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_system_assemblies",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-09-25 02:24:33,671 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:24:33,671 - INFO - ✅ Match found for product_ID 'product_battery_system_assemblies' in product nodes
+2025-09-25 02:24:33,671 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-25 02:24:33,671 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-09-25 02:24:33,671 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:24:33,671 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:24:33,671 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:24:35,210 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:24:35,210 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyundai_mobis",
+      "type": "owns",
+      "target": "factory_korea"
+    },
+    {
+      "source": "company_hyundai_mobis",
+      "type": "owns",
+      "target": "factory_czech_republic"
+    },
+    {
+      "source": "company_hyundai_mobis",
+      "type": "owns",
+      "target": "factory_us"
+    },
+    {
+      "source": "company_hyundai_mobis",
+      "type": "owns",
+      "target": "factory_indonesia"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_spain"
+    }
+  ]
+}
+2025-09-25 02:24:35,210 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:24:35,210 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:24:35,210 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:24:36,743 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:24:36,744 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_system_assemblies",
+      "target": "factory_spain",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_system_assemblies",
+      "target": "factory_korea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_system_assemblies",
+      "target": "factory_czech_republic",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_system_assemblies",
+      "target": "factory_us",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_system_assemblies",
+      "target": "factory_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:24:36,744 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:24:36,744 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-25 02:24:36,744 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-25 02:24:36,831 - INFO - ✅ Updated Article ID: 68d3c2393e609fb288d7c59b with 8 nodes and combined text.

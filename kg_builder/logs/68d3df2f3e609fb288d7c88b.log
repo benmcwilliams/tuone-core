@@ -1,0 +1,103 @@
+2025-09-24 23:51:15,141 - INFO - 🔍 Text length: 1299 characters
+2025-09-24 23:51:15,141 - INFO - 📌 Processing Article ID: 68d3df2f3e609fb288d7c88b — BP eyes ‘green’ hydrogen in Egypt
+2025-09-24 23:51:15,141 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 23:51:17,496 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:51:17,497 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bp",
+        "type": "company",
+        "name": "BP"
+      },
+      {
+        "id": "company_nrea",
+        "type": "company",
+        "name": "New and Renewable Energy Authority"
+      },
+      {
+        "id": "company_eetc",
+        "type": "company",
+        "name": "Egyptian Electricity Transmission Company"
+      },
+      {
+        "id": "company_sczone",
+        "type": "company",
+        "name": "General Authority for Suez Canal Economic Zone"
+      },
+      {
+        "id": "company_tsfe",
+        "type": "company",
+        "name": "Sovereign Fund of Egypt for Investment and Development"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_egypt_green_hydrogen",
+        "type": "factory",
+        "name": "Egypt Green Hydrogen Production Facility",
+        "location": {
+          "city": "null",
+          "country": "Egypt"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-09-24 23:51:17,497 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:51:17,497 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 23:51:17,497 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 23:51:17,497 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 23:51:17,497 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 23:51:18,622 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:51:18,622 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-24 23:51:18,623 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:51:18,623 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-09-24 23:51:18,623 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 23:51:18,623 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 23:51:18,623 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 23:51:18,623 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 23:51:18,623 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 23:51:20,057 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:51:20,057 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bp",
+      "type": "owns",
+      "target": "factory_egypt_green_hydrogen"
+    }
+  ]
+}
+2025-09-24 23:51:20,057 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:51:20,057 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 23:51:20,058 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 23:51:22,310 - INFO - ✅ OpenAI returned output:
+2025-09-24 23:51:22,310 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_egypt_green_hydrogen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 23:51:22,310 - INFO - POST-PROCESSING STARTING.
+2025-09-24 23:51:22,310 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 23:51:22,310 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 23:51:22,402 - INFO - ✅ Updated Article ID: 68d3df2f3e609fb288d7c88b with 7 nodes and combined text.

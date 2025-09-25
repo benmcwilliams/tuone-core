@@ -1,0 +1,183 @@
+2025-09-25 02:40:16,785 - INFO - 🔍 Text length: 1450 characters
+2025-09-25 02:40:16,785 - INFO - 📌 Processing Article ID: 68d3c0cc3e609fb288d7c54b — Wallbox acquires Germany’s ABL
+2025-09-25 02:40:16,785 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 02:40:19,666 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:19,666 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_wallbox",
+        "type": "company",
+        "name": "Wallbox"
+      },
+      {
+        "id": "company_abl",
+        "type": "company",
+        "name": "ABL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_germany",
+        "type": "factory",
+        "name": "factory in Germany",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_morocco",
+        "type": "factory",
+        "name": "component facility in Morocco",
+        "location": {
+          "city": "null",
+          "country": "Morocco"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_wallbox_abl_acquisition",
+        "type": "investment",
+        "name": "Wallbox ABL Acquisition",
+        "amount": "EUR15m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_em4",
+        "type": "product",
+        "name": "eM4"
+      },
+      {
+        "id": "product_schuko_programme",
+        "type": "product",
+        "name": "Schuko programme"
+      },
+      {
+        "id": "product_ac_dc_ev_charging_energy_management",
+        "type": "product",
+        "name": "AC and DC EV charging and energy management products"
+      }
+    ]
+  }
+}
+2025-09-25 02:40:19,666 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:19,666 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-25 02:40:19,666 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 02:40:19,666 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 02:40:21,510 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:21,510 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_wallbox_abl_acquisition",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 02:40:21,510 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:21,510 - INFO - ✅ Match found for investment_ID 'investment_wallbox_abl_acquisition' in investment nodes
+2025-09-25 02:40:21,510 - INFO -   ➕ Set field 'status': announced
+2025-09-25 02:40:21,510 - INFO -   ➕ Set field 'phase': unclear
+2025-09-25 02:40:21,510 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 02:40:21,510 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 02:40:21,511 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 02:40:24,888 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:24,889 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_em4",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_schuko_programme",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ac_dc_ev_charging_energy_management",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 02:40:24,889 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:24,889 - INFO - ✅ Match found for product_ID 'product_em4' in product nodes
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:40:24,889 - INFO - ✅ Match found for product_ID 'product_schuko_programme' in product nodes
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv2': electric
+2025-09-25 02:40:24,889 - INFO - ✅ Match found for product_ID 'product_ac_dc_ev_charging_energy_management' in product nodes
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-09-25 02:40:24,889 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 02:40:24,889 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 02:40:24,889 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 02:40:24,889 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 02:40:26,160 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:26,160 - INFO - {
+  "relationships": [
+    {
+      "source": "company_abl",
+      "type": "owns",
+      "target": "factory_germany"
+    },
+    {
+      "source": "company_abl",
+      "type": "owns",
+      "target": "factory_morocco"
+    }
+  ]
+}
+2025-09-25 02:40:26,160 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:26,160 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 02:40:26,160 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 02:40:27,551 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:27,551 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ac_dc_ev_charging_energy_management",
+      "target": "factory_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ac_dc_ev_charging_energy_management",
+      "target": "factory_morocco",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 02:40:27,551 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:27,552 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 02:40:27,552 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 02:40:28,163 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:28,163 - INFO - {
+  "relationships": []
+}
+2025-09-25 02:40:28,163 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:28,163 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 02:40:28,163 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 02:40:30,175 - INFO - ✅ OpenAI returned output:
+2025-09-25 02:40:30,175 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_wallbox_abl_acquisition",
+      "target": "factory_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_wallbox_abl_acquisition",
+      "target": "factory_morocco",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-25 02:40:30,175 - INFO - POST-PROCESSING STARTING.
+2025-09-25 02:40:30,259 - INFO - ✅ Updated Article ID: 68d3c0cc3e609fb288d7c54b with 8 nodes and combined text.

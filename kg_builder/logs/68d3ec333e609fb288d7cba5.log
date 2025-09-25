@@ -1,0 +1,125 @@
+2025-09-24 19:38:50,059 - INFO - 🔍 Text length: 7575 characters
+2025-09-24 19:38:50,060 - INFO - 📌 Processing Article ID: 68d3ec333e609fb288d7cba5 — Lithium-Förderung: VE erhält neue Lizenzen
+2025-09-24 19:38:50,060 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 19:38:54,270 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:54,271 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vulcan_energie_gmbh",
+        "type": "company",
+        "name": "Vulcan Energie GmbH"
+      },
+      {
+        "id": "company_vulcan_energy_resources",
+        "type": "company",
+        "name": "Vulcan Energy Resources"
+      },
+      {
+        "id": "company_renault",
+        "type": "company",
+        "name": "Renault"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_umicore",
+        "type": "company",
+        "name": "Umicore"
+      },
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_geothermiekraftwerk_pfalzwerke",
+        "type": "factory",
+        "name": "Geothermiekraftwerk der Pfalzwerke",
+        "location": {
+          "city": "Oberrheingraben",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium",
+        "type": "product",
+        "name": "Lithium"
+      },
+      {
+        "id": "geothermal",
+        "type": "geothermal",
+        "name": "geothermal",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear",
+        "amount": "unclear",
+        "description": ""
+      }
+    ]
+  }
+}
+2025-09-24 19:38:54,271 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:54,271 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 19:38:54,271 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 19:38:54,271 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 19:38:54,271 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 19:38:55,705 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:55,705 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-09-24 19:38:55,705 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:55,705 - INFO - ✅ Match found for product_ID 'product_lithium' in product nodes
+2025-09-24 19:38:55,706 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-24 19:38:55,706 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-24 19:38:55,706 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 19:38:55,706 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 19:38:55,706 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 19:38:56,868 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:56,868 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vulcan_energie_gmbh",
+      "type": "owns",
+      "target": "factory_geothermiekraftwerk_pfalzwerke"
+    }
+  ]
+}
+2025-09-24 19:38:56,868 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:56,868 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 19:38:56,868 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 19:38:58,879 - INFO - ✅ OpenAI returned output:
+2025-09-24 19:38:58,879 - INFO - {
+  "relationships": [
+    {
+      "source": "product_lithium",
+      "target": "factory_geothermiekraftwerk_pfalzwerke",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 19:38:58,879 - INFO - POST-PROCESSING STARTING.
+2025-09-24 19:38:58,879 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 19:38:58,879 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 19:38:58,969 - INFO - ✅ Updated Article ID: 68d3ec333e609fb288d7cba5 with 10 nodes and combined text.

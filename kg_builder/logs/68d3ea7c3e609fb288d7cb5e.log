@@ -1,0 +1,174 @@
+2025-09-24 21:03:29,057 - INFO - 🔍 Text length: 7598 characters
+2025-09-24 21:03:29,058 - INFO - 📌 Processing Article ID: 68d3ea7c3e609fb288d7cb5e — BMS-Spezialist Marquardt plant Produktion am Erfurter Kreuz
+2025-09-24 21:03:29,058 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:03:32,163 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:32,164 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_marquardt",
+        "type": "company",
+        "name": "Marquardt"
+      },
+      {
+        "id": "company_catl",
+        "type": "company",
+        "name": "CATL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_arnstadt",
+        "type": "factory",
+        "name": "Arnstadt",
+        "location": {
+          "city": "Arnstadt",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_erfurter_kreuz",
+        "type": "factory",
+        "name": "Erfurter Kreuz",
+        "location": {
+          "city": "Erfurter Kreuz",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_marquardt_thuringen",
+        "type": "investment",
+        "name": "Marquardt Thuringen Expansion",
+        "amount": "over 50 million Euro",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batterieelektronik",
+        "type": "product",
+        "name": "Batterieelektronik"
+      },
+      {
+        "id": "product_automobiler_innenraumelektronik",
+        "type": "product",
+        "name": "automobiler Innenraumelektronik"
+      }
+    ]
+  }
+}
+2025-09-24 21:03:32,164 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:32,164 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:03:32,164 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-24 21:03:32,164 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-24 21:03:33,087 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:33,087 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_marquardt_thuringen",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-09-24 21:03:33,087 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:33,087 - INFO - ✅ Match found for investment_ID 'investment_marquardt_thuringen' in investment nodes
+2025-09-24 21:03:33,088 - INFO -   ➕ Set field 'status': announced
+2025-09-24 21:03:33,088 - INFO -   ➕ Set field 'phase': expansion
+2025-09-24 21:03:33,088 - INFO -   ➕ Set field 'is_total': True
+2025-09-24 21:03:33,088 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:03:33,088 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:03:34,929 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:34,929 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batterieelektronik",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_automobiler_innenraumelektronik",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-24 21:03:34,929 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:34,929 - INFO - ✅ Match found for product_ID 'product_batterieelektronik' in product nodes
+2025-09-24 21:03:34,929 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:03:34,929 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-24 21:03:34,929 - INFO - ✅ Match found for product_ID 'product_automobiler_innenraumelektronik' in product nodes
+2025-09-24 21:03:34,929 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-24 21:03:34,930 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:03:34,930 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:03:34,930 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:03:45,478 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:45,478 - INFO - {
+  "relationships": [
+    {
+      "source": "company_marquardt",
+      "type": "owns",
+      "target": "factory_erfurter_kreuz"
+    },
+    {
+      "source": "company_catl",
+      "type": "owns",
+      "target": "factory_arnstadt"
+    }
+  ]
+}
+2025-09-24 21:03:45,478 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:45,478 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:03:45,478 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:03:47,218 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:47,218 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batterieelektronik",
+      "target": "factory_erfurter_kreuz",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_automobiler_innenraumelektronik",
+      "target": "factory_arnstadt",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:03:47,218 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:47,218 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-24 21:03:47,219 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-24 21:03:48,651 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:48,652 - INFO - {
+  "relationships": []
+}
+2025-09-24 21:03:48,652 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:48,652 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-24 21:03:48,652 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-24 21:03:49,983 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:03:49,983 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_marquardt_thuringen",
+      "target": "factory_arnstadt",
+      "type": "funds"
+    },
+    {
+      "source": "investment_marquardt_thuringen",
+      "target": "factory_erfurter_kreuz",
+      "type": "funds"
+    },
+    {
+      "source": "investment_marquardt_thuringen",
+      "target": "product_batterieelektronik",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-24 21:03:49,983 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:03:50,078 - INFO - ✅ Updated Article ID: 68d3ea7c3e609fb288d7cb5e with 7 nodes and combined text.

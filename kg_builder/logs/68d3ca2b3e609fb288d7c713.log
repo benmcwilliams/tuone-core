@@ -1,0 +1,188 @@
+2025-09-25 01:06:22,995 - INFO - 🔍 Text length: 1884 characters
+2025-09-25 01:06:22,995 - INFO - 📌 Processing Article ID: 68d3ca2b3e609fb288d7c713 — Norsk Hydro recycling plant in Michigan nears completion
+2025-09-25 01:06:22,995 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-25 01:06:25,365 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:25,365 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_norsk_hydro",
+        "type": "company",
+        "name": "Norsk Hydro"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cassopolis_michigan",
+        "type": "factory",
+        "name": "Cassopolis Recycling Plant",
+        "location": {
+          "city": "Cassopolis",
+          "country": "United States"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_zeeland_michigan",
+        "type": "factory",
+        "name": "Zeeland Product and Equipment Testing Centre",
+        "location": {
+          "city": "Zeeland",
+          "country": "United States"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cassopolis_recycling_plant",
+        "type": "investment",
+        "name": "Cassopolis Recycling Plant",
+        "amount": "$150m",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_120k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "120,000 tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_recycled_aluminium_extrusion_ingot",
+        "type": "product",
+        "name": "recycled aluminium extrusion ingot"
+      }
+    ]
+  }
+}
+2025-09-25 01:06:25,365 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:25,366 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-25 01:06:25,366 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-25 01:06:26,390 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:26,390 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_120k_tonnes_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-25 01:06:26,390 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:26,390 - INFO - ✅ Match found for capacity_ID 'capacity_120k_tonnes_per_year' in capacity nodes
+2025-09-25 01:06:26,390 - INFO -   ➕ Set field 'status': under construction
+2025-09-25 01:06:26,390 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:06:26,390 - INFO -   ➕ Set field 'additional': False
+2025-09-25 01:06:26,390 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-25 01:06:26,391 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-25 01:06:27,106 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:27,106 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cassopolis_recycling_plant",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-25 01:06:27,106 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:27,107 - INFO - ✅ Match found for investment_ID 'investment_cassopolis_recycling_plant' in investment nodes
+2025-09-25 01:06:27,107 - INFO -   ➕ Set field 'status': ongoing
+2025-09-25 01:06:27,107 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-25 01:06:27,107 - INFO -   ➕ Set field 'is_total': True
+2025-09-25 01:06:27,107 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-25 01:06:27,107 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-25 01:06:28,323 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:28,324 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_recycled_aluminium_extrusion_ingot",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-09-25 01:06:28,324 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:28,324 - INFO - ✅ Match found for product_ID 'product_recycled_aluminium_extrusion_ingot' in product nodes
+2025-09-25 01:06:28,324 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-09-25 01:06:28,324 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-25 01:06:28,324 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-25 01:06:28,324 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-25 01:06:28,324 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-25 01:06:29,566 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:29,566 - INFO - {
+  "relationships": [
+    {
+      "source": "company_norsk_hydro",
+      "type": "owns",
+      "target": "factory_cassopolis_michigan"
+    },
+    {
+      "source": "company_norsk_hydro",
+      "type": "owns",
+      "target": "factory_zeeland_michigan"
+    }
+  ]
+}
+2025-09-25 01:06:29,566 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:29,566 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-25 01:06:29,566 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-25 01:06:31,100 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:31,100 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_120k_tonnes_per_year",
+      "target": "factory_cassopolis_michigan",
+      "type": "at"
+    },
+    {
+      "source": "capacity_120k_tonnes_per_year",
+      "target": "product_recycled_aluminium_extrusion_ingot",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_recycled_aluminium_extrusion_ingot",
+      "target": "factory_cassopolis_michigan",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-25 01:06:31,100 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:31,100 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-25 01:06:31,100 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-25 01:06:31,817 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:31,817 - INFO - {
+  "relationships": []
+}
+2025-09-25 01:06:31,817 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:31,817 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-25 01:06:31,817 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-25 01:06:33,249 - INFO - ✅ OpenAI returned output:
+2025-09-25 01:06:33,249 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cassopolis_recycling_plant",
+      "target": "factory_cassopolis_michigan",
+      "type": "funds"
+    },
+    {
+      "source": "investment_cassopolis_recycling_plant",
+      "target": "capacity_120k_tonnes_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_cassopolis_recycling_plant",
+      "target": "product_recycled_aluminium_extrusion_ingot",
+      "type": "targets"
+    }
+  ]
+}
+2025-09-25 01:06:33,249 - INFO - POST-PROCESSING STARTING.
+2025-09-25 01:06:33,333 - INFO - ✅ Updated Article ID: 68d3ca2b3e609fb288d7c713 with 6 nodes and combined text.

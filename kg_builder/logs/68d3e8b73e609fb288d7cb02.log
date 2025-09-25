@@ -1,0 +1,155 @@
+2025-09-24 21:23:20,154 - INFO - 🔍 Text length: 6922 characters
+2025-09-24 21:23:20,155 - INFO - 📌 Processing Article ID: 68d3e8b73e609fb288d7cb02 — Neue Zellen: Cellforce legt Grundstein
+2025-09-24 21:23:20,155 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-24 21:23:25,590 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:25,590 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_cellforce_group",
+        "type": "company",
+        "name": "Cellforce Group"
+      },
+      {
+        "id": "company_porsche_ag",
+        "type": "company",
+        "name": "Porsche AG"
+      },
+      {
+        "id": "company_customcells",
+        "type": "company",
+        "name": "CUSTOMCELLS"
+      },
+      {
+        "id": "company_group_14",
+        "type": "company",
+        "name": "Group 14"
+      },
+      {
+        "id": "company_basf",
+        "type": "company",
+        "name": "BASF"
+      },
+      {
+        "id": "company_muehlbauer",
+        "type": "company",
+        "name": "M\u00fchlbauer"
+      },
+      {
+        "id": "company_duerr",
+        "type": "company",
+        "name": "D\u00fcrr"
+      },
+      {
+        "id": "company_coperion",
+        "type": "company",
+        "name": "Coperion"
+      },
+      {
+        "id": "company_saueressig",
+        "type": "company",
+        "name": "Saueressig"
+      },
+      {
+        "id": "company_kampf",
+        "type": "company",
+        "name": "Kampf"
+      },
+      {
+        "id": "company_pec",
+        "type": "company",
+        "name": "PEC"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_cellforce_group",
+        "type": "joint_venture",
+        "name": "Cellforce Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_reutlingen_kirchentellinsfurt",
+        "type": "factory",
+        "name": "Reutlingen-Kirchentellinsfurt",
+        "location": {
+          "city": "Reutlingen-Kirchentellinsfurt",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hochleistungsbatteriezellen",
+        "type": "product",
+        "name": "Hochleistungsbatteriezellen"
+      }
+    ]
+  }
+}
+2025-09-24 21:23:25,590 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:25,590 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-24 21:23:25,590 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-24 21:23:25,590 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-24 21:23:25,590 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-24 21:23:27,331 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:27,331 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hochleistungsbatteriezellen",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-24 21:23:27,331 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:27,331 - INFO - ✅ Match found for product_ID 'product_hochleistungsbatteriezellen' in product nodes
+2025-09-24 21:23:27,331 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-24 21:23:27,331 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-24 21:23:27,331 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-24 21:23:27,331 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-24 21:23:27,331 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-24 21:23:29,096 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:29,096 - INFO - {
+  "relationships": [
+    {
+      "source": "company_cellforce_group",
+      "type": "forms",
+      "target": "joint_venture_cellforce_group"
+    },
+    {
+      "source": "company_porsche_ag",
+      "type": "forms",
+      "target": "joint_venture_cellforce_group"
+    },
+    {
+      "source": "company_customcells",
+      "type": "forms",
+      "target": "joint_venture_cellforce_group"
+    },
+    {
+      "source": "joint_venture_cellforce_group",
+      "type": "owns",
+      "target": "factory_reutlingen_kirchentellinsfurt"
+    }
+  ]
+}
+2025-09-24 21:23:29,096 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:29,096 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-24 21:23:29,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-24 21:23:30,362 - INFO - ✅ OpenAI returned output:
+2025-09-24 21:23:30,362 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hochleistungsbatteriezellen",
+      "target": "factory_reutlingen_kirchentellinsfurt",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-24 21:23:30,362 - INFO - POST-PROCESSING STARTING.
+2025-09-24 21:23:30,362 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-24 21:23:30,362 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-24 21:23:30,457 - INFO - ✅ Updated Article ID: 68d3e8b73e609fb288d7cb02 with 14 nodes and combined text.
