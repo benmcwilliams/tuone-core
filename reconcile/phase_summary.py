@@ -80,7 +80,9 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     summary = {
         "status": best["status"],
         "capacity": capacity,
-        "investment": best["investment"],
+        #"investment": best["investment"],
+        "investment": best["investment"] if best.get("investment") is not None else best.get("investment_imputed"),
+        "investment_was_imputed": best.get("investment") is None and best.get("investment_imputed") is not None,
         "source_date": best["date"],
     }
 
