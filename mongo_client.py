@@ -11,7 +11,8 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
 ARTICLES_COLLECTION_NAME = os.getenv("MONGO_COLLECTION_NAME")
-FACILITIES_COLLECTION = os.getenv("MONGO_FACILITIES_COLLECTION")
+FACILITIES_COLLECTION = "facilities_develop" #os.getenv("MONGO_FACILITIES_COLLECTION") change later
+
 
 if not all([MONGO_URI, DB_NAME, ARTICLES_COLLECTION_NAME]):
     raise RuntimeError("❌ Missing required MongoDB environment variables.")
