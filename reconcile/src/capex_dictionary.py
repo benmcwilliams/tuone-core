@@ -28,7 +28,7 @@ CAPEX_DICT = {
       "product_lv1": "vehicle",
       "product_lv2_key": ("electric",),
       "capacity_unit": "vehicles/year",
-      "capex_per_unit": 12_000,                     # EUR per vehicle/y capacity
+      "capex_per_unit": 10_000,                     # EUR per vehicle/y capacity
       "source": "Ben estimate",
     },
     {
