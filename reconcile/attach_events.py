@@ -9,15 +9,17 @@ import pandas as pd
 from pymongo import UpdateOne
 
 from mongo_client import facilities_collection
-from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION
+from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, norm_pl2_key, capex_lookup, event_key_capacity, event_key_investment, sort_key
+from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, norm_pl2_key, capex_lookup, sort_key
 
 logger = logging.getLogger(__name__)
 
 STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
 INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
+
+INCLUDE_FACTORY_EVENTS = True
 
 # -------------------- should be temporary, until we populate is_total values --------------------
 
@@ -64,6 +66,18 @@ def load_investments() -> pd.DataFrame:
     df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
     return df
 
+def load_factories() -> pd.DataFrame: 
+    """
+    Lightweight load of factory-level rows used to create 'facility' events.
+    Expects columns: project_id, product_lv1, product_lv2, factory_status, date, article_id
+    """
+    df = pd.read_excel(GROUPED_FACTORIES)
+    df = df.rename(columns={"factory_status": "status"})
+    df["date"] = pd.to_datetime(df.get("date"), errors="coerce")
+    df["status"] = pd.Categorical(df.get("status"), categories=STATUS_ORDER, ordered=True)
+    df["pl2_key"] = df.get("product_lv2").apply(canon_pl2)
+    return df
+
 # -------------------- dedup & group --------------------
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
@@ -97,9 +111,25 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
            .rename(columns={"pl2_union":"product_lv2"}))
     return g
 
+def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
+    """
+    Deduplicate factory rows conservatively to avoid repetitive facility events.
+    Keep distinct by (project_id, status, pl2_key, article_id)
+    """
+    df = (df.sort_values(["project_id", "date"], na_position="last")
+            .drop_duplicates(["project_id", "status", "pl2_key", "article_id"], keep="first"))
+    group_keys = ["project_id", "product_lv1", "status"]
+    g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
+           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+                date=("date", "first"),
+                articleID=("article_id", "first"))
+           .reset_index()
+           .rename(columns={"pl2_union": "product_lv2"}))
+    return g
+
 # -------------------- build events + impute --------------------
 
-def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[str, List[Dict[str, Any]]]:
+def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: pd.DataFrame | None = None) -> Dict[str, List[Dict[str, Any]]]:
     events_by_pid: Dict[str, List[Dict[str, Any]]] = {}
 
     # capacities
@@ -177,7 +207,47 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame) -> Dict[
         if cap_ids:
             events_by_pid[pid] = [e for e in evts if not (e["event_type"] == "investment" and e.get("investment_id") in cap_ids)]
 
-        # sort
+    # logic to include FACTORY_ONLY events (important for status & product_lv2 mapping)
+    if INCLUDE_FACTORY_EVENTS and df_fac is not None and not df_fac.empty:  # NEW
+        # Pre-index factory rows per project for a single pass
+        fac_by_pid: Dict[str, List[Dict[str, Any]]] = {}
+        for _, r in df_fac.iterrows():
+            pid = r["project_id"]
+            fac_by_pid.setdefault(pid, []).append(r)
+
+        for pid, rows in fac_by_pid.items():
+            existing = events_by_pid.setdefault(pid, [])
+            # Build a set of articleIDs already present in capacity/investment events
+            seen_article_ids = {
+                e.get("articleID")
+                for e in existing
+                if e.get("articleID")
+            }
+
+            for r in rows:
+                art_id = r.get("articleID")
+                if pd.isna(art_id) or art_id is None:
+                    continue  # cannot dedup without article
+                if art_id in seen_article_ids:
+                    continue  # skip duplicate based on articleID
+
+                pl2_key = norm_pl2_key(r.get("product_lv2"))
+                evt = {
+                    "event_type": "facility",
+                    "eventID": art_id,
+                    "project_id": pid, 
+                    "product_lv1": r.get("product_lv1"),
+                    "product_lv2": list(pl2_key),
+                    "status": r.get("status"),
+                    "phase": None,
+                    "date": iso_date(r.get("date")),
+                    "articleID": art_id,
+                }
+                existing.append(evt)
+                seen_article_ids.add(art_id)  # maintain set as we add
+
+    # sort (now includes facility events)
+    for pid in list(events_by_pid.keys()):
         events_by_pid[pid].sort(key=sort_key)
 
     return events_by_pid
@@ -200,15 +270,18 @@ def attach_events(dry_run: bool = False):
     # load
     df_cap_raw = load_capacities()
     df_inv_raw = load_investments()
+    df_fac_raw = load_factories() if INCLUDE_FACTORY_EVENTS else pd.DataFrame()
 
     # dedup/group
     df_cap = dedup_group_capacities(df_cap_raw)
     df_inv = dedup_group_investments(df_inv_raw)
+    df_fac = dedup_group_factories(df_fac_raw) if INCLUDE_FACTORY_EVENTS and not df_fac_raw.empty else pd.DataFrame()
+
     logger.info("Capacities raw=%d → grouped=%d | Investments raw=%d → grouped=%d",
                 len(df_cap_raw), len(df_cap), len(df_inv_raw), len(df_inv))
 
     # build
-    events_by_pid = build_events_by_project(df_cap, df_inv)
+    events_by_pid = build_events_by_project(df_cap, df_inv, df_fac)
     pids = list(events_by_pid.keys())
     if not pids:
         logger.warning("No events to attach.")
@@ -240,7 +313,7 @@ def attach_events(dry_run: bool = False):
                 e["phase_num"] = phase_overrides[eid]
                 e["phase_num_source"] = "user"
 
-        # Write only incoming (drops stale). No event_keys stored.
+        # Write only incoming (drops stale)
         updates.append(UpdateOne(
             {"project_id": pid},
             {"$set": {

@@ -41,13 +41,14 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     phase_caps = [
         c for c in events
         if c.get("status") in STATUS_ORDER
-        and (phase_num is None or int(c.get("phase_num", -1)) == phase_num)   # if main, then phase_num = None & skip, otherwise filter
+        and c.get("event_type") != "facility"                                   # ignore facility events (improve this to consider as a vote for STATUS only)
+        and (phase_num is None or int(c.get("phase_num", -1)) == phase_num)     # if main, then phase_num = None & skip, otherwise filter
         # cast to -1 and ignore if phase_num is missing
         and c.get("date")
     ]
     if not phase_caps:
         return None
-
+     
     # sort by status strength, then by most recent date
     sorted_caps = sorted(
         phase_caps,
@@ -158,7 +159,7 @@ def compute_summaries():
                 main_status = main_summary.get("status")
                 main_date = parse_date(main_summary.get("source_date"))
 
-                # decide override if stronger status OR newer date
+                # decide override if stronger status OR newer date (maybe this should be AND)
                 if (
                     (main_status and STATUS_RANK[fac_status] < STATUS_RANK[main_status])
                     or (pd.notna(fac_date) and pd.notna(main_date) and fac_date > main_date)
