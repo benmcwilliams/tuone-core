@@ -81,11 +81,7 @@ def capacity_logic(row):
         value, flag_failed, metric_out, flag_conversion, normalization_case
     """
     lv1 = str(row.get("product_lv1", "")).strip().lower()
-<<<<<<< HEAD
-    lv2 = none_to_string(str(row.get("product_lv2", ""))).strip().lower()
-=======
     lv2 = none_to_string(row.get("product_lv2"))
->>>>>>> 1e19616e32feee4a32677744df280e170b868719
     capacity_text_raw = str(row.get("capacity_text", "") or "")
     capacity_text = capacity_text_raw.lower()
 
