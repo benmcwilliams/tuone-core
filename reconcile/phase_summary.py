@@ -55,9 +55,22 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     )
     best = sorted_caps[0]
 
-    # ---- Capacity logic ---- (# PERHAPS UPDATE LOGIC TO ASSUME THERE IS NO GOOD CAPACITY IN INVESTMENT ROW)
-    cap_rows = [c for c in phase_caps if c.get("event_type") == "capacity" and c.get("capacity") is not None]
-    cap_rows.sort(key=lambda c: parse_date(c["date"]), reverse=True)
+    # ---- Capacity logic ----
+    cap_rows = [
+        c for c in phase_caps
+        if c.get("event_type") == "capacity" and c.get("capacity") is not None
+    ]
+
+    # Use same priority as 'best': stronger status first, then most-recent date
+    # Optional extra tiebreaker: prefer totals over additionals on equal status/date
+    cap_rows.sort(
+        key=lambda c: (
+            STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),           # status strength
+            -parse_date(c["date"]).timestamp(),                            # recency
+            0 if c.get("additional") is False else 1                       # prefer totals
+        )
+    )
+
     capacity = None
     if cap_rows:
         latest = cap_rows[0]
