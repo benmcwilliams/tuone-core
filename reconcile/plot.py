@@ -181,16 +181,10 @@ def merge_owner(df: pd.DataFrame, owner: pd.DataFrame) -> pd.DataFrame:
     owner["owner"] = _normalize_owner_key(owner["owner"])
 
     # Quick diagnostics on keys
-    print("\n[merge_owner] Key diagnostics (after normalization):")
-    print(f"- df['owner']:    nulls={df['owner'].isna().sum()}, unique={df['owner'].nunique()}")
-    print(f"- owner['owner']: nulls={owner['owner'].isna().sum()}, unique={owner['owner'].nunique()}")
 
     overlap = set(df["owner"].dropna().unique()) & set(owner["owner"].dropna().unique())
     print(f"- overlap of keys: {len(overlap)}")
 
-    # Optional: print a few example keys
-    print(f"- sample df owners:    {df['owner'].dropna().unique()[:5]}")
-    print(f"- sample owner owners: {owner['owner'].dropna().unique()[:5]}")
 
     # Do the merge with indicator to see what happened
     merged = df.merge(owner, on="owner", how="left", suffixes=("", "_owner"), indicator=True)
@@ -199,9 +193,9 @@ def merge_owner(df: pd.DataFrame, owner: pd.DataFrame) -> pd.DataFrame:
     print(merged["_merge"].value_counts(dropna=False))
 
     # Show a few unmatched left keys
-    left_only_keys = merged.loc[merged["_merge"] == "left_only", "owner"].dropna().unique()[:10]
+    left_only_keys = merged.loc[merged["_merge"] == "left_only", "owner"].dropna().unique()
     if len(left_only_keys):
-        print(f"[merge_owner] Sample unmatched df.owner keys (up to 10): {left_only_keys}")
+        print(f"[merge_owner] Sample unmatched df.owner keys): {left_only_keys}")
     
 
     # Drop the indicator column before returning (optional)
@@ -292,33 +286,82 @@ def plot_stacked_bar_flex(
     stack_colors: Dict[str, str] | None,
     legend_title: str | None,
 ):
+    """
+    Plot a stacked bar chart from a wide pivot table.
+
+    New options in plot_cfg:
+      - order_on_stack_value: str | list[str]  # which stack category(ies) to sort bars by
+      - order_direction: "asc" | "desc"        # sort direction for order_on_stack_value (default: "desc")
+      - order_by: "total_desc" | "total_asc" | "index_asc" | "index_desc"
+                   (used only when order_on_stack_value is not provided)
+
+    Other existing plot_cfg keys used here:
+      - orientation: "hbar" | "vbar" (default: "hbar")
+      - top_n: int | None
+      - normalize: bool
+      - legend_outside: bool
+      - legend_ncol: int
+      - dpi: int
+      - figsize: (w, h)
+      - x_unit: str
+      - show_value_labels: bool
+    """
     if pivot.empty:
         print(f"[skip] No data to plot for: {title}")
         return
 
+    # Ensure helper total column (used for default ordering + labels)
     if "total__" not in pivot.columns:
         pivot["total__"] = pivot.sum(axis=1, numeric_only=True)
 
-    # ordering
+    # ------------------
+    # Ordering of bars
+    # ------------------
     order_by = plot_cfg.get("order_by", "total_desc")
-    if order_by == "total_desc":
-        pivot = pivot.sort_values(by="total__", ascending=False)
-    elif order_by == "total_asc":
-        pivot = pivot.sort_values(by="total__", ascending=True)
-    elif order_by == "index_asc":
-        pivot = pivot.sort_index(ascending=True)
-    elif order_by == "index_desc":
-        pivot = pivot.sort_index(ascending=False)
+    order_on = plot_cfg.get("order_on_stack_value", None)  # str or list[str]
+    order_dir = str(plot_cfg.get("order_direction", "desc")).lower()
+    ascending = (order_dir == "asc")
 
-    # top N (leave None to keep all quarters)
+    if order_on is not None:
+        # normalize to list and keep only columns that exist
+        order_cols = [order_on] if isinstance(order_on, (str, int)) else list(order_on)
+        order_cols = [c for c in order_cols if c in pivot.columns]
+        if order_cols:
+            pivot = pivot.sort_values(by=order_cols, ascending=ascending)
+        else:
+            print(f"[warn] order_on_stack_value {order_on} not found in columns; falling back to total.")
+            pivot = pivot.sort_values(by="total__", ascending=False)
+    else:
+        if order_by == "total_desc":
+            pivot = pivot.sort_values(by="total__", ascending=False)
+        elif order_by == "total_asc":
+            pivot = pivot.sort_values(by="total__", ascending=True)
+        elif order_by == "index_asc":
+            pivot = pivot.sort_index(ascending=True)
+        elif order_by == "index_desc":
+            pivot = pivot.sort_index(ascending=False)
+        else:
+            # safe fallback
+            pivot = pivot.sort_values(by="total__", ascending=False)
+
+    # ------------------
+    # Limit to top N
+    # ------------------
     top_n = plot_cfg.get("top_n")
     if isinstance(top_n, int) and top_n > 0:
         pivot = pivot.head(top_n)
 
-    # stack columns (exclude helper)
+    # ------------------
+    # Select stack columns
+    # ------------------
     stack_cols = [c for c in pivot.columns if c != "total__"]
+    if not stack_cols:
+        print("[skip] No stack columns to plot.")
+        return
 
-    # normalize
+    # ------------------
+    # Normalize if requested
+    # ------------------
     normalize = bool(plot_cfg.get("normalize", False))
     if normalize:
         denom = pivot[stack_cols].sum(axis=1).replace(0, 1)
@@ -328,23 +371,25 @@ def plot_stacked_bar_flex(
         pivot_plot = pivot[stack_cols]
         value_axis_label = plot_cfg.get("x_unit", "Value")
 
-    # figure params
+    # ------------------
+    # Figure params
+    # ------------------
     figsize = tuple(plot_cfg.get("figsize", (10, 6)))
     dpi = int(plot_cfg.get("dpi", 300))
     os.makedirs(os.path.dirname(outfile_png), exist_ok=True)
 
-    # colors
+    # Colors aligned to column order
     color_kw = {}
     if stack_colors:
         color_kw["color"] = [stack_colors.get(c, "#cccccc") for c in pivot_plot.columns]
 
-    # orientation
-    orientation = plot_cfg.get("orientation", "hbar").lower()
+    # Orientation
+    orientation = str(plot_cfg.get("orientation", "hbar")).lower()
     kind = "barh" if orientation == "hbar" else "bar"
 
     ax = pivot_plot.plot(kind=kind, stacked=True, figsize=figsize, **color_kw)
 
-    # axis labels
+    # Axis labels
     if orientation == "hbar":
         ax.set_xlabel(value_axis_label)
         ax.set_ylabel(index_label or "Index")
@@ -354,9 +399,8 @@ def plot_stacked_bar_flex(
 
     ax.set_title(title)
 
-    # ---- Force ALL quarter ticks & pretty labels (YYYY-Qn) ----
+    # ---- Pretty labels for Period[Q] index ----
     def _fmt_quarter_labels(idx):
-        # idx can be PeriodIndex or anything; try to format as YYYY-Qn
         out = []
         for v in idx:
             try:
@@ -375,7 +419,7 @@ def plot_stacked_bar_flex(
             ax.set_yticks(np.arange(len(labels)))
             ax.set_yticklabels(labels)
 
-    # legend
+    # Legend
     if plot_cfg.get("legend_outside", True):
         ncol = int(plot_cfg.get("legend_ncol", 1))
         ax.legend(
@@ -383,7 +427,7 @@ def plot_stacked_bar_flex(
             bbox_to_anchor=(1.0, 0.5),
             frameon=False,
             ncol=ncol,
-            title=legend_title or "Legend"
+            title=legend_title or "Legend",
         )
         plt.tight_layout(rect=[0, 0, 0.8, 1])
     else:
@@ -392,7 +436,7 @@ def plot_stacked_bar_flex(
             leg.set_frame_on(False)
         plt.tight_layout()
 
-    # value labels at bar tip
+    # Value labels at the bar tip (sum across stacks)
     if plot_cfg.get("show_value_labels", True):
         if orientation == "hbar":
             for i, (idx, _) in enumerate(pivot_plot.iterrows()):
@@ -756,11 +800,12 @@ def output_plots():
                 "output_dir": str(output_dir / "COUNTRY"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": ["announced", "under construction", "operational"] },
                 "index_by": ["iso2"],  # y-axis categories
                 "plot": {
-                    "order_by": "total_desc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "orientation": "hbar",
                     "top_n": None,
                     "normalize": False,
@@ -785,11 +830,12 @@ def output_plots():
                 "output_dir": str(output_dir / "HQ"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": ["announced", "under construction", "operational"] },
                 "index_by": ["regionHQ"],  # y-axis categories
                 "plot": {
-                    "order_by": "total_desc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "orientation": "hbar",
                     "normalize": False,
@@ -844,7 +890,7 @@ def output_plots():
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "regionHQ" },
-                "filters": { "status": [ "announced"] },
+                "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["iso2"],  # y-axis categories
                 "plot": {
                     "order_by": "total_desc",
@@ -872,11 +918,12 @@ def output_plots():
                 "output_dir": str(output_dir / "COMPANY"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["master"],  # y-axis categories
                 "plot": {
-                    "order_by": "total_desc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "orientation": "hbar",
                     "top_n": 20,
                     "normalize": False,
@@ -930,8 +977,37 @@ def output_plots():
                 "output_dir": str(output_dir / "COMPANY"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
+                "stack": { "column": "master" },
+                "filters": { "status": [ "under construction", "operational"] },
+                "index_by": ["iso2"],  # y-axis categories
+                "plot": {
+                    "order_by": "total_desc",
+                    "orientation": "hbar",
+                    "top_n": None,
+                    "normalize": False,
+                    "show_value_labels": True,
+                    "legend_outside": True,
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "Capacity (units)"
+                },
+                "charts": [
+                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells under consutuction and operational by company and country",        "filename": "capacity_battery_cells_construction_operational_country_company.png"},
+                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs  under consutuction and operational by company and country","filename": "capacity_battery_modules_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells under consutuction and operational by company and country",          "filename": "capacity_solar_announced_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity -- Solar polysilicon  under consutuction and operational by company and country",    "filename": "capacity_solar_polysilicon_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers under consutuction and operational by company and country",   "filename": "capacity_solar_ingot_wafer_construction_operational_country_company.png"},
+                    {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity --Electric vehicles under consutuction and operational by company and country",    "filename": "capacity_electric_vehicles_construction_operational_country_company.png"}
+                ]
+            },
+            {
+                "name": "capacity_company_iso_under_construction_operational",
+                "output_dir": str(output_dir / "COMPANY"),
+                "value_col": "capacity",
+                # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "iso2" },
-                "filters": { "status": [ "announced"] },
+                "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["master"],  # y-axis categories
                 "plot": {
                     "order_by": "total_desc",
@@ -960,12 +1036,13 @@ def output_plots():
                 "output_dir": str(output_dir / "QUARTER"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status", "order": ["announced","under construction","operational"] },
+                "stack": { "column": "status" },
                 "filters": {"status": [ "under construction", "operational",  "announced"] },
                 "index_by": ["announced_on_quarter"],  # y-axis categories
                 "plot": {
                     "orientation": "vbar",
-                    "order_by": "index_asc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "normalize": False,
                     "show_value_labels": True,
@@ -989,12 +1066,13 @@ def output_plots():
                 "output_dir": str(output_dir / "QUARTER"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status", "order": ["announced","under construction","operational"] },
+                "stack": { "column": "status" },
                 "filters": {"status": [ "under construction", "operational"] },
                 "index_by": ["announced_on_quarter"],  # y-axis categories
                 "plot": {
                     "orientation": "vbar",
-                    "order_by": "index_asc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "normalize": False,
                     "show_value_labels": True,
@@ -1018,15 +1096,46 @@ def output_plots():
             # Investment plots 
             #-------------------------------------------------
             {
+                "name": "capacities_by_status_country",
+                "output_dir": str(output_dir / "COUNTRY"),
+                "value_col": "investment",
+                # stack on status (uses global STATUS_ORDER/COLORS if available)
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
+                "filters": { "status": ["announced", "under construction", "operational"] },
+                "index_by": ["iso2"],  # y-axis categories
+                "plot": {
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
+                    "orientation": "hbar",
+                    "top_n": None,
+                    "normalize": False,
+                    "show_value_labels": True,
+                    "legend_outside": False,
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "EUR"
+                },
+                "charts": [
+                    {"lv1": "battery", "lv2": "cell",         "title": "Investment - Battery cells by status and country",        "filename": "investment_battery_cells_status_country.png"},
+                    {"lv1": "battery", "lv2": "module_pack",  "title": "Investment - Battery modules/packs by status and country","filename": "investment_battery_modules_status_country.png"},
+                    {"lv1": "solar",   "lv2": "cell",         "title": "Investment - Solar cells by status and country",          "filename": "investment_solar_cells_status_country.png"},
+                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Investment - Solar polysilicon by status and country",    "filename": "investment_solar_polysilicon_status_country.png"},
+                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Investment - Solar ingot-wafers by status and country",   "filename": "investment_solar_ingot_wafer_status_country.png"},
+                    {"lv1": "vehicle", "lv2": "electric",     "title": "Investment - Electric vehicles by status and country",    "filename": "investment_electric_vehicles_status_country.png"}
+                ]
+            },
+            {
                 "name": "investments_by_status_country",
                 "output_dir": str(output_dir / "COMPANY"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": ["announced", "under construction", "operational"] },
                 "index_by": ["iso2"],  # y-axis categories
                 "plot": {
-                    "order_by": "total_desc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "orientation": "hbar",
                     "normalize": False,
@@ -1051,11 +1160,12 @@ def output_plots():
                 "output_dir": str(output_dir / "HQ"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": ["announced", "under construction", "operational"] },
                 "index_by": ["regionHQ"],  # y-axis categories
                 "plot": {
-                    "order_by": "total_desc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "orientation": "hbar",
                     "top_n": None,
                     "normalize": False,
@@ -1109,7 +1219,7 @@ def output_plots():
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "regionHQ" },
-                "filters": { "status": [ "announced"] },
+                "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["iso2"],  # y-axis categories
                 "plot": {
                     "order_by": "total_desc",
@@ -1137,7 +1247,7 @@ def output_plots():
                 "output_dir": str(output_dir / "COMPANY"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status" },
+                "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
                 "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["master"],  # y-axis categories
                 "plot": {
@@ -1190,13 +1300,42 @@ def output_plots():
                     {"lv1": "vehicle", "lv2": "electric",     "title": "Investment -Electric vehicles under consutuction and operational by company and country",    "filename": "investment_electric_vehicles_construction_operational_company_country.png"}
                 ]
             },
+                        {
+                "name": "investments_company_country_under_construction_operational",
+                "output_dir": str(output_dir / "COMPANY"),
+                "value_col": "investment",
+                # stack on status (uses global STATUS_ORDER/COLORS if available)
+                "stack": { "column": "master" },
+                "filters": { "status": [ "under construction", "operational"] },
+                "index_by": ["iso2"],  # y-axis categories
+                "plot": {
+                    "order_by": "total_desc",
+                    "top_n": None,
+                    "normalize": False,
+                    "show_value_labels": True,
+                    "orientation": "hbar",
+                    "legend_outside": False,
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "EUR"
+                },
+                "charts": [
+                    {"lv1": "battery", "lv2": "cell",         "title": "Investment - Battery cells under consutuction and operational by company and country",        "filename": "investment_battery_cells_construction_operational_country_company.png"},
+                    {"lv1": "battery", "lv2": "module_pack",  "title": "Investment- Battery modules/packs  under consutuction and operational by company and country","filename": "investment_battery_modules_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "cell",         "title": "Investment - Solar cells under consutuction and operational by company and country",          "filename": "investment_solar_announced_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Investment - Solar polysilicon  under consutuction and operational by company and country",    "filename": "investment_solar_polysilicon_construction_operational_country_company.png"},
+                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Investment - Solar ingot-wafers under consutuction and operational by company and country",   "filename": "investment_solar_ingot_wafer_construction_operational_country_company.png"},
+                    {"lv1": "vehicle", "lv2": "electric",     "title": "Investment -Electric vehicles under consutuction and operational by company and country",    "filename": "investment_electric_vehicles_construction_operational_country_company.png"}
+                ]
+            },
             {
                 "name": "investments_company_country_announced",
                 "output_dir": str(output_dir / "COMPANY"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "iso2" },
-                "filters": { "status": [ "announced"] },
+                "filters": { "status": [ "announced", "under construction", "operational"] },
                 "index_by": ["master"],  # y-axis categories
                 "plot": {
                     "order_by": "total_desc",
@@ -1225,12 +1364,13 @@ def output_plots():
                 "output_dir":str(output_dir / "QUARTER"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status", "order": ["announced","under construction","operational"] },
+                "stack": { "column": "status" },
                 "filters": {"status": [ "announced", "under construction", "operational"] },
                 "index_by": ["announced_on_quarter"],  # y-axis categories
                 "plot": {
                     "orientation": "vbar",
-                    "order_by": "index_asc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "normalize": False,
                     "show_value_labels": True,
@@ -1254,12 +1394,13 @@ def output_plots():
                 "output_dir": str(output_dir / "QUARTER"),
                 "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "status", "order": ["announced","under construction","operational"] },
+                "stack": { "column": "status" },
                 "filters": {"status": [ "under construction", "operational"] },
                 "index_by": ["announced_on_quarter"],  # y-axis categories
                 "plot": {
                     "orientation": "vbar",
-                    "order_by": "index_asc",
+                    "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
                     "top_n": None,
                     "normalize": False,
                     "show_value_labels": True,
@@ -1328,7 +1469,7 @@ def output_plots():
                 "output_dir": str(output_dir / "QUARTER"),
                 "value_col": "investment",
                 "stack": { "column": "product_lv1" },
-                "filters": { "status": ["under construction", "operational"] ,  "product_lv1": ["battery", "vehicle", "solar"]},
+                "filters": { "status": [ "under construction", "operational"] ,  "product_lv1": ["battery", "vehicle", "solar"]},
                 "index_by": ["announced_on_quarter"],
                 "plot": {
                     "orientation": "vbar",
@@ -1343,6 +1484,28 @@ def output_plots():
                 },
                 "charts": [
                     {"lv1": "ALL", "lv2": "ALL", "title": "Investment by quarter (stacked by product level 1)", "filename": "investment_quarter_stack_lv1_construction_operational.png"}
+                ]
+            },
+            {
+                "name": "investment_quarter_by_productlv1_construction_operational",
+                "output_dir": str(output_dir / "QUARTER"),
+                "value_col": "investment",
+                "stack": { "column": "product_lv1" },
+                "filters": { "status": [ "announced", "under construction", "operational"] ,  "product_lv1": ["battery", "vehicle", "solar"]},
+                "index_by": ["announced_on_quarter"],
+                "plot": {
+                    "orientation": "vbar",
+                    "order_by": "index_asc",
+                    "normalize": False,
+                    "show_value_labels": True,
+                    "legend_outside": False,
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "Announced quarter"
+                },
+                "charts": [
+                    {"lv1": "ALL", "lv2": "ALL", "title": "Investment by quarter (stacked by product level 1)", "filename": "investment_quarter_stack_lv1.png"}
                 ]
             }
 
