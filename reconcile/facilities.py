@@ -67,12 +67,11 @@ def _parse_dt(s: str | None):
 def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
     update: Dict[str, Any] = {}
 
-    # product_lv2: union
+    # product_lv2: union | overwrite product_lv2 value if difference
     old_pl2 = _normalize_pl2(existing.get("product_lv2"))
     new_pl2 = _normalize_pl2(incoming.get("product_lv2"))
-    merged_pl2 = sorted(set(old_pl2).union(new_pl2))
-    if merged_pl2 != old_pl2:
-        update["product_lv2"] = merged_pl2
+    if new_pl2 != old_pl2:
+        update["product_lv2"] = new_pl2
 
     # latest_factory_status: update if newer or text changed
     old_s = existing.get("latest_factory_status") or {}
@@ -94,7 +93,7 @@ def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[
         return {"$set": update}
     return {}
 
-def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False) -> None:
+def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False, prune_missing: bool = True) -> None:
     # Fetch existing docs for the candidate project_ids
     pids = [d["project_id"] for d in docs]
     existing = {
@@ -112,14 +111,36 @@ def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False) -> None
             if upd:
                 updates.append(UpdateOne({"project_id": pid}, upd))
 
+    # --- NEW: prune facilities whose project_id is NOT in the incoming list ---
+    stale_ids = []
+    if prune_missing:
+        incoming_set = set(pids)
+        # get ALL existing project_ids (not only the ones we fetched above)
+        existing_all = set(facilities_collection.distinct("project_id"))
+        stale_ids = list(existing_all - incoming_set)
+
     logging.info("Facilities → inserts: %d | updates: %d | total input: %d", len(inserts), len(updates), len(docs))
+    if prune_missing:
+        logging.info("Facilities → stale (to remove): %d", len(stale_ids))
+
     if dry_run:
         logging.info("Dry-run: no DB writes.")
         return
+
     if inserts:
         facilities_collection.insert_many(inserts, ordered=False)
     if updates:
         facilities_collection.bulk_write(updates, ordered=False)
+
+    # we should incorporate the shift to is_active: False, and deleted_at (but need to update whole pipeline)
+    if prune_missing and stale_ids:
+        # HARD DELETE (use with care). Comment this block if you prefer soft delete.
+        facilities_collection.delete_many({"project_id": {"$in": stale_ids}})
+        # SOFT DELETE alternative:
+        # facilities_collection.update_many(
+        #     {"project_id": {"$in": stale_ids}},
+        #     {"$set": {"is_active": False, "deleted_at": datetime.utcnow()}}
+        # )
 
 def write_facilities():
     test_mongo_connection()

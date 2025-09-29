@@ -26,7 +26,8 @@ SITE_MERGE = {
     ("tesla", "DE", "Brandenburg"): "Grünheide (Mark)",
     ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
     ("holosolis", "FR", "Sarreguemines"): "Hambach",
-    ("samsung sdi", "HU", "Budapest"): "Pest County"
+    ("samsung sdi", "HU", "Budapest"): "Pest County",
+    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

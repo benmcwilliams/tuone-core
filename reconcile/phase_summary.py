@@ -28,6 +28,23 @@ def phase_num_int(ev: dict) -> int | None:
     v = ev.get("phase_num")
     return v if isinstance(v, int) else None
 
+def normalize_pl2(vals):
+    return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
+
+# NEW: collect union of product_lv2 from NON-IGNORED events
+def events_product_lv2_union(events: list) -> list[str]:
+    acc = set()
+    for ev in events or []:
+        if phase_is_ignored(ev):
+            continue  # skip ignored events entirely
+        for v in (ev.get("product_lv2") or []):
+            if v is None:
+                continue
+            s = str(v).strip()
+            if s:
+                acc.add(s)
+    return sorted(acc)
+
 def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None, prev_investment=None) -> dict | None:
 
     """
@@ -103,7 +120,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         "status": best["status"],
         "capacity": capacity,
         #"investment": best["investment"],
-        "investment": best["investment"] if best.get("investment") is not None else best.get("investment_imputed"),
+        "investment": best["investment"] if best.get("investment") is not None else best.get("investment_imputed"), # update this to take any "investment" from across the phase
         "investment_was_imputed": best.get("investment") is None and best.get("investment_imputed") is not None,
         "source_date": best["date"],
     }
@@ -136,6 +153,13 @@ def compute_summaries():
                 c["status"] = STATUS_NORMALIZE[c["status"]]
 
         update_fields = {}
+
+        # ---------- derive facility product_lv2 from NON-IGNORED events ----------
+        current_pl2 = normalize_pl2(doc.get("product_lv2"))
+        events_pl2 = events_product_lv2_union(events)  # skips "ignore"
+        if events_pl2 != current_pl2:
+            update_fields["product_lv2"] = events_pl2
+        # ------------------------------------------------------------------------
 
         # unique phase_num mentioned in the events, should be robust to string "ignore"
         phases = sorted({pn for c in events if not phase_is_ignored(c) and (pn := phase_num_int(c)) is not None})  
@@ -181,8 +205,34 @@ def compute_summaries():
 
             update_fields["main"] = main_summary
 
-        if update_fields:
-            updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": update_fields}))
+                # ------------------------- REMOVING STALE PHASE SUMMARIES - MUCH CLEANER WHEN WE MOVE TO A LIST OF PHASES -------------------------
+        # Remove stale phase_* keys that no longer exist this run
+        existing_phase_keys = [k for k in doc.keys() if k.startswith("phase_")]
+        existing_phase_nums = set()
+        for k in existing_phase_keys:
+            try:
+                existing_phase_nums.add(int(k.split("_", 1)[1]))
+            except Exception:
+                pass
+
+        current_phase_nums = set(phases)
+        stale_phase_nums = existing_phase_nums - current_phase_nums
+
+        unset_fields = {f"phase_{n}": "" for n in stale_phase_nums}
+
+        # If no 'main' summary was produced this run but 'main' exists in DB, unset it to avoid staleness.
+        if main_summary is None and "main" in doc:
+            unset_fields["main"] = ""
+        # -------------------------- CHANGED: end --------------------------
+
+        # Queue update with both $set and $unset (only if they have content)
+        if update_fields or unset_fields:  # CHANGED: include unsets-only updates
+            update_op = {}
+            if update_fields:
+                update_op["$set"] = update_fields
+            if unset_fields:
+                update_op["$unset"] = unset_fields  # CHANGED: remove stale phases/main
+            updates.append(UpdateOne({"_id": doc["_id"]}, update_op))
 
     if updates:
         result = facilities_collection.bulk_write(updates)
