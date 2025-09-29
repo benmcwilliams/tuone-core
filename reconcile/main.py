@@ -47,7 +47,7 @@ def main(update_mongo_metadata=False):
         clean_owner_names()
 
         #logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=20000, skip=0)
+        #query_geonames_new_cities(limit=20000, skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -58,8 +58,8 @@ def main(update_mongo_metadata=False):
     logging.info("🉑 Merging nodes and relationships...")
     logging.info("- - - FACTORY_TECH_SPEC")
     run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-    logging.info("- - - COMPANY_JV_SPEC")
-    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+    # logging.info("- - - COMPANY_JV_SPEC")
+    # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
     logging.info("- - - INVESTMENT_FUNDS_SPEC")
     run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 

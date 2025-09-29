@@ -1,0 +1,120 @@
+2025-09-26 18:41:48,723 - INFO - 🔍 Text length: 3110 characters
+2025-09-26 18:41:48,723 - INFO - 📌 Processing Article ID: 68d67a011c2e9d8ed1487af8 — Start of construction for Sweden’s second,  and Gothenburg’s first battery gigafactory
+2025-09-26 18:41:48,723 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-26 18:41:51,413 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:51,413 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_volvo_cars",
+        "type": "company",
+        "name": "Volvo Cars"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_novo_energy",
+        "type": "joint_venture",
+        "name": "NOVO Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_torslanda_gothenburg",
+        "type": "factory",
+        "name": "Torslanda Gigafactory",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_battery_assembly_gothenburg",
+        "type": "factory",
+        "name": "Battery Assembly",
+        "location": {
+          "city": "Gothenburg",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      }
+    ]
+  }
+}
+2025-09-26 18:41:51,413 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:51,414 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-26 18:41:51,414 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-26 18:41:51,414 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-26 18:41:51,414 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-26 18:41:52,855 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:52,856 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-09-26 18:41:52,856 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:52,856 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-09-26 18:41:52,856 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-26 18:41:52,856 - INFO -   ➕ Set field 'product_lv2': cell
+2025-09-26 18:41:52,856 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-26 18:41:52,856 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-26 18:41:52,856 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-26 18:41:54,766 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:54,766 - INFO - {
+  "relationships": [
+    {
+      "source": "company_northvolt",
+      "type": "forms",
+      "target": "joint_venture_novo_energy"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "forms",
+      "target": "joint_venture_novo_energy"
+    },
+    {
+      "source": "joint_venture_novo_energy",
+      "type": "owns",
+      "target": "factory_torslanda_gothenburg"
+    },
+    {
+      "source": "company_volvo_cars",
+      "type": "owns",
+      "target": "factory_battery_assembly_gothenburg"
+    }
+  ]
+}
+2025-09-26 18:41:54,766 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:54,766 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-26 18:41:54,766 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-26 18:41:55,795 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:55,795 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_torslanda_gothenburg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-26 18:41:55,795 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:55,795 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-26 18:41:55,795 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-26 18:41:55,885 - INFO - ✅ Updated Article ID: 68d67a011c2e9d8ed1487af8 with 6 nodes and combined text.

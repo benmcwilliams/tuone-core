@@ -20,6 +20,14 @@ def parse_date(date_str):
     except Exception:
         return pd.NaT
 
+def phase_is_ignored(ev: dict) -> bool:
+    v = ev.get("phase_num")
+    return isinstance(v, str) and v.strip().lower() == "ignore"
+
+def phase_num_int(ev: dict) -> int | None:
+    v = ev.get("phase_num")
+    return v if isinstance(v, int) else None
+
 def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None, prev_investment=None) -> dict | None:
 
     """
@@ -41,9 +49,9 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     phase_caps = [
         c for c in events
         if c.get("status") in STATUS_ORDER
-        and c.get("event_type") != "facility"                                   # ignore facility events (improve this to consider as a vote for STATUS only)
-        and (phase_num is None or int(c.get("phase_num", -1)) == phase_num)     # if main, then phase_num = None & skip, otherwise filter
-        # cast to -1 and ignore if phase_num is missing
+        and c.get("event_type") != "facility"   # ignore facility events (improve this to consider as a vote for STATUS only)
+        and not phase_is_ignored(c)
+        and (phase_num is None or (phase_num_int(c) is not None and phase_num_int(c) == phase_num)) # if main, then phase_num = None & skip, otherwise filter
         and c.get("date")
     ]
     if not phase_caps:
@@ -129,7 +137,8 @@ def compute_summaries():
 
         update_fields = {}
 
-        phases = sorted({int(c.get("phase_num")) for c in events if c.get("phase_num") is not None})  # unique phase_num mentioned in the events
+        # unique phase_num mentioned in the events, should be robust to string "ignore"
+        phases = sorted({pn for c in events if not phase_is_ignored(c) and (pn := phase_num_int(c)) is not None})  
 
         # build summaries for each phase and store as phase_1, phase_2, etc (using previous phase capacity/investment to increment)
         prev_capacity, prev_investment = None, None
