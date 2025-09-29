@@ -4,8 +4,8 @@
 # optional filter for meta.category.
 ARTICLE_QUERY = {
     "nodes": {"$exists": True},
-    "relationships": {"$exists": True}
-    #"meta.category": {"$in": ["electrive", "pvtech", "pvmagazine", "world_energy"]}
+    "relationships": {"$exists": True},
+    "meta.category": {"$in": ["user", "user_text", "electrive", "justauto", "pvmagazine", "pvtech", "world_energy"]}
 }
 
 ARTICLE_PROJECTION = {
