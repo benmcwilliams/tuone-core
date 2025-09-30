@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Dict, Any, List, Union
 
-from mongo_client import facilities_collection
+# from mongo_client import facilities_collection
 from src.config import CAPACITIES_PLOT
 
 ## to do, update script to read in phases and consider rather than only main
@@ -23,6 +23,57 @@ STATUS_COLORS = {
     "under construction": "#FFA07A", # light salmon (faded orange/red)
     "announced": "#7f7f7f",          # grey
 }
+
+# -----------------------------
+import os
+from typing import Dict, List, Tuple
+
+import sys; sys.path.append("..")
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from pathlib import Path
+from typing import Any, Union
+
+# from mongo_client import facilities_collection
+from src.config import CAPACITIES_PLOT
+
+# mongo_client_setup.py
+import os
+import certifi
+from pymongo import MongoClient
+from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+import logging
+
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+ARTICLES_COLLECTION_NAME = os.getenv("MONGO_COLLECTION_NAME")
+FACILITIES_COLLECTION = "facilities_develop" #os.getenv("MONGO_FACILITIES_COLLECTION") change later
+
+
+if not all([MONGO_URI, DB_NAME, ARTICLES_COLLECTION_NAME]):
+    raise RuntimeError("❌ Missing required MongoDB environment variables.")
+
+mongo_client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+db = mongo_client[DB_NAME]
+articles_collection = db[ARTICLES_COLLECTION_NAME]
+facilities_collection = db[FACILITIES_COLLECTION]
+geonames_collection = db["geonames_store"]
+
+#geonames_collection = db["geonames_lookup"]
+
+def test_mongo_connection():
+    try:
+        mongo_client.admin.command("ping")
+        print("✅ Connected to MongoDB Atlas!")
+    except Exception as e:
+        print(f"❌ MongoDB Connection Error: {e}")
+        raise
+
 
 def load_facility_df():
     pipeline = [
@@ -43,49 +94,25 @@ def load_facility_df():
     df = pd.DataFrame(rows)
 
     # ensure product_lv2 is a scalar (explode lists)
-    df["product_lv2"] = df["product_lv2"].apply(
-        lambda x: x if isinstance(x, list) else ([x] if x is not None else [pd.NA])
-    )
+    df["product_lv2"] = df["product_lv2"].apply(lambda x: x if isinstance(x, list) else ([x] if x is not None else [pd.NA]))
     df = df.explode("product_lv2", ignore_index=True)
 
-    # dates -> Period[Q] columns + validation prints
+    # dates
     date_cols = ["announced_on", "under_construction_on", "operational_on"]
     for c in date_cols:
         if c in df.columns:
             df[c] = pd.to_datetime(df[c], errors="coerce")
-            qcol = c + "_quarter"
-            df[qcol] = df[c].dt.to_period("Q")  # keep as Period[Q] for natural chrono order
-
-            # --- validation printouts ("printf") ---
-            orig_notna = int(df[c].notna().sum())
-            q_notna    = int(df[qcol].notna().sum())
-            mismatches = df[c].notna() & df[qcol].isna()
-            n_mismatch = int(mismatches.sum())
-            uniq_quarters = df.loc[df[qcol].notna(), qcol].unique()
-
-            print(f"[quarters] {c}: non-null dates={orig_notna}, non-null quarters={q_notna}, mismatches={n_mismatch}")
-            if n_mismatch:
-                print(df.loc[mismatches, [c, qcol]].head(5))
-            # quick peek at unique quarters (first 10) in chrono order
-            try:
-                uniq_quarters_sorted = pd.PeriodIndex(uniq_quarters, freq='Q').sort_values()
-                print(f"[quarters] {c}: sample quarters -> {[f'{p.year}-Q{p.quarter}' for p in uniq_quarters_sorted[:10]]}")
-            except Exception:
-                pass
 
     # coerce capacities if objects slipped in
     for c in ["capacity", "investment"]:
         if c in df.columns and df[c].dtype == "object":
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
-    # optional export of the flat table (Period will export as strings like 2024Q1)
     output_cols = [
-        "iso2","adm1","owner","product_lv1","product_lv2","status",
-        "capacity","investment",
-        "announced_on","announced_on_quarter",
-        "under_construction_on","under_construction_on_quarter",
-        "operational_on","operational_on_quarter",
+        "iso2","adm1","owner","product_lv1","product_lv2","status","capacity","investment",
+        "announced_on","under_construction_on","operational_on"
     ]
+
     df.to_excel(CAPACITIES_PLOT, columns=[c for c in output_cols if c in df.columns], index=False)
 
     return df
@@ -120,7 +147,7 @@ eu_countries = {
     'Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark',
     'Estonia','Finland','France','Germany','Greece','Hungary','Ireland','Italy',
     'Latvia','Lithuania','Luxembourg','Malta','Netherlands','Poland','Portugal',
-    'Romania','Slovakia','Slovenia','Spain','Sweden'
+    'Romania','Slovakia','Slovenia','Spain','Sweden', 'Norway', 'United Kingdom'
 }
 
 # Mapping function
@@ -135,6 +162,8 @@ def map_region(country):
         return "Japan"
     elif country == "South Korea":
         return "South Korea"
+    elif country == "India":
+        return "India"
     else:
         return "Other"
 
@@ -276,6 +305,8 @@ def _stack_config_for_chart(batch_cfg: Dict[str, Any], chart_spec: Dict[str, Any
 # -------------------------------------------------
 # Pivot (now flexible stack dimension)
 # -------------------------------------------------
+from matplotlib.ticker import FuncFormatter
+
 def plot_stacked_bar_flex(
     pivot: pd.DataFrame,
     *,
@@ -288,48 +319,31 @@ def plot_stacked_bar_flex(
 ):
     """
     Plot a stacked bar chart from a wide pivot table.
-
-    New options in plot_cfg:
-      - order_on_stack_value: str | list[str]  # which stack category(ies) to sort bars by
-      - order_direction: "asc" | "desc"        # sort direction for order_on_stack_value (default: "desc")
-      - order_by: "total_desc" | "total_asc" | "index_asc" | "index_desc"
-                   (used only when order_on_stack_value is not provided)
-
-    Other existing plot_cfg keys used here:
-      - orientation: "hbar" | "vbar" (default: "hbar")
-      - top_n: int | None
-      - normalize: bool
-      - legend_outside: bool
-      - legend_ncol: int
-      - dpi: int
-      - figsize: (w, h)
-      - x_unit: str
-      - show_value_labels: bool
+    Falls back to a single unstacked 'Total' bar if no stack components survive filters.
+    Supports optional legend label renaming via plot_cfg["legend_labels"].
+    If plot_cfg["format_x_millions"] is True (and not normalized), axis ticks + labels show millions.
+    Optional: plot_cfg["currency_prefix"] = "€" / "$" / "".
     """
     if pivot.empty:
         print(f"[skip] No data to plot for: {title}")
         return
 
-    # Ensure helper total column (used for default ordering + labels)
     if "total__" not in pivot.columns:
         pivot["total__"] = pivot.sum(axis=1, numeric_only=True)
 
-    # ------------------
-    # Ordering of bars
-    # ------------------
+    # ------------------ Ordering ------------------
     order_by = plot_cfg.get("order_by", "total_desc")
-    order_on = plot_cfg.get("order_on_stack_value", None)  # str or list[str]
+    order_on = plot_cfg.get("order_on_stack_value")
     order_dir = str(plot_cfg.get("order_direction", "desc")).lower()
     ascending = (order_dir == "asc")
 
     if order_on is not None:
-        # normalize to list and keep only columns that exist
         order_cols = [order_on] if isinstance(order_on, (str, int)) else list(order_on)
         order_cols = [c for c in order_cols if c in pivot.columns]
         if order_cols:
             pivot = pivot.sort_values(by=order_cols, ascending=ascending)
         else:
-            print(f"[warn] order_on_stack_value {order_on} not found in columns; falling back to total.")
+            print(f"[warn] order_on_stack_value {order_on} not found; falling back to total.")
             pivot = pivot.sort_values(by="total__", ascending=False)
     else:
         if order_by == "total_desc":
@@ -341,53 +355,55 @@ def plot_stacked_bar_flex(
         elif order_by == "index_desc":
             pivot = pivot.sort_index(ascending=False)
         else:
-            # safe fallback
             pivot = pivot.sort_values(by="total__", ascending=False)
 
-    # ------------------
-    # Limit to top N
-    # ------------------
+    # ------------------ Limit to top N ------------------
     top_n = plot_cfg.get("top_n")
     if isinstance(top_n, int) and top_n > 0:
         pivot = pivot.head(top_n)
 
-    # ------------------
-    # Select stack columns
-    # ------------------
+    # ------------------ Select stack columns ------------------
     stack_cols = [c for c in pivot.columns if c != "total__"]
-    if not stack_cols:
-        print("[skip] No stack columns to plot.")
-        return
 
-    # ------------------
-    # Normalize if requested
-    # ------------------
+    # Drop all-zero stacks (e.g., filtered away)
+    stack_cols = [c for c in stack_cols if (pivot[c].sum(numeric_only=True) if hasattr(pivot[c], "sum") else 0) > 0]
+
+    # Normalize option
     normalize = bool(plot_cfg.get("normalize", False))
-    if normalize:
-        denom = pivot[stack_cols].sum(axis=1).replace(0, 1)
-        pivot_plot = pivot[stack_cols].div(denom, axis=0)
-        value_axis_label = "Share (100%)"
-    else:
-        pivot_plot = pivot[stack_cols]
-        value_axis_label = plot_cfg.get("x_unit", "Value")
 
-    # ------------------
-    # Figure params
-    # ------------------
+    # If nothing left to stack, plot a single unstacked "Total" column
+    if not stack_cols:
+        total_label = plot_cfg.get("total_label", "Total")
+        pivot_plot = pivot[["total__"]].rename(columns={"total__": total_label})
+        stacked = False
+        # Normalization doesn't make sense without components
+        normalize = False
+        value_axis_label = plot_cfg.get("x_unit", "Value")
+    else:
+        # ------------------ Normalize if requested ------------------
+        if normalize:
+            denom = pivot[stack_cols].sum(axis=1).replace(0, 1)
+            pivot_plot = pivot[stack_cols].div(denom, axis=0)
+            value_axis_label = "Share (100%)"
+        else:
+            pivot_plot = pivot[stack_cols]
+            value_axis_label = plot_cfg.get("x_unit", "Value")
+        stacked = True
+
+    # ------------------ Figure params ------------------
     figsize = tuple(plot_cfg.get("figsize", (10, 6)))
     dpi = int(plot_cfg.get("dpi", 300))
     os.makedirs(os.path.dirname(outfile_png), exist_ok=True)
 
-    # Colors aligned to column order
+    # Colors
     color_kw = {}
-    if stack_colors:
+    if stack_colors and len(pivot_plot.columns) > 1:  # only makes sense with multiple stacks
         color_kw["color"] = [stack_colors.get(c, "#cccccc") for c in pivot_plot.columns]
 
-    # Orientation
     orientation = str(plot_cfg.get("orientation", "hbar")).lower()
     kind = "barh" if orientation == "hbar" else "bar"
 
-    ax = pivot_plot.plot(kind=kind, stacked=True, figsize=figsize, **color_kw)
+    ax = pivot_plot.plot(kind=kind, stacked=stacked, figsize=figsize, **color_kw)
 
     # Axis labels
     if orientation == "hbar":
@@ -399,59 +415,84 @@ def plot_stacked_bar_flex(
 
     ax.set_title(title)
 
-    # ---- Pretty labels for Period[Q] index ----
-    def _fmt_quarter_labels(idx):
-        out = []
-        for v in idx:
-            try:
-                p = v if isinstance(v, pd.Period) else pd.Period(str(v), freq="Q")
-                out.append(f"{p.year}-Q{p.quarter}")
-            except Exception:
-                out.append(str(v))
-        return out
+    # ------------------ Legend with optional renaming ------------------
+    handles, labels = ax.get_legend_handles_labels()
+    legend_labels = plot_cfg.get("legend_labels", {})  # {"operational": "Operating", ...}
+    if legend_labels:
+        labels = [legend_labels.get(l, l) for l in labels]
 
-    if isinstance(pivot_plot.index, pd.PeriodIndex) and (pivot_plot.index.freqstr or "").upper().startswith("Q"):
-        labels = _fmt_quarter_labels(pivot_plot.index)
-        if orientation == "vbar":
-            ax.set_xticks(np.arange(len(labels)))
-            ax.set_xticklabels(labels, rotation=45, ha="right")
-        else:
-            ax.set_yticks(np.arange(len(labels)))
-            ax.set_yticklabels(labels)
-
-    # Legend
-    if plot_cfg.get("legend_outside", True):
-        ncol = int(plot_cfg.get("legend_ncol", 1))
-        ax.legend(
-            loc="center left",
-            bbox_to_anchor=(1.0, 0.5),
-            frameon=False,
-            ncol=ncol,
-            title=legend_title or "Legend",
-        )
-        plt.tight_layout(rect=[0, 0, 0.8, 1])
-    else:
-        leg = ax.legend(title=legend_title or "Legend")
+    # Hide legend when there’s only one column unless forced
+    if len(pivot_plot.columns) <= 1 and not plot_cfg.get("force_legend", False):
+        leg = ax.get_legend()
         if leg:
-            leg.set_frame_on(False)
-        plt.tight_layout()
+            leg.remove()
+    else:
+        if plot_cfg.get("legend_outside", True):
+            ncol = int(plot_cfg.get("legend_ncol", 1))
+            ax.legend(
+                handles, labels,
+                loc="center left",
+                bbox_to_anchor=(1.0, 0.5),
+                frameon=False, ncol=ncol,
+                title=legend_title or "Legend",
+            )
+            plt.tight_layout(rect=[0, 0, 0.8, 1])
+        else:
+            leg = ax.legend(handles, labels, title=legend_title or "Legend")
+            if leg:
+                leg.set_frame_on(False)
+            plt.tight_layout()
 
-    # Value labels at the bar tip (sum across stacks)
-    if plot_cfg.get("show_value_labels", True):
+    # ------------------ MILLIONS formatting (investment only) ------------------
+    format_millions = bool(plot_cfg.get("format_x_millions", False))
+    currency = plot_cfg.get("currency_prefix", "")
+    if format_millions and not normalize:
+        fmt = FuncFormatter(lambda x, pos: f"{currency}{x/1_000_000:,.0f}")
+        if orientation == "hbar":
+            ax.xaxis.set_major_formatter(fmt)
+            unit = plot_cfg.get("x_unit", "").strip()
+            label = f"{unit} (million)" if unit else "Million"
+            ax.set_xlabel(label)
+        else:
+            ax.yaxis.set_major_formatter(fmt)
+            unit = plot_cfg.get("x_unit", "").strip()
+            label = f"{unit} (million)" if unit else "Million"
+            ax.set_ylabel(label)
+
+    # ------------------ Value labels ------------------
+    show_labels = plot_cfg.get("show_value_labels", True)
+    if show_labels:
         if orientation == "hbar":
             for i, (idx, _) in enumerate(pivot_plot.iterrows()):
                 total_val = 1.0 if normalize else pivot.loc[idx, "total__"]
-                label = f"{total_val*100:.0f}%" if normalize else f"{total_val:,.0f}"
-                ax.text(pivot_plot.loc[idx].sum(), i, f" {label}", va="center", fontsize=8)
+                if normalize:
+                    label = f"{(pivot_plot.loc[idx].sum())*100:.0f}%"
+                    xpos = pivot_plot.loc[idx].sum()
+                    ax.text(xpos, i, f" {label}", va="center", fontsize=8)
+                else:
+                    if format_millions:
+                        label = f"{currency}{total_val/1_000_000:,.1f}M"
+                    else:
+                        label = f"{total_val:,.0f}"
+                    xpos = pivot_plot.loc[idx].sum()
+                    ax.text(xpos, i, f" {label}", va="center", fontsize=8)
         else:
             for i, idx in enumerate(pivot_plot.index):
                 total_val = 1.0 if normalize else pivot.loc[idx, "total__"]
-                label = f"{total_val*100:.0f}%" if normalize else f"{total_val:,.0f}"
-                ax.text(i, pivot_plot.loc[idx].sum(), f"{label}", ha="center", va="bottom", fontsize=8)
+                if normalize:
+                    label = f"{(pivot_plot.loc[idx].sum())*100:.0f}%"
+                    ypos = pivot_plot.loc[idx].sum()
+                    ax.text(i, ypos, f"{label}", ha="center", va="bottom", fontsize=8)
+                else:
+                    if format_millions:
+                        label = f"{currency}{total_val/1_000_000:,.1f}M"
+                    else:
+                        label = f"{total_val:,.0f}"
+                    ypos = pivot_plot.loc[idx].sum()
+                    ax.text(i, ypos, f"{label}", ha="center", va="bottom", fontsize=8)
 
     plt.savefig(outfile_png, dpi=dpi, bbox_inches="tight")
     plt.close()
-
 
 # -------------------------------------------------
 # Plot (uses flexible stack dimension)
@@ -598,7 +639,8 @@ def _run_single_batch(df: pd.DataFrame, cfg: Dict[str, Any]) -> None:
         stack_order = sconf["order"]
         stack_colors = sconf["colors"]
         legend_title = sconf["legend_title"]
-
+        if stack_col not in df_use.columns:
+            df_use[stack_col] = "Total"
         # index_by (y-axis categories)
         index_by = _derive_index_by(cfg, stack_col)
 
@@ -791,97 +833,262 @@ def output_plots():
     df_owner = pd.read_excel(input_file)
     df_owner["regionHQ"] = df_owner["countryHQ"].apply(map_region)
     df_main_flat = load_facility_df()
+    # # Keep only rows where product_lvl1 contains "vehicle battery" or "solar"
+    # df_main_flat = df_main_flat[
+    #     df_main_flat["product_lv1"].isin(["vehicle", "battery", "solar"])
+    # ]
+
     df_merged = merge_owner(df_main_flat, df_owner)
+    # save to Excel
+
+    # # Cutoff date
+    cutoff = pd.Timestamp("2021-01-01")
+
+    # Keep only rows where announced_on is NaT or >= cutoff
+    # df_merged = df_merged[
+    #     (df_merged["announced_on"].isna()) | (df_merged["announced_on"] >= cutoff)
+    # ]
+    df_merged = df_merged[
+        (df_merged["announced_on"] >= cutoff)
+    ]
+    merged_path = Path("storage/output/df_merged.xlsx")  # pick your folder
+    merged_path.parent.mkdir(parents=True, exist_ok=True)
+    df_merged.to_excel(merged_path, index=False)
+    print(f"Saved merged plotting dataset to: {merged_path.resolve()}")
 
     CONFIG = {
         "batches": [
             {
+            "name": "capacities_by_status_country",
+            "output_dir": str(output_dir / "VF"),
+            "value_col": "investment",
+            "stack": {"column": "__all__"},  # <- sum across everything,  # stacks on "status" by default
+            "filters": {
+                "status": ["announced", "under construction", "operational"],
+                "product_lv1": ["vehicle", "solar", "battery"],
+                "product_lv2": ["ingot_wafer", "cell", "electric"]
+            },
+            "index_by": ["iso2"],
+            "index_label": "Country",
+            "plot": {
+                "order_direction": "desc",
+                "orientation": "hbar",
+                "normalize": False,
+                "show_value_labels": False,
+                "legend_outside": False,
+                "legend_ncol": 2,
+                "dpi": 300,
+                "figsize": [11, 7],
+                "x_unit": "EUR",
+                "format_x_millions": True,
+                "currency_prefix": "€",
+                "total_label": "Total investment",
+                "force_legend": False
+            },
+            "charts": [
+                {"lv1": "ALL", "lv2": "ALL", "title": "", "filename": "f.png"}
+            ]
+            },
+                       {
+            "name": "capacities_by_status_country",
+            "output_dir": str(output_dir / "VF"),
+            "value_col": "investment",
+            "stack": {"column": "__all__"},  # <- sum across everything,  # stacks on "status" by default
+            "filters": { "status": [ "announced", "under construction", "operational"], "product_lv1": ["vehicle", "solar", "battery"],"product_lv2": ["ingot_wafer", "cell", "electric"] },
+            "index_by": ["status"],
+            "index_label": "status",
+            "plot": {
+                "order_direction": "desc",
+                "orientation": "hbar",
+                "normalize": False,
+                "show_value_labels": True,
+                "legend_outside": False,
+                "legend_ncol": 2,
+                "dpi": 300,
+                "figsize": [11, 7],
+                "x_unit": "EUR",
+                "format_x_millions": True,
+                "currency_prefix": "€",
+                "total_label": "Total investment",
+                "force_legend": False
+            },
+            "charts": [
+                {"lv1": "ALL", "lv2": "ALL", "title": "", "filename": "m.png"}
+            ]
+            },
+            {
                 "name": "capacities_by_status_country",
-                "output_dir": str(output_dir / "COUNTRY"),
-                "value_col": "capacity",
+                "output_dir": str(output_dir / "VF"),
+                "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
-                "filters": { "status": ["announced", "under construction", "operational"] },
-                "index_by": ["iso2"],  # y-axis categories
+                "filters": { "status": [ "under construction", "operational", "announced"], "product_lv1": ["vehicle", "solar", "battery"],"product_lv2": ["ingot_wafer", "cell", "electric"] },
+                "index_by": ["iso2"], 
+                "index_label": "Country", # y-axis categories
                 "plot": {
-                    "order_on_stack_value": ["operational", "under construction"],
                     "order_direction": "desc",
                     "orientation": "hbar",
                     "top_n": None,
                     "normalize": False,
-                    "show_value_labels": True,
+                    "show_value_labels": False,
                     "legend_outside": False,
+                    "legend_labels": {
+                        "operational": "Completed",
+                        "under construction": "Ongoing",
+                        "announced": "Announced"
+                    },
                     "legend_ncol": 2,
                     "dpi": 300,
                     "figsize": [11, 7],
-                    "x_unit": "Capacity (units)"
+                    "x_unit": "EUR",
+                    "format_x_millions": True,
+                    "currency_prefix": ""
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Battery cells by status and country",        "filename": "battery_cells_status_country.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Battery modules/packs by status and country","filename": "battery_modules_status_country.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Solar cells by status and country",          "filename": "solar_cells_status_country.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Solar polysilicon by status and country",    "filename": "solar_polysilicon_status_country.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Solar ingot-wafers by status and country",   "filename": "solar_ingot_wafer_status_country.png"},
-                    {"lv1": "vehicle", "lv2": "electric",     "title": "Electric vehicles by status and country",    "filename": "electric_vehicles_status_country.png"}
+                    {"lv1": "ALL", "lv2": "ALL",         "title": "",        "filename": "a.png"},
+ 
+                ]
+            },
+                        {
+                "name": "capacities_by_status_country",
+                "output_dir": str(output_dir / "VF"),
+                "value_col": "investment",
+                # stack on status (uses global STATUS_ORDER/COLORS if available)
+                "stack": { "column": "product_lv1", "legend_title":"Technology" },
+                "filters": { "status": [ "announced", "under construction", "operational"], "product_lv1": ["vehicle", "solar", "battery"],"product_lv2": ["ingot_wafer", "cell", "electric"] },
+                "index_by": ["iso2"], 
+                "index_label": "Country",  # y-axis categories
+                "plot": {
+                    # "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
+                    "orientation": "hbar",
+                    "top_n": None,
+                    "normalize": False,
+                    "show_value_labels": False,
+                    "legend_outside": False,
+                                        "legend_labels": {
+                        "operational": "Completed",
+                        "under construction": "Ongoing",
+                        "announced": "Announced"
+                    },
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "EUR",
+                    "format_x_millions": True,
+                    "currency_prefix": ""
+                },
+                "charts": [
+                    {"lv1": "ALL", "lv2": "ALL",         "title": "",        "filename": "b.png"},
+ 
+                ]
+            },
+                           {
+                "name": "capacities_by_status_country",
+                "output_dir": str(output_dir / "VF"),
+                "value_col": "investment",
+                # stack on status (uses global STATUS_ORDER/COLORS if available)
+                "stack": { "column": "regionHQ", "legend_title":"Headquarters" },
+                "filters": { "status": [ "announced", "under construction", "operational"], "product_lv1": ["vehicle", "battery", "solar"],"product_lv2": ["ingot_wafer","cell", "electric"] },
+                "index_by": ["iso2"], 
+                "index_label": "Country",  # y-axis categories
+                "plot": {
+                    # "order_on_stack_value": ["operational", "under construction"],
+                    "order_direction": "desc",
+                    "orientation": "hbar",
+                    "top_n": None,
+                    "normalize": False,
+                    "show_value_labels": False,
+                    "legend_outside": False,
+                                        "legend_labels": {
+                        "operational": "Announced",
+                        "under construction": "Ongoing",
+                        "announced": "Completed"
+                    },
+                    "legend_ncol": 2,
+                    "dpi": 300,
+                    "figsize": [11, 7],
+                    "x_unit": "EUR",
+                    "format_x_millions": True,
+                    "currency_prefix": ""
+                },
+                "charts": [
+                    {"lv1": "ALL", "lv2": "ALL",         "title": "",        "filename": "c.png"},
+ 
                 ]
             },
             {
                 "name": "capacities_by_status_HQ",
-                "output_dir": str(output_dir / "HQ"),
-                "value_col": "capacity",
+                "output_dir": str(output_dir / "VF"),
+                "value_col": "investment",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
                 "stack": { "column": "status", "order": ["operational", "under construction", "announced"] },
-                "filters": { "status": ["announced", "under construction", "operational"] },
-                "index_by": ["regionHQ"],  # y-axis categories
+                "filters": {
+                    "status": ["operational", "under construction", "announced"],
+                    "product_lv1": ["vehicle", "solar", "battery"],
+                    "product_lv2": ["ingot_wafer", "cell", "electric"]
+                },                
+                "index_by": ["regionHQ"],
+                "index_label": "Headquarters",   # y-axis categories
                 "plot": {
                     "order_on_stack_value": ["operational", "under construction"],
                     "order_direction": "desc",
+                    "show_value_labels": False,
                     "top_n": None,
                     "orientation": "hbar",
                     "normalize": False,
-                    "show_value_labels": True,
+                    "legend_labels": {
+                        "operational": "Completed",
+                        "under construction": "Ongoing",
+                        "announced": "Announced"
+                    },
                     "legend_outside": False,
                     "legend_ncol": 2,
                     "dpi": 300,
                     "figsize": [11, 7],
-                    "x_unit": "Capacity (units)"
+                    "x_unit": "EUR",
+                    "format_x_millions": True,
+                    "currency_prefix": "",
+                    "x_unit": "EUR"
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Battery cells by status and HQ",        "filename": "battery_cells_status_HQ.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Battery modules/packs by status and HQ","filename": "battery_modules_status_HQ.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Solar cells by status and HQ",          "filename": "solar_cells_status_HQ.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Solar polysilicon by status and HQ",    "filename": "solar_polysilicon_status_HQ.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Solar ingot-wafers by status and HQ",   "filename": "solar_ingot_wafer_status_HQ.png"},
-                    {"lv1": "vehicle", "lv2": "electric",     "title": "Electric vehicles by status and HQ",    "filename": "electric_vehicles_status_HQ.png"}
+                    {"lv1": "ALL", "lv2": "ALL",         "title": "",        "filename": "d.png"}
+                    # {"lv1": "battery", "lv2": "module_pack",  "title": "Battery modules/packs by status and HQ","filename": "battery_modules_status_HQ.png"},
+                    # {"lv1": "solar",   "lv2": "cell",         "title": "Solar cells by status and HQ",          "filename": "solar_cells_status_HQ.png"},
+                    # {"lv1": "solar",   "lv2": "polysilicon",  "title": "Solar polysilicon by status and HQ",    "filename": "solar_polysilicon_status_HQ.png"},
+                    # {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Solar ingot-wafers by status and HQ",   "filename": "solar_ingot_wafer_status_HQ.png"},
+                    # {"lv1": "vehicle", "lv2": "electric",     "title": "Electric vehicles by status and HQ",    "filename": "electric_vehicles_status_HQ.png"}
                 ]
             },
-                        {
+            {
                 "name": "investments_construction_operational_HQ_country",
-                "output_dir": str(output_dir / "HQ"),
+                "output_dir": str(output_dir / "VF"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "regionHQ" },
-                "filters": { "status": [ "under construction", "operational"] },
-                "index_by": ["iso2"],  # y-axis categories
+                "stack": { "column": "status", "legend_title":"Status"},
+                "filters": { "status": [ "under construction", "operational", "announced"] },
+                "index_by": ["regionHQ"],  # y-axis categories
+                "index_label": "Headquarters",
                 "plot": {
                     "order_by": "total_desc",
                     "top_n": None,
                     "normalize": False,
                     "orientation": "hbar",
-                    "show_value_labels": True,
+                    "show_value_labels": False,
                     "legend_outside": False,
                     "legend_ncol": 2,
                     "dpi": 300,
                     "figsize": [11, 7],
-                    "x_unit": "Capacity (units)"
+                    "x_unit": "Capacity (GWh)",
+                    
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells (under construction and operational) by country and HQ",        "filename": "capacity_battery_cells_country_HQ.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs (under construction and operational) by country and HQ","filename": "capacity_battery_modules_country_HQ.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells by status (under construction and operational) by country and HQ",          "filename": "capacity_solar_country_HQ.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity - Solar polysilicon (under construction and operational) by country and HQ",    "filename": "capacity_solar_polysilicon_countryHQ.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers(under construction and operational) by country and HQ",   "filename": "capacity_solar_ingot_wafer_country_HQ.png"},
-                    {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity - Electric vehicles (under construction and operational) by country and HQ",    "filename": "capacity_electric_vehicles_country_HQ.png"}
+                    {"lv1": "battery", "lv2": "cell",         "title": "",        "filename": "h.png"}
+                    # {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs (under construction and operational) by country and HQ","filename": "capacity_battery_modules_country_HQ.png"},
+                    # {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells by status (under construction and operational) by country and HQ",          "filename": "capacity_solar_country_HQ.png"},
+                    # {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity - Solar polysilicon (under construction and operational) by country and HQ",    "filename": "capacity_solar_polysilicon_countryHQ.png"},
+                    # {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers(under construction and operational) by country and HQ",   "filename": "capacity_solar_ingot_wafer_country_HQ.png"},
+                    # {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity - Electric vehicles (under construction and operational) by country and HQ",    "filename": "capacity_electric_vehicles_country_HQ.png"}
                 ]
             },
             {
@@ -945,18 +1152,19 @@ def output_plots():
             },
             {
                 "name": "capacity_company_iso_under_construction_operational",
-                "output_dir": str(output_dir / "COMPANY"),
+                "output_dir": str(output_dir / "VF"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "iso2" },
+                "stack": { "column": "iso2",  "legend_title":"Country" },
                 "filters": { "status": [ "under construction", "operational"] },
                 "index_by": ["master"],  # y-axis categories
+                "index_label": "Company",
                 "plot": {
                     "order_by": "total_desc",
                     "orientation": "hbar",
                     "top_n": None,
                     "normalize": False,
-                    "show_value_labels": True,
+                    "show_value_labels": False,
                     "legend_outside": False,
                     "legend_ncol": 2,
                     "dpi": 300,
@@ -964,12 +1172,12 @@ def output_plots():
                     "x_unit": "Capacity (units)"
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells under consutuction and operational by company and country",        "filename": "capacity_battery_cells_construction_operational_company_country.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs  under consutuction and operational by company and country","filename": "capacity_battery_modules_construction_operational_company_country.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells under consutuction and operational by company and country",          "filename": "capacity_solar_announced_construction_operational_company_country.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity -- Solar polysilicon  under consutuction and operational by company and country",    "filename": "capacity_solar_polysilicon_construction_operational_company_country.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers under consutuction and operational by company and country",   "filename": "capacity_solar_ingot_wafer_construction_operational_company_country.png"},
-                    {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity --Electric vehicles under consutuction and operational by company and country",    "filename": "capacity_electric_vehicles_construction_operational_company_country.png"}
+                    # {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells under construction and operational by company and country",        "filename": "capacity_battery_cells_construction_operational_company_country.png"},
+                    # {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs  under consutuction and operational by company and country","filename": "capacity_battery_modules_construction_operational_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells under consutuction and operational by company and country",          "filename": "capacity_solar_announced_construction_operational_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity -- Solar polysilicon  under consutuction and operational by company and country",    "filename": "capacity_solar_polysilicon_construction_operational_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers under consutuction and operational by company and country",   "filename": "capacity_solar_ingot_wafer_construction_operational_company_country.png"},
+                    {"lv1": "vehicle", "lv2": "electric",     "title": "",    "filename": "e.png"}
                 ]
             },
             {
@@ -1003,18 +1211,19 @@ def output_plots():
             },
             {
                 "name": "capacity_company_iso_under_construction_operational",
-                "output_dir": str(output_dir / "COMPANY"),
+                "output_dir": str(output_dir / "VF"),
                 "value_col": "capacity",
                 # stack on status (uses global STATUS_ORDER/COLORS if available)
-                "stack": { "column": "iso2" },
-                "filters": { "status": [ "announced", "under construction", "operational"] },
+                "stack": { "column": "iso2", "legend_title":"Country" },
+                "filters": { "status": [ "announced", "under construction", "operational"], "product_lv1": ["vehicle", "solar", "battery"],"product_lv2": ["ingot_wafer", "cell", "electric"] },
                 "index_by": ["master"],  # y-axis categories
+                "index_label": "Company",
                 "plot": {
                     "order_by": "total_desc",
                     "orientation": "hbar",
                     "top_n": None,
                     "normalize": False,
-                    "show_value_labels": True,
+                    "show_value_labels": False,
                     "legend_outside": False,
                     "legend_ncol": 2,
                     "dpi": 300,
@@ -1022,12 +1231,12 @@ def output_plots():
                     "x_unit": "Capacity (units)"
                 },
                 "charts": [
-                    {"lv1": "battery", "lv2": "cell",         "title": "Capacity - Battery cells announced by company and country",        "filename": "capacity_battery_cells_announced_company_country.png"},
-                    {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs announced  by company and country","filename": "capacity_battery_modules_announced_company_country.png"},
-                    {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells announced  by company and country",          "filename": "capacity_solar_announced_announced_company_country.png"},
-                    {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity -- Solar polysilicon announced by company and country",    "filename": "capacity_solar_polysilicon_announced_company_country.png"},
-                    {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers announced  by company and country",   "filename": "capacity_solar_ingot_wafer_announced_company_country.png"},
-                    {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity --Electric vehicles announced by company and country",    "filename": "capacity_electric_vehicle_announced_company_country.png"}
+                    {"lv1": "vehicle", "lv2": "electric",         "title": "",        "filename": "g.png"}
+                    # {"lv1": "battery", "lv2": "module_pack",  "title": "Capacity - Battery modules/packs announced  by company and country","filename": "capacity_battery_modules_announced_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "cell",         "title": "Capacity - Solar cells announced  by company and country",          "filename": "capacity_solar_announced_announced_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "polysilicon",  "title": "Capacity -- Solar polysilicon announced by company and country",    "filename": "capacity_solar_polysilicon_announced_company_country.png"},
+                    # {"lv1": "solar",   "lv2": "ingot_wafer",  "title": "Capacity - Solar ingot-wafers announced  by company and country",   "filename": "capacity_solar_ingot_wafer_announced_company_country.png"},
+                    # {"lv1": "vehicle", "lv2": "electric",     "title": "Capacity --Electric vehicles announced by company and country",    "filename": "capacity_electric_vehicle_announced_company_country.png"}
                 ]
             },
     # Capacity quarter plots ----------
@@ -1491,7 +1700,7 @@ def output_plots():
                 "output_dir": str(output_dir / "QUARTER"),
                 "value_col": "investment",
                 "stack": { "column": "product_lv1" },
-                "filters": { "status": [ "announced", "under construction", "operational"] ,  "product_lv1": ["battery", "vehicle", "solar"]},
+                "filters": { "status": [ "announced", "under construction", "operational"] ,  "product_lv1": ["battery", "vehicle", "solar"],  "product_lv1": ["ingot_wafer", "cell", "module_pack", "electric"]},
                 "index_by": ["announced_on_quarter"],
                 "plot": {
                     "orientation": "vbar",
@@ -1513,42 +1722,6 @@ def output_plots():
     }
     output_plots_from_config(df_merged, CONFIG)
 
-    # -----------------------------
-    # Demand comparison charts
-    # -----------------------------
-    demand = {
-        "battery": 410,          # GWh
-        "solar": 58,             # GW
-        "vehicles": 2_300_000,   # units
-    }
-
-    comp_dir = output_dir / "COMPARISONS"
-    comp_dir.mkdir(parents=True, exist_ok=True)
-
-    plot_capacity_vs_demand_lv2(
-        df=df_merged,
-        demand=demand,
-        outfile_png=str(comp_dir / "capacity_vs_demand_lv2_percent.png"),
-        include_lv2=["cell", "module_pack", "ingot_wafer", "polysilicon", "electric"],
-        status_filter=["operational", "under construction", "announced"],
-        normalize_to_demand=True,
-        title="Capacity vs demand by product LV2 (share of demand)"
-    )
-
-    plot_capacity_vs_demand_lv2(
-        df=df_merged,
-        demand=demand,
-        outfile_png=str(comp_dir / "capacity_vs_demand_lv2_absolute.png"),
-        include_lv2=["cell", "module_pack", "ingot_wafer", "polysilicon", "electric"],
-        status_filter=["operational", "under construction", "announced"],
-        normalize_to_demand=False,
-        title="Capacity vs demand by product LV2 (absolute, dashed = demand)"
-    )
 
 if __name__ == "__main__":
     output_plots()
-
-
-
-
-
