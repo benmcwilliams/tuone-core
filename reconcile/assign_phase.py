@@ -19,17 +19,21 @@ LIMIT = 50             # None = all docs, or set e.g. 50 for testing
 QUERY = {"iso2": "GR"} # Mongo filter, e.g. {"iso2": "DE"} or {} for all
 # -----------------------------------------------------
 
-
-def _has_greenfield(events) -> bool:
-    return any((isinstance(ev, dict) and ev.get("phase") == "greenfield") for ev in (events or []))
-
-
-def _has_expansion(events) -> bool:
-    return any((isinstance(ev, dict) and ev.get("phase") == "expansion") for ev in (events or []))
-
+# check whether user has set phase_num == "ignore"
+def _is_ignored(ev: dict) -> bool:
+    v = ev.get("phase_num")
+    return isinstance(v, str) and v.strip().lower() == "ignore"
 
 def _phase_num_is_set(ev: dict) -> bool:
-    return ev.get("phase_num") is not None if isinstance(ev, dict) else False
+    if _is_ignored(ev):
+        return True
+    return ev.get("phase_num") is not None
+
+def _has_greenfield(events) -> bool:
+    return any((isinstance(ev, dict) and not _is_ignored(ev) and ev.get("phase") == "greenfield") for ev in (events or []))
+
+def _has_expansion(events) -> bool:
+    return any((isinstance(ev, dict) and not _is_ignored(ev) and ev.get("phase") == "expansion") for ev in (events or []))
 
 
 def _assign_phase_nums_v1(events: list) -> tuple[list, int]:

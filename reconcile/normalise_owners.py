@@ -56,22 +56,44 @@ def clean_owner_names():
     # 3. build bulk update operations
     ops = []
     for raw_name in company_mongo:
-
         if not isinstance(raw_name, str) or not raw_name.strip() or pd.isna(raw_name):
             continue
 
         canon = cleaner.clean_string(raw_name)
-
         if canon is None or pd.isna(canon):
             continue
 
         ops.append(
             UpdateMany(
-                # match any doc with a company node having this raw name
-                {"nodes": {"$elemMatch": {"type": {"$in": ["joint_venture", "company"]}, "name": raw_name}}}, # must add company back
-                # set the new name_canon field on that array element
-                {"$set": {"nodes.$[c].name_canon": canon}},
-                array_filters=[{"c.type": {"$in": ["joint_venture", "company"]}, "c.name": raw_name}] # must add company back
+                # Match only documents that have at least one matching element
+                # with this raw name AND where name_canon is still missing.
+                # CHANGED: Added the `$or: exists False / None` guard to avoid touching already-processed docs.
+                {
+                    "nodes": {
+                        "$elemMatch": {
+                            "type": {"$in": ["joint_venture", "company"]},
+                            "name": raw_name,
+                            "$or": [
+                                {"name_canon": {"$exists": False}},   # CHANGED
+                                {"name_canon": None}                   # CHANGED
+                            ]
+                        }
+                    }
+                },
+                # Set the canonical value…
+                {
+                    "$set": {"nodes.$[c].name_canon": canon}
+                },
+                # …but only on array elements that still lack it.
+                # CHANGED: Added the same guard inside array_filters to prevent re-writes.
+                array_filters=[{
+                    "c.type": {"$in": ["joint_venture", "company"]},
+                    "c.name": raw_name,
+                    "$or": [
+                        {"c.name_canon": {"$exists": False}},       # CHANGED
+                        {"c.name_canon": None}                       # CHANGED
+                    ]
+                }]
             )
         )
 
@@ -81,5 +103,5 @@ def clean_owner_names():
 
     for i in range(0, len(ops), BATCH_SIZE):
         batch = ops[i : i + BATCH_SIZE]
-        result = articles_collection.bulk_write(batch)
+        result = articles_collection.bulk_write(batch) # can add ordered=False to make even quicker
         logging.info(f"Batch {i//BATCH_SIZE}: matched {result.matched_count}, modified {result.modified_count}")

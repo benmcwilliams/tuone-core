@@ -33,6 +33,7 @@ def _build_facilities_df() -> pd.DataFrame:
               "lon": "first",
               "product_lv1": "first",
               "product_lv2": lambda s: [v for v in np.unique([x for x in s if pd.notna(x)])],
+              "product": lambda s: [v for v in np.unique([x for x in s if pd.notna(x)])]
           })
           .merge(latest, on="project_id", how="left")
     )
@@ -52,6 +53,7 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
         "product_lv1": row.get("product_lv1") if pd.notna(row.get("product_lv1")) else None,
         "product_lv2": [v for v in (row.get("product_lv2") or []) if pd.notna(v)],
+        "products": [v for v in (row.get("product") or []) if pd.notna(v)],
         "latest_factory_status": {
             "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
             "date": _iso_date(row.get("factory_status_date")),
@@ -67,12 +69,11 @@ def _parse_dt(s: str | None):
 def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
     update: Dict[str, Any] = {}
 
-    # product_lv2: union
+    # product_lv2: union | overwrite product_lv2 value if difference
     old_pl2 = _normalize_pl2(existing.get("product_lv2"))
     new_pl2 = _normalize_pl2(incoming.get("product_lv2"))
-    merged_pl2 = sorted(set(old_pl2).union(new_pl2))
-    if merged_pl2 != old_pl2:
-        update["product_lv2"] = merged_pl2
+    if new_pl2 != old_pl2:
+        update["product_lv2"] = new_pl2
 
     # latest_factory_status: update if newer or text changed
     old_s = existing.get("latest_factory_status") or {}
@@ -94,7 +95,7 @@ def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[
         return {"$set": update}
     return {}
 
-def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False) -> None:
+def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False, prune_missing: bool = True) -> None:
     # Fetch existing docs for the candidate project_ids
     pids = [d["project_id"] for d in docs]
     existing = {
@@ -112,20 +113,42 @@ def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False) -> None
             if upd:
                 updates.append(UpdateOne({"project_id": pid}, upd))
 
+    # --- NEW: prune facilities whose project_id is NOT in the incoming list ---
+    stale_ids = []
+    if prune_missing:
+        incoming_set = set(pids)
+        # get ALL existing project_ids (not only the ones we fetched above)
+        existing_all = set(facilities_collection.distinct("project_id"))
+        stale_ids = list(existing_all - incoming_set)
+
     logging.info("Facilities → inserts: %d | updates: %d | total input: %d", len(inserts), len(updates), len(docs))
+    if prune_missing:
+        logging.info("Facilities → stale (to remove): %d", len(stale_ids))
+
     if dry_run:
         logging.info("Dry-run: no DB writes.")
         return
+
     if inserts:
         facilities_collection.insert_many(inserts, ordered=False)
     if updates:
         facilities_collection.bulk_write(updates, ordered=False)
 
+    # we should incorporate the shift to is_active: False, and deleted_at (but need to update whole pipeline)
+    if prune_missing and stale_ids:
+        # HARD DELETE (use with care). Comment this block if you prefer soft delete.
+        facilities_collection.delete_many({"project_id": {"$in": stale_ids}})
+        # SOFT DELETE alternative:
+        # facilities_collection.update_many(
+        #     {"project_id": {"$in": stale_ids}},
+        #     {"$set": {"is_active": False, "deleted_at": datetime.utcnow()}}
+        # )
+
 def write_facilities():
     test_mongo_connection()
     df_fac = _build_facilities_df()
     docs = [_to_doc(r) for _, r in df_fac.iterrows()]
-    upsert_facilities(docs, dry_run=False)
+    upsert_facilities(docs, dry_run=False, prune_missing=True)
 
 if __name__ == "__main__":
     # One-time setup (outside this script): facilities_collection.create_index("project_id", unique=True)
