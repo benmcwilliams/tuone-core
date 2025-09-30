@@ -11,6 +11,19 @@ from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
 from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
 from src.config import FACTORY_TECH, COMPANY_JV, INVESTMENT_FUNDS
 
+# load context for the filter views
+
+def get_context():
+    """Load raw + normalize once. Cached across calls."""
+    df_all_nodes = pd.read_excel(ALL_NODES)
+    df_all_rels  = pd.read_excel(ALL_RELS)
+    # df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
+
+    geo_lookup = build_geo_lookup()
+    nodes_by_label = filter_nodes_by_label(df_all_nodes)
+    rels_by_label  = filter_rels_by_label(df_all_rels)
+    return nodes_by_label, rels_by_label, geo_lookup
+
 # ---------- helper functions ----------
 
 def expand_nodes(nodes_by_label: Dict[str, pd.DataFrame],
@@ -24,6 +37,7 @@ def expand_nodes(nodes_by_label: Dict[str, pd.DataFrame],
         df = nodes_by_label[label].copy()
 
     # Ensure all keep_cols exist, fill with None (or False if you prefer)
+    # should add the logic for investment is_total here too 
     for col in keep_cols:
         if col not in df.columns:
             # Decide default based on column semantics
@@ -63,7 +77,6 @@ def enrich_factory_geo(df_factory: pd.DataFrame, geo_lookup) -> pd.DataFrame:
     for col in ["adm1", "adm2", "adm3", "adm4", "bbox", "lat", "lon"]:
         out[col] = out.apply(lambda r: get_geo_value(r, col, geo_lookup), axis=1)
     return out
-
 
 # ---------- View builder ----------
 
@@ -118,17 +131,10 @@ def build_view(view_spec: dict,
     return df
 
 def run_view(spec, out_path=None):
-    # 1) load raw
-    df_all_nodes = pd.read_excel(ALL_NODES)
-    df_all_rels  = pd.read_excel(ALL_RELS)
-    #df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
 
-    # 2) normalize
-    geo_lookup = build_geo_lookup()
-    nodes_by_label = filter_nodes_by_label(df_all_nodes)
-    rels_by_label  = filter_rels_by_label(df_all_rels)
+    nodes_by_label, rels_by_label, geo_lookup = get_context()
 
-    # 3) build
+    # build
     df = build_view(spec, nodes_by_label, rels_by_label, geo_lookup=geo_lookup)
 
     if out_path:
