@@ -1,0 +1,266 @@
+2025-09-30 17:40:50,014 - INFO - 🔍 Text length: 1904 characters
+2025-09-30 17:40:50,014 - INFO - 📌 Processing Article ID: 68dbef6fd2058f7661aa85e5 — Hydrogen DRI pilot plant starts up in Germany
+2025-09-30 17:40:50,014 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-30 17:40:55,257 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:40:55,257 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ts_group",
+        "type": "company",
+        "name": "TS Group"
+      },
+      {
+        "id": "company_lsf_energy",
+        "type": "company",
+        "name": "LSF Energy"
+      },
+      {
+        "id": "company_rwe",
+        "type": "company",
+        "name": "RWE"
+      },
+      {
+        "id": "company_benteler_steel_tube",
+        "type": "company",
+        "name": "Benteler Steel/Tube"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hyiron",
+        "type": "joint_venture",
+        "name": "HyIron"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lingen_germany",
+        "type": "factory",
+        "name": "Lingen Plant",
+        "location": {
+          "city": "Lingen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_namibia",
+        "type": "factory",
+        "name": "Namibia Iron Ore Plant",
+        "location": {
+          "city": "null",
+          "country": "Namibia"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_tonne_hour_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 tonne/hour",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_2_million_tonnes_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 million tonnes/year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_iron",
+        "type": "product",
+        "name": "green iron"
+      },
+      {
+        "id": "product_sponge_iron",
+        "type": "product",
+        "name": "sponge iron"
+      },
+      {
+        "id": "product_steel",
+        "type": "product",
+        "name": "steel"
+      },
+      {
+        "id": "product_low_co2_tubes",
+        "type": "product",
+        "name": "low-CO2 tubes"
+      },
+      {
+        "id": "iron_ore",
+        "type": "product",
+        "name": "iron ore",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-09-30 17:40:55,258 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:40:55,258 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-09-30 17:40:55,258 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-09-30 17:41:00,019 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:41:00,019 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_tonne_hour_operational",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_2_million_tonnes_year_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-09-30 17:41:00,019 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:41:00,019 - INFO - ✅ Match found for capacity_ID 'capacity_1_tonne_hour_operational' in capacity nodes
+2025-09-30 17:41:00,019 - INFO -   ➕ Set field 'status': operational
+2025-09-30 17:41:00,019 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-30 17:41:00,020 - INFO -   ➕ Set field 'additional': False
+2025-09-30 17:41:00,020 - INFO - ✅ Match found for capacity_ID 'capacity_2_million_tonnes_year_announced' in capacity nodes
+2025-09-30 17:41:00,020 - INFO -   ➕ Set field 'status': announced
+2025-09-30 17:41:00,020 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-30 17:41:00,020 - INFO -   ➕ Set field 'additional': False
+2025-09-30 17:41:00,020 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-30 17:41:00,020 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-30 17:41:00,020 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-30 17:41:03,016 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:41:03,016 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_iron",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_sponge_iron",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_low_co2_tubes",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "iron_ore",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-30 17:41:03,016 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:41:03,016 - INFO - ✅ Match found for product_ID 'product_green_iron' in product nodes
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-09-30 17:41:03,016 - INFO - ✅ Match found for product_ID 'product_sponge_iron' in product nodes
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-30 17:41:03,016 - INFO - ✅ Match found for product_ID 'product_steel' in product nodes
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-30 17:41:03,016 - INFO - ✅ Match found for product_ID 'product_low_co2_tubes' in product nodes
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-30 17:41:03,016 - INFO - ✅ Match found for product_ID 'iron_ore' in product nodes
+2025-09-30 17:41:03,016 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-30 17:41:03,017 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-30 17:41:03,017 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-30 17:41:03,017 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-30 17:41:06,910 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:41:06,911 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ts_group",
+      "type": "forms",
+      "target": "joint_venture_hyiron"
+    },
+    {
+      "source": "company_lsf_energy",
+      "type": "forms",
+      "target": "joint_venture_hyiron"
+    },
+    {
+      "source": "company_rwe",
+      "type": "forms",
+      "target": "joint_venture_hyiron"
+    },
+    {
+      "source": "company_benteler_steel_tube",
+      "type": "forms",
+      "target": "joint_venture_hyiron"
+    },
+    {
+      "source": "joint_venture_hyiron",
+      "type": "owns",
+      "target": "factory_lingen_germany"
+    },
+    {
+      "source": "joint_venture_hyiron",
+      "type": "owns",
+      "target": "factory_namibia"
+    }
+  ]
+}
+2025-09-30 17:41:06,911 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:41:06,911 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-30 17:41:06,911 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-30 17:41:11,195 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:41:11,196 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_tonne_hour_operational",
+      "target": "factory_lingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_million_tonnes_year_announced",
+      "target": "factory_namibia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_tonne_hour_operational",
+      "target": "product_green_iron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_iron",
+      "target": "factory_lingen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_steel",
+      "target": "factory_lingen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_low_co2_tubes",
+      "target": "factory_lingen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "iron_ore",
+      "target": "factory_namibia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-30 17:41:11,196 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:41:11,196 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-30 17:41:11,196 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-30 17:41:11,297 - INFO - ✅ Updated Article ID: 68dbef6fd2058f7661aa85e5 with 14 nodes and combined text.

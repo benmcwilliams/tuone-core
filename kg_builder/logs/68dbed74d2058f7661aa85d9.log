@@ -1,0 +1,187 @@
+2025-09-30 17:42:54,163 - INFO - 🔍 Text length: 3704 characters
+2025-09-30 17:42:54,163 - INFO - 📌 Processing Article ID: 68dbed74d2058f7661aa85d9 — ‘If work does not begin in 2025, the site is dead,’ ArcelorMittal delays its carbon-free steel production
+2025-09-30 17:42:54,164 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-30 17:42:57,487 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:42:57,487 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dunkirk_france",
+        "type": "factory",
+        "name": "Dunkirk",
+        "location": {
+          "city": "Dunkirk",
+          "country": "France"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_denain_france",
+        "type": "factory",
+        "name": "Denain",
+        "location": {
+          "city": "Denain",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dunkirk_decarbonized_steel_project",
+        "type": "investment",
+        "name": "Dunkirk Decarbonized Steel Project",
+        "amount": "\u20ac1.8 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_carbon_free_steel",
+        "type": "product",
+        "name": "carbon-free steel"
+      },
+      {
+        "id": "product_electric_furnaces",
+        "type": "product",
+        "name": "electric furnaces"
+      },
+      {
+        "id": "product_direct_reduced_iron",
+        "type": "product",
+        "name": "direct-reduced iron"
+      }
+    ]
+  }
+}
+2025-09-30 17:42:57,487 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:42:57,487 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-30 17:42:57,487 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-30 17:42:57,487 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-30 17:42:59,222 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:42:59,222 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dunkirk_decarbonized_steel_project",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-30 17:42:59,223 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:42:59,223 - INFO - ✅ Match found for investment_ID 'investment_dunkirk_decarbonized_steel_project' in investment nodes
+2025-09-30 17:42:59,223 - INFO -   ➕ Set field 'status': announced
+2025-09-30 17:42:59,223 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-30 17:42:59,223 - INFO -   ➕ Set field 'is_total': True
+2025-09-30 17:42:59,223 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-30 17:42:59,223 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-30 17:43:01,169 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:43:01,169 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_carbon_free_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_electric_furnaces",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_direct_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-30 17:43:01,169 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:43:01,169 - INFO - ✅ Match found for product_ID 'product_carbon_free_steel' in product nodes
+2025-09-30 17:43:01,169 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-30 17:43:01,169 - INFO - ✅ Match found for product_ID 'product_electric_furnaces' in product nodes
+2025-09-30 17:43:01,169 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-30 17:43:01,169 - INFO - ✅ Match found for product_ID 'product_direct_reduced_iron' in product nodes
+2025-09-30 17:43:01,169 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-30 17:43:01,169 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-30 17:43:01,169 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-30 17:43:01,169 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-30 17:43:04,083 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:43:04,083 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_dunkirk_france"
+    },
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_denain_france"
+    }
+  ]
+}
+2025-09-30 17:43:04,083 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:43:04,083 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-30 17:43:04,083 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-30 17:43:07,011 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:43:07,011 - INFO - {
+  "relationships": [
+    {
+      "source": "product_carbon_free_steel",
+      "target": "factory_dunkirk_france"
+    },
+    {
+      "source": "product_electric_furnaces",
+      "target": "factory_dunkirk_france"
+    },
+    {
+      "source": "product_direct_reduced_iron",
+      "target": "factory_dunkirk_france"
+    }
+  ]
+}
+2025-09-30 17:43:07,011 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:43:07,011 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-30 17:43:07,011 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-30 17:43:09,806 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:43:09,807 - INFO - {
+  "relationships": []
+}
+2025-09-30 17:43:09,807 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:43:09,808 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-30 17:43:09,808 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-30 17:43:12,979 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:43:12,979 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dunkirk_decarbonized_steel_project",
+      "target": "product_carbon_free_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_dunkirk_decarbonized_steel_project",
+      "target": "product_electric_furnaces",
+      "type": "targets"
+    },
+    {
+      "source": "investment_dunkirk_decarbonized_steel_project",
+      "target": "product_direct_reduced_iron",
+      "type": "targets"
+    },
+    {
+      "source": "investment_dunkirk_decarbonized_steel_project",
+      "target": "factory_dunkirk_france",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-30 17:43:12,979 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:43:13,073 - INFO - ✅ Updated Article ID: 68dbed74d2058f7661aa85d9 with 7 nodes and combined text.

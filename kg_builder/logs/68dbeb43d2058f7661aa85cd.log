@@ -1,0 +1,146 @@
+2025-09-30 17:45:02,330 - INFO - 🔍 Text length: 2374 characters
+2025-09-30 17:45:02,331 - INFO - 📌 Processing Article ID: 68dbeb43d2058f7661aa85cd — ArcelorMittal Bremen has received two electrolyzers as part of the HyBit projec
+2025-09-30 17:45:02,331 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-30 17:45:05,097 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:05,098 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      },
+      {
+        "id": "company_arcelormittal_germany",
+        "type": "company",
+        "name": "ArcelorMittal Germany"
+      },
+      {
+        "id": "company_swb",
+        "type": "company",
+        "name": "swb"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bremen_mittelsburen",
+        "type": "factory",
+        "name": "Bremen-Mittelsb\u00fcren Plant",
+        "location": {
+          "city": "Bremen-Mittelsb\u00fcren",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_pharmsum",
+        "type": "factory",
+        "name": "Pharmsum Production Facility",
+        "location": {
+          "city": "Pharmsum",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_germany_green_transition",
+        "type": "investment",
+        "name": "Germany Green Transition",
+        "amount": "\u20ac1.3 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-09-30 17:45:05,098 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:05,098 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-30 17:45:05,098 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-30 17:45:05,098 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-30 17:45:07,057 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:07,057 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_germany_green_transition",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-09-30 17:45:07,057 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:07,057 - INFO - ✅ Match found for investment_ID 'investment_germany_green_transition' in investment nodes
+2025-09-30 17:45:07,057 - INFO -   ➕ Set field 'status': announced
+2025-09-30 17:45:07,057 - INFO -   ➕ Set field 'phase': unclear
+2025-09-30 17:45:07,057 - INFO -   ➕ Set field 'is_total': True
+2025-09-30 17:45:07,057 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-30 17:45:07,057 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-30 17:45:08,906 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:08,906 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    }
+  ]
+}
+2025-09-30 17:45:08,906 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:08,906 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-09-30 17:45:08,906 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-09-30 17:45:08,906 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-09-30 17:45:08,907 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-30 17:45:08,907 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-30 17:45:08,907 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-30 17:45:11,731 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:11,731 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_bremen_mittelsburen"
+    },
+    {
+      "source": "company_swb",
+      "type": "owns",
+      "target": "factory_pharmsum"
+    }
+  ]
+}
+2025-09-30 17:45:11,731 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:11,731 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-30 17:45:11,731 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-30 17:45:13,163 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:13,163 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_bremen_mittelsburen",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-30 17:45:13,163 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:13,163 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-30 17:45:13,163 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-30 17:45:14,426 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:14,426 - INFO - {
+  "relationships": []
+}
+2025-09-30 17:45:14,426 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:14,427 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-30 17:45:14,427 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-30 17:45:16,649 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:16,649 - INFO - {
+  "relationships": []
+}
+2025-09-30 17:45:16,649 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:16,745 - INFO - ✅ Updated Article ID: 68dbeb43d2058f7661aa85cd with 7 nodes and combined text.

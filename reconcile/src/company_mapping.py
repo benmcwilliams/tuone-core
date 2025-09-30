@@ -27,7 +27,8 @@ SITE_MERGE = {
     ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
     ("holosolis", "FR", "Sarreguemines"): "Hambach",
     ("samsung sdi", "HU", "Budapest"): "Pest County",
-    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg"
+    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
+    ("italvolt", "IT", "Scarmagno"): "Piedmont",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

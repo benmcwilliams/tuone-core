@@ -33,6 +33,7 @@ def _build_facilities_df() -> pd.DataFrame:
               "lon": "first",
               "product_lv1": "first",
               "product_lv2": lambda s: [v for v in np.unique([x for x in s if pd.notna(x)])],
+              "product": lambda s: [v for v in np.unique([x for x in s if pd.notna(x)])]
           })
           .merge(latest, on="project_id", how="left")
     )
@@ -52,6 +53,7 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
         "product_lv1": row.get("product_lv1") if pd.notna(row.get("product_lv1")) else None,
         "product_lv2": [v for v in (row.get("product_lv2") or []) if pd.notna(v)],
+        "products": [v for v in (row.get("product") or []) if pd.notna(v)],
         "latest_factory_status": {
             "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
             "date": _iso_date(row.get("factory_status_date")),
@@ -146,7 +148,7 @@ def write_facilities():
     test_mongo_connection()
     df_fac = _build_facilities_df()
     docs = [_to_doc(r) for _, r in df_fac.iterrows()]
-    upsert_facilities(docs, dry_run=False)
+    upsert_facilities(docs, dry_run=False, prune_missing=True)
 
 if __name__ == "__main__":
     # One-time setup (outside this script): facilities_collection.create_index("project_id", unique=True)
