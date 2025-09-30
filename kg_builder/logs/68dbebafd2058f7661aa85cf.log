@@ -1,0 +1,143 @@
+2025-09-30 17:44:39,501 - INFO - 🔍 Text length: 2866 characters
+2025-09-30 17:44:39,502 - INFO - 📌 Processing Article ID: 68dbebafd2058f7661aa85cf — Battery factory ditched in favour of data centre
+2025-09-30 17:44:39,502 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-30 17:44:46,271 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:44:46,271 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_britishvolt",
+        "type": "company",
+        "name": "Britishvolt"
+      },
+      {
+        "id": "company_recharge_industries",
+        "type": "company",
+        "name": "Recharge Industries"
+      },
+      {
+        "id": "company_blackstone",
+        "type": "company",
+        "name": "Blackstone"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cambois_northumberland",
+        "type": "factory",
+        "name": "Cambois Gigafactory",
+        "location": {
+          "city": "Cambois",
+          "country": "United Kingdom"
+        },
+        "status": "cancelled"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_northumberland_energy_park",
+        "type": "investment",
+        "name": "Northumberland Energy Park",
+        "amount": "\u00a3110m",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_car_battery",
+        "type": "product",
+        "name": "car battery"
+      },
+      {
+        "id": "product_hyperscale_data_centre",
+        "type": "product",
+        "name": "hyperscale data centre"
+      }
+    ]
+  }
+}
+2025-09-30 17:44:46,271 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:44:46,272 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-30 17:44:46,272 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-09-30 17:44:46,272 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-09-30 17:44:47,744 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:44:47,745 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_northumberland_energy_park",
+      "status": "cancelled",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-09-30 17:44:47,745 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:44:47,745 - INFO - ✅ Match found for investment_ID 'investment_northumberland_energy_park' in investment nodes
+2025-09-30 17:44:47,745 - INFO -   ➕ Set field 'status': cancelled
+2025-09-30 17:44:47,745 - INFO -   ➕ Set field 'phase': greenfield
+2025-09-30 17:44:47,745 - INFO -   ➕ Set field 'is_total': True
+2025-09-30 17:44:47,745 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-30 17:44:47,745 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-30 17:44:49,257 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:44:49,257 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_car_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_hyperscale_data_centre",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-30 17:44:49,258 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:44:49,258 - INFO - ✅ Match found for product_ID 'product_car_battery' in product nodes
+2025-09-30 17:44:49,258 - INFO -   ➕ Set field 'product_lv1': battery
+2025-09-30 17:44:49,258 - INFO -   ➕ Set field 'product_lv2': null
+2025-09-30 17:44:49,258 - INFO - ✅ Match found for product_ID 'product_hyperscale_data_centre' in product nodes
+2025-09-30 17:44:49,258 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-09-30 17:44:49,258 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-30 17:44:49,258 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-30 17:44:49,258 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-30 17:44:51,700 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:44:51,700 - INFO - {
+  "relationships": [
+    {
+      "source": "company_britishvolt",
+      "type": "owns",
+      "target": "factory_cambois_northumberland"
+    }
+  ]
+}
+2025-09-30 17:44:51,700 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:44:51,701 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-30 17:44:51,701 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-30 17:44:57,349 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:44:57,350 - INFO - {
+  "relationships": []
+}
+2025-09-30 17:44:57,350 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:44:57,350 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-09-30 17:44:57,350 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-09-30 17:45:00,045 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:00,046 - INFO - {
+  "relationships": []
+}
+2025-09-30 17:45:00,046 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:00,046 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-09-30 17:45:00,046 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-09-30 17:45:02,241 - INFO - ✅ OpenAI returned output:
+2025-09-30 17:45:02,241 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_northumberland_energy_park",
+      "target": "factory_cambois_northumberland",
+      "type": "funds"
+    }
+  ]
+}
+2025-09-30 17:45:02,241 - INFO - POST-PROCESSING STARTING.
+2025-09-30 17:45:02,328 - INFO - ✅ Updated Article ID: 68dbebafd2058f7661aa85cf with 7 nodes and combined text.

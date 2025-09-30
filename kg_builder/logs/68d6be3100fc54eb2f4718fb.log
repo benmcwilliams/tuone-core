@@ -1,0 +1,94 @@
+2025-09-26 18:41:17,050 - INFO - 🔍 Text length: 2681 characters
+2025-09-26 18:41:17,050 - INFO - 📌 Processing Article ID: 68d6be3100fc54eb2f4718fb — Metso opens Circored pre-reduction pilot plant in Frankfurt, Germany
+2025-09-26 18:41:17,050 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-09-26 18:41:19,436 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:19,436 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_metso",
+        "type": "company",
+        "name": "Metso"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_frankfurt_germany",
+        "type": "factory",
+        "name": "Circored pre-reduction pilot plant",
+        "location": {
+          "city": "Frankfurt",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_circored_pre_reduction",
+        "type": "product",
+        "name": "Circored\u2122 pre-reduction"
+      },
+      {
+        "id": "product_dri_smelting_furnace",
+        "type": "product",
+        "name": "DRI Smelting Furnace"
+      }
+    ]
+  }
+}
+2025-09-26 18:41:19,436 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:19,437 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-09-26 18:41:19,437 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-09-26 18:41:19,437 - INFO - 🔍 Extracting characteristics for node group: products
+2025-09-26 18:41:19,437 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-09-26 18:41:20,927 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:20,927 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_circored_pre_reduction",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_dri_smelting_furnace",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-09-26 18:41:20,928 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:20,928 - INFO - ✅ Match found for product_ID 'product_circored_pre_reduction' in product nodes
+2025-09-26 18:41:20,928 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-26 18:41:20,928 - INFO - ✅ Match found for product_ID 'product_dri_smelting_furnace' in product nodes
+2025-09-26 18:41:20,928 - INFO -   ➕ Set field 'product_lv1': steel
+2025-09-26 18:41:20,928 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-09-26 18:41:20,928 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-09-26 18:41:20,928 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-09-26 18:41:22,118 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:22,118 - INFO - {
+  "relationships": [
+    {
+      "source": "company_metso",
+      "type": "owns",
+      "target": "factory_frankfurt_germany"
+    }
+  ]
+}
+2025-09-26 18:41:22,118 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:22,118 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-09-26 18:41:22,118 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-09-26 18:41:24,224 - INFO - ✅ OpenAI returned output:
+2025-09-26 18:41:24,224 - INFO - {
+  "relationships": [
+    {
+      "source": "product_circored_pre_reduction",
+      "target": "factory_frankfurt_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-09-26 18:41:24,224 - INFO - POST-PROCESSING STARTING.
+2025-09-26 18:41:24,225 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-09-26 18:41:24,225 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-09-26 18:41:24,318 - INFO - ✅ Updated Article ID: 68d6be3100fc54eb2f4718fb with 4 nodes and combined text.

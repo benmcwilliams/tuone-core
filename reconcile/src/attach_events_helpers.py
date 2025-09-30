@@ -20,17 +20,17 @@ def capex_lookup(product_lv1: str, pl2_key: Tuple[str, ...]) -> Dict[str, Any] |
             return e
     return None
 
-def event_key_capacity(project_id, product_lv1, pl2_key, capacity_normalized, status, phase) -> str:
-    return "|".join(map(str, ("capacity", project_id, product_lv1, pl2_key, capacity_normalized, status, phase)))
-
-def event_key_investment(project_id, product_lv1, pl2_key, amount_EUR, status, phase, investment_id=None) -> str:
-    if investment_id:  # prefer natural ID
-        return "|".join(map(str, ("investment_id", project_id, investment_id)))
-    return "|".join(map(str, ("investment", project_id, product_lv1, pl2_key, amount_EUR, status, phase)))
-
 def sort_key(e: Dict[str, Any]):
+    # Define explicit priority by event_type
+    priority_map = {
+        "capacity": 0,
+        "investment": 1,
+        "facility": 2,
+    }
     d = iso_date(e.get("date"))
-    return (d or "9999-12-31", 0 if e.get("event_type") == "investment" else 1)
+    # Fall back to lowest priority if unknown type
+    priority = priority_map.get(e.get("event_type"), 99)
+    return (d or "9999-12-31", priority)
 
 def coerce_amount_eur_scalar(val):
     """
