@@ -75,16 +75,31 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         return None
      
     # sort by status strength, then by most recent date
-    sorted_caps = sorted(
+    sorted_events = sorted(
         phase_caps,
         key=lambda c: (STATUS_RANK[c["status"]], -parse_date(c["date"]).timestamp())
     )
-    best = sorted_caps[0]
+    best = sorted_events[0]
+
+    # Status should be decided by CAPACITY rows only (fallback to all if none)
+    status_rows = [c for c in phase_caps if c.get("event_type") == "capacity"]
+    if not status_rows:
+        status_rows = phase_caps  # rare fallback: no capacity evidence exists
+
+    sorted_status = sorted(
+        status_rows,
+        key=lambda c: (
+            STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
+            -parse_date(c["date"]).timestamp()
+        )
+    )
+    best_status_row = sorted_status[0]
 
     # ---- Capacity logic ----
     cap_rows = [
         c for c in phase_caps
-        if c.get("event_type") == "capacity" and c.get("capacity") is not None
+        if c.get("event_type") == "capacity" 
+        and c.get("capacity") is not None
     ]
 
     # Use same priority as 'best': stronger status first, then most-recent date
@@ -105,23 +120,46 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         else:
             capacity = latest["capacity"]
 
-    # # ---- Investment logic ----
-    # inv_rows = [c for c in phase_caps if c.get("event_type") == "investment" and c.get("investment") is not None]
-    # inv_rows.sort(key=lambda c: parse_date(c["date"]), reverse=True)
-    # investment = None
-    # if inv_rows:
-    #     latest = inv_rows[0]
-    #     if latest.get("is_total") is False and prev_investment is not None:
-    #         investment = prev_investment + latest["investment"]
-    #     else:
-    #         investment = latest["investment"]
+    # Order all investment rows in this phase (stronger status, newer date, totals before incrementals)
+    inv_rows = sorted(
+        [c for c in phase_caps if c.get("event_type") != "facility" and c.get("investment") is not None],
+        key=lambda c: (
+            STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
+            -parse_date(c["date"]).timestamp(),
+            0 if c.get("is_total") else 1
+        )
+    )
+
+    imputed_rows = sorted(
+        [c for c in phase_caps if c.get("investment_imputed") is not None],
+        key=lambda c: (
+            STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
+            -parse_date(c["date"]).timestamp(),
+            0 if c.get("is_total") else 1
+        )
+    )
+
+    investment, investment_was_imputed = None, False
+
+    if inv_rows:  # take the best real investment
+        row = inv_rows[0]
+        if row.get("is_total") is False and prev_investment is not None:
+            investment = prev_investment + row["investment"]
+        else:
+            investment = row["investment"]
+    elif imputed_rows:  # fallback to imputed
+        row = imputed_rows[0]
+        if row.get("is_total") is False and prev_investment is not None:
+            investment = prev_investment + row["investment_imputed"]
+        else:
+            investment = row["investment_imputed"]
+        investment_was_imputed = True
 
     summary = {
-        "status": best["status"],
+        "status": best_status_row["status"],
         "capacity": capacity,
-        #"investment": best["investment"],
-        "investment": best["investment"] if best.get("investment") is not None else best.get("investment_imputed"), # update this to take any "investment" from across the phase
-        "investment_was_imputed": best.get("investment") is None and best.get("investment_imputed") is not None,
+        "investment": investment, # update this to take any "investment" from across the phase
+        "investment_was_imputed": investment_was_imputed,
         "source_date": best["date"],
     }
 
@@ -180,7 +218,7 @@ def compute_summaries():
         main_summary = build_phase_summary(events, phase_num=None)
         if main_summary:
 
-            # --- facility override (status only) ---
+            # --- facility override (can only update a cancelled or paused status) ---
             fac_status_info = doc.get("latest_factory_status") or {}
             fac_status = fac_status_info.get("status")
             fac_date = parse_date(fac_status_info.get("date") or fac_status_info.get("date_str"))
@@ -188,7 +226,7 @@ def compute_summaries():
             if fac_status in STATUS_NORMALIZE:
                 fac_status = STATUS_NORMALIZE[fac_status]
 
-            if fac_status in STATUS_ORDER:
+            if fac_status in STATUS_ORDER and fac_status in {"cancelled", "paused"}:
                 main_status = main_summary.get("status")
                 main_date = parse_date(main_summary.get("source_date"))
 

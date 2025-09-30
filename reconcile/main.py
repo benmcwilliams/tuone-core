@@ -60,8 +60,8 @@ def main(update_mongo_metadata=False, update_main_database=False):
         logging.info("🉑 Merging nodes and relationships...")
         logging.info("- - - FACTORY_TECH_SPEC")
         run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-        # logging.info("- - - COMPANY_JV_SPEC")
-        # run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
+        logging.info("- - - COMPANY_JV_SPEC")
+        run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
         logging.info("- - - INVESTMENT_FUNDS_SPEC")
         run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
 
