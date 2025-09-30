@@ -1725,3 +1725,425 @@ def output_plots():
 
 if __name__ == "__main__":
     output_plots()
+
+# -----------------------------
+# Imports & constants
+# -----------------------------
+from __future__ import annotations
+
+import os
+from typing import Dict, List, Tuple
+
+import sys; sys.path.append("..")
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from pathlib import Path
+from typing import Any, Union
+
+# from mongo_client import facilities_collection
+from src.config import CAPACITIES_PLOT
+
+# mongo_client_setup.py
+import os
+import certifi
+from pymongo import MongoClient
+from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+import logging
+
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+ARTICLES_COLLECTION_NAME = os.getenv("MONGO_COLLECTION_NAME")
+FACILITIES_COLLECTION = "facilities_develop" #os.getenv("MONGO_FACILITIES_COLLECTION") change later
+
+
+if not all([MONGO_URI, DB_NAME, ARTICLES_COLLECTION_NAME]):
+    raise RuntimeError("❌ Missing required MongoDB environment variables.")
+
+mongo_client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+db = mongo_client[DB_NAME]
+articles_collection = db[ARTICLES_COLLECTION_NAME]
+facilities_collection = db[FACILITIES_COLLECTION]
+geonames_collection = db["geonames_store"]
+
+#geonames_collection = db["geonames_lookup"]
+
+def test_mongo_connection():
+    try:
+        mongo_client.admin.command("ping")
+        print("✅ Connected to MongoDB Atlas!")
+    except Exception as e:
+        print(f"❌ MongoDB Connection Error: {e}")
+        raise
+
+# -------------------------------------------------
+# Config
+# -------------------------------------------------
+FIG_DIR = "storage/figures"
+
+# Order and colors for STATUS
+STATUS_ORDER: List[str] = ["operational", "under construction", "announced"]
+STATUS_COLORS: Dict[str, str] = {
+    "operational": "#8B0000",        # dark red
+    "under construction": "#FFA07A", # light salmon (faded orange/red)
+    "announced": "#7f7f7f",       # grey
+}
+
+# -----------------------------
+# LV2 -> LV1 backstop mapping
+# -----------------------------
+LV2_TO_LV1 = {
+    "module_pack": "battery",
+    "ingot_wafer": "solar",
+    "polysilicon": "solar",
+    "electric": "vehicles",
+}
+
+# -------------------------------------------------
+# Load
+# -------------------------------------------------
+def load_facility_df():
+    pipeline = [
+        {"$project": {
+            "_id": 0,
+            "owner": "$inst_canon",
+            "iso2": 1, "adm1": 1,
+            "product_lv1": 1, "product_lv2": 1,
+            "status": "$main.status",
+            "capacity": "$main.capacity",
+            "investment":"$main.investment",
+            "announced_on": "$main.announced_on",
+            "under_construction_on": "$main.under_construction_on",
+            "operational_on": "$main.operational_on"
+        }}
+    ]
+    rows = list(facilities_collection.aggregate(pipeline))
+    df = pd.DataFrame(rows)
+
+    # ensure product_lv2 is a scalar (explode lists)
+    df["product_lv2"] = df["product_lv2"].apply(lambda x: x if isinstance(x, list) else ([x] if x is not None else [pd.NA]))
+    df = df.explode("product_lv2", ignore_index=True)
+
+    # dates
+    date_cols = ["announced_on", "under_construction_on", "operational_on"]
+    for c in date_cols:
+        if c in df.columns:
+            df[c] = pd.to_datetime(df[c], errors="coerce")
+
+    # coerce capacities if objects slipped in
+    for c in ["capacity", "investment"]:
+        if c in df.columns and df[c].dtype == "object":
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # optional export of the flat table you had before
+    output_cols = [
+        "iso2","adm1","owner","product_lv1","product_lv2","status","capacity","investment"
+        "announced_on","under_construction_on","operational_on",
+    ]
+    df.to_excel(CAPACITIES_PLOT, columns=[c for c in output_cols if c in df.columns], index=False)
+
+    return df
+
+# -----------------------------
+# Helpers
+# -----------------------------
+def _mk_lv1_lv2(sr_lv1: pd.Series, sr_lv2: pd.Series, *, debug: bool = True) -> pd.Series:
+    if debug:
+        print("[_mk_lv1_lv2] incoming lv1 dtype:", getattr(sr_lv1, "dtype", None))
+        print("[_mk_lv1_lv2] incoming lv2 dtype:", getattr(sr_lv2, "dtype", None))
+        try:
+            print("[_mk_lv1_lv2] sample lv1:", sr_lv1.astype("string").head(5).tolist())
+            print("[_mk_lv1_lv2] sample lv2:", sr_lv2.astype("string").head(5).tolist())
+        except Exception as e:
+            print("[_mk_lv1_lv2] (warn) failed showing samples:", e)
+
+    a = sr_lv1.astype("string").str.strip().str.lower().fillna("unknown")
+    b = sr_lv2.astype("string").str.strip().str.lower().fillna("unknown")
+    combined = a.str.replace(r"\s+", "_", regex=True) + "_" + b.str.replace(r"\s+", "_", regex=True)
+    if debug:
+        print("[_mk_lv1_lv2] combined sample:", combined.head(5).tolist())
+    return combined
+
+
+def summarize_extremes(
+    df_rows: pd.DataFrame,
+    *,
+    cap_col: str = "capacity",
+    status_col: str = "status",
+    method: str = "iqr",           # "iqr" | "quantile" | "topn"
+    param: float | int = 1.5,      # iqr: 1.5; quantile: 0.95; topn: 20
+) -> Dict[str, Any]:
+    rows = df_rows.copy()
+    rows[cap_col] = pd.to_numeric(rows[cap_col], errors="coerce")
+    rows = rows[pd.notna(rows[cap_col]) & (rows[cap_col] > 0)]
+
+    if rows.empty:
+        return {
+            "threshold": float("nan"),
+            "extreme_rows": rows.iloc[0:0].copy(),
+            "by_status": pd.DataFrame(columns=[status_col, "sum_capacity"]).set_index(status_col),
+            "overall": pd.DataFrame([{"n_extreme": 0, "sum_capacity": 0.0}]),
+        }
+
+    if method == "iqr":
+        q1, q3 = rows[cap_col].quantile([0.25, 0.75])
+        iqr = q3 - q1
+        thr = q3 + float(param) * iqr
+    elif method == "quantile":
+        thr = float(rows[cap_col].quantile(float(param)))
+    elif method == "topn":
+        n = int(param)
+        thr = rows[cap_col].nlargest(n).min()
+    else:
+        raise ValueError("Unknown method for extremes")
+
+    extreme_rows = rows.loc[rows[cap_col] >= thr].copy().sort_values(cap_col, ascending=False)
+    by_status = (
+        extreme_rows.groupby(status_col, dropna=False)[cap_col]
+        .sum(min_count=1)
+        .rename("sum_capacity")
+        .to_frame()
+        .sort_values("sum_capacity", ascending=False)
+    )
+    overall = pd.DataFrame([{
+        "n_extreme": int(len(extreme_rows)),
+        "sum_capacity": float(extreme_rows[cap_col].sum())
+    }])
+
+    return {
+        "threshold": float(thr),
+        "extreme_rows": extreme_rows,
+        "by_status": by_status,
+        "overall": overall,
+    }
+
+# -----------------------------
+# Main plotting function
+# -----------------------------
+
+
+def plot_status_ratio_bars_lv2(
+    df: pd.DataFrame,
+    *,
+    demand: Dict[str, float],                     # demand per parent lv1 (e.g., "battery", "solar", "vehicles")
+    outfile_png: str,
+    include_lv2: List[str] = ("cell", "module_pack", "ingot_wafer", "polysilicon", "electric"),
+    status_filter: List[str] = ("operational", "under construction", "announced"),
+    title: str = "Capacity / Demand by LV2 and status (side-by-side bars)",
+    figsize: Tuple[int, int] = (12, 7),
+    dpi: int = 300,
+    debug: bool = True,
+    return_dfs: bool = True,
+    extreme_method: str = "iqr",
+    extreme_param: float | int = 1.5,
+):
+    """
+    Grouped bar chart of (capacity / demand) for each status, per lv1_lv2 tech.
+    - One bar per status (side-by-side).
+    - Numbers on bars in percent.
+    - Returns (main_df_ratios, group_preview, extremes_overall, extremes_by_status, extreme_rows)
+    """
+    # 1) Filter rows
+    sub = df[df["status"].isin(status_filter)].copy()
+    include_lv2_lower = {s.lower() for s in include_lv2}
+    sub["product_lv2"] = sub["product_lv2"].astype("string").str.strip().str.lower()
+    sub = sub[sub["product_lv2"].isin(include_lv2_lower)]
+
+    # 2) Normalize lv1 + build lv1_lv2
+    sub["product_lv1"] = sub["product_lv1"].astype("string").str.strip().str.lower()
+    sub["lv1_lv2"] = (
+        sub["product_lv1"].str.replace(r"\s+", "_", regex=True).fillna("unknown")
+        + "_"
+        + sub["product_lv2"].str.replace(r"\s+", "_", regex=True).fillna("unknown")
+    )
+
+    # 3) Robust parent_lv1 (fallback via LV2_TO_LV1 if missing or not in demand keys)
+    demand_keys = pd.Index([str(k).lower().strip() for k in demand.keys()])
+    sub["parent_lv1"] = sub["product_lv1"]
+    mask_missing = sub["parent_lv1"].isna() | sub["parent_lv1"].isin(["", "unknown", "nan", "none"])
+    mask_not_in_demand = ~sub["parent_lv1"].isin(demand_keys)
+    fix_mask = mask_missing | mask_not_in_demand
+    sub.loc[fix_mask, "parent_lv1"] = sub.loc[fix_mask, "product_lv2"].map(LV2_TO_LV1)
+    sub["parent_lv1"] = sub["parent_lv1"].astype("string").str.strip().str.lower()
+
+    # 4) Numeric capacity
+    sub["capacity"] = pd.to_numeric(sub["capacity"], errors="coerce")
+
+    # 5) Aggregate absolute capacity by (lv1_lv2, status)
+    g_abs = (
+        sub.groupby(["lv1_lv2", "status"], dropna=False)["capacity"]
+        .sum(min_count=1, numeric_only=True)
+        .unstack("status")
+        .reindex(columns=STATUS_ORDER, fill_value=0.0)
+        .fillna(0.0)
+    )
+    if g_abs.empty:
+        print("[plot_status_ratio_bars_lv2] No data after filtering.")
+        return None
+
+    # 6) Map demand
+    parent_map = (
+        sub.dropna(subset=["lv1_lv2", "parent_lv1"])
+           .drop_duplicates("lv1_lv2")
+           .set_index("lv1_lv2")["parent_lv1"]
+    )
+    demand_series = (
+        g_abs.index.to_series()
+            .map(parent_map)
+            .map(lambda k: float(demand.get(str(k), np.nan)))
+    )
+
+    # 7) Compute ratios
+    g_rat = g_abs.copy()
+    denom = demand_series.replace(0, np.nan)
+
+    for s in STATUS_ORDER:
+        g_rat[f"{s}_abs_capacity"] = g_abs[s]
+        g_rat[f"{s}_ratio_to_demand"] = g_abs[s] / denom
+
+    g_rat["__demand__"] = demand_series
+    g_rat["total_abs_capacity"] = g_abs[STATUS_ORDER].sum(axis=1)
+    g_rat["total_ratio"] = g_rat["total_abs_capacity"] / denom
+
+    # 8) Sort
+    order = g_rat["total_ratio"].replace([np.inf, -np.inf], np.nan).sort_values(ascending=False).index
+    g_rat = g_rat.loc[order]
+
+    # 9) Plot ratios (converted to %)
+    os.makedirs(os.path.dirname(outfile_png), exist_ok=True)
+    colors = [STATUS_COLORS.get(s, "#cccccc") for s in STATUS_ORDER]
+
+    ratio_cols = [f"{s}_ratio_to_demand" for s in STATUS_ORDER]
+    g_plot = g_rat[ratio_cols].replace([np.inf, -np.inf], np.nan).fillna(0.0)
+    g_plot.columns = STATUS_ORDER
+    g_plot_pct = g_plot * 100
+
+    ax = g_plot_pct.plot(kind="barh", stacked=True, figsize=figsize, color=colors)
+    ax.set_title(title)
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+    ax.legend(STATUS_ORDER, title="Status", frameon=False, bbox_to_anchor=(1.0, 0.5), loc="center left")
+
+    import matplotlib.ticker as mtick
+    ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100))
+
+    custom_labels = {
+        "battery_cell": "Battery cells",
+        "vehicle_electric": "Electric vehicles",
+        "solar_cell": "Solar cells",
+        "solar_ingot_wafer": "Solar ingots and wafers",
+    }
+    ax.set_yticklabels([custom_labels.get(lbl, lbl) for lbl in g_plot.index])
+
+    # Labels on bars
+    min_dx = 10  # percent separation
+    labels_by_row = {}
+
+    for patch in ax.patches:
+        width = patch.get_width()
+        if not (np.isfinite(width) and width > 0):
+            continue
+        row_y = patch.get_y() + patch.get_height() / 2.0
+        x = patch.get_x() + width
+        if row_y not in labels_by_row:
+            labels_by_row[row_y] = []
+        if any(abs(x - x0) < min_dx for (x0, _) in labels_by_row[row_y]):
+            continue
+        ax.text(x, row_y, f"{width:.0f}%", va="center", ha="left", fontsize=8)
+        labels_by_row[row_y].append((x, row_y))
+
+    plt.tight_layout(rect=[0, 0, 0.82, 1])
+    plt.savefig(outfile_png, dpi=dpi, bbox_inches="tight")
+    plt.close()
+
+    # 10) Extremes
+    extremes = summarize_extremes(
+        sub[["owner","iso2","adm1","product_lv1","product_lv2","status","capacity"]],
+        cap_col="capacity", status_col="status",
+        method=extreme_method, param=extreme_param
+    )
+
+    # 11) Group preview
+    group_preview = (
+        sub[["owner","iso2","adm1","product_lv1","product_lv2","parent_lv1","lv1_lv2","status","capacity"]]
+        .sort_values(["lv1_lv2","status"])
+        .reset_index(drop=True)
+    )
+
+    if debug:
+        print("[parent_lv1 mapping] sample:\n", group_preview[["lv1_lv2","parent_lv1"]].drop_duplicates().head(10))
+        print("[group_preview] sample:\n", group_preview.head(10))
+
+    if return_dfs:
+        return g_rat, group_preview, extremes["overall"], extremes["by_status"], extremes["extreme_rows"]
+    return None
+
+
+# -----------------------------
+# Example usage
+# -----------------------------
+# if __name__ == "__main__":
+#     demand = {
+#         "battery": 410,          # GWh
+#         "solar": 58,             # GW
+#         "vehicles": 2_300_000,   # units
+#     }
+if __name__ == "__main__":
+    demand = {
+        "battery": 410,          # GWh
+        "solar": 58,             # GW
+        "vehicles": 2300000,     # units
+    }
+
+    output_dir = Path("output")
+    comp_dir = output_dir / "COMPARISONS"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+
+    base_dir = Path.cwd()
+    input_file = base_dir / "storage" / "input" / "unique_owners_filled.xlsx"
+
+    df_owner = pd.read_excel(input_file)
+    df_merged = load_facility_df()
+
+    # Ratios per status (side-by-side) with numbers on bars; keep group preview & extremes
+    main_df, group_preview, extremes_overall, extremes_by_status, extreme_rows = plot_status_ratio_bars_lv2(
+        df=df_merged,
+        demand=demand,
+        outfile_png=str(comp_dir / "capacity_by_lv2_status_ratios_grouped_new.png"),
+        include_lv2=["cell", "ingot_wafer",  "electric"],
+        status_filter=["operational", "under construction", "announced"],
+        title="",
+        return_dfs=True,
+        extreme_method="iqr",
+        extreme_param=1.5,
+    )
+
+    # Ready for Jupyter use
+    print("\n[main_df head — with demand, capacities, and ratios]")
+    cols_to_show = (
+        ["__demand__"] +
+        [c for c in main_df.columns if c.endswith("_abs_capacity")] +
+        [c for c in main_df.columns if c.endswith("_ratio_to_demand")] +
+        ["total_abs_capacity", "total_ratio"]
+    )
+    print(main_df[cols_to_show].head())
+
+    print("\n[group_preview head]")
+    print(group_preview.head(20))
+
+    print("\n[extremes_overall]")
+    print(extremes_overall)
+
+    print("\n[extremes_by_status]")
+    print(extremes_by_status)
+
+    print("\n[extreme_rows sample]")
+    print(extreme_rows.head())
+
+
+
+
