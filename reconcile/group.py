@@ -37,11 +37,8 @@ def group_projects(file_to_group, out_path, output_cols):
         if len(df) != before:
             logging.info(f"Rows reduced to {len(df)} after dropping missing {col}.")
 
-    # (optional: keep this total, it’s handy)
-    logging.info(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
-
-    # count missing cases of product_lv2 (only for logging)
     missing_product_lv2 = df["product_lv2"].isna().sum()
+    logging.info(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
     logging.info(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
 
     # apply any manual company or joint venture name mapping
