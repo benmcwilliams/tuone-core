@@ -106,7 +106,7 @@ df["capacity_id"] = df.apply(
 keep_cols = [
             "inst_canon", "city_clean", "city_key", "iso2",
              "capacity_normalized","status", "phase", "date", "product_lv1", "product_lv2",
-             "adm1", "adm2", "adm3", "adm4", "lat", "lon", "article_id",
+             "admin_group_key","adm1", "adm2", "adm3", "adm4", "lat", "lon", "article_id",
              "project_id", "capacity_id", "project_key_str", "project_key_tuple"]
 
 df[keep_cols].to_excel("storage/input/zev_og_clean.xlsx", index=False)

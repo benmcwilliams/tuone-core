@@ -47,7 +47,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
         clean_owner_names()
 
         #logging.info("🌎 Querying geonames...")
-        #query_geonames_new_cities(limit=20000, skip=0)
+        query_geonames_new_cities(limit=20000, skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -58,20 +58,15 @@ def main(update_mongo_metadata=False, update_main_database=False):
         run_flatten_articles()
 
         logging.info("🉑 Merging nodes and relationships...")
-        logging.info("- - - FACTORY_TECH_SPEC")
-        run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-        logging.info("- - - COMPANY_JV_SPEC")
-        run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-        logging.info("- - - INVESTMENT_FUNDS_SPEC")
-        run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)  # investment centric
+        run_view(FACTORY_TECH_SPEC, FACTORY_TECH)           # capacity centric
+        run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)         # joint venture directory
+        run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)   # investment centric
+        build_registry_union(to_excel=True)                 # factory directory
 
-        logging.info("🏭 Building registry union (direct + capacity + investment)…")
-        build_registry_union(to_excel=True)  # writes FACTORY_REGISTRY for grouping
-
-        logging.info("Normalising capacities")
+        logging.info("- - - Normalising capacities")
         run_capacity_normalisation_pipeline()
 
-        logging.info("Normalising investments")
+        logging.info("- - - Normalising investments")
         run_investment_normalisation_pipeline(
             FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
         )

@@ -19,6 +19,9 @@ def _add_provenance(df: pd.DataFrame, tag: str) -> pd.DataFrame:
     return out
 
 def build_registry_union(to_excel: bool = True) -> pd.DataFrame:
+
+    logging.info("🏭 Building registry union (direct + capacity + investment)…")
+    
     # 1) Build three small views
     df_direct = run_view(FACTORY_REGISTRY_DIRECT, out_path=None)
     df_cap    = run_view(FACTORY_REGISTRY_CAP,    out_path=None)

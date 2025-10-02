@@ -56,6 +56,7 @@ def load_capacities() -> pd.DataFrame:
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
     df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
     df["is_total"] = df.get("is_total", pd.Series([None]*len(df))).apply(coerce_is_total)
+    df.to_excel("SEE_CAPACITIES.xlsx")
     return df
 
 def load_investments() -> pd.DataFrame:
