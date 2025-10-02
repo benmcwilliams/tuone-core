@@ -5,9 +5,9 @@ from mongo_client import mongo_client
 
 # ---------- Configuration ----------
 SOURCE_DB_NAME = "tuone"
-SOURCE_COLLECTION_NAME = "geonames_lookup"
+SOURCE_COLLECTION_NAME = "articles"
 TARGET_DB_NAME = "tuone"
-TARGET_COLLECTION_NAME = "geonames_lookup_clone"
+TARGET_COLLECTION_NAME = "articles_clone"
 BATCH_SIZE = 1000
 
 # ---------- Setup ----------
