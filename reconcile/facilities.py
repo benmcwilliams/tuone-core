@@ -1,3 +1,9 @@
+# facilities.py
+# -----------------------------------------------------------------------------
+# PURPOSE
+#   Write facilities from excel to mongoDB. Add any new, delete stale & update latest_facility_status
+# -----------------------------------------------------------------------------
+
 import sys; sys.path.append("..")
 import logging
 from datetime import datetime
@@ -34,7 +40,7 @@ def _build_facilities_df() -> pd.DataFrame:
               "lat": "first",
               "lon": "first",
               "product_lv1": "first",
-              "product_lv2": _agg_norm_list, 
+              #"product_lv2": _agg_norm_list, 
               "product": _agg_norm_list,        
           })
           .merge(latest, on="project_id", how="left")
@@ -50,8 +56,8 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "lat": row.get("lat") if pd.notna(row.get("lat")) else None,
         "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
         "product_lv1": row.get("product_lv1") if pd.notna(row.get("product_lv1")) else None,
-        "product_lv2": _normalize_pl2(row.get("product_lv2")),   # << canonicalized write
-        "products":    _normalize_pl2(row.get("product")),
+        #"product_lv2": _normalize_pl2(row.get("product_lv2")),   # << canonicalized write
+        #"products":    _normalize_pl2(row.get("product")),
         "latest_factory_status": {
             "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
             "date": (pd.to_datetime(row.get("factory_status_date"))
@@ -63,21 +69,7 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
 def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
     update: Dict[str, Any] = {}
 
-    # only two reasons updates can be made to the facilities. 
-    # Overwriting products_lv2 if different & latest status.
-
-    # 1. product_lv2: union | overwrite product_lv2 value if difference
-    old_pl2 = _normalize_pl2(existing.get("product_lv2"))
-    new_pl2 = _normalize_pl2(incoming.get("product_lv2"))
-    if new_pl2 != old_pl2:
-        logging.info("PL2 diff for pid=%s\n  old=%r\n  new=%r\ntypes old=%s new=%s",
-                  existing.get("project_id"),
-                  old_pl2, new_pl2,
-                  [type(x).__name__ for x in (old_pl2 or [])],
-                  [type(x).__name__ for x in (new_pl2 or [])])
-        update["product_lv2"] = new_pl2
-
-    # 2. latest_factory_status comparison on full datetime + status text
+    # UPDATE | latest_factory_status comparison on full datetime + status text
     old_s = existing.get("latest_factory_status") or {}
     new_s = incoming.get("latest_factory_status") or {}
 

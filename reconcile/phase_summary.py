@@ -62,7 +62,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     - Adds earliest milestone dates (announce, under construction, operational).
     """
 
-    # filter for relevant phase
+    # filter for relevant phases
     phase_caps = [
         c for c in events
         if c.get("status") in STATUS_ORDER
