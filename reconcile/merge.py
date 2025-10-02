@@ -2,6 +2,7 @@ import sys; sys.path.append("..")
 import logging
 import pandas as pd
 from typing import Dict, List, Callable, Optional, Tuple
+from functools import lru_cache
 
 from src.merge_helpers import deduplicate_nodes_and_rels, filter_nodes_by_label, filter_rels_by_label
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
@@ -13,6 +14,7 @@ from src.config import FACTORY_TECH, COMPANY_JV, INVESTMENT_FUNDS
 
 # load context for the filter views
 
+@lru_cache(maxsize=1)
 def get_context():
     """Load raw + normalize once. Cached across calls."""
     df_all_nodes = pd.read_excel(ALL_NODES)
@@ -130,10 +132,13 @@ def build_view(view_spec: dict,
 
     return df
 
-def run_view(spec, out_path=None):
+def run_view(spec, out_path=None, context=None):
 
-    nodes_by_label, rels_by_label, geo_lookup = get_context()
-
+    if context is None:
+        nodes_by_label, rels_by_label, geo_lookup = get_context()
+    else:
+        nodes_by_label, rels_by_label, geo_lookup = context
+    
     # build
     df = build_view(spec, nodes_by_label, rels_by_label, geo_lookup=geo_lookup)
 
@@ -143,6 +148,7 @@ def run_view(spec, out_path=None):
     return df
 
 if __name__ == "__main__":
-    run_view(FACTORY_TECH_SPEC, FACTORY_TECH)  # capacity centric
-    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)
-    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)
+    ctx = get_context()
+    run_view(FACTORY_TECH_SPEC, FACTORY_TECH, context=ctx) 
+    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV, context=ctx)
+    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS, context=ctx)

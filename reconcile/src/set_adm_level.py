@@ -22,6 +22,7 @@ ADMIN_LEVEL_BY_ISO2: dict[str, str | list[str]] = {
     "LU": "adm2",
     "NL": "adm2",
     "PL": "adm3", 
+    "SE": "adm2",
 }
 
 DEFAULT_LEVELS: list[str] = ["adm1"]  # fallback when ISO2 not listed
