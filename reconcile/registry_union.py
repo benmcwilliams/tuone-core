@@ -18,14 +18,14 @@ def _add_provenance(df: pd.DataFrame, tag: str) -> pd.DataFrame:
     out["provenance"] = tag
     return out
 
-def build_registry_union(to_excel: bool = True) -> pd.DataFrame:
+def build_registry_union(to_excel: bool = True, *, context=None) -> pd.DataFrame:
 
     logging.info("🏭 Building registry union (direct + capacity + investment)…")
     
     # 1) Build three small views
-    df_direct = run_view(FACTORY_REGISTRY_DIRECT, out_path=None)
-    df_cap    = run_view(FACTORY_REGISTRY_CAP,    out_path=None)
-    df_inv    = run_view(FACTORY_REGISTRY_INV,    out_path=None)
+    df_direct = run_view(FACTORY_REGISTRY_DIRECT, out_path=None, context=context)
+    df_cap    = run_view(FACTORY_REGISTRY_CAP,    out_path=None, context=context)
+    df_inv    = run_view(FACTORY_REGISTRY_INV,    out_path=None, context=context)
 
     df_direct = _add_provenance(df_direct, "direct")
     df_cap    = _add_provenance(df_cap,    "inferred_capacity")

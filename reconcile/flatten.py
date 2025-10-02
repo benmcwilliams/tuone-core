@@ -9,7 +9,7 @@ from mongo_client import articles_collection
 # outputs flat (pandas) data for all nodes and relationships contained in the monogoDB collection
 # each node or relationship is tagged to track which article it came from 
 
-def run_flatten_articles():
+def run_flatten_articles(save: bool = False):
 
     # 1.1: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
     articles_to_process = list(
@@ -90,11 +90,14 @@ def run_flatten_articles():
     df_all_rels['target'] = df_all_rels.apply(lambda row: get_unique_id(row, 'target'), axis=1)
 
     # 1.12: Save raw flattened node and relationship data to Excel
-    df_all_nodes.to_excel(ALL_NODES, 
-                            index=False)
-    df_all_rels.to_excel(ALL_RELS,
+    if save:
+        df_all_nodes.to_excel(ALL_NODES, 
                                 index=False)
-    
-    logging.info(f"💾 Saved nodes to {ALL_NODES}")
-    logging.info(f"💾 Saved relationships to {ALL_RELS}")
+        df_all_rels.to_excel(ALL_RELS,
+                                    index=False)
+        
+        logging.info(f"💾 Saved nodes to {ALL_NODES}")
+        logging.info(f"💾 Saved relationships to {ALL_RELS}")
+
+    return df_all_nodes, df_all_rels
 

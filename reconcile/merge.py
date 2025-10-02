@@ -1,10 +1,10 @@
 import sys; sys.path.append("..")
 import logging
 import pandas as pd
-from typing import Dict, List, Callable, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 from functools import lru_cache
 
-from src.merge_helpers import deduplicate_nodes_and_rels, filter_nodes_by_label, filter_rels_by_label
+from src.merge_helpers import filter_nodes_by_label, filter_rels_by_label
 from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
@@ -12,19 +12,9 @@ from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
 from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
 from src.config import FACTORY_TECH, COMPANY_JV, INVESTMENT_FUNDS
 
-# load context for the filter views
-
-@lru_cache(maxsize=1)
-def get_context():
-    """Load raw + normalize once. Cached across calls."""
-    df_all_nodes = pd.read_excel(ALL_NODES)
-    df_all_rels  = pd.read_excel(ALL_RELS)
-    # df_all_nodes, df_all_rels = deduplicate_nodes_and_rels(df_all_nodes, df_all_rels)
-
-    geo_lookup = build_geo_lookup()
-    nodes_by_label = filter_nodes_by_label(df_all_nodes)
-    rels_by_label  = filter_rels_by_label(df_all_rels)
-    return nodes_by_label, rels_by_label, geo_lookup
+# ---- Context type ----
+Context = Tuple[Dict[str, pd.DataFrame], Dict[str, pd.DataFrame], dict]
+# (nodes_by_label, rels_by_label, geo_lookup)
 
 # ---------- helper functions ----------
 
@@ -132,23 +122,16 @@ def build_view(view_spec: dict,
 
     return df
 
-def run_view(spec, out_path=None, context=None):
-
-    if context is None:
-        nodes_by_label, rels_by_label, geo_lookup = get_context()
-    else:
-        nodes_by_label, rels_by_label, geo_lookup = context
-    
-    # build
+def run_view(spec, out_path=None, *, context: Context):
+    """Build the view using an explicit in-memory context (required)."""
+    nodes_by_label, rels_by_label, geo_lookup = context
     df = build_view(spec, nodes_by_label, rels_by_label, geo_lookup=geo_lookup)
-
     if out_path:
-        df.to_excel(out_path, index=False)
+        df.to_excel(out_path, index=False)  # keep optional export for humans
         logging.info(f"💾 Saved: {out_path}")
     return df
 
 if __name__ == "__main__":
-    ctx = get_context()
-    run_view(FACTORY_TECH_SPEC, FACTORY_TECH, context=ctx) 
-    run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV, context=ctx)
-    run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS, context=ctx)
+    # Intentionally no implicit context here.
+    # Build a context in your orchestrator and call run_view(..., context=ctx)
+    logging.info("This module requires an explicit `context` now.")

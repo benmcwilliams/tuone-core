@@ -637,10 +637,27 @@ def multiply_vals(value, mult):
 
 # ======= Pipeline helpers =======
 
-
-def run_investment_normalisation_pipeline(input_path: str, output_path: str) -> pd.DataFrame:
+def run_investment_normalisation_pipeline(
+    df_in: pd.DataFrame | None = None,
+    input_path: str | None = None,
+    output_path: str | None = None,
+    *,
+    write_outputs: bool = True,     # write the cleaned full df to output_path
+    write_check: bool = True,       # write the small check file
+) -> pd.DataFrame:
     
-    df = pd.read_excel(input_path)
+    """
+    Normalise investment amounts & currencies.
+    - If df_in is provided, use it (fast, in-memory).
+    - Else read from input_path (Excel).
+    Returns the *compact* df_out; the full enriched df is written only if write_outputs=True.
+    """
+    if df_in is not None:
+        df = df_in.copy()
+    else:
+        if not input_path:
+            raise ValueError("Provide either df_in or input_path.")
+        df = pd.read_excel(input_path)
 
     # precleaning of investment values
     df["investment"] = df["investment"].fillna("").astype(str)
@@ -686,9 +703,14 @@ def run_investment_normalisation_pipeline(input_path: str, output_path: str) -> 
     ]]
 
     # write to Excel
-    df_out.to_excel("storage/output/check_investments.xlsx")
-    df.to_excel(output_path, index=False)
-    print(f"✅ Normalised investment file written to {output_path}")
+    if write_check:
+        check_path = "storage/output/check_investments.xlsx"
+        df_out.to_excel(check_path, index=False)
+    if write_outputs:
+        if not output_path:
+            raise ValueError("output_path is required when write_outputs=True.")
+        df.to_excel(output_path, index=False)
+        print(f"✅ Normalised investment file written to {output_path}")
 
     return df_out
 

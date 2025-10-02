@@ -3,6 +3,7 @@ import logging
 import time
 from mongo_client import facilities_collection
 from src.logger import setup_logger
+from src.merge_helpers import make_context_from_frames
 from normalise_products import classify_products_sync_mongo
 from normalise_owners import clean_owner_names
 from query_geonames import query_geonames_new_cities
@@ -41,13 +42,11 @@ def main(update_mongo_metadata=False, update_main_database=False):
 
     if update_mongo_metadata:
 
-        logging.info(
-            "🕴️Normalising companies..."
-        )  # only updates nodes with missing name_canon
+        logging.info("🕴️Normalising companies...")  # only updates nodes with missing name_canon (inst_canon)
         clean_owner_names()
 
-        #logging.info("🌎 Querying geonames...")
-        query_geonames_new_cities(limit=20000, skip=0)
+        #logging.info("🌎 Querying geonames...") 
+        # query_geonames_new_cities(limit=20000, skip=0)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -55,22 +54,29 @@ def main(update_mongo_metadata=False, update_main_database=False):
     if update_main_database:
 
         logging.info("🗞️ Flattening articles...")
-        run_flatten_articles()
+        nodes_df, rels_df = run_flatten_articles(save=False)
+
+        logging.info("🔗 Building context in-memory...")
+        ctx = make_context_from_frames(nodes_df, rels_df)
 
         logging.info("🉑 Merging nodes and relationships...")
-        run_view(FACTORY_TECH_SPEC, FACTORY_TECH)           # capacity centric
-        run_view(COMPANY_FORMS_JV_SPEC, COMPANY_JV)         # joint venture directory
-        run_view(INVESTMENT_FUNDS_SPEC, INVESTMENT_FUNDS)   # investment centric
-        build_registry_union(to_excel=True)                 # factory directory
+        df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric
+        df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       COMPANY_JV,           context=ctx)  # JV directory
+        df_investment = run_view(INVESTMENT_FUNDS_SPEC,       INVESTMENT_FUNDS,     context=ctx)  # investment-centric
+        df_facility =   build_registry_union(to_excel=True,                         context=ctx)  # facility directory
 
         logging.info("- - - Normalising capacities")
-        run_capacity_normalisation_pipeline()
+        df_clean_caps = run_capacity_normalisation_pipeline(df_in=df_capacity,
+                                              write_debug=False,
+                                              write_outputs=True)
 
         logging.info("- - - Normalising investments")
-        run_investment_normalisation_pipeline(
-            FACTORY_TECH_CLEAN_CAPACITIES, FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS
-        )
-        run_investment_normalisation_pipeline(INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS)
+        df_clean_caps_invs = run_investment_normalisation_pipeline(df_in=df_clean_caps,
+            output_path = FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, 
+            write_outputs=True, write_check=False)
+
+        df_clean_invs = run_investment_normalisation_pipeline(df_in=df_investment, 
+        output_path = CLEAN_INVESTMENT_FUNDS, write_outputs=True, write_check=True)
 
         logging.info("🫂 Grouping projects...")
         for in_path, out_path, output_cols in GROUP_SPEC:
@@ -93,7 +99,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
     logging.info(f"✅ Phase summaries computed.")
 
     # logging.info("Outputting clean capacities summary data")
-    output_plots()
+    # output_plots()
 
     # final timing
     t1_pipeline = time.time()

@@ -173,9 +173,18 @@ def capacity_logic(row):
     return res.value, res.failed, res.unit, res.converted, res.case
 
 # ========= Pipeline Execution =========
-def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
+def run_capacity_normalisation_pipeline(df_in: pd.DataFrame | None = None,
+                                        file_path: str = FACTORY_TECH,
+                                        *,
+                                        write_debug: bool = True,
+                                        write_outputs: bool = True) -> pd.DataFrame:
 
-    df = load_capacity_column(file_path)
+    # 0) Load input
+    if df_in is None:
+        df = pd.read_excel(file_path)  
+    else:
+        df = df_in.copy()
+    df["capacity"] = df["capacity"].fillna("")
 
     # reads raw capacity text as it is in Tuone. Returns
     # numeric value | scale (like tonnes or kilotonnes and some regex) | remaining text
@@ -215,17 +224,18 @@ def run_capacity_normalisation_pipeline(file_path=FACTORY_TECH):
     # which branches fired
     logging.info(df["normalization_case"].value_counts(dropna=False).to_string())
 
-    debug_cols = ["capacity", "raw_value", "unit", "product", "product_lv1", "product_lv2", 
-                  "text_scalar", "metric_scale", "apply_scale",
-                  "capacity_text","capacity_time", "capacity_normalized", "capacity_metric_normalized",
-                "flag_failed", "flag_conversion", "normalization_case"
-    ]
-    
-    df[debug_cols].to_excel(CAPACITIES_DEBUG, index=False)
-    df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES, index=False)
+    if write_debug:
+        debug_cols = ["capacity", "raw_value", "unit", "product", "product_lv1", "product_lv2",
+                      "text_scalar", "metric_scale", "apply_scale",
+                      "capacity_text","capacity_time", "capacity_normalized", "capacity_metric_normalized",
+                      "flag_failed", "flag_conversion", "normalization_case"]
+        df.loc[:, [c for c in debug_cols if c in df.columns]].to_excel(CAPACITIES_DEBUG, index=False)
+
+    if write_outputs:
+        df.to_excel(FACTORY_TECH_CLEAN_CAPACITIES, index=False)
     return df
 
-# debug helper
+# debug helper (executes by reading in excel file NOT the excel)
 def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
     """
     Trace end-to-end normalisation for a single row by index.
@@ -288,9 +298,7 @@ def trace_one(row_idx: int = 0, file_path: str = FACTORY_TECH):
 # ========= Main Run Block =========
 if __name__ == "__main__":
     trace_one(328, 'storage/output/factory-technological.xlsx')
-    # file_path = 'storage/output/clean_output_ben.xlsx'
-    # df_result = run_capacity_normalisation_pipeline(file_path)
-    # output_path = 'storage/output/clean_output_capacity.xlsx'
-    # df_result.to_excel(output_path, index=False)
-    # logging.info(df_result.head(10))
+
+    #df_result = run_capacity_normalisation_pipeline(file_path="storage/output/clean_output_ben.xlsx")
+    #df_result.to_excel("storage/output/clean_output_capacity.xlsx", index=False)
 
