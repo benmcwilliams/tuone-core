@@ -29,6 +29,7 @@ SITE_MERGE = {
     ("samsung sdi", "HU", "Budapest"): "Pest County",
     ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
     ("italvolt", "IT", "Scarmagno"): "Piedmont",
+    ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

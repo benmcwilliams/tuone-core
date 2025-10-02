@@ -261,7 +261,6 @@ def compute_summaries():
         # If no 'main' summary was produced this run but 'main' exists in DB, unset it to avoid staleness.
         if main_summary is None and "main" in doc:
             unset_fields["main"] = ""
-        # -------------------------- CHANGED: end --------------------------
 
         # Queue update with both $set and $unset (only if they have content)
         if update_fields or unset_fields:  # CHANGED: include unsets-only updates

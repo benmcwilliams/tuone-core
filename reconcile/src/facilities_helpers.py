@@ -1,6 +1,26 @@
 import numpy as np
 import pandas as pd
 import ast
+from typing import List
+
+def _normalize_pl2(vals) -> List[str]:
+    return sorted({str(v).strip() for v in (vals or []) if pd.notna(v)})
+
+def _agg_norm_list(s: pd.Series) -> list[str]:
+    return sorted({str(x).strip() for x in s if pd.notna(x) and str(x).strip()})
+
+# logic to compare dates
+def _as_dt(x):
+    if x is None or (isinstance(x, float) and pd.isna(x)):
+        return None
+    # Mongo returns Python datetime; pandas gives Timestamp. Normalize both.
+    ts = pd.to_datetime(x, errors="coerce", utc=False)
+    if pd.isna(ts):
+        return None
+    # ensure naive (UTC assumed) for stable BSON writes/reads
+    if getattr(ts, "tzinfo", None) is not None:
+        ts = ts.tz_convert("UTC").tz_localize(None)
+    return ts.to_pydatetime()
 
 # parse capacity value
 def parse_capacity_value(val):

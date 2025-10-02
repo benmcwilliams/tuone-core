@@ -46,10 +46,7 @@ def group_projects(file_to_group, out_path, output_cols):
     df['inst_canon'] = df['inst_canon'].apply(map_to_canonical)
     logging.info(f"Unique owners after manual dict: {len(df['inst_canon'].unique())}")
 
-    # apply any manual site merges (eg CATL erfurt to CATL arnstadt)
-    # NOTE this happens before joint venture mapping
-    # we update admin_group_key which is the ADM level we are using per country
-
+    # 2. Apply manual site merges (eg collapse CATL’s nearby German sites to one admin key | Erfurt → Arnstadt)
     def _site_merge(row):
         key = (row["inst_canon"], row["iso2"], row["admin_group_key"])
         return SITE_MERGE.get(key, row["admin_group_key"])
@@ -86,7 +83,7 @@ def group_projects(file_to_group, out_path, output_cols):
     df["owner_key"] = df["inst_canon_multiple"].apply(tuple)    # hashable
 
     # Promote member-only owner_keys to JV owner_keys within the same place/product context
-    jv_context_cols = ["adm1", "product_lv1"]  # context cols for determining a JV
+    jv_context_cols = ["iso2", "adm1", "product_lv1"]  # context cols for determining a JV
 
     def _promote_ctx(g):
         jv_rows = g[g["inst_type"] == "joint_venture"]

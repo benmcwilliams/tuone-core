@@ -15,9 +15,8 @@ from registry_union import build_registry_union
 from group import group_projects
 from facilities import write_facilities
 from attach_events import attach_events
-from assign_phase import process_documents
+from assign_phase import assign_phase_num
 from phase_summary import compute_summaries
-from project_page import output_plots
 
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
@@ -91,15 +90,13 @@ def main(update_mongo_metadata=False, update_main_database=False):
     attach_events()
 
     logging.info("🔢 Assigning phase number")
-    process_documents(dry_run=False,
+    assign_phase_num(dry_run=False,
                         limit=None,
                         query={})
 
     compute_summaries()
     logging.info(f"✅ Phase summaries computed.")
 
-    # logging.info("Outputting clean capacities summary data")
-    # output_plots()
 
     # final timing
     t1_pipeline = time.time()
