@@ -66,7 +66,7 @@ grouped_investments_cols = [
     "product", "product_lv1", "product_lv2", "factory_status", "date",
     "investment", "amount_EUR", "phase", "status", "is_total",
     "project_id", "project_key_str", "cluster_id", 
-    "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4",
+    "lat", "lon", "city_key", "adm1", "adm1-og", "adm2", "adm3", "adm4", 
     "article_id", "investment_id"
 ]
 

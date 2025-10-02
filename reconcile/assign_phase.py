@@ -77,7 +77,7 @@ def _assign_phase_nums_v1(events: list) -> tuple[list, int]:
     return updated, changes
 
 
-def process_documents(dry_run: bool = True, limit: int | None = None, query: dict | None = None):
+def assign_phase_num(dry_run: bool = True, limit: int | None = None, query: dict | None = None):
 
     cursor = facilities_collection.find(query or {}, projection={"events": 1, "project_id": 1})
     if limit is not None and limit > 0:
