@@ -76,7 +76,7 @@ def load_factories() -> pd.DataFrame:
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "capacity_normalized", "status", "phase", "pl2_key"], keep="first"))
+            .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "pl2_key"], keep="first"))
     group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
@@ -87,8 +87,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
                 is_total=("is_total","first"),
                 capacity_id=("capacity_id","first"),
                 investment_id=("investment_id","first"))
-           .reset_index()
-           .rename(columns={"pl2_union":"product_lv2"}))
+           .reset_index())
     return g
 
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
@@ -101,8 +100,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
                 is_total=("is_total","first"),
                 articleID=("article_id","first"),
                 investment_id=("investment_id","first"))
-           .reset_index()
-           .rename(columns={"pl2_union":"product_lv2"}))
+           .reset_index())
     return g
 
 def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
@@ -117,8 +115,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
            .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date", "first"),
                 articleID=("article_id", "first"))
-           .reset_index()
-           .rename(columns={"pl2_union": "product_lv2"}))
+           .reset_index())
     return g
 
 # -------------------- build events + impute --------------------
@@ -195,11 +192,11 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                 evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         events_by_pid.setdefault(pid, []).append(evt)
 
-    # Drop standalone investments overshadowed by capacity rows using same investment_id
-    for pid, evts in list(events_by_pid.items()):
-        cap_ids = {e.get("investment_id") for e in evts if e["event_type"] == "capacity" and e.get("investment_id")}
-        if cap_ids:
-            events_by_pid[pid] = [e for e in evts if not (e["event_type"] == "investment" and e.get("investment_id") in cap_ids)]
+    # # Drop standalone investments overshadowed by capacity rows using same investment_id
+    # for pid, evts in list(events_by_pid.items()):
+    #     cap_ids = {e.get("investment_id") for e in evts if e["event_type"] == "capacity" and e.get("investment_id")}
+    #     if cap_ids:
+    #         events_by_pid[pid] = [e for e in evts if not (e["event_type"] == "investment" and e.get("investment_id") in cap_ids)]
 
     # logic to include FACTORY_ONLY events (important for status & product_lv2 mapping)
     if INCLUDE_FACTORY_EVENTS and df_fac is not None and not df_fac.empty:  # NEW
