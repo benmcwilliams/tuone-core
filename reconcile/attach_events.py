@@ -21,6 +21,39 @@ INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
 
 INCLUDE_FACTORY_EVENTS = True
 
+STATUS_NORMALIZE = {
+    "ongoing": "under construction",
+    "completed": "operational",
+}
+STATUS_ORDER_SUMMARY = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
+STATUS_RANK = {s: i for i, s in enumerate(STATUS_ORDER_SUMMARY)}
+
+def parse_date_safe(date_str):
+    try:
+        return pd.to_datetime(date_str)
+    except Exception:
+        return pd.NaT
+
+TYPE_PRIORITY = {"capacity": 0, "investment": 1, "facility": 2}
+
+def _norm_status(s: str | None) -> str | None:
+    if not s:
+        return s
+    return STATUS_NORMALIZE.get(s, s)
+
+def event_sort_key(e: Dict[str, Any]):
+    # 1) normalize status like phase_summary
+    s = _norm_status(e.get("status"))
+    s_rank = STATUS_RANK.get(s, len(STATUS_RANK))
+
+    # 2) most recent date first (negative timestamp)
+    dt = parse_date_safe(e.get("date"))
+    ts_desc = -(int(dt.timestamp())) if pd.notna(dt) else float("inf")
+
+    # 3) keep facility after others as a tiebreaker
+    tprio = TYPE_PRIORITY.get(e.get("event_type"), 99)
+
+    return (s_rank, ts_desc, tprio)
 
 def coerce_is_total(val) -> bool:
     """
@@ -211,9 +244,9 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             existing = events_by_pid.setdefault(pid, [])
             # Build a set of articleIDs already present in capacity/investment events
             seen_article_ids = {
-                e.get("article_id")
+                e.get("articleID")
                 for e in existing
-                if e.get("article_id")
+                if e.get("articleID")
             }
 
             for r in rows:
@@ -239,7 +272,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
     # sort (now includes facility events)
     for pid in list(events_by_pid.keys()):
-        events_by_pid[pid].sort(key=sort_key)
+        events_by_pid[pid].sort(key=event_sort_key)
 
     return events_by_pid
 
