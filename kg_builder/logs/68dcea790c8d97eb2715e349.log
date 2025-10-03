@@ -1,0 +1,104 @@
+2025-10-03 03:24:46,190 - INFO - 🔍 Text length: 561 characters
+2025-10-03 03:24:46,190 - INFO - 📌 Processing Article ID: 68dcea790c8d97eb2715e349 — Acciaierie Venete, Sarezzo
+2025-10-03 03:24:46,190 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-03 03:24:48,479 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:48,479 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acc_venete",
+        "type": "company",
+        "name": "Acciaierie Venete"
+      },
+      {
+        "id": "company_ferriere_lucchini_spa",
+        "type": "company",
+        "name": "Ferriere Lucchini S.p.A"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sarezzo_italy",
+        "type": "factory",
+        "name": "Sarezzo Steelworks",
+        "location": {
+          "city": "Sarezzo",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electrical_steel",
+        "type": "product",
+        "name": "electrical steel"
+      },
+      {
+        "id": "product_hot_rolled_products",
+        "type": "product",
+        "name": "hot rolled products"
+      }
+    ]
+  }
+}
+2025-10-03 03:24:48,480 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:48,480 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-03 03:24:48,480 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-03 03:24:48,480 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-03 03:24:48,480 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-03 03:24:50,087 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:50,087 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electrical_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_hot_rolled_products",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-03 03:24:50,087 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:50,087 - INFO - ✅ Match found for product_ID 'product_electrical_steel' in product nodes
+2025-10-03 03:24:50,087 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:24:50,087 - INFO - ✅ Match found for product_ID 'product_hot_rolled_products' in product nodes
+2025-10-03 03:24:50,087 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:24:50,087 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-03 03:24:50,087 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-03 03:24:50,087 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-03 03:24:51,313 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:51,313 - INFO - {
+  "relationships": [
+    {
+      "source": "company_acc_venete",
+      "type": "owns",
+      "target": "factory_sarezzo_italy"
+    }
+  ]
+}
+2025-10-03 03:24:51,313 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:51,313 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-03 03:24:51,313 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-03 03:24:53,783 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:53,783 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electrical_steel",
+      "target": "factory_sarezzo_italy",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hot_rolled_products",
+      "target": "factory_sarezzo_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-03 03:24:53,784 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:53,784 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-03 03:24:53,784 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-03 03:24:53,876 - INFO - ✅ Updated Article ID: 68dcea790c8d97eb2715e349 with 5 nodes and combined text.

@@ -1,0 +1,100 @@
+2025-10-03 03:25:10,143 - INFO - 🔍 Text length: 927 characters
+2025-10-03 03:25:10,143 - INFO - 📌 Processing Article ID: 68dce7ed0c8d97eb2715e343 — Acciaierie Valsugana, Borgo Valsugana
+2025-10-03 03:25:10,143 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-03 03:25:17,049 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:25:17,049 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acc_venete",
+        "type": "company",
+        "name": "Acciaierie Venete"
+      },
+      {
+        "id": "company_dario_leali",
+        "type": "company",
+        "name": "Dario Leali"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_borgo_valsugana",
+        "type": "factory",
+        "name": "Borgo Valsugana Steel Plant",
+        "location": {
+          "city": "Borgo Valsugana",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_scrap_metal_recycling",
+        "type": "product",
+        "name": "scrap metal recycling"
+      },
+      {
+        "id": "product_steel",
+        "type": "product",
+        "name": "steel"
+      }
+    ]
+  }
+}
+2025-10-03 03:25:17,049 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:25:17,049 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-03 03:25:17,049 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-03 03:25:17,050 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-03 03:25:17,050 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-03 03:25:18,509 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:25:18,510 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_scrap_metal_recycling",
+      "product_lv1": "recycling",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-03 03:25:18,510 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:25:18,510 - INFO - ✅ Match found for product_ID 'product_scrap_metal_recycling' in product nodes
+2025-10-03 03:25:18,510 - INFO -   ➕ Set field 'product_lv1': recycling
+2025-10-03 03:25:18,510 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-03 03:25:18,510 - INFO - ✅ Match found for product_ID 'product_steel' in product nodes
+2025-10-03 03:25:18,510 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:25:18,510 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-03 03:25:18,510 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-03 03:25:18,510 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-03 03:25:18,510 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-03 03:25:21,757 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:25:21,758 - INFO - {
+  "relationships": [
+    {
+      "source": "company_acc_venete",
+      "type": "owns",
+      "target": "factory_borgo_valsugana"
+    }
+  ]
+}
+2025-10-03 03:25:21,758 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:25:21,758 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-03 03:25:21,758 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-03 03:25:24,422 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:25:24,422 - INFO - {
+  "relationships": [
+    {
+      "source": "product_steel",
+      "target": "factory_borgo_valsugana"
+    }
+  ]
+}
+2025-10-03 03:25:24,422 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:25:24,423 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-03 03:25:24,423 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-03 03:25:24,514 - INFO - ✅ Updated Article ID: 68dce7ed0c8d97eb2715e343 with 5 nodes and combined text.

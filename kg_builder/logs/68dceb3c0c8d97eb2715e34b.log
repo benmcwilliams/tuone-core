@@ -1,0 +1,130 @@
+2025-10-03 03:24:32,521 - INFO - 🔍 Text length: 745 characters
+2025-10-03 03:24:32,522 - INFO - 📌 Processing Article ID: 68dceb3c0c8d97eb2715e34b — Comprehensive stainless steel factory specializing in flat products
+2025-10-03 03:24:32,522 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-03 03:24:38,787 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:38,787 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_acerinox_europa",
+        "type": "company",
+        "name": "Acerinox Europa"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_acerinox_europa",
+        "type": "factory",
+        "name": "Acerinox Europa",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1m_tonnes_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "one million tonnes",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_flat_products",
+        "type": "product",
+        "name": "flat products"
+      },
+      {
+        "id": "product_long_products",
+        "type": "product",
+        "name": "long products"
+      }
+    ]
+  }
+}
+2025-10-03 03:24:38,788 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:38,788 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-03 03:24:38,788 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-03 03:24:41,179 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:41,180 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1m_tonnes_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-10-03 03:24:41,180 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:41,180 - INFO - ✅ Match found for capacity_ID 'capacity_1m_tonnes_operational' in capacity nodes
+2025-10-03 03:24:41,180 - INFO -   ➕ Set field 'status': operational
+2025-10-03 03:24:41,180 - INFO -   ➕ Set field 'phase': unclear
+2025-10-03 03:24:41,180 - INFO -   ➕ Set field 'additional': False
+2025-10-03 03:24:41,180 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-03 03:24:41,180 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-03 03:24:41,180 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-03 03:24:42,556 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:42,556 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_flat_products",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_long_products",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-03 03:24:42,556 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:42,556 - INFO - ✅ Match found for product_ID 'product_flat_products' in product nodes
+2025-10-03 03:24:42,556 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:24:42,556 - INFO - ✅ Match found for product_ID 'product_long_products' in product nodes
+2025-10-03 03:24:42,556 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:24:42,556 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-03 03:24:42,556 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-03 03:24:42,556 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-03 03:24:44,094 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:44,094 - INFO - {
+  "relationships": [
+    {
+      "source": "company_acerinox_europa",
+      "type": "owns",
+      "target": "factory_acerinox_europa"
+    }
+  ]
+}
+2025-10-03 03:24:44,094 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:44,094 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-03 03:24:44,094 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-03 03:24:46,093 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:24:46,094 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1m_tonnes_operational",
+      "target": "factory_acerinox_europa",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1m_tonnes_operational",
+      "target": "product_flat_products",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_flat_products",
+      "target": "factory_acerinox_europa",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-03 03:24:46,095 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:24:46,095 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-03 03:24:46,095 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-03 03:24:46,188 - INFO - ✅ Updated Article ID: 68dceb3c0c8d97eb2715e34b with 5 nodes and combined text.

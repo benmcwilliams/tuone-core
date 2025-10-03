@@ -1,0 +1,130 @@
+2025-10-03 03:23:47,539 - INFO - 🔍 Text length: 780 characters
+2025-10-03 03:23:47,539 - INFO - 📌 Processing Article ID: 68dceecd0c8d97eb2715e351 — Afv Acciaierie Beltrame, Vicenza
+2025-10-03 03:23:47,539 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-03 03:23:49,902 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:23:49,902 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_afv_acciaierie_beltrame",
+        "type": "company",
+        "name": "Afv Acciaierie Beltrame"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vicenza_italy",
+        "type": "factory",
+        "name": "Vicenza Factory",
+        "location": {
+          "city": "Vicenza",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_140_tonnes_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "140 tonnes",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_merchand_bars",
+        "type": "product",
+        "name": "merchand bars"
+      },
+      {
+        "id": "product_electric_arc_furnace_steel",
+        "type": "product",
+        "name": "electric arc furnace steel"
+      }
+    ]
+  }
+}
+2025-10-03 03:23:49,902 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:23:49,902 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-03 03:23:49,902 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-03 03:23:51,281 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:23:51,281 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_140_tonnes_operational",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-03 03:23:51,281 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:23:51,281 - INFO - ✅ Match found for capacity_ID 'capacity_140_tonnes_operational' in capacity nodes
+2025-10-03 03:23:51,281 - INFO -   ➕ Set field 'status': operational
+2025-10-03 03:23:51,281 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-03 03:23:51,281 - INFO -   ➕ Set field 'additional': False
+2025-10-03 03:23:51,281 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-03 03:23:51,281 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-03 03:23:51,281 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-03 03:23:52,773 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:23:52,773 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_merchand_bars",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_electric_arc_furnace_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-03 03:23:52,773 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:23:52,773 - INFO - ✅ Match found for product_ID 'product_merchand_bars' in product nodes
+2025-10-03 03:23:52,773 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:23:52,773 - INFO - ✅ Match found for product_ID 'product_electric_arc_furnace_steel' in product nodes
+2025-10-03 03:23:52,773 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-03 03:23:52,774 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-03 03:23:52,774 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-03 03:23:52,774 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-03 03:23:55,232 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:23:55,232 - INFO - {
+  "relationships": [
+    {
+      "source": "company_afv_acciaierie_beltrame",
+      "type": "owns",
+      "target": "factory_vicenza_italy"
+    }
+  ]
+}
+2025-10-03 03:23:55,232 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:23:55,233 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-03 03:23:55,233 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-03 03:23:57,796 - INFO - ✅ OpenAI returned output:
+2025-10-03 03:23:57,796 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_140_tonnes_operational",
+      "target": "factory_vicenza_italy",
+      "type": "at"
+    },
+    {
+      "source": "capacity_140_tonnes_operational",
+      "target": "product_electric_arc_furnace_steel",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_electric_arc_furnace_steel",
+      "target": "factory_vicenza_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-03 03:23:57,796 - INFO - POST-PROCESSING STARTING.
+2025-10-03 03:23:57,797 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-03 03:23:57,797 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-03 03:23:57,892 - INFO - ✅ Updated Article ID: 68dceecd0c8d97eb2715e351 with 5 nodes and combined text.

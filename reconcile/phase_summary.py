@@ -34,15 +34,25 @@ def normalize_pl2(vals):
 # NEW: collect union of product_lv2 from NON-IGNORED events
 def events_product_lv2_union(events: list) -> list[str]:
     acc = set()
+
+    def _iter_pl2(val):
+        # normalize product_lv2 to an iterable of strings
+        if val is None or (isinstance(val, float) and pd.isna(val)):
+            return []
+        if isinstance(val, (list, tuple, set)):
+            return val
+        return [val]  # single string/scalar
+
     for ev in events or []:
         if phase_is_ignored(ev):
-            continue  # skip ignored events entirely
-        for v in (ev.get("product_lv2") or []):
+            continue
+        for v in _iter_pl2(ev.get("product_lv2")):
             if v is None:
                 continue
             s = str(v).strip()
             if s:
                 acc.add(s)
+
     return sorted(acc)
 
 def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None, prev_investment=None) -> dict | None:
