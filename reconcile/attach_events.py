@@ -12,7 +12,7 @@ from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key
+from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key
 
 logger = logging.getLogger(__name__)
 
@@ -115,7 +115,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
             .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 article_id=("article_id","first"),
                 additional=("additional","first"),
@@ -131,7 +131,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
             .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 is_total=("is_total","first"),
                 article_id=("article_id","first"),
@@ -148,7 +148,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
             .drop_duplicates(["project_id", "status", "product_lv2", "article_id"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date", "first"),
                 article_id=("article_id", "first"))
            .reset_index())
@@ -164,12 +164,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         pid = r["project_id"]
         raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
+        products = norm_pl2_key(r["prod_union"])
 
         evt = {
             "event_type": "capacity",
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
             "product_lv2": r.get("product_lv2"),
+            "products": r.get("products"), # list
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
@@ -198,6 +200,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         pid = r["project_id"]
         raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
+        products = norm_pl2_key(r["prod_union"])
 
         evt = {
             "event_type": "investment",
