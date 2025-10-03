@@ -21,6 +21,25 @@ INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
 
 INCLUDE_FACTORY_EVENTS = True
 
+
+def coerce_is_total(val) -> bool:
+    """
+    Normalize 'is_total' values to a strict boolean.
+
+    Rules:
+    - Explicit True stays True.
+    - Strings like "true", "yes", "y", "1" → True.
+    - Numeric 1 → True.
+    - Everything else (False, 0, None, NaN, empty string) → False.
+    """
+    if val is True:
+        return True
+    if isinstance(val, str):
+        return val.strip().lower() in {"true", "yes", "y", "1"}
+    if isinstance(val, (int, float)) and not pd.isna(val):
+        return int(val) == 1
+    return False
+
 # -------------------- load & normalize --------------------
 
 def load_capacities() -> pd.DataFrame:
@@ -56,7 +75,7 @@ def load_factories() -> pd.DataFrame:
 # -------------------- dedup & group --------------------
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
-    df = (df.sort_values(["project_id", "date"], na_position="last")
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
             .drop_duplicates(["project_id", "capacity_normalized", "status", "phase", "pl2_key"], keep="first"))
     group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
@@ -73,7 +92,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     return g
 
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
-    df = (df.sort_values(["project_id", "date"], na_position="last")
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
             .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "pl2_key"], keep="first"))
     group_keys = ["project_id", "product_lv1", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
@@ -91,7 +110,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
     Deduplicate factory rows conservatively to avoid repetitive facility events.
     Keep distinct by (project_id, status, pl2_key, article_id)
     """
-    df = (df.sort_values(["project_id", "date"], na_position="last")
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
             .drop_duplicates(["project_id", "status", "pl2_key", "article_id"], keep="first"))
     group_keys = ["project_id", "product_lv1", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
@@ -127,7 +146,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "capacity": r.get("capacity_normalized"),
             "additional": bool(r.get("additional")) if pd.notna(r.get("additional")) else False,
             "investment": amt_scalar,
-            "is_total": bool(r.get("is_total")),
+            "is_total": coerce_is_total(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
         
@@ -159,7 +178,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "date": iso_date(r.get("date")),
             "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
             "investment": amt_scalar,
-            "is_total": bool(r.get("is_total")),
+            "is_total": coerce_is_total(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
         }
 
