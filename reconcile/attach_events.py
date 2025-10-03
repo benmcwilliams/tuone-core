@@ -86,14 +86,14 @@ def load_capacities() -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["capacity_normalized"] = df["capacity_normalized"].apply(parse_capacity_value)
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
-    #df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["prod_key"] = df["product"].apply(canon_pl2)
     return df
 
 def load_investments() -> pd.DataFrame:
     df = pd.read_excel(GROUPED_INVESTMENTS)
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["status"] = pd.Categorical(df["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
-    #df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    df["prod_key"] = df["product"].apply(canon_pl2)
     return df
 
 def load_factories() -> pd.DataFrame: 
@@ -105,7 +105,7 @@ def load_factories() -> pd.DataFrame:
     df = df.rename(columns={"factory_status": "status"})
     df["date"] = pd.to_datetime(df.get("date"), errors="coerce")
     df["status"] = pd.Categorical(df.get("status"), categories=STATUS_ORDER, ordered=True)
-    #df["pl2_key"] = df.get("product_lv2").apply(canon_pl2)
+    df["prod_key"] = df.get("product").apply(canon_pl2)
     return df
 
 # -------------------- dedup & group --------------------
@@ -115,7 +115,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
             .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(
+           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 article_id=("article_id","first"),
                 additional=("additional","first"),
@@ -131,7 +131,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
             .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(
+           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 is_total=("is_total","first"),
                 article_id=("article_id","first"),
@@ -148,7 +148,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
             .drop_duplicates(["project_id", "status", "product_lv2", "article_id"], keep="first"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(
+           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date", "first"),
                 article_id=("article_id", "first"))
            .reset_index())
