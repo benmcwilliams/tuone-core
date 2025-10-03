@@ -171,7 +171,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
             "product_lv2": r.get("product_lv2"),
-            "products": r.get("products"), # list
+            "products": list(products),
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
@@ -207,6 +207,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
             "product_lv2": r.get("product_lv2"),
+            "products": list(products),
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
@@ -228,13 +229,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                 evt["imputation_basis"] = CAPEX_DICT["version"]
                 evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         events_by_pid.setdefault(pid, []).append(evt)
-
-    # # Drop standalone investments overshadowed by capacity rows using same investment_id
-    # for pid, evts in list(events_by_pid.items()):
-    #     cap_ids = {e.get("investment_id") for e in evts if e["event_type"] == "capacity" and e.get("investment_id")}
-    #     if cap_ids:
-    #         events_by_pid[pid] = [e for e in evts if not (e["event_type"] == "investment" and e.get("investment_id") in cap_ids)]
-
+        
     # logic to include FACTORY_ONLY events (important for status & product_lv2 mapping)
     if INCLUDE_FACTORY_EVENTS and df_fac is not None and not df_fac.empty:  # NEW
         # Pre-index factory rows per project for a single pass
@@ -259,12 +254,15 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                 if art_id in seen_article_ids:
                     continue  # skip duplicate based on articleID
 
+                products = norm_pl2_key(r["prod_union"])
+
                 evt = {
                     "event_type": "facility",
                     "eventID": art_id,
                     "project_id": pid, 
                     "product_lv1": r.get("product_lv1"),
                     "product_lv2": r.get("product_lv2"),
+                    "products": list(products),
                     "status": r.get("status"),
                     "phase": None,
                     "date": iso_date(r.get("date")),
