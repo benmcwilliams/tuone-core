@@ -12,7 +12,7 @@ from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, norm_pl2_key, capex_lookup, sort_key
+from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,9 @@ def coerce_is_total(val) -> bool:
 # -------------------- load & normalize --------------------
 
 def load_capacities() -> pd.DataFrame:
+    """
+    Load capacity fragments & EV Volumes productions
+    """
     df_cap = pd.read_excel(GROUPED_CAPACITIES)
     df_zev = pd.read_excel(ZEV_PRODUCTION)
     df = pd.concat([df_cap, df_zev], ignore_index=True)
@@ -50,14 +53,14 @@ def load_capacities() -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["capacity_normalized"] = df["capacity_normalized"].apply(parse_capacity_value)
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
-    df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    #df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
     return df
 
 def load_investments() -> pd.DataFrame:
     df = pd.read_excel(GROUPED_INVESTMENTS)
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["status"] = pd.Categorical(df["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
-    df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
+    #df["pl2_key"] = df["product_lv2"].apply(canon_pl2)
     return df
 
 def load_factories() -> pd.DataFrame: 
@@ -69,19 +72,19 @@ def load_factories() -> pd.DataFrame:
     df = df.rename(columns={"factory_status": "status"})
     df["date"] = pd.to_datetime(df.get("date"), errors="coerce")
     df["status"] = pd.Categorical(df.get("status"), categories=STATUS_ORDER, ordered=True)
-    df["pl2_key"] = df.get("product_lv2").apply(canon_pl2)
+    #df["pl2_key"] = df.get("product_lv2").apply(canon_pl2)
     return df
 
 # -------------------- dedup & group --------------------
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "pl2_key"], keep="first"))
-    group_keys = ["project_id", "product_lv1", "capacity_normalized", "status", "phase"]
+            .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
+    group_keys = ["project_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(
                 date=("date","first"),
-                articleID=("article_id","first"),
+                article_id=("article_id","first"),
                 additional=("additional","first"),
                 investment=("amount_EUR","first"),
                 is_total=("is_total","first"),
@@ -92,13 +95,13 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
 
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "pl2_key"], keep="first"))
-    group_keys = ["project_id", "product_lv1", "amount_EUR", "status", "phase"]
+            .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
+    group_keys = ["project_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(
                 date=("date","first"),
                 is_total=("is_total","first"),
-                articleID=("article_id","first"),
+                article_id=("article_id","first"),
                 investment_id=("investment_id","first"))
            .reset_index())
     return g
@@ -106,15 +109,15 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
 def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
     """
     Deduplicate factory rows conservatively to avoid repetitive facility events.
-    Keep distinct by (project_id, status, pl2_key, article_id)
+    Keep distinct by (project_id, status, product_lv2, article_id)
     """
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "status", "pl2_key", "article_id"], keep="first"))
-    group_keys = ["project_id", "product_lv1", "status"]
+            .drop_duplicates(["project_id", "status", "product_lv2", "article_id"], keep="first"))
+    group_keys = ["project_id", "product_lv1", "product_lv2", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(pl2_union=("pl2_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(
                 date=("date", "first"),
-                articleID=("article_id", "first"))
+                article_id=("article_id", "first"))
            .reset_index())
     return g
 
@@ -126,7 +129,6 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # capacities
     for _, r in df_cap.iterrows():
         pid = r["project_id"]
-        pl2_key = norm_pl2_key(r["product_lv2"])
         raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
 
@@ -134,11 +136,11 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "event_type": "capacity",
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
-            "product_lv2": list(pl2_key),
+            "product_lv2": r.get("product_lv2"),
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
+            "articleID": r.get("article_id") if pd.notna(r.get("article_id")) else None,
             "capacity_id": r.get("capacity_id"),
             "capacity": r.get("capacity_normalized"),
             "additional": bool(r.get("additional")) if pd.notna(r.get("additional")) else False,
@@ -151,7 +153,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
         # Impute missing amount from CAPEX, never overwrite direct amount
         if evt.get("investment") in (None, np.nan):
-            cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
+            cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
             if cap_rule and evt.get("capacity") not in (None, np.nan):
                 evt["investment_imputed"] = float(evt["capacity"]) * float(cap_rule["capex_per_unit"])
                 evt["imputation_basis"] = CAPEX_DICT["version"]
@@ -161,7 +163,6 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # investments
     for _, r in df_inv.iterrows():
         pid = r["project_id"]
-        pl2_key = norm_pl2_key(r["product_lv2"])
         raw_amt = r.get("investment")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
 
@@ -169,11 +170,11 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             "event_type": "investment",
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
-            "product_lv2": list(pl2_key),
+            "product_lv2": r.get("product_lv2"),
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
-            "articleID": r.get("articleID") if pd.notna(r.get("articleID")) else None,
+            "articleID": r.get("article_id") if pd.notna(r.get("article_id")) else None,
             "investment": amt_scalar,
             "is_total": coerce_is_total(r.get("is_total")),
             "investment_id": r.get("investment_id") if pd.notna(r.get("investment_id")) else None,
@@ -183,7 +184,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
         # Impute missing capacity from CAPEX, never overwrite direct capacity
         if evt.get("investment") not in (None, np.nan):
-            cap_rule = capex_lookup(evt["product_lv1"], tuple(evt["product_lv2"]))
+            cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
             if cap_rule:
                 # Only set imputed capacity if none present
                 evt["capacity_imputed"] = float(evt["investment"]) / float(cap_rule["capex_per_unit"])
@@ -210,25 +211,24 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
             existing = events_by_pid.setdefault(pid, [])
             # Build a set of articleIDs already present in capacity/investment events
             seen_article_ids = {
-                e.get("articleID")
+                e.get("article_id")
                 for e in existing
-                if e.get("articleID")
+                if e.get("article_id")
             }
 
             for r in rows:
-                art_id = r.get("articleID")
+                art_id = r.get("article_id")
                 if pd.isna(art_id) or art_id is None:
                     continue  # cannot dedup without article
                 if art_id in seen_article_ids:
                     continue  # skip duplicate based on articleID
 
-                pl2_key = norm_pl2_key(r.get("product_lv2"))
                 evt = {
                     "event_type": "facility",
                     "eventID": art_id,
                     "project_id": pid, 
                     "product_lv1": r.get("product_lv1"),
-                    "product_lv2": list(pl2_key),
+                    "product_lv2": r.get("product_lv2"),
                     "status": r.get("status"),
                     "phase": None,
                     "date": iso_date(r.get("date")),

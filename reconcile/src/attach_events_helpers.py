@@ -3,6 +3,18 @@ import pandas as pd
 from typing import Dict, List, Any, Tuple
 from src.capex_dictionary import CAPEX_DICT
 
+def pl2_tuple(val) -> Tuple[str, ...]:
+    """Return a canonical tuple key for product_lv2 (handles str, list/tuple, None/NaN)."""
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return ()
+    if isinstance(val, (list, tuple, set)):
+        vals = [v for v in val if v is not None and not (isinstance(v, float) and pd.isna(v))]
+    else:
+        vals = [val]
+    # canonicalize to non-empty, trimmed strings, sorted
+    vals = [str(v).strip() for v in vals if str(v).strip()]
+    return tuple(sorted(vals))
+
 def iso_date(dt) -> str | None:
     if pd.isna(dt): return None
     if isinstance(dt, str): return dt
@@ -10,7 +22,15 @@ def iso_date(dt) -> str | None:
     return d.strftime("%Y-%m-%d") if pd.notna(d) else None
 
 def norm_pl2_key(values) -> Tuple[str, ...]:
-    vals = [v for v in (values or []) if pd.notna(v)]
+    if values is None or (isinstance(values, float) and pd.isna(values)):
+        return ()
+    if isinstance(values, str):
+        vals = [values]
+    elif isinstance(values, (list, tuple, set)):
+        vals = list(values)
+    else:
+        vals = [values]  # catch any other scalar (e.g. int)
+    vals = [v for v in vals if pd.notna(v)]
     return tuple(sorted({str(v).strip() for v in vals}))
 
 def capex_lookup(product_lv1: str, pl2_key: Tuple[str, ...]) -> Dict[str, Any] | None:
