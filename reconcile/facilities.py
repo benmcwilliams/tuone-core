@@ -39,7 +39,6 @@ def _build_facilities_df() -> pd.DataFrame:
           .agg({
               "inst_canon": "first",
               "iso2": "first",
-              "adm1": "first",
               "admin_group_key": "first",
               "lat": "first",
               "lon": "first",
@@ -55,7 +54,6 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "project_id": row["project_id"],
         "inst_canon": row.get("inst_canon") if pd.notna(row.get("inst_canon")) else None,
         "iso2": row.get("iso2") if pd.notna(row.get("iso2")) else None,
-        "adm1": row.get("adm1") if pd.notna(row.get("adm1")) else None,
         "admin_group_key": row.get("admin_group_key") if pd.notna(row.get("admin_group_key")) else None,
         "lat": row.get("lat") if pd.notna(row.get("lat")) else None,
         "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
