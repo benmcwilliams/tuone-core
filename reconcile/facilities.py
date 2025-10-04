@@ -13,7 +13,7 @@ import pandas as pd
 from pymongo import UpdateOne
 from src.facilities_helpers import _normalize_pl2, _agg_norm_list, _as_dt
 from mongo_client import facilities_collection, test_mongo_connection
-from src.config import GROUPED_FACTORIES
+from src.config import GROUPED_FACTORIES, ZEV_PRODUCTION
 
 def _latest_status_per_project(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
@@ -27,7 +27,11 @@ def _latest_status_per_project(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 def _build_facilities_df() -> pd.DataFrame:
+    
     df = pd.read_excel(GROUPED_FACTORIES)
+    df_zev = pd.read_excel(ZEV_PRODUCTION)
+    df = pd.concat([df, df_zev], ignore_index=True)
+
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     latest = _latest_status_per_project(df)
     return (

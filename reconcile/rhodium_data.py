@@ -78,18 +78,14 @@ df["capacity_normalized"] = (df["capacity_normalized"] / 20000).round() * 20000
 # --- apply Hash for merging ---
 
 df = add_admin_group_key(df, out_col="admin_group_key")
-df["adm1"] = df["admin_group_key"]  # main pipeline uses adm1 := admin_group_key (still hacky fix for Ross)
-
-# --- owner_key: singleton tuple (identical string form to main pipeline) ---
-df["owner_key"] = df["inst_canon"].apply(lambda x: (x,) if isinstance(x, str) and x.strip() else tuple())
 
 # --- build deterministic project_id (same namespace, same key order, same stringification) ---
 NS = uuid.uuid5(uuid.NAMESPACE_URL, "bruegel/project-key/v1")
 
 df["project_key_tuple"] = list(zip(
     df["iso2"].astype(str),
-    df["adm1"].astype(str),
-    df["owner_key"].astype(str),
+    df["admin_group_key"].astype(str),
+    df["inst_canon"].astype(str),
     df["product_lv1"].astype(str),
 ))
 

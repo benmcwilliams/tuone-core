@@ -56,54 +56,50 @@ def group_projects(file_to_group, out_path, output_cols):
     n_changed = (df["admin_group_key"] != before).sum()
     logging.info(f"Applied site merges to {n_changed} rows.")
 
-    ### HACKY FIX SO CODE WORKS WITH ROSS TO BE UDPATED *****
-    df["adm1-og"] = df["adm1"]
-    df["adm1"] = df["admin_group_key"]
-
     # 2. Resolve Joint Venture cases
-    cjv = pd.read_excel(COMPANY_JV, dtype=str)
-    cjv["company_canon_norm"] = cjv["company_canon"].apply(map_to_canonical)            # normalise company and JVs as we do above (manual names)
-    cjv["jv_canon_norm"] = cjv["jv_canon"].apply(map_to_canonical)                      # normalise company and JVs as we do above (manual names)
+    # cjv = pd.read_excel(COMPANY_JV, dtype=str)
+    # cjv["company_canon_norm"] = cjv["company_canon"].apply(map_to_canonical)            # normalise company and JVs as we do above (manual names)
+    # cjv["jv_canon_norm"] = cjv["jv_canon"].apply(map_to_canonical)                      # normalise company and JVs as we do above (manual names)
 
-    # build: JV name (normalized) -> sorted unique list of member companies (normalized)
-    jv_to_members = (
-        cjv.groupby("jv_canon_norm")["company_canon_norm"]
-           .apply(lambda s: sorted(x for x in set(s) if isinstance(x, str) and x.strip()))
-           .to_dict()
-    )
+    # # build: JV name (normalized) -> sorted unique list of member companies (normalized)
+    # jv_to_members = (
+    #     cjv.groupby("jv_canon_norm")["company_canon_norm"]
+    #        .apply(lambda s: sorted(x for x in set(s) if isinstance(x, str) and x.strip()))
+    #        .to_dict()
+    # )
 
-    # for JVs → list of member companies; for companies → singleton list
-    def _members_for_owner(owner: str):
-        if isinstance(owner, str):
-            return jv_to_members.get(owner, [owner])
-        return []
+    # # for JVs → list of member companies; for companies → singleton list
+    # def _members_for_owner(owner: str):
+    #     if isinstance(owner, str):
+    #         return jv_to_members.get(owner, [owner])
+    #     return []
 
-    # --- build hashable owner key (JV → members; company → singleton) ---
-    df["inst_canon_multiple"] = df["inst_canon"].apply(_members_for_owner)
-    df["owner_key"] = df["inst_canon_multiple"].apply(tuple)    # hashable
+    # # --- build hashable owner key (JV → members; company → singleton) ---
+    # df["inst_canon_multiple"] = df["inst_canon"].apply(_members_for_owner)
+    # df["owner_key"] = df["inst_canon_multiple"].apply(tuple)    # hashable
 
-    # Promote member-only owner_keys to JV owner_keys within the same place/product context
-    jv_context_cols = ["iso2", "adm1", "product_lv1"]  # context cols for determining a JV
+    # # Promote member-only owner_keys to JV owner_keys within the same place/product context
+    # jv_context_cols = ["iso2", "adm1", "product_lv1"]  # context cols for determining a JV
 
-    def _promote_ctx(g):
-        jv_rows = g[g["inst_type"] == "joint_venture"]
-        if jv_rows.empty:
-            return g
-        # map singleton member keys → the JV key observed in this context
-        mapping = {}
-        for jv_key in jv_rows["owner_key"].unique():
-            for m in jv_key:
-                mapping.setdefault((m,), jv_key)  # first JV wins deterministically
-        mask_singleton_member = (g["inst_type"] == "company") & g["owner_key"].isin(mapping.keys())
-        if mask_singleton_member.any():
-            g.loc[mask_singleton_member, "owner_key"] = g.loc[mask_singleton_member, "owner_key"].map(mapping)
-        return g
+    # def _promote_ctx(g):
+    #     jv_rows = g[g["inst_type"] == "joint_venture"]
+    #     if jv_rows.empty:
+    #         return g
+    #     # map singleton member keys → the JV key observed in this context
+    #     mapping = {}
+    #     for jv_key in jv_rows["owner_key"].unique():
+    #         for m in jv_key:
+    #             mapping.setdefault((m,), jv_key)  # first JV wins deterministically
+    #     mask_singleton_member = (g["inst_type"] == "company") & g["owner_key"].isin(mapping.keys())
+    #     if mask_singleton_member.any():
+    #         g.loc[mask_singleton_member, "owner_key"] = g.loc[mask_singleton_member, "owner_key"].map(mapping)
+    #     return g
 
-    df = df.groupby(jv_context_cols, group_keys=False).apply(_promote_ctx)
+    # df = df.groupby(jv_context_cols, group_keys=False).apply(_promote_ctx)
 
-    # (optional) pretty display name: JV label if known, else join members
-    members_to_jv = {tuple(v): k for k, v in jv_to_members.items()}
-    df["owner_label"] = df["owner_key"].apply(lambda t: members_to_jv.get(tuple(t), " + ".join(t)))
+    # # (optional) pretty display name: JV label if known, else join members
+    # members_to_jv = {tuple(v): k for k, v in jv_to_members.items()}
+    # df["owner_label"] = df["owner_key"].apply(lambda t: members_to_jv.get(tuple(t), " + ".join(t)))
 
     # Generate hash key - stable namespace for reproducibility
     NS = uuid.uuid5(uuid.NAMESPACE_URL, "bruegel/project-key/v1")
@@ -113,7 +109,7 @@ def group_projects(file_to_group, out_path, output_cols):
         zip(
             df["iso2"].astype(str),
             df["adm1"].astype(str),
-            df["owner_key"].astype(str),
+            df["inst_canon"].astype(str),
             df["product_lv1"].astype(str),
         )
     )
@@ -128,9 +124,8 @@ def group_projects(file_to_group, out_path, output_cols):
 
     # DEFINE group cols 
     group_cols = [
-        "adm1",   #NOTE to be replaced with admin_group_key
-        "owner_key",          
-        #"inst_canon",
+        "admin_group_key",         
+        "inst_canon",
         "product_lv1"
     ]
 
@@ -161,8 +156,8 @@ def group_projects(file_to_group, out_path, output_cols):
     df['date'] = df['date'].dt.strftime('%Y-%m')
 
     # hacky fix until I tell Ross to change
-    df.loc[df["inst_type"] == "joint_venture", "inst_canon"] = df.loc[df["inst_type"] == "joint_venture", "owner_label"]
-    logging.info(f"Overwrote inst_canon with JV labels for {sum(df['inst_type']=='joint_venture')} rows")
+    #df.loc[df["inst_type"] == "joint_venture", "inst_canon"] = df.loc[df["inst_type"] == "joint_venture", "owner_label"]
+    #logging.info(f"Overwrote inst_canon with JV labels for {sum(df['inst_type']=='joint_venture')} rows")
 
     df[output_cols].to_excel(out_path, index=False)
     logging.info(f"Saving filtered output to {out_path}")
