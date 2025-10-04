@@ -195,12 +195,14 @@ def compute_summaries():
         if not events:
             continue
 
+        update_fields: dict = {}
+        unset_fields: dict = {}
+        main_summary = None  #
+
         # normalize statuses (to compare investments and capacities)
         for c in events:
             if c.get("status") in STATUS_NORMALIZE:
                 c["status"] = STATUS_NORMALIZE[c["status"]]
-
-        update_fields = {}
 
         # ---------- derive facility product_lv2 from NON-IGNORED events ----------
         current_pl2 = normalize_pl2(doc.get("product_lv2"))
@@ -212,17 +214,23 @@ def compute_summaries():
         # unique phase_num mentioned in the events, should be robust to string "ignore"
         phases = sorted({pn for c in events if not phase_is_ignored(c) and (pn := phase_num_int(c)) is not None})  
 
-        # build summaries for each phase and store as phase_1, phase_2, etc (using previous phase capacity/investment to increment)
+        # build summaries for each phase and store as a list under 'phases'
+        phases_list = []
         prev_capacity, prev_investment = None, None
         for p in phases:
             summary = build_phase_summary(events, p, prev_capacity, prev_investment)
             if summary:
-                update_fields[f"phase_{p}"] = summary
+                # do not persist the helper field 'source_date' inside each phase object
+                phase_obj = {"phase_num": p, **{k: v for k, v in summary.items() if k != "source_date"}}
+                phases_list.append(phase_obj)
+
                 # update rolling totals
                 if summary.get("capacity") is not None:
                     prev_capacity = summary["capacity"]
                 if summary.get("investment") is not None:
                     prev_investment = summary["investment"]
+
+        update_fields["phases"] = phases_list
 
         # build the "main" summary (phase=None means all events)
         main_summary = build_phase_summary(events, phase_num=None)
@@ -252,22 +260,7 @@ def compute_summaries():
             main_summary.pop("source_date", None)
 
             update_fields["main"] = main_summary
-
-                # ------------------------- REMOVING STALE PHASE SUMMARIES - MUCH CLEANER WHEN WE MOVE TO A LIST OF PHASES -------------------------
-        # Remove stale phase_* keys that no longer exist this run
-        existing_phase_keys = [k for k in doc.keys() if k.startswith("phase_")]
-        existing_phase_nums = set()
-        for k in existing_phase_keys:
-            try:
-                existing_phase_nums.add(int(k.split("_", 1)[1]))
-            except Exception:
-                pass
-
-        current_phase_nums = set(phases)
-        stale_phase_nums = existing_phase_nums - current_phase_nums
-
-        unset_fields = {f"phase_{n}": "" for n in stale_phase_nums}
-
+            
         # If no 'main' summary was produced this run but 'main' exists in DB, unset it to avoid staleness.
         if main_summary is None and "main" in doc:
             unset_fields["main"] = ""
