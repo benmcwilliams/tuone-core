@@ -33,3 +33,15 @@ SITE_MERGE = {
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
+
+JV_MERGE = {
+    # EXAMPLES:
+    # ("acc battery JV", "DE", "Arnstadt", "battery"): "catl",
+    # ("some JV", "FR", "Fos-sur-Mer", "recycling"): "carbon",
+    ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
+    ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
+    ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
+    ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
+    ("stellantis", "DE", "Kaiserslautern", "battery"): "automotive cell company",
+    ("volkswagen northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
+}
