@@ -77,8 +77,7 @@ def load_factories() -> pd.DataFrame:
 # -------------------- dedup & group --------------------
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
-    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "capacity_normalized", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
@@ -93,8 +92,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     return g
 
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
-    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "amount_EUR", "status", "phase", "product_lv2"], keep="first"))
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
@@ -110,8 +108,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
     Deduplicate factory rows conservatively to avoid repetitive facility events.
     Keep distinct by (project_id, status, product_lv2, article_id)
     """
-    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last")
-            .drop_duplicates(["project_id", "status", "product_lv2", "article_id"], keep="first"))
+    df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "product_lv1", "product_lv2", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
