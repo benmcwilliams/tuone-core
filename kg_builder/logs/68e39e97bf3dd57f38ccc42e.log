@@ -1,0 +1,179 @@
+2025-10-07 11:27:11,801 - INFO - 🔍 Text length: 6220 characters
+2025-10-07 11:27:11,802 - INFO - 📌 Processing Article ID: 68e39e97bf3dd57f38ccc42e — State aid: Commission approves €55 million German measure to support ArcelorMittal's green steel demonstration plant
+2025-10-07 11:27:11,802 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:27:16,395 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:16,395 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hamburg_germany",
+        "type": "factory",
+        "name": "Hamburg Demonstration Plant",
+        "location": {
+          "city": "Hamburg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_germany_state_aid",
+        "type": "investment",
+        "name": "Germany State Aid",
+        "amount": "\u20ac55 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "100,000 tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_steel",
+        "type": "product",
+        "name": "green steel"
+      },
+      {
+        "id": "product_direct_reduced_iron",
+        "type": "product",
+        "name": "direct reduced iron"
+      }
+    ]
+  }
+}
+2025-10-07 11:27:16,399 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:16,399 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-07 11:27:16,399 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-07 11:27:21,392 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:21,392 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100k_tonnes_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-07 11:27:21,392 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:21,392 - INFO - ✅ Match found for capacity_ID 'capacity_100k_tonnes_per_year' in capacity nodes
+2025-10-07 11:27:21,392 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:27:21,392 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:27:21,393 - INFO -   ➕ Set field 'additional': False
+2025-10-07 11:27:21,393 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:27:21,393 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:27:26,308 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:26,310 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_germany_state_aid",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:27:26,310 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:26,310 - INFO - ✅ Match found for investment_ID 'investment_germany_state_aid' in investment nodes
+2025-10-07 11:27:26,310 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:27:26,310 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:27:26,310 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:27:26,310 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:27:26,310 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:27:28,356 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:28,356 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_direct_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:27:28,356 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:28,357 - INFO - ✅ Match found for product_ID 'product_green_steel' in product nodes
+2025-10-07 11:27:28,357 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:27:28,357 - INFO - ✅ Match found for product_ID 'product_direct_reduced_iron' in product nodes
+2025-10-07 11:27:28,357 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:27:28,357 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:27:28,357 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:27:28,357 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:27:29,585 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:29,585 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_hamburg_germany"
+    }
+  ]
+}
+2025-10-07 11:27:29,585 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:29,585 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:27:29,585 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:27:36,335 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:36,336 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100k_tonnes_per_year",
+      "target": "factory_hamburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_tonnes_per_year",
+      "target": "product_direct_reduced_iron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_direct_reduced_iron",
+      "target": "factory_hamburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:27:36,336 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:36,336 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:27:36,336 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:27:37,469 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:37,469 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:27:37,469 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:37,469 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:27:37,469 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:27:39,928 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:27:39,928 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_germany_state_aid",
+      "target": "factory_hamburg_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_germany_state_aid",
+      "target": "product_direct_reduced_iron",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-07 11:27:39,928 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:27:39,948 - INFO - ✅ Updated Article ID: 68e39e97bf3dd57f38ccc42e with 6 nodes and combined text.

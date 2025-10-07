@@ -1,0 +1,226 @@
+2025-10-07 11:25:55,665 - INFO - 🔍 Text length: 8087 characters
+2025-10-07 11:25:55,666 - INFO - 📌 Processing Article ID: 68e3a8c7083cd14407dba29c — Commission approves €1.3 billion German State aid measure funded under Recovery and Resilience Facility to support ArcelorMittal decarbonise its steel production
+2025-10-07 11:25:55,666 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:26:01,383 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:01,384 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bremen_germany",
+        "type": "factory",
+        "name": "Bremen",
+        "location": {
+          "city": "Bremen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_eisenhuettenstadt_germany",
+        "type": "factory",
+        "name": "Eisenh\u00fcttenstadt",
+        "location": {
+          "city": "Eisenh\u00fcttenstadt",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_germany_rrf",
+        "type": "investment",
+        "name": "Germany RRF",
+        "amount": "\u20ac1.3 billion",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_3_8m_tonnes_green_crude_steel_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "3.8 million tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_crude_steel",
+        "type": "product",
+        "name": "green crude steel"
+      },
+      {
+        "id": "product_direct_reduction_plant",
+        "type": "product",
+        "name": "direct reduction plant"
+      },
+      {
+        "id": "product_electric_arc_furnaces",
+        "type": "product",
+        "name": "electric arc furnaces"
+      }
+    ]
+  }
+}
+2025-10-07 11:26:01,384 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:01,384 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-07 11:26:01,384 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-07 11:26:02,861 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:02,862 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_3_8m_tonnes_green_crude_steel_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-07 11:26:02,862 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:02,862 - INFO - ✅ Match found for capacity_ID 'capacity_3_8m_tonnes_green_crude_steel_per_year' in capacity nodes
+2025-10-07 11:26:02,862 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:26:02,862 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:26:02,862 - INFO -   ➕ Set field 'additional': False
+2025-10-07 11:26:02,862 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:26:02,862 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:26:06,647 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:06,647 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_germany_rrf",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:26:06,647 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:06,647 - INFO - ✅ Match found for investment_ID 'investment_germany_rrf' in investment nodes
+2025-10-07 11:26:06,647 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:26:06,647 - INFO -   ➕ Set field 'phase': expansion
+2025-10-07 11:26:06,648 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:26:06,648 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:26:06,648 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:26:09,076 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:09,076 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_crude_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_direct_reduction_plant",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_electric_arc_furnaces",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:26:09,076 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:09,076 - INFO - ✅ Match found for product_ID 'product_green_crude_steel' in product nodes
+2025-10-07 11:26:09,076 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:26:09,076 - INFO - ✅ Match found for product_ID 'product_direct_reduction_plant' in product nodes
+2025-10-07 11:26:09,076 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:26:09,076 - INFO - ✅ Match found for product_ID 'product_electric_arc_furnaces' in product nodes
+2025-10-07 11:26:09,077 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:26:09,077 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:26:09,077 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:26:09,077 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:26:14,153 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:14,153 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_bremen_germany"
+    },
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_eisenhuettenstadt_germany"
+    }
+  ]
+}
+2025-10-07 11:26:14,153 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:14,153 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:26:14,153 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:26:18,409 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:18,409 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_3_8m_tonnes_green_crude_steel_per_year",
+      "target": "factory_bremen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_8m_tonnes_green_crude_steel_per_year",
+      "target": "factory_eisenhuettenstadt_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_8m_tonnes_green_crude_steel_per_year",
+      "target": "product_green_crude_steel",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_crude_steel",
+      "target": "factory_bremen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_crude_steel",
+      "target": "factory_eisenhuettenstadt_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:26:18,409 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:18,409 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:26:18,410 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:26:22,706 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:22,706 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:26:22,706 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:22,707 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:26:22,707 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:26:28,838 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:26:28,838 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_germany_rrf",
+      "target": "product_direct_reduction_plant",
+      "type": "targets"
+    },
+    {
+      "source": "investment_germany_rrf",
+      "target": "product_electric_arc_furnaces",
+      "type": "targets"
+    },
+    {
+      "source": "investment_germany_rrf",
+      "target": "factory_bremen_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_germany_rrf",
+      "target": "factory_eisenhuettenstadt_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-07 11:26:28,838 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:26:28,860 - INFO - ✅ Updated Article ID: 68e3a8c7083cd14407dba29c with 8 nodes and combined text.

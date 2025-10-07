@@ -1,0 +1,184 @@
+2025-10-07 12:02:54,564 - INFO - 🔍 Text length: 3498 characters
+2025-10-07 12:02:54,564 - INFO - 📌 Processing Article ID: 68e3907dbf3dd57f38ccc3f8 — Converting wood waste into biofuel from steelmaking
+2025-10-07 12:02:54,564 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 12:03:01,056 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:03:01,056 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_torrcoal",
+        "type": "company",
+        "name": "TorrCoal"
+      },
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_torero_pilot_plant",
+        "type": "factory",
+        "name": "Torero Pilot Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_37_5k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "37 500 tonnes per reactor per year",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_50k_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 tonnes/year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_80_million_litres_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "80 million litres per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_biocoal",
+        "type": "product",
+        "name": "biocoal"
+      },
+      {
+        "id": "product_bioethanol",
+        "type": "product",
+        "name": "bioethanol"
+      }
+    ]
+  }
+}
+2025-10-07 12:03:01,056 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:03:01,057 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-07 12:03:01,057 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-07 12:03:05,781 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:03:05,781 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_37_5k_tonnes_per_year",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_50k_tonnes_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_80_million_litres_per_year",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-10-07 12:03:05,782 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:03:05,782 - INFO - ✅ Match found for capacity_ID 'capacity_37_5k_tonnes_per_year' in capacity nodes
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'status': under construction
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'additional': True
+2025-10-07 12:03:05,782 - INFO - ✅ Match found for capacity_ID 'capacity_50k_tonnes_per_year' in capacity nodes
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'status': announced
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'phase': expansion
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'additional': True
+2025-10-07 12:03:05,782 - INFO - ✅ Match found for capacity_ID 'capacity_80_million_litres_per_year' in capacity nodes
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'status': announced
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'phase': unclear
+2025-10-07 12:03:05,782 - INFO -   ➕ Set field 'additional': False
+2025-10-07 12:03:05,782 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-07 12:03:05,782 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 12:03:05,783 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 12:03:07,318 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:03:07,318 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_biocoal",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_bioethanol",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 12:03:07,318 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:03:07,318 - INFO - ✅ Match found for product_ID 'product_biocoal' in product nodes
+2025-10-07 12:03:07,318 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 12:03:07,318 - INFO - ✅ Match found for product_ID 'product_bioethanol' in product nodes
+2025-10-07 12:03:07,318 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-07 12:03:07,318 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 12:03:07,318 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 12:03:07,318 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 12:03:09,631 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:03:09,631 - INFO - {
+  "relationships": [
+    {
+      "source": "company_torrcoal",
+      "type": "owns",
+      "target": "factory_torero_pilot_plant"
+    }
+  ]
+}
+2025-10-07 12:03:09,631 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:03:09,631 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 12:03:09,631 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 12:03:14,385 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:03:14,385 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_37_5k_tonnes_per_year",
+      "target": "factory_torero_pilot_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_tonnes_per_year",
+      "target": "factory_torero_pilot_plant",
+      "type": "at"
+    },
+    {
+      "source": "product_biocoal",
+      "target": "factory_torero_pilot_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_37_5k_tonnes_per_year",
+      "target": "product_biocoal",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_tonnes_per_year",
+      "target": "product_biocoal",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_80_million_litres_per_year",
+      "target": "product_bioethanol",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-10-07 12:03:14,385 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:03:14,385 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-07 12:03:14,386 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-07 12:03:14,404 - INFO - ✅ Updated Article ID: 68e3907dbf3dd57f38ccc3f8 with 8 nodes and combined text.

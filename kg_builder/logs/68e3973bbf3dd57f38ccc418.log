@@ -1,0 +1,200 @@
+2025-10-07 11:57:17,456 - INFO - 🔍 Text length: 2800 characters
+2025-10-07 11:57:17,457 - INFO - 📌 Processing Article ID: 68e3973bbf3dd57f38ccc418 — SSAB invests in green transformation of production in Oxelösund
+2025-10-07 11:57:17,457 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:57:22,811 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:22,811 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ssab",
+        "type": "company",
+        "name": "SSAB"
+      },
+      {
+        "id": "company_lkab",
+        "type": "company",
+        "name": "LKAB"
+      },
+      {
+        "id": "company_vattenfall",
+        "type": "company",
+        "name": "Vattenfall"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxel\u00f6sund",
+        "type": "factory",
+        "name": "Oxel\u00f6sund Mill",
+        "location": {
+          "city": "Oxel\u00f6sund",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_lule\u00e5",
+        "type": "factory",
+        "name": "Lule\u00e5 Pilot Plant",
+        "location": {
+          "city": "Lule\u00e5",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_oxel\u00f6sund_transformation",
+        "type": "investment",
+        "name": "Oxel\u00f6sund Transformation",
+        "amount": "SEK 6.2 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fossil_free_steel",
+        "type": "product",
+        "name": "Fossil-Free Steel"
+      },
+      {
+        "id": "product_hydrogen_reduced_sponge_iron",
+        "type": "product",
+        "name": "Hydrogen-Reduced Sponge Iron"
+      },
+      {
+        "id": "product_ssab_zero",
+        "type": "product",
+        "name": "SSAB Zero"
+      }
+    ]
+  }
+}
+2025-10-07 11:57:22,812 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:22,812 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:57:22,812 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:57:22,812 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:57:23,965 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:23,966 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_oxel\u00f6sund_transformation",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:57:23,966 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:23,966 - INFO - ✅ Match found for investment_ID 'investment_oxelösund_transformation' in investment nodes
+2025-10-07 11:57:23,966 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:57:23,966 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-07 11:57:23,966 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:57:23,966 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:57:23,966 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:57:27,244 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:27,244 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_fossil_free_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_hydrogen_reduced_sponge_iron",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_ssab_zero",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:57:27,244 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:27,244 - INFO - ✅ Match found for product_ID 'product_fossil_free_steel' in product nodes
+2025-10-07 11:57:27,244 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:57:27,244 - INFO - ✅ Match found for product_ID 'product_hydrogen_reduced_sponge_iron' in product nodes
+2025-10-07 11:57:27,245 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:57:27,245 - INFO - ✅ Match found for product_ID 'product_ssab_zero' in product nodes
+2025-10-07 11:57:27,245 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:57:27,245 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:57:27,245 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:57:27,245 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:57:30,519 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:30,520 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_oxel\u00f6sund"
+    },
+    {
+      "source": "company_ssab",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "company_lkab",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "company_vattenfall",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "joint_venture_hybrit",
+      "type": "owns",
+      "target": "factory_lule\u00e5"
+    }
+  ]
+}
+2025-10-07 11:57:30,520 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:30,520 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:57:30,520 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:57:34,820 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:34,821 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fossil_free_steel",
+      "target": "factory_oxel\u00f6sund",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen_reduced_sponge_iron",
+      "target": "factory_lule\u00e5",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:57:34,821 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:34,821 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:57:34,821 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:57:36,253 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:36,254 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:57:36,254 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:36,254 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:57:36,254 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:57:40,086 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:40,086 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_oxel\u00f6sund_transformation",
+      "target": "factory_oxel\u00f6sund",
+      "type": "funds"
+    },
+    {
+      "source": "investment_oxel\u00f6sund_transformation",
+      "target": "product_fossil_free_steel",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-07 11:57:40,087 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:40,112 - INFO - ✅ Updated Article ID: 68e3973bbf3dd57f38ccc418 with 9 nodes and combined text.

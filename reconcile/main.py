@@ -45,7 +45,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
         clean_owner_names()
 
         #logging.info("🌎 Querying geonames...") 
-        # query_geonames_new_cities(limit=20000, skip=0)
+        query_geonames_new_cities(limit=20000, skip=0, failure_backoff_days=2000)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -53,7 +53,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
     if update_main_database:
 
         logging.info("🗞️ Flattening articles...")
-        nodes_df, rels_df = run_flatten_articles(save=False)
+        nodes_df, rels_df = run_flatten_articles(save=True)
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
@@ -103,5 +103,5 @@ def main(update_mongo_metadata=False, update_main_database=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True,
-        update_main_database=True)
+    main(update_mongo_metadata=False,
+        update_main_database=False)

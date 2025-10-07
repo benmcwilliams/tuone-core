@@ -31,7 +31,7 @@ def phase_num_int(ev: dict) -> int | None:
 def normalize_pl2(vals):
     return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
 
-# NEW: collect union of product_lv2 from NON-IGNORED events
+# collect union of product_lv2 from NON-IGNORED events
 def events_product_lv2_union(events: list) -> list[str]:
     acc = set()
 

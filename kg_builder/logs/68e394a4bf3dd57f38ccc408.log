@@ -1,0 +1,218 @@
+2025-10-07 11:59:50,524 - INFO - 🔍 Text length: 4542 characters
+2025-10-07 11:59:50,525 - INFO - 📌 Processing Article ID: 68e394a4bf3dd57f38ccc408 — ArcelorMittal Sestao to become the world’s first full-scale zero carbon-emissions[1] steel plant
+2025-10-07 11:59:50,525 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:59:56,749 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:56,749 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_sestao",
+        "type": "factory",
+        "name": "Sestao",
+        "location": {
+          "city": "Sestao",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_gijon",
+        "type": "factory",
+        "name": "Gij\u00f3n",
+        "location": {
+          "city": "Gij\u00f3n",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_gijon_dri_eaf",
+        "type": "investment",
+        "name": "Gij\u00f3n DRI and EAF",
+        "amount": "\u20ac1 billion",
+        "status": "announced"
+      },
+      {
+        "id": "investment_sestao_emerging_technologies",
+        "type": "investment",
+        "name": "Sestao Emerging Technologies",
+        "amount": "\u20ac50 million",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_6_million_tonnes_announced_greenfield",
+        "type": "unclear",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced",
+        "amount": "1.6 million tonnes"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen_dri",
+        "type": "product",
+        "name": "green hydrogen-produced DRI"
+      },
+      {
+        "id": "product_zero_carbon-emissions_steel",
+        "type": "product",
+        "name": "zero carbon-emissions steel"
+      },
+      {
+        "id": "product_flat_steel_products",
+        "type": "product",
+        "name": "flat steel products"
+      }
+    ]
+  }
+}
+2025-10-07 11:59:56,749 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:56,749 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:59:56,750 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:59:56,750 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:59:57,981 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:57,981 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_gijon_dri_eaf",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_sestao_emerging_technologies",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": false
+    }
+  ]
+}
+2025-10-07 11:59:57,981 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:57,982 - INFO - ✅ Match found for investment_ID 'investment_gijon_dri_eaf' in investment nodes
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:59:57,982 - INFO - ✅ Match found for investment_ID 'investment_sestao_emerging_technologies' in investment nodes
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-07 11:59:57,982 - INFO -   ➕ Set field 'is_total': False
+2025-10-07 11:59:57,982 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:59:57,982 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 12:00:00,628 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:00:00,628 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_hydrogen_dri",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_zero_carbon_emissions_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_flat_steel_products",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-07 12:00:00,628 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:00:00,628 - INFO - ✅ Match found for product_ID 'product_green_hydrogen_dri' in product nodes
+2025-10-07 12:00:00,628 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-07 12:00:00,628 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-07 12:00:00,628 - INFO - ✅ Match found for product_ID 'product_zero_carbon_emissions_steel' in product nodes
+2025-10-07 12:00:00,628 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 12:00:00,628 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-07 12:00:00,628 - INFO - ✅ Match found for product_ID 'product_flat_steel_products' in product nodes
+2025-10-07 12:00:00,629 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 12:00:00,629 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-07 12:00:00,629 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 12:00:00,629 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 12:00:00,629 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 12:00:02,175 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:00:02,176 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_sestao"
+    },
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_gijon"
+    }
+  ]
+}
+2025-10-07 12:00:02,176 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:00:02,176 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 12:00:02,176 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 12:00:04,859 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:00:04,859 - INFO - {
+  "relationships": [
+    {
+      "source": "product_zero_carbon_emissions_steel",
+      "target": "factory_sestao",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_hydrogen_dri",
+      "target": "factory_gijon",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 12:00:04,859 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:00:04,859 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 12:00:04,859 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 12:00:05,965 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:00:05,965 - INFO - {
+  "relationships": []
+}
+2025-10-07 12:00:05,965 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:00:05,965 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 12:00:05,966 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 12:00:08,838 - INFO - ✅ OpenAI returned output:
+2025-10-07 12:00:08,838 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_gijon_dri_eaf",
+      "type": "funds",
+      "target": "factory_gijon"
+    },
+    {
+      "source": "investment_gijon_dri_eaf",
+      "type": "targets",
+      "target": "product_green_hydrogen_dri"
+    },
+    {
+      "source": "investment_sestao_emerging_technologies",
+      "type": "funds",
+      "target": "factory_sestao"
+    },
+    {
+      "source": "investment_sestao_emerging_technologies",
+      "type": "targets",
+      "target": "product_zero_carbon_emissions_steel"
+    }
+  ]
+}
+2025-10-07 12:00:08,838 - INFO - POST-PROCESSING STARTING.
+2025-10-07 12:00:08,858 - INFO - ✅ Updated Article ID: 68e394a4bf3dd57f38ccc408 with 9 nodes and combined text.

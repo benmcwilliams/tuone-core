@@ -1,0 +1,125 @@
+2025-10-07 11:24:12,100 - INFO - 🔍 Text length: 1646 characters
+2025-10-07 11:24:12,100 - INFO - 📌 Processing Article ID: 68e3ac54083cd14407dba2a8 — Metso builds DRI smelting furnace pilot facility
+2025-10-07 11:24:12,100 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:24:18,695 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:18,696 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_metso",
+        "type": "company",
+        "name": "Metso"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pori_finland",
+        "type": "factory",
+        "name": "Pori DRI Smelting Furnace Pilot Facility",
+        "location": {
+          "city": "Pori",
+          "country": "Finland"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_metso_dri_smelting_furnace_pilot_facility",
+        "type": "investment",
+        "name": "Metso DRI Smelting Furnace Pilot Facility",
+        "amount": "\u20ac8 million ($8.7m)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_outotec_dri_smelting_furnace",
+        "type": "product",
+        "name": "Outotec DRI Smelting Furnace"
+      }
+    ]
+  }
+}
+2025-10-07 11:24:18,696 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:18,696 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:24:18,696 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:24:18,696 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:24:19,747 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:19,747 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_metso_dri_smelting_furnace_pilot_facility",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:24:19,747 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:19,747 - INFO - ✅ Match found for investment_ID 'investment_metso_dri_smelting_furnace_pilot_facility' in investment nodes
+2025-10-07 11:24:19,747 - INFO -   ➕ Set field 'status': ongoing
+2025-10-07 11:24:19,747 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:24:19,747 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:24:19,747 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:24:19,747 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:24:21,401 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:21,401 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_outotec_dri_smelting_furnace",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:24:21,401 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:21,401 - INFO - ✅ Match found for product_ID 'product_outotec_dri_smelting_furnace' in product nodes
+2025-10-07 11:24:21,401 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:24:21,401 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:24:21,401 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:24:21,401 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:24:25,230 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:25,230 - INFO - {
+  "relationships": [
+    {
+      "source": "company_metso",
+      "type": "owns",
+      "target": "factory_pori_finland"
+    }
+  ]
+}
+2025-10-07 11:24:25,231 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:25,231 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:24:25,231 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:24:25,775 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:25,776 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:24:25,776 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:25,776 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:24:25,776 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:24:26,635 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:26,635 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:24:26,635 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:26,635 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:24:26,635 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:24:29,156 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:24:29,157 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_metso_dri_smelting_furnace_pilot_facility",
+      "target": "factory_pori_finland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_metso_dri_smelting_furnace_pilot_facility",
+      "target": "product_outotec_dri_smelting_furnace",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-07 11:24:29,157 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:24:29,176 - INFO - ✅ Updated Article ID: 68e3ac54083cd14407dba2a8 with 4 nodes and combined text.

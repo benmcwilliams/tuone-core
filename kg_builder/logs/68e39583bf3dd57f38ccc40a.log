@@ -1,0 +1,186 @@
+2025-10-07 11:59:26,668 - INFO - 🔍 Text length: 3906 characters
+2025-10-07 11:59:26,668 - INFO - 📌 Processing Article ID: 68e39583bf3dd57f38ccc40a — thyssenkrupp Steel is intensively pushing ahead with developing the hydrogen economy: Call for tenders for supplying hydrogen to the first direct reduction plant at the Duisburg location
+2025-10-07 11:59:26,668 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:59:34,140 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:34,140 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_thyssenkrupp_steel",
+        "type": "company",
+        "name": "thyssenkrupp Steel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_duisburg_germany",
+        "type": "factory",
+        "name": "Duisburg Direct Reduction Plant",
+        "location": {
+          "city": "Duisburg",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tkh2steel_project",
+        "type": "investment",
+        "name": "tkH2Steel Project",
+        "amount": "around two billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_5m_metric_tons_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.5 million metric tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen",
+        "type": "product",
+        "name": "hydrogen"
+      },
+      {
+        "id": "product_directly_reduced_iron",
+        "type": "product",
+        "name": "directly reduced iron"
+      }
+    ]
+  }
+}
+2025-10-07 11:59:34,140 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:34,140 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-07 11:59:34,140 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-07 11:59:36,268 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:36,269 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_5m_metric_tons_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-07 11:59:36,269 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:36,269 - INFO - ✅ Match found for capacity_ID 'capacity_2_5m_metric_tons_per_year' in capacity nodes
+2025-10-07 11:59:36,269 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:59:36,269 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:59:36,269 - INFO -   ➕ Set field 'additional': False
+2025-10-07 11:59:36,269 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:59:36,269 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:59:38,213 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:38,213 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tkh2steel_project",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:59:38,214 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:38,214 - INFO - ✅ Match found for investment_ID 'investment_tkh2steel_project' in investment nodes
+2025-10-07 11:59:38,214 - INFO -   ➕ Set field 'status': announced
+2025-10-07 11:59:38,214 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:59:38,214 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:59:38,214 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:59:38,214 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:59:39,839 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:39,839 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_directly_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-07 11:59:39,839 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:39,839 - INFO - ✅ Match found for product_ID 'product_hydrogen' in product nodes
+2025-10-07 11:59:39,839 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-07 11:59:39,839 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-07 11:59:39,839 - INFO - ✅ Match found for product_ID 'product_directly_reduced_iron' in product nodes
+2025-10-07 11:59:39,839 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:59:39,840 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-07 11:59:39,840 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:59:39,840 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:59:39,840 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:59:41,931 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:41,931 - INFO - {
+  "relationships": [
+    {
+      "source": "company_thyssenkrupp_steel",
+      "type": "owns",
+      "target": "factory_duisburg_germany"
+    }
+  ]
+}
+2025-10-07 11:59:41,931 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:41,931 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:59:41,931 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:59:46,750 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:46,750 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_5m_metric_tons_per_year",
+      "target": "factory_duisburg_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_5m_metric_tons_per_year",
+      "target": "product_directly_reduced_iron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_directly_reduced_iron",
+      "target": "factory_duisburg_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:59:46,750 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:46,750 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:59:46,750 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:59:47,737 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:47,737 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:59:47,738 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:47,738 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:59:47,738 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:59:50,503 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:59:50,503 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tkh2steel_project",
+      "target": "factory_duisburg_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_tkh2steel_project",
+      "target": "capacity_2_5m_metric_tons_per_year",
+      "type": "enables"
+    },
+    {
+      "source": "investment_tkh2steel_project",
+      "target": "product_directly_reduced_iron",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-07 11:59:50,504 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:59:50,522 - INFO - ✅ Updated Article ID: 68e39583bf3dd57f38ccc40a with 6 nodes and combined text.

@@ -16,8 +16,8 @@ from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tu
 
 logger = logging.getLogger(__name__)
 
-STATUS_ORDER = ["operational", "under construction", "announced", "unclear"]
-INVESTMENT_STATUS_ORDER = ["completed", "ongoing", "announced", "unclear"]
+STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
+INVESTMENT_STATUS_ORDER = ["cancelled", "paused", "completed", "ongoing", "announced", "unclear"]
 
 INCLUDE_FACTORY_EVENTS = True
 

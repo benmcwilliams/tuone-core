@@ -1,0 +1,112 @@
+2025-10-07 11:29:34,432 - INFO - 🔍 Text length: 2160 characters
+2025-10-07 11:29:34,432 - INFO - 📌 Processing Article ID: 68e39cedbf3dd57f38ccc420 — H2 Green Steel and Vale in agreement for the supply of direct reduction iron ore pellets
+2025-10-07 11:29:34,432 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:29:36,870 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:29:36,870 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_h2_green_steel",
+        "type": "company",
+        "name": "H2 Green Steel"
+      },
+      {
+        "id": "company_vale",
+        "type": "company",
+        "name": "Vale"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_boden_sweden",
+        "type": "factory",
+        "name": "Boden Steel Plant",
+        "location": {
+          "city": "Boden",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_direct_reduction_iron_ore_pellets",
+        "type": "product",
+        "name": "direct reduction iron ore pellets"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      },
+      {
+        "id": "product_near_zero emissions_steel",
+        "type": "product",
+        "name": "near-zero emissions steel"
+      }
+    ]
+  }
+}
+2025-10-07 11:29:36,871 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:29:36,871 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:29:36,871 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-07 11:29:36,871 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:29:36,871 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:29:39,225 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:29:39,225 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_direct_reduction_iron_ore_pellets",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "product_near_zero emissions_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:29:39,225 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:29:39,226 - INFO - ✅ Match found for product_ID 'product_direct_reduction_iron_ore_pellets' in product nodes
+2025-10-07 11:29:39,226 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:29:39,226 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-10-07 11:29:39,226 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-07 11:29:39,226 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-10-07 11:29:39,226 - INFO - ✅ Match found for product_ID 'product_near_zero emissions_steel' in product nodes
+2025-10-07 11:29:39,226 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:29:39,226 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:29:39,226 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:29:39,226 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:29:41,257 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:29:41,258 - INFO - {
+  "relationships": [
+    {
+      "source": "company_h2_green_steel",
+      "type": "owns",
+      "target": "factory_boden_sweden"
+    }
+  ]
+}
+2025-10-07 11:29:41,258 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:29:41,258 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:29:41,258 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:29:43,422 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:29:43,423 - INFO - {
+  "relationships": [
+    {
+      "source": "product_near_zero emissions_steel",
+      "target": "factory_boden_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:29:43,423 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:29:43,423 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-07 11:29:43,423 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-07 11:29:43,441 - INFO - ✅ Updated Article ID: 68e39cedbf3dd57f38ccc420 with 6 nodes and combined text.

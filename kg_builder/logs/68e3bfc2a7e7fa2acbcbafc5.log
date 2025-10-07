@@ -1,0 +1,147 @@
+2025-10-07 11:21:09,084 - INFO - 🔍 Text length: 4707 characters
+2025-10-07 11:21:09,084 - INFO - 📌 Processing Article ID: 68e3bfc2a7e7fa2acbcbafc5 — Green steel production with hydrogen: Salzgitter AG and Sunfire continue lighthouse project
+2025-10-07 11:21:09,084 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:21:14,796 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:21:14,796 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_sunfire",
+        "type": "company",
+        "name": "Sunfire"
+      },
+      {
+        "id": "company_salzgitter_ag",
+        "type": "company",
+        "name": "Salzgitter AG"
+      },
+      {
+        "id": "company_tu_bergakademie_freiberg",
+        "type": "company",
+        "name": "TU Bergakademie Freiberg"
+      },
+      {
+        "id": "company_salzgitter_flachstahl_gmbh",
+        "type": "company",
+        "name": "Salzgitter Flachstahl GmbH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_salzgitter_flachstahl_gmbh_steel_mill",
+        "type": "factory",
+        "name": "Salzgitter Flachstahl GmbH steel mill",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_16_5_kg_hydrogen_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "16.5 kg of hydrogen per hour",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_soec_electrolyzer",
+        "type": "product",
+        "name": "SOEC electrolyzer"
+      },
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-10-07 11:21:14,796 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:21:14,796 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-07 11:21:14,797 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-07 11:21:17,457 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:21:17,457 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_16_5_kg_hydrogen_unclear",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-10-07 11:21:17,457 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:21:17,457 - INFO - ✅ Match found for capacity_ID 'capacity_16_5_kg_hydrogen_unclear' in capacity nodes
+2025-10-07 11:21:17,457 - INFO -   ➕ Set field 'status': operational
+2025-10-07 11:21:17,457 - INFO -   ➕ Set field 'phase': unclear
+2025-10-07 11:21:17,457 - INFO -   ➕ Set field 'additional': False
+2025-10-07 11:21:17,457 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-07 11:21:17,457 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:21:17,458 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:21:18,940 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:21:18,940 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_soec_electrolyzer",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-10-07 11:21:18,941 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:21:18,941 - INFO - ✅ Match found for product_ID 'product_soec_electrolyzer' in product nodes
+2025-10-07 11:21:18,941 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-07 11:21:18,941 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-10-07 11:21:18,941 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-10-07 11:21:18,941 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-07 11:21:18,941 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-07 11:21:18,941 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:21:18,941 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:21:18,941 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:21:23,397 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:21:23,398 - INFO - {
+  "relationships": [
+    {
+      "source": "company_salzgitter_flachstahl_gmbh",
+      "type": "owns",
+      "target": "factory_salzgitter_flachstahl_gmbh_steel_mill"
+    }
+  ]
+}
+2025-10-07 11:21:23,398 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:21:23,398 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:21:23,398 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:21:28,015 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:21:28,015 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_16_5_kg_hydrogen_unclear",
+      "target": "factory_salzgitter_flachstahl_gmbh_steel_mill",
+      "type": "at"
+    },
+    {
+      "source": "capacity_16_5_kg_hydrogen_unclear",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_salzgitter_flachstahl_gmbh_steel_mill",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:21:28,015 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:21:28,015 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-07 11:21:28,015 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-07 11:21:28,033 - INFO - ✅ Updated Article ID: 68e3bfc2a7e7fa2acbcbafc5 with 8 nodes and combined text.

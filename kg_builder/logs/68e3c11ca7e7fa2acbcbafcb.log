@@ -1,0 +1,114 @@
+2025-10-07 11:19:59,109 - INFO - 🔍 Text length: 3690 characters
+2025-10-07 11:19:59,109 - INFO - 📌 Processing Article ID: 68e3c11ca7e7fa2acbcbafcb — Green electricity for future steel production in Donawitz
+2025-10-07 11:19:59,109 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:20:02,398 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:20:02,398 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_voestalpine",
+        "type": "company",
+        "name": "Voestalpine"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_donawitz",
+        "type": "factory",
+        "name": "Donawitz",
+        "location": {
+          "city": "Donawitz",
+          "country": "Austria"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_linz",
+        "type": "factory",
+        "name": "Linz",
+        "location": {
+          "city": "Linz",
+          "country": "Austria"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_arc_furnace",
+        "type": "product",
+        "name": "Electric Arc Furnace (EAF)"
+      },
+      {
+        "id": "product_hydrogen_plasma_steel",
+        "type": "product",
+        "name": "Hydrogen Plasma Steel"
+      }
+    ]
+  }
+}
+2025-10-07 11:20:02,398 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:20:02,398 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:20:02,398 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-07 11:20:02,398 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:20:02,399 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:20:04,166 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:20:04,167 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_arc_furnace",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_hydrogen_plasma_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:20:04,167 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:20:04,167 - INFO - ✅ Match found for product_ID 'product_electric_arc_furnace' in product nodes
+2025-10-07 11:20:04,167 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:20:04,167 - INFO - ✅ Match found for product_ID 'product_hydrogen_plasma_steel' in product nodes
+2025-10-07 11:20:04,167 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:20:04,167 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:20:04,167 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:20:04,167 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:20:11,409 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:20:11,409 - INFO - {
+  "relationships": [
+    {
+      "source": "company_voestalpine",
+      "type": "owns",
+      "target": "factory_donawitz"
+    },
+    {
+      "source": "company_voestalpine",
+      "type": "owns",
+      "target": "factory_linz"
+    }
+  ]
+}
+2025-10-07 11:20:11,409 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:20:11,409 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:20:11,409 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:20:13,662 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:20:13,662 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_arc_furnace",
+      "target": "factory_donawitz",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_arc_furnace",
+      "target": "factory_linz",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:20:13,662 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:20:13,662 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-07 11:20:13,662 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-07 11:20:13,681 - INFO - ✅ Updated Article ID: 68e3c11ca7e7fa2acbcbafcb with 5 nodes and combined text.

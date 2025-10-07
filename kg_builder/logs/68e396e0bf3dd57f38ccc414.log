@@ -1,0 +1,143 @@
+2025-10-07 11:57:40,114 - INFO - 🔍 Text length: 2368 characters
+2025-10-07 11:57:40,114 - INFO - 📌 Processing Article ID: 68e396e0bf3dd57f38ccc414 — Construction starts on Oxelösund EAF
+2025-10-07 11:57:40,114 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-07 11:57:44,036 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:44,036 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ssab",
+        "type": "company",
+        "name": "SSAB"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_oxel\u00f6sund_sweden",
+        "type": "factory",
+        "name": "Oxel\u00f6sund",
+        "location": {
+          "city": "Oxel\u00f6sund",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ssab_oxel\u00f6sund_eaf",
+        "type": "investment",
+        "name": "SSAB Oxel\u00f6sund EAF",
+        "amount": "SEK 6.2 billion",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fossil_free_steel",
+        "type": "product",
+        "name": "SSAB Fossil-free\u2122 steel"
+      },
+      {
+        "id": "product_ssab_zero_steel",
+        "type": "product",
+        "name": "SSAB Zero\u2122"
+      }
+    ]
+  }
+}
+2025-10-07 11:57:44,037 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:44,037 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-07 11:57:44,037 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-07 11:57:44,037 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-07 11:57:46,595 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:46,596 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ssab_oxel\u00f6sund_eaf",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-07 11:57:46,596 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:46,596 - INFO - ✅ Match found for investment_ID 'investment_ssab_oxelösund_eaf' in investment nodes
+2025-10-07 11:57:46,596 - INFO -   ➕ Set field 'status': ongoing
+2025-10-07 11:57:46,596 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-07 11:57:46,596 - INFO -   ➕ Set field 'is_total': True
+2025-10-07 11:57:46,596 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-07 11:57:46,596 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-07 11:57:48,598 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:48,598 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_fossil_free_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_ssab_zero_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-07 11:57:48,599 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:48,599 - INFO - ✅ Match found for product_ID 'product_fossil_free_steel' in product nodes
+2025-10-07 11:57:48,599 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:57:48,599 - INFO - ✅ Match found for product_ID 'product_ssab_zero_steel' in product nodes
+2025-10-07 11:57:48,599 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-07 11:57:48,599 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-07 11:57:48,599 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-07 11:57:48,599 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-07 11:57:50,965 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:50,965 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_oxel\u00f6sund_sweden"
+    }
+  ]
+}
+2025-10-07 11:57:50,965 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:50,965 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-07 11:57:50,966 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-07 11:57:54,482 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:54,483 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fossil_free_steel",
+      "target": "factory_oxel\u00f6sund_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ssab_zero_steel",
+      "target": "factory_oxel\u00f6sund_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-07 11:57:54,483 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:54,483 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-07 11:57:54,483 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-07 11:57:55,516 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:55,517 - INFO - {
+  "relationships": []
+}
+2025-10-07 11:57:55,517 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:55,517 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-07 11:57:55,517 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-07 11:57:57,157 - INFO - ✅ OpenAI returned output:
+2025-10-07 11:57:57,157 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ssab_oxel\u00f6sund_eaf",
+      "target": "factory_oxel\u00f6sund_sweden",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-07 11:57:57,157 - INFO - POST-PROCESSING STARTING.
+2025-10-07 11:57:57,181 - INFO - ✅ Updated Article ID: 68e396e0bf3dd57f38ccc414 with 5 nodes and combined text.
