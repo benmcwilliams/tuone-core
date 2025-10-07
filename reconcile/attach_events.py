@@ -84,7 +84,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
                 date=("date","first"),
                 article_id=("article_id","first"),
                 additional=("additional","first"),
-                investment=("amount_EUR","first"),
+                amount_EUR=("amount_EUR","first"),
                 is_total=("is_total","first"),
                 capacity_id=("capacity_id","first"),
                 investment_id=("investment_id","first"))
@@ -125,7 +125,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # capacities
     for _, r in df_cap.iterrows():
         pid = r["project_id"]
-        raw_amt = r.get("investment")
+        raw_amt = r.get("amount_EUR")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
         products = norm_pl2_key(r["prod_union"])
 
@@ -161,7 +161,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # investments
     for _, r in df_inv.iterrows():
         pid = r["project_id"]
-        raw_amt = r.get("investment")
+        raw_amt = r.get("amount_EUR")
         amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
         products = norm_pl2_key(r["prod_union"])
 
