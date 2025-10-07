@@ -39,7 +39,7 @@ def build_registry_union(to_excel: bool = True, *, context=None) -> pd.DataFrame
     #    If duplicates exist, keep the row with the best provenance by PROVENANCE_ORDER.
     if not df.empty:
         df["provenance_rank"] = df["provenance"].map({p:i for i,p in enumerate(PROVENANCE_ORDER)})
-        dedupe_key = ["factory","inst_canon","iso2","adm1","product_lv1","product_lv2"]
+        dedupe_key = ["factory", "factory_status","inst_canon","iso2","adm1","product_lv1","product_lv2"]
         df = (df.sort_values(dedupe_key + ["provenance_rank"])
                 .drop_duplicates(dedupe_key, keep="first")
                 .drop(columns=["provenance_rank"]))

@@ -18,6 +18,7 @@ from src.config import GROUPED_FACTORIES, ZEV_PRODUCTION
 def _latest_status_per_project(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df = df[df["factory_status"]!="unclear"].copy() # clean out / don't include unclear statuses
     return (
         df.loc[df["factory_status"].notna(), ["project_id", "factory_status", "date"]]
           .sort_values(["project_id", "date"])
@@ -43,7 +44,6 @@ def _build_facilities_df() -> pd.DataFrame:
               "lat": "first",
               "lon": "first",
               "product_lv1": "first",
-              #"product_lv2": _agg_norm_list, 
               "product": _agg_norm_list,        
           })
           .merge(latest, on="project_id", how="left")
@@ -83,12 +83,14 @@ def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[
 
     should_update_status = False
     if new_s:
-        if old_dt is None and new_dt is not None:
+        # Update if status text has changed
+        if new_status != old_status:
             should_update_status = True
-        elif old_dt is not None and new_dt is not None:
-            should_update_status = (new_dt > old_dt) or (new_dt == old_dt and new_status != old_status)
-        elif old_dt is None and new_dt is None:
-            should_update_status = (new_status != old_status)
+        # Or if new date is newer than old
+        elif old_dt is None and new_dt is not None:
+            should_update_status = True
+        elif old_dt is not None and new_dt is not None and new_dt > old_dt:
+            should_update_status = True
 
     if should_update_status:
         update["latest_factory_status"] = new_s

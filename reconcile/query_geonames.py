@@ -238,8 +238,8 @@ def commit_updates(updates: List[UpdateOne], batch_size: int = 1000) -> None:
 
 # ---------- Entry point ----------
 
-def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0) -> None:
-    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=2)
+def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0, failure_backoff_days: Optional[int] = 2) -> None:
+    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=failure_backoff_days)
     candidates, metadata = collect_candidates(existing_pairs, limit=limit, skip=skip)
     updates = process_candidates(candidates, metadata, european_only=True)
     commit_updates(updates)

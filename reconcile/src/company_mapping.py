@@ -44,4 +44,5 @@ JV_MERGE = {
     ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
     ("stellantis", "DE", "Kaiserslautern", "battery"): "automotive cell company",
     ("volkswagen northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
+    ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
 }
