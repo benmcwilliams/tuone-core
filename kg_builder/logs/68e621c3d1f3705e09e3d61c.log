@@ -1,0 +1,150 @@
+2025-10-08 12:11:03,407 - INFO - 🔍 Text length: 1340 characters
+2025-10-08 12:11:03,407 - INFO - 📌 Processing Article ID: 68e621c3d1f3705e09e3d61c — Vestas Setting Up Assembly Plant for Flagship Offshore Wind Turbine in Poland
+2025-10-08 12:11:03,407 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:11:08,488 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:08,488 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas",
+        "type": "company",
+        "name": "Vestas"
+      },
+      {
+        "id": "company_pkn_orlen",
+        "type": "company",
+        "name": "PKN Orlen"
+      },
+      {
+        "id": "company_northland_power",
+        "type": "company",
+        "name": "Northland Power"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_szczecin_poland",
+        "type": "factory",
+        "name": "Szczecin Factory",
+        "location": {
+          "city": "Szczecin",
+          "country": "Poland"
+        },
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_v236_15_0_mw_turbine",
+        "type": "product",
+        "name": "V236-15.0 MW turbine"
+      },
+      {
+        "id": "product_nacelles",
+        "type": "product",
+        "name": "nacelles"
+      },
+      {
+        "id": "product_hubs",
+        "type": "product",
+        "name": "hubs"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_gw_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 GW",
+        "status": "unclear"
+      }
+    ]
+  }
+}
+2025-10-08 12:11:08,488 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:08,488 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-08 12:11:08,489 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-08 12:11:09,306 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:09,306 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_gw_unclear",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-08 12:11:09,307 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:09,307 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_unclear' in capacity nodes
+2025-10-08 12:11:09,307 - INFO -   ➕ Set field 'status': announced
+2025-10-08 12:11:09,307 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-08 12:11:09,307 - INFO -   ➕ Set field 'additional': False
+2025-10-08 12:11:09,307 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-08 12:11:09,307 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:11:09,307 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:11:11,970 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:11,970 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_v236_15_0_mw_turbine",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_nacelles",
+      "product_lv1": "wind",
+      "product_lv2": "nacelle"
+    },
+    {
+      "product_ID": "product_hubs",
+      "product_lv1": "wind",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-08 12:11:11,970 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:11,970 - INFO - ✅ Match found for product_ID 'product_v236_15_0_mw_turbine' in product nodes
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-08 12:11:11,971 - INFO - ✅ Match found for product_ID 'product_nacelles' in product nodes
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv2': nacelle
+2025-10-08 12:11:11,971 - INFO - ✅ Match found for product_ID 'product_hubs' in product nodes
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:11:11,971 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-08 12:11:11,971 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:11:11,971 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:11:11,971 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:11:12,892 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:12,892 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vestas",
+      "type": "owns",
+      "target": "factory_szczecin_poland"
+    }
+  ]
+}
+2025-10-08 12:11:12,892 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:12,892 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:11:12,893 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:11:15,451 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:15,451 - INFO - {
+  "relationships": [
+    {
+      "source": "product_nacelles",
+      "target": "factory_szczecin_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hubs",
+      "target": "factory_szczecin_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:11:15,451 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:15,451 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-08 12:11:15,451 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-08 12:11:15,474 - INFO - ✅ Updated Article ID: 68e621c3d1f3705e09e3d61c with 8 nodes and combined text.

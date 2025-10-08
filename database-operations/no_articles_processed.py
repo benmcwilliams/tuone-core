@@ -1,5 +1,7 @@
 import sys; sys.path.append("..")
 from mongo_client import articles_collection, test_mongo_connection
+import pandas as pd
+import matplotlib.pyplot as plt
 
 test_mongo_connection()
 
@@ -71,13 +73,10 @@ pipeline = [
 ]
 
 rows = list(articles_collection.aggregate(pipeline))
-#print(rows)
-
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # Convert aggregation output to DataFrame
 df = pd.DataFrame(rows)
+df.to_excel("validation_by_day.xlsx")
 
 # Make sure date column is datetime
 df["date_local"] = pd.to_datetime(df["date_local"])

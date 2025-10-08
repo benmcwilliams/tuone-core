@@ -1,0 +1,88 @@
+2025-10-08 12:10:14,645 - INFO - 🔍 Text length: 2052 characters
+2025-10-08 12:10:14,645 - INFO - 📌 Processing Article ID: 68e6234bd1f3705e09e3d624 — Vestas will make its biggest-ever wind turbine blade in Poland, hints at UK plant
+2025-10-08 12:10:14,645 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:10:21,179 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:10:21,180 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas_wind_systems_a_s",
+        "type": "company",
+        "name": "Vestas Wind Systems A/S"
+      },
+      {
+        "id": "company_rwe_ag",
+        "type": "company",
+        "name": "RWE AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_szczecin_poland",
+        "type": "factory",
+        "name": "Szczecin Factory",
+        "location": {
+          "city": "Szczecin",
+          "country": "Poland"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_wind_turbine_blades",
+        "type": "product",
+        "name": "wind turbine blades"
+      }
+    ]
+  }
+}
+2025-10-08 12:10:21,180 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:10:21,180 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-08 12:10:21,180 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-08 12:10:21,180 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:10:21,180 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:10:22,511 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:10:22,511 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_wind_turbine_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-08 12:10:22,511 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:10:22,511 - INFO - ✅ Match found for product_ID 'product_wind_turbine_blades' in product nodes
+2025-10-08 12:10:22,512 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:10:22,512 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-08 12:10:22,512 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:10:22,512 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:10:22,512 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:10:23,635 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:10:23,635 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vestas_wind_systems_a_s",
+      "type": "owns",
+      "target": "factory_szczecin_poland"
+    }
+  ]
+}
+2025-10-08 12:10:23,635 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:10:23,635 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:10:23,635 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:10:24,571 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:10:24,571 - INFO - {
+  "relationships": [
+    {
+      "source": "product_wind_turbine_blades",
+      "target": "factory_szczecin_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:10:24,571 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:10:24,572 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-08 12:10:24,572 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-08 12:10:24,591 - INFO - ✅ Updated Article ID: 68e6234bd1f3705e09e3d624 with 4 nodes and combined text.

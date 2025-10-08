@@ -1,0 +1,219 @@
+2025-10-08 12:08:19,387 - INFO - 🔍 Text length: 1400 characters
+2025-10-08 12:08:19,387 - INFO - 📌 Processing Article ID: 68e626d8d1f3705e09e3d632 — BMW 1 Series production launch at BMW Group Plant Leipzig
+2025-10-08 12:08:19,387 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:08:24,638 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:08:24,639 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw",
+        "type": "company",
+        "name": "BMW"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bmw_group_plant_leipzig",
+        "type": "factory",
+        "name": "BMW Group Plant Leipzig",
+        "location": {
+          "city": "Leipzig",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_350k_units_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "350,000 units a year",
+        "status": "operational"
+      },
+      {
+        "id": "capacity_1,300_vehicles per day_unclear_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "1,300 vehicles per day",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_bmw_1_series",
+        "type": "product",
+        "name": "BMW 1 Series"
+      },
+      {
+        "id": "product_bmw_2_series_gran_coupe",
+        "type": "product",
+        "name": "BMW 2 Series Gran Coupe"
+      },
+      {
+        "id": "product_bmw_2_series_active_tourer",
+        "type": "product",
+        "name": "BMW 2 Series Active Tourer"
+      },
+      {
+        "id": "product_mini_countryman",
+        "type": "product",
+        "name": "MINI Countryman"
+      }
+    ]
+  }
+}
+2025-10-08 12:08:24,639 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:08:24,639 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-08 12:08:24,639 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-08 12:08:26,309 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:08:26,309 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_350k_units_per_year",
+      "status": "operational",
+      "phase": "expansion",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_1,300_vehicles per day_unclear_unclear",
+      "status": "unclear",
+      "phase": "unclear",
+      "additional": true
+    }
+  ]
+}
+2025-10-08 12:08:26,309 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:08:26,309 - INFO - ✅ Match found for capacity_ID 'capacity_350k_units_per_year' in capacity nodes
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'status': operational
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'phase': expansion
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'additional': False
+2025-10-08 12:08:26,310 - INFO - ✅ Match found for capacity_ID 'capacity_1,300_vehicles per day_unclear_unclear' in capacity nodes
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'status': unclear
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'phase': unclear
+2025-10-08 12:08:26,310 - INFO -   ➕ Set field 'additional': True
+2025-10-08 12:08:26,310 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-08 12:08:26,310 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:08:26,310 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:08:29,562 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:08:29,562 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_bmw_1_series",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_bmw_2_series_gran_coupe",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_bmw_2_series_active_tourer",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    },
+    {
+      "product_ID": "product_mini_countryman",
+      "product_lv1": "vehicle",
+      "product_lv2": "fossil"
+    }
+  ]
+}
+2025-10-08 12:08:29,562 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:08:29,562 - INFO - ✅ Match found for product_ID 'product_bmw_1_series' in product nodes
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-10-08 12:08:29,563 - INFO - ✅ Match found for product_ID 'product_bmw_2_series_gran_coupe' in product nodes
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-10-08 12:08:29,563 - INFO - ✅ Match found for product_ID 'product_bmw_2_series_active_tourer' in product nodes
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-10-08 12:08:29,563 - INFO - ✅ Match found for product_ID 'product_mini_countryman' in product nodes
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-08 12:08:29,563 - INFO -   ➕ Set field 'product_lv2': fossil
+2025-10-08 12:08:29,563 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:08:29,563 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:08:29,563 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:08:30,484 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:08:30,484 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_leipzig"
+    }
+  ]
+}
+2025-10-08 12:08:30,484 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:08:30,485 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:08:30,485 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:08:36,875 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:08:36,875 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_350k_units_per_year",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1,300_vehicles per day_unclear_unclear",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "at"
+    },
+    {
+      "source": "product_bmw_1_series",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_2_series_gran_coupe",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_bmw_2_series_active_tourer",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mini_countryman",
+      "target": "factory_bmw_group_plant_leipzig",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_350k_units_per_year",
+      "target": "product_bmw_1_series",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1,300_vehicles per day_unclear_unclear",
+      "target": "product_bmw_1_series",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1,300_vehicles per day_unclear_unclear",
+      "target": "product_bmw_2_series_gran_coupe",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1,300_vehicles per day_unclear_unclear",
+      "target": "product_bmw_2_series_active_tourer",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_1,300_vehicles per day_unclear_unclear",
+      "target": "product_mini_countryman",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-10-08 12:08:36,875 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:08:36,876 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-08 12:08:36,876 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-08 12:08:36,894 - INFO - ✅ Updated Article ID: 68e626d8d1f3705e09e3d632 with 8 nodes and combined text.

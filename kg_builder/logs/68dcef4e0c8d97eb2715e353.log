@@ -1,0 +1,158 @@
+2025-10-08 12:13:15,903 - INFO - 🔍 Text length: 5315 characters
+2025-10-08 12:13:15,903 - INFO - 📌 Processing Article ID: 68dcef4e0c8d97eb2715e353 — It’s all systems go for the green transformation
+2025-10-08 12:13:15,903 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:13:18,232 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:18,233 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_dillinger",
+        "type": "company",
+        "name": "Dillinger"
+      },
+      {
+        "id": "company_saarstahl",
+        "type": "company",
+        "name": "Saarstahl"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dillingen_germany",
+        "type": "factory",
+        "name": "Dillingen Plant",
+        "location": {
+          "city": "Dillingen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hydrogen_steel_production",
+        "type": "investment",
+        "name": "Hydrogen Steel Production",
+        "amount": "\u20ac14 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_environment_related",
+        "type": "investment",
+        "name": "Environment-related Investments",
+        "amount": "\u20ac70 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_steel",
+        "type": "product",
+        "name": "Green Steel"
+      }
+    ]
+  }
+}
+2025-10-08 12:13:18,233 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:18,233 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-08 12:13:18,233 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-08 12:13:18,233 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-08 12:13:20,893 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:20,894 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hydrogen_steel_production",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_environment_related",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-10-08 12:13:20,894 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:20,894 - INFO - ✅ Match found for investment_ID 'investment_hydrogen_steel_production' in investment nodes
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'status': completed
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'is_total': True
+2025-10-08 12:13:20,894 - INFO - ✅ Match found for investment_ID 'investment_environment_related' in investment nodes
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'status': completed
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'phase': unclear
+2025-10-08 12:13:20,894 - INFO -   ➕ Set field 'is_total': True
+2025-10-08 12:13:20,894 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:13:20,894 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:13:22,633 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:22,633 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_steel",
+      "product_lv1": "steel",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-08 12:13:22,633 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:22,634 - INFO - ✅ Match found for product_ID 'product_green_steel' in product nodes
+2025-10-08 12:13:22,634 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-08 12:13:22,634 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:13:22,634 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:13:22,634 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:13:26,015 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:26,015 - INFO - {
+  "relationships": [
+    {
+      "source": "company_dillinger",
+      "type": "owns",
+      "target": "factory_dillingen_germany"
+    },
+    {
+      "source": "company_saarstahl",
+      "type": "owns",
+      "target": "factory_dillingen_germany"
+    }
+  ]
+}
+2025-10-08 12:13:26,015 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:26,016 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:13:26,016 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:13:27,140 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:27,140 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_steel",
+      "target": "factory_dillingen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:13:27,140 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:27,140 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-08 12:13:27,140 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-08 12:13:27,959 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:27,960 - INFO - {
+  "relationships": []
+}
+2025-10-08 12:13:27,960 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:27,960 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-08 12:13:27,960 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-08 12:13:30,417 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:13:30,417 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hydrogen_steel_production",
+      "target": "product_green_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_hydrogen_steel_production",
+      "target": "factory_dillingen_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-08 12:13:30,417 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:13:30,436 - INFO - ✅ Updated Article ID: 68dcef4e0c8d97eb2715e353 with 6 nodes and combined text.

@@ -47,4 +47,6 @@ JV_MERGE = {
     ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
     ("chery", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("ebro", "ES", "Catalonia", "vehicle"): "chery ebro",
+    ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
+    ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
 }

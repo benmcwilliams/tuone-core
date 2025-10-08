@@ -1,0 +1,209 @@
+2025-10-08 12:11:41,521 - INFO - 🔍 Text length: 2646 characters
+2025-10-08 12:11:41,521 - INFO - 📌 Processing Article ID: 68e3aa2d083cd14407dba2a2 — Siemens delivers PEM electrolyzer for Salzgitter AG
+2025-10-08 12:11:41,521 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:11:48,162 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:48,163 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_salzgitter_flachstahl_gmbh",
+        "type": "company",
+        "name": "Salzgitter Flachstahl GmbH"
+      },
+      {
+        "id": "company_siemens_gas_and_power",
+        "type": "company",
+        "name": "Siemens Gas and Power"
+      },
+      {
+        "id": "company_avacon_ag",
+        "type": "company",
+        "name": "Avacon AG"
+      },
+      {
+        "id": "company_linde_ag",
+        "type": "company",
+        "name": "Linde AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_pem_electrolysis_plant",
+        "type": "factory",
+        "name": "PEM Electrolysis Plant",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_wind_turbines",
+        "type": "factory",
+        "name": "Wind Turbines",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_salzgitter_wind_hydrogen_project",
+        "type": "investment",
+        "name": "Salzgitter Wind Hydrogen Project",
+        "amount": "50 million euro",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_2_mw_announced_greenfield",
+        "type": "greenfield",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced",
+        "amount": "2.2 MW"
+      },
+      {
+        "id": "capacity_30_mw_announced_greenfield",
+        "type": "greenfield",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced",
+        "amount": "30 MW"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hydrogen",
+        "type": "product",
+        "name": "Hydrogen"
+      },
+      {
+        "id": "wind_power",
+        "type": "product",
+        "name": "wind power",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-10-08 12:11:48,163 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:48,163 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-08 12:11:48,163 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-08 12:11:48,163 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-08 12:11:50,724 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:50,724 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_salzgitter_wind_hydrogen_project",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-08 12:11:50,725 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:50,725 - INFO - ✅ Match found for investment_ID 'investment_salzgitter_wind_hydrogen_project' in investment nodes
+2025-10-08 12:11:50,725 - INFO -   ➕ Set field 'status': announced
+2025-10-08 12:11:50,725 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-08 12:11:50,725 - INFO -   ➕ Set field 'is_total': True
+2025-10-08 12:11:50,725 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:11:50,725 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:11:52,114 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:52,114 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolyser"
+    },
+    {
+      "product_ID": "wind_power",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-10-08 12:11:52,114 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:52,114 - INFO - ✅ Match found for product_ID 'product_hydrogen' in product nodes
+2025-10-08 12:11:52,114 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-08 12:11:52,114 - INFO -   ➕ Set field 'product_lv2': electrolyser
+2025-10-08 12:11:52,114 - INFO - ✅ Match found for product_ID 'wind_power' in product nodes
+2025-10-08 12:11:52,114 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:11:52,114 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-08 12:11:52,114 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:11:52,115 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:11:52,115 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:11:52,974 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:52,975 - INFO - {
+  "relationships": [
+    {
+      "source": "company_salzgitter_flachstahl_gmbh",
+      "type": "owns",
+      "target": "factory_pem_electrolysis_plant"
+    },
+    {
+      "source": "company_avacon_ag",
+      "type": "owns",
+      "target": "factory_wind_turbines"
+    }
+  ]
+}
+2025-10-08 12:11:52,975 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:52,975 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:11:52,975 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:11:55,739 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:55,740 - INFO - {
+  "relationships": [
+    {
+      "source": "wind_power",
+      "target": "factory_wind_turbines",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hydrogen",
+      "target": "factory_pem_electrolysis_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:11:55,740 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:55,740 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-08 12:11:55,740 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-08 12:11:56,617 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:56,617 - INFO - {
+  "relationships": []
+}
+2025-10-08 12:11:56,617 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:56,617 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-08 12:11:56,617 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-08 12:11:59,791 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:11:59,791 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_salzgitter_wind_hydrogen_project",
+      "target": "factory_pem_electrolysis_plant",
+      "type": "targets"
+    },
+    {
+      "source": "investment_salzgitter_wind_hydrogen_project",
+      "target": "factory_wind_turbines",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-08 12:11:59,791 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:11:59,809 - INFO - ✅ Updated Article ID: 68e3aa2d083cd14407dba2a2 with 11 nodes and combined text.

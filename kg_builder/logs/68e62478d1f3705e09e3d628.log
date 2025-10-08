@@ -1,0 +1,190 @@
+2025-10-08 12:09:40,854 - INFO - 🔍 Text length: 4157 characters
+2025-10-08 12:09:40,854 - INFO - 📌 Processing Article ID: 68e62478d1f3705e09e3d628 — Odense Port surpasses the former Lindø Shipyard
+2025-10-08 12:09:40,854 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:09:46,510 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:46,510 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas",
+        "type": "company",
+        "name": "Vestas"
+      },
+      {
+        "id": "company_fayard",
+        "type": "company",
+        "name": "Fayard"
+      },
+      {
+        "id": "company_bladt_industries",
+        "type": "company",
+        "name": "Bladt Industries"
+      },
+      {
+        "id": "company_cs_wind",
+        "type": "company",
+        "name": "CS WIND"
+      },
+      {
+        "id": "odense_port",
+        "type": "company",
+        "name": "Odense Port",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "operational"
+      }
+    ],
+    "joint_ventures": [],
+    "factories": [
+      {
+        "id": "factory_odense_port",
+        "type": "factory",
+        "name": "Odense Port",
+        "location": {
+          "city": "Odense",
+          "country": "Denmark"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [],
+    "capacities": [
+      {
+        "id": "capacity_nacelles_expansion",
+        "type": "capacity",
+        "name": "",
+        "amount": "150 employees",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_nacelles",
+        "type": "product",
+        "name": "nacelles"
+      },
+      {
+        "id": "product_jacket_foundations",
+        "type": "product",
+        "name": "jacket foundations"
+      },
+      {
+        "id": "product_monopiles",
+        "type": "product",
+        "name": "monopiles"
+      },
+      {
+        "id": "wind_turbine towers",
+        "type": "product",
+        "name": "wind turbine towers",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-10-08 12:09:46,510 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:46,511 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-08 12:09:46,511 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-08 12:09:51,993 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:51,994 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_nacelles_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": false
+    }
+  ]
+}
+2025-10-08 12:09:51,994 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:51,994 - INFO - ✅ Match found for capacity_ID 'capacity_nacelles_expansion' in capacity nodes
+2025-10-08 12:09:51,994 - INFO -   ➕ Set field 'status': announced
+2025-10-08 12:09:51,994 - INFO -   ➕ Set field 'phase': expansion
+2025-10-08 12:09:51,994 - INFO -   ➕ Set field 'additional': False
+2025-10-08 12:09:51,994 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-08 12:09:51,994 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:09:51,994 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:09:54,758 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:54,758 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_nacelles",
+      "product_lv1": "wind",
+      "product_lv2": "nacelle"
+    },
+    {
+      "product_ID": "product_jacket_foundations",
+      "product_lv1": "wind",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_monopiles",
+      "product_lv1": "wind",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "wind_turbine towers",
+      "product_lv1": "wind",
+      "product_lv2": "tower"
+    }
+  ]
+}
+2025-10-08 12:09:54,759 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:54,759 - INFO - ✅ Match found for product_ID 'product_nacelles' in product nodes
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv2': nacelle
+2025-10-08 12:09:54,759 - INFO - ✅ Match found for product_ID 'product_jacket_foundations' in product nodes
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-08 12:09:54,759 - INFO - ✅ Match found for product_ID 'product_monopiles' in product nodes
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-08 12:09:54,759 - INFO - ✅ Match found for product_ID 'wind_turbine towers' in product nodes
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:54,759 - INFO -   ➕ Set field 'product_lv2': tower
+2025-10-08 12:09:54,759 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:09:54,759 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:09:54,759 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:09:55,885 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:55,886 - INFO - {
+  "relationships": [
+    {
+      "source": "odense_port",
+      "type": "owns",
+      "target": "factory_odense_port"
+    }
+  ]
+}
+2025-10-08 12:09:55,886 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:55,886 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:09:55,886 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:09:57,525 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:57,525 - INFO - {
+  "relationships": [
+    {
+      "source": "product_nacelles",
+      "target": "factory_odense_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_jacket_foundations",
+      "target": "factory_odense_port",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_monopiles",
+      "target": "factory_odense_port",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:09:57,525 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:57,525 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-08 12:09:57,526 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-08 12:09:57,552 - INFO - ✅ Updated Article ID: 68e62478d1f3705e09e3d628 with 11 nodes and combined text.

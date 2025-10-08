@@ -1,0 +1,101 @@
+2025-10-08 12:09:12,434 - INFO - 🔍 Text length: 995 characters
+2025-10-08 12:09:12,434 - INFO - 📌 Processing Article ID: 68e62610d1f3705e09e3d62c — Siemens Gamesa Starts Producing 108-Metre Wind Turbine Blades in UK
+2025-10-08 12:09:12,434 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-08 12:09:15,027 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:15,028 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_siemens_gamesa",
+        "type": "company",
+        "name": "Siemens Gamesa"
+      },
+      {
+        "id": "company_rwe",
+        "type": "company",
+        "name": "RWE"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_hull_uk",
+        "type": "factory",
+        "name": "Hull Factory",
+        "location": {
+          "city": "Hull",
+          "country": "UK"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_b108_integralblade",
+        "type": "product",
+        "name": "B108 IntegralBlade"
+      },
+      {
+        "id": "product_sg_14_222_dd",
+        "type": "product",
+        "name": "SG 14-222 DD wind turbine"
+      }
+    ]
+  }
+}
+2025-10-08 12:09:15,028 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:15,028 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-08 12:09:15,028 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-08 12:09:15,028 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-08 12:09:15,028 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-08 12:09:16,651 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:16,652 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_b108_integralblade",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    },
+    {
+      "product_ID": "product_sg_14_222_dd",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-10-08 12:09:16,652 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:16,652 - INFO - ✅ Match found for product_ID 'product_b108_integralblade' in product nodes
+2025-10-08 12:09:16,652 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:16,652 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-08 12:09:16,652 - INFO - ✅ Match found for product_ID 'product_sg_14_222_dd' in product nodes
+2025-10-08 12:09:16,652 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-08 12:09:16,652 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-08 12:09:16,652 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-08 12:09:16,652 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-08 12:09:16,652 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-08 12:09:17,863 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:17,863 - INFO - {
+  "relationships": [
+    {
+      "source": "company_siemens_gamesa",
+      "type": "owns",
+      "target": "factory_hull_uk"
+    }
+  ]
+}
+2025-10-08 12:09:17,863 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:17,863 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-08 12:09:17,863 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-08 12:09:26,473 - INFO - ✅ OpenAI returned output:
+2025-10-08 12:09:26,473 - INFO - {
+  "relationships": [
+    {
+      "source": "product_b108_integralblade",
+      "target": "factory_hull_uk",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-08 12:09:26,473 - INFO - POST-PROCESSING STARTING.
+2025-10-08 12:09:26,473 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-08 12:09:26,473 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-08 12:09:26,500 - INFO - ✅ Updated Article ID: 68e62610d1f3705e09e3d62c with 5 nodes and combined text.
