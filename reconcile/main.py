@@ -2,6 +2,7 @@ import sys; sys.path.append("..")
 import logging
 import time
 from mongo_client import facilities_collection
+from src.main_helpers import log_nodes_for_article
 from src.logger import setup_logger
 from src.merge_helpers import make_context_from_frames
 from normalise_products import classify_products_sync_mongo
@@ -33,6 +34,8 @@ from src.config import (
     CLEAN_INVESTMENT_FUNDS,
 )
 
+debug_articleID = "68e67fbf2423d7d8b125bfc0"
+
 def main(update_mongo_metadata=False, update_main_database=False):
 
     t0_pipeline = time.time()
@@ -53,10 +56,11 @@ def main(update_mongo_metadata=False, update_main_database=False):
     if update_main_database:
 
         logging.info("🗞️ Flattening articles...")
-        nodes_df, rels_df = run_flatten_articles(save=True)
+        nodes_df, rels_df = run_flatten_articles(save=False)
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
+        log_nodes_for_article(ctx, debug_articleID)
 
         logging.info("🉑 Merging nodes and relationships...")
         df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric
@@ -103,5 +107,5 @@ def main(update_mongo_metadata=False, update_main_database=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=False,
-        update_main_database=False)
+    main(update_mongo_metadata=True,
+        update_main_database=True)

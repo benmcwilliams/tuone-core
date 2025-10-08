@@ -28,8 +28,7 @@ def expand_nodes(nodes_by_label: Dict[str, pd.DataFrame],
     else:
         df = nodes_by_label[label].copy()
 
-    # Ensure all keep_cols exist, fill with None (or False if you prefer)
-    # should add the logic for investment is_total here too 
+    # Ensure all keep_cols exist
     for col in keep_cols:
         if col not in df.columns:
             # Decide default based on column semantics
@@ -82,7 +81,6 @@ def build_view(view_spec: dict,
       - "edges": [ { "alias": ..., "type": ..., "source_label": ..., "target_label": ..., "rename": {...} } ]
       - "join_chain": [ ("edges_alias_or_node_alias", "key_left", "node_alias", "key_right", "how") ...]
       - "filters": [ Callable[[pd.DataFrame], pd.DataFrame], ... ]
-      - "dedupe": Optional[Tuple[List[str], str]]  # (subset_cols, keep)
       - "column_order": Optional[List[str]]
     """
     # 1) expand nodes

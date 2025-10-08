@@ -1,4 +1,5 @@
 import logging
+import re
 import sys; sys.path.append("..")
 from pymongo import UpdateOne
 from datetime import datetime
@@ -26,7 +27,17 @@ def phase_is_ignored(ev: dict) -> bool:
 
 def phase_num_int(ev: dict) -> int | None:
     v = ev.get("phase_num")
-    return v if isinstance(v, int) else None
+    if isinstance(v, int):
+        return v
+    if isinstance(v, float) and v.is_integer():
+        return int(v)
+    if isinstance(v, str):
+        s = v.strip().lower()
+        if s == "ignore":
+            return None
+        if re.fullmatch(r"\d+", s):  # accepts "2", " 2 ", "02"
+            return int(s)
+    return None
 
 def normalize_pl2(vals):
     return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})

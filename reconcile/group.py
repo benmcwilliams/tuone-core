@@ -16,7 +16,7 @@ def group_projects(file_to_group, out_path, output_cols):
     df = pd.read_excel(file_to_group)
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
     initial_len = len(df)
-    logging.info(f"Found {len(df)} rows (EU only).")
+    logging.debug(f"Found {len(df)} rows (EU only).")
 
     # build unified region key based on per-country admin level
     df = add_admin_group_key(df, out_col="admin_group_key")
@@ -31,7 +31,7 @@ def group_projects(file_to_group, out_path, output_cols):
     for col, desc in required:
         missing = df[col].isna().sum()
         if missing:
-            logging.info(f"⚠️ {missing} entries without {desc} are dropped.")
+            logging.debug(f"⚠️ {missing} entries without {desc} are dropped.")
         before = len(df)
         df = df.dropna(subset=[col])
         if len(df) != before:
@@ -39,12 +39,12 @@ def group_projects(file_to_group, out_path, output_cols):
 
     missing_product_lv2 = df["product_lv2"].isna().sum()
     logging.info(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
-    logging.info(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
+    logging.debug(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
 
     # apply any manual company or joint venture name mapping
-    logging.info(f"Unique owners before manual dict: {len(df['inst_canon'].unique())}")
+    logging.debug(f"Unique owners before manual dict: {len(df['inst_canon'].unique())}")
     df['inst_canon'] = df['inst_canon'].apply(map_to_canonical)
-    logging.info(f"Unique owners after manual dict: {len(df['inst_canon'].unique())}")
+    logging.debug(f"Unique owners after manual dict: {len(df['inst_canon'].unique())}")
 
     # 2. Apply manual site merges (eg collapse CATL’s nearby German sites to one admin key | Erfurt → Arnstadt)
     def _site_merge(row):
@@ -54,7 +54,7 @@ def group_projects(file_to_group, out_path, output_cols):
     before = df["admin_group_key"].copy()
     df["admin_group_key"] = df.apply(_site_merge, axis=1)
     n_changed = (df["admin_group_key"] != before).sum()
-    logging.info(f"Applied site merges to {n_changed} rows.")
+    logging.debug(f"Applied site merges to {n_changed} rows.")
 
     # 3. Apply manual JV merging
 
