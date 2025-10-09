@@ -30,6 +30,7 @@ EUROPEAN_COUNTRIES = [
     "NO",  # Norway
     "GB",  # United Kingdom,
     "UK",  # United Kingdom,
+    "UA"   # Ukraine
 ]
 
 VAGUE_CITY_NAMES = [
