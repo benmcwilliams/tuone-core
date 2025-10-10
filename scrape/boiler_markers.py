@@ -78,6 +78,9 @@ BOILER_STRINGS = {
     "By clicking here, you agree to ourTerms and Conditionsand consent to us collection your details for the purposes of your enquiry",
     "Gain the recognition you deserve! TheJust Auto Excellence Awardscelebrate innovation, leadership, and impact. By entering, you showcase your achievements, elevate your industry profile, and position yourself among top leaders driving automotive industry advancements. Don’t miss your chance to stand out—submit your entry today!",
     "Don’t let policy changes catch you off guard. Stay proactive with real-time data and expert analysis.",
-    "Combine business intelligence and editorial excellence to reach engaged professionals across 36 leading media platforms."
+    "Combine business intelligence and editorial excellence to reach engaged professionals across 36 leading media platforms.",
+    "Follow offshoreWIND.biz on:",
+    "Daily news and in-depth stories in your inbox",
+
     # …add any other exact lines you see
 }

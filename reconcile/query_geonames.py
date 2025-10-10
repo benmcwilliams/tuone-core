@@ -32,7 +32,6 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("BG", "lowetsch"): "Lovech",
     ("BG", "silistra_municipality"): "Silistra",
     ("HU", "györ"): "Győr",
-    ("HU", "györ"): "Győr",
     ("HU", "kekscemet"): "Kecskemét",
     ("HU", "goed"): "Göd",
     ("HU", "kömlöd"): "Kömlőd",
@@ -40,6 +39,14 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("DE", "port_of_hamburg"): "Hamburg",
     ("DE", "dingolfingen"): "Dingolfing"
 }
+
+def _close_logger_handlers(logger: logging.Logger) -> None:
+    for h in list(logger.handlers):
+        logger.removeHandler(h)
+        try:
+            h.close()
+        except Exception:
+            pass
 
 # ---------- Data access ----------
 
@@ -172,49 +179,55 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
     for std_country, city_key in sorted(candidates):
         meta = metadata[(std_country, city_key)]
         iso2 = meta["iso2"]
-        logger = setup_city_logger(iso2, city_key)
 
-        if european_only and iso2 not in EUROPEAN_COUNTRIES:
-            logger.info(f"⏭️ Skipping {iso2} - {std_country} (non-Europe).")
-            continue
+        logger = None
+        try:
+            logger = setup_city_logger(iso2, city_key)
 
-        # ---- don't query vague city names, like North of France ----
-        if city_key in VAGUE_CITY_NAMES:
-            logger.info(f"⏭️ Skipping {iso2} - {city_key} (too vague).")
-            continue
+            if european_only and iso2 not in EUROPEAN_COUNTRIES:
+                logger.info(f"⏭️ Skipping {iso2} - {std_country} (non-Europe).")
+                continue
 
-        original_country = meta["original_country"]
-        original_city = meta["original_city"]
-        article_ids = sorted(meta["article_ids"])
+            # ---- don't query vague city names, like North of France ----
+            if city_key in VAGUE_CITY_NAMES:
+                logger.info(f"⏭️ Skipping {iso2} - {city_key} (too vague).")
+                continue
 
-        # ---- override hook (only affects the query string) ----
-        override_q = CITY_QUERY_OVERRIDES.get((iso2, city_key))
-        query_city = override_q if override_q else original_city
-        if override_q:
-            logger.info(f"🔁 Override: '{original_city}' → '{query_city}' for {iso2}")
+            original_country = meta["original_country"]
+            original_city = meta["original_city"]
+            article_ids = sorted(meta["article_ids"])
 
-        logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
-        logger.info(f"📍 Location is present in the following articles: {article_ids}")
+            # ---- override hook (only affects the query string) ----
+            override_q = CITY_QUERY_OVERRIDES.get((iso2, city_key))
+            query_city = override_q if override_q else original_city
+            if override_q:
+                logger.info(f"🔁 Override: '{original_city}' → '{query_city}' for {iso2}")
 
-        name, adm1, adm2, adm3, adm4, bbox, failed, lat, lon = get_adm_level(query_city, iso2, logger=logger)
+            logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
+            logger.info(f"📍 Location is present in the following articles: {article_ids}")
 
-        if failed or not name:
-            logger.warning(f"❌ Lookup failed for city='{city_key}', iso2='{iso2}'")
-            updates.append(build_failure_update(std_country, city_key))
-            continue
+            name, adm1, adm2, adm3, adm4, bbox, failed, lat, lon = get_adm_level(query_city, iso2, logger=logger)
 
-        logger.info(f"✅ Success. Writing to DB for: {std_country} – {city_key}")
-        payload = {
-            "name": name,
-            "adm1": adm1,
-            "adm2": adm2,
-            "adm3": adm3,
-            "adm4": adm4,
-            "lat": float(lat) if lat is not None else None,
-            "lon": float(lon) if lon is not None else None,
-            "bbox": bbox
-        }
-        updates.append(build_success_update(std_country, iso2, city_key, payload))
+            if failed or not name:
+                logger.warning(f"❌ Lookup failed for city='{city_key}', iso2='{iso2}'")
+                updates.append(build_failure_update(std_country, city_key))
+                continue
+
+            logger.info(f"✅ Success. Writing to DB for: {std_country} – {city_key}")
+            payload = {
+                "name": name,
+                "adm1": adm1,
+                "adm2": adm2,
+                "adm3": adm3,
+                "adm4": adm4,
+                "lat": float(lat) if lat is not None else None,
+                "lon": float(lon) if lon is not None else None,
+                "bbox": bbox
+            }
+            updates.append(build_success_update(std_country, iso2, city_key, payload))
+        finally:
+            if logger is not None:
+                _close_logger_handlers(logger)
 
     return updates
 
