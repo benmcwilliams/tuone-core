@@ -265,8 +265,7 @@ def process_articles(articles_to_process, model_dictionary):
 
 offset_articles = 0
 categories = ["user", "user_text", 
-                "electrive", "justauto", "pvmagazine", "pvtech"]
-categories = ["renewsBiz", "offshorewind"]
+                "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
 #categories = ["user", "user_text"]
 cutoff_date = datetime(2021, 1, 1)
 
