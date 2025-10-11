@@ -1,0 +1,247 @@
+2025-10-10 18:19:19,360 - INFO - 🔍 Text length: 1647 characters
+2025-10-10 18:19:19,361 - INFO - 📌 Processing Article ID: 68e8e9f86783a4c41a558bee — LG Chem to expand Polish EV battery production
+2025-10-10 18:19:19,361 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-10 18:19:23,474 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:23,474 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_chem",
+        "type": "company",
+        "name": "LG Chem"
+      },
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_sk_innovation",
+        "type": "company",
+        "name": "SK Innovation"
+      },
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kobierzyce_poland",
+        "type": "factory",
+        "name": "Kobierzyce Factory",
+        "location": {
+          "city": "Kobierzyce",
+          "country": "Poland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_atlanta_us",
+        "type": "factory",
+        "name": "Atlanta Factory",
+        "location": {
+          "city": "Atlanta",
+          "country": "US"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lg_chem_wroclaw_energy_expansion",
+        "type": "investment",
+        "name": "LG Chem Wroclaw Energy Expansion",
+        "amount": "$571mn",
+        "status": "announced"
+      },
+      {
+        "id": "investment_sk_innovation_atlanta_plant",
+        "type": "investment",
+        "name": "SK Innovation Atlanta Plant",
+        "amount": "1.4 trillion won ($1.24bn)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300k_ev_batteries_per_year",
+        "type": "capacity",
+        "name": null,
+        "amount": "300,000 EV batteries annually",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_100k_ev_batteries_per_year",
+        "type": "capacity",
+        "name": null,
+        "amount": "100,000 EV batteries annually",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "EV batteries"
+      }
+    ]
+  }
+}
+2025-10-10 18:19:23,474 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:23,475 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-10 18:19:23,475 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-10 18:19:26,541 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:26,541 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300k_ev_batteries_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_100k_ev_batteries_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-10 18:19:26,541 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:26,541 - INFO - ✅ Match found for capacity_ID 'capacity_300k_ev_batteries_per_year' in capacity nodes
+2025-10-10 18:19:26,541 - INFO -   ➕ Set field 'status': announced
+2025-10-10 18:19:26,541 - INFO -   ➕ Set field 'phase': expansion
+2025-10-10 18:19:26,541 - INFO -   ➕ Set field 'additional': True
+2025-10-10 18:19:26,541 - INFO - ✅ Match found for capacity_ID 'capacity_100k_ev_batteries_per_year' in capacity nodes
+2025-10-10 18:19:26,541 - INFO -   ➕ Set field 'status': operational
+2025-10-10 18:19:26,542 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-10 18:19:26,542 - INFO -   ➕ Set field 'additional': False
+2025-10-10 18:19:26,542 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-10 18:19:26,542 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-10 18:19:28,045 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:28,045 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lg_chem_wroclaw_energy_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_sk_innovation_atlanta_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-10 18:19:28,045 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:28,045 - INFO - ✅ Match found for investment_ID 'investment_lg_chem_wroclaw_energy_expansion' in investment nodes
+2025-10-10 18:19:28,045 - INFO -   ➕ Set field 'status': announced
+2025-10-10 18:19:28,045 - INFO -   ➕ Set field 'phase': expansion
+2025-10-10 18:19:28,045 - INFO -   ➕ Set field 'is_total': False
+2025-10-10 18:19:28,045 - INFO - ✅ Match found for investment_ID 'investment_sk_innovation_atlanta_plant' in investment nodes
+2025-10-10 18:19:28,045 - INFO -   ➕ Set field 'status': announced
+2025-10-10 18:19:28,046 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-10 18:19:28,046 - INFO -   ➕ Set field 'is_total': True
+2025-10-10 18:19:28,046 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-10 18:19:28,046 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-10 18:19:29,649 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:29,650 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-10 18:19:29,650 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:29,650 - INFO - ✅ Match found for product_ID 'product_ev_batteries' in product nodes
+2025-10-10 18:19:29,650 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-10 18:19:29,650 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-10 18:19:29,650 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-10 18:19:29,650 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-10 18:19:29,650 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-10 18:19:32,839 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:32,840 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_chem",
+      "type": "owns",
+      "target": "factory_kobierzyce_poland"
+    },
+    {
+      "source": "company_sk_innovation",
+      "type": "owns",
+      "target": "factory_atlanta_us"
+    }
+  ]
+}
+2025-10-10 18:19:32,840 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:32,840 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-10 18:19:32,840 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-10 18:19:36,128 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:36,128 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300k_ev_batteries_per_year",
+      "target": "factory_kobierzyce_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100k_ev_batteries_per_year",
+      "target": "factory_kobierzyce_poland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300k_ev_batteries_per_year",
+      "target": "product_ev_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_100k_ev_batteries_per_year",
+      "target": "product_ev_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev_batteries",
+      "target": "factory_kobierzyce_poland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ev_batteries",
+      "target": "factory_atlanta_us",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-10 18:19:36,128 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:36,128 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-10 18:19:36,128 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-10 18:19:37,452 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:37,453 - INFO - {
+  "relationships": []
+}
+2025-10-10 18:19:37,453 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:37,453 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-10 18:19:37,453 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-10 18:19:38,807 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:19:38,808 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lg_chem_wroclaw_energy_expansion",
+      "target": "factory_kobierzyce_poland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_lg_chem_wroclaw_energy_expansion",
+      "target": "capacity_300k_ev_batteries_per_year",
+      "type": "enables"
+    }
+  ]
+}
+2025-10-10 18:19:38,808 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:19:38,901 - INFO - ✅ Updated Article ID: 68e8e9f86783a4c41a558bee with 11 nodes and combined text.

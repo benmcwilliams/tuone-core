@@ -29,7 +29,10 @@ SITE_MERGE = {
     ("samsung sdi", "HU", "Budapest"): "Pest County",
     ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
     ("italvolt", "IT", "Scarmagno"): "Piedmont",
-    ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality"
+    ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality",
+    ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
+    ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
+    ("svolt", "DE", "Heusweiler"): "Überherrn"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

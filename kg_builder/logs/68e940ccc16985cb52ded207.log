@@ -1,0 +1,129 @@
+2025-10-10 19:35:14,135 - INFO - 🔍 Text length: 2603 characters
+2025-10-10 19:35:14,135 - INFO - 📌 Processing Article ID: 68e940ccc16985cb52ded207 — Gigafactory Valencia: PowerCo gives starting signal for construction of second cell factory
+2025-10-10 19:35:14,136 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-10 19:35:16,092 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:16,092 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_powerco_se",
+        "type": "company",
+        "name": "PowerCo SE"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      },
+      {
+        "id": "company_seat",
+        "type": "company",
+        "name": "SEAT"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gigafactory_valencia",
+        "type": "factory",
+        "name": "Gigafactory Valencia",
+        "location": {
+          "city": "Sagunto",
+          "country": "Spain"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40_gwh_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 GWh",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_unified_cell",
+        "type": "product",
+        "name": "unified cell"
+      }
+    ]
+  }
+}
+2025-10-10 19:35:16,092 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:16,092 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-10 19:35:16,093 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-10 19:35:17,898 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:17,898 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40_gwh_unclear",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-10 19:35:17,898 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:17,898 - INFO - ✅ Match found for capacity_ID 'capacity_40_gwh_unclear' in capacity nodes
+2025-10-10 19:35:17,898 - INFO -   ➕ Set field 'status': under construction
+2025-10-10 19:35:17,899 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-10 19:35:17,899 - INFO -   ➕ Set field 'additional': False
+2025-10-10 19:35:17,899 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-10 19:35:17,899 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-10 19:35:17,899 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-10 19:35:19,063 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:19,063 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_unified_cell",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-10-10 19:35:19,063 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:19,063 - INFO - ✅ Match found for product_ID 'product_unified_cell' in product nodes
+2025-10-10 19:35:19,064 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-10 19:35:19,064 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-10 19:35:19,064 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-10 19:35:19,064 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-10 19:35:19,064 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-10 19:35:20,626 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:20,627 - INFO - {
+  "relationships": [
+    {
+      "source": "company_powerco_se",
+      "type": "owns",
+      "target": "factory_gigafactory_valencia"
+    }
+  ]
+}
+2025-10-10 19:35:20,627 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:20,627 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-10 19:35:20,627 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-10 19:35:24,802 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:24,802 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40_gwh_unclear",
+      "target": "factory_gigafactory_valencia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_40_gwh_unclear",
+      "target": "product_unified_cell",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_unified_cell",
+      "target": "factory_gigafactory_valencia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-10 19:35:24,802 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:24,802 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-10 19:35:24,802 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-10 19:35:24,885 - INFO - ✅ Updated Article ID: 68e940ccc16985cb52ded207 with 6 nodes and combined text.

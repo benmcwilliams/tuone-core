@@ -1,0 +1,173 @@
+2025-10-10 18:35:08,742 - INFO - 🔍 Text length: 2397 characters
+2025-10-10 18:35:08,742 - INFO - 📌 Processing Article ID: 68e93594c16985cb52ded203 — 5 years of LG Energy Solution Wrocław - the largest investment in the region
+2025-10-10 18:35:08,742 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-10 18:35:11,511 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:11,511 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lg_energy_solution",
+        "type": "company",
+        "name": "LG Energy Solution"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_biskupice_podgorne",
+        "type": "factory",
+        "name": "Biskupice Podg\u00f3rne",
+        "location": {
+          "city": "Biskupice Podg\u00f3rne",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_lg_energy_solution_biskupice_podgorne",
+        "type": "investment",
+        "name": "LG Energy Solution Biskupice Podg\u00f3rne",
+        "amount": "EUR 3.2 billion",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_gwh",
+        "type": "capacity",
+        "name": "",
+        "amount": "100 GWh",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_batteries",
+        "type": "product",
+        "name": "lithium-ion batteries"
+      }
+    ]
+  }
+}
+2025-10-10 18:35:11,511 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:11,511 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-10 18:35:11,511 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-10 18:35:12,386 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:12,386 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_gwh",
+      "status": "under construction",
+      "phase": "expansion",
+      "additional": false
+    }
+  ]
+}
+2025-10-10 18:35:12,386 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:12,386 - INFO - ✅ Match found for capacity_ID 'capacity_100_gwh' in capacity nodes
+2025-10-10 18:35:12,386 - INFO -   ➕ Set field 'status': under construction
+2025-10-10 18:35:12,386 - INFO -   ➕ Set field 'phase': expansion
+2025-10-10 18:35:12,386 - INFO -   ➕ Set field 'additional': False
+2025-10-10 18:35:12,386 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-10 18:35:12,386 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-10 18:35:13,553 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:13,553 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_lg_energy_solution_biskupice_podgorne",
+      "status": "ongoing",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-10 18:35:13,553 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:13,553 - INFO - ✅ Match found for investment_ID 'investment_lg_energy_solution_biskupice_podgorne' in investment nodes
+2025-10-10 18:35:13,553 - INFO -   ➕ Set field 'status': ongoing
+2025-10-10 18:35:13,553 - INFO -   ➕ Set field 'phase': expansion
+2025-10-10 18:35:13,553 - INFO -   ➕ Set field 'is_total': True
+2025-10-10 18:35:13,553 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-10 18:35:13,553 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-10 18:35:15,138 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:15,138 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-10-10 18:35:15,138 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:15,138 - INFO - ✅ Match found for product_ID 'product_lithium_ion_batteries' in product nodes
+2025-10-10 18:35:15,138 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-10 18:35:15,138 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-10 18:35:15,138 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-10 18:35:15,138 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-10 18:35:15,138 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-10 18:35:16,104 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:16,104 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lg_energy_solution",
+      "type": "owns",
+      "target": "factory_biskupice_podgorne"
+    }
+  ]
+}
+2025-10-10 18:35:16,104 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:16,104 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-10 18:35:16,104 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-10 18:35:18,106 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:18,106 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_gwh",
+      "target": "factory_biskupice_podgorne",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_gwh",
+      "target": "product_lithium_ion_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_lithium_ion_batteries",
+      "target": "factory_biskupice_podgorne",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-10 18:35:18,106 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:18,107 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-10 18:35:18,107 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-10 18:35:18,933 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:18,934 - INFO - {
+  "relationships": []
+}
+2025-10-10 18:35:18,934 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:18,934 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-10 18:35:18,934 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-10 18:35:20,897 - INFO - ✅ OpenAI returned output:
+2025-10-10 18:35:20,897 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_lg_energy_solution_biskupice_podgorne",
+      "target": "factory_biskupice_podgorne",
+      "type": "funds"
+    },
+    {
+      "source": "investment_lg_energy_solution_biskupice_podgorne",
+      "target": "capacity_100_gwh",
+      "type": "enables"
+    },
+    {
+      "source": "investment_lg_energy_solution_biskupice_podgorne",
+      "target": "product_lithium_ion_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-10 18:35:20,898 - INFO - POST-PROCESSING STARTING.
+2025-10-10 18:35:21,001 - INFO - ✅ Updated Article ID: 68e93594c16985cb52ded203 with 5 nodes and combined text.

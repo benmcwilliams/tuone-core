@@ -1,0 +1,229 @@
+2025-10-10 19:34:56,280 - INFO - 🔍 Text length: 1860 characters
+2025-10-10 19:34:56,280 - INFO - 📌 Processing Article ID: 68e94365c16985cb52ded209 — Volkswagen Launching German Battery-Production Site
+2025-10-10 19:34:56,280 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-10 19:35:03,307 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:03,308 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      },
+      {
+        "id": "company_northvolt",
+        "type": "company",
+        "name": "Northvolt"
+      },
+      {
+        "id": "company_seat",
+        "type": "company",
+        "name": "SEAT"
+      },
+      {
+        "id": "company_gotion_hi_tech",
+        "type": "company",
+        "name": "Gotion Hi-Tech"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_salzgitter_germany",
+        "type": "factory",
+        "name": "SalzGiga",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_valencia_spain",
+        "type": "factory",
+        "name": "Valencia",
+        "location": {
+          "city": "Valencia",
+          "country": "Spain"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_chattanooga_tn",
+        "type": "factory",
+        "name": "Chattanooga",
+        "location": {
+          "city": "Chattanooga",
+          "country": "USA"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_sweden",
+        "type": "factory",
+        "name": "Sweden",
+        "location": {
+          "city": "null",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_powerco",
+        "type": "investment",
+        "name": "PowerCo",
+        "amount": "\u20ac20 billion ($20.4 billion)",
+        "status": "announced"
+      },
+      {
+        "id": "investment_salzgiga_construction",
+        "type": "investment",
+        "name": "SalzGiga Construction",
+        "amount": "\u20ac2 billion ($2.4 billion)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_cells_and_modules",
+        "type": "product",
+        "name": "battery cells and modules"
+      }
+    ]
+  }
+}
+2025-10-10 19:35:03,308 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:03,308 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-10 19:35:03,308 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-10 19:35:03,308 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-10 19:35:04,674 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:04,674 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_powerco",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_salzgiga_construction",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-10-10 19:35:04,674 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:04,674 - INFO - ✅ Match found for investment_ID 'investment_powerco' in investment nodes
+2025-10-10 19:35:04,674 - INFO -   ➕ Set field 'status': announced
+2025-10-10 19:35:04,674 - INFO -   ➕ Set field 'phase': unclear
+2025-10-10 19:35:04,674 - INFO -   ➕ Set field 'is_total': True
+2025-10-10 19:35:04,674 - INFO - ✅ Match found for investment_ID 'investment_salzgiga_construction' in investment nodes
+2025-10-10 19:35:04,675 - INFO -   ➕ Set field 'status': announced
+2025-10-10 19:35:04,675 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-10 19:35:04,675 - INFO -   ➕ Set field 'is_total': False
+2025-10-10 19:35:04,675 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-10 19:35:04,675 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-10 19:35:07,107 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:07,107 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_cells_and_modules",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-10-10 19:35:07,108 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:07,108 - INFO - ✅ Match found for product_ID 'product_battery_cells_and_modules' in product nodes
+2025-10-10 19:35:07,108 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-10 19:35:07,108 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-10 19:35:07,108 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-10 19:35:07,108 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-10 19:35:07,108 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-10 19:35:09,438 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:09,439 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_group",
+      "type": "owns",
+      "target": "factory_salzgitter_germany"
+    },
+    {
+      "source": "company_seat",
+      "type": "owns",
+      "target": "factory_valencia_spain"
+    },
+    {
+      "source": "company_volkswagen_group",
+      "type": "owns",
+      "target": "factory_chattanooga_tn"
+    },
+    {
+      "source": "company_northvolt",
+      "type": "owns",
+      "target": "factory_sweden"
+    }
+  ]
+}
+2025-10-10 19:35:09,439 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:09,439 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-10 19:35:09,439 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-10 19:35:11,250 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:11,251 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells_and_modules",
+      "target": "factory_salzgitter_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells_and_modules",
+      "target": "factory_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells_and_modules",
+      "target": "factory_valencia_spain",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells_and_modules",
+      "target": "factory_chattanooga_tn",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-10 19:35:11,251 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:11,251 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-10 19:35:11,251 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-10 19:35:12,817 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:12,817 - INFO - {
+  "relationships": []
+}
+2025-10-10 19:35:12,817 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:12,817 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-10 19:35:12,817 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-10 19:35:14,045 - INFO - ✅ OpenAI returned output:
+2025-10-10 19:35:14,045 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_powerco",
+      "target": "factory_salzgitter_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_salzgiga_construction",
+      "target": "factory_salzgitter_germany",
+      "type": "funds"
+    },
+    {
+      "source": "investment_salzgiga_construction",
+      "target": "product_battery_cells_and_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-10 19:35:14,045 - INFO - POST-PROCESSING STARTING.
+2025-10-10 19:35:14,132 - INFO - ✅ Updated Article ID: 68e94365c16985cb52ded209 with 11 nodes and combined text.
