@@ -32,7 +32,8 @@ SITE_MERGE = {
     ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality",
     ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
     ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
-    ("svolt", "DE", "Heusweiler"): "Überherrn"
+    ("svolt", "DE", "Heusweiler"): "Überherrn",
+    ("svolt", "DE", "Saarland"): "Überherrn",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

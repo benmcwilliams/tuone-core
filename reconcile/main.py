@@ -34,7 +34,7 @@ from src.config import (
     CLEAN_INVESTMENT_FUNDS,
 )
 
-debug_articleID = "68e67fbf2423d7d8b125bfc0"
+debug_articleID = None
 
 def main(update_mongo_metadata=False, update_main_database=False):
 
@@ -60,7 +60,8 @@ def main(update_mongo_metadata=False, update_main_database=False):
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
-        log_nodes_for_article(ctx, debug_articleID)
+        if debug_articleID:
+            log_nodes_for_article(ctx, debug_articleID)
 
         logging.info("🉑 Merging nodes and relationships...")
         df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric

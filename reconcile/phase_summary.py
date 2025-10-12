@@ -1,3 +1,4 @@
+from cmath import phase
 import logging
 import re
 import sys; sys.path.append("..")
@@ -6,7 +7,7 @@ from datetime import datetime
 import pandas as pd  # for robust datetime handling
 from mongo_client import facilities_collection
 
-## consider main.investment and main.capacity logic. If not is_total / additional. 
+## main logic should be updated to read from phases (or drop main...)
 
 STATUS_NORMALIZE = {
     "ongoing": "under construction",
@@ -14,6 +15,8 @@ STATUS_NORMALIZE = {
 }
 STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
 STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
+
+# --------- helpers -------------
 
 def parse_date(date_str):
     try:
@@ -66,6 +69,8 @@ def events_product_lv2_union(events: list) -> list[str]:
 
     return sorted(acc)
 
+# ---------- main logic ------------
+
 def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None, prev_investment=None) -> dict | None:
 
     """
@@ -83,7 +88,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     - Adds earliest milestone dates (announce, under construction, operational).
     """
 
-    # filter for relevant phases
+    # filter for relevant phases (not ignored, not facility-level)
     phase_caps = [
         c for c in events
         if c.get("status") in STATUS_ORDER
@@ -95,36 +100,29 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     if not phase_caps:
         return None
      
-    # sort by status strength, then by most recent date
+    # sort by 1) status strength; 2) most recent date
     sorted_events = sorted(
         phase_caps,
-        key=lambda c: (STATUS_RANK[c["status"]], -parse_date(c["date"]).timestamp())
+        key=lambda c: (
+            STATUS_RANK[c["status"]], 
+            -parse_date(c["date"]).timestamp())
     )
     best = sorted_events[0]
 
-    # Status should be decided by CAPACITY rows only (fallback to all if none)
-    status_rows = [c for c in phase_caps if c.get("event_type") == "capacity"]
+    # --------------- set STATUS -----------------
+    # sorted by CAPACITY rows as a priority (fallback to all)
+    status_rows = [c for c in sorted_events if c.get("event_type") == "capacity"]
     if not status_rows:
-        status_rows = phase_caps  # rare fallback: no capacity evidence exists
+        status_rows = sorted_events  # fallback to any event if no capacity evidence
+    best_status_row = status_rows[0]
 
-    sorted_status = sorted(
-        status_rows,
-        key=lambda c: (
-            STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
-            -parse_date(c["date"]).timestamp()
-        )
-    )
-    best_status_row = sorted_status[0]
-
-    # ---- Capacity logic ----
+    # ------------- set CAPACITIES ----------------
     cap_rows = [
         c for c in phase_caps
         if c.get("event_type") == "capacity" 
         and c.get("capacity") is not None
     ]
-
-    # Use same priority as 'best': stronger status first, then most-recent date
-    # Optional extra tiebreaker: prefer totals over additionals on equal status/date
+    # Sort: stronger status first, then most-recent date, totals preferred over additionals on tiebreak
     cap_rows.sort(
         key=lambda c: (
             STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),           # status strength
@@ -133,15 +131,29 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         )
     )
 
-    capacity = None
+    capacity = None             # the cumulative capacity
+    phase_capacity = None       # capacity specific to this phase 
+
     if cap_rows:
         latest = cap_rows[0]
-        if latest.get("additional") is True and prev_capacity is not None:
-            capacity = prev_capacity + latest["capacity"]
-        else:
-            capacity = latest["capacity"]
+        v = latest.get("capacity")          # the value
+        add = latest.get("additional")      # is it an explicitly additional value
 
-    # Order all investment rows in this phase (stronger status, newer date, totals before incrementals)
+        if add is True:
+            # explicit incremental update
+            phase_capacity = v
+            capacity = (prev_capacity or 0) + v
+
+        elif add is False:
+            # explicit total after this phase
+            if prev_capacity is not None:
+                phase_capacity = max(v - prev_capacity, 0)
+            else:
+                phase_capacity = v
+            capacity = v
+
+    # ------------- set INVESTMENTS ----------------
+    # set real investments
     inv_rows = sorted(
         [c for c in phase_caps if c.get("event_type") != "facility" and c.get("investment") is not None],
         key=lambda c: (
@@ -151,6 +163,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         )
     )
 
+    # set the backup imputed investments
     imputed_rows = sorted(
         [c for c in phase_caps if c.get("investment_imputed") is not None],
         key=lambda c: (
@@ -162,7 +175,8 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     investment, investment_was_imputed = None, False
 
-    if inv_rows:  # take the best real investment
+    # if there are real investments, take the best one
+    if inv_rows:
         row = inv_rows[0]
         if row.get("is_total") is False and prev_investment is not None:
             investment = prev_investment + row["investment"]
@@ -178,8 +192,9 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     summary = {
         "status": best_status_row["status"],
+        "phase_capacity": phase_capacity,
         "capacity": capacity,
-        "investment": investment, # update this to take any "investment" from across the phase
+        "investment": investment,
         "investment_was_imputed": investment_was_imputed,
         "source_date": best["date"],
     }
