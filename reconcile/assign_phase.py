@@ -121,4 +121,4 @@ if __name__ == "__main__":
         f"Starting assign_phases.py | Mode: {'DRY-RUN' if DRY_RUN else 'COMMIT'} | "
         f"Limit: {LIMIT or 'none'} | Query: {QUERY or '{}'}"
     )
-    process_documents(dry_run=DRY_RUN, limit=LIMIT, query=QUERY)
+    assign_phase_num(dry_run=DRY_RUN, limit=LIMIT, query=QUERY)

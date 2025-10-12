@@ -3,6 +3,7 @@ import logging
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Dict, Iterable, Iterator, List, Optional, Set, Tuple
+from bson import ObjectId
 
 from pymongo import UpdateOne
 from mongo_client import articles_collection, geonames_collection
@@ -37,7 +38,8 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("HU", "kömlöd"): "Kömlőd",
     ("HU", "lukacshaza"): "Lukácsháza",
     ("DE", "port_of_hamburg"): "Hamburg",
-    ("DE", "dingolfingen"): "Dingolfing"
+    ("DE", "dingolfingen"): "Dingolfing",
+    ("PL", "biskupice_podgórne"): "Wroclaw"
 }
 
 def _close_logger_handlers(logger: logging.Logger) -> None:
@@ -88,19 +90,20 @@ def load_existing_pairs(include_failures: bool = True, failure_backoff_days: Opt
     system_logger.info(f"📦 Loaded {len(existing)} existing (country, city_key) pairs from MongoDB.")
     return existing
 
-def iter_factory_articles(limit: Optional[int] = 100, skip: int = 0) -> Iterator[dict]:
-    query = {
-        "nodes": {"$elemMatch": {"type": "factory"}},
-    }
-    projection = {"nodes": 1}  
+def iter_factory_articles(limit: Optional[int] = 100, skip: int = 0, only_id: str | None = None) -> Iterator[dict]:
+    query = {"nodes": {"$elemMatch": {"type": "factory"}}}
+    if only_id is not None:
+        query["_id"] = ObjectId(only_id)
+
+    projection = {"nodes": 1}
     cursor = articles_collection.find(query, projection).skip(skip)
     if limit:
         cursor = cursor.limit(limit)
     yield from cursor
 
-
 # ---------- Candidate extraction ----------
-def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, skip: int = 0) -> Tuple[Set[Key], Dict[Key, dict]]:
+def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, skip: int = 0,
+                        only_id: str | None = None,) -> Tuple[Set[Key], Dict[Key, dict]]:
     """
     Scan articles and produce candidate (std_country, city_key) pairs not yet in geonames_collection.
     Also return metadata for each candidate.
@@ -109,7 +112,7 @@ def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, sk
     metadata: Dict[Key, dict] = {}
 
     count_articles = 0
-    for doc in iter_factory_articles(limit=limit, skip=skip):
+    for doc in iter_factory_articles(limit=limit, skip=skip, only_id=only_id):
         count_articles += 1
         article_id = doc.get("_id")
         for node in doc.get("nodes", []):
@@ -141,6 +144,9 @@ def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, sk
             )
             entry["article_ids"].add(article_id)
             candidates.add(key)
+
+            print(f"RAW CITY is {raw_city}, RAW COUNTRY is {raw_country}")
+            
 
     system_logger.info(f"📰 Scanned {count_articles} article(s) with factory nodes.")
     system_logger.info(f"🧹 Identified {len(candidates)} new (country, city) pairs to query. Example three: {list(candidates)[:3]}")
@@ -196,6 +202,7 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
             original_country = meta["original_country"]
             original_city = meta["original_city"]
             article_ids = sorted(meta["article_ids"])
+            print(f"- - original city is {original_city} and original country is {original_country}")
 
             # ---- override hook (only affects the query string) ----
             override_q = CITY_QUERY_OVERRIDES.get((iso2, city_key))
@@ -205,6 +212,8 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
 
             logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
             logger.info(f"📍 Location is present in the following articles: {article_ids}")
+
+            print(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
 
             name, adm1, adm2, adm3, adm4, bbox, failed, lat, lon = get_adm_level(query_city, iso2, logger=logger)
 
@@ -257,6 +266,34 @@ def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0, failure
     updates = process_candidates(candidates, metadata, european_only=True)
     commit_updates(updates)
 
+def debug_single_article(article_id: str, failure_backoff_days: Optional[int] = 0, commit: bool = False) -> None:
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler(sys.stdout)]
+    )
+
+    print("- - 1 - - Querying existing pairs")
+    existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=failure_backoff_days)
+    print("- - 2 - - Collecting candidate pairs")
+    candidates, metadata = collect_candidates(existing_pairs, limit=None, skip=0, only_id=article_id)
+
+    if not candidates:
+        print(f"⚠️ No new (country, city) pairs found for article {article_id} (likely all already present or invalid).")
+        return
+
+    print(f"- - 3 - - Processing candidates from article: {article_id}")
+    updates = process_candidates(candidates, metadata, european_only=True)
+
+    if commit:
+        commit_updates(updates)
+    else:
+        print("💡 DRY-RUN — showing the writes that would be made:")
+        for u in updates:
+            print("FILTER:", getattr(u, "_filter", None))
+            print("DOC:", getattr(u, "_doc", None))
+            print("-" * 60)
 
 if __name__ == "__main__":
-    query_geonames_new_cities()
+    debug_single_article("68ebb0f12e209d3f59179d34", 0, True)

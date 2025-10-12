@@ -77,6 +77,10 @@ def load_factories() -> pd.DataFrame:
 # -------------------- dedup & group --------------------
 
 def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Deduplicate factory rows conservatively to avoid repetitive investment events.
+    Keep distinct by (project_id, article_id, product_lv1, product_lv2, capacity, status, phase)
+    """
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
@@ -91,6 +95,10 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     return g
 
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Deduplicate factory rows conservatively to avoid repetitive investment events.
+    Keep distinct by (project_id, article_id, product_lv1, product_lv2, amount_EUR, status, phase)
+    """
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
@@ -104,7 +112,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
 def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
     """
     Deduplicate factory rows conservatively to avoid repetitive facility events.
-    Keep distinct by (project_id, status, product_lv2, article_id)
+    Keep distinct by (project_id, article_id, product_lv1, product_lv2, status)
     """
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "status"]
@@ -117,6 +125,9 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
 # -------------------- build events + impute --------------------
 
 def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: pd.DataFrame | None = None) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Build an events object from the incoming excel ready to attach to mongoDB facilities.
+    """
     events_by_pid: Dict[str, List[Dict[str, Any]]] = {}
 
     # capacities
@@ -265,7 +276,7 @@ def attach_events(dry_run: bool = False):
     logger.info("Capacities raw=%d → grouped=%d | Investments raw=%d → grouped=%d",
                 len(df_cap_raw), len(df_cap), len(df_inv_raw), len(df_inv))
 
-    # build
+    # build events from excel
     events_by_pid = build_events_by_project(df_cap, df_inv, df_fac)
     pids = list(events_by_pid.keys())
     if not pids:
