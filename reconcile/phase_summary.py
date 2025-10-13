@@ -199,17 +199,41 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         "source_date": best["date"],
     }
 
-    # add chronological milestone dates (earliest date each milestone is mentioned)
-    for milestone in ["announced", "under construction", "operational"]:
-        first = next(
-            (c for c in sorted(phase_caps, key=lambda c: parse_date(c["date"]))
-             if c["status"] == milestone),
-            None
-        )
-        if first:
-            summary[f"{milestone.replace(' ', '_')}_on"] = first["date"]
+    # ------------- set CHRONOLOGY ----------------
+    # add chronological milestone dates with two rules:
+    # 1) construction can count as announcement if earlier (or announcement missing)
+    # 2) if construction exists and operational is missing, set operational = construction + 2 years
+    chron = sorted(phase_caps, key=lambda c: parse_date(c["date"]))
+
+    ann = next((c for c in chron if c["status"] == "announced"), None)
+    uc  = next((c for c in chron if c["status"] == "under construction"), None)
+    op  = next((c for c in chron if c["status"] == "operational"), None)
+
+    # Rule 1: construction implies announcement if earlier or announcement missing
+    if uc:
+        uc_dt = parse_date(uc["date"])
+        if (ann is None) or pd.isna(parse_date(ann["date"])) or (
+            pd.notna(uc_dt) and uc_dt < parse_date(ann["date"])
+        ):
+            ann = uc
+
+    if ann:
+        summary["announced_on"] = ann["date"]
+    if uc:
+        summary["under_construction_on"] = uc["date"]
+
+    if op:
+        summary["operational_on"] = op["date"]
+    elif uc:
+        # Rule 2: no operational date → set to construction + 2 years
+        uc_dt = parse_date(uc["date"])
+        if pd.notna(uc_dt):
+            op_dt = uc_dt + pd.DateOffset(years=2)
+            summary["operational_on"] = op_dt.strftime("%Y-%m-%d")
 
     return summary
+
+# ------ main ---------
 
 def compute_summaries():
     logging.info("🚀 Starting summary updates for main, phase 1 and phase 2...")

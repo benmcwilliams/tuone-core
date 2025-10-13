@@ -56,7 +56,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
     if update_main_database:
 
         logging.info("🗞️ Flattening articles...")
-        nodes_df, rels_df = run_flatten_articles(save=True)
+        nodes_df, rels_df = run_flatten_articles(save=False)
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
