@@ -1,0 +1,236 @@
+2025-10-13 15:56:01,965 - INFO - 🔍 Text length: 2471 characters
+2025-10-13 15:56:01,965 - INFO - 📌 Processing Article ID: 68ed016a4fa37c106faafe61 — Gotion High-Tech intends to invest in a production base in Europe with an annual production capacity of 18GWh
+2025-10-13 15:56:01,966 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-13 15:56:07,375 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:56:07,375 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gotion_high_tech",
+        "type": "company",
+        "name": "Gotion High-Tech Co Ltd."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gottingen_germany",
+        "type": "factory",
+        "name": "G\u00f6ttingen base",
+        "location": {
+          "city": "G\u00f6ttingen",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_6gwh_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "6GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_12gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "12GWh",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_3_5gwh_under_construction",
+        "type": "capacity",
+        "name": "",
+        "amount": "3.5GWh",
+        "status": "under construction"
+      },
+      {
+        "id": "capacity_18gwh_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "18GWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gen_dome",
+        "type": "product",
+        "name": "GenDome"
+      },
+      {
+        "id": "product_gendock_3000",
+        "type": "product",
+        "name": "Gendock 3000"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-10-13 15:56:07,375 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:56:07,375 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-13 15:56:07,375 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-13 15:56:09,276 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:56:09,276 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_6gwh_under_construction",
+      "status": "under construction",
+      "phase": "retrofit",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_12gwh_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_3_5gwh_under_construction",
+      "status": "under construction",
+      "phase": "retrofit",
+      "additional": true
+    },
+    {
+      "capacity_ID": "capacity_18gwh_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": false
+    }
+  ]
+}
+2025-10-13 15:56:09,276 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:56:09,276 - INFO - ✅ Match found for capacity_ID 'capacity_6gwh_under_construction' in capacity nodes
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'status': under construction
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'additional': False
+2025-10-13 15:56:09,277 - INFO - ✅ Match found for capacity_ID 'capacity_12gwh_announced' in capacity nodes
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'status': announced
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'additional': True
+2025-10-13 15:56:09,277 - INFO - ✅ Match found for capacity_ID 'capacity_3_5gwh_under_construction' in capacity nodes
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'status': under construction
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'additional': True
+2025-10-13 15:56:09,277 - INFO - ✅ Match found for capacity_ID 'capacity_18gwh_announced' in capacity nodes
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'status': announced
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'phase': expansion
+2025-10-13 15:56:09,277 - INFO -   ➕ Set field 'additional': False
+2025-10-13 15:56:09,277 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-13 15:56:09,278 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-13 15:56:09,278 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-13 15:56:11,967 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:56:11,967 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_gen_dome",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_gendock_3000",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-13 15:56:11,967 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:56:11,968 - INFO - ✅ Match found for product_ID 'product_gen_dome' in product nodes
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-13 15:56:11,968 - INFO - ✅ Match found for product_ID 'product_gendock_3000' in product nodes
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-13 15:56:11,968 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-13 15:56:11,968 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-13 15:56:11,968 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-13 15:56:11,968 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-13 15:56:11,968 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-13 15:56:13,011 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:56:13,011 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gotion_high_tech",
+      "type": "owns",
+      "target": "factory_gottingen_germany"
+    }
+  ]
+}
+2025-10-13 15:56:13,012 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:56:13,012 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-13 15:56:13,012 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-13 15:56:17,399 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:56:17,399 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_6gwh_under_construction",
+      "target": "factory_gottingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_12gwh_announced",
+      "target": "factory_gottingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_3_5gwh_under_construction",
+      "target": "factory_gottingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_18gwh_announced",
+      "target": "factory_gottingen_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_6gwh_under_construction",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_12gwh_announced",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_3_5gwh_under_construction",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_18gwh_announced",
+      "target": "product_battery",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_gottingen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gen_dome",
+      "target": "factory_gottingen_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_gendock_3000",
+      "target": "factory_gottingen_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-13 15:56:17,400 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:56:17,400 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-13 15:56:17,400 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-13 15:56:17,489 - INFO - ✅ Updated Article ID: 68ed016a4fa37c106faafe61 with 9 nodes and combined text.

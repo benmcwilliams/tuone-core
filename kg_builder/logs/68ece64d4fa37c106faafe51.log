@@ -1,0 +1,132 @@
+2025-10-13 15:13:01,639 - INFO - 🔍 Text length: 769 characters
+2025-10-13 15:13:01,639 - INFO - 📌 Processing Article ID: 68ece64d4fa37c106faafe51 — Vestas to invest in the Taranto blades factory
+2025-10-13 15:13:01,639 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-13 15:13:03,512 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:03,512 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas",
+        "type": "company",
+        "name": "Vestas"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_taranto_italy",
+        "type": "factory",
+        "name": "Taranto Blades Factory",
+        "location": {
+          "city": "Taranto",
+          "country": "Italy"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_vestas_taranto_blades_factory",
+        "type": "investment",
+        "name": "Vestas Taranto Blades Factory",
+        "amount": "EUR 10 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_v112_3_0_mw_blade",
+        "type": "product",
+        "name": "V112-3.0 MW blade"
+      }
+    ]
+  }
+}
+2025-10-13 15:13:03,512 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:03,512 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-13 15:13:03,512 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-13 15:13:03,513 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-13 15:13:04,848 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:04,849 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_vestas_taranto_blades_factory",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-10-13 15:13:04,849 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:04,849 - INFO - ✅ Match found for investment_ID 'investment_vestas_taranto_blades_factory' in investment nodes
+2025-10-13 15:13:04,849 - INFO -   ➕ Set field 'status': announced
+2025-10-13 15:13:04,849 - INFO -   ➕ Set field 'phase': expansion
+2025-10-13 15:13:04,849 - INFO -   ➕ Set field 'is_total': False
+2025-10-13 15:13:04,849 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-13 15:13:04,849 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-13 15:13:06,613 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:06,613 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_v112_3_0_mw_blade",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-13 15:13:06,613 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:06,613 - INFO - ✅ Match found for product_ID 'product_v112_3_0_mw_blade' in product nodes
+2025-10-13 15:13:06,613 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-13 15:13:06,613 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-13 15:13:06,614 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-13 15:13:06,614 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-13 15:13:06,614 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-13 15:13:08,072 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:08,072 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vestas",
+      "type": "owns",
+      "target": "factory_taranto_italy"
+    }
+  ]
+}
+2025-10-13 15:13:08,073 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:08,073 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-13 15:13:08,073 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-13 15:13:10,848 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:10,848 - INFO - {
+  "relationships": [
+    {
+      "source": "product_v112_3_0_mw_blade",
+      "target": "factory_taranto_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-13 15:13:10,848 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:10,848 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-13 15:13:10,848 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-13 15:13:12,940 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:12,941 - INFO - {
+  "relationships": []
+}
+2025-10-13 15:13:12,941 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:12,941 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-13 15:13:12,941 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-13 15:13:14,846 - INFO - ✅ OpenAI returned output:
+2025-10-13 15:13:14,846 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_vestas_taranto_blades_factory",
+      "target": "factory_taranto_italy",
+      "type": "funds"
+    },
+    {
+      "source": "investment_vestas_taranto_blades_factory",
+      "target": "product_v112_3_0_mw_blade",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-13 15:13:14,846 - INFO - POST-PROCESSING STARTING.
+2025-10-13 15:13:14,932 - INFO - ✅ Updated Article ID: 68ece64d4fa37c106faafe51 with 4 nodes and combined text.

@@ -22,6 +22,7 @@ def map_to_canonical(name):
 SITE_MERGE = {
     # collapse CATL’s nearby German sites to one admin key
     ("catl", "DE", "Erfurt"): "Arnstadt",     # Erfurt → Arnstadt
+    ("catl", "DE", "Thuringia"): "Arnstadt",
     ("tesla", "DE", "Berlin"): "Grünheide (Mark)",
     ("tesla", "DE", "Brandenburg"): "Grünheide (Mark)",
     ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
@@ -34,6 +35,8 @@ SITE_MERGE = {
     ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
     ("svolt", "DE", "Heusweiler"): "Überherrn",
     ("svolt", "DE", "Saarland"): "Überherrn",
+    ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
+    ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
@@ -47,10 +50,14 @@ JV_MERGE = {
     ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
     ("stellantis", "DE", "Kaiserslautern", "battery"): "automotive cell company",
+    ("stellantis", "FR", "Douvrin", "battery"): "automotive cell company",
     ("volkswagen northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
     ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
     ("chery", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("ebro", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
     ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
+    ("renault", "FR", "Douai", "battery"): "aesc",
+    ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
+    ("nissan", "GB", "Sunderland", "battery"): "aesc"
 }

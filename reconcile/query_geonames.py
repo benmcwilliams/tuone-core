@@ -144,10 +144,7 @@ def collect_candidates(existing_pairs: Set[Key], limit: Optional[int] = None, sk
             )
             entry["article_ids"].add(article_id)
             candidates.add(key)
-
-            print(f"RAW CITY is {raw_city}, RAW COUNTRY is {raw_country}")
             
-
     system_logger.info(f"📰 Scanned {count_articles} article(s) with factory nodes.")
     system_logger.info(f"🧹 Identified {len(candidates)} new (country, city) pairs to query. Example three: {list(candidates)[:3]}")
     return candidates, metadata
@@ -296,4 +293,4 @@ def debug_single_article(article_id: str, failure_backoff_days: Optional[int] = 
             print("-" * 60)
 
 if __name__ == "__main__":
-    debug_single_article("68ebb0f12e209d3f59179d34", 0, True)
+    debug_single_article("68ebb0f12e209d3f59179d34", 0, False)
