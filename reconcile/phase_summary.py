@@ -16,7 +16,7 @@ STATUS_NORMALIZE = {
 STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
 STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
 
-PAUSELIKE = {"paused", "cancelled"}  # facility events only vote if status is one of these
+PAUSELIKE = {"cancelled", "paused"}  # facility/inevstment events only vote if status is one of these
 
 # --------- helpers -------------
 
@@ -47,14 +47,11 @@ def phase_num_int(ev: dict) -> int | None:
             return int(s)
     return None
 
-def normalize_pl2(vals):
-    return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
-
 def _is_relevant_event(c: dict, phase_num: int | None) -> bool:
-    '''
+    """
     Returns a boolean for whether an event should be included or not.
-    '''
-    # must be a known status, not ignored, and have a date
+    Basic filter: valid status, not ignored, has date, and matches phase if specified.
+    """
     if c.get("status") not in STATUS_ORDER:
         return False
     if phase_is_ignored(c):
@@ -62,20 +59,33 @@ def _is_relevant_event(c: dict, phase_num: int | None) -> bool:
     if not c.get("date"):
         return False
 
-    et = c.get("event_type")
-
-    # Facility-level events: only consider if paused or cancelled (PAUSELIKE)
-    if et == "facility":
-        return c.get("status") in PAUSELIKE
-
-    # Phase-level events: enforce phase filter as before
-    if phase_num is None: # (for main, return all events)
+    # Phase filter
+    if phase_num is None:
         return True
-    pn = phase_num_int(c) # for a phase_int, only return events in that int
+    pn = phase_num_int(c)
     return pn is not None and pn == phase_num
 
-# collect union of product_lv2 from NON-IGNORED events
+def _is_status_eligible(c: dict) -> bool:
+    """Who gets to 'vote' for STATUS."""
+    et = c.get("event_type")
+    st = c.get("status")
+
+    if et == "capacity":
+        return True  # capacity can always vote
+
+    if et in {"facility", "investment"}:
+        return st in PAUSELIKE  # only paused/cancelled can vote
+
+    # other event types (e.g., operations/construction) may vote
+    return True
+
+def normalize_pl2(vals):
+    return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
+
 def events_product_lv2_union(events: list) -> list[str]:
+    """
+    Collect union of product_lv2 from non-ignored events
+    """
     acc = set()
 
     def _iter_pl2(val):
@@ -105,8 +115,6 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     """
     Build a summary for one phase_num (or all events if phase=None).
 
-    Build a summary for one phase_num (or all events if phase=None).
-
     - Chooses the strongest status (lowest STATUS_RANK, then most recent date).
     - Capacity:
         if additional == False → take as total
@@ -117,26 +125,23 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     - Adds earliest milestone dates (announce, under construction, operational).
     """
 
-    # filter for relevant phases (not ignored, not facility-level)
+    # 1. filter for relevant phase events (valid data and user has not set ignored)
     phase_events = [c for c in events if _is_relevant_event(c, phase_num)]
     if not phase_events:
         return None
 
-    # sort by 1) status strength; 2) most recent date
+    # 2. sort events by i) status strength; ii) most recent date (could prefer capacity > investment > facility?)
     sorted_events = sorted(
         phase_events,
         key=lambda c: (
             STATUS_RANK[c["status"]], 
             -parse_date(c["date"]).timestamp())
     )
-    best = sorted_events[0]
 
     # --------------- set STATUS -----------------
-    # sorted by CAPACITY rows as a priority (fallback to all)
-    status_rows = [c for c in sorted_events if c.get("event_type") == "capacity"]
-    if not status_rows:
-        status_rows = sorted_events  # fallback to any event if no capacity evidence
-    best_status_row = status_rows[0]
+    # only consider facility and investment event types for paused or cancellation events
+    status_rows = [c for c in sorted_events if _is_status_eligible(c)]
+    best_status_row = (status_rows[0] if status_rows else sorted_events[0])
 
     # ------------- set CAPACITIES ----------------
     cap_rows = [
@@ -218,7 +223,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         "capacity": capacity,
         "investment": investment,
         "investment_was_imputed": investment_was_imputed,
-        "source_date": best["date"],
+        "source_date": best_status_row["date"],
     }
 
     # ------------- set CHRONOLOGY ----------------
@@ -304,40 +309,49 @@ def compute_summaries():
 
         update_fields["phases"] = phases_list
 
-        # build the "main" summary (phase=None means all events)
-        main_summary = build_phase_summary(events, phase_num=None)
-        if main_summary:
+        # ---------- build "main" FROM PHASES (no raw-event recompute, no facility override) ----------
+        if phases_list:
+            NONOP = {"announced", "under construction", "paused", "cancelled", "unclear"}
 
-            # --- facility override (can only update a cancelled or paused status) ---
-            fac_status_info = doc.get("latest_factory_status") or {}
-            fac_status = fac_status_info.get("status")
-            fac_date = parse_date(fac_status_info.get("date") or fac_status_info.get("date_str"))
+            # phases_list is already sequential by phase_num
+            selected = None
+            prev_oper = None
+            for ph in phases_list:
+                st = ph.get("status")
+                if st == "operational":
+                    prev_oper = ph  # keep latest operational seen so far
+                    continue
+                # first non-operational encountered
+                selected = prev_oper if prev_oper is not None else ph
+                break
+            else:
+                # never hit a non-operational → take the last phase
+                selected = phases_list[-1]
 
-            if fac_status in STATUS_NORMALIZE:
-                fac_status = STATUS_NORMALIZE[fac_status]
+            # earliest dates across all phases
+            def _earliest(phases, key):
+                dts = [parse_date(p.get(key)) for p in phases if p.get(key)]
+                dts = [d for d in dts if pd.notna(d)]
+                return min(dts).strftime("%Y-%m-%d") if dts else None
 
-            if fac_status in STATUS_ORDER and fac_status in {"cancelled", "paused"}:
-                main_status = main_summary.get("status")
-                main_date = parse_date(main_summary.get("source_date"))
-
-                # decide override if stronger status OR newer date (maybe this should be AND)
-                if (
-                    (main_status and STATUS_RANK[fac_status] < STATUS_RANK[main_status])
-                    or (pd.notna(fac_date) and pd.notna(main_date) and fac_date > main_date)
-                ):
-                    main_summary["status"] = fac_status
-                    main_summary["overridden_by"] = "latest_factory_status"
-
-            # remove helper field before saving
-            main_summary.pop("source_date", None)
+            main_summary = {
+                "status": selected.get("status"),
+                "capacity": selected.get("capacity"),
+                "investment": selected.get("investment"),
+                "investment_was_imputed": selected.get("investment_was_imputed", False),
+                "announced_on": _earliest(phases_list, "announced_on"),
+                "under_construction_on": _earliest(phases_list, "under_construction_on"),
+                "operational_on": _earliest(phases_list, "operational_on"),
+                "main_from_phase_num": selected.get("phase_num"),  # optional provenance; drop if you prefer
+            }
 
             update_fields["main"] = main_summary
-            
-        # If no 'main' summary was produced this run but 'main' exists in DB, unset it to avoid staleness.
-        if main_summary is None and "main" in doc:
-            unset_fields["main"] = ""
+        else:
+            # no phases → ensure main is unset to avoid staleness
+            if "main" in doc:
+                unset_fields["main"] = ""
 
-        # Queue update with both $set and $unset (only if they have content)
+        # Queue update with both $set and $unset. With $set we are always overwriting.
         if update_fields or unset_fields:  # CHANGED: include unsets-only updates
             update_op = {}
             if update_fields:
