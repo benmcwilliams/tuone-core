@@ -16,6 +16,8 @@ STATUS_NORMALIZE = {
 STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "announced", "unclear"]
 STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
 
+PAUSELIKE = {"paused", "cancelled"}  # facility events only vote if status is one of these
+
 # --------- helpers -------------
 
 def parse_date(date_str):
@@ -29,6 +31,9 @@ def phase_is_ignored(ev: dict) -> bool:
     return isinstance(v, str) and v.strip().lower() == "ignore"
 
 def phase_num_int(ev: dict) -> int | None:
+    ''' 
+    Safely evaluate all phase numbers as integers, even if they are read in as strings. 
+    '''
     v = ev.get("phase_num")
     if isinstance(v, int):
         return v
@@ -44,6 +49,30 @@ def phase_num_int(ev: dict) -> int | None:
 
 def normalize_pl2(vals):
     return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
+
+def _is_relevant_event(c: dict, phase_num: int | None) -> bool:
+    '''
+    Returns a boolean for whether an event should be included or not.
+    '''
+    # must be a known status, not ignored, and have a date
+    if c.get("status") not in STATUS_ORDER:
+        return False
+    if phase_is_ignored(c):
+        return False
+    if not c.get("date"):
+        return False
+
+    et = c.get("event_type")
+
+    # Facility-level events: only consider if paused or cancelled (PAUSELIKE)
+    if et == "facility":
+        return c.get("status") in PAUSELIKE
+
+    # Phase-level events: enforce phase filter as before
+    if phase_num is None: # (for main, return all events)
+        return True
+    pn = phase_num_int(c) # for a phase_int, only return events in that int
+    return pn is not None and pn == phase_num
 
 # collect union of product_lv2 from NON-IGNORED events
 def events_product_lv2_union(events: list) -> list[str]:
@@ -89,20 +118,13 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     """
 
     # filter for relevant phases (not ignored, not facility-level)
-    phase_caps = [
-        c for c in events
-        if c.get("status") in STATUS_ORDER
-        and c.get("event_type") != "facility"   # ignore facility events (improve this to consider as a vote for STATUS only)
-        and not phase_is_ignored(c)
-        and (phase_num is None or (phase_num_int(c) is not None and phase_num_int(c) == phase_num)) # if main, then phase_num = None & skip, otherwise filter
-        and c.get("date")
-    ]
-    if not phase_caps:
+    phase_events = [c for c in events if _is_relevant_event(c, phase_num)]
+    if not phase_events:
         return None
-     
+
     # sort by 1) status strength; 2) most recent date
     sorted_events = sorted(
-        phase_caps,
+        phase_events,
         key=lambda c: (
             STATUS_RANK[c["status"]], 
             -parse_date(c["date"]).timestamp())
@@ -118,7 +140,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     # ------------- set CAPACITIES ----------------
     cap_rows = [
-        c for c in phase_caps
+        c for c in phase_events
         if c.get("event_type") == "capacity" 
         and c.get("capacity") is not None
     ]
@@ -155,7 +177,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     # ------------- set INVESTMENTS ----------------
     # set real investments
     inv_rows = sorted(
-        [c for c in phase_caps if c.get("event_type") != "facility" and c.get("investment") is not None],
+        [c for c in phase_events if c.get("event_type") != "facility" and c.get("investment") is not None],
         key=lambda c: (
             STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
             -parse_date(c["date"]).timestamp(),
@@ -165,7 +187,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     # set the backup imputed investments
     imputed_rows = sorted(
-        [c for c in phase_caps if c.get("investment_imputed") is not None],
+        [c for c in phase_events if c.get("investment_imputed") is not None],
         key=lambda c: (
             STATUS_RANK.get(c.get("status"), len(STATUS_ORDER)),
             -parse_date(c["date"]).timestamp(),
@@ -203,7 +225,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     # add chronological milestone dates with two rules:
     # 1) construction can count as announcement if earlier (or announcement missing)
     # 2) if construction exists and operational is missing, set operational = construction + 2 years
-    chron = sorted(phase_caps, key=lambda c: parse_date(c["date"]))
+    chron = sorted(phase_events, key=lambda c: parse_date(c["date"]))
 
     ann = next((c for c in chron if c["status"] == "announced"), None)
     uc  = next((c for c in chron if c["status"] == "under construction"), None)
