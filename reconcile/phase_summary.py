@@ -1,10 +1,10 @@
-from cmath import phase
+#from cmath import phase
 import logging
 import re
 import sys; sys.path.append("..")
 from pymongo import UpdateOne
 from datetime import datetime
-import pandas as pd  # for robust datetime handling
+import pandas as pd
 from mongo_client import facilities_collection
 
 ## main logic should be updated to read from phases (or drop main...)
@@ -309,19 +309,17 @@ def compute_summaries():
 
         update_fields["phases"] = phases_list
 
-        # ---------- build "main" FROM PHASES (no raw-event recompute, no facility override) ----------
+        # ---------- build "main" summary from phases list ----------
         if phases_list:
-            NONOP = {"announced", "under construction", "paused", "cancelled", "unclear"}
-
-            # phases_list is already sequential by phase_num
             selected = None
-            prev_oper = None
+            prev_oper = None            # a previously operational phase
             for ph in phases_list:
                 st = ph.get("status")
+                # if the current phase is operational move on (but store as latest operational)
                 if st == "operational":
                     prev_oper = ph  # keep latest operational seen so far
                     continue
-                # first non-operational encountered
+                #  non-operational phase encountered. stop and take this phase, or a previous operational if exists.
                 selected = prev_oper if prev_oper is not None else ph
                 break
             else:
@@ -352,7 +350,7 @@ def compute_summaries():
                 unset_fields["main"] = ""
 
         # Queue update with both $set and $unset. With $set we are always overwriting.
-        if update_fields or unset_fields:  # CHANGED: include unsets-only updates
+        if update_fields or unset_fields:
             update_op = {}
             if update_fields:
                 update_op["$set"] = update_fields
