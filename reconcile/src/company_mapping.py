@@ -36,7 +36,8 @@ SITE_MERGE = {
     ("svolt", "DE", "Heusweiler"): "Überherrn",
     ("svolt", "DE", "Saarland"): "Überherrn",
     ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
-    ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt"
+    ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
+    ("porsche", "DE", "Kirchentellinsfurt"): "Reutlingen",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
@@ -59,5 +60,6 @@ JV_MERGE = {
     ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
     ("renault", "FR", "Douai", "battery"): "aesc",
     ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
-    ("nissan", "GB", "Sunderland", "battery"): "aesc"
+    ("nissan", "GB", "Sunderland", "battery"): "aesc",
+    ("tata motors", "GB", "Somserset", "battery"): "agratas"
 }

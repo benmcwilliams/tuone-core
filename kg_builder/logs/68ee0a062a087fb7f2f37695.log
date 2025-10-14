@@ -1,0 +1,180 @@
+2025-10-14 12:12:21,378 - INFO - 🔍 Text length: 3540 characters
+2025-10-14 12:12:21,378 - INFO - 📌 Processing Article ID: 68ee0a062a087fb7f2f37695 — Blastr Green Steel and Redcar Bulk Terminal to explore the development of a pellet plant in Teesside, UK
+2025-10-14 12:12:21,378 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-14 12:12:23,953 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:23,953 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_blastr_green_steel",
+        "type": "company",
+        "name": "Blastr Green Steel"
+      },
+      {
+        "id": "company_redcar_bulk_terminal",
+        "type": "company",
+        "name": "Redcar Bulk Terminal"
+      },
+      {
+        "id": "company_cargill_metals",
+        "type": "company",
+        "name": "Cargill Metals"
+      },
+      {
+        "id": "company_pd_ports",
+        "type": "company",
+        "name": "PD Ports"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_teesside_uk",
+        "type": "factory",
+        "name": "Teesside Pellet Plant",
+        "location": {
+          "city": "Teesside",
+          "country": "UK"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_inkoo_finland",
+        "type": "factory",
+        "name": "Inkoo Steel Plant",
+        "location": {
+          "city": "Inkoo",
+          "country": "Finland"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_teesside_pellet_plant",
+        "type": "investment",
+        "name": "Teesside Pellet Plant",
+        "amount": "over \u00a31 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dr_pellets",
+        "type": "product",
+        "name": "DR Pellets"
+      },
+      {
+        "id": "product_hbi",
+        "type": "product",
+        "name": "Hot Briquetted Iron (HBI)"
+      }
+    ]
+  }
+}
+2025-10-14 12:12:23,954 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:23,954 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-14 12:12:23,954 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-14 12:12:23,954 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-14 12:12:24,782 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:24,783 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_teesside_pellet_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-14 12:12:24,783 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:24,783 - INFO - ✅ Match found for investment_ID 'investment_teesside_pellet_plant' in investment nodes
+2025-10-14 12:12:24,783 - INFO -   ➕ Set field 'status': announced
+2025-10-14 12:12:24,783 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-14 12:12:24,783 - INFO -   ➕ Set field 'is_total': True
+2025-10-14 12:12:24,783 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-14 12:12:24,783 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-14 12:12:26,405 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:26,406 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_dr_pellets",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_hbi",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    }
+  ]
+}
+2025-10-14 12:12:26,406 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:26,406 - INFO - ✅ Match found for product_ID 'product_dr_pellets' in product nodes
+2025-10-14 12:12:26,406 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-14 12:12:26,406 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-14 12:12:26,406 - INFO - ✅ Match found for product_ID 'product_hbi' in product nodes
+2025-10-14 12:12:26,406 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-14 12:12:26,406 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-14 12:12:26,406 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-14 12:12:26,406 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-14 12:12:26,407 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-14 12:12:27,434 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:27,435 - INFO - {
+  "relationships": [
+    {
+      "source": "company_blastr_green_steel",
+      "type": "owns",
+      "target": "factory_teesside_uk"
+    },
+    {
+      "source": "company_blastr_green_steel",
+      "type": "owns",
+      "target": "factory_inkoo_finland"
+    }
+  ]
+}
+2025-10-14 12:12:27,435 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:27,435 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-14 12:12:27,435 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-14 12:12:28,764 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:28,765 - INFO - {
+  "relationships": [
+    {
+      "source": "product_dr_pellets",
+      "target": "factory_teesside_uk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_dr_pellets",
+      "target": "factory_inkoo_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-14 12:12:28,765 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:28,765 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-14 12:12:28,765 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-14 12:12:31,908 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:31,908 - INFO - {
+  "relationships": []
+}
+2025-10-14 12:12:31,908 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:31,908 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-14 12:12:31,908 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-14 12:12:33,372 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:12:33,372 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_teesside_pellet_plant",
+      "target": "factory_teesside_uk",
+      "type": "funds"
+    },
+    {
+      "source": "investment_teesside_pellet_plant",
+      "target": "product_dr_pellets",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-14 12:12:33,373 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:12:33,462 - INFO - ✅ Updated Article ID: 68ee0a062a087fb7f2f37695 with 9 nodes and combined text.

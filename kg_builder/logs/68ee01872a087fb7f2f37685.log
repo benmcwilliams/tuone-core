@@ -1,0 +1,152 @@
+2025-10-14 09:56:36,320 - INFO - 🔍 Text length: 1453 characters
+2025-10-14 09:56:36,321 - INFO - 📌 Processing Article ID: 68ee01872a087fb7f2f37685 — BASQUEVOLT launches its ‘Cell Sample Manufacturing Plant (A-Sample)’ for next generation batteries
+2025-10-14 09:56:36,321 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-14 09:56:39,294 - INFO - ✅ OpenAI returned output:
+2025-10-14 09:56:39,294 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_basquevolt",
+        "type": "company",
+        "name": "Basquevolt"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cell_sample_manufacturing_plant",
+        "type": "factory",
+        "name": "Cell Sample Manufacturing Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_prototype_manufacturing_plant",
+        "type": "factory",
+        "name": "Prototype Manufacturing Plant",
+        "location": {
+          "city": "null",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_lithium_ion_battery",
+        "type": "product",
+        "name": "lithium-ion battery"
+      },
+      {
+        "id": "product_patented_electrolyte",
+        "type": "product",
+        "name": "patented electrolyte"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-10-14 09:56:39,294 - INFO - POST-PROCESSING STARTING.
+2025-10-14 09:56:39,294 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-14 09:56:39,294 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-14 09:56:39,294 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-14 09:56:39,294 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-14 09:56:41,279 - INFO - ✅ OpenAI returned output:
+2025-10-14 09:56:41,279 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_lithium_ion_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_patented_electrolyte",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-14 09:56:41,279 - INFO - POST-PROCESSING STARTING.
+2025-10-14 09:56:41,279 - INFO - ✅ Match found for product_ID 'product_lithium_ion_battery' in product nodes
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-14 09:56:41,279 - INFO - ✅ Match found for product_ID 'product_patented_electrolyte' in product nodes
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-14 09:56:41,279 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-14 09:56:41,279 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-14 09:56:41,279 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-14 09:56:41,279 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-14 09:56:41,279 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-14 09:56:41,279 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-14 09:56:42,497 - INFO - ✅ OpenAI returned output:
+2025-10-14 09:56:42,497 - INFO - {
+  "relationships": [
+    {
+      "source": "company_basquevolt",
+      "type": "owns",
+      "target": "factory_cell_sample_manufacturing_plant"
+    },
+    {
+      "source": "company_basquevolt",
+      "type": "owns",
+      "target": "factory_prototype_manufacturing_plant"
+    }
+  ]
+}
+2025-10-14 09:56:42,497 - INFO - POST-PROCESSING STARTING.
+2025-10-14 09:56:42,497 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-14 09:56:42,497 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-14 09:56:46,871 - INFO - ✅ OpenAI returned output:
+2025-10-14 09:56:46,871 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_cells",
+      "target": "factory_cell_sample_manufacturing_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_prototype_manufacturing_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_patented_electrolyte",
+      "target": "factory_cell_sample_manufacturing_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_patented_electrolyte",
+      "target": "factory_prototype_manufacturing_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-14 09:56:46,872 - INFO - POST-PROCESSING STARTING.
+2025-10-14 09:56:46,872 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-14 09:56:46,872 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-14 09:56:46,961 - INFO - ✅ Updated Article ID: 68ee01872a087fb7f2f37685 with 7 nodes and combined text.

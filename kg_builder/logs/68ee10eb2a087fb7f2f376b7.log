@@ -1,0 +1,199 @@
+2025-10-14 12:07:40,401 - INFO - 🔍 Text length: 4206 characters
+2025-10-14 12:07:40,401 - INFO - 📌 Processing Article ID: 68ee10eb2a087fb7f2f376b7 — Our successful exploration opens up new opportunities in Kiruna
+2025-10-14 12:07:40,401 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-14 12:07:43,280 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:07:43,280 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lkab",
+        "type": "company",
+        "name": "LKAB"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gallivare",
+        "type": "factory",
+        "name": "G\u00e4llivare",
+        "location": {
+          "city": "G\u00e4llivare",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_kiruna",
+        "type": "factory",
+        "name": "Kiruna",
+        "location": {
+          "city": "Kiruna",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_lulea",
+        "type": "factory",
+        "name": "Lule\u00e5",
+        "location": {
+          "city": "Lule\u00e5",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_7_twh",
+        "type": "capacity",
+        "amount": "7 TWh",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sponge_iron",
+        "type": "product",
+        "name": "sponge iron"
+      },
+      {
+        "id": "product_phosphorus",
+        "type": "product",
+        "name": "phosphorus"
+      },
+      {
+        "id": "product_rare_earth_metals",
+        "type": "product",
+        "name": "rare earth metals"
+      },
+      {
+        "id": "product_iron_ore",
+        "type": "product",
+        "name": "iron ore"
+      }
+    ]
+  }
+}
+2025-10-14 12:07:43,280 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:07:43,281 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-14 12:07:43,281 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-14 12:07:44,407 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:07:44,407 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_7_twh",
+      "status": "announced",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-10-14 12:07:44,407 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:07:44,407 - INFO - ✅ Match found for capacity_ID 'capacity_7_twh' in capacity nodes
+2025-10-14 12:07:44,407 - INFO -   ➕ Set field 'status': announced
+2025-10-14 12:07:44,407 - INFO -   ➕ Set field 'phase': unclear
+2025-10-14 12:07:44,407 - INFO -   ➕ Set field 'additional': False
+2025-10-14 12:07:44,407 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-14 12:07:44,407 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-14 12:07:44,407 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-14 12:07:48,912 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:07:48,912 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sponge_iron",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_phosphorus",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_rare_earth_metals",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_iron_ore",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-14 12:07:48,912 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:07:48,912 - INFO - ✅ Match found for product_ID 'product_sponge_iron' in product nodes
+2025-10-14 12:07:48,912 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-14 12:07:48,912 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-14 12:07:48,913 - INFO - ✅ Match found for product_ID 'product_phosphorus' in product nodes
+2025-10-14 12:07:48,913 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-14 12:07:48,913 - INFO - ✅ Match found for product_ID 'product_rare_earth_metals' in product nodes
+2025-10-14 12:07:48,913 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-14 12:07:48,913 - INFO - ✅ Match found for product_ID 'product_iron_ore' in product nodes
+2025-10-14 12:07:48,913 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-14 12:07:48,913 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-14 12:07:48,913 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-14 12:07:48,913 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-14 12:07:52,294 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:07:52,295 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_gallivare"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_kiruna"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_lulea"
+    }
+  ]
+}
+2025-10-14 12:07:52,295 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:07:52,295 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-14 12:07:52,295 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-14 12:07:54,097 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:07:54,097 - INFO - {
+  "relationships": [
+    {
+      "source": "product_sponge_iron",
+      "target": "factory_gallivare",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_iron_ore",
+      "target": "factory_kiruna",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_phosphorus",
+      "target": "factory_lulea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rare_earth_metals",
+      "target": "factory_lulea",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_7_twh",
+      "target": "factory_gallivare",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_7_twh",
+      "target": "factory_lulea",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-10-14 12:07:54,097 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:07:54,097 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-14 12:07:54,097 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-14 12:07:54,187 - INFO - ✅ Updated Article ID: 68ee10eb2a087fb7f2f376b7 with 9 nodes and combined text.

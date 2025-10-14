@@ -1,0 +1,180 @@
+2025-10-14 12:10:37,694 - INFO - 🔍 Text length: 7454 characters
+2025-10-14 12:10:37,694 - INFO - 📌 Processing Article ID: 68ee0c422a087fb7f2f376a5 — Tata Steel invests 65 million euro in next phase hydrogen route
+2025-10-14 12:10:37,695 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-14 12:10:41,340 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:41,341 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_steel_nederland",
+        "type": "company",
+        "name": "Tata Steel Nederland"
+      },
+      {
+        "id": "company_mcdermott",
+        "type": "company",
+        "name": "McDermott"
+      },
+      {
+        "id": "company_danieli",
+        "type": "company",
+        "name": "Danieli"
+      },
+      {
+        "id": "company_hatch",
+        "type": "company",
+        "name": "Hatch"
+      },
+      {
+        "id": "company_tennet",
+        "type": "company",
+        "name": "TenneT"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ijmuiden_netherlands",
+        "type": "factory",
+        "name": "IJmuiden",
+        "location": {
+          "city": "IJmuiden",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tata_steel_hydrogen_route",
+        "type": "investment",
+        "name": "Tata Steel Hydrogen Route",
+        "amount": "65 million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dri_technology",
+        "type": "product",
+        "name": "Direct Reduced Iron (DRI)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      },
+      {
+        "id": "product_ref_technology",
+        "type": "product",
+        "name": "Electric Furnaces (REF)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-10-14 12:10:41,341 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:41,341 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-14 12:10:41,341 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-14 12:10:41,341 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-14 12:10:42,373 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:42,373 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tata_steel_hydrogen_route",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-10-14 12:10:42,373 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:42,373 - INFO - ✅ Match found for investment_ID 'investment_tata_steel_hydrogen_route' in investment nodes
+2025-10-14 12:10:42,373 - INFO -   ➕ Set field 'status': announced
+2025-10-14 12:10:42,373 - INFO -   ➕ Set field 'phase': unclear
+2025-10-14 12:10:42,373 - INFO -   ➕ Set field 'is_total': True
+2025-10-14 12:10:42,374 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-14 12:10:42,374 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-14 12:10:44,009 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:44,009 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_dri_technology",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_ref_technology",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-14 12:10:44,009 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:44,009 - INFO - ✅ Match found for product_ID 'product_dri_technology' in product nodes
+2025-10-14 12:10:44,009 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-14 12:10:44,009 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-14 12:10:44,009 - INFO - ✅ Match found for product_ID 'product_ref_technology' in product nodes
+2025-10-14 12:10:44,009 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-14 12:10:44,009 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-14 12:10:44,010 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-14 12:10:44,010 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-14 12:10:44,010 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-14 12:10:44,751 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:44,751 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_steel_nederland",
+      "type": "owns",
+      "target": "factory_ijmuiden_netherlands"
+    }
+  ]
+}
+2025-10-14 12:10:44,751 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:44,751 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-14 12:10:44,751 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-14 12:10:46,057 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:46,058 - INFO - {
+  "relationships": [
+    {
+      "source": "product_dri_technology",
+      "target": "factory_ijmuiden_netherlands",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ref_technology",
+      "target": "factory_ijmuiden_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-14 12:10:46,058 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:46,058 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-14 12:10:46,058 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-14 12:10:47,010 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:47,010 - INFO - {
+  "relationships": []
+}
+2025-10-14 12:10:47,010 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:47,010 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-14 12:10:47,010 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-14 12:10:49,555 - INFO - ✅ OpenAI returned output:
+2025-10-14 12:10:49,556 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tata_steel_hydrogen_route",
+      "target": "product_dri_technology",
+      "type": "targets"
+    },
+    {
+      "source": "investment_tata_steel_hydrogen_route",
+      "target": "product_ref_technology",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-14 12:10:49,556 - INFO - POST-PROCESSING STARTING.
+2025-10-14 12:10:49,642 - INFO - ✅ Updated Article ID: 68ee0c422a087fb7f2f376a5 with 9 nodes and combined text.
