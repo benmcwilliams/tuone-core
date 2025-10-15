@@ -46,6 +46,9 @@ NAME_ALIASES = {
     "lira": "TRY", "lire": "TRY",
     "dirham": "AED", "riyal": "SAR", "ringgit": "MYR", "baht": "THB",
     "peso": "MXN", "pesos": "MXN",
+    "kronor": "SEK", "krona": "SEK", "krone": "NOK", "kroner": "NOK",
+    "zlotys": "PLN", "zloty": "PLN",
+    "crowns": "CZK", "koruna": "CZK",
 }
 
 # Unambiguous symbol mapping (leave "$" out—it's ambiguous)
@@ -97,6 +100,7 @@ MULTI_SYMBOL_TO_ISO = {
     "c$": "CAD",
     "a$": "AUD",
     "nz$": "NZD",
+    "€": "EUR"
 }
 
 
@@ -134,6 +138,7 @@ def detect_currency_iso(text: str) -> str | None:
     for msym, iso in MULTI_SYMBOL_TO_ISO.items():
         if msym in t_fold:
             return iso
+
 
     # 1) ISO stuck to number, e.g., "PLN70bn", "usd2.5m"
     for m in re.finditer(r'(?<![A-Za-z])([A-Za-z]{3})(?=\d)', t):
@@ -201,10 +206,24 @@ def remove_currency_tokens(text: str) -> str:
     for msym in MULTI_SYMBOL_TO_ISO.keys():
         cleaned = re.sub(re.escape(msym), " ", cleaned, flags=re.IGNORECASE)
 
-    # Drop standard currency tokens (names, isos, one-char symbols)
-    cleaned = CURRENCY_TOKEN_RE.sub(" ", cleaned)
+    # Drop standard currency tokens (names, isos, one-char symbols) — but VALIDATE ISOs
+    def _drop_if_currency(m: re.Match) -> str:
+        iso  = m.group("iso")
+        name = m.group("name")
+        sym  = m.group("sym")
 
-    # Remove ISO right before a number, e.g. "pln70bn" -> " 70bn"
+        if sym:  # unambiguous symbols like €, £, ¥ ...
+            return " "
+        if name:  # names come from NAME_TO_ISO, safe to drop
+            return " "
+        if iso:
+            cand = iso.upper()
+            return " " if cand in ALL_ISOS else m.group(0)  # keep non-ISO 3-letter words!
+        return m.group(0)
+
+    cleaned = CURRENCY_TOKEN_RE.sub(_drop_if_currency, cleaned)
+
+    # Remove ISO stuck to number, e.g. "pln70bn" -> " 70bn" (validate again)
     def _repl_iso_stuck(m: re.Match) -> str:
         cand_u = m.group(1).upper()
         return " " if cand_u in ALL_ISOS else m.group(0)
@@ -269,12 +288,12 @@ def _join_currency_rest(*parts):
 SCALE_TOKEN = r"(thousand|million|billion|trillion|k|m|mn|mln|b|bn|bln)"
 
 # Put this near your other globals
-APPROX_PREFIXES = ("about", "around", "approximately", "approx", "nearly", "almost")
+APPROX_PREFIXES = ("about", "around", "approximately", "approx", "nearly", "almost", "close to")
 UPPER_BOUND_PREFIXES = ("up to", "less than", "under")
 LOWER_BOUND_PREFIXES = ("more than", "over", "well over")
 
 PREFIX_RE = re.compile(
-    r"^(?P<prefix>up to|less than|under|more than|over|well over|about|around|approximately|approx|nearly|almost)\b\s*",
+    r"^(?P<prefix>up to|less than|under|more than|over|well over|about|around|approximately|approx|nearly|almost|close to)\b\s*",
     re.IGNORECASE
 )
 
@@ -413,6 +432,17 @@ def parse_amount_from_text(text_clean: str):
             pass
 
     # --- 2) single-amount patterns: compute value+scalar, then apply inequality wrapper ---
+    m = re.match(REGEX_PATTERNS["num_with_scale_stuck"], text, re.IGNORECASE)
+    if m:
+        try:
+            num_str, suffix, remaining = m.groups()
+            scl = SCALE_MAP.get(suffix.lower())
+            if scl:
+                value = _to_float(num_str)
+                return _wrap_inequality(prefix, value, scl, remaining)
+        except Exception:
+            pass
+
     m = re.match(REGEX_PATTERNS["mixed_fraction_scaled"], text, re.IGNORECASE)
     if m:
         try:
@@ -439,16 +469,6 @@ def parse_amount_from_text(text_clean: str):
         except Exception:
             pass
 
-    m = re.match(REGEX_PATTERNS["num_with_scale_stuck"], text, re.IGNORECASE)
-    if m:
-        try:
-            num_str, suffix, remaining = m.groups()
-            scl = SCALE_MAP.get(suffix.lower())
-            if scl:
-                value = _to_float(num_str)
-                return _wrap_inequality(prefix, value, scl, remaining)
-        except Exception:
-            pass
 
     m = re.match(REGEX_PATTERNS["plain_numeric_unit"], text, re.IGNORECASE)
     if m:
@@ -687,9 +707,30 @@ def run_investment_normalisation_pipeline(
         amount_col="amount_value"
     )
 
-    # round to no decimal places
-    df["amount_EUR"] = df["amount_EUR"].round(0)
-    df["amount_USD"] = df["amount_USD"].round(0)
+    def _round_shape_preserving(x, nd=0):
+        # None/NaN passthrough
+        if x is None or (isinstance(x, float) and pd.isna(x)):
+            return None
+        # List/tuple: round each element if numeric, keep None
+        if isinstance(x, (list, tuple)):
+            out = []
+            for v in x:
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    out.append(None)
+                else:
+                    try:
+                        out.append(round(float(v), nd))
+                    except Exception:
+                        out.append(None)
+            return out
+        # Scalar: try numeric then round
+        try:
+            return round(float(x), nd)
+        except Exception:
+            return None
+
+    df["amount_EUR"] = df["amount_EUR"].apply(_round_shape_preserving)
+    df["amount_USD"] = df["amount_USD"].apply(_round_shape_preserving)
 
     # select final columns
     df_out = df[[
@@ -715,8 +756,7 @@ def run_investment_normalisation_pipeline(
     return df_out
 
 # ======= Example call =======
-# df = run_investment_normalisation_pipeline(
-#     "storage/output/investment-funds-factory.xlsx",
-#     "storage/output/investment-funds-factory-clean.xlsx"
-# )
-# print(df.head(30))
+df = run_investment_normalisation_pipeline(
+    input_path="storage/output/investment-funds-factory.xlsx",
+    output_path="storage/output/investment-funds-factory-clean.xlsx"
+)
