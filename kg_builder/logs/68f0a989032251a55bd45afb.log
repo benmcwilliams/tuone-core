@@ -1,0 +1,142 @@
+2025-10-16 15:47:55,096 - INFO - 🔍 Text length: 2612 characters
+2025-10-16 15:47:55,096 - INFO - 📌 Processing Article ID: 68f0a989032251a55bd45afb — Tata Steel focuses on restructuring assets in Europe
+2025-10-16 15:47:55,096 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:47:57,782 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:57,782 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_steel",
+        "type": "company",
+        "name": "Tata Steel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_eijmuiden_plant",
+        "type": "factory",
+        "name": "Eijmuiden Plant",
+        "location": {
+          "city": "Eijmuiden",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_7_million_tons_steel_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "7 million tons of steel per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_gas_based_dri",
+        "type": "product",
+        "name": "gas-based DRI"
+      },
+      {
+        "id": "product_electric_arc_furnace_steel",
+        "type": "product",
+        "name": "electric arc furnace steel"
+      }
+    ]
+  }
+}
+2025-10-16 15:47:57,782 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:57,782 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-16 15:47:57,782 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-16 15:47:58,658 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:58,658 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_7_million_tons_steel_per_year",
+      "status": "announced",
+      "phase": "retrofit",
+      "additional": false
+    }
+  ]
+}
+2025-10-16 15:47:58,658 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:58,658 - INFO - ✅ Match found for capacity_ID 'capacity_7_million_tons_steel_per_year' in capacity nodes
+2025-10-16 15:47:58,658 - INFO -   ➕ Set field 'status': announced
+2025-10-16 15:47:58,658 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-16 15:47:58,658 - INFO -   ➕ Set field 'additional': False
+2025-10-16 15:47:58,658 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-16 15:47:58,658 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:47:58,658 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:48:00,241 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:00,241 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_gas_based_dri",
+      "product_lv1": "steel",
+      "product_lv2": "natural gas DRI"
+    },
+    {
+      "product_ID": "product_electric_arc_furnace_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-16 15:48:00,241 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:00,242 - INFO - ✅ Match found for product_ID 'product_gas_based_dri' in product nodes
+2025-10-16 15:48:00,242 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:48:00,242 - INFO -   ➕ Set field 'product_lv2': natural gas DRI
+2025-10-16 15:48:00,242 - INFO - ✅ Match found for product_ID 'product_electric_arc_furnace_steel' in product nodes
+2025-10-16 15:48:00,242 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:48:00,242 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-16 15:48:00,242 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:48:00,242 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:48:00,242 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:48:01,266 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:01,266 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_steel",
+      "type": "owns",
+      "target": "factory_eijmuiden_plant"
+    }
+  ]
+}
+2025-10-16 15:48:01,266 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:01,266 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:48:01,266 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:48:04,549 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:04,550 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_7_million_tons_steel_per_year",
+      "target": "factory_eijmuiden_plant",
+      "type": "at"
+    },
+    {
+      "source": "capacity_7_million_tons_steel_per_year",
+      "target": "product_gas_based_dri",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_7_million_tons_steel_per_year",
+      "target": "product_electric_arc_furnace_steel",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_gas_based_dri",
+      "target": "factory_eijmuiden_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electric_arc_furnace_steel",
+      "target": "factory_eijmuiden_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-16 15:48:04,550 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:04,550 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-16 15:48:04,550 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-16 15:48:04,601 - INFO - ✅ Updated Article ID: 68f0a989032251a55bd45afb with 5 nodes and combined text.

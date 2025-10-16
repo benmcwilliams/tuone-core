@@ -1,0 +1,138 @@
+2025-10-16 15:48:24,705 - INFO - 🔍 Text length: 3845 characters
+2025-10-16 15:48:24,705 - INFO - 📌 Processing Article ID: 68f0a6e3032251a55bd45af5 — Tata Steel opts for hydrogen route at its IJmuiden steelworks
+2025-10-16 15:48:24,705 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:48:29,183 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:29,183 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_steel",
+        "type": "company",
+        "name": "Tata Steel"
+      },
+      {
+        "id": "company_fnv",
+        "type": "company",
+        "name": "FNV"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ijmuiden_netherlands",
+        "type": "factory",
+        "name": "IJmuiden Steelworks",
+        "location": {
+          "city": "IJmuiden",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_direct_reduced_iron",
+        "type": "product",
+        "name": "Direct Reduced Iron (DRI)"
+      },
+      {
+        "id": "product_steel",
+        "type": "product",
+        "name": "Steel"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_34_million_tonnes_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "34 million tonnes",
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-10-16 15:48:29,183 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:29,183 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-16 15:48:29,183 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-16 15:48:30,482 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:30,482 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_34_million_tonnes_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-10-16 15:48:30,482 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:30,482 - INFO - ✅ Match found for capacity_ID 'capacity_34_million_tonnes_operational' in capacity nodes
+2025-10-16 15:48:30,483 - INFO -   ➕ Set field 'status': operational
+2025-10-16 15:48:30,483 - INFO -   ➕ Set field 'phase': unclear
+2025-10-16 15:48:30,483 - INFO -   ➕ Set field 'additional': False
+2025-10-16 15:48:30,483 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-16 15:48:30,483 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:48:30,483 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:48:32,895 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:32,895 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_direct_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-16 15:48:32,895 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:32,896 - INFO - ✅ Match found for product_ID 'product_direct_reduced_iron' in product nodes
+2025-10-16 15:48:32,896 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:48:32,896 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-16 15:48:32,896 - INFO - ✅ Match found for product_ID 'product_steel' in product nodes
+2025-10-16 15:48:32,896 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:48:32,896 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-16 15:48:32,896 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:48:32,896 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:48:32,896 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:48:33,727 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:33,727 - INFO - {
+  "relationships": [
+    {
+      "source": "company_tata_steel",
+      "type": "owns",
+      "target": "factory_ijmuiden_netherlands"
+    }
+  ]
+}
+2025-10-16 15:48:33,728 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:33,728 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:48:33,728 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:48:35,197 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:48:35,198 - INFO - {
+  "relationships": [
+    {
+      "source": "product_steel",
+      "target": "factory_ijmuiden_netherlands"
+    },
+    {
+      "source": "product_direct_reduced_iron",
+      "target": "factory_ijmuiden_netherlands"
+    },
+    {
+      "source": "capacity_34_million_tonnes_operational",
+      "target": "factory_ijmuiden_netherlands"
+    },
+    {
+      "source": "capacity_34_million_tonnes_operational",
+      "target": "product_steel"
+    }
+  ]
+}
+2025-10-16 15:48:35,198 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:48:35,198 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-16 15:48:35,198 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-16 15:48:35,248 - INFO - ✅ Updated Article ID: 68f0a6e3032251a55bd45af5 with 6 nodes and combined text.

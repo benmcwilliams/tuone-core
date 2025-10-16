@@ -48,7 +48,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
         clean_owner_names()
 
         #logging.info("🌎 Querying geonames...") 
-        query_geonames_new_cities(limit=21000, skip=0, failure_backoff_days=2000)
+        query_geonames_new_cities(limit=22000, skip=0, failure_backoff_days=2000)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()

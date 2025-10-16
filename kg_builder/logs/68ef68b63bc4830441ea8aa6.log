@@ -1,0 +1,83 @@
+2025-10-15 12:52:31,649 - INFO - 🔍 Text length: 2090 characters
+2025-10-15 12:52:31,649 - INFO - 📌 Processing Article ID: 68ef68b63bc4830441ea8aa6 — Valmet Automotive expands production capacity of battery packs in Salo
+2025-10-15 12:52:31,649 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-15 12:52:33,395 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:33,395 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_valmet_automotive",
+        "type": "company",
+        "name": "Valmet Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_salo_finland",
+        "type": "factory",
+        "name": "Salo Battery Plant",
+        "location": {
+          "city": "Salo",
+          "country": "Finland"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-10-15 12:52:33,395 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:33,395 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-15 12:52:33,396 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-15 12:52:33,396 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-15 12:52:33,396 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-15 12:52:34,519 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:34,520 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-10-15 12:52:34,520 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:34,520 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-10-15 12:52:34,520 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-15 12:52:34,520 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-15 12:52:34,520 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-15 12:52:34,520 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-15 12:52:34,520 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-15 12:52:36,914 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:36,914 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valmet_automotive",
+      "type": "owns",
+      "target": "factory_salo_finland"
+    }
+  ]
+}
+2025-10-15 12:52:36,914 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:36,914 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-15 12:52:36,914 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-15 12:52:38,092 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:38,092 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_packs",
+      "target": "factory_salo_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-15 12:52:38,093 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:38,093 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-15 12:52:38,093 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-15 12:52:38,185 - INFO - ✅ Updated Article ID: 68ef68b63bc4830441ea8aa6 with 3 nodes and combined text.
