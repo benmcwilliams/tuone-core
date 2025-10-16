@@ -39,7 +39,8 @@ CITY_QUERY_OVERRIDES: Dict[Tuple[str, CityKey], str] = {
     ("HU", "lukacshaza"): "Lukácsháza",
     ("DE", "port_of_hamburg"): "Hamburg",
     ("DE", "dingolfingen"): "Dingolfing",
-    ("PL", "biskupice_podgórne"): "Wroclaw"
+    ("PL", "biskupice_podgórne"): "Wroclaw",
+    ("PL", "balice"): "Balice Gmina Zabierzów"
 }
 
 def _close_logger_handlers(logger: logging.Logger) -> None:
@@ -293,4 +294,4 @@ def debug_single_article(article_id: str, failure_backoff_days: Optional[int] = 
             print("-" * 60)
 
 if __name__ == "__main__":
-    debug_single_article("68ebb0f12e209d3f59179d34", 0, False)
+    debug_single_article("67f52ac6981040986eab726e", 0, False)

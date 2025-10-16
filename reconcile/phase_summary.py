@@ -200,7 +200,9 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         )
     )
 
-    investment, investment_was_imputed = None, False
+    investment = None                       # the cumulative investment
+    phase_investment = None                 # the investment specific to this phase
+    investment_was_imputed = False          # did we have to impute the investment?
 
     # if there are real investments, take the best one
     if inv_rows:
@@ -209,13 +211,46 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
             investment = prev_investment + row["investment"]
         else:
             investment = row["investment"]
-    elif imputed_rows:  # fallback to imputed
+
+    # otherwise, fallback to imputed investments
+    elif imputed_rows:  
         row = imputed_rows[0]
         if row.get("is_total") is False and prev_investment is not None:
             investment = prev_investment + row["investment_imputed"]
         else:
             investment = row["investment_imputed"]
         investment_was_imputed = True
+
+    if inv_rows:
+        latest = inv_rows[0]
+        v = latest.get("investment")
+        total = latest.get("is_total")
+
+    elif imputed_rows:
+        latest = imputed_rows[0]
+        v = latest.get("investment_imputed")
+        total = latest.get("is_total")
+        investment_was_imputed = True
+
+    else:
+        latest = None
+        v = None
+        total = None
+
+    if latest:
+        if total is True:
+            # explicit total after this phase
+            if prev_investment is not None:
+                phase_investment = max(v - prev_investment, 0)
+            else:
+                phase_investment = v
+            investment = v
+
+        elif total is False:
+            # explicit incremental update
+            phase_investment = v
+            investment = (prev_investment or 0) + v
+
 
     summary = {
         "status": best_status_row["status"],
@@ -230,7 +265,9 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     # add chronological milestone dates with two rules:
     # 1) construction can count as announcement if earlier (or announcement missing)
     # 2) if construction exists and operational is missing, set operational = construction + 2 years
-    chron = sorted(phase_events, key=lambda c: parse_date(c["date"]))
+    chron = sorted(status_rows, key=lambda c: parse_date(c["date"]))
+    # we use status_rows (ie investment and facilities can vote only if paused | cancelled)
+    # perhaps want to allow investments to vote for "ongoing" or "announced". Seems "completed" is the buggy one. 
 
     ann = next((c for c in chron if c["status"] == "announced"), None)
     uc  = next((c for c in chron if c["status"] == "under construction"), None)

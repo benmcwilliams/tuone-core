@@ -6,56 +6,56 @@ CAPEX_DICT = {
     {
       "product_lv1": "battery",
       "product_lv2_key": ("cell", "module_pack"),   # canonical, sorted tuple
-      "capacity_unit": "GWh/year",                  # unit basis for the rate
+      "capacity_unit": "EUR/GWh",                  # unit basis for the rate
       "capex_per_unit": 80_000_000,                # EUR per GWh/y
       "source": "Rhodium-Bruegel"
     },
     {
       "product_lv1": "battery",
       "product_lv2_key": ("cell",),
-      "capacity_unit": "GWh/year",
+      "capacity_unit": "EUR/GWh",
       "capex_per_unit": 80_000_000,  
       "source": "Rhodium-Bruegel"
     },
     {
       "product_lv1": "battery",
       "product_lv2_key": ("module_pack",),
-      "capacity_unit": "GWh/year",
+      "capacity_unit": "EUR/GWh",
       "capex_per_unit": 40_000_000,  
       "source": "Rhodium-Bruegel"
     },
     {
       "product_lv1": "vehicle",
       "product_lv2_key": ("electric",),
-      "capacity_unit": "vehicles/year",
+      "capacity_unit": "EUR/vehicle",
       "capex_per_unit": 5_500,                     # EUR per vehicle/y capacity
       "source": "Rhodium-Bruegel",
     },
     {
       "product_lv1": "solar",
       "product_lv2_key": ("ingot_wafer",),
-      "capacity_unit": "GW/year",
+      "capacity_unit": "EUR/GW",
       "capex_per_unit": 81_000_000,   # midpoint €25–30M/GW
       "source": "Rhodium-Bruegel",
     },
     {
       "product_lv1": "solar",
       "product_lv2_key": ("cell",),
-      "capacity_unit": "GW/year",
+      "capacity_unit": "EUR/GW",
       "capex_per_unit": 134_000_000,   # midpoint €35–45M/GW
       "source": "Rhodium-Bruegel",
     },
     {
       "product_lv1": "solar",
       "product_lv2_key": ("module",),
-      "capacity_unit": "GW/year",
+      "capacity_unit": "EUR/GW",
       "capex_per_unit": 83_000_000,   # midpoint €8–12M/GW
       "source": "Rhodium-Bruegel",
     },
     {
       "product_lv1": "solar",
       "product_lv2_key": ("cell", "module"),
-      "capacity_unit": "GW/year",
+      "capacity_unit": "EUR/GW",
       "capex_per_unit": 134_000_000,   # ~cell + module integrated
       "source": "Rhodium-Bruegel",
     },

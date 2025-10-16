@@ -87,7 +87,7 @@ def get_adm_level(city: str, iso2: str | None, logger,
         attempt += 1
         params = {
             "q": city,
-            "maxRows": 4,
+            "maxRows": 6,
             "style": "FULL",
             "featureClass": ["A", "P"],
             "username": GEONAMES_USERNAME,
