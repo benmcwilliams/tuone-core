@@ -63,5 +63,8 @@ JV_MERGE = {
     ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
     ("nissan", "GB", "Sunderland", "battery"): "aesc",
     ("tata motors", "GB", "Somserset", "battery"): "agratas",
-    ("northvolt", "PL", "Gdańsk", "battery"): "Lyten"
+    ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
+    ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
+    ("daimler", "DE", "Kamenz", "battery"): "accumotive",
+    ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive"
 }
