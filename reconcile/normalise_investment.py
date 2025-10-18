@@ -10,7 +10,6 @@ root = os.path.abspath(os.path.join(os.getcwd(), ".."))
 if root not in sys.path:
     sys.path.append(root)
 
-
 from numerizer import numerize
 from word2number import w2n
 from reconcile.src import id_date_dict

@@ -1,0 +1,217 @@
+2025-10-18 12:26:19,153 - INFO - 🔍 Text length: 1724 characters
+2025-10-18 12:26:19,154 - INFO - 📌 Processing Article ID: 68f3664403e0b23fa2304f6c — Draexlmaier takes EUR 75 mln EBRD loan to finance investments in Romania, North Macedonia and Moldova
+2025-10-18 12:26:19,154 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-18 12:26:22,370 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:22,370 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_draexlmaier_group",
+        "type": "company",
+        "name": "Draexlmaier Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_timisoara_romania",
+        "type": "factory",
+        "name": "Draexlmaier Timisoara",
+        "location": {
+          "city": "Timisoara",
+          "country": "Romania"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ebrd_loan",
+        "type": "investment",
+        "name": "EBRD Loan",
+        "amount": "EUR 75 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_draexlmaier_timisoara_expansion",
+        "type": "investment",
+        "name": "Draexlmaier Timisoara Expansion",
+        "amount": "EUR 200 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_high_voltage_harnesses",
+        "type": "product",
+        "name": "high-voltage harnesses"
+      },
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      },
+      {
+        "id": "product_electronic_components",
+        "type": "product",
+        "name": "electronic components"
+      },
+      {
+        "id": "product_battery_assembly_line",
+        "type": "product",
+        "name": "battery assembly line"
+      }
+    ]
+  }
+}
+2025-10-18 12:26:22,371 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:22,371 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-18 12:26:22,371 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-18 12:26:22,371 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-18 12:26:23,725 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:23,725 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ebrd_loan",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_draexlmaier_timisoara_expansion",
+      "status": "ongoing",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-10-18 12:26:23,725 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:23,725 - INFO - ✅ Match found for investment_ID 'investment_ebrd_loan' in investment nodes
+2025-10-18 12:26:23,725 - INFO -   ➕ Set field 'status': announced
+2025-10-18 12:26:23,725 - INFO -   ➕ Set field 'phase': expansion
+2025-10-18 12:26:23,725 - INFO -   ➕ Set field 'is_total': False
+2025-10-18 12:26:23,725 - INFO - ✅ Match found for investment_ID 'investment_draexlmaier_timisoara_expansion' in investment nodes
+2025-10-18 12:26:23,725 - INFO -   ➕ Set field 'status': ongoing
+2025-10-18 12:26:23,726 - INFO -   ➕ Set field 'phase': expansion
+2025-10-18 12:26:23,726 - INFO -   ➕ Set field 'is_total': False
+2025-10-18 12:26:23,726 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-18 12:26:23,726 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-18 12:26:25,579 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:25,579 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_high_voltage_harnesses",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_systems",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_electronic_components",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_battery_assembly_line",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-18 12:26:25,579 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:25,579 - INFO - ✅ Match found for product_ID 'product_high_voltage_harnesses' in product nodes
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-18 12:26:25,579 - INFO - ✅ Match found for product_ID 'product_battery_systems' in product nodes
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-18 12:26:25,579 - INFO - ✅ Match found for product_ID 'product_electronic_components' in product nodes
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-18 12:26:25,579 - INFO - ✅ Match found for product_ID 'product_battery_assembly_line' in product nodes
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-18 12:26:25,579 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-18 12:26:25,579 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-18 12:26:25,579 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-18 12:26:25,579 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-18 12:26:28,467 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:28,467 - INFO - {
+  "relationships": [
+    {
+      "source": "company_draexlmaier_group",
+      "type": "owns",
+      "target": "factory_timisoara_romania"
+    }
+  ]
+}
+2025-10-18 12:26:28,467 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:28,467 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-18 12:26:28,467 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-18 12:26:31,232 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:31,233 - INFO - {
+  "relationships": [
+    {
+      "source": "product_high_voltage_harnesses",
+      "target": "factory_timisoara_romania",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_systems",
+      "target": "factory_timisoara_romania",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_electronic_components",
+      "target": "factory_timisoara_romania",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_assembly_line",
+      "target": "factory_timisoara_romania",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-18 12:26:31,233 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:31,233 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-18 12:26:31,233 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-18 12:26:32,140 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:32,140 - INFO - {
+  "relationships": []
+}
+2025-10-18 12:26:32,141 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:32,141 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-18 12:26:32,141 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-18 12:26:34,784 - INFO - ✅ OpenAI returned output:
+2025-10-18 12:26:34,784 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_draexlmaier_timisoara_expansion",
+      "target": "factory_timisoara_romania",
+      "type": "funds"
+    },
+    {
+      "source": "investment_draexlmaier_timisoara_expansion",
+      "target": "product_high_voltage_harnesses",
+      "type": "targets"
+    },
+    {
+      "source": "investment_draexlmaier_timisoara_expansion",
+      "target": "product_battery_systems",
+      "type": "targets"
+    },
+    {
+      "source": "investment_draexlmaier_timisoara_expansion",
+      "target": "product_electronic_components",
+      "type": "targets"
+    },
+    {
+      "source": "investment_draexlmaier_timisoara_expansion",
+      "target": "product_battery_assembly_line",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-18 12:26:34,784 - INFO - POST-PROCESSING STARTING.
+2025-10-18 12:26:34,880 - INFO - ✅ Updated Article ID: 68f3664403e0b23fa2304f6c with 8 nodes and combined text.

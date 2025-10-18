@@ -1,0 +1,118 @@
+2025-10-18 10:40:42,529 - INFO - 🔍 Text length: 542 characters
+2025-10-18 10:40:42,529 - INFO - 📌 Processing Article ID: 68f12b314bc73b9a1dd42b6f — Peugeot to start assembling batteries for hybrid, electric cars in Slovakia
+2025-10-18 10:40:42,529 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-18 10:40:45,815 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:45,815 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_psa",
+        "type": "company",
+        "name": "PSA"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_trnava_slovakia",
+        "type": "factory",
+        "name": "Trnava Plant",
+        "location": {
+          "city": "Trnava",
+          "country": "Slovakia"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_vigo_spain",
+        "type": "factory",
+        "name": "Vigo Plant",
+        "location": {
+          "city": "Vigo",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_tremery_france",
+        "type": "factory",
+        "name": "Tremery Plant",
+        "location": {
+          "city": "Tremery",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_batteries",
+        "type": "product",
+        "name": "batteries"
+      }
+    ]
+  }
+}
+2025-10-18 10:40:45,815 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:45,815 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-18 10:40:45,815 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-18 10:40:45,815 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-18 10:40:45,815 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-18 10:40:46,545 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:46,546 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-18 10:40:46,546 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:46,546 - INFO - ✅ Match found for product_ID 'product_batteries' in product nodes
+2025-10-18 10:40:46,546 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-18 10:40:46,546 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-18 10:40:46,546 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-18 10:40:46,546 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-18 10:40:46,546 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-18 10:40:47,597 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:47,598 - INFO - {
+  "relationships": [
+    {
+      "source": "company_psa",
+      "type": "owns",
+      "target": "factory_trnava_slovakia"
+    },
+    {
+      "source": "company_psa",
+      "type": "owns",
+      "target": "factory_vigo_spain"
+    },
+    {
+      "source": "company_psa",
+      "type": "owns",
+      "target": "factory_tremery_france"
+    }
+  ]
+}
+2025-10-18 10:40:47,598 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:47,598 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-18 10:40:47,598 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-18 10:40:48,783 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:48,784 - INFO - {
+  "relationships": [
+    {
+      "source": "product_batteries",
+      "target": "factory_trnava_slovakia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_batteries",
+      "target": "factory_vigo_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-18 10:40:48,784 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:48,784 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-18 10:40:48,784 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-18 10:40:48,876 - INFO - ✅ Updated Article ID: 68f12b314bc73b9a1dd42b6f with 5 nodes and combined text.

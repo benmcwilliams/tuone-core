@@ -1,0 +1,170 @@
+2025-10-18 10:40:21,219 - INFO - 🔍 Text length: 1249 characters
+2025-10-18 10:40:21,219 - INFO - 📌 Processing Article ID: 68f219d7c1de4afedbcb3645 — GE Officially Inaugurates Cherbourg Blade Factory
+2025-10-18 10:40:21,219 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-18 10:40:23,492 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:23,492 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ge_renewable_energy",
+        "type": "company",
+        "name": "GE Renewable Energy"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cherbourg_france",
+        "type": "factory",
+        "name": "LM Wind Power blade factory",
+        "location": {
+          "city": "Cherbourg",
+          "country": "France"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_saint_nazaire_france",
+        "type": "factory",
+        "name": "Saint-Nazaire factory",
+        "location": {
+          "city": "Saint-Nazaire",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cherbourg_saint_nazaire",
+        "type": "investment",
+        "name": "Cherbourg and Saint-Nazaire factories",
+        "amount": "EUR 120 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_haliade_x_12mw_offshore_wind_turbine",
+        "type": "product",
+        "name": "Haliade-X 12MW offshore wind turbine"
+      },
+      {
+        "id": "product_blades",
+        "type": "product",
+        "name": "blades"
+      }
+    ]
+  }
+}
+2025-10-18 10:40:23,492 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:23,492 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-18 10:40:23,492 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-18 10:40:23,492 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-18 10:40:24,350 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:24,350 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cherbourg_saint_nazaire",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-18 10:40:24,351 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:24,351 - INFO - ✅ Match found for investment_ID 'investment_cherbourg_saint_nazaire' in investment nodes
+2025-10-18 10:40:24,351 - INFO -   ➕ Set field 'status': announced
+2025-10-18 10:40:24,351 - INFO -   ➕ Set field 'phase': expansion
+2025-10-18 10:40:24,351 - INFO -   ➕ Set field 'is_total': True
+2025-10-18 10:40:24,351 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-18 10:40:24,351 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-18 10:40:26,540 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:26,541 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_haliade_x_12mw_offshore_wind_turbine",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-18 10:40:26,541 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:26,541 - INFO - ✅ Match found for product_ID 'product_haliade_x_12mw_offshore_wind_turbine' in product nodes
+2025-10-18 10:40:26,541 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-18 10:40:26,541 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-18 10:40:26,541 - INFO - ✅ Match found for product_ID 'product_blades' in product nodes
+2025-10-18 10:40:26,541 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-18 10:40:26,541 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-18 10:40:26,541 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-18 10:40:26,541 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-18 10:40:26,541 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-18 10:40:27,792 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:27,793 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ge_renewable_energy",
+      "type": "owns",
+      "target": "factory_cherbourg_france"
+    },
+    {
+      "source": "company_ge_renewable_energy",
+      "type": "owns",
+      "target": "factory_saint_nazaire_france"
+    }
+  ]
+}
+2025-10-18 10:40:27,793 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:27,793 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-18 10:40:27,793 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-18 10:40:28,906 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:28,906 - INFO - {
+  "relationships": [
+    {
+      "source": "product_blades",
+      "target": "factory_cherbourg_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-18 10:40:28,906 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:28,906 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-18 10:40:28,906 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-18 10:40:31,376 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:31,376 - INFO - {
+  "relationships": []
+}
+2025-10-18 10:40:31,376 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:31,376 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-18 10:40:31,376 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-18 10:40:33,035 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:33,036 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cherbourg_saint_nazaire",
+      "type": "funds",
+      "target": "factory_cherbourg_france"
+    },
+    {
+      "source": "investment_cherbourg_saint_nazaire",
+      "type": "funds",
+      "target": "factory_saint_nazaire"
+    },
+    {
+      "source": "investment_cherbourg_saint_nazaire",
+      "type": "targets",
+      "target": "product_haliade_x_12mw_offshore_wind_turbine"
+    },
+    {
+      "source": "investment_cherbourg_saint_nazaire",
+      "type": "targets",
+      "target": "product_blades"
+    }
+  ]
+}
+2025-10-18 10:40:33,036 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:33,129 - INFO - ✅ Updated Article ID: 68f219d7c1de4afedbcb3645 with 6 nodes and combined text.

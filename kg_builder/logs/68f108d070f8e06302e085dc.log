@@ -1,0 +1,119 @@
+2025-10-18 10:40:48,878 - INFO - 🔍 Text length: 1086 characters
+2025-10-18 10:40:48,878 - INFO - 📌 Processing Article ID: 68f108d070f8e06302e085dc — Samsung opens EV battery manufacturing in Hungary
+2025-10-18 10:40:48,878 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-18 10:40:53,175 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:53,175 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_samsung_sdi",
+        "type": "company",
+        "name": "Samsung SDI"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_goed_hungary",
+        "type": "factory",
+        "name": "Goed EV Battery Plant",
+        "location": {
+          "city": "Goed",
+          "country": "Hungary"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_electric_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 electric vehicles per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev_batteries",
+        "type": "product",
+        "name": "EV batteries"
+      }
+    ]
+  }
+}
+2025-10-18 10:40:53,175 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:53,176 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-18 10:40:53,176 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-18 10:40:56,145 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:56,145 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_electric_vehicles_per_year",
+      "status": "operational",
+      "phase": "retrofit",
+      "additional": false
+    }
+  ]
+}
+2025-10-18 10:40:56,146 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:56,146 - INFO - ✅ Match found for capacity_ID 'capacity_50k_electric_vehicles_per_year' in capacity nodes
+2025-10-18 10:40:56,146 - INFO -   ➕ Set field 'status': operational
+2025-10-18 10:40:56,146 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-18 10:40:56,146 - INFO -   ➕ Set field 'additional': False
+2025-10-18 10:40:56,146 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-18 10:40:56,146 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-18 10:40:56,146 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-18 10:40:57,095 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:57,095 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-10-18 10:40:57,096 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:57,096 - INFO - ✅ Match found for product_ID 'product_ev_batteries' in product nodes
+2025-10-18 10:40:57,096 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-18 10:40:57,096 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-18 10:40:57,096 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-18 10:40:57,096 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-18 10:40:57,096 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-18 10:40:58,000 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:58,000 - INFO - {
+  "relationships": [
+    {
+      "source": "company_samsung_sdi",
+      "type": "owns",
+      "target": "factory_goed_hungary"
+    }
+  ]
+}
+2025-10-18 10:40:58,001 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:58,001 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-18 10:40:58,001 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-18 10:40:59,892 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:59,893 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "factory_goed_hungary",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "product_ev_batteries",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_ev_batteries",
+      "target": "factory_goed_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-18 10:40:59,893 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:59,893 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-18 10:40:59,893 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-18 10:40:59,973 - INFO - ✅ Updated Article ID: 68f108d070f8e06302e085dc with 4 nodes and combined text.
