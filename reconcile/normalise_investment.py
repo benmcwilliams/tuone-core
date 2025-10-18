@@ -15,6 +15,7 @@ from word2number import w2n
 from reconcile.src import id_date_dict
 from currency_symbols import CurrencySymbols  # pip install currency-symbols
 from src.id_date_dict import get_article_id_to_date_map
+from src.split_investments import _is_missing, _as_iter, multiply_vals, distribute_vehicle_battery_split
 
 from forex_python.converter import CurrencyRates
 
@@ -497,16 +498,6 @@ def parse_amount_from_text(text_clean: str):
 import math
 import pandas as pd
 
-def _as_iter(x):
-    return x if isinstance(x, (list, tuple)) else [x]
-
-def _is_missing(x):
-    return (
-        x is None
-        or (isinstance(x, float) and math.isnan(x))
-        or (isinstance(x, (pd.Float64Dtype,)) if hasattr(pd, "Float64Dtype") else False)
-    )
-
 # ======= Year + FX conversions (simple, latest rates) =======
 # ======= Year + ECB FX conversions (simple, date-aware) =======
 
@@ -627,35 +618,6 @@ def add_year_and_fx_currencyconverter(
     out[["amount_EUR", "amount_USD"]] = pd.DataFrame(converted.tolist(), index=out.index)
     return out
 
-
-def multiply_vals(value, mult):
-    """
-    Multiply a scalar or a list/tuple of numbers by `mult`, preserving shape.
-    - If `value` is None/NaN -> return None
-    - If `mult` is None/NaN -> treat as 1
-    - If any element in a list is None/NaN -> keep it as None
-    """
-    # whole input missing
-    if _is_missing(value):
-        return None
-
-    # default multiplier if missing
-    if _is_missing(mult):
-        mult = 1
-
-    vals = _as_iter(value)
-    out = []
-    for v in vals:
-        if _is_missing(v):
-            out.append(None)
-        else:
-            out.append(v * mult)
-
-    return out if isinstance(value, (list, tuple)) else out[0]
-
-
-# ======= Pipeline helpers =======
-
 def run_investment_normalisation_pipeline(
     df_in: pd.DataFrame | None = None,
     input_path: str | None = None,
@@ -704,6 +666,15 @@ def run_investment_normalisation_pipeline(
         date_col="date",
         currency_col="currency_iso",
         amount_col="amount_value"
+    )
+
+    # --- apply vehicle/battery 80/20 investment split ---
+    df = distribute_vehicle_battery_split(
+        df,
+        id_col="investment_id",
+        lv1_col="product_lv1",
+        lv2_col="product_lv2",
+        amount_cols=("amount_value", "amount_EUR", "amount_USD"),
     )
 
     def _round_shape_preserving(x, nd=0):
