@@ -48,7 +48,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
         clean_owner_names()
 
         #logging.info("🌎 Querying geonames...") 
-        query_geonames_new_cities(limit=21000, skip=0, failure_backoff_days=2000)
+        query_geonames_new_cities(limit=22000, skip=0, failure_backoff_days=2000)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -77,10 +77,13 @@ def main(update_mongo_metadata=False, update_main_database=False):
         logging.info("- - - Normalising investments")
         df_clean_caps_invs = run_investment_normalisation_pipeline(df_in=df_clean_caps,
             output_path = FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, 
-            write_outputs=True, write_check=False)
+            write_outputs=True, 
+            write_check=False)
 
         df_clean_invs = run_investment_normalisation_pipeline(df_in=df_investment, 
-        output_path = CLEAN_INVESTMENT_FUNDS, write_outputs=True, write_check=True)
+        output_path = CLEAN_INVESTMENT_FUNDS, 
+        write_outputs=True, 
+        write_check=True)
 
         logging.info("🫂 Grouping projects...")
         for in_path, out_path, output_cols in GROUP_SPEC:
@@ -101,7 +104,6 @@ def main(update_mongo_metadata=False, update_main_database=False):
 
     compute_summaries()
     logging.info(f"✅ Phase summaries computed.")
-
 
     # final timing
     t1_pipeline = time.time()
