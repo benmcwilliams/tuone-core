@@ -66,5 +66,8 @@ JV_MERGE = {
     ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
     ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("daimler", "DE", "Kamenz", "battery"): "accumotive",
-    ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive"
+    ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
+    ("tata motors", "GB", "Somerset", "battery"): "agratas",
+    ("envision", "GB", "Sunderland", "battery"): "aesc",
+    ("nissan envision aesc", "GB", "Sunderland", "battery"): "aesc",
 }
