@@ -1,0 +1,136 @@
+2025-10-15 12:51:58,055 - INFO - 🔍 Text length: 2426 characters
+2025-10-15 12:51:58,056 - INFO - 📌 Processing Article ID: 68ef6b013bc4830441ea8aac — Valmet Automotive Builds Battery Factory in Germany
+2025-10-15 12:51:58,056 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-15 12:52:00,759 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:00,759 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_valmet_automotive",
+        "type": "company",
+        "name": "Valmet Automotive"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kirchardt_germany",
+        "type": "factory",
+        "name": "Kirchardt Battery Factory",
+        "location": {
+          "city": "Kirchardt",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_salo_finland",
+        "type": "factory",
+        "name": "Salo Battery Factory",
+        "location": {
+          "city": "Salo",
+          "country": "Finland"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_uusikaupunki_finland",
+        "type": "factory",
+        "name": "Uusikaupunki Battery Factory",
+        "location": {
+          "city": "Uusikaupunki",
+          "country": "Finland"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_battery_systems",
+        "type": "product",
+        "name": "battery systems"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      }
+    ]
+  }
+}
+2025-10-15 12:52:00,759 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:00,759 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-15 12:52:00,759 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-15 12:52:00,759 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-15 12:52:00,759 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-15 12:52:03,174 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:03,174 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery_systems",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-10-15 12:52:03,174 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:03,174 - INFO - ✅ Match found for product_ID 'product_battery_systems' in product nodes
+2025-10-15 12:52:03,174 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-15 12:52:03,175 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-15 12:52:03,175 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-10-15 12:52:03,175 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-15 12:52:03,175 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-15 12:52:03,175 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-15 12:52:03,175 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-15 12:52:03,175 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-15 12:52:04,722 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:04,723 - INFO - {
+  "relationships": [
+    {
+      "source": "company_valmet_automotive",
+      "type": "owns",
+      "target": "factory_kirchardt_germany"
+    },
+    {
+      "source": "company_valmet_automotive",
+      "type": "owns",
+      "target": "factory_salo_finland"
+    },
+    {
+      "source": "company_valmet_automotive",
+      "type": "owns",
+      "target": "factory_uusikaupunki_finland"
+    }
+  ]
+}
+2025-10-15 12:52:04,723 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:04,723 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-15 12:52:04,723 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-15 12:52:07,075 - INFO - ✅ OpenAI returned output:
+2025-10-15 12:52:07,075 - INFO - {
+  "relationships": [
+    {
+      "source": "product_battery_systems",
+      "target": "factory_kirchardt_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_packs",
+      "target": "factory_salo_finland",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_packs",
+      "target": "factory_uusikaupunki_finland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-15 12:52:07,075 - INFO - POST-PROCESSING STARTING.
+2025-10-15 12:52:07,075 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-15 12:52:07,076 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-15 12:52:07,181 - INFO - ✅ Updated Article ID: 68ef6b013bc4830441ea8aac with 6 nodes and combined text.

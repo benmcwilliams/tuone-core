@@ -1,0 +1,187 @@
+2025-10-16 15:52:08,148 - INFO - 🔍 Text length: 4188 characters
+2025-10-16 15:52:08,149 - INFO - 📌 Processing Article ID: 68f0a1eef7121b492620343a — Air Liquide and ArcelorMittal join forces to accelerate the decarbonisation of steel production in the Dunkirk industrial basin
+2025-10-16 15:52:08,149 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:52:13,517 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:13,517 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_air_liquide",
+        "type": "company",
+        "name": "Air Liquide"
+      },
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_air_liquide_arcelormittal",
+        "type": "joint_venture",
+        "name": "Air Liquide ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dunkirk_france",
+        "type": "factory",
+        "name": "Dunkirk Site",
+        "location": {
+          "city": "Dunkirk",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ipcei_hydrogen",
+        "type": "investment",
+        "name": "IPCEI Hydrogen",
+        "amount": "null",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_low_carbon_hydrogen",
+        "type": "product",
+        "name": "low-carbon hydrogen"
+      },
+      {
+        "id": "product_co2_capture_technologies",
+        "type": "product",
+        "name": "CO2 capture technologies"
+      },
+      {
+        "id": "product_dri_direct_reduced_iron",
+        "type": "product",
+        "name": "DRI (Direct Reduced Iron)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced"
+      },
+      {
+        "id": "product_submerged_arc_furnace_steel",
+        "type": "product",
+        "name": "submerged arc furnace steel",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-10-16 15:52:13,518 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:13,518 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-16 15:52:13,518 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-16 15:52:13,518 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-16 15:52:14,630 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:14,630 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ipcei_hydrogen",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-10-16 15:52:14,630 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:14,630 - INFO - ✅ Match found for investment_ID 'investment_ipcei_hydrogen' in investment nodes
+2025-10-16 15:52:14,630 - INFO -   ➕ Set field 'status': announced
+2025-10-16 15:52:14,630 - INFO -   ➕ Set field 'phase': expansion
+2025-10-16 15:52:14,630 - INFO -   ➕ Set field 'is_total': False
+2025-10-16 15:52:14,630 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:52:14,631 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:52:17,577 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:17,577 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_low_carbon_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_co2_capture_technologies",
+      "product_lv1": "steel",
+      "product_lv2": "CCS"
+    },
+    {
+      "product_ID": "product_dri_direct_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_submerged_arc_furnace_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-16 15:52:17,577 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:17,577 - INFO - ✅ Match found for product_ID 'product_low_carbon_hydrogen' in product nodes
+2025-10-16 15:52:17,577 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-16 15:52:17,578 - INFO - ✅ Match found for product_ID 'product_co2_capture_technologies' in product nodes
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-10-16 15:52:17,578 - INFO - ✅ Match found for product_ID 'product_dri_direct_reduced_iron' in product nodes
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-16 15:52:17,578 - INFO - ✅ Match found for product_ID 'product_submerged_arc_furnace_steel' in product nodes
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:52:17,578 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-16 15:52:17,578 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:52:17,578 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:52:17,578 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:52:18,422 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:18,422 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_dunkirk_france"
+    }
+  ]
+}
+2025-10-16 15:52:18,422 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:18,422 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:52:18,422 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:52:20,341 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:20,341 - INFO - {
+  "relationships": [
+    {
+      "source": "product_dri_direct_reduced_iron",
+      "target": "factory_dunkirk_france",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_submerged_arc_furnace_steel",
+      "target": "factory_dunkirk_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-16 15:52:20,341 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:20,341 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-16 15:52:20,341 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-16 15:52:26,760 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:26,760 - INFO - {
+  "relationships": []
+}
+2025-10-16 15:52:26,760 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:26,760 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-16 15:52:26,761 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-16 15:52:27,487 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:52:27,487 - INFO - {
+  "relationships": []
+}
+2025-10-16 15:52:27,487 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:52:27,541 - INFO - ✅ Updated Article ID: 68f0a1eef7121b492620343a with 9 nodes and combined text.

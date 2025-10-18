@@ -1,0 +1,213 @@
+2025-10-16 15:47:33,367 - INFO - 🔍 Text length: 7206 characters
+2025-10-16 15:47:33,367 - INFO - 📌 Processing Article ID: 68f0ab19e1e08541857654f3 — State aid: Commission approves €280 million Belgian measure to support ArcelorMittal decarbonise its steel production
+2025-10-16 15:47:33,367 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:47:37,283 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:37,283 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_belgian_measure",
+        "type": "investment",
+        "name": "Belgian Measure",
+        "amount": "\u20ac280 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_spanish_measure",
+        "type": "investment",
+        "name": "Spanish Measure",
+        "amount": "\u20ac460 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_3m_tonnes_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.3 million tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_low_carbon_direct_reduced_iron",
+        "type": "product",
+        "name": "low-carbon direct reduced iron"
+      },
+      {
+        "id": "product_green_steel",
+        "type": "product",
+        "name": "green steel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ghent_belgium",
+        "type": "factory",
+        "name": "Ghent Plant",
+        "location": {
+          "city": "Ghent",
+          "country": "Belgium"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_gijon_spain",
+        "type": "factory",
+        "name": "Gij\u00f3n Plant",
+        "location": {
+          "city": "Gij\u00f3n",
+          "country": "Spain"
+        },
+        "status": "operational"
+      }
+    ]
+  }
+}
+2025-10-16 15:47:37,283 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:37,283 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-16 15:47:37,284 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-16 15:47:38,420 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:38,420 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_3m_tonnes_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-16 15:47:38,420 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:38,420 - INFO - ✅ Match found for capacity_ID 'capacity_2_3m_tonnes_per_year' in capacity nodes
+2025-10-16 15:47:38,420 - INFO -   ➕ Set field 'status': announced
+2025-10-16 15:47:38,420 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-16 15:47:38,420 - INFO -   ➕ Set field 'additional': False
+2025-10-16 15:47:38,420 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-16 15:47:38,420 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-16 15:47:40,056 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:40,056 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_belgian_measure",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_spanish_measure",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-10-16 15:47:40,056 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:40,056 - INFO - ✅ Match found for investment_ID 'investment_belgian_measure' in investment nodes
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'status': announced
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'is_total': False
+2025-10-16 15:47:40,056 - INFO - ✅ Match found for investment_ID 'investment_spanish_measure' in investment nodes
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'status': completed
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'phase': unclear
+2025-10-16 15:47:40,056 - INFO -   ➕ Set field 'is_total': True
+2025-10-16 15:47:40,057 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:47:40,057 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:47:42,392 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:42,392 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_steel",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_low_carbon_direct_reduced_iron",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    }
+  ]
+}
+2025-10-16 15:47:42,392 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:42,392 - INFO - ✅ Match found for product_ID 'product_green_steel' in product nodes
+2025-10-16 15:47:42,392 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:47:42,392 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-16 15:47:42,392 - INFO - ✅ Match found for product_ID 'product_low_carbon_direct_reduced_iron' in product nodes
+2025-10-16 15:47:42,392 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:47:42,392 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-16 15:47:42,392 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:47:42,392 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:47:42,392 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:47:43,565 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:43,565 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_ghent_belgium"
+    },
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_gijon_spain"
+    }
+  ]
+}
+2025-10-16 15:47:43,565 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:43,565 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:47:43,565 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:47:45,599 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:45,600 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_3m_tonnes_per_year",
+      "target": "product_low_carbon_direct_reduced_iron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_low_carbon_direct_reduced_iron",
+      "target": "factory_ghent_belgium",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_2_3m_tonnes_per_year",
+      "target": "factory_ghent_belgium",
+      "type": "at"
+    }
+  ]
+}
+2025-10-16 15:47:45,600 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:45,600 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-16 15:47:45,600 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-16 15:47:46,336 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:46,336 - INFO - {
+  "relationships": []
+}
+2025-10-16 15:47:46,337 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:46,337 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-16 15:47:46,337 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-16 15:47:48,430 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:47:48,430 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_belgian_measure",
+      "target": "product_green_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_belgian_measure",
+      "target": "factory_ghent_belgium",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-16 15:47:48,431 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:47:48,483 - INFO - ✅ Updated Article ID: 68f0ab19e1e08541857654f3 with 8 nodes and combined text.

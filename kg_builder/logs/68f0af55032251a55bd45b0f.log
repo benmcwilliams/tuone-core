@@ -1,0 +1,206 @@
+2025-10-16 15:44:33,130 - INFO - 🔍 Text length: 2862 characters
+2025-10-16 15:44:33,130 - INFO - 📌 Processing Article ID: 68f0af55032251a55bd45b0f — RWE and Salzgitter Group sign green PPA
+2025-10-16 15:44:33,131 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:44:37,491 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:37,491 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_rwe",
+        "type": "company",
+        "name": "RWE"
+      },
+      {
+        "id": "company_salzgitter_group",
+        "type": "company",
+        "name": "Salzgitter Group"
+      },
+      {
+        "id": "company_solarenergie_boitzenburger_land_gmbh",
+        "type": "company",
+        "name": "Solarenergie Boitzenburger Land GmbH"
+      },
+      {
+        "id": "company_gp_joule_group",
+        "type": "company",
+        "name": "GP JOULE Group"
+      },
+      {
+        "id": "company_mainova_ag",
+        "type": "company",
+        "name": "Mainova AG"
+      },
+      {
+        "id": "company_salzgitter_flachstahl_gmbh",
+        "type": "company",
+        "name": "Salzgitter Flachstahl GmbH"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_boitzenburger_land_solar_park",
+        "type": "factory",
+        "name": "Boitzenburger Land solar park",
+        "location": {
+          "city": "Brandenburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_rwe_green_generation_germany",
+        "type": "investment",
+        "name": "RWE green generation Germany",
+        "amount": "11 billion euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_180_mw_peak",
+        "type": "capacity",
+        "name": "",
+        "amount": "180 MW peak",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_electricity",
+        "type": "product",
+        "name": "green electricity"
+      },
+      {
+        "id": "product_steel",
+        "type": "product",
+        "name": "steel"
+      }
+    ]
+  }
+}
+2025-10-16 15:44:37,492 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:37,492 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-16 15:44:37,492 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-16 15:44:38,932 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:38,933 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_180_mw_peak",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-16 15:44:38,933 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:38,933 - INFO - ✅ Match found for capacity_ID 'capacity_180_mw_peak' in capacity nodes
+2025-10-16 15:44:38,933 - INFO -   ➕ Set field 'status': operational
+2025-10-16 15:44:38,933 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-16 15:44:38,933 - INFO -   ➕ Set field 'additional': False
+2025-10-16 15:44:38,933 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-16 15:44:38,933 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-16 15:44:43,203 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:43,203 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_rwe_green_generation_germany",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-16 15:44:43,203 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:43,203 - INFO - ✅ Match found for investment_ID 'investment_rwe_green_generation_germany' in investment nodes
+2025-10-16 15:44:43,203 - INFO -   ➕ Set field 'status': announced
+2025-10-16 15:44:43,203 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-16 15:44:43,203 - INFO -   ➕ Set field 'is_total': True
+2025-10-16 15:44:43,204 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:44:43,204 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:44:44,557 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:44,558 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_electricity",
+      "product_lv1": "solar",
+      "product_lv2": "deployment"
+    },
+    {
+      "product_ID": "product_steel",
+      "product_lv1": "steel",
+      "product_lv2": "hydrogen DRI"
+    }
+  ]
+}
+2025-10-16 15:44:44,558 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:44,558 - INFO - ✅ Match found for product_ID 'product_green_electricity' in product nodes
+2025-10-16 15:44:44,558 - INFO -   ➕ Set field 'product_lv1': solar
+2025-10-16 15:44:44,558 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-16 15:44:44,558 - INFO - ✅ Match found for product_ID 'product_steel' in product nodes
+2025-10-16 15:44:44,558 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:44:44,558 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-16 15:44:44,559 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:44:44,559 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:44:44,559 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:44:47,848 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:47,849 - INFO - {
+  "relationships": [
+    {
+      "source": "company_solarenergie_boitzenburger_land_gmbh",
+      "type": "owns",
+      "target": "factory_boitzenburger_land_solar_park"
+    },
+    {
+      "source": "company_gp_joule_group",
+      "type": "owns",
+      "target": "factory_boitzenburger_land_solar_park"
+    },
+    {
+      "source": "company_mainova_ag",
+      "type": "owns",
+      "target": "factory_boitzenburger_land_solar_park"
+    }
+  ]
+}
+2025-10-16 15:44:47,849 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:47,849 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:44:47,849 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:44:49,652 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:49,653 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_180_mw_peak",
+      "target": "factory_boitzenburger_land_solar_park",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_electricity",
+      "target": "factory_boitzenburger_land_solar_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-16 15:44:49,653 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:49,653 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-16 15:44:49,653 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-16 15:44:50,373 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:50,374 - INFO - {
+  "relationships": []
+}
+2025-10-16 15:44:50,374 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:50,374 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-16 15:44:50,374 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-16 15:44:53,367 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:44:53,367 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_rwe_green_generation_germany",
+      "target": "capacity_180_mw_peak",
+      "type": "enables"
+    }
+  ]
+}
+2025-10-16 15:44:53,367 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:44:53,421 - INFO - ✅ Updated Article ID: 68f0af55032251a55bd45b0f with 11 nodes and combined text.

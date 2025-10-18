@@ -1,0 +1,173 @@
+2025-10-18 10:39:53,400 - INFO - 🔍 Text length: 749 characters
+2025-10-18 10:39:53,400 - INFO - 📌 Processing Article ID: 68f2212fc1de4afedbcb3649 — LM Wind Power lays first stone at Cherbourg blade factory
+2025-10-18 10:39:53,400 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-18 10:39:56,968 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:39:56,968 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_lm_wind_power",
+        "type": "company",
+        "name": "LM Wind Power"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cherbourg_france",
+        "type": "factory",
+        "name": "Cherbourg Factory",
+        "location": {
+          "city": "Cherbourg",
+          "country": "France"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_cherbourg_site",
+        "type": "investment",
+        "name": "Cherbourg Site",
+        "amount": "\u20ac 100 million",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_2_0gw",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 and 2.0GW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_blades",
+        "type": "product",
+        "name": "blades"
+      }
+    ]
+  }
+}
+2025-10-18 10:39:56,968 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:39:56,968 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-18 10:39:56,969 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-18 10:39:58,159 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:39:58,159 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_2_0gw",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-18 10:39:58,159 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:39:58,159 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_2_0gw' in capacity nodes
+2025-10-18 10:39:58,159 - INFO -   ➕ Set field 'status': under construction
+2025-10-18 10:39:58,159 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-18 10:39:58,159 - INFO -   ➕ Set field 'additional': False
+2025-10-18 10:39:58,159 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-18 10:39:58,159 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-18 10:39:59,109 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:39:59,109 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_cherbourg_site",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-18 10:39:59,109 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:39:59,109 - INFO - ✅ Match found for investment_ID 'investment_cherbourg_site' in investment nodes
+2025-10-18 10:39:59,109 - INFO -   ➕ Set field 'status': ongoing
+2025-10-18 10:39:59,109 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-18 10:39:59,109 - INFO -   ➕ Set field 'is_total': True
+2025-10-18 10:39:59,109 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-18 10:39:59,110 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-18 10:40:00,042 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:00,043 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-18 10:40:00,043 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:00,043 - INFO - ✅ Match found for product_ID 'product_blades' in product nodes
+2025-10-18 10:40:00,043 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-18 10:40:00,043 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-18 10:40:00,043 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-18 10:40:00,043 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-18 10:40:00,043 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-18 10:40:00,785 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:00,785 - INFO - {
+  "relationships": [
+    {
+      "source": "company_lm_wind_power",
+      "type": "owns",
+      "target": "factory_cherbourg_france"
+    }
+  ]
+}
+2025-10-18 10:40:00,785 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:00,785 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-18 10:40:00,785 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-18 10:40:05,263 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:05,263 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_2_2_0gw",
+      "target": "factory_cherbourg_france",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_2_2_0gw",
+      "target": "product_blades",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_blades",
+      "target": "factory_cherbourg_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-18 10:40:05,264 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:05,264 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-18 10:40:05,264 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-18 10:40:05,980 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:05,980 - INFO - {
+  "relationships": []
+}
+2025-10-18 10:40:05,980 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:05,980 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-18 10:40:05,980 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-18 10:40:06,920 - INFO - ✅ OpenAI returned output:
+2025-10-18 10:40:06,920 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_cherbourg_site",
+      "target": "factory_cherbourg_france",
+      "type": "funds"
+    },
+    {
+      "source": "investment_cherbourg_site",
+      "target": "capacity_1_2_2_0gw",
+      "type": "enables"
+    },
+    {
+      "source": "investment_cherbourg_site",
+      "target": "product_blades",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-18 10:40:06,921 - INFO - POST-PROCESSING STARTING.
+2025-10-18 10:40:07,007 - INFO - ✅ Updated Article ID: 68f2212fc1de4afedbcb3649 with 5 nodes and combined text.

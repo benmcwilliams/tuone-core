@@ -38,6 +38,7 @@ SITE_MERGE = {
     ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
     ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
     ("porsche", "DE", "Kirchentellinsfurt"): "Reutlingen",
+    ("valmet automotive", "DE", "Bad Friedrichshall"): "Kirchardt",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
@@ -61,5 +62,12 @@ JV_MERGE = {
     ("renault", "FR", "Douai", "battery"): "aesc",
     ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
     ("nissan", "GB", "Sunderland", "battery"): "aesc",
-    ("tata motors", "GB", "Somserset", "battery"): "agratas"
+    ("tata motors", "GB", "Somserset", "battery"): "agratas",
+    ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
+    ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
+    ("daimler", "DE", "Kamenz", "battery"): "accumotive",
+    ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
+    ("tata motors", "GB", "Somerset", "battery"): "agratas",
+    ("envision", "GB", "Sunderland", "battery"): "aesc",
+    ("nissan envision aesc", "GB", "Sunderland", "battery"): "aesc",
 }

@@ -1,0 +1,137 @@
+2025-10-16 15:43:16,322 - INFO - 🔍 Text length: 2651 characters
+2025-10-16 15:43:16,323 - INFO - 📌 Processing Article ID: 68f0b1df032251a55bd45b1d — British Steel starts carbon capture trial
+2025-10-16 15:43:16,323 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-16 15:43:20,299 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:43:20,300 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_british_steel",
+        "type": "company",
+        "name": "British Steel"
+      },
+      {
+        "id": "company_university_of_sheffield",
+        "type": "company",
+        "name": "University of Sheffield"
+      },
+      {
+        "id": "company_aesseal",
+        "type": "company",
+        "name": "AESSEAL"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_scunthorpe_plant",
+        "type": "factory",
+        "name": "Scunthorpe Plant",
+        "location": {
+          "city": "Scunthorpe",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_central_power_station",
+        "type": "factory",
+        "name": "Central Power Station",
+        "location": {
+          "city": "Scunthorpe",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_carbon_capture_system",
+        "type": "product",
+        "name": "carbon capture system"
+      },
+      {
+        "id": "product_synthetic_transport_fuels",
+        "type": "product",
+        "name": "synthetic transport fuels"
+      },
+      {
+        "id": "product_gas_cylinders",
+        "type": "product",
+        "name": "gas cylinders"
+      }
+    ]
+  }
+}
+2025-10-16 15:43:20,300 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:43:20,300 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-16 15:43:20,300 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-16 15:43:20,300 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-16 15:43:20,300 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-16 15:43:22,031 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:43:22,032 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_carbon_capture_system",
+      "product_lv1": "steel",
+      "product_lv2": "CCS"
+    },
+    {
+      "product_ID": "product_synthetic_transport_fuels",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_gas_cylinders",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-16 15:43:22,032 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:43:22,032 - INFO - ✅ Match found for product_ID 'product_carbon_capture_system' in product nodes
+2025-10-16 15:43:22,032 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-16 15:43:22,032 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-10-16 15:43:22,032 - INFO - ✅ Match found for product_ID 'product_synthetic_transport_fuels' in product nodes
+2025-10-16 15:43:22,032 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-16 15:43:22,032 - INFO - ✅ Match found for product_ID 'product_gas_cylinders' in product nodes
+2025-10-16 15:43:22,032 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-16 15:43:22,032 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-16 15:43:22,032 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-16 15:43:22,032 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-16 15:43:24,534 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:43:24,534 - INFO - {
+  "relationships": [
+    {
+      "source": "company_british_steel",
+      "type": "owns",
+      "target": "factory_scunthorpe_plant"
+    },
+    {
+      "source": "company_british_steel",
+      "type": "owns",
+      "target": "factory_central_power_station"
+    }
+  ]
+}
+2025-10-16 15:43:24,534 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:43:24,534 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-16 15:43:24,534 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-16 15:43:26,097 - INFO - ✅ OpenAI returned output:
+2025-10-16 15:43:26,097 - INFO - {
+  "relationships": [
+    {
+      "source": "product_gas_cylinders",
+      "target": "factory_scunthorpe_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_carbon_capture_system",
+      "target": "factory_central_power_station",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-16 15:43:26,097 - INFO - POST-PROCESSING STARTING.
+2025-10-16 15:43:26,097 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-16 15:43:26,097 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-16 15:43:26,145 - INFO - ✅ Updated Article ID: 68f0b1df032251a55bd45b1d with 8 nodes and combined text.
