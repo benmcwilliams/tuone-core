@@ -1,0 +1,129 @@
+2025-10-27 12:19:50,107 - INFO - 🔍 Text length: 1292 characters
+2025-10-27 12:19:50,107 - INFO - 📌 Processing Article ID: 68f63326a30d27aab0f06284 — Thyssenkrupp H-vision green steel project
+2025-10-27 12:19:50,107 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:19:52,406 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:52,406 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_thyssenkrupp",
+        "type": "company",
+        "name": "Thyssenkrupp"
+      },
+      {
+        "id": "company_hkm",
+        "type": "company",
+        "name": "HKM"
+      },
+      {
+        "id": "company_port_of_rotterdam",
+        "type": "company",
+        "name": "Port of Rotterdam"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rotterdam_netherlands",
+        "type": "factory",
+        "name": "H-vision",
+        "location": {
+          "city": "Rotterdam",
+          "country": "Netherlands"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_750_mw_greenfield",
+        "type": "capacity",
+        "name": "",
+        "amount": "750 MW",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "green hydrogen"
+      }
+    ]
+  }
+}
+2025-10-27 12:19:52,406 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:52,407 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-27 12:19:52,407 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-27 12:19:53,255 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:53,256 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_750_mw_greenfield",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-27 12:19:53,256 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:53,256 - INFO - ✅ Match found for capacity_ID 'capacity_750_mw_greenfield' in capacity nodes
+2025-10-27 12:19:53,256 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:19:53,256 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:19:53,256 - INFO -   ➕ Set field 'additional': False
+2025-10-27 12:19:53,256 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:19:53,256 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:19:53,256 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:19:54,341 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:54,341 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolysis"
+    }
+  ]
+}
+2025-10-27 12:19:54,341 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:54,341 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-10-27 12:19:54,341 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-27 12:19:54,341 - INFO -   ➕ Set field 'product_lv2': electrolysis
+2025-10-27 12:19:54,341 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:19:54,341 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:19:54,341 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:19:55,253 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:55,253 - INFO - {
+  "relationships": [
+    {
+      "source": "company_thyssenkrupp",
+      "type": "owns",
+      "target": "factory_rotterdam_netherlands"
+    }
+  ]
+}
+2025-10-27 12:19:55,253 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:55,253 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:19:55,253 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:19:56,474 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:56,474 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_750_mw_greenfield",
+      "target": "factory_rotterdam_netherlands",
+      "type": "at"
+    },
+    {
+      "source": "capacity_750_mw_greenfield",
+      "target": "product_green_hydrogen",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_rotterdam_netherlands",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:19:56,475 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:56,475 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:19:56,475 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:19:56,528 - INFO - ✅ Updated Article ID: 68f63326a30d27aab0f06284 with 6 nodes and combined text.

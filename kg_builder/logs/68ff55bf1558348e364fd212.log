@@ -1,0 +1,91 @@
+2025-10-27 12:24:28,422 - INFO - 🔍 Text length: 1706 characters
+2025-10-27 12:24:28,422 - INFO - 📌 Processing Article ID: 68ff55bf1558348e364fd212 — The CCS Baltic Consortium has been awarded project funding under the Connecting Europe Facility (CEF) Energy program
+2025-10-27 12:24:28,422 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:24:34,572 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:24:34,572 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_akmenes_cementas",
+        "type": "company",
+        "name": "Akmen\u0117s Cementas"
+      },
+      {
+        "id": "company_schwenk_latvija",
+        "type": "company",
+        "name": "SCHWENK Latvija"
+      },
+      {
+        "id": "company_larvik_shipping_as",
+        "type": "company",
+        "name": "Larvik Shipping AS"
+      },
+      {
+        "id": "company_mitsui_osk_lines",
+        "type": "company",
+        "name": "Mitsui O.S.K. Lines"
+      },
+      {
+        "id": "company_kn_energies",
+        "type": "company",
+        "name": "KN Energies"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "ccs_baltic consortium",
+        "type": "joint_venture",
+        "name": "CCS Baltic Consortium",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_carbon_capture_and_storage",
+        "type": "product",
+        "name": "carbon capture and storage"
+      }
+    ]
+  }
+}
+2025-10-27 12:24:34,572 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:24:34,572 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:24:34,572 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:24:34,572 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:24:34,572 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:24:35,725 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:24:35,725 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_carbon_capture_and_storage",
+      "product_lv1": "cement",
+      "product_lv2": "CCS"
+    }
+  ]
+}
+2025-10-27 12:24:35,725 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:24:35,726 - INFO - ✅ Match found for product_ID 'product_carbon_capture_and_storage' in product nodes
+2025-10-27 12:24:35,726 - INFO -   ➕ Set field 'product_lv1': cement
+2025-10-27 12:24:35,726 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-10-27 12:24:35,726 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:24:35,726 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:24:35,726 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:24:36,382 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:24:36,382 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:24:36,382 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:24:36,382 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:24:36,382 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:24:39,472 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:24:39,472 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:24:39,472 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:24:39,472 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:24:39,472 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:24:39,528 - INFO - ✅ Updated Article ID: 68ff55bf1558348e364fd212 with 7 nodes and combined text.

@@ -1,0 +1,137 @@
+2025-10-30 10:36:26,616 - INFO - 🔍 Text length: 3153 characters
+2025-10-30 10:36:26,616 - INFO - 📌 Processing Article ID: 69032c12492ac283c5306ff0 — Minister of Economy praises Portugal being chosen to manufacture new Volkswagen electric vehicle
+2025-10-30 10:36:26,616 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-30 10:36:30,775 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:30,775 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_autoeuropa",
+        "type": "company",
+        "name": "Volkswagen Autoeuropa"
+      },
+      {
+        "id": "company_calb",
+        "type": "company",
+        "name": "Calb"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_palmela_portugal",
+        "type": "factory",
+        "name": "Palmela Factory",
+        "location": {
+          "city": "Palmela",
+          "country": "Portugal"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_aicep_2024",
+        "type": "investment",
+        "name": "Volkswagen AICEP 2024",
+        "amount": "420 million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id_every1",
+        "type": "product",
+        "name": "ID.EVERY1"
+      }
+    ]
+  }
+}
+2025-10-30 10:36:30,775 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:30,775 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-30 10:36:30,775 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-30 10:36:30,775 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-30 10:36:34,148 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:34,148 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_aicep_2024",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-30 10:36:34,148 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:34,148 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_aicep_2024' in investment nodes
+2025-10-30 10:36:34,148 - INFO -   ➕ Set field 'status': announced
+2025-10-30 10:36:34,148 - INFO -   ➕ Set field 'phase': expansion
+2025-10-30 10:36:34,148 - INFO -   ➕ Set field 'is_total': True
+2025-10-30 10:36:34,148 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-30 10:36:34,148 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-30 10:36:35,359 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:35,359 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id_every1",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-30 10:36:35,359 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:35,359 - INFO - ✅ Match found for product_ID 'product_id_every1' in product nodes
+2025-10-30 10:36:35,359 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-30 10:36:35,359 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-30 10:36:35,359 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-30 10:36:35,360 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-30 10:36:35,360 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-30 10:36:37,701 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:37,701 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_autoeuropa",
+      "type": "owns",
+      "target": "factory_palmela_portugal"
+    }
+  ]
+}
+2025-10-30 10:36:37,701 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:37,701 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-30 10:36:37,701 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-30 10:36:40,088 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:40,088 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id_every1",
+      "target": "factory_palmela_portugal",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-30 10:36:40,089 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:40,089 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-30 10:36:40,089 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-30 10:36:41,945 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:41,945 - INFO - {
+  "relationships": []
+}
+2025-10-30 10:36:41,945 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:41,945 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-30 10:36:41,945 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-30 10:36:46,490 - INFO - ✅ OpenAI returned output:
+2025-10-30 10:36:46,490 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_aicep_2024",
+      "target": "product_id_every1",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volkswagen_aicep_2024",
+      "target": "factory_palmela_portugal",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-30 10:36:46,490 - INFO - POST-PROCESSING STARTING.
+2025-10-30 10:36:46,577 - INFO - ✅ Updated Article ID: 69032c12492ac283c5306ff0 with 5 nodes and combined text.

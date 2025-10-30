@@ -1,0 +1,232 @@
+2025-10-29 11:49:54,741 - INFO - 🔍 Text length: 1004 characters
+2025-10-29 11:49:54,741 - INFO - 📌 Processing Article ID: 6901efdac18a8a0b3adcb9b4 — Volkswagen starts EV production at second German plant
+2025-10-29 11:49:54,742 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-29 11:50:01,985 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:01,985 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen",
+        "type": "company",
+        "name": "Volkswagen"
+      },
+      {
+        "id": "company_volkswagen_group",
+        "type": "company",
+        "name": "Volkswagen Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_emden",
+        "type": "factory",
+        "name": "Emden",
+        "location": {
+          "city": "Emden",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_zwickau",
+        "type": "factory",
+        "name": "Zwickau",
+        "location": {
+          "city": "Zwickau",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_chattanooga",
+        "type": "factory",
+        "name": "Chattanooga",
+        "location": {
+          "city": "Chattanooga",
+          "country": "USA"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_anting",
+        "type": "factory",
+        "name": "Anting",
+        "location": {
+          "city": "Anting",
+          "country": "China"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_foshan",
+        "type": "factory",
+        "name": "Foshan",
+        "location": {
+          "city": "Foshan",
+          "country": "China"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_emden_conversion",
+        "type": "investment",
+        "name": "Emden Conversion",
+        "amount": "\u20ac1 billion",
+        "status": "completed"
+      },
+      {
+        "id": "investment_volkswagen_group_lower_saxony",
+        "type": "investment",
+        "name": "Volkswagen Group Lower Saxony",
+        "amount": "\u20ac21 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id4",
+        "type": "product",
+        "name": "ID.4"
+      },
+      {
+        "id": "product_aero_b2_sedan",
+        "type": "product",
+        "name": "AERO B2 sedan"
+      }
+    ]
+  }
+}
+2025-10-29 11:50:01,986 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:01,986 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-29 11:50:01,986 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-29 11:50:01,986 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-29 11:50:03,446 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:03,446 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_emden_conversion",
+      "status": "ongoing",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_volkswagen_group_lower_saxony",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-10-29 11:50:03,446 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:03,446 - INFO - ✅ Match found for investment_ID 'investment_emden_conversion' in investment nodes
+2025-10-29 11:50:03,446 - INFO -   ➕ Set field 'status': ongoing
+2025-10-29 11:50:03,446 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-29 11:50:03,446 - INFO -   ➕ Set field 'is_total': True
+2025-10-29 11:50:03,446 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_group_lower_saxony' in investment nodes
+2025-10-29 11:50:03,446 - INFO -   ➕ Set field 'status': announced
+2025-10-29 11:50:03,447 - INFO -   ➕ Set field 'phase': unclear
+2025-10-29 11:50:03,447 - INFO -   ➕ Set field 'is_total': False
+2025-10-29 11:50:03,447 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-29 11:50:03,447 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-29 11:50:05,544 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:05,544 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id4",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_aero_b2_sedan",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-29 11:50:05,544 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:05,544 - INFO - ✅ Match found for product_ID 'product_id4' in product nodes
+2025-10-29 11:50:05,544 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-29 11:50:05,544 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-29 11:50:05,544 - INFO - ✅ Match found for product_ID 'product_aero_b2_sedan' in product nodes
+2025-10-29 11:50:05,544 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-29 11:50:05,544 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-29 11:50:05,544 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-29 11:50:05,544 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-29 11:50:05,544 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-29 11:50:09,349 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:09,350 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_emden"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_zwickau"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_chattanooga"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_anting"
+    },
+    {
+      "source": "company_volkswagen",
+      "type": "owns",
+      "target": "factory_foshan"
+    }
+  ]
+}
+2025-10-29 11:50:09,350 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:09,350 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-29 11:50:09,350 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-29 11:50:12,405 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:12,406 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id4",
+      "target": "factory_emden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_id4",
+      "target": "factory_zwickau",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_aero_b2_sedan",
+      "target": "factory_emden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-29 11:50:12,406 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:12,406 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-29 11:50:12,406 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-29 11:50:14,091 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:14,091 - INFO - {
+  "relationships": []
+}
+2025-10-29 11:50:14,091 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:14,091 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-29 11:50:14,091 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-29 11:50:16,610 - INFO - ✅ OpenAI returned output:
+2025-10-29 11:50:16,610 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_emden_conversion",
+      "target": "factory_emden",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-29 11:50:16,610 - INFO - POST-PROCESSING STARTING.
+2025-10-29 11:50:16,705 - INFO - ✅ Updated Article ID: 6901efdac18a8a0b3adcb9b4 with 11 nodes and combined text.

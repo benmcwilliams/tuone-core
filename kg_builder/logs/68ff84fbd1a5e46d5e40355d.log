@@ -1,0 +1,178 @@
+2025-10-28 11:22:24,986 - INFO - 🔍 Text length: 2835 characters
+2025-10-28 11:22:24,986 - INFO - 📌 Processing Article ID: 68ff84fbd1a5e46d5e40355d — H2 Green Steel changes name to Stegra
+2025-10-28 11:22:24,986 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 11:22:30,885 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:30,886 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_h2_green_steel",
+        "type": "company",
+        "name": "H2 Green Steel"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_boden_sweden",
+        "type": "factory",
+        "name": "Boden Green Steel Plant",
+        "location": {
+          "city": "Boden",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_h2_green_steel_funding",
+        "type": "investment",
+        "name": "H2 Green Steel Funding",
+        "amount": "\u20ac6.5 billion",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_green_hydrogen",
+        "type": "product",
+        "name": "Green Hydrogen"
+      },
+      {
+        "id": "product_green_iron",
+        "type": "product",
+        "name": "Green Iron"
+      },
+      {
+        "id": "product_green_steel",
+        "type": "product",
+        "name": "Green Steel"
+      }
+    ]
+  }
+}
+2025-10-28 11:22:30,886 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:30,886 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-28 11:22:30,886 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-28 11:22:30,886 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-28 11:22:33,782 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:33,782 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_h2_green_steel_funding",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-28 11:22:33,782 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:33,782 - INFO - ✅ Match found for investment_ID 'investment_h2_green_steel_funding' in investment nodes
+2025-10-28 11:22:33,782 - INFO -   ➕ Set field 'status': announced
+2025-10-28 11:22:33,782 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-28 11:22:33,782 - INFO -   ➕ Set field 'is_total': True
+2025-10-28 11:22:33,783 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 11:22:33,783 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 11:22:36,266 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:36,266 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_green_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "electrolysis"
+    },
+    {
+      "product_ID": "product_green_iron",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_green_steel",
+      "product_lv1": "steel",
+      "product_lv2": "EAF"
+    }
+  ]
+}
+2025-10-28 11:22:36,266 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:36,267 - INFO - ✅ Match found for product_ID 'product_green_hydrogen' in product nodes
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv2': electrolysis
+2025-10-28 11:22:36,267 - INFO - ✅ Match found for product_ID 'product_green_iron' in product nodes
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-28 11:22:36,267 - INFO - ✅ Match found for product_ID 'product_green_steel' in product nodes
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-28 11:22:36,267 - INFO -   ➕ Set field 'product_lv2': EAF
+2025-10-28 11:22:36,267 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 11:22:36,267 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 11:22:36,267 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 11:22:37,417 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:37,418 - INFO - {
+  "relationships": [
+    {
+      "source": "company_h2_green_steel",
+      "type": "owns",
+      "target": "factory_boden_sweden"
+    }
+  ]
+}
+2025-10-28 11:22:37,418 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:37,418 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 11:22:37,418 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 11:22:40,670 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:40,670 - INFO - {
+  "relationships": [
+    {
+      "source": "product_green_hydrogen",
+      "target": "factory_boden_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_iron",
+      "target": "factory_boden_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_green_steel",
+      "target": "factory_boden_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-28 11:22:40,670 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:40,670 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-28 11:22:40,670 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-28 11:22:43,639 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:43,639 - INFO - {
+  "relationships": []
+}
+2025-10-28 11:22:43,639 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:43,640 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-28 11:22:43,640 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-28 11:22:45,587 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:22:45,588 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_h2_green_steel_funding",
+      "target": "factory_boden_sweden",
+      "type": "funds"
+    },
+    {
+      "source": "investment_h2_green_steel_funding",
+      "target": "product_green_hydrogen",
+      "type": "targets"
+    },
+    {
+      "source": "investment_h2_green_steel_funding",
+      "target": "product_green_iron",
+      "type": "targets"
+    },
+    {
+      "source": "investment_h2_green_steel_funding",
+      "target": "product_green_steel",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-28 11:22:45,588 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:22:45,682 - INFO - ✅ Updated Article ID: 68ff84fbd1a5e46d5e40355d with 6 nodes and combined text.

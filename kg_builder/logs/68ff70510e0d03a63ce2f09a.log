@@ -1,0 +1,132 @@
+2025-10-28 11:26:41,627 - INFO - 🔍 Text length: 2634 characters
+2025-10-28 11:26:41,628 - INFO - 📌 Processing Article ID: 68ff70510e0d03a63ce2f09a — Nuada starts cement carbon capture trials with Buzzi
+2025-10-28 11:26:41,628 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 11:26:44,149 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:44,149 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nuada",
+        "type": "company",
+        "name": "Nuada"
+      },
+      {
+        "id": "company_buzzi_unicem",
+        "type": "company",
+        "name": "Buzzi Unicem"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_monselice_italy",
+        "type": "factory",
+        "name": "Monselice Cement Facility",
+        "location": {
+          "city": "Monselice",
+          "country": "Italy"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_tonne_per_day",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 tonne per day",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_low_carbon_cement",
+        "type": "product",
+        "name": "low-carbon cement"
+      },
+      {
+        "id": "product_carbon_capture_technology",
+        "type": "product",
+        "name": "carbon capture technology"
+      }
+    ]
+  }
+}
+2025-10-28 11:26:44,149 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:44,149 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-28 11:26:44,149 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-28 11:26:45,997 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:45,998 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_tonne_per_day",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-28 11:26:45,998 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:45,998 - INFO - ✅ Match found for capacity_ID 'capacity_1_tonne_per_day' in capacity nodes
+2025-10-28 11:26:45,998 - INFO -   ➕ Set field 'status': operational
+2025-10-28 11:26:45,998 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-28 11:26:45,998 - INFO -   ➕ Set field 'additional': False
+2025-10-28 11:26:45,998 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-28 11:26:45,998 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 11:26:45,998 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 11:26:47,843 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:47,843 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_low_carbon_cement",
+      "product_lv1": "cement",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_carbon_capture_technology",
+      "product_lv1": "cement",
+      "product_lv2": "CCS"
+    }
+  ]
+}
+2025-10-28 11:26:47,843 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:47,843 - INFO - ✅ Match found for product_ID 'product_low_carbon_cement' in product nodes
+2025-10-28 11:26:47,843 - INFO -   ➕ Set field 'product_lv1': cement
+2025-10-28 11:26:47,843 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-28 11:26:47,843 - INFO - ✅ Match found for product_ID 'product_carbon_capture_technology' in product nodes
+2025-10-28 11:26:47,843 - INFO -   ➕ Set field 'product_lv1': cement
+2025-10-28 11:26:47,843 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-10-28 11:26:47,844 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 11:26:47,844 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 11:26:47,844 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 11:26:50,095 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:50,095 - INFO - {
+  "relationships": [
+    {
+      "source": "company_buzzi_unicem",
+      "type": "owns",
+      "target": "factory_monselice_italy"
+    }
+  ]
+}
+2025-10-28 11:26:50,095 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:50,095 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 11:26:50,096 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 11:26:52,653 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:52,653 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_tonne_per_day",
+      "target": "factory_monselice_italy",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_carbon_capture_technology",
+      "target": "factory_monselice_italy",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-28 11:26:52,654 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:52,654 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-28 11:26:52,654 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-28 11:26:52,737 - INFO - ✅ Updated Article ID: 68ff70510e0d03a63ce2f09a with 6 nodes and combined text.

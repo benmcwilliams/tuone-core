@@ -1,0 +1,135 @@
+2025-10-27 12:14:48,932 - INFO - 🔍 Text length: 3921 characters
+2025-10-27 12:14:48,932 - INFO - 📌 Processing Article ID: 68f7952c901c5ce5aa2af6c9 — 500th V164 nacelle produced at Lindø facility
+2025-10-27 12:14:48,932 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:14:52,509 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:52,510 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas_wind_systems_a_s",
+        "type": "company",
+        "name": "Vestas Wind Systems A/S"
+      },
+      {
+        "id": "company_mitsubishi_heavy_industries",
+        "type": "company",
+        "name": "Mitsubishi Heavy Industries"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_mhi_vestas_offshore_wind",
+        "type": "joint_venture",
+        "name": "MHI Vestas Offshore Wind"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lindo_port_of_odense",
+        "type": "factory",
+        "name": "Lind\u00f8 facility",
+        "location": {
+          "city": "Lind\u00f8 Port of Odense",
+          "country": "Denmark"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_nakskov",
+        "type": "factory",
+        "name": "Nakskov blade factory",
+        "location": {
+          "city": "Nakskov",
+          "country": "Denmark"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_eskjerg",
+        "type": "factory",
+        "name": "Esbjerg power conversion module factory",
+        "location": {
+          "city": "Esbjerg",
+          "country": "Denmark"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_v164_nacelle",
+        "type": "product",
+        "name": "V164 nacelle"
+      }
+    ]
+  }
+}
+2025-10-27 12:14:52,510 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:52,510 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:14:52,510 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:14:52,510 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:14:52,510 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:14:53,962 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:53,962 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_v164_nacelle",
+      "product_lv1": "wind",
+      "product_lv2": "nacelle"
+    }
+  ]
+}
+2025-10-27 12:14:53,962 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:53,962 - INFO - ✅ Match found for product_ID 'product_v164_nacelle' in product nodes
+2025-10-27 12:14:53,962 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-27 12:14:53,962 - INFO -   ➕ Set field 'product_lv2': nacelle
+2025-10-27 12:14:53,963 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:14:53,963 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:14:53,963 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:14:58,622 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:58,622 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vestas_wind_systems_a_s",
+      "type": "forms",
+      "target": "joint_venture_mhi_vestas_offshore_wind"
+    },
+    {
+      "source": "company_mitsubishi_heavy_industries",
+      "type": "forms",
+      "target": "joint_venture_mhi_vestas_offshore_wind"
+    },
+    {
+      "source": "joint_venture_mhi_vestas_offshore_wind",
+      "type": "owns",
+      "target": "factory_lindo_port_of_odense"
+    },
+    {
+      "source": "joint_venture_mhi_vestas_offshore_wind",
+      "type": "owns",
+      "target": "factory_nakskov"
+    },
+    {
+      "source": "joint_venture_mhi_vestas_offshore_wind",
+      "type": "owns",
+      "target": "factory_eskjerg"
+    }
+  ]
+}
+2025-10-27 12:14:58,622 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:58,622 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:14:58,622 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:14:59,462 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:59,462 - INFO - {
+  "relationships": [
+    {
+      "source": "product_v164_nacelle",
+      "target": "factory_lindo_port_of_odense",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:14:59,462 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:59,462 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:14:59,462 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:14:59,522 - INFO - ✅ Updated Article ID: 68f7952c901c5ce5aa2af6c9 with 7 nodes and combined text.

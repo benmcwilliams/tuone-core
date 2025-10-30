@@ -1,0 +1,186 @@
+2025-10-27 12:11:42,979 - INFO - 🔍 Text length: 3881 characters
+2025-10-27 12:11:42,979 - INFO - 📌 Processing Article ID: 68f8996560a83b49ba815f86 — Siemens Gamesa future-proofs Danish blade factory
+2025-10-27 12:11:42,979 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:11:47,834 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:47,834 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_siemens_gamesa",
+        "type": "company",
+        "name": "Siemens Gamesa"
+      },
+      {
+        "id": "company_vattenfall",
+        "type": "company",
+        "name": "Vattenfall"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_aalborg_denmark",
+        "type": "factory",
+        "name": "Aalborg Factory",
+        "location": {
+          "city": "Aalborg",
+          "country": "Denmark"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_siemens_gamesa_aalborg_expansion",
+        "type": "investment",
+        "name": "Siemens Gamesa Aalborg Expansion",
+        "amount": "DKK 300 million (EUR 40.15 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_900_blades_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "900 blades per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_b94_blades",
+        "type": "product",
+        "name": "B94 blades"
+      },
+      {
+        "id": "product_offshore_wind_turbines",
+        "type": "product",
+        "name": "offshore wind turbines"
+      }
+    ]
+  }
+}
+2025-10-27 12:11:47,834 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:47,834 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-27 12:11:47,835 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-27 12:11:48,899 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:48,899 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_900_blades_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-10-27 12:11:48,899 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:48,899 - INFO - ✅ Match found for capacity_ID 'capacity_900_blades_per_year' in capacity nodes
+2025-10-27 12:11:48,899 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:11:48,899 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:11:48,899 - INFO -   ➕ Set field 'additional': True
+2025-10-27 12:11:48,899 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-27 12:11:48,900 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-27 12:11:49,776 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:49,776 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_siemens_gamesa_aalborg_expansion",
+      "status": "ongoing",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-27 12:11:49,776 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:49,777 - INFO - ✅ Match found for investment_ID 'investment_siemens_gamesa_aalborg_expansion' in investment nodes
+2025-10-27 12:11:49,777 - INFO -   ➕ Set field 'status': ongoing
+2025-10-27 12:11:49,777 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:11:49,777 - INFO -   ➕ Set field 'is_total': True
+2025-10-27 12:11:49,777 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:11:49,777 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:11:51,313 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:51,313 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_b94_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    },
+    {
+      "product_ID": "product_offshore_wind_turbines",
+      "product_lv1": "wind",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-10-27 12:11:51,313 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:51,313 - INFO - ✅ Match found for product_ID 'product_b94_blades' in product nodes
+2025-10-27 12:11:51,313 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-27 12:11:51,313 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-27 12:11:51,314 - INFO - ✅ Match found for product_ID 'product_offshore_wind_turbines' in product nodes
+2025-10-27 12:11:51,314 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-27 12:11:51,314 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-10-27 12:11:51,314 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:11:51,314 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:11:51,314 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:11:54,526 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:54,527 - INFO - {
+  "relationships": [
+    {
+      "source": "company_siemens_gamesa",
+      "type": "owns",
+      "target": "factory_aalborg_denmark"
+    }
+  ]
+}
+2025-10-27 12:11:54,527 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:54,527 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:11:54,527 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:11:56,546 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:56,547 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_900_blades_per_year",
+      "target": "factory_aalborg_denmark",
+      "type": "at"
+    },
+    {
+      "source": "capacity_900_blades_per_year",
+      "target": "product_b94_blades",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_b94_blades",
+      "target": "factory_aalborg_denmark",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:11:56,547 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:56,547 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-27 12:11:56,547 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-27 12:11:58,594 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:11:58,594 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:11:58,594 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:11:58,594 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-27 12:11:58,594 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-27 12:12:05,749 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:12:05,749 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_siemens_gamesa_aalborg_expansion",
+      "target": "factory_aalborg_denmark",
+      "type": "funds"
+    },
+    {
+      "source": "investment_siemens_gamesa_aalborg_expansion",
+      "target": "product_b94_blades",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-27 12:12:05,749 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:12:05,803 - INFO - ✅ Updated Article ID: 68f8996560a83b49ba815f86 with 7 nodes and combined text.

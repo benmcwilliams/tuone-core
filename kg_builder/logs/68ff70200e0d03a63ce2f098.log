@@ -1,0 +1,144 @@
+2025-10-28 11:26:52,739 - INFO - 🔍 Text length: 2720 characters
+2025-10-28 11:26:52,739 - INFO - 📌 Processing Article ID: 68ff70200e0d03a63ce2f098 — New carbon capture trial at Ketton cement works
+2025-10-28 11:26:52,739 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 11:26:55,385 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:26:55,385 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_c_capture",
+        "type": "company",
+        "name": "C-Capture"
+      },
+      {
+        "id": "company_heidelberg_materials",
+        "type": "company",
+        "name": "Heidelberg Materials"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_ketton_cement_works",
+        "type": "factory",
+        "name": "Ketton Cement Works",
+        "location": {
+          "city": "Rutland",
+          "country": "United Kingdom"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_xlr8_ccs",
+        "type": "investment",
+        "name": "XLR8 CCS",
+        "amount": "\u00a31.7m",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_carbon_capture_solvent_compatibility_unit",
+        "type": "product",
+        "name": "carbon capture solvent compatibility unit"
+      },
+      {
+        "id": "product_cement",
+        "type": "product",
+        "name": "cement"
+      }
+    ]
+  }
+}
+2025-10-28 11:26:55,386 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:26:55,386 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-28 11:26:55,386 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-28 11:26:55,386 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-28 11:27:08,324 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:08,325 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_xlr8_ccs",
+      "status": "ongoing",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-10-28 11:27:08,325 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:08,325 - INFO - ✅ Match found for investment_ID 'investment_xlr8_ccs' in investment nodes
+2025-10-28 11:27:08,325 - INFO -   ➕ Set field 'status': ongoing
+2025-10-28 11:27:08,325 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-28 11:27:08,325 - INFO -   ➕ Set field 'is_total': True
+2025-10-28 11:27:08,325 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 11:27:08,325 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 11:27:10,470 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:10,470 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_carbon_capture_solvent_compatibility_unit",
+      "product_lv1": "cement",
+      "product_lv2": "CCS"
+    },
+    {
+      "product_ID": "product_cement",
+      "product_lv1": "cement",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-28 11:27:10,470 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:10,470 - INFO - ✅ Match found for product_ID 'product_carbon_capture_solvent_compatibility_unit' in product nodes
+2025-10-28 11:27:10,470 - INFO -   ➕ Set field 'product_lv1': cement
+2025-10-28 11:27:10,470 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-10-28 11:27:10,470 - INFO - ✅ Match found for product_ID 'product_cement' in product nodes
+2025-10-28 11:27:10,470 - INFO -   ➕ Set field 'product_lv1': cement
+2025-10-28 11:27:10,471 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-28 11:27:10,471 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 11:27:10,471 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 11:27:10,471 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 11:27:11,289 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:11,290 - INFO - {
+  "relationships": [
+    {
+      "source": "company_heidelberg_materials",
+      "type": "owns",
+      "target": "factory_ketton_cement_works"
+    }
+  ]
+}
+2025-10-28 11:27:11,290 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:11,290 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 11:27:11,290 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 11:27:12,185 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:12,185 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cement",
+      "target": "factory_ketton_cement_works"
+    }
+  ]
+}
+2025-10-28 11:27:12,185 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:12,185 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-28 11:27:12,185 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-28 11:27:12,928 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:12,928 - INFO - {
+  "relationships": []
+}
+2025-10-28 11:27:12,929 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:12,929 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-28 11:27:12,929 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-28 11:27:16,206 - INFO - ✅ OpenAI returned output:
+2025-10-28 11:27:16,206 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_xlr8_ccs",
+      "target": "product_carbon_capture_solvent_compatibility_unit",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-28 11:27:16,207 - INFO - POST-PROCESSING STARTING.
+2025-10-28 11:27:16,295 - INFO - ✅ Updated Article ID: 68ff70200e0d03a63ce2f098 with 6 nodes and combined text.

@@ -1,0 +1,77 @@
+2025-10-19 15:04:29,044 - INFO - 🔍 Text length: 598 characters
+2025-10-19 15:04:29,045 - INFO - 📌 Processing Article ID: 68f3bc1e1f9ae4d69056cb90 — EcoPro BM to start operations of Hungary factory later than planned
+2025-10-19 15:04:29,045 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-19 15:04:30,774 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:04:30,775 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecopro_bm",
+        "type": "company",
+        "name": "EcoPro BM"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_debrecen_hungary",
+        "type": "factory",
+        "name": "Debrecen",
+        "location": {
+          "city": "Debrecen",
+          "country": "Hungary"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cathode_material",
+        "type": "product",
+        "name": "cathode material"
+      }
+    ]
+  }
+}
+2025-10-19 15:04:30,775 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:04:30,775 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-19 15:04:30,775 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-19 15:04:30,775 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-19 15:04:30,775 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-19 15:04:31,464 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:04:31,464 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cathode_material",
+      "product_lv1": "battery",
+      "product_lv2": "eam"
+    }
+  ]
+}
+2025-10-19 15:04:31,464 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:04:31,464 - INFO - ✅ Match found for product_ID 'product_cathode_material' in product nodes
+2025-10-19 15:04:31,464 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-19 15:04:31,464 - INFO -   ➕ Set field 'product_lv2': eam
+2025-10-19 15:04:31,464 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-19 15:04:31,464 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-19 15:04:31,464 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-19 15:04:32,226 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:04:32,226 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecopro_bm",
+      "type": "owns",
+      "target": "factory_debrecen_hungary"
+    }
+  ]
+}
+2025-10-19 15:04:32,226 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:04:32,226 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-19 15:04:32,227 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-19 15:04:34,170 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:04:34,170 - INFO - {
+  "relationships": []
+}
+2025-10-19 15:04:34,170 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:04:34,170 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-19 15:04:34,170 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-19 15:04:34,188 - INFO - ✅ Updated Article ID: 68f3bc1e1f9ae4d69056cb90 with 3 nodes and combined text.

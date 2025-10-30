@@ -1,0 +1,108 @@
+2025-10-27 12:14:59,523 - INFO - 🔍 Text length: 1380 characters
+2025-10-27 12:14:59,524 - INFO - 📌 Processing Article ID: 68f753075e212b4b376af2fe — Fact Sheet: Wind park "Klettwitz"& Vestas blade factory Lauchhammer
+2025-10-27 12:14:59,524 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:15:03,347 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:15:03,347 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vestas_blades_deutschland_gmbh",
+        "type": "company",
+        "name": "Vestas Blades Deutschland GmbH"
+      },
+      {
+        "id": "company_vestas_wind_systems_a_s",
+        "type": "company",
+        "name": "Vestas Wind Systems A/S"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_lauchhammer_germany",
+        "type": "factory",
+        "name": "Lauchhammer Factory",
+        "location": {
+          "city": "Lauchhammer",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_industrial_park_emanuel_germany",
+        "type": "factory",
+        "name": "Industrial Park Emanuel",
+        "location": {
+          "city": "Lauchhammer",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_rotor_blades",
+        "type": "product",
+        "name": "rotor blades"
+      }
+    ]
+  }
+}
+2025-10-27 12:15:03,348 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:15:03,348 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:15:03,348 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:15:03,348 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:15:03,348 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:15:04,554 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:15:04,554 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_rotor_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-27 12:15:04,554 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:15:04,554 - INFO - ✅ Match found for product_ID 'product_rotor_blades' in product nodes
+2025-10-27 12:15:04,554 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-27 12:15:04,554 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-27 12:15:04,555 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:15:04,555 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:15:04,555 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:15:08,464 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:15:08,464 - INFO - {
+  "relationships": [
+    {
+      "source": "company_vestas_blades_deutschland_gmbh",
+      "type": "owns",
+      "target": "factory_lauchhammer_germany"
+    },
+    {
+      "source": "company_vestas_wind_systems_a_s",
+      "type": "owns",
+      "target": "factory_industrial_park_emanuel_germany"
+    }
+  ]
+}
+2025-10-27 12:15:08,465 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:15:08,465 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:15:08,465 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:15:10,150 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:15:10,150 - INFO - {
+  "relationships": [
+    {
+      "source": "product_rotor_blades",
+      "target": "factory_lauchhammer_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rotor_blades",
+      "target": "factory_industrial_park_emanuel_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:15:10,151 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:15:10,151 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:15:10,151 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:15:10,206 - INFO - ✅ Updated Article ID: 68f753075e212b4b376af2fe with 5 nodes and combined text.

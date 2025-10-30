@@ -1,0 +1,236 @@
+2025-10-27 12:25:47,335 - INFO - 🔍 Text length: 5997 characters
+2025-10-27 12:25:47,335 - INFO - 📌 Processing Article ID: 68f63037a30d27aab0f06278 — ArcelorMittal accelerates its decarbonisation with a €1.7 billion investment programme in France, supported by the French Government
+2025-10-27 12:25:47,336 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:25:50,282 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:25:50,282 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_fos_sur_mer",
+        "type": "factory",
+        "name": "Fos-sur-Mer",
+        "location": {
+          "city": "Fos-sur-Mer",
+          "country": "France"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_dunkirk",
+        "type": "factory",
+        "name": "Dunkirk",
+        "location": {
+          "city": "Dunkirk",
+          "country": "France"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_arcelormittal_france_decarbonisation",
+        "type": "investment",
+        "name": "ArcelorMittal France Decarbonisation",
+        "amount": "\u20ac1.7 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_low_carbon_steel",
+        "type": "product",
+        "name": "low carbon steel"
+      },
+      {
+        "id": "product_dri",
+        "type": "product",
+        "name": "Direct Reduction of Iron (DRI)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      },
+      {
+        "id": "product_eaf",
+        "type": "product",
+        "name": "Electric Arc Furnace (EAF)",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      },
+      {
+        "id": "product_ladle_furnace",
+        "type": "product",
+        "name": "ladle furnace",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-10-27 12:25:50,283 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:25:50,283 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:25:50,283 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-27 12:25:50,283 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-27 12:25:52,769 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:25:52,769 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_arcelormittal_france_decarbonisation",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-27 12:25:52,769 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:25:52,769 - INFO - ✅ Match found for investment_ID 'investment_arcelormittal_france_decarbonisation' in investment nodes
+2025-10-27 12:25:52,769 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:25:52,769 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:25:52,769 - INFO -   ➕ Set field 'is_total': True
+2025-10-27 12:25:52,770 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:25:52,770 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:25:55,460 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:25:55,461 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_low_carbon_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_dri",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_eaf",
+      "product_lv1": "steel",
+      "product_lv2": "EAF"
+    },
+    {
+      "product_ID": "product_ladle_furnace",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-27 12:25:55,461 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:25:55,461 - INFO - ✅ Match found for product_ID 'product_low_carbon_steel' in product nodes
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:25:55,461 - INFO - ✅ Match found for product_ID 'product_dri' in product nodes
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-27 12:25:55,461 - INFO - ✅ Match found for product_ID 'product_eaf' in product nodes
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv2': EAF
+2025-10-27 12:25:55,461 - INFO - ✅ Match found for product_ID 'product_ladle_furnace' in product nodes
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:25:55,461 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:25:55,461 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:25:55,461 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:25:55,461 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:25:56,884 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:25:56,885 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_fos_sur_mer"
+    },
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_dunkirk"
+    }
+  ]
+}
+2025-10-27 12:25:56,885 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:25:56,885 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:25:56,885 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:25:58,755 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:25:58,755 - INFO - {
+  "relationships": [
+    {
+      "source": "product_low_carbon_steel",
+      "target": "factory_fos_sur_mer",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_dri",
+      "target": "factory_dunkirk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_eaf",
+      "target": "factory_dunkirk",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ladle_furnace",
+      "target": "factory_fos_sur_mer",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:25:58,755 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:25:58,756 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-27 12:25:58,756 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-27 12:26:01,410 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:26:01,410 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:26:01,410 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:26:01,410 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-27 12:26:01,410 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-27 12:26:07,771 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:26:07,772 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "factory_fos_sur_mer",
+      "type": "funds"
+    },
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "factory_dunkirk",
+      "type": "funds"
+    },
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "product_low_carbon_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "product_dri",
+      "type": "targets"
+    },
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "product_eaf",
+      "type": "targets"
+    },
+    {
+      "source": "investment_arcelormittal_france_decarbonisation",
+      "target": "product_ladle_furnace",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-27 12:26:07,772 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:26:07,817 - INFO - ✅ Updated Article ID: 68f63037a30d27aab0f06278 with 8 nodes and combined text.

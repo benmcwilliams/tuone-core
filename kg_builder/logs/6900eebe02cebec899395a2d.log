@@ -1,0 +1,132 @@
+2025-10-28 18:25:27,861 - INFO - 🔍 Text length: 1775 characters
+2025-10-28 18:25:27,861 - INFO - 📌 Processing Article ID: 6900eebe02cebec899395a2d — Aehra invests in the Mosciano Special Economic Zone (SEZ), creating 500 jobs.
+2025-10-28 18:25:27,861 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 18:25:30,190 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:30,191 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aehra",
+        "type": "company",
+        "name": "Aehra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_mosciano_sant_angelo_sez",
+        "type": "factory",
+        "name": "Mosciano Sant'Angelo SEZ",
+        "location": {
+          "city": "Mosciano Sant'Angelo",
+          "country": "Italy"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_mosciano_sant_angelo_sez",
+        "type": "investment",
+        "name": "Mosciano Sant'Angelo SEZ",
+        "amount": "\u20ac540 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_vehicles",
+        "type": "product",
+        "name": "electric vehicles"
+      }
+    ]
+  }
+}
+2025-10-28 18:25:30,191 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:30,191 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-28 18:25:30,191 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-28 18:25:30,191 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-28 18:25:31,648 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:31,649 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_mosciano_sant_angelo_sez",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-28 18:25:31,649 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:31,649 - INFO - ✅ Match found for investment_ID 'investment_mosciano_sant_angelo_sez' in investment nodes
+2025-10-28 18:25:31,649 - INFO -   ➕ Set field 'status': announced
+2025-10-28 18:25:31,649 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-28 18:25:31,649 - INFO -   ➕ Set field 'is_total': True
+2025-10-28 18:25:31,649 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 18:25:31,649 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 18:25:35,384 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:35,385 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_vehicles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-28 18:25:35,385 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:35,385 - INFO - ✅ Match found for product_ID 'product_electric_vehicles' in product nodes
+2025-10-28 18:25:35,385 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-28 18:25:35,385 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-28 18:25:35,385 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 18:25:35,385 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 18:25:35,385 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 18:25:39,465 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:39,466 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aehra",
+      "type": "owns",
+      "target": "factory_mosciano_sant_angelo_sez"
+    }
+  ]
+}
+2025-10-28 18:25:39,466 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:39,466 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 18:25:39,466 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 18:25:42,667 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:42,668 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_vehicles",
+      "target": "factory_mosciano_sant_angelo_sez",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-28 18:25:42,668 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:42,668 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-28 18:25:42,668 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-28 18:25:44,109 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:44,109 - INFO - {
+  "relationships": []
+}
+2025-10-28 18:25:44,109 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:44,109 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-28 18:25:44,109 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-28 18:25:47,285 - INFO - ✅ OpenAI returned output:
+2025-10-28 18:25:47,286 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_mosciano_sant_angelo_sez",
+      "target": "factory_mosciano_sant_angelo_sez",
+      "type": "funds"
+    },
+    {
+      "source": "investment_mosciano_sant_angelo_sez",
+      "target": "product_electric_vehicles",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-28 18:25:47,286 - INFO - POST-PROCESSING STARTING.
+2025-10-28 18:25:47,376 - INFO - ✅ Updated Article ID: 6900eebe02cebec899395a2d with 4 nodes and combined text.

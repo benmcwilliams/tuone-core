@@ -1,0 +1,132 @@
+2025-10-28 17:22:38,362 - INFO - 🔍 Text length: 2567 characters
+2025-10-28 17:22:38,362 - INFO - 📌 Processing Article ID: 6900e65e02cebec899395a27 — Construction of the Valalika Industrial Park for Swedish Volvo has begun
+2025-10-28 17:22:38,362 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 17:22:45,475 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:22:45,475 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volvo",
+        "type": "company",
+        "name": "Volvo"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_valalika_industrial_park",
+        "type": "factory",
+        "name": "Valalika Industrial Park",
+        "location": {
+          "city": "Ko\u0161ice",
+          "country": "Slovakia"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volvo_valalika_industrial_park",
+        "type": "investment",
+        "name": "Volvo Valalika Industrial Park",
+        "amount": "approximately one billion euros",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_electric_cars",
+        "type": "product",
+        "name": "electric cars"
+      }
+    ]
+  }
+}
+2025-10-28 17:22:45,475 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:22:45,475 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-28 17:22:45,475 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-28 17:22:45,476 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-28 17:23:18,152 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:23:18,152 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volvo_valalika_industrial_park",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-10-28 17:23:18,152 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:23:18,152 - INFO - ✅ Match found for investment_ID 'investment_volvo_valalika_industrial_park' in investment nodes
+2025-10-28 17:23:18,152 - INFO -   ➕ Set field 'status': ongoing
+2025-10-28 17:23:18,152 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-28 17:23:18,152 - INFO -   ➕ Set field 'is_total': True
+2025-10-28 17:23:18,152 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 17:23:18,152 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 17:23:20,162 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:23:20,162 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_electric_cars",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-28 17:23:20,163 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:23:20,163 - INFO - ✅ Match found for product_ID 'product_electric_cars' in product nodes
+2025-10-28 17:23:20,163 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-28 17:23:20,163 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-28 17:23:20,163 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 17:23:20,163 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 17:23:20,163 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 17:23:23,086 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:23:23,086 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volvo",
+      "type": "owns",
+      "target": "factory_valalika_industrial_park"
+    }
+  ]
+}
+2025-10-28 17:23:23,086 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:23:23,086 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 17:23:23,086 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 17:23:26,822 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:23:26,822 - INFO - {
+  "relationships": [
+    {
+      "source": "product_electric_cars",
+      "target": "factory_valalika_industrial_park",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-28 17:23:26,822 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:23:26,822 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-28 17:23:26,822 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-28 17:24:00,994 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:24:00,995 - INFO - {
+  "relationships": []
+}
+2025-10-28 17:24:00,995 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:24:00,995 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-28 17:24:00,995 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-28 17:24:02,332 - INFO - ✅ OpenAI returned output:
+2025-10-28 17:24:02,333 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volvo_valalika_industrial_park",
+      "target": "factory_valalika_industrial_park",
+      "type": "funds"
+    },
+    {
+      "source": "investment_volvo_valalika_industrial_park",
+      "target": "product_electric_cars",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-28 17:24:02,333 - INFO - POST-PROCESSING STARTING.
+2025-10-28 17:24:02,428 - INFO - ✅ Updated Article ID: 6900e65e02cebec899395a27 with 4 nodes and combined text.

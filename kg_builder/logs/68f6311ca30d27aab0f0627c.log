@@ -1,0 +1,162 @@
+2025-10-27 12:20:46,635 - INFO - 🔍 Text length: 2132 characters
+2025-10-27 12:20:46,635 - INFO - 📌 Processing Article ID: 68f6311ca30d27aab0f0627c — Salzgitter considers DRI plant in northern Germany German steelmaker’s feasibility study examines direct reduced iron production; could be predecessor to EAF investment.
+2025-10-27 12:20:46,635 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:20:50,263 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:20:50,263 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_salzgitter_ag",
+        "type": "company",
+        "name": "Salzgitter AG"
+      },
+      {
+        "id": "company_uniper_se",
+        "type": "company",
+        "name": "Uniper SE"
+      },
+      {
+        "id": "company_rhenus_group",
+        "type": "company",
+        "name": "Rhenus Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_wilhelmshaven_germany",
+        "type": "factory",
+        "name": "Wilhelmshaven DRI Plant",
+        "location": {
+          "city": "Wilhelmshaven",
+          "country": "Germany"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_salzgitter_flachstahl_gmbh_steelmaking_complex",
+        "type": "factory",
+        "name": "Salzgitter Flachstahl GmbH Steelmaking Complex",
+        "location": {
+          "city": "Salzgitter",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_million_tons_per_year_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2 million tons per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_direct_reduced_iron",
+        "type": "product",
+        "name": "Direct Reduced Iron (DRI)"
+      },
+      {
+        "id": "product_strip_steel",
+        "type": "product",
+        "name": "Strip Steel"
+      }
+    ]
+  }
+}
+2025-10-27 12:20:50,263 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:20:50,264 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-27 12:20:50,264 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-27 12:20:55,029 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:20:55,029 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_million_tons_per_year_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-27 12:20:55,029 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:20:55,029 - INFO - ✅ Match found for capacity_ID 'capacity_2_million_tons_per_year_announced' in capacity nodes
+2025-10-27 12:20:55,029 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:20:55,029 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:20:55,030 - INFO -   ➕ Set field 'additional': False
+2025-10-27 12:20:55,030 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:20:55,030 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:20:55,030 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:20:56,500 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:20:56,500 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_direct_reduced_iron",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_strip_steel",
+      "product_lv1": "steel",
+      "product_lv2": "EAF"
+    }
+  ]
+}
+2025-10-27 12:20:56,500 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:20:56,500 - INFO - ✅ Match found for product_ID 'product_direct_reduced_iron' in product nodes
+2025-10-27 12:20:56,500 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:20:56,500 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-27 12:20:56,500 - INFO - ✅ Match found for product_ID 'product_strip_steel' in product nodes
+2025-10-27 12:20:56,500 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:20:56,500 - INFO -   ➕ Set field 'product_lv2': EAF
+2025-10-27 12:20:56,500 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:20:56,500 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:20:56,500 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:20:57,739 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:20:57,739 - INFO - {
+  "relationships": [
+    {
+      "source": "company_salzgitter_ag",
+      "type": "owns",
+      "target": "factory_wilhelmshaven_germany"
+    },
+    {
+      "source": "company_salzgitter_ag",
+      "type": "owns",
+      "target": "factory_salzgitter_flachstahl_gmbh_steelmaking_complex"
+    }
+  ]
+}
+2025-10-27 12:20:57,739 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:20:57,739 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:20:57,739 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:20:59,479 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:20:59,480 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_million_tons_per_year_announced",
+      "target": "factory_wilhelmshaven_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_million_tons_per_year_announced",
+      "target": "product_direct_reduced_iron",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_direct_reduced_iron",
+      "target": "factory_wilhelmshaven_germany",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_strip_steel",
+      "target": "factory_salzgitter_flachstahl_gmbh_steelmaking_complex",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:20:59,480 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:20:59,480 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:20:59,480 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:20:59,540 - INFO - ✅ Updated Article ID: 68f6311ca30d27aab0f0627c with 8 nodes and combined text.

@@ -2,6 +2,7 @@ import sys; sys.path.append("..")
 import pandas as pd
 import logging
 from dataclasses import dataclass
+from typing import Optional
 
 from reconcile.src.parse_capacity_text import parse_capacity_text
 from reconcile.src.normalise_time_units import extract_normalized_time_unit
@@ -28,6 +29,42 @@ class CapacityResult:
     unit: str | None
     converted: bool
     case: str
+
+# ========= Electric and fossil vehicle capacity splits =======
+
+def compute_vehicle_touches(df: pd.DataFrame) -> pd.Series:
+    """
+    For each capacity_id, look only at rows where product_lv1 == 'vehicle'
+    and check product_lv2 presence of 'electric' and/or 'fossil'.
+    Returns a Series indexed like df with values in {'both','electric','fossil', None}.
+    """
+    if "capacity_id" not in df.columns:
+        return pd.Series([None] * len(df), index=df.index, name="vehicle_touches")
+
+    # normalize fields we read
+    pl1 = df.get("product_lv1", pd.Series("", index=df.index)).astype(str).str.lower().str.strip()
+    pl2 = df.get("product_lv2", pd.Series("", index=df.index)).astype(str).str.lower().str.strip()
+    cap = df["capacity_id"]
+
+    # only vehicle rows contribute to the mapping
+    veh_mask = pl1.eq("vehicle")
+    veh = pd.DataFrame({"capacity_id": cap.where(veh_mask), "pl2": pl2.where(veh_mask)}).dropna()
+
+    def agg(group: pd.Series) -> Optional[str]:
+        has_e = (group == "electric").any()
+        has_f = (group == "fossil").any()
+        if has_e and has_f:
+            return "both"
+        if has_e:
+            return "electric"
+        if has_f:
+            return "fossil"
+        return None
+
+    mapping = veh.groupby("capacity_id")["pl2"].apply(agg)
+
+    out = cap.map(mapping).rename("vehicle_touches")
+    return out
 
 # ========= Processing capacity logic =========
 
@@ -185,6 +222,9 @@ def run_capacity_normalisation_pipeline(df_in: pd.DataFrame | None = None,
     else:
         df = df_in.copy()
     df["capacity"] = df["capacity"].fillna("")
+
+    # assign capacities to either electric only, fossil or both
+    df["vehicle_touches"] = compute_vehicle_touches(df)
 
     # reads raw capacity text as it is in Tuone. Returns
     # numeric value | scale (like tonnes or kilotonnes and some regex) | remaining text

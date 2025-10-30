@@ -1,0 +1,139 @@
+2025-10-27 12:19:42,497 - INFO - 🔍 Text length: 2563 characters
+2025-10-27 12:19:42,497 - INFO - 📌 Processing Article ID: 68f6340ea30d27aab0f06286 — Vale and GreenIron Sign MOU to Explore Decarbonization Projects in Sweden and Brazil
+2025-10-27 12:19:42,497 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:19:45,190 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:45,191 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_vale",
+        "type": "company",
+        "name": "Vale"
+      },
+      {
+        "id": "company_greeniron",
+        "type": "company",
+        "name": "GreenIron"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_brazil",
+        "type": "factory",
+        "name": "direct reduction facility",
+        "location": {
+          "city": "null",
+          "country": "Brazil"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_sandviken_sweden",
+        "type": "factory",
+        "name": "Sandviken facility",
+        "location": {
+          "city": "Sandviken",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_iron_ore_agglomerates",
+        "type": "product",
+        "name": "iron ore agglomerates"
+      },
+      {
+        "id": "product_iron_ore_pellets",
+        "type": "product",
+        "name": "iron ore pellets"
+      },
+      {
+        "id": "product_iron_ore_briquettes",
+        "type": "product",
+        "name": "iron ore briquettes"
+      }
+    ]
+  }
+}
+2025-10-27 12:19:45,191 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:45,191 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:19:45,191 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:19:45,191 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:19:45,191 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:19:46,979 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:46,979 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_iron_ore_agglomerates",
+      "product_lv1": "iron",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_iron_ore_pellets",
+      "product_lv1": "iron",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_iron_ore_briquettes",
+      "product_lv1": "iron",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-27 12:19:46,979 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:46,979 - INFO - ✅ Match found for product_ID 'product_iron_ore_agglomerates' in product nodes
+2025-10-27 12:19:46,979 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:19:46,979 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:19:46,979 - INFO - ✅ Match found for product_ID 'product_iron_ore_pellets' in product nodes
+2025-10-27 12:19:46,979 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:19:46,980 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:19:46,980 - INFO - ✅ Match found for product_ID 'product_iron_ore_briquettes' in product nodes
+2025-10-27 12:19:46,980 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:19:46,980 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:19:46,980 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:19:46,980 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:19:46,980 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:19:48,209 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:48,210 - INFO - {
+  "relationships": [
+    {
+      "source": "company_greeniron",
+      "type": "owns",
+      "target": "factory_sandviken_sweden"
+    },
+    {
+      "source": "company_greeniron",
+      "type": "owns",
+      "target": "factory_brazil"
+    }
+  ]
+}
+2025-10-27 12:19:48,210 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:48,210 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:19:48,210 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:19:50,051 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:50,052 - INFO - {
+  "relationships": [
+    {
+      "source": "product_iron_ore_agglomerates",
+      "target": "factory_brazil",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_iron_ore_pellets",
+      "target": "factory_sandviken_sweden",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_iron_ore_briquettes",
+      "target": "factory_sandviken_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:19:50,052 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:50,052 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:19:50,052 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:19:50,105 - INFO - ✅ Updated Article ID: 68f6340ea30d27aab0f06286 with 7 nodes and combined text.

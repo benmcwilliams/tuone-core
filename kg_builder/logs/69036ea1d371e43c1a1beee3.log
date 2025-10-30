@@ -1,0 +1,232 @@
+2025-10-30 15:06:39,208 - INFO - 🔍 Text length: 3212 characters
+2025-10-30 15:06:39,208 - INFO - 📌 Processing Article ID: 69036ea1d371e43c1a1beee3 — Mercedes in Kecskemét grows with Hungarian suppliers
+2025-10-30 15:06:39,208 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-30 15:06:50,324 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:06:50,324 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": "company_mercedes_benz_manufacturing_hungary_kft",
+        "type": "company",
+        "name": "Mercedes-Benz Manufacturing Hungary Kft"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_kecskemet_hungary",
+        "type": "factory",
+        "name": "Kecskem\u00e9t Plant",
+        "location": {
+          "city": "Kecskem\u00e9t",
+          "country": "Hungary"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_kecskemet_expansion",
+        "type": "investment",
+        "name": "Kecskem\u00e9t Expansion",
+        "amount": "over \u20ac1 billion",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_40_megawatts",
+        "type": "capacity",
+        "name": "",
+        "amount": "40 megawatts",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_eqb",
+        "type": "product",
+        "name": "EQB"
+      },
+      {
+        "id": "product_high_voltage_batteries",
+        "type": "product",
+        "name": "high-voltage batteries"
+      },
+      {
+        "id": "product_mma_platform_models",
+        "type": "product",
+        "name": "MMA platform models"
+      },
+      {
+        "id": "product_mb_ea_platform_models",
+        "type": "product",
+        "name": "MB.EA platform models"
+      }
+    ]
+  }
+}
+2025-10-30 15:06:50,325 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:06:50,325 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-30 15:06:50,325 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-30 15:06:53,776 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:06:53,776 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_40_megawatts",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-30 15:06:53,776 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:06:53,776 - INFO - ✅ Match found for capacity_ID 'capacity_40_megawatts' in capacity nodes
+2025-10-30 15:06:53,777 - INFO -   ➕ Set field 'status': announced
+2025-10-30 15:06:53,777 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-30 15:06:53,777 - INFO -   ➕ Set field 'additional': False
+2025-10-30 15:06:53,777 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-30 15:06:53,777 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-30 15:06:55,858 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:06:55,859 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_kecskemet_expansion",
+      "status": "ongoing",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-30 15:06:55,859 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:06:55,859 - INFO - ✅ Match found for investment_ID 'investment_kecskemet_expansion' in investment nodes
+2025-10-30 15:06:55,859 - INFO -   ➕ Set field 'status': ongoing
+2025-10-30 15:06:55,859 - INFO -   ➕ Set field 'phase': expansion
+2025-10-30 15:06:55,859 - INFO -   ➕ Set field 'is_total': True
+2025-10-30 15:06:55,859 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-30 15:06:55,859 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-30 15:06:59,087 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:06:59,087 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_eqb",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_high_voltage_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_mma_platform_models",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_mb_ea_platform_models",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-30 15:06:59,087 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:06:59,087 - INFO - ✅ Match found for product_ID 'product_eqb' in product nodes
+2025-10-30 15:06:59,087 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-30 15:06:59,087 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-30 15:06:59,088 - INFO - ✅ Match found for product_ID 'product_high_voltage_batteries' in product nodes
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-30 15:06:59,088 - INFO - ✅ Match found for product_ID 'product_mma_platform_models' in product nodes
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-30 15:06:59,088 - INFO - ✅ Match found for product_ID 'product_mb_ea_platform_models' in product nodes
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-30 15:06:59,088 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-30 15:06:59,088 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-30 15:06:59,088 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-30 15:06:59,088 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-30 15:07:00,210 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:07:00,210 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_kecskemet_hungary"
+    }
+  ]
+}
+2025-10-30 15:07:00,210 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:07:00,210 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-30 15:07:00,210 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-30 15:07:07,196 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:07:07,197 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_40_megawatts",
+      "target": "factory_kecskemet_hungary",
+      "type": "at"
+    },
+    {
+      "source": "product_eqb",
+      "target": "factory_kecskemet_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mma_platform_models",
+      "target": "factory_kecskemet_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_mb_ea_platform_models",
+      "target": "factory_kecskemet_hungary",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_high_voltage_batteries",
+      "target": "factory_kecskemet_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-30 15:07:07,197 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:07:07,197 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-30 15:07:07,197 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-30 15:07:08,198 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:07:08,199 - INFO - {
+  "relationships": []
+}
+2025-10-30 15:07:08,199 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:07:08,199 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-30 15:07:08,199 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-30 15:07:12,804 - INFO - ✅ OpenAI returned output:
+2025-10-30 15:07:12,804 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_kecskemet_expansion",
+      "target": "factory_kecskemet_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_kecskemet_expansion",
+      "target": "product_high_voltage_batteries",
+      "type": "targets"
+    },
+    {
+      "source": "investment_kecskemet_expansion",
+      "target": "product_mma_platform_models",
+      "type": "targets"
+    },
+    {
+      "source": "investment_kecskemet_expansion",
+      "target": "product_mb_ea_platform_models",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-30 15:07:12,805 - INFO - POST-PROCESSING STARTING.
+2025-10-30 15:07:12,903 - INFO - ✅ Updated Article ID: 69036ea1d371e43c1a1beee3 with 9 nodes and combined text.

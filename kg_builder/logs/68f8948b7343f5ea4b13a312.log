@@ -1,0 +1,152 @@
+2025-10-27 12:14:33,515 - INFO - 🔍 Text length: 1554 characters
+2025-10-27 12:14:33,515 - INFO - 📌 Processing Article ID: 68f8948b7343f5ea4b13a312 — Siemens Gamesa’s Major Aalborg Expansion Supported by Government Funding
+2025-10-27 12:14:33,515 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:14:36,802 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:36,802 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_siemens_gamesa",
+        "type": "company",
+        "name": "Siemens Gamesa"
+      },
+      {
+        "id": "company_niebuhr_gears",
+        "type": "company",
+        "name": "Niebuhr Gears"
+      },
+      {
+        "id": "company_advanced_surface_plating",
+        "type": "company",
+        "name": "Advanced Surface Plating"
+      },
+      {
+        "id": "company_h2giga",
+        "type": "company",
+        "name": "H2Giga"
+      },
+      {
+        "id": "company_nord_assembly_lines",
+        "type": "company",
+        "name": "Nord Assembly Lines"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_aalborg_denmark",
+        "type": "factory",
+        "name": "Aalborg Blade Factory",
+        "location": {
+          "city": "Aalborg",
+          "country": "Denmark"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_dkk_162_2_million_completed",
+        "type": "investment",
+        "name": "DKK 162.2 million from Danish green investment fund",
+        "amount": "DKK 162.2 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_blades",
+        "type": "product",
+        "name": "blade"
+      }
+    ]
+  }
+}
+2025-10-27 12:14:36,802 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:36,802 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:14:36,802 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-27 12:14:36,802 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-27 12:14:40,286 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:40,286 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_dkk_162_2_million_completed",
+      "status": "completed",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-27 12:14:40,286 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:40,286 - INFO - ✅ Match found for investment_ID 'investment_dkk_162_2_million_completed' in investment nodes
+2025-10-27 12:14:40,286 - INFO -   ➕ Set field 'status': completed
+2025-10-27 12:14:40,286 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:14:40,286 - INFO -   ➕ Set field 'is_total': True
+2025-10-27 12:14:40,286 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:14:40,286 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:14:41,330 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:41,331 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_blades",
+      "product_lv1": "wind",
+      "product_lv2": "blade"
+    }
+  ]
+}
+2025-10-27 12:14:41,331 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:41,331 - INFO - ✅ Match found for product_ID 'product_blades' in product nodes
+2025-10-27 12:14:41,331 - INFO -   ➕ Set field 'product_lv1': wind
+2025-10-27 12:14:41,331 - INFO -   ➕ Set field 'product_lv2': blade
+2025-10-27 12:14:41,331 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:14:41,331 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:14:41,331 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:14:42,533 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:42,533 - INFO - {
+  "relationships": [
+    {
+      "source": "company_siemens_gamesa",
+      "type": "owns",
+      "target": "factory_aalborg_denmark"
+    }
+  ]
+}
+2025-10-27 12:14:42,533 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:42,533 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:14:42,533 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:14:45,101 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:45,101 - INFO - {
+  "relationships": [
+    {
+      "source": "product_blades",
+      "target": "factory_aalborg_denmark",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:14:45,102 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:45,102 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-27 12:14:45,102 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-27 12:14:47,658 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:47,659 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:14:47,659 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:47,659 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-27 12:14:47,659 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-27 12:14:48,872 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:14:48,873 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_dkk_162_2_million_completed",
+      "target": "factory_aalborg_denmark",
+      "type": "funds"
+    },
+    {
+      "source": "investment_dkk_162_2_million_completed",
+      "target": "product_blades",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-27 12:14:48,873 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:14:48,930 - INFO - ✅ Updated Article ID: 68f8948b7343f5ea4b13a312 with 8 nodes and combined text.

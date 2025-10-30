@@ -1,0 +1,235 @@
+2025-10-27 12:19:22,626 - INFO - 🔍 Text length: 6251 characters
+2025-10-27 12:19:22,626 - INFO - 📌 Processing Article ID: 68f63452a30d27aab0f06288 — HYBRIT: A unique hydrogen storage facility in Luleå is taking shape
+2025-10-27 12:19:22,626 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:19:25,923 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:25,924 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ssab",
+        "type": "company",
+        "name": "SSAB"
+      },
+      {
+        "id": "company_lkab",
+        "type": "company",
+        "name": "LKAB"
+      },
+      {
+        "id": "company_vattenfall",
+        "type": "company",
+        "name": "Vattenfall"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_svarto_berget_lulea",
+        "type": "factory",
+        "name": "Svart\u00f6berget Hydrogen Storage Facility",
+        "location": {
+          "city": "Lule\u00e5",
+          "country": "Sweden"
+        },
+        "status": "under construction"
+      },
+      {
+        "id": "factory_pilot_plant_lulea",
+        "type": "factory",
+        "name": "Pilot Plant for Fossil Free Steel Production",
+        "location": {
+          "city": "Lule\u00e5",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_gallivare",
+        "type": "factory",
+        "name": "G\u00e4llivare Demonstration Facility",
+        "location": {
+          "city": "G\u00e4llivare",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_hybrit_initiative",
+        "type": "investment",
+        "name": "HYBRIT Initiative",
+        "amount": "SEK 200 million",
+        "status": "ongoing"
+      },
+      {
+        "id": "investment_swedish_energy_agency_contribution",
+        "type": "investment",
+        "name": "Swedish Energy Agency Contribution",
+        "amount": "SEK 52 million",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_fossil_free_hydrogen",
+        "type": "product",
+        "name": "Fossil-free Hydrogen (Green Hydrogen)"
+      },
+      {
+        "id": "product_sponge_iron",
+        "type": "product",
+        "name": "Fossil-free Sponge Iron"
+      },
+      {
+        "id": "product_fossil_free_steel",
+        "type": "product",
+        "name": "Fossil-free Steel"
+      }
+    ]
+  }
+}
+2025-10-27 12:19:25,924 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:25,924 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:19:25,924 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-27 12:19:25,924 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-27 12:19:29,791 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:29,791 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_hybrit_initiative",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_swedish_energy_agency_contribution",
+      "status": "ongoing",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-10-27 12:19:29,791 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:29,791 - INFO - ✅ Match found for investment_ID 'investment_hybrit_initiative' in investment nodes
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'status': ongoing
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'is_total': True
+2025-10-27 12:19:29,791 - INFO - ✅ Match found for investment_ID 'investment_swedish_energy_agency_contribution' in investment nodes
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'status': ongoing
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:19:29,791 - INFO -   ➕ Set field 'is_total': False
+2025-10-27 12:19:29,791 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:19:29,791 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:19:31,897 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:31,898 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_fossil_free_hydrogen",
+      "product_lv1": "hydrogen",
+      "product_lv2": "storage"
+    },
+    {
+      "product_ID": "product_sponge_iron",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_fossil_free_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-27 12:19:31,898 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:31,898 - INFO - ✅ Match found for product_ID 'product_fossil_free_hydrogen' in product nodes
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv1': hydrogen
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv2': storage
+2025-10-27 12:19:31,898 - INFO - ✅ Match found for product_ID 'product_sponge_iron' in product nodes
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-27 12:19:31,898 - INFO - ✅ Match found for product_ID 'product_fossil_free_steel' in product nodes
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:19:31,898 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:19:31,898 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:19:31,898 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:19:31,898 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:19:36,542 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:36,543 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_svarto_berget_lulea"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_svarto_berget_lulea"
+    },
+    {
+      "source": "company_vattenfall",
+      "type": "owns",
+      "target": "factory_svarto_berget_lulea"
+    },
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_pilot_plant_lulea"
+    },
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_gallivare"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_gallivare"
+    }
+  ]
+}
+2025-10-27 12:19:36,543 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:36,543 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:19:36,543 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:19:40,322 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:40,323 - INFO - {
+  "relationships": [
+    {
+      "source": "product_fossil_free_hydrogen",
+      "target": "factory_pilot_plant_lulea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_sponge_iron",
+      "target": "factory_pilot_plant_lulea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fossil_free_steel",
+      "target": "factory_svarto_berget_lulea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:19:40,323 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:40,323 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-27 12:19:40,323 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-27 12:19:41,038 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:41,039 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:19:41,039 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:41,039 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-27 12:19:41,039 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-27 12:19:42,434 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:42,434 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_hybrit_initiative",
+      "type": "funds",
+      "target": "factory_svarto_berget_lulea"
+    }
+  ]
+}
+2025-10-27 12:19:42,434 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:42,495 - INFO - ✅ Updated Article ID: 68f63452a30d27aab0f06288 with 11 nodes and combined text.

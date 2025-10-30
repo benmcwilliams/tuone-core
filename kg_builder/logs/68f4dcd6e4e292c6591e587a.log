@@ -1,0 +1,253 @@
+2025-10-19 15:03:35,032 - INFO - 🔍 Text length: 2315 characters
+2025-10-19 15:03:35,032 - INFO - 📌 Processing Article ID: 68f4dcd6e4e292c6591e587a — Ford continues to move its Valencia plant towards electrification
+2025-10-19 15:03:35,032 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-19 15:03:39,163 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:39,163 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_almusafes_valencia",
+        "type": "factory",
+        "name": "Almusafes Valencia",
+        "location": {
+          "city": "Almusafes",
+          "country": "Spain"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_chihuahua_mexico",
+        "type": "factory",
+        "name": "Chihuahua Mexico",
+        "location": {
+          "city": "Chihuahua",
+          "country": "Mexico"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_5_2_million_euros_announced",
+        "type": "investment",
+        "name": "5.2 million euros investment",
+        "amount": "5.2 million euros",
+        "status": "announced"
+      },
+      {
+        "id": "investment_24_million_euros_completed",
+        "type": "investment",
+        "name": "24 million euros investment",
+        "amount": "24 million euros",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_duratec_2_5_litre_hybrid_engine",
+        "type": "product",
+        "name": "Duratec 2.5-litre hybrid engine"
+      },
+      {
+        "id": "product_battery_packs",
+        "type": "product",
+        "name": "battery packs"
+      },
+      {
+        "id": "product_kuga",
+        "type": "product",
+        "name": "Kuga"
+      },
+      {
+        "id": "product_galaxy",
+        "type": "product",
+        "name": "Galaxy"
+      },
+      {
+        "id": "product_s_max",
+        "type": "product",
+        "name": "S-MAX"
+      },
+      {
+        "id": "mondeo",
+        "type": "product",
+        "name": "Mondeo",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "status": ""
+      }
+    ]
+  }
+}
+2025-10-19 15:03:39,163 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:39,163 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-19 15:03:39,164 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-19 15:03:39,164 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-19 15:03:40,595 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:40,595 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_5_2_million_euros_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_24_million_euros_completed",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-10-19 15:03:40,595 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:40,595 - INFO - ✅ Match found for investment_ID 'investment_5_2_million_euros_announced' in investment nodes
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'status': announced
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'phase': expansion
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'is_total': False
+2025-10-19 15:03:40,596 - INFO - ✅ Match found for investment_ID 'investment_24_million_euros_completed' in investment nodes
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'status': completed
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'phase': unclear
+2025-10-19 15:03:40,596 - INFO -   ➕ Set field 'is_total': True
+2025-10-19 15:03:40,596 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-19 15:03:40,596 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-19 15:03:42,936 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:42,936 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_duratec_2_5_litre_hybrid_engine",
+      "product_lv1": "powertrain",
+      "product_lv2": "engine"
+    },
+    {
+      "product_ID": "product_battery_packs",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    },
+    {
+      "product_ID": "product_kuga",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_galaxy",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_s_max",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "mondeo",
+      "product_lv1": "vehicle",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-19 15:03:42,937 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:42,937 - INFO - ✅ Match found for product_ID 'product_duratec_2_5_litre_hybrid_engine' in product nodes
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv2': engine
+2025-10-19 15:03:42,937 - INFO - ✅ Match found for product_ID 'product_battery_packs' in product nodes
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-19 15:03:42,937 - INFO - ✅ Match found for product_ID 'product_kuga' in product nodes
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-19 15:03:42,937 - INFO - ✅ Match found for product_ID 'product_galaxy' in product nodes
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-19 15:03:42,937 - INFO - ✅ Match found for product_ID 'product_s_max' in product nodes
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-19 15:03:42,937 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-19 15:03:42,938 - INFO - ✅ Match found for product_ID 'mondeo' in product nodes
+2025-10-19 15:03:42,938 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-19 15:03:42,938 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-19 15:03:42,938 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-19 15:03:42,938 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-19 15:03:44,274 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:44,274 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_almusafes_valencia"
+    },
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_chihuahua_mexico"
+    }
+  ]
+}
+2025-10-19 15:03:44,274 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:44,274 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-19 15:03:44,274 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-19 15:03:47,440 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:47,440 - INFO - {
+  "relationships": [
+    {
+      "source": "product_duratec_2_5_litre_hybrid_engine",
+      "target": "factory_chihuahua_mexico",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_kuga",
+      "target": "factory_almusafes_valencia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_galaxy",
+      "target": "factory_almusafes_valencia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_s_max",
+      "target": "factory_almusafes_valencia",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_packs",
+      "target": "factory_almusafes_valencia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-19 15:03:47,440 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:47,441 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-19 15:03:47,441 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-19 15:03:47,977 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:47,977 - INFO - {
+  "relationships": []
+}
+2025-10-19 15:03:47,977 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:47,977 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-19 15:03:47,977 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-19 15:03:48,829 - INFO - ✅ OpenAI returned output:
+2025-10-19 15:03:48,829 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_5_2_million_euros_announced",
+      "type": "funds",
+      "target": "factory_almusafes_valencia"
+    },
+    {
+      "source": "investment_5_2_million_euros_announced",
+      "type": "targets",
+      "target": "product_battery_packs"
+    }
+  ]
+}
+2025-10-19 15:03:48,829 - INFO - POST-PROCESSING STARTING.
+2025-10-19 15:03:48,848 - INFO - ✅ Updated Article ID: 68f4dcd6e4e292c6591e587a with 11 nodes and combined text.

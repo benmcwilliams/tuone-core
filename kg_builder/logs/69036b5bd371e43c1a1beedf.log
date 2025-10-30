@@ -1,0 +1,83 @@
+2025-10-30 14:44:43,314 - INFO - 🔍 Text length: 674 characters
+2025-10-30 14:44:43,314 - INFO - 📌 Processing Article ID: 69036b5bd371e43c1a1beedf — Pre-series production of the new VLE successfully started
+2025-10-30 14:44:43,315 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-30 14:44:45,805 - INFO - ✅ OpenAI returned output:
+2025-10-30 14:44:45,805 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_mercedes_benz",
+        "type": "company",
+        "name": "Mercedes-Benz"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_vitoria",
+        "type": "factory",
+        "name": "Vitoria",
+        "location": {
+          "city": "Vitoria",
+          "country": "null"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mercedes_benz_vle",
+        "type": "product",
+        "name": "Mercedes-Benz VLE"
+      }
+    ]
+  }
+}
+2025-10-30 14:44:45,806 - INFO - POST-PROCESSING STARTING.
+2025-10-30 14:44:45,806 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-30 14:44:45,806 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-30 14:44:45,806 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-30 14:44:45,806 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-30 14:44:47,083 - INFO - ✅ OpenAI returned output:
+2025-10-30 14:44:47,083 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_mercedes_benz_vle",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-30 14:44:47,083 - INFO - POST-PROCESSING STARTING.
+2025-10-30 14:44:47,084 - INFO - ✅ Match found for product_ID 'product_mercedes_benz_vle' in product nodes
+2025-10-30 14:44:47,084 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-30 14:44:47,084 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-30 14:44:47,084 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-30 14:44:47,084 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-30 14:44:47,084 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-30 14:44:50,811 - INFO - ✅ OpenAI returned output:
+2025-10-30 14:44:50,811 - INFO - {
+  "relationships": [
+    {
+      "source": "company_mercedes_benz",
+      "type": "owns",
+      "target": "factory_vitoria"
+    }
+  ]
+}
+2025-10-30 14:44:50,811 - INFO - POST-PROCESSING STARTING.
+2025-10-30 14:44:50,811 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-30 14:44:50,811 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-30 14:44:55,895 - INFO - ✅ OpenAI returned output:
+2025-10-30 14:44:55,895 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mercedes_benz_vle",
+      "target": "factory_vitoria",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-30 14:44:55,895 - INFO - POST-PROCESSING STARTING.
+2025-10-30 14:44:55,895 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-30 14:44:55,895 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-30 14:44:55,977 - INFO - ✅ Updated Article ID: 69036b5bd371e43c1a1beedf with 3 nodes and combined text.

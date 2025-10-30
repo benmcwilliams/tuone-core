@@ -1,0 +1,173 @@
+2025-10-28 16:02:43,322 - INFO - 🔍 Text length: 524 characters
+2025-10-28 16:02:43,323 - INFO - 📌 Processing Article ID: 6900d89402cebec899395a21 — BMW Group Plant Regensburg will produce drive components for electrified vehicles from 2021
+2025-10-28 16:02:43,323 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-28 16:02:50,051 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:02:50,052 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bmw_group",
+        "type": "company",
+        "name": "BMW Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bmw_group_plant_regensburg",
+        "type": "factory",
+        "name": "BMW Group Plant Regensburg",
+        "location": {
+          "city": "Regensburg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_bmw_group_regensburg_plant",
+        "type": "investment",
+        "name": "BMW Group Regensburg Plant",
+        "amount": "over 150 million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_drive_components",
+        "type": "product",
+        "name": "drive components"
+      },
+      {
+        "id": "product_battery_cells",
+        "type": "product",
+        "name": "battery cells"
+      },
+      {
+        "id": "product_high_voltage_batteries",
+        "type": "product",
+        "name": "high-voltage batteries"
+      }
+    ]
+  }
+}
+2025-10-28 16:02:50,052 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:02:50,052 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-28 16:02:50,052 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-28 16:02:50,052 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-28 16:02:52,978 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:02:52,978 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_bmw_group_regensburg_plant",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-28 16:02:52,979 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:02:52,979 - INFO - ✅ Match found for investment_ID 'investment_bmw_group_regensburg_plant' in investment nodes
+2025-10-28 16:02:52,979 - INFO -   ➕ Set field 'status': announced
+2025-10-28 16:02:52,979 - INFO -   ➕ Set field 'phase': expansion
+2025-10-28 16:02:52,979 - INFO -   ➕ Set field 'is_total': True
+2025-10-28 16:02:52,979 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-28 16:02:52,979 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-28 16:02:55,754 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:02:55,754 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_drive_components",
+      "product_lv1": "powertrain",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_battery_cells",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_high_voltage_batteries",
+      "product_lv1": "battery",
+      "product_lv2": "module_pack"
+    }
+  ]
+}
+2025-10-28 16:02:55,754 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:02:55,754 - INFO - ✅ Match found for product_ID 'product_drive_components' in product nodes
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv1': powertrain
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-28 16:02:55,755 - INFO - ✅ Match found for product_ID 'product_battery_cells' in product nodes
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv2': cell
+2025-10-28 16:02:55,755 - INFO - ✅ Match found for product_ID 'product_high_voltage_batteries' in product nodes
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv1': battery
+2025-10-28 16:02:55,755 - INFO -   ➕ Set field 'product_lv2': module_pack
+2025-10-28 16:02:55,755 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-28 16:02:55,755 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-28 16:02:55,755 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-28 16:02:59,875 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:02:59,875 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bmw_group",
+      "type": "owns",
+      "target": "factory_bmw_group_plant_regensburg"
+    }
+  ]
+}
+2025-10-28 16:02:59,875 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:02:59,875 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-28 16:02:59,876 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-28 16:03:02,716 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:03:02,717 - INFO - {
+  "relationships": [
+    {
+      "source": "product_drive_components",
+      "target": "factory_bmw_group_plant_regensburg",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_battery_cells",
+      "target": "factory_bmw_group_plant_regensburg",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_high_voltage_batteries",
+      "target": "factory_bmw_group_plant_regensburg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-28 16:03:02,717 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:03:02,717 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-28 16:03:02,717 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-28 16:03:03,759 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:03:03,759 - INFO - {
+  "relationships": []
+}
+2025-10-28 16:03:03,759 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:03:03,760 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-28 16:03:03,760 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-28 16:03:11,413 - INFO - ✅ OpenAI returned output:
+2025-10-28 16:03:11,413 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_bmw_group_regensburg_plant",
+      "target": "factory_bmw_group_plant_regensburg",
+      "type": "funds"
+    },
+    {
+      "source": "investment_bmw_group_regensburg_plant",
+      "target": "product_battery_cells",
+      "type": "targets"
+    },
+    {
+      "source": "investment_bmw_group_regensburg_plant",
+      "target": "product_high_voltage_batteries",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-28 16:03:11,413 - INFO - POST-PROCESSING STARTING.
+2025-10-28 16:03:11,503 - INFO - ✅ Updated Article ID: 6900d89402cebec899395a21 with 6 nodes and combined text.

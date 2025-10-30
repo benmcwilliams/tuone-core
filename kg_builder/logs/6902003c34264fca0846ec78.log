@@ -1,0 +1,155 @@
+2025-10-29 12:54:06,823 - INFO - 🔍 Text length: 2960 characters
+2025-10-29 12:54:06,824 - INFO - 📌 Processing Article ID: 6902003c34264fca0846ec78 — This is the second electric model to be manufactured at VW Navarra
+2025-10-29 12:54:06,824 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-29 12:54:11,483 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:11,484 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_volkswagen_navarra",
+        "type": "company",
+        "name": "Volkswagen Navarra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_landaben_plant",
+        "type": "factory",
+        "name": "Landaben plant",
+        "location": {
+          "city": "Navarra",
+          "country": "Spain"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_volkswagen_navarra_electrification_project",
+        "type": "investment",
+        "name": "Volkswagen Navarra electrification project",
+        "amount": "\u20ac1 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_id_cross",
+        "type": "product",
+        "name": "ID. Cross"
+      },
+      {
+        "id": "product_skoda_epiq",
+        "type": "product",
+        "name": "Skoda Epiq"
+      }
+    ]
+  }
+}
+2025-10-29 12:54:11,484 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:11,484 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-29 12:54:11,484 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-29 12:54:11,484 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-29 12:54:14,077 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:14,077 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_volkswagen_navarra_electrification_project",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-10-29 12:54:14,077 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:14,077 - INFO - ✅ Match found for investment_ID 'investment_volkswagen_navarra_electrification_project' in investment nodes
+2025-10-29 12:54:14,078 - INFO -   ➕ Set field 'status': announced
+2025-10-29 12:54:14,078 - INFO -   ➕ Set field 'phase': expansion
+2025-10-29 12:54:14,078 - INFO -   ➕ Set field 'is_total': True
+2025-10-29 12:54:14,078 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-29 12:54:14,078 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-29 12:54:16,460 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:16,461 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_id_cross",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_skoda_epiq",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-29 12:54:16,461 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:16,461 - INFO - ✅ Match found for product_ID 'product_id_cross' in product nodes
+2025-10-29 12:54:16,461 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-29 12:54:16,461 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-29 12:54:16,461 - INFO - ✅ Match found for product_ID 'product_skoda_epiq' in product nodes
+2025-10-29 12:54:16,461 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-29 12:54:16,461 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-29 12:54:16,461 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-29 12:54:16,461 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-29 12:54:16,461 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-29 12:54:50,492 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:50,493 - INFO - {
+  "relationships": [
+    {
+      "source": "company_volkswagen_navarra",
+      "type": "owns",
+      "target": "factory_landaben_plant"
+    }
+  ]
+}
+2025-10-29 12:54:50,493 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:50,493 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-29 12:54:50,493 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-29 12:54:51,689 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:51,689 - INFO - {
+  "relationships": [
+    {
+      "source": "product_id_cross",
+      "target": "factory_landaben_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_skoda_epiq",
+      "target": "factory_landaben_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-29 12:54:51,689 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:51,689 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-29 12:54:51,689 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-29 12:54:53,062 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:54:53,063 - INFO - {
+  "relationships": []
+}
+2025-10-29 12:54:53,063 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:54:53,063 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-29 12:54:53,063 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-29 12:55:17,422 - INFO - ✅ OpenAI returned output:
+2025-10-29 12:55:17,424 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_volkswagen_navarra_electrification_project",
+      "target": "factory_landaben_plant",
+      "type": "funds"
+    },
+    {
+      "source": "investment_volkswagen_navarra_electrification_project",
+      "target": "product_id_cross",
+      "type": "targets"
+    },
+    {
+      "source": "investment_volkswagen_navarra_electrification_project",
+      "target": "product_skoda_epiq",
+      "type": "targets"
+    }
+  ]
+}
+2025-10-29 12:55:17,424 - INFO - POST-PROCESSING STARTING.
+2025-10-29 12:55:17,516 - INFO - ✅ Updated Article ID: 6902003c34264fca0846ec78 with 5 nodes and combined text.

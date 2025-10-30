@@ -1,0 +1,132 @@
+2025-10-27 12:27:05,149 - INFO - 🔍 Text length: 2136 characters
+2025-10-27 12:27:05,149 - INFO - 📌 Processing Article ID: 68f4eaa0acf45d9af7c390f5 — Kia launches EV production in Slovakia as Ceed era ends  Read more: https://spectator.sme.sk/business/c/kia-launches-ev-production-in-slovakia-as-ceed-era-ends?utm_source=chatgpt.com
+2025-10-27 12:27:05,149 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:27:07,773 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:07,774 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_kia",
+        "type": "company",
+        "name": "Kia"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_teplicka_nad_vahom",
+        "type": "factory",
+        "name": "Kia plant",
+        "location": {
+          "city": "Tepli\u010dka nad V\u00e1hom",
+          "country": "Slovakia"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_kia_slovakia_ev4",
+        "type": "investment",
+        "name": "Kia Slovakia EV4",
+        "amount": "\u20ac108m",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_ev4",
+        "type": "product",
+        "name": "EV4"
+      }
+    ]
+  }
+}
+2025-10-27 12:27:07,774 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:07,774 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-27 12:27:07,774 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-27 12:27:07,774 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-27 12:27:09,070 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:09,071 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_kia_slovakia_ev4",
+      "status": "completed",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-10-27 12:27:09,071 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:09,071 - INFO - ✅ Match found for investment_ID 'investment_kia_slovakia_ev4' in investment nodes
+2025-10-27 12:27:09,071 - INFO -   ➕ Set field 'status': completed
+2025-10-27 12:27:09,071 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-27 12:27:09,071 - INFO -   ➕ Set field 'is_total': True
+2025-10-27 12:27:09,071 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:27:09,071 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:27:10,181 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:10,181 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_ev4",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-27 12:27:10,182 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:10,182 - INFO - ✅ Match found for product_ID 'product_ev4' in product nodes
+2025-10-27 12:27:10,182 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-27 12:27:10,182 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-27 12:27:10,182 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:27:10,182 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:27:10,182 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:27:11,114 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:11,115 - INFO - {
+  "relationships": [
+    {
+      "source": "company_kia",
+      "type": "owns",
+      "target": "factory_teplicka_nad_vahom"
+    }
+  ]
+}
+2025-10-27 12:27:11,115 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:11,115 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:27:11,115 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:27:11,960 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:11,960 - INFO - {
+  "relationships": [
+    {
+      "source": "product_ev4",
+      "target": "factory_teplicka_nad_vahom",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:27:11,960 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:11,960 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-27 12:27:11,960 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-27 12:27:12,468 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:12,468 - INFO - {
+  "relationships": []
+}
+2025-10-27 12:27:12,468 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:12,468 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-27 12:27:12,468 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-27 12:27:13,786 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:27:13,787 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_kia_slovakia_ev4",
+      "type": "funds",
+      "target": "factory_teplicka_nad_vahom"
+    },
+    {
+      "source": "investment_kia_slovakia_ev4",
+      "type": "targets",
+      "target": "product_ev4"
+    }
+  ]
+}
+2025-10-27 12:27:13,787 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:27:13,832 - INFO - ✅ Updated Article ID: 68f4eaa0acf45d9af7c390f5 with 4 nodes and combined text.

@@ -1,0 +1,144 @@
+2025-10-29 10:40:08,695 - INFO - 🔍 Text length: 3862 characters
+2025-10-29 10:40:08,695 - INFO - 📌 Processing Article ID: 6901df13c18a8a0b3adcb9ac — Ford Europe Goes All-In on EVs on Road to Sustainable Profitability; Cologne Site Begins $1 Billion Transformation
+2025-10-29 10:40:08,695 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-29 10:40:11,673 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:11,673 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ford",
+        "type": "company",
+        "name": "Ford"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_cologne_germany",
+        "type": "factory",
+        "name": "Ford Cologne Electrification Center",
+        "location": {
+          "city": "Cologne",
+          "country": "Germany"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ford_cologne_transformation",
+        "type": "investment",
+        "name": "Ford Cologne Transformation",
+        "amount": "$1 billion",
+        "status": "announced"
+      },
+      {
+        "id": "investment_global_electrification",
+        "type": "investment",
+        "name": "Global Electrification",
+        "amount": "$22 billion",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_mustang_mach_e",
+        "type": "product",
+        "name": "Mustang Mach-E"
+      }
+    ]
+  }
+}
+2025-10-29 10:40:11,674 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:11,674 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-10-29 10:40:11,674 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-10-29 10:40:11,674 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-10-29 10:40:14,743 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:14,744 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ford_cologne_transformation",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_global_electrification",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-10-29 10:40:14,744 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:14,744 - INFO - ✅ Match found for investment_ID 'investment_ford_cologne_transformation' in investment nodes
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'status': announced
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'phase': retrofit
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'is_total': True
+2025-10-29 10:40:14,744 - INFO - ✅ Match found for investment_ID 'investment_global_electrification' in investment nodes
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'status': announced
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'phase': unclear
+2025-10-29 10:40:14,744 - INFO -   ➕ Set field 'is_total': False
+2025-10-29 10:40:14,744 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-29 10:40:14,744 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-29 10:40:16,455 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:16,456 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_mustang_mach_e",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-10-29 10:40:16,456 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:16,456 - INFO - ✅ Match found for product_ID 'product_mustang_mach_e' in product nodes
+2025-10-29 10:40:16,456 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-10-29 10:40:16,456 - INFO -   ➕ Set field 'product_lv2': electric
+2025-10-29 10:40:16,456 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-29 10:40:16,456 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-29 10:40:16,456 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-29 10:40:18,827 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:18,827 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ford",
+      "type": "owns",
+      "target": "factory_cologne_germany"
+    }
+  ]
+}
+2025-10-29 10:40:18,827 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:18,827 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-29 10:40:18,827 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-29 10:40:20,621 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:20,621 - INFO - {
+  "relationships": [
+    {
+      "source": "product_mustang_mach_e",
+      "target": "factory_cologne_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-29 10:40:20,621 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:20,621 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-10-29 10:40:20,622 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-10-29 10:40:24,162 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:24,162 - INFO - {
+  "relationships": []
+}
+2025-10-29 10:40:24,162 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:24,162 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-10-29 10:40:24,162 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-10-29 10:40:29,718 - INFO - ✅ OpenAI returned output:
+2025-10-29 10:40:29,718 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ford_cologne_transformation",
+      "target": "factory_cologne_germany",
+      "type": "funds"
+    }
+  ]
+}
+2025-10-29 10:40:29,718 - INFO - POST-PROCESSING STARTING.
+2025-10-29 10:40:29,803 - INFO - ✅ Updated Article ID: 6901df13c18a8a0b3adcb9ac with 5 nodes and combined text.

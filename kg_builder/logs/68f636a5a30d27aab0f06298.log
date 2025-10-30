@@ -1,0 +1,210 @@
+2025-10-27 12:17:09,960 - INFO - 🔍 Text length: 4977 characters
+2025-10-27 12:17:09,960 - INFO - 📌 Processing Article ID: 68f636a5a30d27aab0f06298 — GFG Alliance signs MoU with Romanian Government to create a European GREENSTEEL flagship at LIBERTY Galati
+2025-10-27 12:17:09,960 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:17:14,504 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:17:14,504 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_gfg_alliance",
+        "type": "company",
+        "name": "GFG Alliance"
+      },
+      {
+        "id": "company_romgaz",
+        "type": "company",
+        "name": "Romgaz"
+      },
+      {
+        "id": "company_eximbank_romania",
+        "type": "company",
+        "name": "EximBank Romania"
+      },
+      {
+        "id": "company_liberty_steel_group",
+        "type": "company",
+        "name": "LIBERTY Steel Group"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_liberty_galati",
+        "type": "factory",
+        "name": "LIBERTY Galati",
+        "location": {
+          "city": "Galati",
+          "country": "Romania"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_2_5m_tonnes_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "2.5 million tonnes",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_4m_tonnes_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "4 million tonnes",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_greensteel",
+        "type": "product",
+        "name": "GREENSTEEL"
+      },
+      {
+        "id": "product_dri",
+        "type": "product",
+        "name": "Direct Reduced Iron (DRI)"
+      },
+      {
+        "id": "product_cast_slabs",
+        "type": "product",
+        "name": "cast slabs"
+      },
+      {
+        "id": "product_hot_rolled_coil",
+        "type": "product",
+        "name": "hot rolled coil"
+      }
+    ]
+  }
+}
+2025-10-27 12:17:14,505 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:17:14,505 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-27 12:17:14,505 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-27 12:17:17,703 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:17:17,703 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_2_5m_tonnes_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_4m_tonnes_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-10-27 12:17:17,703 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:17:17,703 - INFO - ✅ Match found for capacity_ID 'capacity_2_5m_tonnes_announced' in capacity nodes
+2025-10-27 12:17:17,703 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:17:17,703 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:17:17,703 - INFO -   ➕ Set field 'additional': False
+2025-10-27 12:17:17,704 - INFO - ✅ Match found for capacity_ID 'capacity_4m_tonnes_announced' in capacity nodes
+2025-10-27 12:17:17,704 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:17:17,704 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:17:17,704 - INFO -   ➕ Set field 'additional': True
+2025-10-27 12:17:17,704 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:17:17,704 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:17:17,704 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:17:20,192 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:17:20,192 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_greensteel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_dri",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_cast_slabs",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_hot_rolled_coil",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-10-27 12:17:20,192 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:17:20,192 - INFO - ✅ Match found for product_ID 'product_greensteel' in product nodes
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:17:20,192 - INFO - ✅ Match found for product_ID 'product_dri' in product nodes
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-27 12:17:20,192 - INFO - ✅ Match found for product_ID 'product_cast_slabs' in product nodes
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:17:20,192 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:17:20,192 - INFO - ✅ Match found for product_ID 'product_hot_rolled_coil' in product nodes
+2025-10-27 12:17:20,193 - INFO -   ➕ Set field 'product_lv1': steel
+2025-10-27 12:17:20,193 - INFO -   ➕ Set field 'product_lv2': null
+2025-10-27 12:17:20,193 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:17:20,193 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:17:20,193 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:17:21,059 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:17:21,059 - INFO - {
+  "relationships": [
+    {
+      "source": "company_gfg_alliance",
+      "type": "owns",
+      "target": "factory_liberty_galati"
+    }
+  ]
+}
+2025-10-27 12:17:21,059 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:17:21,059 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:17:21,059 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:17:23,128 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:17:23,129 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_2_5m_tonnes_announced",
+      "target": "factory_liberty_galati",
+      "type": "at"
+    },
+    {
+      "source": "capacity_4m_tonnes_announced",
+      "target": "factory_liberty_galati",
+      "type": "at"
+    },
+    {
+      "source": "capacity_2_5m_tonnes_announced",
+      "target": "product_dri",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_dri",
+      "target": "factory_liberty_galati",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_cast_slabs",
+      "target": "factory_liberty_galati",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_hot_rolled_coil",
+      "target": "factory_liberty_galati",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_4m_tonnes_announced",
+      "target": "product_greensteel",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-10-27 12:17:23,129 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:17:23,129 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:17:23,129 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:17:23,183 - INFO - ✅ Updated Article ID: 68f636a5a30d27aab0f06298 with 11 nodes and combined text.

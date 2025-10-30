@@ -1,0 +1,249 @@
+2025-10-27 12:18:56,789 - INFO - 🔍 Text length: 6203 characters
+2025-10-27 12:18:56,789 - INFO - 📌 Processing Article ID: 68f634e0a30d27aab0f0628c — Historic permit application decisive for green transition in the north
+2025-10-27 12:18:56,789 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-10-27 12:19:00,591 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:00,591 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ssab",
+        "type": "company",
+        "name": "SSAB"
+      },
+      {
+        "id": "company_vattenfall",
+        "type": "company",
+        "name": "Vattenfall"
+      },
+      {
+        "id": "company_lkab",
+        "type": "company",
+        "name": "LKAB"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_hybrit",
+        "type": "joint_venture",
+        "name": "HYBRIT"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_gallivare",
+        "type": "factory",
+        "name": "G\u00e4llivare",
+        "location": {
+          "city": "G\u00e4llivare",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_oxelosund",
+        "type": "factory",
+        "name": "Oxel\u00f6sund",
+        "location": {
+          "city": "Oxel\u00f6sund",
+          "country": "Sweden"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_lulea",
+        "type": "factory",
+        "name": "Lule\u00e5",
+        "location": {
+          "city": "Lule\u00e5",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_5_4_million_tonnes_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "5.4 million tonnes per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_1_1_5_million_tonnes_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1 to 1.5 million tonnes per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_sponge_iron",
+        "type": "product",
+        "name": "sponge iron"
+      },
+      {
+        "id": "product_apatite_concentrate",
+        "type": "product",
+        "name": "apatite concentrate"
+      },
+      {
+        "id": "product_phosphorus",
+        "type": "product",
+        "name": "phosphorus"
+      },
+      {
+        "id": "product_rare_earth_metals",
+        "type": "product",
+        "name": "rare earth metals"
+      }
+    ]
+  }
+}
+2025-10-27 12:19:00,591 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:00,591 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-10-27 12:19:00,592 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-10-27 12:19:02,024 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:02,024 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_5_4_million_tonnes_announced",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_1_1_5_million_tonnes_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-10-27 12:19:02,024 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:02,024 - INFO - ✅ Match found for capacity_ID 'capacity_5_4_million_tonnes_announced' in capacity nodes
+2025-10-27 12:19:02,024 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:19:02,024 - INFO -   ➕ Set field 'phase': expansion
+2025-10-27 12:19:02,024 - INFO -   ➕ Set field 'additional': False
+2025-10-27 12:19:02,024 - INFO - ✅ Match found for capacity_ID 'capacity_1_1_5_million_tonnes_announced' in capacity nodes
+2025-10-27 12:19:02,024 - INFO -   ➕ Set field 'status': announced
+2025-10-27 12:19:02,025 - INFO -   ➕ Set field 'phase': greenfield
+2025-10-27 12:19:02,025 - INFO -   ➕ Set field 'additional': False
+2025-10-27 12:19:02,025 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-10-27 12:19:02,025 - INFO - 🔍 Extracting characteristics for node group: products
+2025-10-27 12:19:02,025 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-10-27 12:19:04,805 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:04,806 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_sponge_iron",
+      "product_lv1": "iron",
+      "product_lv2": "hydrogen DRI"
+    },
+    {
+      "product_ID": "product_apatite_concentrate",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_phosphorus",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_rare_earth_metals",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-10-27 12:19:04,806 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:04,806 - INFO - ✅ Match found for product_ID 'product_sponge_iron' in product nodes
+2025-10-27 12:19:04,806 - INFO -   ➕ Set field 'product_lv1': iron
+2025-10-27 12:19:04,806 - INFO -   ➕ Set field 'product_lv2': hydrogen DRI
+2025-10-27 12:19:04,806 - INFO - ✅ Match found for product_ID 'product_apatite_concentrate' in product nodes
+2025-10-27 12:19:04,806 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-27 12:19:04,806 - INFO - ✅ Match found for product_ID 'product_phosphorus' in product nodes
+2025-10-27 12:19:04,806 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-27 12:19:04,806 - INFO - ✅ Match found for product_ID 'product_rare_earth_metals' in product nodes
+2025-10-27 12:19:04,806 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-10-27 12:19:04,806 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-10-27 12:19:04,806 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-10-27 12:19:04,806 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-10-27 12:19:07,331 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:07,331 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ssab",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "company_vattenfall",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "company_lkab",
+      "type": "forms",
+      "target": "joint_venture_hybrit"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_gallivare"
+    },
+    {
+      "source": "company_ssab",
+      "type": "owns",
+      "target": "factory_oxelosund"
+    },
+    {
+      "source": "company_lkab",
+      "type": "owns",
+      "target": "factory_lulea"
+    }
+  ]
+}
+2025-10-27 12:19:07,331 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:07,331 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-10-27 12:19:07,331 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-10-27 12:19:10,727 - INFO - ✅ OpenAI returned output:
+2025-10-27 12:19:10,728 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_5_4_million_tonnes_announced",
+      "target": "factory_gallivare",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_1_5_million_tonnes_announced",
+      "target": "factory_gallivare",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_sponge_iron",
+      "target": "factory_gallivare",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_apatite_concentrate",
+      "target": "factory_gallivare",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_phosphorus",
+      "target": "factory_lulea",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_rare_earth_metals",
+      "target": "factory_lulea",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-10-27 12:19:10,728 - INFO - POST-PROCESSING STARTING.
+2025-10-27 12:19:10,728 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-10-27 12:19:10,728 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-10-27 12:19:10,787 - INFO - ✅ Updated Article ID: 68f634e0a30d27aab0f0628c with 13 nodes and combined text.

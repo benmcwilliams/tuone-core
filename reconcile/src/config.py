@@ -56,7 +56,7 @@ grouped_capacities_cols = [
     "inst_canon", "inst_type", "iso2", "factory", "admin_group_key",
     "product", "product_lv1", "product_lv2", "factory_status", "date",
     "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", "additional", "capacity_id", 
-    "project_id", "project_key_str",
+    "project_id", "project_key_str", "vehicle_touches",
     "investment", "amount_EUR", "investment_status", "investment_phase", "is_total", 
     "lat", "lon", "city_key", "adm1", "adm2", "adm3", "adm4",
     "article_id", "investment_id"

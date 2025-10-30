@@ -11,7 +11,9 @@ ADMIN_LEVEL_BY_ISO2: dict[str, str | list[str]] = {
     "BE": "adm3",
     "BG": ["adm2", "adm1"],
     "CZ": ["adm3", "adm1"], # Prague only has adm1...
+    "DK": "adm2",
     "DE": "adm4",
+    "ES": "adm3",
     "HU": "adm1",
     "HR": "adm1",
     "FI": "adm3",
