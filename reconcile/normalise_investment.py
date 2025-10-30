@@ -103,7 +103,6 @@ MULTI_SYMBOL_TO_ISO = {
     "€": "EUR"
 }
 
-
 # Recognize krona/kronor/krone/kroner (incl. accented forms)
 KRON_WORDS_RE = re.compile(r"\b(krona|kronor|krone|kroner|krónur|króna)\b", re.IGNORECASE)
 KRON_ROOT_RE  = re.compile(r"\bkron[a-záú]*\b", re.IGNORECASE)
@@ -195,7 +194,6 @@ def detect_currency_iso(text: str) -> str | None:
 
     return None
 
-
 #To drop currency tokens from text - drop in the final version
 def remove_currency_tokens(text: str) -> str:
     if not isinstance(text, str) or not text.strip():
@@ -240,7 +238,6 @@ def remove_currency_tokens(text: str) -> str:
 
     return _normalize_spaces(cleaned)
 
-
 # ======= Numeric parsing bits =======
 SCALE_MAP = {
     "thousand": 1e3, "thousands": 1e3, "k": 1e3, "K": 1e3, "kilo": 1e3, "kilos": 1e3,
@@ -283,7 +280,6 @@ def _to_float(s: str) -> float:
 
 def _join_currency_rest(*parts):
     return " ".join(p for p in (p.strip() for p in parts) if p)
-
 
 SCALE_TOKEN = r"(thousand|million|billion|trillion|k|m|mn|mln|b|bn|bln)"
 
@@ -341,6 +337,7 @@ REGEX_PATTERNS = {
 
 # Remove (...) blocks completely (and the parentheses themselves)
 PARENS_RE = re.compile(r"\([^)]*\)")
+
 def _drop_parentheses(text: str) -> str:
     if not isinstance(text, str):
         return text

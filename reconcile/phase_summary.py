@@ -284,10 +284,10 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     if op:
         summary["operational_on"] = op["date"]
     elif uc:
-        # Rule 2: no operational date → set to construction + 2 years
+        # Rule 2: no operational date → set to construction + 3 years
         uc_dt = parse_date(uc["date"])
         if pd.notna(uc_dt):
-            op_dt = uc_dt + pd.DateOffset(years=2)
+            op_dt = uc_dt + pd.DateOffset(years=3)
             summary["operational_on"] = op_dt.strftime("%Y-%m-%d")
 
     # --- Rule 3: backfill earlier milestones from an operational date ---
@@ -297,15 +297,15 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
             ann_dt = parse_date(ann["date"]) if ann else None
             uc_dt  = parse_date(uc["date"]) if uc else None
 
-            # Case A: both missing → set both to (op - 2 years)
+            # Case A: both missing → set both to (op - 3 years)
             if ann_dt is None and uc_dt is None:
-                backfill = (op_dt - pd.DateOffset(years=2)).strftime("%Y-%m-%d")
+                backfill = (op_dt - pd.DateOffset(years=3)).strftime("%Y-%m-%d")
                 summary["announced_on"] = backfill
                 summary["under_construction_on"] = backfill
 
             # Case B: announced exists but construction missing
             elif ann_dt is not None and uc_dt is None:
-                two_years_before = op_dt - pd.DateOffset(years=2)
+                two_years_before = op_dt - pd.DateOffset(years=3)
                 use_dt = ann_dt if ann_dt > two_years_before else two_years_before
                 summary["under_construction_on"] = use_dt.strftime("%Y-%m-%d")
 

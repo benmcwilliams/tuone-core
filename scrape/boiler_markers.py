@@ -81,6 +81,7 @@ BOILER_STRINGS = {
     "Combine business intelligence and editorial excellence to reach engaged professionals across 36 leading media platforms.",
     "Follow offshoreWIND.biz on:",
     "Daily news and in-depth stories in your inbox",
-
+    "+ + Kindly see our updates below + +",
+    "Stay up to date with the latest news, trends and innovations that are driving the global automotive industry with the Reuters Auto."
     # …add any other exact lines you see
 }

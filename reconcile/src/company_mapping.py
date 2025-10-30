@@ -39,6 +39,8 @@ SITE_MERGE = {
     ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
     ("porsche", "DE", "Kirchentellinsfurt"): "Reutlingen",
     ("valmet automotive", "DE", "Bad Friedrichshall"): "Kirchardt",
+    ("bmw", "GB", "Swindon"): "Oxfordshire",
+    ("hyundai mobis", "ES", "Navarre"): "Pamplona"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
@@ -48,6 +50,7 @@ JV_MERGE = {
     # ("acc battery JV", "DE", "Arnstadt", "battery"): "catl",
     # ("some JV", "FR", "Fos-sur-Mer", "recycling"): "carbon",
     ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
+    ("stellantis", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
     ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
@@ -57,6 +60,8 @@ JV_MERGE = {
     ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
     ("chery", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("ebro", "ES", "Catalonia", "vehicle"): "chery ebro",
+    ("chery", "ES", "Barcelona", "vehicle"): "chery ebro",
+    ("ebro", "ES", "Barcelona", "vehicle"): "chery ebro",
     ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
     ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
     ("renault", "FR", "Douai", "battery"): "aesc",
@@ -70,4 +75,10 @@ JV_MERGE = {
     ("tata motors", "GB", "Somerset", "battery"): "agratas",
     ("envision", "GB", "Sunderland", "battery"): "aesc",
     ("nissan envision aesc", "GB", "Sunderland", "battery"): "aesc",
+    ("nissan envision aesc", "GB", "Sunderland", "vehicle"): "nissan",
+    ("skoda", "SK", "Bratislava", "vehicle"): "volkswagen",
+    ("seat", "ES", "Navarre", "vehicle"): "volkswagen",
+    ("volkswagen", "ES", "Catalonia", "vehicle"): "seat",
+    ("cupra", "ES", "Catalonia", "vehicle"): "seat",
+    ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda"
 }
