@@ -5,6 +5,7 @@ from mongo_client import facilities_collection
 from src.main_helpers import log_nodes_for_article
 from src.logger import setup_logger
 from src.merge_helpers import make_context_from_frames
+from ev_volumes import build_zev_og_clean_excel
 from normalise_products import classify_products_sync_mongo
 from normalise_owners import clean_owner_names
 from query_geonames import query_geonames_new_cities
@@ -54,6 +55,9 @@ def main(update_mongo_metadata=False, update_main_database=False):
         # classify_products_sync_mongo()
 
     if update_main_database:
+
+        logging.info("Update EV Volumes data")
+        build_zev_og_clean_excel()
 
         logging.info("🗞️ Flattening articles...")
         nodes_df, rels_df = run_flatten_articles(save=False)
