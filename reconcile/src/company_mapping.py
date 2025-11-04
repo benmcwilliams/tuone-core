@@ -40,7 +40,8 @@ SITE_MERGE = {
     ("porsche", "DE", "Kirchentellinsfurt"): "Reutlingen",
     ("valmet automotive", "DE", "Bad Friedrichshall"): "Kirchardt",
     ("bmw", "GB", "Swindon"): "Oxfordshire",
-    ("hyundai mobis", "ES", "Navarre"): "Pamplona"
+    ("hyundai mobis", "ES", "Navarre"): "Pamplona",
+    ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
@@ -80,5 +81,8 @@ JV_MERGE = {
     ("seat", "ES", "Navarre", "vehicle"): "volkswagen",
     ("volkswagen", "ES", "Catalonia", "vehicle"): "seat",
     ("cupra", "ES", "Catalonia", "vehicle"): "seat",
-    ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda"
+    ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
+    ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
+    ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
+    ("stellantis", "IT", "Torino", "vehicle"): "fiat"
 }
