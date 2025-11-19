@@ -29,6 +29,7 @@ CAPEX_DICT = {
       "product_lv2_key": ("electric",),
       "capacity_unit": "EUR/vehicle",
       "capex_per_unit": 5_500,                     # EUR per vehicle/y capacity
+      "capex_per_unit_retrofit": 2_000,
       "source": "Rhodium-Bruegel",
     },
     {
