@@ -1,0 +1,267 @@
+2025-11-02 16:20:33,098 - INFO - 🔍 Text length: 1616 characters
+2025-11-02 16:20:33,098 - INFO - 📌 Processing Article ID: 6907766b65d16ca2099dc575 — Stellantis will produce electric vehicles in Portugal
+2025-11-02 16:20:33,098 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-02 16:20:37,928 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:37,928 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_central_portugal",
+        "type": "factory",
+        "name": "Stellantis Central Portugal Factory",
+        "location": {
+          "city": "Central Portugal",
+          "country": "Portugal"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_mangualde",
+        "type": "factory",
+        "name": "Stellantis Mangualde Factory",
+        "location": {
+          "city": "Mangualde",
+          "country": "Portugal"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_portugal_expansion",
+        "type": "investment",
+        "name": "Stellantis Portugal Expansion",
+        "amount": "119 million euros",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_50k_electric_vehicles_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "50,000 electric vehicles per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_citroen_\u00eb_berlingo",
+        "type": "product",
+        "name": "Citro\u00ebn \u00eb-Berlingo"
+      },
+      {
+        "id": "product_peugeot_e_partner",
+        "type": "product",
+        "name": "Peugeot e-Partner"
+      },
+      {
+        "id": "product_opel_combo_e",
+        "type": "product",
+        "name": "Opel Combo-e"
+      },
+      {
+        "id": "product_fiat_e_doblo",
+        "type": "product",
+        "name": "Fiat e-Dobl\u00f2"
+      }
+    ]
+  }
+}
+2025-11-02 16:20:37,928 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:37,928 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-02 16:20:37,929 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-02 16:20:40,080 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:40,080 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_50k_electric_vehicles_per_year",
+      "status": "announced",
+      "phase": "expansion",
+      "additional": true
+    }
+  ]
+}
+2025-11-02 16:20:40,080 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:40,080 - INFO - ✅ Match found for capacity_ID 'capacity_50k_electric_vehicles_per_year' in capacity nodes
+2025-11-02 16:20:40,080 - INFO -   ➕ Set field 'status': announced
+2025-11-02 16:20:40,081 - INFO -   ➕ Set field 'phase': expansion
+2025-11-02 16:20:40,081 - INFO -   ➕ Set field 'additional': True
+2025-11-02 16:20:40,081 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-02 16:20:40,081 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-02 16:20:42,624 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:42,625 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_portugal_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-11-02 16:20:42,625 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:42,625 - INFO - ✅ Match found for investment_ID 'investment_stellantis_portugal_expansion' in investment nodes
+2025-11-02 16:20:42,625 - INFO -   ➕ Set field 'status': announced
+2025-11-02 16:20:42,625 - INFO -   ➕ Set field 'phase': expansion
+2025-11-02 16:20:42,625 - INFO -   ➕ Set field 'is_total': False
+2025-11-02 16:20:42,625 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-02 16:20:42,625 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-02 16:20:44,891 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:44,891 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_citroen_\u00eb_berlingo",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_peugeot_e_partner",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_opel_combo_e",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_fiat_e_doblo",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-11-02 16:20:44,891 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:44,891 - INFO - ✅ Match found for product_ID 'product_citroen_ë_berlingo' in product nodes
+2025-11-02 16:20:44,891 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-02 16:20:44,892 - INFO - ✅ Match found for product_ID 'product_peugeot_e_partner' in product nodes
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-02 16:20:44,892 - INFO - ✅ Match found for product_ID 'product_opel_combo_e' in product nodes
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-02 16:20:44,892 - INFO - ✅ Match found for product_ID 'product_fiat_e_doblo' in product nodes
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-02 16:20:44,892 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-02 16:20:44,892 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-02 16:20:44,892 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-02 16:20:44,892 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-02 16:20:47,147 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:47,147 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_central_portugal"
+    },
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_mangualde"
+    }
+  ]
+}
+2025-11-02 16:20:47,147 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:47,147 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-02 16:20:47,147 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-02 16:20:52,121 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:52,122 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "factory_mangualde",
+      "type": "at"
+    },
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "product_citroen_\u00eb_berlingo",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "product_peugeot_e_partner",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "product_opel_combo_e",
+      "type": "quantifies"
+    },
+    {
+      "source": "capacity_50k_electric_vehicles_per_year",
+      "target": "product_fiat_e_doblo",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_citroen_\u00eb_berlingo",
+      "target": "factory_mangualde",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_peugeot_e_partner",
+      "target": "factory_mangualde",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_opel_combo_e",
+      "target": "factory_mangualde",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_fiat_e_doblo",
+      "target": "factory_mangualde",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-02 16:20:52,122 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:52,122 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-02 16:20:52,122 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-02 16:20:52,595 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:52,596 - INFO - {
+  "relationships": []
+}
+2025-11-02 16:20:52,596 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:52,596 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-02 16:20:52,596 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-02 16:20:54,212 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:20:54,212 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_portugal_expansion",
+      "target": "factory_central_portugal",
+      "type": "funds"
+    },
+    {
+      "source": "investment_stellantis_portugal_expansion",
+      "target": "product_citroen_\u00eb_berlingo",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_portugal_expansion",
+      "target": "product_peugeot_e_partner",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_portugal_expansion",
+      "target": "product_opel_combo_e",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_portugal_expansion",
+      "target": "product_fiat_e_doblo",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-02 16:20:54,212 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:20:54,232 - INFO - ✅ Updated Article ID: 6907766b65d16ca2099dc575 with 9 nodes and combined text.

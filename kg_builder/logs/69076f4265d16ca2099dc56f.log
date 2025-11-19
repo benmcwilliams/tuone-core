@@ -1,0 +1,132 @@
+2025-11-02 15:57:50,825 - INFO - 🔍 Text length: 1582 characters
+2025-11-02 15:57:50,826 - INFO - 📌 Processing Article ID: 69076f4265d16ca2099dc56f — Fiat Chrysler to invest 755 mln zlotys in Poland, says Deputy PM
+2025-11-02 15:57:50,826 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-02 15:57:54,525 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:57:54,526 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_fiat_chrysler",
+        "type": "company",
+        "name": "Fiat Chrysler"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_tychy_poland",
+        "type": "factory",
+        "name": "Tychy Plant",
+        "location": {
+          "city": "Tychy",
+          "country": "Poland"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_fiat_chrysler_tychy_plant_expansion",
+        "type": "investment",
+        "name": "Fiat Chrysler Tychy Plant Expansion",
+        "amount": "755 million zlotys ($203.99 million)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_hybrid_electric_jeep_fiat_alfa_romeo_models",
+        "type": "product",
+        "name": "hybrid and electric Jeep, Fiat and Alfa Romeo models"
+      }
+    ]
+  }
+}
+2025-11-02 15:57:54,526 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:57:54,526 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-02 15:57:54,526 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-02 15:57:54,526 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-02 15:57:58,069 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:57:58,069 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_fiat_chrysler_tychy_plant_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": false
+    }
+  ]
+}
+2025-11-02 15:57:58,069 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:57:58,069 - INFO - ✅ Match found for investment_ID 'investment_fiat_chrysler_tychy_plant_expansion' in investment nodes
+2025-11-02 15:57:58,069 - INFO -   ➕ Set field 'status': announced
+2025-11-02 15:57:58,069 - INFO -   ➕ Set field 'phase': expansion
+2025-11-02 15:57:58,069 - INFO -   ➕ Set field 'is_total': False
+2025-11-02 15:57:58,069 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-02 15:57:58,069 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-02 15:57:59,152 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:57:59,152 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_hybrid_electric_jeep_fiat_alfa_romeo_models",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-11-02 15:57:59,152 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:57:59,152 - INFO - ✅ Match found for product_ID 'product_hybrid_electric_jeep_fiat_alfa_romeo_models' in product nodes
+2025-11-02 15:57:59,152 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-02 15:57:59,152 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-02 15:57:59,152 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-02 15:57:59,152 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-02 15:57:59,153 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-02 15:58:01,148 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:58:01,148 - INFO - {
+  "relationships": [
+    {
+      "source": "company_fiat_chrysler",
+      "type": "owns",
+      "target": "factory_tychy_poland"
+    }
+  ]
+}
+2025-11-02 15:58:01,148 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:58:01,148 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-02 15:58:01,148 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-02 15:58:03,208 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:58:03,208 - INFO - {
+  "relationships": [
+    {
+      "source": "product_hybrid_electric_jeep_fiat_alfa_romeo_models",
+      "target": "factory_tychy_poland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-02 15:58:03,208 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:58:03,208 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-02 15:58:03,208 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-02 15:58:04,013 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:58:04,013 - INFO - {
+  "relationships": []
+}
+2025-11-02 15:58:04,013 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:58:04,013 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-02 15:58:04,013 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-02 15:58:07,001 - INFO - ✅ OpenAI returned output:
+2025-11-02 15:58:07,001 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_fiat_chrysler_tychy_plant_expansion",
+      "target": "factory_tychy_poland",
+      "type": "funds"
+    },
+    {
+      "source": "investment_fiat_chrysler_tychy_plant_expansion",
+      "target": "product_hybrid_electric_jeep_fiat_alfa_romeo_models",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-02 15:58:07,001 - INFO - POST-PROCESSING STARTING.
+2025-11-02 15:58:07,034 - INFO - ✅ Updated Article ID: 69076f4265d16ca2099dc56f with 4 nodes and combined text.

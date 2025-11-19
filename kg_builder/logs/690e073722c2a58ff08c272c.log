@@ -1,0 +1,129 @@
+2025-11-12 17:24:29,830 - INFO - 🔍 Text length: 795 characters
+2025-11-12 17:24:29,830 - INFO - 📌 Processing Article ID: 690e073722c2a58ff08c272c — Aleo website
+2025-11-12 17:24:29,830 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-12 17:24:33,197 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:24:33,197 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_aleo_solar_gmbh",
+        "type": "company",
+        "name": "Aleo Solar GmbH"
+      },
+      {
+        "id": "company_sas_group",
+        "type": "company",
+        "name": "SAS Group"
+      },
+      {
+        "id": "company_sino_american_silicon_products_ltd",
+        "type": "company",
+        "name": "Sino American Silicon Products Ltd"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_prenzlau_germany",
+        "type": "factory",
+        "name": "Prenzlau Plant",
+        "location": {
+          "city": "Prenzlau",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_280_megawatts_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "280 megawatts",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_systems_module",
+        "type": "product",
+        "name": "Photovoltaic Systems Module"
+      }
+    ]
+  }
+}
+2025-11-12 17:24:33,197 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:24:33,197 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-12 17:24:33,197 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-12 17:24:34,775 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:24:34,775 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_280_megawatts_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-11-12 17:24:34,775 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:24:34,775 - INFO - ✅ Match found for capacity_ID 'capacity_280_megawatts_operational' in capacity nodes
+2025-11-12 17:24:34,775 - INFO -   ➕ Set field 'status': operational
+2025-11-12 17:24:34,775 - INFO -   ➕ Set field 'phase': unclear
+2025-11-12 17:24:34,775 - INFO -   ➕ Set field 'additional': False
+2025-11-12 17:24:34,775 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-12 17:24:34,776 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-12 17:24:34,776 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-12 17:24:36,692 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:24:36,692 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_photovoltaic_systems_module",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-12 17:24:36,693 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:24:36,693 - INFO - ✅ Match found for product_ID 'product_photovoltaic_systems_module' in product nodes
+2025-11-12 17:24:36,693 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:24:36,693 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:24:36,693 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-12 17:24:36,693 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-12 17:24:36,693 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-12 17:24:38,658 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:24:38,658 - INFO - {
+  "relationships": [
+    {
+      "source": "company_aleo_solar_gmbh",
+      "type": "owns",
+      "target": "factory_prenzlau_germany"
+    }
+  ]
+}
+2025-11-12 17:24:38,658 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:24:38,658 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-12 17:24:38,659 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-12 17:24:41,503 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:24:41,504 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_280_megawatts_operational",
+      "target": "factory_prenzlau_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_280_megawatts_operational",
+      "target": "product_photovoltaic_systems_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_photovoltaic_systems_module",
+      "target": "factory_prenzlau_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-12 17:24:41,504 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:24:41,504 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-12 17:24:41,504 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-12 17:24:41,599 - INFO - ✅ Updated Article ID: 690e073722c2a58ff08c272c with 6 nodes and combined text.

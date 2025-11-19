@@ -1,0 +1,146 @@
+2025-11-12 17:09:14,547 - INFO - 🔍 Text length: 1607 characters
+2025-11-12 17:09:14,547 - INFO - 📌 Processing Article ID: 6910f013e6993c98e5ca7c01 — Deal reached to keep Energyra module production in the Netherlands
+2025-11-12 17:09:14,547 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-12 17:09:18,248 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:09:18,248 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_energyra",
+        "type": "company",
+        "name": "Energyra"
+      },
+      {
+        "id": "company_ecn",
+        "type": "company",
+        "name": "ECN"
+      },
+      {
+        "id": "company_formula_e",
+        "type": "company",
+        "name": "Formula E"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_zaanstad_north_holland",
+        "type": "factory",
+        "name": "Zaanstad Factory",
+        "location": {
+          "city": "Zaanstad",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_metal_wrap_through_cell_technology",
+        "type": "product",
+        "name": "metal wrap-through (MWT) cell technology"
+      },
+      {
+        "id": "product_solar_modules",
+        "type": "product",
+        "name": "solar modules"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_100_mw_announced_greenfield",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "100 MW",
+        "status": "announced"
+      }
+    ]
+  }
+}
+2025-11-12 17:09:18,249 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:09:18,249 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-12 17:09:18,249 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-12 17:09:21,933 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:09:21,933 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_100_mw_announced_greenfield",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-12 17:09:21,933 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:09:21,933 - INFO - ✅ Match found for capacity_ID 'capacity_100_mw_announced_greenfield' in capacity nodes
+2025-11-12 17:09:21,933 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:09:21,933 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-12 17:09:21,933 - INFO -   ➕ Set field 'additional': False
+2025-11-12 17:09:21,933 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-12 17:09:21,934 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-12 17:09:21,934 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-12 17:09:23,606 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:09:23,606 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_metal_wrap_through_cell_technology",
+      "product_lv1": "solar",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_solar_modules",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-12 17:09:23,606 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:09:23,606 - INFO - ✅ Match found for product_ID 'product_metal_wrap_through_cell_technology' in product nodes
+2025-11-12 17:09:23,606 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:09:23,606 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-12 17:09:23,606 - INFO - ✅ Match found for product_ID 'product_solar_modules' in product nodes
+2025-11-12 17:09:23,606 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:09:23,606 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:09:23,606 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-12 17:09:23,606 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-12 17:09:23,606 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-12 17:09:25,614 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:09:25,614 - INFO - {
+  "relationships": [
+    {
+      "source": "company_energyra",
+      "type": "owns",
+      "target": "factory_zaanstad_north_holland"
+    }
+  ]
+}
+2025-11-12 17:09:25,615 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:09:25,615 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-12 17:09:25,615 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-12 17:09:29,125 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:09:29,126 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_100_mw_announced_greenfield",
+      "target": "factory_zaanstad_north_holland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_100_mw_announced_greenfield",
+      "target": "product_solar_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_modules",
+      "target": "factory_zaanstad_north_holland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-12 17:09:29,126 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:09:29,126 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-12 17:09:29,126 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-12 17:09:29,232 - INFO - ✅ Updated Article ID: 6910f013e6993c98e5ca7c01 with 7 nodes and combined text.

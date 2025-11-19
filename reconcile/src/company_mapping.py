@@ -41,7 +41,16 @@ SITE_MERGE = {
     ("valmet automotive", "DE", "Bad Friedrichshall"): "Kirchardt",
     ("bmw", "GB", "Swindon"): "Oxfordshire",
     ("hyundai mobis", "ES", "Navarre"): "Pamplona",
-    ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality"
+    ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
+    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
+    ("enel", "IT", "Sicily"): "Catania",
+    ("atersa", "ES", "Almussafes"): "Valencia",
+    ("futurasun", "IT", "Cittadella"): "Padova",
+    ("meyer burger", "DE", "Bitterfeld-Wolfen"): "Thalheim",
+    ("meyer burger", "DE", "Thalheim/Erzgeb."): "Thalheim",
+    ("midsummer", "IT", "Bari"): "Apulia",
+    ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
+    ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

@@ -164,11 +164,13 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     capacity = None             # the cumulative capacity
     phase_capacity = None       # capacity specific to this phase 
+    capacity_article_id = None  # initialise
 
     if cap_rows:
         latest = cap_rows[0]
         v = latest.get("capacity")          # the value
         add = latest.get("additional")      # is it an explicitly additional value
+        capacity_article_id = latest.get("articleID")
 
         if add is True:
             # explicit incremental update
@@ -213,18 +215,21 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         latest = inv_rows[0]
         v = latest.get("investment")
         total = latest.get("is_total")
+        investment_article_id = latest.get("articleID")
 
     # otherwise, take the best implied investment
     elif imputed_rows:
         latest = imputed_rows[0]
         v = latest.get("investment_imputed")
         total = latest.get("is_total")
+        investment_article_id = latest.get("articleID")
         investment_was_imputed = True
 
     else:
         latest = None
         v = None
         total = None
+        investment_article_id = None
 
     if latest:
         if total is True:
@@ -248,14 +253,17 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     summary = {
         "status": best_status_row["status"],
+        "status_article_id": best_status_row.get("articleID"),
         "phase_capacity": phase_capacity,
         "capacity": capacity,
+        "capacity_article_id": capacity_article_id,
         "phase_investment": phase_investment,
         "investment": investment,
         "investment_was_imputed": investment_was_imputed,
+        "investment_article_id": investment_article_id,
         "source_date": best_status_row["date"],
     }
-
+    
     # ------------- set CHRONOLOGY ----------------
     # add chronological milestone dates with two rules:
     # 1) construction can count as announcement if earlier (or announcement missing)
@@ -278,11 +286,14 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
 
     if ann:
         summary["announced_on"] = ann["date"]
+        summary["announced_article_id"] = ann.get("articleID")
     if uc:
         summary["under_construction_on"] = uc["date"]
+        summary["under_construction_article_id"] = uc.get("articleID")
 
     if op:
         summary["operational_on"] = op["date"]
+        summary["operational_article_id"] = op.get("articleID")
     elif uc:
         # Rule 2: no operational date → set to construction + 3 years
         uc_dt = parse_date(uc["date"])

@@ -1,0 +1,173 @@
+2025-11-02 16:41:24,730 - INFO - 🔍 Text length: 2722 characters
+2025-11-02 16:41:24,730 - INFO - 📌 Processing Article ID: 69077ae165d16ca2099dc579 — Eisenach plant at a glance
+2025-11-02 16:41:24,730 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-02 16:41:27,115 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:27,116 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_eisenach_plant",
+        "type": "company",
+        "name": "Eisenach Plant"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_eisenach_plant",
+        "type": "factory",
+        "name": "Eisenach Plant",
+        "location": {
+          "city": "Eisenach",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_new_grandland",
+        "type": "investment",
+        "name": "New Grandland",
+        "amount": "\u20ac130 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_30k_bev_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "30,000 BEV per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_grandland",
+        "type": "product",
+        "name": "Grandland"
+      },
+      {
+        "id": "product_stla_medium_platform",
+        "type": "product",
+        "name": "STLA Medium platform"
+      },
+      {
+        "id": "product_battery",
+        "type": "product",
+        "name": "battery"
+      }
+    ]
+  }
+}
+2025-11-02 16:41:27,116 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:27,116 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-02 16:41:27,116 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-02 16:41:28,951 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:28,951 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_30k_bev_per_year",
+      "status": "operational",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-02 16:41:28,951 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:28,951 - INFO - ✅ Match found for capacity_ID 'capacity_30k_bev_per_year' in capacity nodes
+2025-11-02 16:41:28,951 - INFO -   ➕ Set field 'status': operational
+2025-11-02 16:41:28,951 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-02 16:41:28,951 - INFO -   ➕ Set field 'additional': False
+2025-11-02 16:41:28,951 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-02 16:41:28,951 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-02 16:41:31,411 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:31,411 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_new_grandland",
+      "status": "completed",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-11-02 16:41:31,411 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:31,411 - INFO - ✅ Match found for investment_ID 'investment_new_grandland' in investment nodes
+2025-11-02 16:41:31,411 - INFO -   ➕ Set field 'status': completed
+2025-11-02 16:41:31,411 - INFO -   ➕ Set field 'phase': retrofit
+2025-11-02 16:41:31,411 - INFO -   ➕ Set field 'is_total': True
+2025-11-02 16:41:31,411 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-02 16:41:31,411 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-02 16:41:32,955 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:32,955 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_battery",
+      "product_lv1": "battery",
+      "product_lv2": "cell"
+    }
+  ]
+}
+2025-11-02 16:41:32,955 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:32,955 - INFO - ✅ Match found for product_ID 'product_battery' in product nodes
+2025-11-02 16:41:32,955 - INFO -   ➕ Set field 'product_lv1': battery
+2025-11-02 16:41:32,955 - INFO -   ➕ Set field 'product_lv2': cell
+2025-11-02 16:41:32,955 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-02 16:41:32,956 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-02 16:41:32,956 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-02 16:41:33,799 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:33,799 - INFO - {
+  "relationships": [
+    {
+      "source": "company_eisenach_plant",
+      "type": "owns",
+      "target": "factory_eisenach_plant"
+    }
+  ]
+}
+2025-11-02 16:41:33,800 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:33,800 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-02 16:41:33,800 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-02 16:41:36,622 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:36,622 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_30k_bev_per_year",
+      "target": "factory_eisenach_plant",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_battery",
+      "target": "factory_eisenach_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_grandland",
+      "target": "factory_eisenach_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-02 16:41:36,622 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:36,622 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-02 16:41:36,622 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-02 16:41:38,340 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:38,340 - INFO - {
+  "relationships": []
+}
+2025-11-02 16:41:38,341 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:38,341 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-02 16:41:38,341 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-02 16:41:40,420 - INFO - ✅ OpenAI returned output:
+2025-11-02 16:41:40,421 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_new_grandland",
+      "target": "product_grandland",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-02 16:41:40,421 - INFO - POST-PROCESSING STARTING.
+2025-11-02 16:41:40,444 - INFO - ✅ Updated Article ID: 69077ae165d16ca2099dc579 with 7 nodes and combined text.

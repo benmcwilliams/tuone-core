@@ -12,7 +12,7 @@ from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key
+from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key, _unit_capex
 
 logger = logging.getLogger(__name__)
 
@@ -161,8 +161,11 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         if evt.get("investment") in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
             if cap_rule and evt.get("capacity") not in (None, np.nan):
-                evt["investment_imputed"] = float(evt["capacity"]) * float(cap_rule["capex_per_unit"])
+                unit = _unit_capex(cap_rule, evt.get("phase"))
+                evt["investment_imputed"] = float(evt["capacity"]) * unit
                 evt["imputation_basis"] = CAPEX_DICT["version"]
+                if (evt.get("phase") or "").strip().lower() == "retrofit":
+                    evt["imputation_variant"] = "retrofit"
                 evt.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
         events_by_pid.setdefault(pid, []).append(evt)
 
@@ -194,11 +197,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         if evt.get("investment") not in (None, np.nan):
             cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
             if cap_rule:
-                # Only set imputed capacity if none present
-                evt["capacity_imputed"] = float(evt["investment"]) / float(cap_rule["capex_per_unit"])
-                evt["capacity_unit"] = cap_rule.get("capacity_unit")
-                evt["imputation_basis"] = CAPEX_DICT["version"]
-                evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
+                unit = _unit_capex(cap_rule, evt.get("phase"))
+                if unit:  # avoid divide-by-zero
+                    evt["capacity_imputed"] = float(evt["investment"]) / unit
+                    evt["capacity_unit"] = cap_rule.get("capacity_unit")
+                    evt["imputation_basis"] = CAPEX_DICT["version"]
+                    if (evt.get("phase") or "").strip().lower() == "retrofit":
+                        evt["imputation_variant"] = "retrofit"
+                    evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         events_by_pid.setdefault(pid, []).append(evt)
         
     # logic to include FACTORY_ONLY events (important for status & product_lv2 mapping)

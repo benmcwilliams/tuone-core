@@ -1,0 +1,237 @@
+2025-11-12 17:08:31,438 - INFO - 🔍 Text length: 1335 characters
+2025-11-12 17:08:31,438 - INFO - 📌 Processing Article ID: 6910f7a5e6993c98e5ca7c05 — Iberdrola plans to open 1.6 GW PV module factory in Spain
+2025-11-12 17:08:31,438 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-12 17:08:39,330 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:39,330 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iberdrola",
+        "type": "company",
+        "name": "Iberdrola"
+      },
+      {
+        "id": "company_exiom",
+        "type": "company",
+        "name": "Exiom"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_asturias_spain",
+        "type": "factory",
+        "name": "Asturias Factory",
+        "location": {
+          "city": "Asturias",
+          "country": "Spain"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_extremadura_spain",
+        "type": "factory",
+        "name": "Extremadura Factory",
+        "location": {
+          "city": "Extremadura",
+          "country": "Spain"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_innovation_fund",
+        "type": "investment",
+        "name": "Innovation Fund",
+        "amount": "\u20ac100 million ($109 million)",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_6_gw_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.6 GW per year",
+        "status": "announced"
+      },
+      {
+        "id": "capacity_500_mw_unclear",
+        "type": "capacity",
+        "name": "",
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "amount": "500 MW",
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_pv_module",
+        "type": "product",
+        "name": "PV module"
+      },
+      {
+        "id": "product_topcon_solar_module",
+        "type": "product",
+        "name": "TOPCon solar module"
+      }
+    ]
+  }
+}
+2025-11-12 17:08:39,330 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:39,330 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-12 17:08:39,330 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-12 17:08:40,986 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:40,987 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_6_gw_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    },
+    {
+      "capacity_ID": "capacity_500_mw_unclear",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-12 17:08:40,987 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:40,987 - INFO - ✅ Match found for capacity_ID 'capacity_1_6_gw_per_year' in capacity nodes
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'additional': False
+2025-11-12 17:08:40,987 - INFO - ✅ Match found for capacity_ID 'capacity_500_mw_unclear' in capacity nodes
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-12 17:08:40,987 - INFO -   ➕ Set field 'additional': False
+2025-11-12 17:08:40,987 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-12 17:08:40,987 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-12 17:08:42,093 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:42,093 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_innovation_fund",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    }
+  ]
+}
+2025-11-12 17:08:42,093 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:42,093 - INFO - ✅ Match found for investment_ID 'investment_innovation_fund' in investment nodes
+2025-11-12 17:08:42,093 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:08:42,093 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-12 17:08:42,093 - INFO -   ➕ Set field 'is_total': False
+2025-11-12 17:08:42,094 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-12 17:08:42,094 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-12 17:08:45,062 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:45,062 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_pv_module",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "product_topcon_solar_module",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-12 17:08:45,063 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:45,063 - INFO - ✅ Match found for product_ID 'product_pv_module' in product nodes
+2025-11-12 17:08:45,063 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:08:45,063 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:08:45,063 - INFO - ✅ Match found for product_ID 'product_topcon_solar_module' in product nodes
+2025-11-12 17:08:45,063 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:08:45,063 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:08:45,063 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-12 17:08:45,063 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-12 17:08:45,063 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-12 17:08:48,239 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:48,239 - INFO - {
+  "relationships": [
+    {
+      "source": "company_iberdrola",
+      "type": "owns",
+      "target": "factory_asturias_spain"
+    },
+    {
+      "source": "company_iberdrola",
+      "type": "owns",
+      "target": "factory_extremadura_spain"
+    }
+  ]
+}
+2025-11-12 17:08:48,240 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:48,240 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-12 17:08:48,240 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-12 17:08:53,462 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:53,462 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_6_gw_per_year",
+      "target": "factory_extremadura_spain",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_6_gw_per_year",
+      "target": "product_pv_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_pv_module",
+      "target": "factory_extremadura_spain",
+      "type": "produced_at"
+    },
+    {
+      "source": "capacity_500_mw_unclear",
+      "target": "factory_asturias_spain",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500_mw_unclear",
+      "target": "product_topcon_solar_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_topcon_solar_module",
+      "target": "factory_asturias_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-12 17:08:53,462 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:53,463 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-12 17:08:53,463 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-12 17:08:55,610 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:55,610 - INFO - {
+  "relationships": []
+}
+2025-11-12 17:08:55,610 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:55,611 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-12 17:08:55,611 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-12 17:08:57,863 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:57,863 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_innovation_fund",
+      "target": "factory_extremadura_spain",
+      "type": "funds"
+    },
+    {
+      "source": "investment_innovation_fund",
+      "target": "product_pv_module",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-12 17:08:57,863 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:57,956 - INFO - ✅ Updated Article ID: 6910f7a5e6993c98e5ca7c05 with 9 nodes and combined text.

@@ -92,3 +92,13 @@ def coerce_amount_eur_scalar(val):
             return None, None
 
     return None, None
+
+# function to apply retrofit factor to capex if phase is retrofit
+def _unit_capex(cap_rule: dict, phase: Any) -> float:
+    """
+    Return appropriate unit CAPEX, using retrofit-specific value when applicable.
+    """
+    base = float(cap_rule["capex_per_unit"])
+    if (phase or "").strip().lower() == "retrofit" and "capex_per_unit_retrofit" in cap_rule:
+        return float(cap_rule["capex_per_unit_retrofit"])
+    return base

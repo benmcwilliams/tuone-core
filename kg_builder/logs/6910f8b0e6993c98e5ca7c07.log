@@ -1,0 +1,149 @@
+2025-11-12 17:08:01,569 - INFO - 🔍 Text length: 808 characters
+2025-11-12 17:08:01,569 - INFO - 📌 Processing Article ID: 6910f8b0e6993c98e5ca7c07 — Construction of EcoSolifer solar panel plant delayed
+2025-11-12 17:08:01,569 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-12 17:08:07,562 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:07,563 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_ecosolifer",
+        "type": "company",
+        "name": "EcoSolifer"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_csorna_hungary",
+        "type": "factory",
+        "name": "Csorna Solar-Panel Plant",
+        "location": {
+          "city": "Csorna",
+          "country": "Hungary"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_ecosolifer_solar_panel_plant",
+        "type": "investment",
+        "name": "EcoSolifer Solar-Panel Plant",
+        "amount": "\u20ac50m",
+        "status": "announced"
+      },
+      {
+        "id": "investment_huf_935m_subsidy",
+        "type": "investment",
+        "name": "HUF 935m Subsidy",
+        "amount": "HUF 935m",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panel",
+        "type": "product",
+        "name": "solar panel"
+      }
+    ]
+  }
+}
+2025-11-12 17:08:07,563 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:07,563 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-12 17:08:07,563 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-12 17:08:07,563 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-12 17:08:17,824 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:17,824 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_ecosolifer_solar_panel_plant",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_huf_935m_subsidy",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-11-12 17:08:17,824 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:17,825 - INFO - ✅ Match found for investment_ID 'investment_ecosolifer_solar_panel_plant' in investment nodes
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'is_total': True
+2025-11-12 17:08:17,825 - INFO - ✅ Match found for investment_ID 'investment_huf_935m_subsidy' in investment nodes
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'status': announced
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'phase': unclear
+2025-11-12 17:08:17,825 - INFO -   ➕ Set field 'is_total': False
+2025-11-12 17:08:17,825 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-12 17:08:17,825 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-12 17:08:19,052 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:19,052 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solar_panel",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-12 17:08:19,052 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:19,052 - INFO - ✅ Match found for product_ID 'product_solar_panel' in product nodes
+2025-11-12 17:08:19,052 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:08:19,052 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:08:19,052 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-12 17:08:19,052 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-12 17:08:19,053 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-12 17:08:23,046 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:23,046 - INFO - {
+  "relationships": [
+    {
+      "source": "company_ecosolifer",
+      "type": "owns",
+      "target": "factory_csorna_hungary"
+    }
+  ]
+}
+2025-11-12 17:08:23,046 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:23,046 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-12 17:08:23,047 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-12 17:08:25,502 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:25,503 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_panel",
+      "target": "factory_csorna_hungary",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-12 17:08:25,503 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:25,503 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-12 17:08:25,503 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-12 17:08:29,153 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:29,153 - INFO - {
+  "relationships": []
+}
+2025-11-12 17:08:29,153 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:29,153 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-12 17:08:29,153 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-12 17:08:31,340 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:08:31,341 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_ecosolifer_solar_panel_plant",
+      "target": "factory_csorna_hungary",
+      "type": "funds"
+    },
+    {
+      "source": "investment_ecosolifer_solar_panel_plant",
+      "target": "product_solar_panel",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-12 17:08:31,341 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:08:31,436 - INFO - ✅ Updated Article ID: 6910f8b0e6993c98e5ca7c07 with 5 nodes and combined text.

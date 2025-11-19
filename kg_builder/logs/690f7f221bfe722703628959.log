@@ -1,0 +1,145 @@
+2025-11-12 17:15:27,954 - INFO - 🔍 Text length: 2039 characters
+2025-11-12 17:15:27,954 - INFO - 📌 Processing Article ID: 690f7f221bfe722703628959 — BISOL Group, d.o.o.
+2025-11-12 17:15:27,954 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-12 17:15:33,993 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:15:33,993 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_bisol_group",
+        "type": "company",
+        "name": "BISOL Group, d.o.o."
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_slovenia",
+        "type": "factory",
+        "name": "BISOL facility",
+        "location": {
+          "city": "null",
+          "country": "Slovenia"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_750_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "750 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_photovoltaic_modules",
+        "type": "product",
+        "name": "photovoltaic modules"
+      },
+      {
+        "id": "product_support_structures",
+        "type": "product",
+        "name": "support structures"
+      },
+      {
+        "id": "product_solar_power_plants",
+        "type": "product",
+        "name": "solar power plants"
+      }
+    ]
+  }
+}
+2025-11-12 17:15:33,993 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:15:33,993 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-12 17:15:33,993 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-12 17:15:35,298 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:15:35,298 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_750_mw_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-11-12 17:15:35,298 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:15:35,298 - INFO - ✅ Match found for capacity_ID 'capacity_750_mw_operational' in capacity nodes
+2025-11-12 17:15:35,298 - INFO -   ➕ Set field 'status': operational
+2025-11-12 17:15:35,298 - INFO -   ➕ Set field 'phase': unclear
+2025-11-12 17:15:35,298 - INFO -   ➕ Set field 'additional': False
+2025-11-12 17:15:35,298 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-12 17:15:35,298 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-12 17:15:35,298 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-12 17:15:37,937 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:15:37,937 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_photovoltaic_modules",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "product_support_structures",
+      "product_lv1": "solar",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_solar_power_plants",
+      "product_lv1": "solar",
+      "product_lv2": "deployment"
+    }
+  ]
+}
+2025-11-12 17:15:37,937 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:15:37,938 - INFO - ✅ Match found for product_ID 'product_photovoltaic_modules' in product nodes
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-12 17:15:37,938 - INFO - ✅ Match found for product_ID 'product_support_structures' in product nodes
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-12 17:15:37,938 - INFO - ✅ Match found for product_ID 'product_solar_power_plants' in product nodes
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-12 17:15:37,938 - INFO -   ➕ Set field 'product_lv2': deployment
+2025-11-12 17:15:37,938 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-12 17:15:37,938 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-12 17:15:37,938 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-12 17:15:42,379 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:15:42,380 - INFO - {
+  "relationships": [
+    {
+      "source": "company_bisol_group",
+      "type": "owns",
+      "target": "factory_slovenia"
+    }
+  ]
+}
+2025-11-12 17:15:42,380 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:15:42,380 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-12 17:15:42,380 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-12 17:15:47,631 - INFO - ✅ OpenAI returned output:
+2025-11-12 17:15:47,631 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_750_mw_operational",
+      "target": "factory_slovenia",
+      "type": "at"
+    },
+    {
+      "source": "capacity_750_mw_operational",
+      "target": "product_photovoltaic_modules",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_photovoltaic_modules",
+      "target": "factory_slovenia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-12 17:15:47,631 - INFO - POST-PROCESSING STARTING.
+2025-11-12 17:15:47,631 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-12 17:15:47,631 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-12 17:15:47,732 - INFO - ✅ Updated Article ID: 690f7f221bfe722703628959 with 6 nodes and combined text.
