@@ -1,0 +1,168 @@
+2025-11-19 18:21:25,820 - INFO - 🔍 Text length: 1192 characters
+2025-11-19 18:21:25,821 - INFO - 📌 Processing Article ID: 691dfbceb525b3ae56ed8543 — Stellantis looks into manufacturing an additional model at its Poissy plant
+2025-11-19 18:21:25,821 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 18:21:28,335 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:28,336 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      },
+      {
+        "id": "company_groupe_psa",
+        "type": "company",
+        "name": "Groupe PSA"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_poissy_plant",
+        "type": "factory",
+        "name": "Poissy plant",
+        "location": {
+          "city": "Poissy",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_poissy_plant_expansion",
+        "type": "investment",
+        "name": "Poissy plant expansion",
+        "amount": "\u20ac150 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_peugeot_208",
+        "type": "product",
+        "name": "Peugeot 208"
+      },
+      {
+        "id": "product_ds_3",
+        "type": "product",
+        "name": "DS 3"
+      },
+      {
+        "id": "product_ds_automobiles",
+        "type": "product",
+        "name": "DS Automobiles"
+      }
+    ]
+  }
+}
+2025-11-19 18:21:28,336 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:28,336 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-19 18:21:28,336 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 18:21:28,336 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 18:21:29,124 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:29,124 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_poissy_plant_expansion",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 18:21:29,124 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:29,124 - INFO - ✅ Match found for investment_ID 'investment_poissy_plant_expansion' in investment nodes
+2025-11-19 18:21:29,124 - INFO -   ➕ Set field 'status': announced
+2025-11-19 18:21:29,125 - INFO -   ➕ Set field 'phase': expansion
+2025-11-19 18:21:29,125 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 18:21:29,125 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 18:21:29,125 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 18:21:31,466 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:31,466 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_peugeot_208",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ds_3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_ds_automobiles",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    }
+  ]
+}
+2025-11-19 18:21:31,466 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:31,466 - INFO - ✅ Match found for product_ID 'product_peugeot_208' in product nodes
+2025-11-19 18:21:31,466 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:31,467 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-19 18:21:31,467 - INFO - ✅ Match found for product_ID 'product_ds_3' in product nodes
+2025-11-19 18:21:31,467 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:31,467 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-19 18:21:31,467 - INFO - ✅ Match found for product_ID 'product_ds_automobiles' in product nodes
+2025-11-19 18:21:31,467 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:31,467 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-19 18:21:31,467 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 18:21:31,467 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 18:21:31,467 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 18:21:32,797 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:32,797 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_poissy_plant"
+    }
+  ]
+}
+2025-11-19 18:21:32,797 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:32,797 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 18:21:32,797 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 18:21:34,230 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:34,230 - INFO - {
+  "relationships": [
+    {
+      "source": "product_peugeot_208",
+      "target": "factory_poissy_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ds_3",
+      "target": "factory_poissy_plant",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_ds_automobiles",
+      "target": "factory_poissy_plant",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 18:21:34,230 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:34,231 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 18:21:34,231 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 18:21:35,869 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:35,869 - INFO - {
+  "relationships": []
+}
+2025-11-19 18:21:35,869 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:35,870 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 18:21:35,870 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 18:21:37,618 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:37,619 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_poissy_plant_expansion",
+      "target": "factory_poissy_plant",
+      "type": "funds"
+    }
+  ]
+}
+2025-11-19 18:21:37,619 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:37,642 - INFO - ✅ Updated Article ID: 691dfbceb525b3ae56ed8543 with 7 nodes and combined text.

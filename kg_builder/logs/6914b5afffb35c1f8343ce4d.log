@@ -1,0 +1,189 @@
+2025-11-19 17:30:10,110 - INFO - 🔍 Text length: 7646 characters
+2025-11-19 17:30:10,110 - INFO - 📌 Processing Article ID: 6914b5afffb35c1f8343ce4d — Heckert Solar: High-quality solar panels for the markets of Europe
+2025-11-19 17:30:10,110 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:30:12,781 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:12,781 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_heckert_solar",
+        "type": "company",
+        "name": "Heckert Solar"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_chemnitz_germany",
+        "type": "factory",
+        "name": "Chemnitz Factory",
+        "location": {
+          "city": "Chemnitz",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_heckert_solar_seven_figure",
+        "type": "investment",
+        "name": "Heckert Solar Seven-Figure Investment",
+        "amount": "seven-figure",
+        "status": "ongoing"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_300_mw_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "300 megawatts per year",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      },
+      {
+        "id": "product_monocrystalline_cells",
+        "type": "product",
+        "name": "monocrystalline cells"
+      },
+      {
+        "id": "product_polycrystalline_pv_panels",
+        "type": "product",
+        "name": "polycrystalline PV panels"
+      }
+    ]
+  }
+}
+2025-11-19 17:30:12,782 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:12,782 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:30:12,782 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:30:21,322 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:21,323 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_300_mw_per_year",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:30:21,324 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:21,324 - INFO - ✅ Match found for capacity_ID 'capacity_300_mw_per_year' in capacity nodes
+2025-11-19 17:30:21,324 - INFO -   ➕ Set field 'status': operational
+2025-11-19 17:30:21,324 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:30:21,324 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:30:21,324 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 17:30:21,324 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 17:30:22,157 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:22,157 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_heckert_solar_seven_figure",
+      "status": "ongoing",
+      "phase": "retrofit",
+      "is_total": false
+    }
+  ]
+}
+2025-11-19 17:30:22,157 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:22,158 - INFO - ✅ Match found for investment_ID 'investment_heckert_solar_seven_figure' in investment nodes
+2025-11-19 17:30:22,158 - INFO -   ➕ Set field 'status': ongoing
+2025-11-19 17:30:22,158 - INFO -   ➕ Set field 'phase': retrofit
+2025-11-19 17:30:22,158 - INFO -   ➕ Set field 'is_total': False
+2025-11-19 17:30:22,158 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:30:22,158 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:30:24,300 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:24,300 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "product_monocrystalline_cells",
+      "product_lv1": "solar",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_polycrystalline_pv_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:30:24,300 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:24,301 - INFO - ✅ Match found for product_ID 'product_solar_panels' in product nodes
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:30:24,301 - INFO - ✅ Match found for product_ID 'product_monocrystalline_cells' in product nodes
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv2': cell
+2025-11-19 17:30:24,301 - INFO - ✅ Match found for product_ID 'product_polycrystalline_pv_panels' in product nodes
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:30:24,301 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:30:24,301 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:30:24,301 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:30:24,301 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:30:25,070 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:25,070 - INFO - {
+  "relationships": [
+    {
+      "source": "company_heckert_solar",
+      "type": "owns",
+      "target": "factory_chemnitz_germany"
+    }
+  ]
+}
+2025-11-19 17:30:25,070 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:25,070 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:30:25,070 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:30:26,324 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:26,324 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_300_mw_per_year",
+      "target": "factory_chemnitz_germany",
+      "type": "at"
+    },
+    {
+      "source": "capacity_300_mw_per_year",
+      "target": "product_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_chemnitz_germany",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:30:26,325 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:26,325 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 17:30:26,325 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 17:30:28,040 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:28,041 - INFO - {
+  "relationships": []
+}
+2025-11-19 17:30:28,041 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:28,041 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 17:30:28,041 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 17:30:31,301 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:30:31,301 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_heckert_solar_seven_figure",
+      "type": "enables",
+      "target": "capacity_300_mw_per_year"
+    }
+  ]
+}
+2025-11-19 17:30:31,301 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:30:31,321 - INFO - ✅ Updated Article ID: 6914b5afffb35c1f8343ce4d with 7 nodes and combined text.

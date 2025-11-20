@@ -1,0 +1,144 @@
+2025-11-19 17:16:35,043 - INFO - 🔍 Text length: 3319 characters
+2025-11-19 17:16:35,043 - INFO - 📌 Processing Article ID: 6915f7d7f497eff78c709e72 — Meyer Burger unveils 400 W heterojunction solar module
+2025-11-19 17:16:35,043 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:16:38,598 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:16:38,598 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_meyer_burger_technology_ag",
+        "type": "company",
+        "name": "Meyer Burger Technology AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_bitterfeld_wolfen",
+        "type": "factory",
+        "name": "Bitterfeld-Wolfen",
+        "location": {
+          "city": "Bitterfeld-Wolfen",
+          "country": "Germany"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_freiberg",
+        "type": "factory",
+        "name": "Freiberg",
+        "location": {
+          "city": "Freiberg",
+          "country": "Germany"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_400_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "400 MW",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_heterojunction_half_cell_solar_module",
+        "type": "product",
+        "name": "heterojunction half-cell solar module"
+      }
+    ]
+  }
+}
+2025-11-19 17:16:38,599 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:16:38,599 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:16:38,599 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:16:40,952 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:16:40,952 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_400_mw_operational",
+      "status": "operational",
+      "phase": "unclear",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:16:40,952 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:16:40,952 - INFO - ✅ Match found for capacity_ID 'capacity_400_mw_operational' in capacity nodes
+2025-11-19 17:16:40,953 - INFO -   ➕ Set field 'status': operational
+2025-11-19 17:16:40,953 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:16:40,953 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:16:40,953 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-19 17:16:40,953 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:16:40,953 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:16:42,182 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:16:42,183 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_heterojunction_half_cell_solar_module",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:16:42,183 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:16:42,183 - INFO - ✅ Match found for product_ID 'product_heterojunction_half_cell_solar_module' in product nodes
+2025-11-19 17:16:42,183 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:16:42,183 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:16:42,183 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:16:42,183 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:16:42,183 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:16:43,331 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:16:43,332 - INFO - {
+  "relationships": [
+    {
+      "source": "company_meyer_burger_technology_ag",
+      "type": "owns",
+      "target": "factory_bitterfeld_wolfen"
+    },
+    {
+      "source": "company_meyer_burger_technology_ag",
+      "type": "owns",
+      "target": "factory_freiberg"
+    }
+  ]
+}
+2025-11-19 17:16:43,332 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:16:43,332 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:16:43,332 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:16:46,473 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:16:46,473 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_400_mw_operational",
+      "target": "factory_bitterfeld_wolfen",
+      "type": "at"
+    },
+    {
+      "source": "capacity_400_mw_operational",
+      "target": "factory_freiberg",
+      "type": "at"
+    },
+    {
+      "source": "capacity_400_mw_operational",
+      "target": "product_heterojunction_half_cell_solar_module",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_heterojunction_half_cell_solar_module",
+      "target": "factory_bitterfeld_wolfen",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_heterojunction_half_cell_solar_module",
+      "target": "factory_freiberg",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:16:46,473 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:16:46,473 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-19 17:16:46,474 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-19 17:16:46,491 - INFO - ✅ Updated Article ID: 6915f7d7f497eff78c709e72 with 5 nodes and combined text.

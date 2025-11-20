@@ -1,0 +1,154 @@
+2025-11-19 17:25:10,114 - INFO - 🔍 Text length: 5027 characters
+2025-11-19 17:25:10,114 - INFO - 📌 Processing Article ID: 69150e28b4ad11bf885fc9c6 — Iberdrola España and Exiom will inaugurate Spain's first large solar panel factory in spring
+2025-11-19 17:25:10,114 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:25:12,115 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:12,115 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_iberdrola_espana",
+        "type": "company",
+        "name": "Iberdrola Espa\u00f1a"
+      },
+      {
+        "id": "company_exiom",
+        "type": "company",
+        "name": "Exiom"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_langreo_spain",
+        "type": "factory",
+        "name": "Langreo Solar Panel Factory",
+        "location": {
+          "city": "Langreo",
+          "country": "Spain"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_just_transition_institute_grant",
+        "type": "investment",
+        "name": "Just Transition Institute Grant",
+        "amount": "\u20ac1.2M",
+        "status": "completed"
+      },
+      {
+        "id": "investment_perseo_program",
+        "type": "investment",
+        "name": "PERSEO Program",
+        "amount": "\u20ac40M",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-11-19 17:25:12,116 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:12,116 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-19 17:25:12,116 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 17:25:12,116 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 17:25:14,171 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:14,171 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_just_transition_institute_grant",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_perseo_program",
+      "status": "ongoing",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-11-19 17:25:14,171 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:14,171 - INFO - ✅ Match found for investment_ID 'investment_just_transition_institute_grant' in investment nodes
+2025-11-19 17:25:14,171 - INFO -   ➕ Set field 'status': completed
+2025-11-19 17:25:14,171 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:25:14,171 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 17:25:14,171 - INFO - ✅ Match found for investment_ID 'investment_perseo_program' in investment nodes
+2025-11-19 17:25:14,172 - INFO -   ➕ Set field 'status': ongoing
+2025-11-19 17:25:14,172 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:25:14,172 - INFO -   ➕ Set field 'is_total': False
+2025-11-19 17:25:14,172 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:25:14,172 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:25:15,113 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:15,114 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:25:15,114 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:15,114 - INFO - ✅ Match found for product_ID 'product_solar_panels' in product nodes
+2025-11-19 17:25:15,114 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:25:15,114 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:25:15,114 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:25:15,114 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:25:15,115 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:25:15,725 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:15,725 - INFO - {
+  "relationships": [
+    {
+      "source": "company_exiom",
+      "type": "owns",
+      "target": "factory_langreo_spain"
+    }
+  ]
+}
+2025-11-19 17:25:15,725 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:15,725 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:25:15,725 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:25:16,544 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:16,544 - INFO - {
+  "relationships": [
+    {
+      "source": "product_solar_panels",
+      "target": "factory_langreo_spain",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:25:16,544 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:16,544 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 17:25:16,544 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 17:25:20,743 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:20,743 - INFO - {
+  "relationships": []
+}
+2025-11-19 17:25:20,743 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:20,744 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 17:25:20,744 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 17:25:22,967 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:25:22,967 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_just_transition_institute_grant",
+      "type": "funds",
+      "target": "factory_langreo_spain"
+    },
+    {
+      "source": "investment_just_transition_institute_grant",
+      "type": "targets",
+      "target": "product_solar_panels"
+    }
+  ]
+}
+2025-11-19 17:25:22,967 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:25:22,986 - INFO - ✅ Updated Article ID: 69150e28b4ad11bf885fc9c6 with 6 nodes and combined text.

@@ -1,0 +1,132 @@
+2025-11-19 17:19:45,502 - INFO - 🔍 Text length: 2537 characters
+2025-11-19 17:19:45,502 - INFO - 📌 Processing Article ID: 6915adf8728f8055962b539f — Switzerland's largest solar module factory opens its doors
+2025-11-19 17:19:45,502 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:19:48,278 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:19:48,279 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_megasol_energie_ag",
+        "type": "company",
+        "name": "Megasol Energie AG"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_deitingen_switzerland",
+        "type": "factory",
+        "name": "Deitingen Solar Module Factory",
+        "location": {
+          "city": "Deitingen",
+          "country": "Switzerland"
+        },
+        "status": "operational"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_80_mw_operational",
+        "type": "capacity",
+        "name": "",
+        "amount": "80 megawatts",
+        "status": "operational"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_modules_glass_glass_technology",
+        "type": "product",
+        "name": "solar modules with glass-glass technology"
+      },
+      {
+        "id": "product_building_integrated_photovoltaic_solutions",
+        "type": "product",
+        "name": "building-integrated photovoltaic solutions"
+      }
+    ]
+  }
+}
+2025-11-19 17:19:48,279 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:19:48,279 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:19:48,279 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:19:48,999 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:19:49,000 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_80_mw_operational",
+      "status": "operational",
+      "phase": "expansion",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:19:49,000 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:19:49,000 - INFO - ✅ Match found for capacity_ID 'capacity_80_mw_operational' in capacity nodes
+2025-11-19 17:19:49,000 - INFO -   ➕ Set field 'status': operational
+2025-11-19 17:19:49,000 - INFO -   ➕ Set field 'phase': expansion
+2025-11-19 17:19:49,000 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:19:49,000 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-19 17:19:49,000 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:19:49,000 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:19:51,727 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:19:51,727 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solar_modules_glass_glass_technology",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "product_building_integrated_photovoltaic_solutions",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:19:51,727 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:19:51,727 - INFO - ✅ Match found for product_ID 'product_solar_modules_glass_glass_technology' in product nodes
+2025-11-19 17:19:51,727 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:19:51,728 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:19:51,728 - INFO - ✅ Match found for product_ID 'product_building_integrated_photovoltaic_solutions' in product nodes
+2025-11-19 17:19:51,728 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:19:51,728 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:19:51,728 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:19:51,728 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:19:51,728 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:19:55,946 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:19:55,946 - INFO - {
+  "relationships": [
+    {
+      "source": "company_megasol_energie_ag",
+      "type": "owns",
+      "target": "factory_deitingen_switzerland"
+    }
+  ]
+}
+2025-11-19 17:19:55,947 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:19:55,947 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:19:55,947 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:19:58,901 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:19:58,902 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_80_mw_operational",
+      "target": "factory_deitingen_switzerland",
+      "type": "at"
+    },
+    {
+      "source": "capacity_80_mw_operational",
+      "target": "product_solar_modules_glass_glass_technology",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_modules_glass_glass_technology",
+      "target": "factory_deitingen_switzerland",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:19:58,902 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:19:58,902 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-19 17:19:58,902 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-19 17:19:58,926 - INFO - ✅ Updated Article ID: 6915adf8728f8055962b539f with 5 nodes and combined text.

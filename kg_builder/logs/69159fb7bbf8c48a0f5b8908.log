@@ -1,0 +1,219 @@
+2025-11-19 17:21:15,616 - INFO - 🔍 Text length: 992 characters
+2025-11-19 17:21:15,616 - INFO - 📌 Processing Article ID: 69159fb7bbf8c48a0f5b8908 — New initiative for Veendam solar panel factory: annual production of 530,000 solar panels
+2025-11-19 17:21:15,616 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:21:18,566 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:18,567 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_jac_hanssen",
+        "type": "company",
+        "name": "Jac Hanssen"
+      },
+      {
+        "id": "company_alinement",
+        "type": "company",
+        "name": "Alinement"
+      },
+      {
+        "id": "company_energyra",
+        "type": "company",
+        "name": "Energyra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_veendam",
+        "type": "factory",
+        "name": "Veendam Factory",
+        "location": {
+          "city": "Veendam",
+          "country": "Netherlands"
+        },
+        "status": "announced"
+      },
+      {
+        "id": "factory_zaandam",
+        "type": "factory",
+        "name": "Zaandam Factory",
+        "location": {
+          "city": "Zaandam",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_energyra_funding",
+        "type": "investment",
+        "name": "Energyra Funding",
+        "amount": "\u20ac20 million",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_530k_solar_panels_per_year",
+        "type": "capacity",
+        "name": "",
+        "amount": "530,000 solar panels per year",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_glass_glass_solar_panels",
+        "type": "product",
+        "name": "glass-glass solar panels"
+      },
+      {
+        "id": "product_solar_cells",
+        "type": "product",
+        "name": "solar cells"
+      },
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-11-19 17:21:18,567 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:18,567 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:21:18,567 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:21:19,261 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:19,261 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_530k_solar_panels_per_year",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:21:19,261 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:19,261 - INFO - ✅ Match found for capacity_ID 'capacity_530k_solar_panels_per_year' in capacity nodes
+2025-11-19 17:21:19,262 - INFO -   ➕ Set field 'status': announced
+2025-11-19 17:21:19,262 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-19 17:21:19,262 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:21:19,262 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 17:21:19,262 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 17:21:19,983 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:19,983 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_energyra_funding",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 17:21:19,983 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:19,983 - INFO - ✅ Match found for investment_ID 'investment_energyra_funding' in investment nodes
+2025-11-19 17:21:19,983 - INFO -   ➕ Set field 'status': announced
+2025-11-19 17:21:19,983 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:21:19,983 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 17:21:19,983 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:21:19,984 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:21:23,267 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:23,268 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_glass_glass_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    },
+    {
+      "product_ID": "product_solar_cells",
+      "product_lv1": "solar",
+      "product_lv2": "cell"
+    },
+    {
+      "product_ID": "product_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:21:23,268 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:23,268 - INFO - ✅ Match found for product_ID 'product_glass_glass_solar_panels' in product nodes
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:21:23,268 - INFO - ✅ Match found for product_ID 'product_solar_cells' in product nodes
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv2': cell
+2025-11-19 17:21:23,268 - INFO - ✅ Match found for product_ID 'product_solar_panels' in product nodes
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:21:23,268 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:21:23,269 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:21:23,269 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:21:23,269 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:21:24,297 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:24,297 - INFO - {
+  "relationships": [
+    {
+      "source": "company_jac_hanssen",
+      "type": "owns",
+      "target": "factory_veendam"
+    },
+    {
+      "source": "company_energyra",
+      "type": "owns",
+      "target": "factory_zaandam"
+    }
+  ]
+}
+2025-11-19 17:21:24,298 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:24,298 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:21:24,298 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:21:26,901 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:26,901 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_530k_solar_panels_per_year",
+      "target": "factory_veendam",
+      "type": "at"
+    },
+    {
+      "source": "capacity_530k_solar_panels_per_year",
+      "target": "product_glass_glass_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_glass_glass_solar_panels",
+      "target": "factory_veendam",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_solar_cells",
+      "target": "factory_veendam",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:21:26,901 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:26,902 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 17:21:26,902 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 17:21:28,227 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:28,227 - INFO - {
+  "relationships": []
+}
+2025-11-19 17:21:28,227 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:28,227 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 17:21:28,227 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 17:21:28,956 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:21:28,956 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_energyra_funding",
+      "target": "factory_zaandam",
+      "type": "funds"
+    }
+  ]
+}
+2025-11-19 17:21:28,957 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:21:28,975 - INFO - ✅ Updated Article ID: 69159fb7bbf8c48a0f5b8908 with 10 nodes and combined text.

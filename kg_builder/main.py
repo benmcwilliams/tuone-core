@@ -264,8 +264,8 @@ def process_articles(articles_to_process, model_dictionary):
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
 offset_articles = 0
-#categories = ["user", "user_text", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
-categories = ["user", "user_text"]
+#categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
+categories = ["user"]
 cutoff_date = datetime(2010, 1, 1)
 
 articles_to_process = list(

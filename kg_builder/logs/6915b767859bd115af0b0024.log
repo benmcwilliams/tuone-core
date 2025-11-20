@@ -1,0 +1,153 @@
+2025-11-19 17:17:36,580 - INFO - 🔍 Text length: 751 characters
+2025-11-19 17:17:36,580 - INFO - 📌 Processing Article ID: 6915b767859bd115af0b0024 — DMX Demonstration in Dunkirk
+2025-11-19 17:17:36,581 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:17:41,780 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:41,781 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_arcelormittal",
+        "type": "company",
+        "name": "ArcelorMittal"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_dunkirk_france",
+        "type": "factory",
+        "name": "Dunkirk Steelworks",
+        "location": {
+          "city": "Dunkirk",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_eu_3d_project",
+        "type": "investment",
+        "name": "EU 3D Project",
+        "amount": "\u20ac 19 064 368,51",
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_pilot_unclear",
+        "type": "capacity",
+        "name": "",
+        "amount": "0.5 tonnes of CO2 per hour",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_dmx_capture_process",
+        "type": "product",
+        "name": "DMX capture process"
+      }
+    ]
+  }
+}
+2025-11-19 17:17:41,781 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:41,781 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:17:41,781 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:17:42,499 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:42,500 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_pilot_unclear",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:17:42,500 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:42,500 - INFO - ✅ Match found for capacity_ID 'capacity_pilot_unclear' in capacity nodes
+2025-11-19 17:17:42,500 - INFO -   ➕ Set field 'status': announced
+2025-11-19 17:17:42,500 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-19 17:17:42,500 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:17:42,500 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 17:17:42,500 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 17:17:44,344 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:44,345 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_eu_3d_project",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 17:17:44,345 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:44,345 - INFO - ✅ Match found for investment_ID 'investment_eu_3d_project' in investment nodes
+2025-11-19 17:17:44,345 - INFO -   ➕ Set field 'status': announced
+2025-11-19 17:17:44,345 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-19 17:17:44,345 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 17:17:44,345 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:17:44,345 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:17:45,773 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:45,773 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_dmx_capture_process",
+      "product_lv1": "cement",
+      "product_lv2": "CCS"
+    }
+  ]
+}
+2025-11-19 17:17:45,774 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:45,774 - INFO - ✅ Match found for product_ID 'product_dmx_capture_process' in product nodes
+2025-11-19 17:17:45,774 - INFO -   ➕ Set field 'product_lv1': cement
+2025-11-19 17:17:45,774 - INFO -   ➕ Set field 'product_lv2': CCS
+2025-11-19 17:17:45,774 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:17:45,774 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:17:45,774 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:17:48,896 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:48,896 - INFO - {
+  "relationships": [
+    {
+      "source": "company_arcelormittal",
+      "type": "owns",
+      "target": "factory_dunkirk_france"
+    }
+  ]
+}
+2025-11-19 17:17:48,896 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:48,896 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:17:48,896 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:17:49,775 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:49,776 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_pilot_unclear",
+      "target": "factory_dunkirk_france",
+      "type": "quantifies"
+    }
+  ]
+}
+2025-11-19 17:17:49,776 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:49,776 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 17:17:49,776 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 17:17:50,279 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:50,279 - INFO - {
+  "relationships": []
+}
+2025-11-19 17:17:50,279 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:50,279 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 17:17:50,279 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 17:17:52,258 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:17:52,258 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_eu_3d_project",
+      "target": "product_dmx_capture_process",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-19 17:17:52,258 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:17:52,276 - INFO - ✅ Updated Article ID: 6915b767859bd115af0b0024 with 5 nodes and combined text.

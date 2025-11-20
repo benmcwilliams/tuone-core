@@ -1,0 +1,124 @@
+2025-11-19 17:11:15,146 - INFO - 🔍 Text length: 4152 characters
+2025-11-19 17:11:15,146 - INFO - 📌 Processing Article ID: 69166db4651464413cf07118 — Nordcell: Building GIGA ONE – World’s Greenest Solar Panel Factory
+2025-11-19 17:11:15,146 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:11:21,769 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:11:21,769 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nordcell",
+        "type": "company",
+        "name": "Nordcell"
+      },
+      {
+        "id": "company_fraunhofer_ise",
+        "type": "company",
+        "name": "Fraunhofer ISE"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_giga_one",
+        "type": "factory",
+        "name": "GIGA ONE",
+        "location": {
+          "city": "null",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_1_2_gw_announced",
+        "type": "capacity",
+        "name": "",
+        "amount": "1.2 gigawatts (GW)",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_solar_panels",
+        "type": "product",
+        "name": "solar panels"
+      }
+    ]
+  }
+}
+2025-11-19 17:11:21,769 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:11:21,769 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:11:21,769 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:11:24,329 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:11:24,329 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_1_2_gw_announced",
+      "status": "announced",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:11:24,329 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:11:24,329 - INFO - ✅ Match found for capacity_ID 'capacity_1_2_gw_announced' in capacity nodes
+2025-11-19 17:11:24,330 - INFO -   ➕ Set field 'status': announced
+2025-11-19 17:11:24,330 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-19 17:11:24,330 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:11:24,330 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-11-19 17:11:24,330 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:11:24,330 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:11:25,251 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:11:25,251 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_solar_panels",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-11-19 17:11:25,251 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:11:25,251 - INFO - ✅ Match found for product_ID 'product_solar_panels' in product nodes
+2025-11-19 17:11:25,251 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:11:25,251 - INFO -   ➕ Set field 'product_lv2': module
+2025-11-19 17:11:25,251 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:11:25,252 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:11:25,252 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:11:29,562 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:11:29,562 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nordcell",
+      "type": "owns",
+      "target": "factory_giga_one"
+    }
+  ]
+}
+2025-11-19 17:11:29,562 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:11:29,563 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:11:29,563 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:11:30,881 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:11:30,882 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_1_2_gw_announced",
+      "target": "factory_giga_one",
+      "type": "at"
+    },
+    {
+      "source": "capacity_1_2_gw_announced",
+      "target": "product_solar_panels",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_solar_panels",
+      "target": "factory_giga_one",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:11:30,882 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:11:30,882 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-11-19 17:11:30,882 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-11-19 17:11:30,901 - INFO - ✅ Updated Article ID: 69166db4651464413cf07118 with 5 nodes and combined text.

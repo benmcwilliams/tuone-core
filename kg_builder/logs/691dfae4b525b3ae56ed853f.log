@@ -1,0 +1,145 @@
+2025-11-19 18:21:54,937 - INFO - 🔍 Text length: 1613 characters
+2025-11-19 18:21:54,937 - INFO - 📌 Processing Article ID: 691dfae4b525b3ae56ed853f — Stellantis gears up Rennes factory for SUV production
+2025-11-19 18:21:54,937 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 18:21:56,963 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:56,963 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rennes_france",
+        "type": "factory",
+        "name": "Rennes",
+        "location": {
+          "city": "Rennes",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_rennes",
+        "type": "investment",
+        "name": "Stellantis Rennes Investment",
+        "amount": "160 million euros",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_cr3",
+        "type": "product",
+        "name": "CR3"
+      },
+      {
+        "id": "product_citroen_c5_aircross",
+        "type": "product",
+        "name": "Citro\u00ebn C5 Aircross"
+      }
+    ]
+  }
+}
+2025-11-19 18:21:56,963 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:56,963 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-19 18:21:56,963 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 18:21:56,963 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 18:21:57,783 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:57,783 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_rennes",
+      "status": "announced",
+      "phase": "expansion",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 18:21:57,783 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:57,783 - INFO - ✅ Match found for investment_ID 'investment_stellantis_rennes' in investment nodes
+2025-11-19 18:21:57,783 - INFO -   ➕ Set field 'status': announced
+2025-11-19 18:21:57,783 - INFO -   ➕ Set field 'phase': expansion
+2025-11-19 18:21:57,783 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 18:21:57,783 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 18:21:57,783 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 18:21:59,216 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:59,216 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_cr3",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_citroen_c5_aircross",
+      "product_lv1": "vehicle",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-11-19 18:21:59,217 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:59,217 - INFO - ✅ Match found for product_ID 'product_cr3' in product nodes
+2025-11-19 18:21:59,217 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:59,217 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-19 18:21:59,217 - INFO - ✅ Match found for product_ID 'product_citroen_c5_aircross' in product nodes
+2025-11-19 18:21:59,217 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:59,217 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-19 18:21:59,217 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 18:21:59,217 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 18:21:59,217 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 18:22:00,035 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:22:00,035 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_rennes_france"
+    }
+  ]
+}
+2025-11-19 18:22:00,035 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:22:00,035 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 18:22:00,035 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 18:22:00,650 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:22:00,650 - INFO - {
+  "relationships": [
+    {
+      "source": "product_cr3",
+      "target": "factory_rennes_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 18:22:00,650 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:22:00,650 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 18:22:00,650 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 18:22:03,621 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:22:03,621 - INFO - {
+  "relationships": []
+}
+2025-11-19 18:22:03,621 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:22:03,621 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 18:22:03,621 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 18:22:05,454 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:22:05,455 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_rennes",
+      "target": "factory_rennes_france",
+      "type": "funds"
+    },
+    {
+      "source": "investment_stellantis_rennes",
+      "target": "product_cr3",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-19 18:22:05,455 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:22:05,474 - INFO - ✅ Updated Article ID: 691dfae4b525b3ae56ed853f with 5 nodes and combined text.

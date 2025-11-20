@@ -1,0 +1,184 @@
+2025-11-19 18:21:37,643 - INFO - 🔍 Text length: 1983 characters
+2025-11-19 18:21:37,644 - INFO - 📌 Processing Article ID: 691dfb57b525b3ae56ed8541 — Stellantis Spending $176 Million To Get French Factory Ready For Electric SUV
+2025-11-19 18:21:37,644 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 18:21:41,185 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:41,185 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stellantis",
+        "type": "company",
+        "name": "Stellantis"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_rennes_france",
+        "type": "factory",
+        "name": "Rennes Factory",
+        "location": {
+          "city": "Rennes",
+          "country": "France"
+        },
+        "status": "operational"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_stellantis_rennes_factory_upgrade",
+        "type": "investment",
+        "name": "Stellantis Rennes Factory Upgrade",
+        "amount": "\u20ac160 million ($176 million)",
+        "status": "ongoing"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_all_electric_suv",
+        "type": "product",
+        "name": "all-electric SUV"
+      },
+      {
+        "id": "product_battery_assembly_workshop",
+        "type": "product",
+        "name": "battery assembly workshop"
+      },
+      {
+        "id": "product_plastic_injection_molding",
+        "type": "product",
+        "name": "plastic injection molding"
+      },
+      {
+        "id": "product_front_and_rear_modules",
+        "type": "product",
+        "name": "front and rear modules"
+      }
+    ]
+  }
+}
+2025-11-19 18:21:41,185 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:41,185 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-11-19 18:21:41,185 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 18:21:41,185 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 18:21:41,892 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:41,892 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_stellantis_rennes_factory_upgrade",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 18:21:41,892 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:41,892 - INFO - ✅ Match found for investment_ID 'investment_stellantis_rennes_factory_upgrade' in investment nodes
+2025-11-19 18:21:41,892 - INFO -   ➕ Set field 'status': announced
+2025-11-19 18:21:41,892 - INFO -   ➕ Set field 'phase': retrofit
+2025-11-19 18:21:41,892 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 18:21:41,892 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 18:21:41,892 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 18:21:45,923 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:45,923 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_all_electric_suv",
+      "product_lv1": "vehicle",
+      "product_lv2": "electric"
+    },
+    {
+      "product_ID": "product_battery_assembly_workshop",
+      "product_lv1": "battery",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_plastic_injection_molding",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    },
+    {
+      "product_ID": "product_front_and_rear_modules",
+      "product_lv1": "unclear",
+      "product_lv2": null
+    }
+  ]
+}
+2025-11-19 18:21:45,924 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:45,924 - INFO - ✅ Match found for product_ID 'product_all_electric_suv' in product nodes
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv1': vehicle
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv2': electric
+2025-11-19 18:21:45,924 - INFO - ✅ Match found for product_ID 'product_battery_assembly_workshop' in product nodes
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv1': battery
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-19 18:21:45,924 - INFO - ✅ Match found for product_ID 'product_plastic_injection_molding' in product nodes
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-11-19 18:21:45,924 - INFO - ✅ Match found for product_ID 'product_front_and_rear_modules' in product nodes
+2025-11-19 18:21:45,924 - INFO -   ➕ Set field 'product_lv1': unclear
+2025-11-19 18:21:45,924 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 18:21:45,924 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 18:21:45,924 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 18:21:50,506 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:50,506 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stellantis",
+      "type": "owns",
+      "target": "factory_rennes_france"
+    }
+  ]
+}
+2025-11-19 18:21:50,506 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:50,506 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 18:21:50,506 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 18:21:52,289 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:52,289 - INFO - {
+  "relationships": [
+    {
+      "source": "product_all_electric_suv",
+      "target": "factory_rennes_france",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 18:21:52,289 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:52,289 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 18:21:52,289 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 18:21:52,900 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:52,900 - INFO - {
+  "relationships": []
+}
+2025-11-19 18:21:52,900 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:52,901 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 18:21:52,901 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 18:21:54,916 - INFO - ✅ OpenAI returned output:
+2025-11-19 18:21:54,916 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_stellantis_rennes_factory_upgrade",
+      "target": "factory_rennes_france",
+      "type": "funds"
+    },
+    {
+      "source": "investment_stellantis_rennes_factory_upgrade",
+      "target": "product_all_electric_suv",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_rennes_factory_upgrade",
+      "target": "product_battery_assembly_workshop",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_rennes_factory_upgrade",
+      "target": "product_plastic_injection_molding",
+      "type": "targets"
+    },
+    {
+      "source": "investment_stellantis_rennes_factory_upgrade",
+      "target": "product_front_and_rear_modules",
+      "type": "targets"
+    }
+  ]
+}
+2025-11-19 18:21:54,916 - INFO - POST-PROCESSING STARTING.
+2025-11-19 18:21:54,935 - INFO - ✅ Updated Article ID: 691dfb57b525b3ae56ed8541 with 7 nodes and combined text.

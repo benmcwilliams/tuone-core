@@ -1,0 +1,186 @@
+2025-11-19 17:12:32,854 - INFO - 🔍 Text length: 4285 characters
+2025-11-19 17:12:32,854 - INFO - 📌 Processing Article ID: 69166a7f651464413cf07110 — New technologies, new opportunities
+2025-11-19 17:12:32,854 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-11-19 17:12:39,390 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:39,390 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_nexwafe",
+        "type": "company",
+        "name": "Nexwafe"
+      },
+      {
+        "id": "company_exawatt",
+        "type": "company",
+        "name": "Exawatt"
+      },
+      {
+        "id": "company_reliance_industries",
+        "type": "company",
+        "name": "Reliance Industries"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_germany_500mw_demonstration_line",
+        "type": "factory",
+        "name": "Germany 500MW Demonstration Line",
+        "location": {
+          "city": "null",
+          "country": "Germany"
+        },
+        "status": "under construction"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_reliance_industries_39_million",
+        "type": "investment",
+        "name": "Reliance Industries \u20ac39 million investment",
+        "amount": "\u20ac39 million ($42.5 million)",
+        "status": "completed"
+      }
+    ],
+    "capacities": [
+      {
+        "id": "capacity_500mw",
+        "type": "capacity",
+        "name": "",
+        "amount": "500MW",
+        "status": "under construction"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_epiwafer",
+        "type": "product",
+        "name": "Epiwafer"
+      },
+      {
+        "id": "product_silicon_wafers",
+        "type": "product",
+        "name": "silicon wafers"
+      }
+    ]
+  }
+}
+2025-11-19 17:12:39,390 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:39,391 - INFO - 🔍 Extracting characteristics for node group: capacities
+2025-11-19 17:12:39,391 - INFO - Extracting: {'prompt': 'src/prompts/capacities.txt', 'schema': 'src/schemas/capacities.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'capacities', 'id_key': 'capacity_ID', 'type_match': 'capacity'}
+2025-11-19 17:12:40,618 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:40,618 - INFO - {
+  "node_characteristics": [
+    {
+      "capacity_ID": "capacity_500mw",
+      "status": "under construction",
+      "phase": "greenfield",
+      "additional": false
+    }
+  ]
+}
+2025-11-19 17:12:40,618 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:40,618 - INFO - ✅ Match found for capacity_ID 'capacity_500mw' in capacity nodes
+2025-11-19 17:12:40,619 - INFO -   ➕ Set field 'status': under construction
+2025-11-19 17:12:40,619 - INFO -   ➕ Set field 'phase': greenfield
+2025-11-19 17:12:40,619 - INFO -   ➕ Set field 'additional': False
+2025-11-19 17:12:40,619 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-11-19 17:12:40,619 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-11-19 17:12:42,768 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:42,768 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_reliance_industries_39_million",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-11-19 17:12:42,768 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:42,768 - INFO - ✅ Match found for investment_ID 'investment_reliance_industries_39_million' in investment nodes
+2025-11-19 17:12:42,768 - INFO -   ➕ Set field 'status': completed
+2025-11-19 17:12:42,768 - INFO -   ➕ Set field 'phase': unclear
+2025-11-19 17:12:42,768 - INFO -   ➕ Set field 'is_total': True
+2025-11-19 17:12:42,768 - INFO - 🔍 Extracting characteristics for node group: products
+2025-11-19 17:12:42,769 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-11-19 17:12:44,305 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:44,306 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_epiwafer",
+      "product_lv1": "solar",
+      "product_lv2": "null"
+    },
+    {
+      "product_ID": "product_silicon_wafers",
+      "product_lv1": "solar",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-11-19 17:12:44,306 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:44,306 - INFO - ✅ Match found for product_ID 'product_epiwafer' in product nodes
+2025-11-19 17:12:44,306 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:12:44,306 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-19 17:12:44,306 - INFO - ✅ Match found for product_ID 'product_silicon_wafers' in product nodes
+2025-11-19 17:12:44,306 - INFO -   ➕ Set field 'product_lv1': solar
+2025-11-19 17:12:44,306 - INFO -   ➕ Set field 'product_lv2': null
+2025-11-19 17:12:44,306 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-11-19 17:12:44,306 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-11-19 17:12:44,306 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-11-19 17:12:47,069 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:47,070 - INFO - {
+  "relationships": [
+    {
+      "source": "company_nexwafe",
+      "type": "owns",
+      "target": "factory_germany_500mw_demonstration_line"
+    }
+  ]
+}
+2025-11-19 17:12:47,070 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:47,070 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-11-19 17:12:47,070 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-11-19 17:12:49,097 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:49,097 - INFO - {
+  "relationships": [
+    {
+      "source": "capacity_500mw",
+      "target": "factory_germany_500mw_demonstration_line",
+      "type": "at"
+    },
+    {
+      "source": "capacity_500mw",
+      "target": "product_epiwafer",
+      "type": "quantifies"
+    },
+    {
+      "source": "product_epiwafer",
+      "target": "factory_germany_500mw_demonstration_line",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-11-19 17:12:49,097 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:49,097 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-11-19 17:12:49,098 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-11-19 17:12:53,520 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:53,521 - INFO - {
+  "relationships": []
+}
+2025-11-19 17:12:53,521 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:53,521 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-11-19 17:12:53,521 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-11-19 17:12:55,671 - INFO - ✅ OpenAI returned output:
+2025-11-19 17:12:55,671 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_reliance_industries_39_million",
+      "type": "funds",
+      "target": "factory_germany_500mw_demonstration_line"
+    }
+  ]
+}
+2025-11-19 17:12:55,671 - INFO - POST-PROCESSING STARTING.
+2025-11-19 17:12:55,695 - INFO - ✅ Updated Article ID: 69166a7f651464413cf07110 with 8 nodes and combined text.
