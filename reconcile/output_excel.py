@@ -1,16 +1,18 @@
+import os
 import pandas as pd
 import sys; sys.path.append("..")
 from bson import ObjectId
 from mongo_client import facilities_collection, articles_collection
 
-# facility-level fields you want repeated on every phase row
+bim_path = "storage/output/bruegel_investment_monitor.xlsx"
+INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron", "wind"]
+
+# facility-level fields we want repeated on every phase row
 FACILITY_FIELDS = [
     "project_id",
     "inst_canon",
     "iso2",
     "admin_group_key",
-    #"lat",
-    #"lon",
     "product_lv1",
     "product_lv2",
 ]
@@ -159,9 +161,15 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     Returns the dataframe for convenience.
     """
     df = build_phases_dataframe(query=query)
+
+    # drop rows where all phase values are empty (we can drop this but this is typically noise that we have not bothered to validate out....)
+    drop_cols = ["phase_capacity", "capacity", "phase_investment", "investment"]
+    existing = [c for c in drop_cols if c in df.columns]
+
+    if existing:
+        df = df.dropna(subset=existing, how="all")
     
-    df = df[df["product_lv1"].isin(["solar", "vehicle", "battery"])]
-    #df = df[df["product_lv1"].isin(["vehicle", "battery"])]
+    df = df[df["product_lv1"].isin(INCLUDE_LV1)]
 
     if "product_lv2" in df.columns:
         # treat NaN or empty/whitespace as blank
@@ -171,6 +179,10 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
         # keep only non-blank AND not containing 'deployment'
         df = df[~is_blank & not_deployment]
 
+    # collapse dates to monthly granularity (YYYY-MM)
+    for col in ["announced_on", "under_construction_on", "operational_on"]:
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], errors="coerce").dt.strftime("%Y-%m")
 
     df = attach_article_urls(df)
 
@@ -182,11 +194,37 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     # tidy column order
     df = reorder_columns(df)
 
-    df.to_excel(filepath, index=False)
+    # --- write each product_lv1 to its own sheet, preserving README ---
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Expected existing Excel file at: {filepath}")
+
+    with pd.ExcelWriter(
+        filepath,
+        engine="openpyxl",
+        mode="a",
+        if_sheet_exists="replace",
+    ) as writer:
+        for pl1 in sorted(df["product_lv1"].unique()):
+            sub = df[df["product_lv1"] == pl1].copy()
+
+            # --- sort: owner, country, region (alphabetical), phase (numeric) ---
+            if "phase" in sub.columns:
+                # ensure numeric sort, fallback to NaN for non-numeric
+                sub["phase"] = pd.to_numeric(sub["phase"], errors="coerce")
+
+            sort_cols = [c for c in ["owner", "country", "region", "phase"] if c in sub.columns]
+            sub = sub.sort_values(sort_cols, ascending=True)
+
+            sub.to_excel(
+                writer,
+                sheet_name=pl1,
+                index=False,
+            )
+
     return df
 
 if __name__ == "__main__":
-    df = export_phases_to_excel("bruegel_investments.xlsx")
+    df = export_phases_to_excel(bim_path)
 
     n_phases = len(df)
     n_facilities = df["project_id"].nunique()
