@@ -159,9 +159,10 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     Returns the dataframe for convenience.
     """
     df = build_phases_dataframe(query=query)
-    #df = df[df["product_lv1"].isin(["solar", "vehicle", "battery", "iron"])]
+    
+    df = df[df["product_lv1"].isin(["solar", "vehicle", "battery"])]
+    #df = df[df["product_lv1"].isin(["vehicle", "battery"])]
 
-    df = df[df["product_lv1"].isin(["solar"])]
     if "product_lv2" in df.columns:
         # treat NaN or empty/whitespace as blank
         is_blank = df["product_lv2"].isna() | (df["product_lv2"].astype(str).str.strip() == "")

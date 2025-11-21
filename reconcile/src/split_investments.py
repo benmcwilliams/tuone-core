@@ -133,7 +133,7 @@ def distribute_vehicle_battery_split(
             idxs = idxs_by_cat.get(cat, [])
             if len(idxs) == 0:
                 continue
-            per_row = cat_weight / len(idxs)
+            per_row = cat_weight
             for idx in idxs:
                 factors_by_idx[idx] = per_row
 
