@@ -1,24 +1,8 @@
 import sys; sys.path.append("..")
 import logging
 import time
-from mongo_client import facilities_collection
 from src.main_helpers import log_nodes_for_article
 from src.logger import setup_logger
-from src.merge_helpers import make_context_from_frames
-from ev_volumes import build_zev_og_clean_excel
-from normalise_products import classify_products_sync_mongo
-from normalise_owners import clean_owner_names
-from query_geonames import query_geonames_new_cities
-from flatten import run_flatten_articles
-from merge import run_view
-from normalise_capacity import run_capacity_normalisation_pipeline
-from normalise_investment import run_investment_normalisation_pipeline
-from registry_union import build_registry_union
-from group import group_projects
-from facilities import write_facilities
-from attach_events import attach_events
-from assign_phase import assign_phase_num
-from phase_summary import compute_summaries
 
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
@@ -35,6 +19,26 @@ from src.config import (
     CLEAN_INVESTMENT_FUNDS,
 )
 
+# functions to update mongo metadata
+from normalise_owners import clean_owner_names
+from query_geonames import query_geonames_new_cities
+
+# functions to update main database 
+from ev_volumes import build_zev_og_clean_excel
+from flatten import run_flatten_articles
+from src.merge_helpers import make_context_from_frames
+from merge import run_view
+from registry_union import build_registry_union
+from normalise_capacity import run_capacity_normalisation_pipeline
+from normalise_investment import run_investment_normalisation_pipeline
+from group import group_projects
+
+# functions to update our mongodb database
+from facilities import write_facilities
+from attach_events import attach_events
+from assign_phase import assign_phase_num
+from phase_summary import compute_summaries
+
 debug_articleID = None
 
 def main(update_mongo_metadata=False, update_main_database=False):
@@ -48,7 +52,7 @@ def main(update_mongo_metadata=False, update_main_database=False):
         logging.info("🕴️Normalising companies...")  # only updates nodes with missing name_canon (inst_canon)
         clean_owner_names()
 
-        #logging.info("🌎 Querying geonames...") 
+        logging.info("🌎 Querying geonames...") 
         query_geonames_new_cities(limit=22000, skip=0, failure_backoff_days=2000)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
