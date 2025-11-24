@@ -19,13 +19,13 @@ import pandas as pd
 from tqdm import tqdm
  
 import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
  
 # Your existing internal modules
 # - db: a pymongo database handle (from your mongo_client.py)
 # - get_headquarters_country(name, raw_name=None) and country_to_iso2(name)
 from mongo_client import db
-from src.country_hq import get_headquarters_country, country_to_iso2
+from reconcile.src.country_hq import get_headquarters_country, country_to_iso2
  
 # --------------------------
 # CONFIG
@@ -33,7 +33,7 @@ from src.country_hq import get_headquarters_country, country_to_iso2
 COLLECTION_NAME = "facilities_develop"
  
 # Excel buffer (created next to this script)
-OUTPUT_FILE = Path(__file__).with_name("src/hq_enrichment_results.xlsx")
+OUTPUT_FILE = Path(__file__).with_name("hq_enrichment_results.xlsx")
  
 # Set True to also store full country/region fields in Mongo (besides ISO2)
 WRITE_EXTRA_FIELDS = True

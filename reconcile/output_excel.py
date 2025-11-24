@@ -222,11 +222,19 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
             )
 
     return df
+    
 
 if __name__ == "__main__":
     df = export_phases_to_excel(bim_path)
 
     n_phases = len(df)
     n_facilities = df["project_id"].nunique()
-
     print(f"Exported {n_phases} investment phases across {n_facilities} facilities.")
+
+    # Per-technology breakdown (one line per sheet/technology)
+    for pl1 in sorted(df["product_lv1"].unique()):
+        sub = df[df["product_lv1"] == pl1]
+        n_phases_pl1 = len(sub)
+        n_facilities_pl1 = sub["project_id"].nunique()
+        print(f"  - {pl1}: {n_phases_pl1} phases across {n_facilities_pl1} facilities.")
+        
