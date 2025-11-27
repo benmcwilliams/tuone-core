@@ -21,7 +21,11 @@ DEFAULT_UNIT_MAP = {
     #nuclear
     ("nuclear", "deployment"): "megawatt",
     #hydro
-    ("hydroelectric", "deployment"): "megawatt"
+    ("hydroelectric", "deployment"): "megawatt",
+    #iron
+    ("iron", "DRI"): "tonne",
+    ("iron", "natural gas DRI"): "tonne",
+    ("iron", "hydrogen DRI"): "tonne",
 }
 
 
