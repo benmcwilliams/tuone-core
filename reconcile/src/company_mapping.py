@@ -3,8 +3,9 @@ import json
 import pandas as pd
 
 # Load company mapping
-with open('src/company_mapping.json', 'r') as f:
+with open('src/company_mapping.json', 'r', encoding='utf-8') as f:
     company_mapping = json.load(f)
+
 
 # Build reverse mapping
 reverse_mapping = {}
