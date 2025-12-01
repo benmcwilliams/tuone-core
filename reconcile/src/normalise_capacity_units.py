@@ -18,6 +18,8 @@ UNIT_NORMALIZATION = {
     "tonne":            ("tonne", 1),
     "kilotonne":        ("tonne", 1e3),
     "megatonne":        ("tonne", 1e6),
+    "kgilogram":        ("tonne", 1e-3),
+    "kg":             ("tonne", 1e-3),
 }
 
 # ========= Metric Mapping =========

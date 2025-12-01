@@ -7,7 +7,7 @@ TIME_MAP = {
     "per year": "per year", "a year": "per year",
     "monthly": "per month", "per month": "per month", "/month": "per month", "a month": "per month",
     "weekly": "per week", "per week": "per week", "/week": "per week",
-    "daily": "per day", "per day": "per day", "/day": "per day", "a day": "per day",
+    "daily": "per day", "per day": "per day", "/day": "per day", "a day": "per day", "/d": "per day",
     "hourly": "per hour", "per hour": "per hour", "/hour": "per hour", "an hour": "per hour", "-hours": "per hour",  "-hour": "per hour", "- hour": "per hour", "hour":"per hour", "- hours": "per hour", " -hour": "per hour"
 }
 
