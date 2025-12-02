@@ -63,6 +63,8 @@ def main(update_mongo_metadata=False, update_main_database=False):
         logging.info("Update EV Volumes data")
         build_zev_og_clean_excel()
 
+        # read in IEA hydrogen database
+
         logging.info("🗞️ Flattening articles...")
         nodes_df, rels_df = run_flatten_articles(save=False)
 
