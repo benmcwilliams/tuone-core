@@ -5,7 +5,7 @@ from bson import ObjectId
 from mongo_client import facilities_collection, articles_collection
 
 bim_path = "storage/output/bruegel_investment_monitor.xlsx"
-INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron", "wind"]
+INCLUDE_LV1 = ["solar", "vehicle", "battery"]
 
 # facility-level fields we want repeated on every phase row
 FACILITY_FIELDS = [
@@ -229,12 +229,26 @@ if __name__ == "__main__":
 
     n_phases = len(df)
     n_facilities = df["project_id"].nunique()
-    print(f"Exported {n_phases} investment phases across {n_facilities} facilities.")
+
+    total_investment = df["phase_investment"].sum(skipna=True)
+    total_investment_mn = total_investment / 1e6
+
+    print(
+        f"Exported {n_phases} investment phases across {n_facilities} facilities "
+        f"(total phase investment: {total_investment_mn:,.1f} million EUR)."
+    )
 
     # Per-technology breakdown (one line per sheet/technology)
     for pl1 in sorted(df["product_lv1"].unique()):
         sub = df[df["product_lv1"] == pl1]
         n_phases_pl1 = len(sub)
         n_facilities_pl1 = sub["project_id"].nunique()
-        print(f"  - {pl1}: {n_phases_pl1} phases across {n_facilities_pl1} facilities.")
+
+        inv_sum_pl1 = sub["phase_investment"].sum(skipna=True)
+        inv_sum_pl1_mn = inv_sum_pl1 / 1e6
+
+        print(
+            f"  - {pl1}: {n_phases_pl1} phases across {n_facilities_pl1} facilities "
+            f"({inv_sum_pl1_mn:,.1f} million EUR)."
+        )
         

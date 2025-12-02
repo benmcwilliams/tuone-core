@@ -89,30 +89,18 @@ def group_projects(file_to_group, out_path, output_cols):
     # deterministic UUID5 hash
     df["project_id"] = df["project_key_str"].apply(lambda s: str(uuid.uuid5(NS, s)))
 
-    # 3) Compute clusters
+    # 3) Apply any custom filters
 
-    # # DEFINE group cols 
-    # group_cols = [
-    #     "admin_group_key",         
-    #     "inst_canon",
-    #     "product_lv1"
-    # ]
-
-    # complete_mask = df[group_cols].notna().all(axis=1)
-    # df['cluster_num'] = np.nan 
-    # df['cluster_id']  = '000000'
-    # tmp = df.loc[complete_mask].copy()
-    # tmp['cluster_num'] = tmp.groupby(group_cols).ngroup() + 1
-    # sizes = tmp.groupby('cluster_num')['factory'].transform('size')
-
-    # tmp['cluster_id'] = (
-    #     sizes.gt(0)                       # keep all clusters with ≥0 rows
-    #     .mul(tmp['cluster_num'])          # multiply to keep the number or 0
-    #     .astype(int)
-    #     .astype(str)
-    #     .str.zfill(6)                     # pad to six digits
-    # )
-    # df.loc[complete_mask, ['cluster_num', 'cluster_id']] = tmp[['cluster_num', 'cluster_id']]
+    # For rows where product_lv1 == "iron", keep only those where product_lv2 is in ["DRI", "hydrogen DRI", "natural gas DRI"]
+    allowed_lv2 = ["DRI", "hydrogen DRI", "natural gas DRI"]
+    mask = ~(
+        (df["product_lv1"] == "iron") &
+        (~df["product_lv2"].isin(allowed_lv2))
+    )
+    df = df[mask].copy()
+    # Additionally, for the kept rows where product_lv1 == "iron" and lv2 is in allowed_lv2, set lv2 to 'DRI'
+    iron_mask = (df["product_lv1"] == "iron") & (df["product_lv2"].isin(allowed_lv2))
+    df.loc[iron_mask, "product_lv2"] = "DRI"
 
     # 4) Clean and save output
 
