@@ -1,0 +1,176 @@
+2025-12-02 15:29:43,819 - INFO - 🔍 Text length: 1016 characters
+2025-12-02 15:29:43,819 - INFO - 📌 Processing Article ID: 692ed03100fa83f8a91b6ccb — Stegra granted additional state aid from the Industrial Leap
+2025-12-02 15:29:43,820 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-12-02 15:29:47,870 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:47,871 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_stegra",
+        "type": "company",
+        "name": "Stegra"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_boden_sweden",
+        "type": "factory",
+        "name": "Boden Facility",
+        "location": {
+          "city": "Boden",
+          "country": "Sweden"
+        },
+        "status": "announced"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_industrial_leap_1",
+        "type": "investment",
+        "name": "Industrial Leap Grant 1",
+        "amount": "\u20ac100 million",
+        "status": "completed"
+      },
+      {
+        "id": "investment_industrial_leap_2",
+        "type": "investment",
+        "name": "Industrial Leap Grant 2",
+        "amount": "\u20ac37 million",
+        "status": "announced"
+      },
+      {
+        "id": "investment_sweden_measure",
+        "type": "investment",
+        "name": "Sweden Measure",
+        "amount": "\u20ac265 million",
+        "status": "completed"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_near_zero_emission_steel",
+        "type": "product",
+        "name": "near zero emission steel"
+      }
+    ]
+  }
+}
+2025-12-02 15:29:47,871 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:47,871 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-12-02 15:29:47,871 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-12-02 15:29:47,871 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-12-02 15:29:49,900 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:49,900 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_industrial_leap_1",
+      "status": "announced",
+      "phase": "greenfield",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_industrial_leap_2",
+      "status": "completed",
+      "phase": "greenfield",
+      "is_total": false
+    },
+    {
+      "investment_ID": "investment_sweden_measure",
+      "status": "completed",
+      "phase": "unclear",
+      "is_total": true
+    }
+  ]
+}
+2025-12-02 15:29:49,900 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:49,900 - INFO - ✅ Match found for investment_ID 'investment_industrial_leap_1' in investment nodes
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'status': announced
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'phase': greenfield
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'is_total': False
+2025-12-02 15:29:49,900 - INFO - ✅ Match found for investment_ID 'investment_industrial_leap_2' in investment nodes
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'status': completed
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'phase': greenfield
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'is_total': False
+2025-12-02 15:29:49,900 - INFO - ✅ Match found for investment_ID 'investment_sweden_measure' in investment nodes
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'status': completed
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'phase': unclear
+2025-12-02 15:29:49,900 - INFO -   ➕ Set field 'is_total': True
+2025-12-02 15:29:49,900 - INFO - 🔍 Extracting characteristics for node group: products
+2025-12-02 15:29:49,900 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-12-02 15:29:51,079 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:51,080 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_near_zero_emission_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-12-02 15:29:51,080 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:51,080 - INFO - ✅ Match found for product_ID 'product_near_zero_emission_steel' in product nodes
+2025-12-02 15:29:51,080 - INFO -   ➕ Set field 'product_lv1': steel
+2025-12-02 15:29:51,080 - INFO -   ➕ Set field 'product_lv2': null
+2025-12-02 15:29:51,080 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-12-02 15:29:51,080 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-12-02 15:29:51,080 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-12-02 15:29:51,930 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:51,931 - INFO - {
+  "relationships": [
+    {
+      "source": "company_stegra",
+      "type": "owns",
+      "target": "factory_boden_sweden"
+    }
+  ]
+}
+2025-12-02 15:29:51,931 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:51,931 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-12-02 15:29:51,931 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-12-02 15:29:52,717 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:52,717 - INFO - {
+  "relationships": [
+    {
+      "source": "product_near_zero_emission_steel",
+      "target": "factory_boden_sweden",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-12-02 15:29:52,717 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:52,717 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-12-02 15:29:52,717 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-12-02 15:29:55,905 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:55,905 - INFO - {
+  "relationships": []
+}
+2025-12-02 15:29:55,905 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:55,905 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-12-02 15:29:55,905 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-12-02 15:29:58,937 - INFO - ✅ OpenAI returned output:
+2025-12-02 15:29:58,937 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_industrial_leap_1",
+      "target": "product_near_zero_emission_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_industrial_leap_1",
+      "target": "factory_boden_sweden",
+      "type": "funds"
+    },
+    {
+      "source": "investment_industrial_leap_2",
+      "target": "product_near_zero_emission_steel",
+      "type": "targets"
+    },
+    {
+      "source": "investment_industrial_leap_2",
+      "target": "factory_boden_sweden",
+      "type": "funds"
+    }
+  ]
+}
+2025-12-02 15:29:58,937 - INFO - POST-PROCESSING STARTING.
+2025-12-02 15:29:59,030 - INFO - ✅ Updated Article ID: 692ed03100fa83f8a91b6ccb with 6 nodes and combined text.

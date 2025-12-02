@@ -66,7 +66,7 @@ def distribute_vehicle_battery_split(
     VEH_E = ("vehicle", "electric")
     VEH_F = ("vehicle", "fossil")
     BAT_M = ("battery", "module_pack")
-
+    
     out = df.copy()
 
     if "split_investment" not in out.columns:
