@@ -7,7 +7,7 @@ from mongo_client import mongo_client
 SOURCE_DB_NAME = "tuone"
 SOURCE_COLLECTION_NAME = "facilities_develop"
 TARGET_DB_NAME = "tuone"
-TARGET_COLLECTION_NAME = "facilities"
+TARGET_COLLECTION_NAME = "facilities_develop_0112"
 BATCH_SIZE = 1000
 
 # ---------- Setup ----------
