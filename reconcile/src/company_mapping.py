@@ -51,7 +51,8 @@ SITE_MERGE = {
     ("meyer burger", "DE", "Thalheim/Erzgeb."): "Thalheim",
     ("midsummer", "IT", "Bari"): "Apulia",
     ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
-    ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality"
+    ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
+    ("faam fib spa", "IT", "Caserta"): "Teverola"
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }

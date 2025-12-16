@@ -1,0 +1,132 @@
+2025-12-08 09:33:22,702 - INFO - 🔍 Text length: 1357 characters
+2025-12-08 09:33:22,703 - INFO - 📌 Processing Article ID: 693182a5b99a8f7ad0d23b6b — https://www.energyconnects.com/news/utilities/2025/september/tata-steel-eyes-65-billion-agreement-to-cut-dutch-emissions/
+2025-12-08 09:33:22,703 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-12-08 09:33:29,558 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:29,558 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_tata_steel_ltd",
+        "type": "company",
+        "name": "Tata Steel Ltd."
+      },
+      {
+        "id": "company_tata_steel_nederland",
+        "type": "company",
+        "name": "Tata Steel Nederland"
+      }
+    ],
+    "joint_ventures": [
+      {
+        "id": "joint_venture_tata_steel_nederland_government",
+        "type": "joint_venture",
+        "name": "Tata Steel Nederland Government"
+      }
+    ],
+    "investments": [
+      {
+        "id": "investment_tata_steel_nederland_project",
+        "type": "investment",
+        "name": "Tata Steel Nederland Project",
+        "amount": "\u20ac4 billion and \u20ac6.5 billion",
+        "status": "announced"
+      },
+      {
+        "id": "investment_eu_innovation_fund",
+        "type": "investment",
+        "name": "EU Innovation Fund",
+        "amount": "\u20ac300 million",
+        "status": "announced"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_steel",
+        "type": "product",
+        "name": "steel"
+      }
+    ]
+  }
+}
+2025-12-08 09:33:29,558 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:29,558 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-12-08 09:33:29,558 - INFO - 🔍 Extracting characteristics for node group: investments
+2025-12-08 09:33:29,558 - INFO - Extracting: {'prompt': 'src/prompts/investments.txt', 'schema': 'src/schemas/investments.json', 'function_name': 'extract_characteristics', 'top_key': 'node_characteristics', 'model_key': 'investments', 'id_key': 'investment_ID', 'type_match': 'investment'}
+2025-12-08 09:33:31,482 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:31,482 - INFO - {
+  "node_characteristics": [
+    {
+      "investment_ID": "investment_tata_steel_nederland_project",
+      "status": "announced",
+      "phase": "retrofit",
+      "is_total": true
+    },
+    {
+      "investment_ID": "investment_eu_innovation_fund",
+      "status": "announced",
+      "phase": "unclear",
+      "is_total": false
+    }
+  ]
+}
+2025-12-08 09:33:31,482 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:31,482 - INFO - ✅ Match found for investment_ID 'investment_tata_steel_nederland_project' in investment nodes
+2025-12-08 09:33:31,482 - INFO -   ➕ Set field 'status': announced
+2025-12-08 09:33:31,483 - INFO -   ➕ Set field 'phase': retrofit
+2025-12-08 09:33:31,483 - INFO -   ➕ Set field 'is_total': True
+2025-12-08 09:33:31,483 - INFO - ✅ Match found for investment_ID 'investment_eu_innovation_fund' in investment nodes
+2025-12-08 09:33:31,483 - INFO -   ➕ Set field 'status': announced
+2025-12-08 09:33:31,483 - INFO -   ➕ Set field 'phase': unclear
+2025-12-08 09:33:31,483 - INFO -   ➕ Set field 'is_total': False
+2025-12-08 09:33:31,483 - INFO - 🔍 Extracting characteristics for node group: products
+2025-12-08 09:33:31,483 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-12-08 09:33:32,381 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:32,381 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_steel",
+      "product_lv1": "steel",
+      "product_lv2": "null"
+    }
+  ]
+}
+2025-12-08 09:33:32,381 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:32,381 - INFO - ✅ Match found for product_ID 'product_steel' in product nodes
+2025-12-08 09:33:32,382 - INFO -   ➕ Set field 'product_lv1': steel
+2025-12-08 09:33:32,382 - INFO -   ➕ Set field 'product_lv2': null
+2025-12-08 09:33:32,382 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-12-08 09:33:32,382 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-12-08 09:33:32,382 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-12-08 09:33:33,988 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:33,988 - INFO - {
+  "relationships": []
+}
+2025-12-08 09:33:33,988 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:33,989 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-12-08 09:33:33,989 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-12-08 09:33:35,786 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:35,786 - INFO - {
+  "relationships": []
+}
+2025-12-08 09:33:35,786 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:35,786 - INFO - - - - Querying openai for relationships: financial_origin, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-origin:BnAYelxI
+2025-12-08 09:33:35,786 - INFO - Extracting: {'prompt': 'src/prompts/financial_origin.txt', 'schema': 'src/schemas/financial_origin.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_origin'}
+2025-12-08 09:33:38,224 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:38,224 - INFO - {
+  "relationships": []
+}
+2025-12-08 09:33:38,224 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:38,224 - INFO - - - - Querying openai for relationships: financial_technological, using model: ft:gpt-4o-mini-2024-07-18:personal:financial-technological:BnB3CXMS
+2025-12-08 09:33:38,224 - INFO - Extracting: {'prompt': 'src/prompts/financial_technological.txt', 'schema': 'src/schemas/financial_technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'financial_technological'}
+2025-12-08 09:33:40,152 - INFO - ✅ OpenAI returned output:
+2025-12-08 09:33:40,153 - INFO - {
+  "relationships": [
+    {
+      "source": "investment_tata_steel_nederland_project",
+      "target": "product_steel",
+      "type": "targets"
+    }
+  ]
+}
+2025-12-08 09:33:40,153 - INFO - POST-PROCESSING STARTING.
+2025-12-08 09:33:40,205 - INFO - ✅ Updated Article ID: 693182a5b99a8f7ad0d23b6b with 6 nodes and combined text.

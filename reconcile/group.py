@@ -9,7 +9,6 @@ from src.company_mapping import map_to_canonical, SITE_MERGE, JV_MERGE
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import COMPANY_JV
 from src.set_adm_level import add_admin_group_key
-from src.phase_tracks import parse_phase_num_and_track
 
 def group_projects(file_to_group, out_path, output_cols):
 
@@ -71,34 +70,18 @@ def group_projects(file_to_group, out_path, output_cols):
     n_changed = (df["inst_canon"] != df["inst_canon_premerge"]).sum()
     logging.info(f"Applied JV merges to {n_changed} rows (exact match only).")
 
-    # 4. Consider phases and product tracks
-
-    if "phase_num" in df.columns:
-        parsed = df["phase_num"].apply(parse_phase_num_and_track)
-        df["phase_num"], df["phase_track"] = zip(*parsed)
-    else:
-        df["phase_track"] = None
-
     # Generate hash key - stable namespace for reproducibility
     NS = uuid.uuid5(uuid.NAMESPACE_URL, "bruegel/project-key/v1")
 
-    # build the tuple (optionally include track letter for 1A / 2B / 3C cases)
-    def make_project_key_tuple(row):
-        base = (
-            str(row["iso2"]),
-            str(row["admin_group_key"]),
-            str(row["inst_canon"]),
-            str(row["product_lv1"]),
+    # build the tuple
+    df["project_key_tuple"] = list(
+        zip(
+            df["iso2"].astype(str),
+            df["admin_group_key"].astype(str),
+            df["inst_canon"].astype(str),
+            df["product_lv1"].astype(str),
         )
-
-        # ONLY split facilities when a track letter is explicitly present
-        track = row.get("phase_track")
-        if pd.notna(track) and track:
-            return base + (str(track),)
-
-        return base
-
-    df["project_key_tuple"] = df.apply(make_project_key_tuple, axis=1)
+    )
 
     # readable string
     df["project_key_str"] = df["project_key_tuple"].apply(lambda t: "|".join(map(str, t)))
@@ -106,7 +89,7 @@ def group_projects(file_to_group, out_path, output_cols):
     # deterministic UUID5 hash
     df["project_id"] = df["project_key_str"].apply(lambda s: str(uuid.uuid5(NS, s)))
 
-    # 5) Apply any custom filters
+    # 4) Apply any custom filters
 
     # For rows where product_lv1 == "iron", keep only those where product_lv2 is in ["DRI", "hydrogen DRI", "natural gas DRI"]
     allowed_lv2 = ["DRI", "hydrogen DRI", "natural gas DRI"]

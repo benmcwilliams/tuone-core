@@ -1,0 +1,108 @@
+2025-12-10 10:45:10,776 - INFO - 🔍 Text length: 2090 characters
+2025-12-10 10:45:10,776 - INFO - 📌 Processing Article ID: 6936ca79e88fad9db4d2c4ab — Arnhem solar film company HyET Solar bankrupt, plans for a restart
+2025-12-10 10:45:10,776 - INFO - Extracting: {'prompt': 'src/prompts/entities-only.txt', 'schema': 'src/schemas/entities.json', 'function_name': 'extract_clean_tech_entities', 'top_key': 'nodes', 'model_key': 'nodes'}
+2025-12-10 10:45:16,631 - INFO - ✅ OpenAI returned output:
+2025-12-10 10:45:16,631 - INFO - {
+  "nodes": {
+    "companies": [
+      {
+        "id": "company_hyet_solar",
+        "type": "company",
+        "name": "HyET Solar"
+      },
+      {
+        "id": "company_rombout_swanborn",
+        "type": "company",
+        "name": "Rombout Swanborn"
+      }
+    ],
+    "factories": [
+      {
+        "id": "factory_arnhem_netherlands",
+        "type": "factory",
+        "name": "Arnhem Factory",
+        "location": {
+          "city": "Arnhem",
+          "country": "Netherlands"
+        },
+        "status": "operational"
+      },
+      {
+        "id": "factory_indonesia",
+        "type": "factory",
+        "name": "Indonesia Factory",
+        "location": {
+          "city": "null",
+          "country": "Indonesia"
+        },
+        "status": "unclear"
+      }
+    ],
+    "products": [
+      {
+        "id": "product_powerfoil_solar_film",
+        "type": "product",
+        "name": "Powerfoil solar film"
+      }
+    ]
+  }
+}
+2025-12-10 10:45:16,632 - INFO - POST-PROCESSING STARTING.
+2025-12-10 10:45:16,632 - INFO - ⏭️ Skipping capacities – no nodes of type 'capacity' found.
+2025-12-10 10:45:16,632 - INFO - ⏭️ Skipping investments – no nodes of type 'investment' found.
+2025-12-10 10:45:16,632 - INFO - 🔍 Extracting characteristics for node group: products
+2025-12-10 10:45:16,632 - INFO - Extracting: {'prompt': 'src/prompts/products.txt', 'schema': 'src/schemas/products.json', 'function_name': 'normalise_products', 'top_key': 'node_characteristics', 'model_key': 'products', 'id_key': 'product_ID', 'type_match': 'products'}
+2025-12-10 10:45:17,962 - INFO - ✅ OpenAI returned output:
+2025-12-10 10:45:17,963 - INFO - {
+  "node_characteristics": [
+    {
+      "product_ID": "product_powerfoil_solar_film",
+      "product_lv1": "solar",
+      "product_lv2": "module"
+    }
+  ]
+}
+2025-12-10 10:45:17,963 - INFO - POST-PROCESSING STARTING.
+2025-12-10 10:45:17,963 - INFO - ✅ Match found for product_ID 'product_powerfoil_solar_film' in product nodes
+2025-12-10 10:45:17,963 - INFO -   ➕ Set field 'product_lv1': solar
+2025-12-10 10:45:17,963 - INFO -   ➕ Set field 'product_lv2': module
+2025-12-10 10:45:17,963 - INFO - 🛑 Skipping run_id: required nodes [] not present.
+2025-12-10 10:45:17,963 - INFO - - - - Querying openai for relationships: ownership, using model: ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP
+2025-12-10 10:45:17,963 - INFO - Extracting: {'prompt': 'src/prompts/ownership.txt', 'schema': 'src/schemas/ownership.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'ownership'}
+2025-12-10 10:45:20,112 - INFO - ✅ OpenAI returned output:
+2025-12-10 10:45:20,113 - INFO - {
+  "relationships": [
+    {
+      "source": "company_hyet_solar",
+      "type": "owns",
+      "target": "factory_arnhem_netherlands"
+    },
+    {
+      "source": "company_hyet_solar",
+      "type": "owns",
+      "target": "factory_indonesia"
+    }
+  ]
+}
+2025-12-10 10:45:20,113 - INFO - POST-PROCESSING STARTING.
+2025-12-10 10:45:20,113 - INFO - - - - Querying openai for relationships: technological, using model: ft:gpt-4o-mini-2024-07-18:personal:technological:BnA2IETN
+2025-12-10 10:45:20,113 - INFO - Extracting: {'prompt': 'src/prompts/technological.txt', 'schema': 'src/schemas/technological.json', 'function_name': 'extract_clean_tech_relationships', 'top_key': 'relationships', 'model_key': 'technological'}
+2025-12-10 10:45:22,132 - INFO - ✅ OpenAI returned output:
+2025-12-10 10:45:22,132 - INFO - {
+  "relationships": [
+    {
+      "source": "product_powerfoil_solar_film",
+      "target": "factory_arnhem_netherlands",
+      "type": "produced_at"
+    },
+    {
+      "source": "product_powerfoil_solar_film",
+      "target": "factory_indonesia",
+      "type": "produced_at"
+    }
+  ]
+}
+2025-12-10 10:45:22,132 - INFO - POST-PROCESSING STARTING.
+2025-12-10 10:45:22,133 - INFO - 🛑 Skipping financial_origin: required nodes ['investment'] not present.
+2025-12-10 10:45:22,133 - INFO - 🛑 Skipping financial_technological: required nodes ['investment'] not present.
+2025-12-10 10:45:22,150 - INFO - ✅ Updated Article ID: 6936ca79e88fad9db4d2c4ab with 5 nodes and combined text.
