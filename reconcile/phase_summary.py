@@ -5,7 +5,8 @@ import sys; sys.path.append("..")
 from pymongo import UpdateOne
 from datetime import datetime
 import pandas as pd
-from mongo_client import facilities_collection
+from mongo_client import facilities_collection, articles_collection
+from bson import ObjectId
 
 ## main logic should be updated to read from phases (or drop main...)
 
@@ -18,6 +19,9 @@ STATUS_RANK = {status: i for i, status in enumerate(STATUS_ORDER)}
 
 PAUSELIKE = {"cancelled", "paused"}  # facility events can only vote for pauses or cancellations
 INV_PAUSELIKE = PAUSELIKE | {"under construction", "announced"}
+
+ARTICLE_ID_FIELD = "_id"
+ATTACH_COMMENTS = False
 
 # --------- helpers -------------
 
@@ -111,6 +115,17 @@ def events_product_lv2_union(events: list) -> list[str]:
                 acc.add(s)
 
     return sorted(acc)
+
+def collect_article_ids_from_summary(summary: dict) -> set:
+    """
+    Grab all non-null *_article_id values from a summary dict.
+    """
+
+    ids = set()
+    for k, v in summary.items():
+        if k.endswith("_article_id") and v is not None:
+            ids.add(v)
+    return ids
 
 # ---------- main logic ------------
 
@@ -276,6 +291,10 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
     uc  = next((c for c in chron if c["status"] == "under construction"), None)
     op  = next((c for c in chron if c["status"] == "operational"), None)
 
+    summary["ann_date_imputed"] = False
+    summary["uc_date_imputed"] = False
+    summary["op_date_imputed"] = False
+
     # Rule 1: construction implies announcement if earlier or announcement missing
     if uc:
         uc_dt = parse_date(uc["date"])
@@ -300,6 +319,7 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         if pd.notna(uc_dt):
             op_dt = uc_dt + pd.DateOffset(years=3)
             summary["operational_on"] = op_dt.strftime("%Y-%m-%d")
+            summary["op_date_imputed"] = True
 
     # --- Rule 3: backfill earlier milestones from an operational date ---
     if op:
@@ -313,23 +333,32 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
                 backfill = (op_dt - pd.DateOffset(years=3)).strftime("%Y-%m-%d")
                 summary["announced_on"] = backfill
                 summary["under_construction_on"] = backfill
+                summary["ann_date_imputed"] = True
+                summary["uc_date_imputed"] = True
 
             # Case B: announced exists but construction missing
             elif ann_dt is not None and uc_dt is None:
                 two_years_before = op_dt - pd.DateOffset(years=3)
                 use_dt = ann_dt if ann_dt > two_years_before else two_years_before
                 summary["under_construction_on"] = use_dt.strftime("%Y-%m-%d")
+                summary["uc_date_imputed"] = True
 
     return summary
 
 # ------ main ---------
 
-def compute_summaries():
+def compute_summaries(debug_article_id: ObjectId | str | None = None):
+
     logging.info("🚀 Starting summary updates for main, phase 1 and phase 2...")
 
     updates = []
 
-    for doc in facilities_collection.find({}):
+    query = {}
+    if debug_article_id is not None:
+        query = {"_id": debug_article_id if isinstance(debug_article_id, ObjectId) else ObjectId(debug_article_id)}
+        logging.info(f"🐛 Debug mode: only processing _id={query['_id']}")
+
+    for doc in facilities_collection.find(query):
         events = doc.get("events", [])
         if not events:
             continue
@@ -368,6 +397,53 @@ def compute_summaries():
                     prev_capacity = summary["capacity"]
                 if summary.get("investment") is not None:
                     prev_investment = summary["investment"]
+
+        # --- attach comments from article docs to each phase summary ---
+        if ATTACH_COMMENTS and phases_list:
+            # 1) collect all article IDs used in any phase summary
+            all_article_ids = set()
+            for ph in phases_list:
+                all_article_ids |= collect_article_ids_from_summary(ph)
+
+            comments_by_id: dict = {}
+            if all_article_ids:
+                # normalize to ObjectId for querying by _id
+                normalized_ids = []
+                for v in all_article_ids:
+                    if isinstance(v, ObjectId):
+                        normalized_ids.append(v)
+                    elif isinstance(v, str):
+                        try:
+                            normalized_ids.append(ObjectId(v))
+                        except Exception:
+                            # not a valid ObjectId string; skip
+                            continue
+
+                if normalized_ids:
+                # batch query the articles once per facility
+                    cursor = articles_collection.find(
+                        {
+                            ARTICLE_ID_FIELD: {"$in": normalized_ids},
+                            "comment": {"$exists": True, "$ne": None, "$ne": ""},   # <- add this
+                        },
+                        {ARTICLE_ID_FIELD: 1, "comment": 1},
+                    )
+                    for art in cursor:
+                        aid = art.get(ARTICLE_ID_FIELD)
+                        comment = art.get("comment")
+                        if aid is not None and comment:
+                            comments_by_id[str(aid)] = comment
+
+            # 2) attach per-phase comments mapping articleID -> comment
+            for ph in phases_list:
+                ids_for_phase = collect_article_ids_from_summary(ph)
+                phase_comments = {
+                    str(aid): comments_by_id[str(aid)]
+                    for aid in ids_for_phase
+                    if str(aid) in comments_by_id
+                }
+                if phase_comments:
+                    ph["comments"] = phase_comments
 
         update_fields["phases"] = phases_list
 
@@ -427,4 +503,4 @@ def compute_summaries():
         logging.info("⚠️ No facilities needed updates.")
 
 if __name__ == "__main__":
-    compute_summaries()
+    compute_summaries("690342d840aff9ca9a4e7f29")

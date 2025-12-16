@@ -5,7 +5,7 @@ from bson import ObjectId
 from mongo_client import facilities_collection, articles_collection
 
 bim_path = "storage/output/bruegel_investment_monitor.xlsx"
-INCLUDE_LV1 = ["solar", "vehicle", "battery"]
+INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron"]
 
 # facility-level fields we want repeated on every phase row
 FACILITY_FIELDS = [
@@ -17,6 +17,10 @@ FACILITY_FIELDS = [
     "product_lv2",
 ]
 
+def make_excel_hyperlink(url):
+    if pd.isna(url) or not isinstance(url, str) or not url.strip():
+        return None
+    return f'=HYPERLINK("{url}", "source")'
 
 def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
     """
@@ -136,6 +140,10 @@ def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
             "announced_on",
             "under_construction_on",
             "operational_on",
+            "ann_date_imputed",
+            "uc_date_imputed",
+            "op_date_imputed",
+            "comments",
             # URL provenance columns
             "status_url",
             "capacity_url",
@@ -143,6 +151,7 @@ def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
             "announced_url",
             "under_construction_url",
             "operational_url",
+            "project_id"
         ]
     )
 
@@ -186,10 +195,21 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
 
     df = attach_article_urls(df)
 
+    # replace URL strings with Excel hyperlinks labelled "source"
+    url_cols = [c for c in df.columns if c.endswith("_url")]
+    for col in url_cols:
+        df[col] = df[col].apply(make_excel_hyperlink)
+
     # drop *_article_id columns, keep only URLs for export
     article_id_cols = [c for c in df.columns if c.endswith("_article_id")]
     if article_id_cols:
         df = df.drop(columns=article_id_cols)
+
+    # --- unwrap comments dict: keep only the text (not to confuse externals) ---
+    if "comments" in df.columns:
+        df["comments"] = df["comments"].apply(
+            lambda x: next(iter(x.values())) if isinstance(x, dict) and x else x
+        )
 
     # tidy column order
     df = reorder_columns(df)
