@@ -19,8 +19,8 @@ FACILITY_FIELDS = [
     "admin_group_key",
     "product_lv1",
     "product_lv2",
-    #"latitude",
-    #"longitude"
+    "latitude",
+    "longitude"
 ]
 
 def quarter_range_inclusive(start: pd.Timestamp, end: pd.Timestamp) -> list[pd.Period]:
@@ -81,8 +81,6 @@ def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
     Assumes df is already the renamed 'wide' df (owner/country/region/phase...).
     """
 
-    df["region"] = "Europe"
-
     rename_map = {
         "product_lv1": "technology",
         "region": "city",
@@ -102,8 +100,8 @@ def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
         "technology",
         "project_id",
         "city",
-        # "longitude",
-        # "latitude",
+        "longitude",
+        "latitude",
         "company_name",
         "investment_type",
         "investment_status",
@@ -116,8 +114,7 @@ def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
     ]
 
     main_cols = [c for c in desired_order if c in df.columns]
-    other_cols = [c for c in df.columns if c not in main_cols]
-    return df[main_cols + other_cols]
+    return df[main_cols]
 
 def make_excel_hyperlink(url):
     if pd.isna(url) or not isinstance(url, str) or not url.strip():
