@@ -17,6 +17,58 @@ FACILITY_FIELDS = [
     "product_lv2",
 ]
 
+def quarter_range_inclusive(start: pd.Timestamp, end: pd.Timestamp) -> list[pd.Period]:
+    """Inclusive list of quarterly Periods from start..end (by quarter)."""
+    return list(pd.period_range(start.to_period("Q"), end.to_period("Q"), freq="Q"))
+
+def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Long format:
+    - one row per (phase × quarter)
+    - ONLY keep rows where both under_construction_on and operational_on exist
+    - distribute phase_investment evenly across the inclusive quarter span
+    - no fallbacks, no reversed-date guards
+    - add investment_distribution = number of quarters receiving the split
+    """
+    req_cols = ["under_construction_on", "operational_on", "phase_investment"]
+    missing = [c for c in req_cols if c not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required columns for gcim_long: {missing}")
+
+    dfx = df.copy()
+
+    # Ensure datetimes (rows that can't be parsed become NaT and are excluded)
+    dfx["under_construction_on"] = pd.to_datetime(dfx["under_construction_on"], errors="coerce")
+    dfx["operational_on"] = pd.to_datetime(dfx["operational_on"], errors="coerce")
+
+    # Keep ONLY rows with both dates present
+    dfx = dfx[dfx["under_construction_on"].notna() & dfx["operational_on"].notna()].copy()
+
+    out_rows: list[dict] = []
+
+    for _, r in dfx.iterrows():
+        start = r["under_construction_on"]
+        end = r["operational_on"]
+
+        qs = quarter_range_inclusive(start, end)  # may be empty if end < start
+        n = len(qs)
+        if n == 0:
+            continue  # distribute over zero quarters => no output rows
+
+        inv = r["phase_investment"]
+        per_q = float(inv) / n
+
+        base = r.to_dict()
+        base["investment_distribution"] = n  # number of quarters receiving a slice
+
+        for q in qs:
+            row = base.copy()
+            row["quarter"] = str(q)           # e.g. "2024Q1"
+            row["investment_q"] = per_q       # distributed amount for this quarter
+            out_rows.append(row)
+
+    return pd.DataFrame(out_rows)
+
 def make_excel_hyperlink(url):
     if pd.isna(url) or not isinstance(url, str) or not url.strip():
         return None
@@ -174,11 +226,12 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     # drop rows where all phase values are empty (we can drop this but this is typically noise that we have not bothered to validate out....)
     drop_cols = ["phase_capacity", "capacity", "phase_investment", "investment"]
     existing = [c for c in drop_cols if c in df.columns]
-
     if existing:
         df = df.dropna(subset=existing, how="all")
     
+    # limit to our current product selection 
     df = df[df["product_lv1"].isin(INCLUDE_LV1)]
+    print(df.head())
 
     if "product_lv2" in df.columns:
         # treat NaN or empty/whitespace as blank
@@ -241,12 +294,23 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
                 index=False,
             )
 
+        # output gcim long version
+        gcim_long = build_gcim_long(df)
+        gcim_long.to_excel(
+            writer,
+            sheet_name="gcim_long",
+            index=False,
+        )
+
     return df
     
 
 if __name__ == "__main__":
+
+    # main export
     df = export_phases_to_excel(bim_path)
 
+    # descriptive statistics
     n_phases = len(df)
     n_facilities = df["project_id"].nunique()
 
@@ -258,7 +322,7 @@ if __name__ == "__main__":
         f"(total phase investment: {total_investment_mn:,.1f} million EUR)."
     )
 
-    # Per-technology breakdown (one line per sheet/technology)
+    # per-technology breakdown (one line per sheet/technology)
     for pl1 in sorted(df["product_lv1"].unique()):
         sub = df[df["product_lv1"] == pl1]
         n_phases_pl1 = len(sub)
