@@ -353,6 +353,7 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
 
         # output gcim long version
         gcim_long = build_gcim_long(df)
+        gcim_long = reorder_columns_gcim_long(gcim_long)
         gcim_long.to_excel(
             writer,
             sheet_name="gcim_long",
