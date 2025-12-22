@@ -3,8 +3,12 @@ import sys, os
 import pandas as pd
 import pycountry
 import unicodedata
+import dbnomics
 import pandas as pd
 from currency_converter import CurrencyConverter
+from pydeflate import set_pydeflate_path, oecd_dac_deflate
+# dbnomics client :contentReference[oaicite:1]{index=1}
+
 
 root = os.path.abspath(os.path.join(os.getcwd(), ".."))
 if root not in sys.path:
@@ -17,7 +21,6 @@ from currency_symbols import CurrencySymbols  # pip install currency-symbols
 from src.id_date_dict import get_article_id_to_date_map
 from src.split_investments import _is_missing, _as_iter, multiply_vals, distribute_vehicle_battery_split
 
-from forex_python.converter import CurrencyRates
 
 # ======= Currency metadata =======
 def build_currency_list():
@@ -492,42 +495,8 @@ def parse_amount_from_text(text_clean: str):
 
 # reconcile/src/capacity_helpers.py
 
-import math
-import pandas as pd
-
-# ======= Year + FX conversions (simple, latest rates) =======
-# ======= Year + ECB FX conversions (simple, date-aware) =======
-
-# build once; fallbacks let it use nearest available ECB rate if exact date missing
-_CCY = CurrencyConverter(
-    fallback_on_missing_rate=True,
-    fallback_on_wrong_date=True
-)
-
-def _map_amount_shape_preserving(value, fn):
-    """Apply fn to scalar or list/tuple, preserving shape and None values."""
-    if value is None or (isinstance(value, float) and pd.isna(value)):
-        return None
-    if isinstance(value, (list, tuple)):
-        out = []
-        for v in value:
-            if v is None or (isinstance(v, float) and pd.isna(v)):
-                out.append(None)
-            else:
-                try:
-                    out.append(fn(v))
-                except Exception:
-                    out.append(None)
-        return out
-    try:
-        return fn(value)
-    except Exception:
-        return None
 
 # ======= Year + ECB FX conversions (simple, date-aware) =======
-import pandas as pd
-from currency_converter import CurrencyConverter
-
 # build once; fallback lets it use nearest available ECB rate if exact date missing
 _CCY = CurrencyConverter(
     fallback_on_missing_rate=True,
@@ -553,22 +522,34 @@ def _map_amount_shape_preserving(value, fn):
         return fn(value)
     except Exception:
         return None
+    
+import pandas as pd
+from dbnomics import fetch_series
 
+
+# ==========================================================
+# 1) Add year + nominal FX, AND store FX rates used
+# ==========================================================
 def add_year_and_fx_currencyconverter(
     df: pd.DataFrame,
     date_col: str = "date",
     currency_col: str = "currency_iso",
-    amount_col: str = "amount_value"
+    amount_col: str = "amount_value",
 ) -> pd.DataFrame:
     """
     Adds:
       - 'year' from `date_col`
-      - 'amount_EUR' and 'amount_USD' using ECB historical rates (currencyconverter).
+      - 'amount_EUR' and 'amount_USD' using ECB historical rates (currencyconverter)
+      - FX metadata columns:
+          * 'fx_to_EUR_used'      : rate used to convert 1 unit of original currency -> EUR on that row's date
+          * 'fx_EUR_to_USD_used'  : rate used to convert 1 EUR -> USD on that row's date
     """
     if df.empty:
         df["year"] = pd.Series(dtype="Int64")
         df["amount_EUR"] = pd.Series(dtype="object")
         df["amount_USD"] = pd.Series(dtype="object")
+        df["fx_to_EUR_used"] = pd.Series(dtype="Float64")
+        df["fx_EUR_to_USD_used"] = pd.Series(dtype="Float64")
         return df
 
     out = df.copy()
@@ -578,9 +559,31 @@ def add_year_and_fx_currencyconverter(
     def _convert_row(row):
         cur = (row.get(currency_col) or "").upper()
         val = row.get(amount_col)
-        dt  = row.get(date_col)
+        dt = row.get(date_col)
         on_date = dt.date() if pd.notna(dt) else None
 
+        # ----- FX rates used (as scalars) -----
+        fx_to_eur = None
+        fx_eur_to_usd = None
+
+        # EUR->USD rate (always the same conceptually; may be None if date missing / unavailable)
+        try:
+            fx_eur_to_usd = _CCY.convert(1.0, "EUR", "USD", date=on_date)
+        except Exception:
+            fx_eur_to_usd = None
+
+        # Original->EUR rate
+        if not cur:
+            fx_to_eur = None
+        elif cur == "EUR":
+            fx_to_eur = 1.0
+        else:
+            try:
+                fx_to_eur = _CCY.convert(1.0, cur, "EUR", date=on_date)
+            except Exception:
+                fx_to_eur = None
+
+        # ----- Amount conversions -----
         def to_eur(x):
             if cur == "EUR":
                 return x
@@ -598,37 +601,248 @@ def add_year_and_fx_currencyconverter(
         if cur == "EUR":
             amt_eur = val
             amt_usd = _map_amount_shape_preserving(val, eur_to_usd)
-            return amt_eur, amt_usd
+            return amt_eur, amt_usd, fx_to_eur, fx_eur_to_usd
 
         if cur == "USD":
             amt_usd = val
             amt_eur = _map_amount_shape_preserving(
                 val, lambda x: _CCY.convert(x, "USD", "EUR", date=on_date)
             )
-            return amt_eur, amt_usd
+            return amt_eur, amt_usd, fx_to_eur, fx_eur_to_usd
 
         amt_eur = _map_amount_shape_preserving(val, to_eur)
         amt_usd = _map_amount_shape_preserving(amt_eur, eur_to_usd) if amt_eur is not None else None
-        return amt_eur, amt_usd
+        return amt_eur, amt_usd, fx_to_eur, fx_eur_to_usd
 
     converted = out.apply(_convert_row, axis=1)
-    out[["amount_EUR", "amount_USD"]] = pd.DataFrame(converted.tolist(), index=out.index)
+    tmp = pd.DataFrame(converted.tolist(), index=out.index, columns=[
+        "amount_EUR",
+        "amount_USD",
+        "fx_to_EUR_used",
+        "fx_EUR_to_USD_used",
+    ])
+    out[["amount_EUR", "amount_USD", "fx_to_EUR_used", "fx_EUR_to_USD_used"]] = tmp
+
     return out
 
+
+# ==========================================================
+# 2) Add nominal FX + real base_year via AMECO PVGD
+#    AND store deflator + rebased multiplier
+# ==========================================================
+def add_year_fx_and_real_2023(
+    df: pd.DataFrame,
+    date_col: str = "date",
+    currency_col: str = "currency_iso",
+    amount_col: str = "amount_value",
+
+    # AMECO GDP deflator (DBnomics)
+    provider_code: str = "AMECO",
+    dataset_code: str = "PVGD",
+    eur_series_code: str | None = None,  # e.g. "EU27.3.1.99.0.PVGD"
+    usd_series_code: str | None = None,  # e.g. "USA.3.1.0.0.PVGD"
+    base_year: int = 2023,
+) -> pd.DataFrame:
+    """
+    Two steps in one:
+      1) nominal FX -> year, amount_EUR, amount_USD (via add_year_and_fx_currencyconverter)
+         + FX metadata columns:
+            - fx_to_EUR_used
+            - fx_EUR_to_USD_used
+      2) Real base_year (default 2023) using AMECO PVGD multipliers from DBnomics
+
+    Adds:
+      - amount_EUR_{base_year}_ameco_pvgd
+      - amount_USD_{base_year}_ameco_pvgd
+
+    And adds deflator columns (PVGD level and rebased multiplier):
+      - deflator_EUR_pvgd
+      - deflator_EUR_pvgd_rebased    (base_val / year_val)
+      - deflator_USD_pvgd
+      - deflator_USD_pvgd_rebased
+    """
+
+    # ---- Step 1: nominal year + FX ----
+    out = add_year_and_fx_currencyconverter(
+        df=df,
+        date_col=date_col,
+        currency_col=currency_col,
+        amount_col=amount_col,
+    )
+
+    if out.empty:
+        out[f"amount_EUR_{base_year}_ameco_pvgd"] = pd.Series(dtype="object")
+        out[f"amount_USD_{base_year}_ameco_pvgd"] = pd.Series(dtype="object")
+        out["deflator_EUR_pvgd"] = pd.Series(dtype="Float64")
+        out["deflator_EUR_pvgd_rebased"] = pd.Series(dtype="Float64")
+        out["deflator_USD_pvgd"] = pd.Series(dtype="Float64")
+        out["deflator_USD_pvgd_rebased"] = pd.Series(dtype="Float64")
+        return out
+
+    # ----------------------------
+    # helpers (safe with lists/tuples/dicts)
+    # ----------------------------
+    def _shape_preserving_mul(val, factor):
+        if factor is None or (isinstance(factor, float) and pd.isna(factor)):
+            return None
+
+        if isinstance(val, (list, tuple)):
+            res = []
+            for x in val:
+                if x is None or (isinstance(x, float) and pd.isna(x)):
+                    res.append(None)
+                else:
+                    try:
+                        res.append(float(x) * float(factor))
+                    except Exception:
+                        res.append(None)
+            return type(val)(res)
+
+        if isinstance(val, dict):
+            res = {}
+            for k, v in val.items():
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    res[k] = None
+                else:
+                    try:
+                        res[k] = float(v) * float(factor)
+                    except Exception:
+                        res[k] = None
+            return res
+
+        if val is None or (isinstance(val, float) and pd.isna(val)):
+            return None
+
+        try:
+            return float(val) * float(factor)
+        except Exception:
+            return None
+
+    # ---- DBnomics fetch_series parsing (robust to dict OR DataFrame) ----
+    def _extract_year_value_from_fetch_series(payload) -> pd.DataFrame:
+        """
+        fetch_series may return:
+          - dict-like: {"series":{"docs":[{"period":[...],"value":[...]}]}}
+          - pandas DataFrame with columns like period/value (or original_period/original_value)
+        Returns df with columns: year(int), value(float)
+        """
+        if isinstance(payload, dict):
+            series = payload.get("series")
+            if not isinstance(series, dict) or "docs" not in series or not series["docs"]:
+                raise ValueError("DBnomics payload dict missing series/docs.")
+            doc = series["docs"][0]
+            periods = doc.get("period", []) or doc.get("periods", [])
+            values = doc.get("value", []) or doc.get("values", [])
+            df_s = pd.DataFrame({"period": periods, "value": values})
+        else:
+            df_payload = payload
+            if not isinstance(df_payload, pd.DataFrame):
+                df_payload = pd.DataFrame(df_payload)
+
+            period_col = next(
+                (c for c in ["period", "Period", "original_period", "time", "date"] if c in df_payload.columns),
+                None,
+            )
+            value_col = next(
+                (c for c in ["value", "Value", "original_value", "obs_value"] if c in df_payload.columns),
+                None,
+            )
+
+            if period_col is None or value_col is None:
+                raise ValueError(
+                    f"DBnomics fetch_series returned DataFrame without usable columns: {list(df_payload.columns)}"
+                )
+
+            df_s = df_payload[[period_col, value_col]].rename(columns={period_col: "period", value_col: "value"})
+
+        df_s["year"] = pd.to_datetime(df_s["period"], errors="coerce").dt.year
+        df_s["value"] = pd.to_numeric(df_s["value"], errors="coerce")
+        df_s = df_s.dropna(subset=["year", "value"])
+        df_s["year"] = df_s["year"].astype(int)
+        return df_s[["year", "value"]]
+
+    def _series_year_values_and_rebased(series_code: str) -> tuple[dict[int, float], dict[int, float]]:
+        """
+        Returns:
+          - level_by_year:  year -> PVGD level/index value
+          - rebased_by_year: year -> (base_val / year_val)
+        """
+        payload = fetch_series(provider_code=provider_code, dataset_code=dataset_code, series_code=series_code)
+        df_s = _extract_year_value_from_fetch_series(payload)
+
+        level_by_year = df_s.groupby("year")["value"].mean().to_dict()
+
+        if base_year not in level_by_year or level_by_year[base_year] in (None, 0) or pd.isna(level_by_year[base_year]):
+            raise ValueError(f"Base year {base_year} missing for series {provider_code}/{dataset_code}/{series_code}")
+
+        base_val = float(level_by_year[base_year])
+        rebased_by_year = {
+            int(y): (base_val / float(v))
+            for y, v in level_by_year.items()
+            if v is not None and not pd.isna(v) and float(v) != 0
+        }
+        # ensure int keys
+        level_by_year = {int(y): float(v) for y, v in level_by_year.items() if v is not None and not pd.isna(v)}
+        return level_by_year, rebased_by_year
+
+    # ---- Step 2: Real base_year via AMECO PVGD ----
+    if not eur_series_code or not usd_series_code:
+        raise ValueError("Please provide eur_series_code and usd_series_code (DBnomics AMECO/PVGD series codes).")
+
+    eur_level, eur_mult = _series_year_values_and_rebased(eur_series_code)
+    usd_level, usd_mult = _series_year_values_and_rebased(usd_series_code)
+
+    # store deflator level and rebased multiplier
+    out["deflator_EUR_pvgd"] = out["year"].apply(lambda y: eur_level.get(int(y)) if pd.notna(y) else None)
+    out["deflator_EUR_pvgd_rebased"] = out["year"].apply(lambda y: eur_mult.get(int(y)) if pd.notna(y) else None)
+    out["deflator_USD_pvgd"] = out["year"].apply(lambda y: usd_level.get(int(y)) if pd.notna(y) else None)
+    out["deflator_USD_pvgd_rebased"] = out["year"].apply(lambda y: usd_mult.get(int(y)) if pd.notna(y) else None)
+
+    # real amounts
+    out[f"amount_EUR_{base_year}_ameco_pvgd"] = out.apply(
+        lambda r: _shape_preserving_mul(r.get("amount_EUR"), eur_mult.get(int(r["year"])))
+        if pd.notna(r.get("year")) else None,
+        axis=1,
+    )
+    out[f"amount_USD_{base_year}_ameco_pvgd"] = out.apply(
+        lambda r: _shape_preserving_mul(r.get("amount_USD"), usd_mult.get(int(r["year"])))
+        if pd.notna(r.get("year")) else None,
+        axis=1,
+    )
+
+    return out
+
+
+# ==========================================================
+# 3) Main investment normalisation pipeline (updated outputs)
+# ==========================================================
 def run_investment_normalisation_pipeline(
     df_in: pd.DataFrame | None = None,
     input_path: str | None = None,
     output_path: str | None = None,
     *,
-    write_outputs: bool = True,     # write the cleaned full df to output_path
-    write_check: bool = True,       # write the small check file
+    write_outputs: bool = True,
+    write_check: bool = True,
 ) -> pd.DataFrame:
-    
     """
     Normalise investment amounts & currencies.
     - If df_in is provided, use it (fast, in-memory).
     - Else read from input_path (Excel).
     Returns the *compact* df_out; the full enriched df is written only if write_outputs=True.
+
+    Adds:
+      - nominal amount_EUR / amount_USD (currencyconverter)
+      - FX metadata:
+          * fx_to_EUR_used
+          * fx_EUR_to_USD_used
+      - real base_year via AMECO PVGD GDP deflator (DBnomics, rebased to base_year via multiplier):
+          * amount_EUR_{base_year}_ameco_pvgd
+          * amount_USD_{base_year}_ameco_pvgd
+      - deflator columns:
+          * deflator_EUR_pvgd
+          * deflator_EUR_pvgd_rebased
+          * deflator_USD_pvgd
+          * deflator_USD_pvgd_rebased
     """
     if df_in is not None:
         df = df_in.copy()
@@ -636,6 +850,11 @@ def run_investment_normalisation_pipeline(
         if not input_path:
             raise ValueError("Provide either df_in or input_path.")
         df = pd.read_excel(input_path)
+
+    # --- your existing functions are assumed to exist in your environment ---
+    # _preclean_investment_text, detect_currency_iso, remove_currency_tokens,
+    # get_article_id_to_date_map, parse_amount_from_text, multiply_vals,
+    # distribute_vehicle_battery_split
 
     # precleaning of investment values
     df["investment"] = df["investment"].fillna("").astype(str)
@@ -653,16 +872,20 @@ def run_investment_normalisation_pipeline(
     # parse amounts from the cleaned text
     parsed = df["investment_text"].apply(parse_amount_from_text)
     df[["raw_value", "amount_scalar", "investment_text"]] = pd.DataFrame(parsed.tolist(), index=df.index)
-    df["amount_value"] = df.apply(
-        lambda r: multiply_vals(r["raw_value"], r["amount_scalar"]),
-        axis=1
-    )
+    df["amount_value"] = df.apply(lambda r: multiply_vals(r["raw_value"], r["amount_scalar"]), axis=1)
 
-    df = add_year_and_fx_currencyconverter(
+    # ✅ nominal FX + real base_year + deflator columns
+    base_year = 2023
+    df = add_year_fx_and_real_2023(
         df,
         date_col="date",
         currency_col="currency_iso",
-        amount_col="amount_value"
+        amount_col="amount_value",
+        provider_code="AMECO",
+        dataset_code="PVGD",
+        eur_series_code="EU27.3.1.99.0.PVGD",  # EU27 PVGD
+        usd_series_code="USA.3.1.0.0.PVGD",    # USA PVGD
+        base_year=base_year,
     )
 
     # --- apply vehicle/battery 80/20 investment split ---
@@ -671,14 +894,18 @@ def run_investment_normalisation_pipeline(
         id_col="investment_id",
         lv1_col="product_lv1",
         lv2_col="product_lv2",
-        amount_cols=("amount_value", "amount_EUR", "amount_USD"),
+        amount_cols=(
+            "amount_value",
+            "amount_EUR",
+            "amount_USD",
+            f"amount_EUR_{base_year}_ameco_pvgd",
+            f"amount_USD_{base_year}_ameco_pvgd",
+        ),
     )
 
     def _round_shape_preserving(x, nd=0):
-        # None/NaN passthrough
         if x is None or (isinstance(x, float) and pd.isna(x)):
             return None
-        # List/tuple: round each element if numeric, keep None
         if isinstance(x, (list, tuple)):
             out = []
             for v in x:
@@ -690,30 +917,62 @@ def run_investment_normalisation_pipeline(
                     except Exception:
                         out.append(None)
             return out
-        # Scalar: try numeric then round
         try:
             return round(float(x), nd)
         except Exception:
             return None
 
-    df["amount_EUR"] = df["amount_EUR"].apply(_round_shape_preserving)
-    df["amount_USD"] = df["amount_USD"].apply(_round_shape_preserving)
+    # round amount columns (not FX/deflators)
+    for c in [
+        "amount_EUR",
+        "amount_USD",
+        f"amount_EUR_{base_year}_ameco_pvgd",
+        f"amount_USD_{base_year}_ameco_pvgd",
+    ]:
+        if c in df.columns:
+            df[c] = df[c].apply(_round_shape_preserving)
 
-    # select final columns
-    df_out = df[[
-        "investment",
-        "investment_text",
-        "amount_scalar",
-        "currency_iso",
-        "raw_value",
-        "amount_value",   # <-- NEW in the output
-        "date", "amount_EUR", "amount_USD", "year"
-    ]]
+    # optional: keep FX/deflator as Float64 (nice for Excel)
+    for c in [
+        "fx_to_EUR_used",
+        "fx_EUR_to_USD_used",
+        "deflator_EUR_pvgd",
+        "deflator_EUR_pvgd_rebased",
+        "deflator_USD_pvgd",
+        "deflator_USD_pvgd_rebased",
+    ]:
+        if c in df.columns:
+            df[c] = pd.to_numeric(df[c], errors="coerce").astype("Float64")
+
+    # select final columns (updated)
+    df_out = df[
+        [
+            "investment",
+            "investment_text",
+            "amount_scalar",
+            "currency_iso",
+            "raw_value",
+            "amount_value",
+            "date",
+            "amount_EUR",
+            "amount_USD",
+            "fx_to_EUR_used",
+            "fx_EUR_to_USD_used",
+            "deflator_EUR_pvgd",
+            "deflator_EUR_pvgd_rebased",
+            "deflator_USD_pvgd",
+            "deflator_USD_pvgd_rebased",
+            f"amount_EUR_{base_year}_ameco_pvgd",
+            f"amount_USD_{base_year}_ameco_pvgd",
+            "year",
+        ]
+    ]
 
     # write to Excel
     if write_check:
         check_path = "storage/output/check_investments.xlsx"
         df_out.to_excel(check_path, index=False)
+
     if write_outputs:
         if not output_path:
             raise ValueError("output_path is required when write_outputs=True.")
@@ -722,8 +981,9 @@ def run_investment_normalisation_pipeline(
 
     return df_out
 
+
 # ======= Example call =======
 df = run_investment_normalisation_pipeline(
     input_path="storage/output/investment-funds-factory.xlsx",
-    output_path="storage/output/investment-funds-factory-clean.xlsx"
+    output_path="storage/output/investment-funds-factory-clean.xlsx",
 )
