@@ -52,7 +52,8 @@ SITE_MERGE = {
     ("midsummer", "IT", "Bari"): "Apulia",
     ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
     ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
-    ("faam fib spa", "IT", "Caserta"): "Teverola"
+    ("faam fib spa", "IT", "Caserta"): "Teverola",
+    ("giga pv", "PL", "Silesia"): "Racibórz",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
