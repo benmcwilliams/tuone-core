@@ -3,6 +3,10 @@ import pandas as pd
 import sys; sys.path.append("..")
 from bson import ObjectId
 from mongo_client import facilities_collection, articles_collection
+from pathlib import Path
+
+def ensure_parent_dir(filepath: str) -> None:
+    Path(filepath).expanduser().resolve().parent.mkdir(parents=True, exist_ok=True)
 
 bim_path = "storage/output/bruegel_investment_monitor.xlsx"
 INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron"]
@@ -267,10 +271,17 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     # tidy column order
     df = reorder_columns(df)
 
-    # --- write each product_lv1 to its own sheet, preserving README ---
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Expected existing Excel file at: {filepath}")
+    # --- ensure output path + workbook exist ---
+    ensure_parent_dir(filepath)
 
+    # if workbook does not exist yet, create a minimal one so mode="a" works
+    if not os.path.exists(filepath):
+        with pd.ExcelWriter(filepath, engine="openpyxl") as writer:
+            pd.DataFrame({"README": ["auto-created"]}).to_excel(
+                writer, sheet_name="README", index=False
+            )
+
+    # --- write each product_lv1 to its own sheet, preserving README ---
     with pd.ExcelWriter(
         filepath,
         engine="openpyxl",
