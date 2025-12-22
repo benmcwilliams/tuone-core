@@ -4,7 +4,6 @@ from mongo_client import facilities_collection
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 ELIGIBLE = {"under construction", "operational"}
 
 def _safe_ts(d):
