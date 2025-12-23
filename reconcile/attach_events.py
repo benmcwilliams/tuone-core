@@ -12,7 +12,7 @@ from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_eur_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key, _unit_capex
+from src.attach_events_helpers import coerce_amount_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key, _unit_capex, coerce_is_total
 
 logger = logging.getLogger(__name__)
 
@@ -20,24 +20,8 @@ STATUS_ORDER = ["cancelled", "paused", "operational", "under construction", "ann
 INVESTMENT_STATUS_ORDER = ["cancelled", "paused", "completed", "ongoing", "announced", "unclear"]
 
 INCLUDE_FACTORY_EVENTS = True
-
-def coerce_is_total(val) -> bool:
-    """
-    Normalize 'is_total' values to a strict boolean.
-
-    Rules:
-    - Explicit True stays True.
-    - Strings like "true", "yes", "y", "1" → True.
-    - Numeric 1 → True.
-    - Everything else (False, 0, None, NaN, empty string) → False.
-    """
-    if val is True:
-        return True
-    if isinstance(val, str):
-        return val.strip().lower() in {"true", "yes", "y", "1"}
-    if isinstance(val, (int, float)) and not pd.isna(val):
-        return int(val) == 1
-    return False
+AMOUNT_COL = "amount_EUR_2023_ameco_pvgd"
+# "amount_EUR_2023_ameco_pvgd"
 
 # -------------------- load & normalize --------------------
 
@@ -87,7 +71,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
            .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
                 additional=("additional","first"),
-                amount_EUR=("amount_EUR","first"),
+                amount=(AMOUNT_COL,"first"),
                 is_total=("is_total","first"),
                 capacity_id=("capacity_id","first"),
                 investment_id=("investment_id","first"))
@@ -97,13 +81,14 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
 def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
     """
     Deduplicate factory rows conservatively to avoid repetitive investment events.
-    Keep distinct by (project_id, article_id, product_lv1, product_lv2, amount_EUR, status, phase)
+    Keep distinct by (project_id, article_id, product_lv1, product_lv2, AMOUNT_COL, status, phase)
     """
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
-    group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "amount_EUR", "status", "phase"]
+    group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", AMOUNT_COL, "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
            .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
                 date=("date","first"),
+                amount=(AMOUNT_COL,"first"),
                 is_total=("is_total","first"),
                 investment_id=("investment_id","first"))
            .reset_index())
@@ -133,8 +118,8 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # capacities
     for _, r in df_cap.iterrows():
         pid = r["project_id"]
-        raw_amt = r.get("amount_EUR")
-        amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
+        raw_amt = r.get("amount")
+        amt_scalar, amt_policy = coerce_amount_scalar(raw_amt)
         products = norm_pl2_key(r["prod_union"])
 
         evt = {
@@ -172,8 +157,8 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
     # investments
     for _, r in df_inv.iterrows():
         pid = r["project_id"]
-        raw_amt = r.get("amount_EUR")
-        amt_scalar, amt_policy = coerce_amount_eur_scalar(raw_amt)
+        raw_amt = r.get("amount")
+        amt_scalar, amt_policy = coerce_amount_scalar(raw_amt)
         products = norm_pl2_key(r["prod_union"])
 
         evt = {

@@ -52,7 +52,25 @@ def sort_key(e: Dict[str, Any]):
     priority = priority_map.get(e.get("event_type"), 99)
     return (d or "9999-12-31", priority)
 
-def coerce_amount_eur_scalar(val):
+def coerce_is_total(val) -> bool:
+    """
+    Normalize 'is_total' values to a strict boolean.
+
+    Rules:
+    - Explicit True stays True.
+    - Strings like "true", "yes", "y", "1" → True.
+    - Numeric 1 → True.
+    - Everything else (False, 0, None, NaN, empty string) → False.
+    """
+    if val is True:
+        return True
+    if isinstance(val, str):
+        return val.strip().lower() in {"true", "yes", "y", "1"}
+    if isinstance(val, (int, float)) and not pd.isna(val):
+        return int(val) == 1
+    return False
+
+def coerce_amount_scalar(val):
     """
     Return (scalar_float_or_None, policy_str_or_None).
     - Lists/tuples -> pick max numeric (policy 'max_available').

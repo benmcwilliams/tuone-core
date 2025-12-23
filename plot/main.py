@@ -1,3 +1,6 @@
+#### CODE ONLY BLOCKS DEPLOYMENT 
+#### SHOULD INSTEAD PASS A DICTIONARY OF PRODUCT_LV2 per PRODUCT_LV1
+
 import os
 import sys; sys.path.append("..")
 from mongo_client import facilities_collection
@@ -18,9 +21,20 @@ def _month_starts_inclusive_uc_exclusive_op(uc_str, op_str):
     if op <= uc: return [uc]
     return list(pd.date_range(start=uc, end=op, freq="MS", inclusive="left"))
 
+def _quarter_starts_inclusive_uc_exclusive_op(uc_str, op_str):
+    uc, op = _safe_ts(uc_str), _safe_ts(op_str)
+    if pd.isna(uc) or pd.isna(op): 
+        return []
+    start_q = uc.to_period("Q").to_timestamp(how="start")
+    end_q   = op.to_period("Q").to_timestamp(how="start")
+    if end_q <= start_q:
+        return [start_q]
+    return list(pd.date_range(start=start_q, end=end_q, freq="QS", inclusive="left"))
+
 def load_investment_timeseries(group_fields=["product_lv1"], freq="Q",
                                start=None, end=None,
                                product_lv1_filter=None,
+                               use_quarter_snapping: bool = False,
                                flatten_columns=True, sep=" | ") -> pd.DataFrame:
     """
     Returns a pivoted time series of ongoing investment.
@@ -31,8 +45,9 @@ def load_investment_timeseries(group_fields=["product_lv1"], freq="Q",
     - product_lv1_filter: list[str] to filter facilities by product_lv1 (e.g., ["battery"])
     - flatten_columns: join MultiIndex columns for Excel-friendly output
     """
-    proj = {f: 1 for f in set(group_fields) | {"phases", "product_lv1"}}
+    proj = {f: 1 for f in set(group_fields) | {"phases", "product_lv1", "product_lv2"}}
     query = {"phases": {"$exists": True, "$ne": []}}
+    
     if product_lv1_filter:
         query["product_lv1"] = {"$in": product_lv1_filter}
 
@@ -41,23 +56,46 @@ def load_investment_timeseries(group_fields=["product_lv1"], freq="Q",
     rows = []
     for doc in cursor:
         group_vals = {f: doc.get(f) for f in group_fields}
+
+        # --- exclude deployment (mirror BIM export logic) ---
+        pl2 = doc.get("product_lv2")
+        if isinstance(pl2, (list, tuple, set)):
+            pl2 = ", ".join(map(str, pl2))
+        pl2 = "" if pl2 is None else str(pl2).strip()
+
+        if not pl2 or "deployment" in pl2.lower():
+            continue
+        # ---------------------------------------------------
+
         for ph in doc.get("phases", []):
             st, inv, uc, op = ph.get("status"), ph.get("phase_investment"), ph.get("under_construction_on"), ph.get("operational_on")
             if st not in ELIGIBLE or inv in (None, 0) or not (uc and op):
                 continue
-            months = _month_starts_inclusive_uc_exclusive_op(uc, op)
-            if not months: continue
-            monthly_amount = float(inv) / max(1, len(months))
-            for m in months:
-                row = {"month": m, "spend_eur": monthly_amount}
-                row.update(group_vals)
-                rows.append(row)
-
+            if use_quarter_snapping:
+                periods = _quarter_starts_inclusive_uc_exclusive_op(uc, op)
+                if not periods: 
+                    continue
+                per_amount = float(inv) / max(1, len(periods))
+                for p in periods:
+                    row = {"month": p, "spend_eur": per_amount}  # keep key name "month" to minimize downstream changes
+                    row.update(group_vals)
+                    rows.append(row)
+            else:
+                months = _month_starts_inclusive_uc_exclusive_op(uc, op)
+                if not months: 
+                    continue
+                per_amount = float(inv) / max(1, len(months))
+                for m in months:
+                    row = {"month": m, "spend_eur": per_amount}
+                    row.update(group_vals)
+                    rows.append(row)
     if not rows:
         return pd.DataFrame(index=pd.to_datetime([], errors="coerce"))
 
     df = pd.DataFrame(rows)
-    df["month"] = pd.to_datetime(df["month"]).dt.to_period("M").dt.to_timestamp()
+    df["month"] = pd.to_datetime(df["month"])
+    if not use_quarter_snapping:
+        df["month"] = df["month"].dt.to_period("M").dt.to_timestamp()
 
     if start is not None:
         df = df[df["month"] >= pd.to_datetime(start).to_period("M").to_timestamp()]
@@ -160,7 +198,7 @@ if __name__ == "__main__":
 
     # ---------- TOTAL (no product filter), quarterly by technology ----------
     total_q = load_investment_timeseries(
-        group_fields=["product_lv1"], freq="QE-DEC", start=start, end=end
+        group_fields=["product_lv1"], freq="QE-DEC", start=start, end=end, use_quarter_snapping=True
     )
     total_q.to_excel(os.path.join(OUT_DIR, "ongoing_total_q.xlsx"))
 

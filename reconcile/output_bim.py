@@ -1,31 +1,122 @@
 import os
 import pandas as pd
-import sys; sys.path.append("..")
-from bson import ObjectId
-from mongo_client import facilities_collection, articles_collection
-from pathlib import Path
+import sys; sys.path.append("../")
+from mongo_client import facilities_collection
+from src.bim_helpers import ensure_parent_dir, make_excel_hyperlink, attach_article_urls, FACILITY_FIELDS
+from src.bim_helpers import reorder_columns_gcim_long, reorder_columns
+from currency_converter import CurrencyConverter
+from datetime import date
 
-def ensure_parent_dir(filepath: str) -> None:
-    Path(filepath).expanduser().resolve().parent.mkdir(parents=True, exist_ok=True)
+_CCY = CurrencyConverter(
+    fallback_on_missing_rate=True,
+    fallback_on_wrong_date=True
+)
 
 bim_path = "storage/output/bruegel_investment_monitor.xlsx"
 INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron"]
 
-# facility-level fields we want repeated on every phase row
-FACILITY_FIELDS = [
-    "project_id",
-    "inst_canon",
-    "iso2",
-    "admin_group_key",
-    "product_lv1",
-    "product_lv2",
-    "latitude",
-    "longitude"
-]
+def eur_to_usd(x):
+    try:
+        return _CCY.convert(x, "EUR", "USD", date=date(2023,6,1))
+    except Exception:
+        return None
 
-def quarter_range_inclusive(start: pd.Timestamp, end: pd.Timestamp) -> list[pd.Period]:
-    """Inclusive list of quarterly Periods from start..end (by quarter)."""
-    return list(pd.period_range(start.to_period("Q"), end.to_period("Q"), freq="Q"))
+EUR_USD_2023 = eur_to_usd(1)
+
+def quarter_starts_inclusive_uc_exclusive_op(
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+    *,
+    use_monthly_distribution: bool = False
+) -> list[pd.Period]:
+    """
+    Return quarters over which investment is distributed.
+
+    If use_monthly_distribution = False (default):
+        - snap UC and OP to quarter starts
+        - include UC quarter
+        - exclude OP quarter
+        - split evenly across quarters
+
+    If use_monthly_distribution = True:
+        - distribute evenly across MONTHS (like plot/main.py)
+        - then infer quarters from those months
+        - quarters implicitly weighted by number of months
+    """
+    start = pd.to_datetime(start, errors="coerce")
+    end = pd.to_datetime(end, errors="coerce")
+    if pd.isna(start) or pd.isna(end):
+        return []
+
+    # -----------------------------
+    # OPTION 1: match plot/main.py
+    # -----------------------------
+    if use_monthly_distribution:
+        # snap to month starts
+        uc_m = pd.Timestamp(start.year, start.month, 1)
+        op_m = pd.Timestamp(end.year, end.month, 1)
+
+        if op_m <= uc_m:
+            return [uc_m.to_period("Q")]
+
+        months = pd.date_range(
+            start=uc_m,
+            end=op_m,
+            freq="MS",
+            inclusive="left"
+        )
+
+        # map months → quarters (duplicates allowed upstream if needed)
+        return sorted({m.to_period("Q") for m in months})
+
+    # --------------------------------
+    # OPTION 2: current quarterly logic
+    # --------------------------------
+    start_q = start.to_period("Q").to_timestamp(how="start")
+    end_q   = end.to_period("Q").to_timestamp(how="start")
+
+    if end_q <= start_q:
+        return [start_q.to_period("Q")]
+
+    qs = pd.date_range(
+        start=start_q,
+        end=end_q,
+        freq="QS",
+        inclusive="left"
+    )
+
+    return [q.to_period("Q") for q in qs]
+
+def quarter_starts_inclusive_uc_exclusive_op(start: pd.Timestamp,
+                                             end: pd.Timestamp) -> list[pd.Period]:
+    """
+    Quarterly analogue of month_starts_inclusive_uc_exclusive_op.
+
+    Semantics:
+    - include UC quarter
+    - exclude OP quarter
+    - interval is [UC, OP)
+    """
+    start = pd.to_datetime(start, errors="coerce")
+    end = pd.to_datetime(end, errors="coerce")
+    if pd.isna(start) or pd.isna(end):
+        return []
+
+    # snap both dates to quarter starts
+    start_q = start.to_period("Q").to_timestamp(how="start")
+    end_q   = end.to_period("Q").to_timestamp(how="start")
+
+    if end_q <= start_q:
+        return [start_q.to_period("Q")]
+
+    qs = pd.date_range(
+        start=start_q,
+        end=end_q,
+        freq="QS",
+        inclusive="left"   # identical to monthly logic
+    )
+
+    return [q.to_period("Q") for q in qs]
 
 def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -47,8 +138,9 @@ def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
     dfx["under_construction_on"] = pd.to_datetime(dfx["under_construction_on"], errors="coerce")
     dfx["operational_on"] = pd.to_datetime(dfx["operational_on"], errors="coerce")
 
-    # Keep ONLY rows with both dates present
+    # Keep ONLY rows with both dates present which are under construction or operational
     dfx = dfx[dfx["under_construction_on"].notna() & dfx["operational_on"].notna()].copy()
+    dfx = dfx[dfx["status"].isin(["under construction", "operational"])]
 
     out_rows: list[dict] = []
 
@@ -56,7 +148,7 @@ def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
         start = r["under_construction_on"]
         end = r["operational_on"]
 
-        qs = quarter_range_inclusive(start, end)  # may be empty if end < start
+        qs = quarter_starts_inclusive_uc_exclusive_op(start, end)  # may be empty if end < start
         n = len(qs)
         if n == 0:
             continue  # distribute over zero quarters => no output rows
@@ -70,56 +162,13 @@ def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
         for q in qs:
             row = base.copy()
             row["quarters"] = str(q)           # e.g. "2024Q1"
-            row["investment_distribution"] = per_q       # distributed amount for this quarter
+            row["investment_distribution_eur"] = per_q       # distributed amount for this quarter
             out_rows.append(row)
 
-    return pd.DataFrame(out_rows)
+    out_df = pd.DataFrame(out_rows)
+    out_df["investment_distribution"] = out_df["investment_distribution_eur"] * EUR_USD_2023
 
-def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Clean column names + order for gcim_long export.
-    Assumes df is already the renamed 'wide' df (owner/country/region/phase...).
-    """
-
-    rename_map = {
-        "product_lv1": "technology",
-        "region": "city",
-        "owner": "company_name",
-        "phase": "investment_type",
-        "status": "investment_status",
-        "announced_on": "announcement_date",
-        "under_construction_on": "construction_start",
-        "operatinal_on": "production_date",
-        "product_lv2": "product_classification",
-    }
-    df = df.rename(columns={k: v for k, v in rename_map.items() if k in df.columns})
-
-    desired_order = [
-        "country",
-        "region",
-        "technology",
-        "project_id",
-        "city",
-        "longitude",
-        "latitude",
-        "company_name",
-        "investment_type",
-        "investment_status",
-        "announcement_date",
-        "construction_start",
-        "production_date",
-        "quarters",
-        "investment_distribution",
-        "product_classification",
-    ]
-
-    main_cols = [c for c in desired_order if c in df.columns]
-    return df[main_cols]
-
-def make_excel_hyperlink(url):
-    if pd.isna(url) or not isinstance(url, str) or not url.strip():
-        return None
-    return f'=HYPERLINK("{url}", "source")'
+    return out_df
 
 def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
     """
@@ -154,114 +203,6 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
 
     return pd.DataFrame(rows)
 
-
-def attach_article_urls(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    For every column that ends with '_article_id', look up the corresponding
-    meta.url in articles_collection and create a parallel '..._url' column.
-    """
-    # find all article id columns
-    article_id_cols = [c for c in df.columns if c.endswith("_article_id")]
-    if not article_id_cols:
-        return df
-
-    # collect all unique IDs as strings
-    ids: set[str] = set()
-    for col in article_id_cols:
-        ids.update(
-            str(x)
-            for x in df[col].dropna().unique()
-            if isinstance(x, str) and x.strip()
-        )
-
-    if not ids:
-        return df
-
-    # convert to ObjectId list (filter out any invalid)
-    obj_ids = []
-    for s in ids:
-        try:
-            obj_ids.append(ObjectId(s))
-        except Exception:
-            # skip malformed ids
-            continue
-
-    if not obj_ids:
-        return df
-
-    # build mapping: hex(ObjectId) -> meta.url
-    id_to_url: dict[str, str | None] = {}
-    for doc in articles_collection.find(
-        {"_id": {"$in": obj_ids}},
-        {"meta.url": 1}
-    ):
-        url = doc.get("meta", {}).get("url")
-        id_to_url[str(doc["_id"])] = url
-
-    # add URL columns
-    for col in article_id_cols:
-        url_col = col.replace("_article_id", "_url")
-        df[url_col] = df[col].map(lambda x: id_to_url.get(str(x)) if pd.notna(x) else None)
-
-    return df
-
-
-def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Apply a clean, custom column order for the Excel export.
-    """
-    # rename any columns as necessary
-    rename_map = {
-        "inst_canon": "owner",    
-        "iso2": "country",         
-        "admin_group_key": "region",
-        "phase_num": "phase",
-        "capacity": "capacity_cumulative",
-        "investment": "investment_cumulative",
-    }
-    df = df.rename(columns=rename_map)
-
-    # desired order "skeleton"
-    desired_order = (
-        [
-            "owner",
-            "country",
-            "region",
-            "product_lv1",
-            "product_lv2",
-            "phase",
-            "status",
-            "phase_capacity",
-            "capacity_cumulative",
-            "phase_investment",
-            "investment_cumulative",
-            "investment_was_imputed",
-            "announced_on",
-            "under_construction_on",
-            "operational_on",
-            "ann_date_imputed",
-            "uc_date_imputed",
-            "op_date_imputed",
-            "comments",
-            # URL provenance columns
-            "status_url",
-            "capacity_url",
-            "investment_url",
-            "announced_url",
-            "under_construction_url",
-            "operational_url",
-            "project_id"
-        ]
-    )
-
-    # keep only those that exist
-    main_cols = [c for c in desired_order if c in df.columns]
-    # any remaining columns (unexpected / future additions) at the end
-    other_cols = [c for c in df.columns if c not in main_cols]
-
-    return df[main_cols + other_cols]
-
-
 def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataFrame:
     """
     Build the phase-level dataframe, attach URLs, drop article IDs,
@@ -278,7 +219,6 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     
     # limit to our current product selection 
     df = df[df["product_lv1"].isin(INCLUDE_LV1)]
-    print(df.head())
 
     if "product_lv2" in df.columns:
         # treat NaN or empty/whitespace as blank
@@ -350,6 +290,14 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
 
         # output gcim long version
         gcim_long = build_gcim_long(df)
+
+        q_min = pd.Period("2017Q1", freq="Q")
+        q_max = pd.Period("2025Q3", freq="Q")
+
+        gcim_long = gcim_long[
+            gcim_long["quarters"].apply(lambda x: q_min <= pd.Period(x, freq="Q") <= q_max)
+        ]
+
         gcim_long = reorder_columns_gcim_long(gcim_long)
         gcim_long.to_excel(
             writer,
@@ -358,7 +306,7 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
         )
 
     return df
-    
+ 
 
 if __name__ == "__main__":
 

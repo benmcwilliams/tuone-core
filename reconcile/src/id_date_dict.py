@@ -29,13 +29,13 @@ def safe_parse_date(date_value):
         try:
             # Try to parse the string as a date
             parsed_date = parser.parse(date_value)
-            logger.info(f"✅ Successfully parsed string date: {date_value} -> {parsed_date}")
+            logger.debug(f"✅ Successfully parsed string date: {date_value} -> {parsed_date}")
             return parsed_date
         except (ValueError, TypeError) as e:
-            logger.warning(f"⚠️ Failed to parse string date '{date_value}': {e}")
+            logger.debug(f"⚠️ Failed to parse string date '{date_value}': {e}")
             return None
     
-    logger.warning(f"⚠️ Unsupported date type: {type(date_value).__name__}")
+    logger.debug(f"⚠️ Unsupported date type: {type(date_value).__name__}")
     return None
 
 def get_article_id_to_date_map():
@@ -63,8 +63,8 @@ def get_article_id_to_date_map():
         'skipped_reasons': {}
     }
 
-    logger.info("🔍 DEBUGGING DICTIONARY CREATION:")
-    logger.info("=" * 50)
+    logger.debug("🔍 DEBUGGING DICTIONARY CREATION:")
+    logger.debug("=" * 50)
 
     for article in articles_to_process:
         article_id = str(article["_id"])
@@ -72,7 +72,7 @@ def get_article_id_to_date_map():
         if "meta" not in article:
             dict_creation_stats['articles_skipped'] += 1
             dict_creation_stats['skipped_reasons']['no_meta'] = dict_creation_stats['skipped_reasons'].get('no_meta', 0) + 1
-            logger.info(f"❌ Article failed {article_id}: NO META FIELD")
+            logger.debug(f"❌ Article failed {article_id}: NO META FIELD")
             continue
             
         dict_creation_stats['articles_with_meta'] += 1
@@ -80,7 +80,7 @@ def get_article_id_to_date_map():
         if "date" not in article["meta"]:
             dict_creation_stats['articles_skipped'] += 1
             dict_creation_stats['skipped_reasons']['no_date'] = dict_creation_stats['skipped_reasons'].get('no_date', 0) + 1
-            logger.info(f"❌ Article failed {article_id}: NO DATE FIELD IN META")
+            logger.debug(f"❌ Article failed {article_id}: NO DATE FIELD IN META")
             continue
             
         dict_creation_stats['articles_with_date'] += 1
@@ -92,34 +92,34 @@ def get_article_id_to_date_map():
         if parsed_date:
             if isinstance(date_value, datetime):
                 dict_creation_stats['articles_with_datetime'] += 1
-                logger.info(f"✅ Article {article_id}: Original datetime = {parsed_date}")
+                logger.debug(f"✅ Article {article_id}: Original datetime = {parsed_date}")
             else:
                 dict_creation_stats['articles_with_string_date'] += 1
-                logger.info(f"✅ Article {article_id}: Parsed string date = {parsed_date}")
+                logger.debug(f"✅ Article {article_id}: Parsed string date = {parsed_date}")
             
             formatted_date = parsed_date.strftime("%Y-%m")
             id_to_date[article_id] = formatted_date
-            logger.info(f"   → Formatted as: {formatted_date}")
+            logger.debug(f"   → Formatted as: {formatted_date}")
         else:
             dict_creation_stats['articles_skipped'] += 1
             reason = f"unparseable_{type(date_value).__name__}"
             dict_creation_stats['skipped_reasons'][reason] = dict_creation_stats['skipped_reasons'].get(reason, 0) + 1
-            logger.info(f"❌ Article failed {article_id}: Could not parse date '{date_value}' (type: {type(date_value).__name__})")
+            logger.debug(f"❌ Article failed {article_id}: Could not parse date '{date_value}' (type: {type(date_value).__name__})")
 
-    logger.info("=" * 50)
-    logger.info(f"📊 DICTIONARY CREATION SUMMARY:")
-    logger.info(f"   Total articles processed: {dict_creation_stats['total_articles_processed']}")
-    logger.info(f"   Articles with meta field: {dict_creation_stats['articles_with_meta']}")
-    logger.info(f"   Articles with date field: {dict_creation_stats['articles_with_date']}")
-    logger.info(f"   Articles with datetime: {dict_creation_stats['articles_with_datetime']}")
-    logger.info(f"   Articles with string date: {dict_creation_stats['articles_with_string_date']}")
-    logger.info(f"   Articles skipped: {dict_creation_stats['articles_skipped']}")
-    logger.info(f"   Dictionary size: {len(id_to_date)}")
-    logger.info(f"   Success rate: {(dict_creation_stats['articles_with_datetime'] + dict_creation_stats['articles_with_string_date'])/dict_creation_stats['total_articles_processed']*100:.1f}%")
+    logger.debug("=" * 50)
+    logger.debug(f"📊 DICTIONARY CREATION SUMMARY:")
+    logger.debug(f"   Total articles processed: {dict_creation_stats['total_articles_processed']}")
+    logger.debug(f"   Articles with meta field: {dict_creation_stats['articles_with_meta']}")
+    logger.debug(f"   Articles with date field: {dict_creation_stats['articles_with_date']}")
+    logger.debug(f"   Articles with datetime: {dict_creation_stats['articles_with_datetime']}")
+    logger.debug(f"   Articles with string date: {dict_creation_stats['articles_with_string_date']}")
+    logger.debug(f"   Articles skipped: {dict_creation_stats['articles_skipped']}")
+    logger.debug(f"   Dictionary size: {len(id_to_date)}")
+    logger.debug(f"   Success rate: {(dict_creation_stats['articles_with_datetime'] + dict_creation_stats['articles_with_string_date'])/dict_creation_stats['total_articles_processed']*100:.1f}%")
     
     if dict_creation_stats['skipped_reasons']:
-        logger.info(f"   Skip reasons:")
+        logger.debug(f"   Skip reasons:")
         for reason, count in dict_creation_stats['skipped_reasons'].items():
-            logger.info(f"     {reason}: {count}")
+            logger.debug(f"     {reason}: {count}")
 
     return id_to_date
