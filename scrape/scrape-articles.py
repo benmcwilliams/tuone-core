@@ -32,6 +32,8 @@ keywords = {"factory", "facility", "plant", "production line", "production site"
             "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project", "start of construction",
             "close the plant"}
 
+subsidy_keywords = {"subsidy", "subsidies", "aid", "funding"}
+
 # dropped battery & lithium & geothermal
 
 # Expected date format
@@ -124,6 +126,11 @@ def scrape_article(mongo_doc: dict) -> None:
             any(k in title_txt or k in body_txt for k in multi_word)
         )
 
+        subsidy_found = any(
+            k in title_txt or k in body_txt
+            for k in subsidy_keywords
+        )
+
         if not found:
             urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'irrelevant'}})
             print(f"[–] Skipped (no keywords found): {title}")
@@ -136,6 +143,7 @@ def scrape_article(mongo_doc: dict) -> None:
                 'date': date_utc,
                 'url': url,
                 'category': category,
+                'subsidy': subsidy_found
             }
         }
 
