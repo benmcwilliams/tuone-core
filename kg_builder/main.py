@@ -5,6 +5,7 @@ from config import EXTRACTION_CONFIG
 
 from kg_builder.src.format_prompts import read_prompt_from_file_only, load_function_schema, normalize_id, normalize_type, format_nodes_for_prompt
 from kg_builder.src.process_articles import setup_logger, print_article_stats, should_skip_article, call_openai_function, has_required_nodes_for_relationship
+from kg_builder.src.check_subsidy import main as check_subsidy_main
 from utils import ping_openai
 from kg_builder.src.model_dictionary import model_dictionary
 from kg_builder.src.inputs import nodes_by_group_prompt, characteristic_node_types, required_node_types
@@ -12,11 +13,16 @@ from mongo_client import mongo_client, articles_collection, test_mongo_connectio
 
 from datetime import datetime, timezone
 from bson import json_util
-#import re
 
 # establish / test connections
 test_mongo_connection()
-ping_openai() 
+ping_openai()
+
+# update subsidy flags from user-added articles before processing
+check_subsidy_main(dry_run=False) 
+
+def should_process_subsidy(article: dict) -> bool:
+    return bool(article.get("meta", {}).get("subsidy") is True)
 
 def run_extraction(
     text: str,
@@ -24,8 +30,16 @@ def run_extraction(
     group: str,
     nodes: list[dict] | None,
     model_dictionary: dict,
-    logger,
-) -> list[dict]:
+    logger) -> list[dict]:
+
+    """
+    Run a single LLM extraction step for a given extraction group.
+
+    Loads the group-specific prompt and function schema, builds the user
+    message (optionally conditioning on known nodes), calls the configured
+    OpenAI model via function calling, and post-processes the raw output into
+    normalized entities or relationships.
+    """
     
     cfg = EXTRACTION_CONFIG[group]
     logger.info(f"Extracting: {cfg}")
@@ -61,8 +75,19 @@ def run_extraction(
 
 def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
     
+    """
+    Normalize and format raw LLM outputs into a consistent structure.
+
+    Applies group-specific post-processing rules to convert raw function-call
+    outputs into cleaned entity or relationship dictionaries, including ID/type
+    normalization and construction of stable relationship identifiers,
+    turning openAI output into KG-ready. 
+    Use of get means we can over-specify characteristics which only apply if present. 
+    """
+
     logger.info("POST-PROCESSING STARTING.")
-    if group == "entities":
+    ENTITY_GROUPS = {"entities", "subsidy_entities"}
+    if group in ENTITY_GROUPS:
         formatted = []
         for t, items in raw.items():
 
@@ -89,7 +114,7 @@ def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
         result = raw if isinstance(raw, list) else []
         return result
 
-    elif group in ("ownership", "technological", "financial_origin", "financial_technological"):
+    elif group in ("ownership", "technological", "financial_origin", "financial_technological", "grantor_aid"):
         formatted = []
         for i, rel in enumerate(raw):
             src = normalize_id(rel.get("source", ""))
@@ -137,8 +162,7 @@ def attach_characteristics_to_nodes(
     id_key: str,
     type_match: str,
     attach_map: dict[str, str],
-    logger,
-):
+    logger):
     # Quick index for O(1) lookup by (id, type)
     node_index = {(n.get("id"), n.get("type")): n for n in formatted_nodes}
 
@@ -194,6 +218,12 @@ def process_articles(articles_to_process, model_dictionary):
             # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
             formatted_nodes = extract_nodes(text, "entities", logger)
 
+            # ------ 1b extract subsidy entities ------
+            if should_process_subsidy(article):
+                logger.info("💰 Subsidy article detected — extracting subsidy entities")
+                subsidy_nodes = extract_nodes(text, "subsidy_entities", logger)
+                formatted_nodes.extend(subsidy_nodes or [])
+
             # - - - STAGE 2: enrich entities with characteristics (capacities, investments and products)
             for relationship_group, config in characteristic_node_types.items():
                 model_name = model_dictionary[relationship_group]  # select fine-tuned model
@@ -222,17 +252,26 @@ def process_articles(articles_to_process, model_dictionary):
 
             # - - - STAGE 3: extract relationships between entities
             all_relationships = []
-            for relationship_group,model_name in model_dictionary.items():
 
-                if relationship_group in ["nodes", "capacities", "investments", "products"]: # skip nodes, capacities and investments prompts which have logic elsewhere
-                    continue
-                
+            RELATIONSHIP_GROUPS = [
+                "ownership",
+                "technological",
+                "financial_origin",
+                "financial_technological"
+            ]
+
+            # conditionally add subsidy relationships
+            if article.get("meta", {}).get("subsidy") is True:
+                RELATIONSHIP_GROUPS.append("grantor_aid")
+
+            for relationship_group in RELATIONSHIP_GROUPS:
+
                 required_types = required_node_types.get(relationship_group, [])
                 if not has_required_nodes_for_relationship(formatted_nodes, required_types):
                     logger.info(f"🛑 Skipping {relationship_group}: required nodes {required_types} not present.")
                     continue
 
-                logger.info(f"- - - Querying openai for relationships: {relationship_group}, using model: {model_name}")
+                logger.info(f"- - - Querying openai for relationships: {relationship_group}")
 
                 relationships = extract_relationships(text, relationship_group, formatted_nodes, logger)
                 all_relationships.extend(relationships)
@@ -266,7 +305,7 @@ def process_articles(articles_to_process, model_dictionary):
 offset_articles = 0
 #categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
 categories = ["user"]
-cutoff_date = datetime(2010, 1, 1)
+cutoff_date = datetime(2021, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(

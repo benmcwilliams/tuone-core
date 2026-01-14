@@ -5,15 +5,17 @@ allowed_types_dict = {
     "financial_origin": ["company", "joint_venture", "investment"],
     "financial_technological": ["investment", "capacity", "factory", "product"],
     "capacities": ["capacity"],
-    "investments": ["investment"]
+    "investments": ["investment"],
+    "products": ["product"],
 }
 
 # which prompts to use for each group
 groups_to_prompts = {
-    "ownership": "prompts/ownership.txt",
-    "technological": "prompts/technological.txt",
-    "financial_origin": "prompts/financial-origin.txt",
-    "financial_technological": "prompts/financial-technological.txt",
-    "capacities": "prompts/capacities.txt",
-    "investments": "prompts/investments.txt"
+    "ownership": "kg_builder/src/prompts/ownership.txt",
+    "technological": "kg_builder/src/prompts/technological.txt",
+    "financial_origin": "kg_builder/src/prompts/financial_origin.txt",
+    "financial_technological": "kg_builder/src/prompts/financial_technological.txt",
+    "capacities": "kg_builder/src/prompts/capacities.txt",
+    "investments": "kg_builder/src/prompts/investments.txt",
+    "products": "kg_builder/src/prompts/products.txt"
 }

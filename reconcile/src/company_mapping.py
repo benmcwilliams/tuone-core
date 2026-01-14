@@ -96,5 +96,6 @@ JV_MERGE = {
     ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
-    ("stellantis", "IT", "Torino", "vehicle"): "fiat"
+    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
+    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa"
 }

@@ -13,11 +13,11 @@ _CCY = CurrencyConverter(
 )
 
 bim_path = "storage/output/bruegel_investment_monitor.xlsx"
-INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron"]
+INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron", "wind"]
 
 def eur_to_usd(x):
     try:
-        return _CCY.convert(x, "EUR", "USD", date=date(2023,6,1))
+        return _CCY.convert(x, "EUR", "USD", date=date(2023,7,1))
     except Exception:
         return None
 

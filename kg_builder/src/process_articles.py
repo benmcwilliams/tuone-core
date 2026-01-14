@@ -11,8 +11,13 @@ from utils import combine_paragraphs
 from datetime import datetime, timezone
 from collections import Counter
 
+FROZEN_RUNS = {"v1.1"}
+
 def should_skip_article(article, run_id):
     """Returns (proceed, text). If should skip, returns (False, None)."""
+
+    # store if article has already been processed by a previous run
+    previous_run = article.get("llm_processed", {}).get("run_id")
 
     # skip if article has been validated (True as per old system or a datetime stamp as now)
     val = article.get("validation")
@@ -26,20 +31,17 @@ def should_skip_article(article, run_id):
         print(f"⏭️  Skipping – article was validated on {processed_on}")
         return False, None
 
-    # skip if latest model architecture has already processed this run (v1.1) 
-    previous_run = article.get("llm_processed", {}).get("run_id")
-    if previous_run == "v1.1":
-        print(f"⏭️  Skipping – article already processed with latest run_id: v1.1")
+    # skip if FROZEN model architecture has already processed this run (v1.1) 
+    if previous_run in FROZEN_RUNS:
+        print(f"⏭️  Skipping – article already processed with frozen run_id: {previous_run}")
         return False, None
     
-    # skip if latest model architecture has already processed this run (v1.1) 
-    previous_run = article.get("llm_processed", {}).get("run_id")
+    # never overwrite gpt-4o with the weaker gpt-4o-mini 
     if run_id == "gpt-4o-mini" and previous_run == "gpt-4o":
         print(f"⏭️  Skipping – article processed with gpt-4o, won't overwrite with 4o-mini.")
         return False, None
 
     # skip if this model architecture has already processed article
-    previous_run = article.get("llm_processed", {}).get("run_id")
     if previous_run == run_id:
         print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
         return False, None
@@ -53,7 +55,7 @@ def should_skip_article(article, run_id):
     if previous_run is None:
         print(f"✅ Processing – no previous run_id found")
     else:
-        print(f"✅ Overwiting run_id: {previous_run}. Processing article with run_id: {run_id}")
+        print(f"✅ Overwriting run_id: {previous_run}. Processing article with run_id: {run_id}")
 
     return True, text
 

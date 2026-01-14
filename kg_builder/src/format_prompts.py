@@ -17,8 +17,15 @@ def load_function_schema(path):
         return json.load(f)
 
 def normalize_id(id_str):
-    # we need this helper as model is indifferent returning capacity-1 or capacity_1
-    return id_str.replace("-", "_") if id_str else id_str
+    # helper to turn fuzzy model outputs deterministic
+    if not id_str:
+        return id_str
+    return (
+        id_str
+        .replace("-", "_")
+        .replace(",", "_")
+        .replace(" ", "_")
+    )
 
 def normalize_type(type_str):
     """

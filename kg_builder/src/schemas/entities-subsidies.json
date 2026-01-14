@@ -1,0 +1,48 @@
+{
+    "name": "extract_clean_tech_entities",
+    "description": "Extracts structured entities from a clean technology investment article. Does not extract relationships.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "nodes": {
+                "type": "object",
+                "properties": {
+                    "grantors": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Grantor"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    },
+                    "aids": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Aid"},
+                                "name": {"type": "string"},
+                                "amount": {"type": "string"},
+                                "status": {
+                                    "type": "string",
+                                    "enum": ["announced", "ongoing", "completed"]
+                                }
+                            },
+                            "required": ["id", "type", "name", "amount", "status"]
+                        }
+                    }
+                },
+                "required": [
+                    "grantors",
+                    "aids"
+                ]
+            }
+        },
+        "required": ["nodes"]
+    }
+}

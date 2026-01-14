@@ -12,6 +12,7 @@ from requests.exceptions import Timeout, RequestException
 from dateutil import parser
 import re
 from boiler_markers import BOILER_STRINGS
+from keywords import SUBSIDY_KEYWORDS
 
 # Load environment variables
 load_dotenv()
@@ -31,8 +32,6 @@ articles_collection = db[ARTICLES_COLLECTION_NAME]
 keywords = {"factory", "facility", "plant", "production line", "production site", "refinery", "pilot project", "energy project",
             "mining project", "dam", "wind farm", "solar farm", "solar park", "BESS project", "start of construction",
             "close the plant"}
-
-subsidy_keywords = {"subsidy", "subsidies", "aid", "funding"}
 
 # dropped battery & lithium & geothermal
 
@@ -126,10 +125,12 @@ def scrape_article(mongo_doc: dict) -> None:
             any(k in title_txt or k in body_txt for k in multi_word)
         )
 
-        subsidy_found = any(
-            k in title_txt or k in body_txt
-            for k in subsidy_keywords
+        subsidy_regex = re.compile(
+            r"\b(" + "|".join(re.escape(k) for k in SUBSIDY_KEYWORDS) + r")\b",
+            re.IGNORECASE
         )
+
+        subsidy_found = bool(subsidy_regex.search(title_txt) or subsidy_regex.search(body_txt))
 
         if not found:
             urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'irrelevant'}})
