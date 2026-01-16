@@ -1,4 +1,15 @@
 # attach_events.py
+# -----------------------------------------------------------------------------
+# PURPOSE
+#   Attach capacity and investment events to facilities in MongoDB.
+#   Deduplicate and group events by project_id, article_id, product_lv1, product_lv2, status, phase.
+#   Build events object from excel and merge into facilities.
+#   Impute missing amounts from CAPEX.
+#   Sort events by date and eventID.
+#   Overlay user-edited phase_num from existing by eventID.
+#   Write events to facilities.
+# -----------------------------------------------------------------------------
+
 import sys; sys.path.append("..")
 import logging
 from datetime import datetime
@@ -11,8 +22,8 @@ from pymongo import UpdateOne
 from mongo_client import facilities_collection
 from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, GROUPED_FACTORIES
 from src.capex_dictionary import CAPEX_DICT
-from src.facilities_helpers import parse_capacity_value, canon_pl2
-from src.attach_events_helpers import coerce_amount_scalar, iso_date, pl2_tuple, capex_lookup, sort_key, norm_pl2_key, _unit_capex, coerce_is_total
+from src.facilities_helpers import parse_capacity_value
+from src.attach_events_helpers import coerce_amount_scalar, iso_date, normalize_pl2, capex_lookup, sort_key, _unit_capex, coerce_is_total, union_pl2_lists
 
 logger = logging.getLogger(__name__)
 
@@ -36,14 +47,14 @@ def load_capacities() -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["capacity_normalized"] = df["capacity_normalized"].apply(parse_capacity_value)
     df["status"] = pd.Categorical(df["status"], categories=STATUS_ORDER, ordered=True)
-    df["prod_key"] = df["product"].apply(canon_pl2)
+    df["prod_key"] = df["product"].apply(lambda x: tuple(normalize_pl2(x, lowercase=True)))
     return df
 
 def load_investments() -> pd.DataFrame:
     df = pd.read_excel(GROUPED_INVESTMENTS)
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["status"] = pd.Categorical(df["status"], categories=INVESTMENT_STATUS_ORDER, ordered=True)
-    df["prod_key"] = df["product"].apply(canon_pl2)
+    df["prod_key"] = df["product"].apply(lambda x: tuple(normalize_pl2(x, lowercase=True)))
     return df
 
 def load_factories() -> pd.DataFrame: 
@@ -55,7 +66,7 @@ def load_factories() -> pd.DataFrame:
     df = df.rename(columns={"factory_status": "status"})
     df["date"] = pd.to_datetime(df.get("date"), errors="coerce")
     df["status"] = pd.Categorical(df.get("status"), categories=STATUS_ORDER, ordered=True)
-    df["prod_key"] = df.get("product").apply(canon_pl2)
+    df["prod_key"] = df.get("product").apply(lambda x: tuple(normalize_pl2(x, lowercase=True)))
     return df
 
 # -------------------- dedup & group --------------------
@@ -68,7 +79,7 @@ def dedup_group_capacities(df: pd.DataFrame) -> pd.DataFrame:
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "capacity_normalized", "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", union_pl2_lists),
                 date=("date","first"),
                 additional=("additional","first"),
                 amount=(AMOUNT_COL,"first"),
@@ -86,7 +97,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", AMOUNT_COL, "status", "phase"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", union_pl2_lists),
                 date=("date","first"),
                 amount=(AMOUNT_COL,"first"),
                 is_total=("is_total","first"),
@@ -94,7 +105,7 @@ def dedup_group_investments(df: pd.DataFrame) -> pd.DataFrame:
            .reset_index())
     return g
 
-def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
+def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:
     """
     Deduplicate factory rows conservatively to avoid repetitive facility events.
     Keep distinct by (project_id, article_id, product_lv1, product_lv2, status)
@@ -102,7 +113,7 @@ def dedup_group_factories(df: pd.DataFrame) -> pd.DataFrame:  # NEW
     df = (df.sort_values(["project_id", "date"], ascending=[True, False], na_position="last"))
     group_keys = ["project_id", "article_id", "product_lv1", "product_lv2", "status"]
     g = (df.groupby(group_keys, dropna=False, sort=False, observed=True)
-           .agg(prod_union=("prod_key", lambda T: tuple(sorted({v for tup in T for v in tup}))),
+           .agg(prod_union=("prod_key", union_pl2_lists),
                 date=("date", "first"))
            .reset_index())
     return g
@@ -120,14 +131,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         pid = r["project_id"]
         raw_amt = r.get("amount")
         amt_scalar, amt_policy = coerce_amount_scalar(raw_amt)
-        products = norm_pl2_key(r["prod_union"])
+        products = normalize_pl2(r["prod_union"])
 
         evt = {
             "event_type": "capacity",
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
             "product_lv2": r.get("product_lv2"),
-            "products": list(products),
+            "products": products,
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
@@ -144,7 +155,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
         # Impute missing amount from CAPEX, never overwrite direct amount
         if evt.get("investment") in (None, np.nan):
-            cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
+            cap_rule = capex_lookup(evt["product_lv1"], tuple(normalize_pl2(evt["product_lv2"])))
             if cap_rule and evt.get("capacity") not in (None, np.nan):
                 unit = _unit_capex(cap_rule, evt.get("phase"))
                 evt["investment_imputed"] = float(evt["capacity"]) * unit
@@ -159,14 +170,14 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
         pid = r["project_id"]
         raw_amt = r.get("amount")
         amt_scalar, amt_policy = coerce_amount_scalar(raw_amt)
-        products = norm_pl2_key(r["prod_union"])
+        products = normalize_pl2(r["prod_union"])
 
         evt = {
             "event_type": "investment",
             "project_id": pid,
             "product_lv1": r.get("product_lv1"),
             "product_lv2": r.get("product_lv2"),
-            "products": list(products),
+            "products": products,
             "status": r.get("status"),
             "phase": r.get("phase"),
             "date": iso_date(r.get("date")),
@@ -180,7 +191,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
         # Impute missing capacity from CAPEX, never overwrite direct capacity
         if evt.get("investment") not in (None, np.nan):
-            cap_rule = capex_lookup(evt["product_lv1"], pl2_tuple(evt["product_lv2"]))
+            cap_rule = capex_lookup(evt["product_lv1"], tuple(normalize_pl2(evt["product_lv2"])))
             if cap_rule:
                 unit = _unit_capex(cap_rule, evt.get("phase"))
                 if unit:  # avoid divide-by-zero
@@ -216,7 +227,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                 if art_id in seen_article_ids:
                     continue  # skip duplicate based on articleID
 
-                products = norm_pl2_key(r["prod_union"])
+                products = normalize_pl2(r["prod_union"])
 
                 evt = {
                     "event_type": "facility",
@@ -224,7 +235,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                     "project_id": pid, 
                     "product_lv1": r.get("product_lv1"),
                     "product_lv2": r.get("product_lv2"),
-                    "products": list(products),
+                    "products": products,
                     "status": r.get("status"),
                     "phase": None,
                     "date": iso_date(r.get("date")),

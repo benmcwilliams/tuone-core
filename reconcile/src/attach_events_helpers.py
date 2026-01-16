@@ -3,17 +3,38 @@ import pandas as pd
 from typing import Dict, List, Any, Tuple
 from src.capex_dictionary import CAPEX_DICT
 
-def pl2_tuple(val) -> Tuple[str, ...]:
-    """Return a canonical tuple key for product_lv2 (handles str, list/tuple, None/NaN)."""
+def normalize_pl2(val, lowercase: bool = False) -> List[str]:
+    """
+    Normalize product_lv2 value to a canonical sorted list.
+    
+    This is the single source of truth for pl2 normalization.
+    Returns a list (MongoDB-friendly, JSON-serializable).
+    Convert to tuple only when hashability is explicitly needed.
+    
+    Args:
+        val: product_lv2 value (str, list, tuple, None, etc.)
+        lowercase: If True, lowercase all values (for case-insensitive grouping)
+        
+    Returns:
+        Sorted list of unique, trimmed, non-empty strings
+    """
     if val is None or (isinstance(val, float) and pd.isna(val)):
-        return ()
+        return []
+    
+    # Normalize to iterable
     if isinstance(val, (list, tuple, set)):
         vals = [v for v in val if v is not None and not (isinstance(v, float) and pd.isna(v))]
     else:
-        vals = [val]
-    # canonicalize to non-empty, trimmed strings, sorted
-    vals = [str(v).strip() for v in vals if str(v).strip()]
-    return tuple(sorted(vals))
+        vals = [val] if val is not None else []
+    
+    # Process: trim, filter empty, optionally lowercase
+    processed = []
+    for v in vals:
+        s = str(v).strip()
+        if s:  # Only include non-empty strings
+            processed.append(s.lower() if lowercase else s)
+    
+    return sorted(set(processed))  # Unique, sorted list
 
 def iso_date(dt) -> str | None:
     if pd.isna(dt): return None
@@ -21,22 +42,14 @@ def iso_date(dt) -> str | None:
     d = pd.to_datetime(dt, errors="coerce")
     return d.strftime("%Y-%m-%d") if pd.notna(d) else None
 
-def norm_pl2_key(values) -> Tuple[str, ...]:
-    if values is None or (isinstance(values, float) and pd.isna(values)):
-        return ()
-    if isinstance(values, str):
-        vals = [values]
-    elif isinstance(values, (list, tuple, set)):
-        vals = list(values)
-    else:
-        vals = [values]  # catch any other scalar (e.g. int)
-    vals = [v for v in vals if pd.notna(v)]
-    return tuple(sorted({str(v).strip() for v in vals}))
-
-def capex_lookup(product_lv1: str, pl2_key: Tuple[str, ...]) -> Dict[str, Any] | None:
+def capex_lookup(product_lv1: str, pl2_key: List[str] | Tuple[str, ...]) -> Dict[str, Any] | None:
     """Exact match on (product_lv1, product_lv2_key). Units are assumed normalized upstream."""
+    # Normalize to tuple for comparison (handles both list and tuple inputs)
+    pl2_tuple = tuple(pl2_key) if isinstance(pl2_key, list) else pl2_key
     for e in CAPEX_DICT.get("entries", []):
-        if e.get("product_lv1") == product_lv1 and tuple(e.get("product_lv2_key") if isinstance(e.get("product_lv2_key"), (list, tuple)) else (e.get("product_lv2_key"),)) == pl2_key:
+        e_pl2 = e.get("product_lv2_key")
+        e_pl2_tuple = tuple(e_pl2) if isinstance(e_pl2, (list, tuple)) else (e_pl2,)
+        if e.get("product_lv1") == product_lv1 and e_pl2_tuple == pl2_tuple:
             return e
     return None
 
@@ -99,7 +112,7 @@ def coerce_amount_scalar(val):
         if (s.startswith("[") and s.endswith("]")) or (s.startswith("(") and s.endswith(")")):
             try:
                 parsed = ast.literal_eval(s)
-                return coerce_amount_eur_scalar(parsed)
+                return coerce_amount_scalar(parsed)
             except Exception:
                 pass
         # numeric string with commas or spaces
@@ -111,7 +124,27 @@ def coerce_amount_scalar(val):
 
     return None, None
 
-# function to apply retrofit factor to capex if phase is retrofit
+def union_pl2_lists(lists: pd.Series) -> List[str]:
+    """
+    Union multiple pl2 lists (from pandas groupby) into one sorted list.
+    
+    Used during groupby aggregation to combine product_lv2 values that differ
+    only by pl2 variants but are otherwise identical (same capacity, status, etc.).
+    
+    Args:
+        lists: pandas Series of lists or tuples (each is a normalized pl2)
+        
+    Returns:
+        Sorted list of unique values from all input lists/tuples
+    """
+    acc = set()
+    for item in lists:
+        if isinstance(item, (list, tuple)):
+            acc.update(item)
+        elif item:  # handle scalar strings
+            acc.add(str(item).strip())
+    return sorted(acc)
+
 def _unit_capex(cap_rule: dict, phase: Any) -> float:
     """
     Return appropriate unit CAPEX, using retrofit-specific value when applicable.

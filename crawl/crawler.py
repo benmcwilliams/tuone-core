@@ -31,7 +31,7 @@ pv_magazine_max_pages = 10
 pv_tech_max_pages = 10
 renews_biz_max_pages = 10
 offshore_wind_max_pages = 10
-electrive_max_pages = 10
+electrive_max_pages = 2
 power_technology_max_pages = 10
 
 if __name__ == "__main__":
@@ -69,6 +69,7 @@ if __name__ == "__main__":
 
     # crawl glass international
     glass_international_crawler()
+
 
     # # # 🆕 Crawl Aspire EnergyTech (GraphQL source)
     # #aspire_energytech_crawler(skip=0, limit=10)

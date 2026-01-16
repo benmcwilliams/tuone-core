@@ -11,7 +11,7 @@ from typing import List, Dict, Any
 import numpy as np
 import pandas as pd
 from pymongo import UpdateOne
-from src.facilities_helpers import _normalize_pl2, _agg_norm_list, _as_dt
+from src.facilities_helpers import _as_dt
 from mongo_client import facilities_collection, test_mongo_connection
 from src.config import GROUPED_FACTORIES, ZEV_PRODUCTION
 
@@ -35,6 +35,7 @@ def _build_facilities_df() -> pd.DataFrame:
 
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     latest = _latest_status_per_project(df)
+
     return (
         df.groupby("project_id", as_index=False)
           .agg({
@@ -43,13 +44,13 @@ def _build_facilities_df() -> pd.DataFrame:
               "admin_group_key": "first",
               "lat": "first",
               "lon": "first",
-              "product_lv1": "first",
-              "product": _agg_norm_list,        
+              "product_lv1": "first",      
           })
           .merge(latest, on="project_id", how="left")
     )
 
 def _to_doc(row: pd.Series) -> Dict[str, Any]:
+
     return {
         "project_id": row["project_id"],
         "inst_canon": row.get("inst_canon") if pd.notna(row.get("inst_canon")) else None,
@@ -58,8 +59,6 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
         "lat": row.get("lat") if pd.notna(row.get("lat")) else None,
         "lon": row.get("lon") if pd.notna(row.get("lon")) else None,
         "product_lv1": row.get("product_lv1") if pd.notna(row.get("product_lv1")) else None,
-        #"product_lv2": _normalize_pl2(row.get("product_lv2")),   # << canonicalized write
-        #"products":    _normalize_pl2(row.get("product")),
         "latest_factory_status": {
             "status": row.get("factory_status") if pd.notna(row.get("factory_status")) else None,
             "date": (pd.to_datetime(row.get("factory_status_date"))
@@ -69,6 +68,7 @@ def _to_doc(row: pd.Series) -> Dict[str, Any]:
     }
 
 def _compute_update(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
+    
     update: Dict[str, Any] = {}
 
     # UPDATE | latest_factory_status comparison on full datetime + status text

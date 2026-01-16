@@ -3,9 +3,6 @@ import pandas as pd
 import ast
 from typing import List
 
-def _normalize_pl2(vals) -> List[str]:
-    return sorted({str(v).strip() for v in (vals or []) if pd.notna(v)})
-
 def _agg_norm_list(s: pd.Series) -> list[str]:
     return sorted({str(x).strip() for x in s if pd.notna(x) and str(x).strip()})
 
@@ -37,14 +34,12 @@ def parse_capacity_value(val):
 
 # normalize/hash product_lv2 for use as a dedup key 
 def canon_pl2(x):
-    vals = [
-        str(v).strip().lower()
-        for v in np.atleast_1d(x)
-        if pd.notna(v)
-    ]
-    if not vals:
-        return tuple()              # empty tuple as canonical "no products"
-    return tuple(sorted(set(vals))) # sorted unique, hashable
+    """
+    Legacy wrapper: normalize pl2 and return as tuple for hashability.
+    Use normalize_pl2() directly when possible.
+    """
+    from src.attach_events_helpers import normalize_pl2
+    return tuple(normalize_pl2(x, lowercase=True))
 
 def classify_pl2_applies_to(pl2_values):
     s = {str(v).strip().lower() for v in pl2_values if pd.notna(v)}

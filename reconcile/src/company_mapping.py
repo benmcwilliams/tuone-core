@@ -64,6 +64,7 @@ JV_MERGE = {
     # ("some JV", "FR", "Fos-sur-Mer", "recycling"): "carbon",
     ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
     ("stellantis", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
+    ("catl", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
     ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
@@ -82,6 +83,7 @@ JV_MERGE = {
     ("nissan", "GB", "Sunderland", "battery"): "aesc",
     ("tata motors", "GB", "Somserset", "battery"): "agratas",
     ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
+    ("northvolt", "DE", "Heide", "battery"): "lyten",
     ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("daimler", "DE", "Kamenz", "battery"): "accumotive",
     ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
@@ -97,5 +99,6 @@ JV_MERGE = {
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
     ("stellantis", "IT", "Torino", "vehicle"): "fiat",
-    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa"
+    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa",
+    ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas"
 }

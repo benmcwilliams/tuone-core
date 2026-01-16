@@ -1,3 +1,12 @@
+# phase_summary.py
+# -----------------------------------------------------------------------------
+# PURPOSE
+#   Build phase summaries for each phase_num in each facility document in MongoDB.
+#   Summarise capacity and investment events by phase_num.
+#   Calculate the strongest status (lowest STATUS_RANK, then most recent date).
+#   Calculate the cumulative capacity and investment.
+#   Calculate the earliest milestone dates (announce, under construction, operational).
+# -----------------------------------------------------------------------------
 #from cmath import phase
 import logging
 import re
@@ -7,6 +16,7 @@ from datetime import datetime
 import pandas as pd
 from mongo_client import facilities_collection, articles_collection
 from bson import ObjectId
+from src.attach_events_helpers import normalize_pl2
 
 ## main logic should be updated to read from phases (or drop main...)
 
@@ -26,10 +36,8 @@ ATTACH_COMMENTS = False
 # --------- helpers -------------
 
 def parse_date(date_str):
-    try:
-        return pd.to_datetime(date_str)
-    except Exception:
-        return pd.NaT
+    """Parse date string to pandas Timestamp, returns NaT on error."""
+    return pd.to_datetime(date_str, errors="coerce")
 
 def phase_is_ignored(ev: dict) -> bool:
     v = ev.get("phase_num")
@@ -79,6 +87,9 @@ def _is_status_eligible(c: dict) -> bool:
         return True  # capacity can always vote
 
     if et in {"facility"}:
+        # Wind facilities can vote for all statuses; others only for paused/cancelled
+        if c.get("product_lv1") == "wind":
+            return True
         return st in PAUSELIKE          # only paused/cancelled can vote from facility
 
     if et in {"investment"}:
@@ -87,33 +98,18 @@ def _is_status_eligible(c: dict) -> bool:
     # other event types (e.g., operations/construction) may vote
     return True
 
-def normalize_pl2(vals):
-    return sorted({str(v).strip() for v in (vals or []) if v is not None and str(v).strip()})
-
 def events_product_lv2_union(events: list) -> list[str]:
     """
     Collect union of product_lv2 from non-ignored events
     """
     acc = set()
-
-    def _iter_pl2(val):
-        # normalize product_lv2 to an iterable of strings
-        if val is None or (isinstance(val, float) and pd.isna(val)):
-            return []
-        if isinstance(val, (list, tuple, set)):
-            return val
-        return [val]  # single string/scalar
-
     for ev in events or []:
         if phase_is_ignored(ev):
             continue
-        for v in _iter_pl2(ev.get("product_lv2")):
-            if v is None:
-                continue
-            s = str(v).strip()
-            if s:
-                acc.add(s)
-
+        # Use normalize_pl2 for consistent normalization
+        pl2_list = normalize_pl2(ev.get("product_lv2"))
+        acc.update(pl2_list)
+    
     return sorted(acc)
 
 def collect_article_ids_from_summary(summary: dict) -> set:
