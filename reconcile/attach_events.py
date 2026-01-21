@@ -160,7 +160,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                 unit = _unit_capex(cap_rule, evt.get("phase"))
                 evt["investment_imputed"] = float(evt["capacity"]) * unit
                 evt["imputation_basis"] = CAPEX_DICT["version"]
-                if (evt.get("phase") or "").strip().lower() == "retrofit":
+                if isinstance(evt.get("phase"), str) and evt.get("phase").strip().lower() == "retrofit":
                     evt["imputation_variant"] = "retrofit"
                 evt.setdefault("data_origin", {}).setdefault("imputed", []).append("investment")
         events_by_pid.setdefault(pid, []).append(evt)
@@ -198,7 +198,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                     evt["capacity_imputed"] = float(evt["investment"]) / unit
                     evt["capacity_unit"] = cap_rule.get("capacity_unit")
                     evt["imputation_basis"] = CAPEX_DICT["version"]
-                    if (evt.get("phase") or "").strip().lower() == "retrofit":
+                    if isinstance(evt.get("phase"), str) and evt.get("phase").strip().lower() == "retrofit":
                         evt["imputation_variant"] = "retrofit"
                     evt.setdefault("data_origin", {}).setdefault("imputed", []).append("capacity")
         events_by_pid.setdefault(pid, []).append(evt)

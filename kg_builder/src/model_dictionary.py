@@ -28,12 +28,13 @@
 # } 
 
 #### Dec 2025 | Jan 2026
-### building v1.2
+### for version 2.1, used older ownership model.
 model_dictionary = {
     "run_id": "v2.0",
 
     "nodes": "ft:gpt-4o-mini-2024-07-18:personal:nodes:Cq0dHbQV",
-    "ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:CxUY5h6P",
+    #"ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:CxUY5h6P", # introduced bad JSON
+    "ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:Bn7jtXfP",
     "technological": "ft:gpt-4o-mini-2024-07-18:personal:technological:CxYzoxao",
     "financial_origin": "ft:gpt-4o-mini-2024-07-18:personal:financial-origin:CxXCRIvr",
     "financial_technological": "ft:gpt-4o-mini-2024-07-18:personal:financial-technological:CxVXwrJK",

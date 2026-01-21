@@ -22,46 +22,58 @@ def map_to_canonical(name):
 
 SITE_MERGE = {
     # collapse CATL’s nearby German sites to one admin key
+    # germany
     ("catl", "DE", "Erfurt"): "Arnstadt",     # Erfurt → Arnstadt
     ("catl", "DE", "Thuringia"): "Arnstadt",
     ("tesla", "DE", "Berlin"): "Grünheide (Mark)",
     ("tesla", "DE", "Brandenburg"): "Grünheide (Mark)",
-    ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
-    ("holosolis", "FR", "Sarreguemines"): "Hambach",
-    ("samsung sdi", "HU", "Budapest"): "Pest County",
-    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
-    ("italvolt", "IT", "Scarmagno"): "Piedmont",
-    ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality",
-    ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
-    ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
     ("svolt", "DE", "Heusweiler"): "Überherrn",
     ("svolt", "DE", "Saarland"): "Überherrn",
-    ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
-    ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
     ("porsche", "DE", "Kirchentellinsfurt"): "Reutlingen",
     ("valmet automotive", "DE", "Bad Friedrichshall"): "Kirchardt",
-    ("bmw", "GB", "Swindon"): "Oxfordshire",
-    ("hyundai mobis", "ES", "Navarre"): "Pamplona",
-    ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
-    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
-    ("enel", "IT", "Sicily"): "Catania",
-    ("atersa", "ES", "Almussafes"): "Valencia",
-    ("futurasun", "IT", "Cittadella"): "Padova",
     ("meyer burger", "DE", "Bitterfeld-Wolfen"): "Thalheim",
     ("meyer burger", "DE", "Thalheim/Erzgeb."): "Thalheim",
-    ("midsummer", "IT", "Bari"): "Apulia",
     ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
-    ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
+    ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
+    # france
+    ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
+    ("holosolis", "FR", "Sarreguemines"): "Hambach",
+    ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
+    # united kingdom
+    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
+    ("bmw", "GB", "Swindon"): "Oxfordshire",
+    ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
+    ("vestas", "GB", "Newport"): "Isle of Wight",
+    # spain
+    ("hyundai mobis", "ES", "Navarre"): "Pamplona",
+    ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
+    ("atersa", "ES", "Almussafes"): "Valencia",
+    ("stellantis catl", "ES", "Zaragoza Municipality"): "Figueruelas  Municipality",
+    ("lm wind power", "ES", "Castellón de la Plana/Castelló de la Plana"): "Valencia",
+    # hungary
+    ("samsung sdi", "HU", "Budapest"): "Pest County",
+    # italy
+    ("italvolt", "IT", "Scarmagno"): "Piedmont",
+    ("enel", "IT", "Sicily"): "Catania",
+    ("futurasun", "IT", "Cittadella"): "Padova",
+    ("midsummer", "IT", "Bari"): "Apulia",
     ("faam fib spa", "IT", "Caserta"): "Teverola",
+    # netherlands
+    ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality",
+    ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
+    # poland
+    ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
+
     ("giga pv", "PL", "Silesia"): "Racibórz",
+    # other
+    ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
     # add more:
     # ("bmw", "DE", "Dingolfing-Landau"): "Dingolfing",
 }
 
 JV_MERGE = {
-    # EXAMPLES:
-    # ("acc battery JV", "DE", "Arnstadt", "battery"): "catl",
-    # ("some JV", "FR", "Fos-sur-Mer", "recycling"): "carbon",
+    # for cases at the same location, where we want to collapse 
+    # one company or joint venture into another.
     ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
     ("stellantis", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
     ("catl", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
@@ -100,5 +112,11 @@ JV_MERGE = {
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
     ("stellantis", "IT", "Torino", "vehicle"): "fiat",
     ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa",
-    ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas"
+    ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
+    ("saft", "FR", "Nersac", "battery"): "automotive cell company",
+    ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
+    ("siemens gamesa", "GB", "Kingston upon Hull", "wind"): "green port hull",
+    ("siemens", "GB", "Kingston upon Hull", "wind"): "green port hull",
+    ("siemens gamesa associated british ports", "GB", "Kingston upon Hull", "wind"): "green port hull",
+    ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
 }

@@ -150,6 +150,7 @@ def _unit_capex(cap_rule: dict, phase: Any) -> float:
     Return appropriate unit CAPEX, using retrofit-specific value when applicable.
     """
     base = float(cap_rule["capex_per_unit"])
-    if (phase or "").strip().lower() == "retrofit" and "capex_per_unit_retrofit" in cap_rule:
+    # Safely check if phase is "retrofit" (case-insensitive, handles whitespace)
+    if isinstance(phase, str) and phase.strip().lower() == "retrofit" and "capex_per_unit_retrofit" in cap_rule:
         return float(cap_rule["capex_per_unit_retrofit"])
     return base
