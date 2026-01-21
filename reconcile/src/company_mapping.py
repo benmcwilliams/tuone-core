@@ -119,4 +119,5 @@ JV_MERGE = {
     ("siemens", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens gamesa associated british ports", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
+    ("siemens", "DK", "Ikast-Brande Kommune", "wind"): "siemens gamesa",
 }

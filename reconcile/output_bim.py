@@ -4,6 +4,7 @@ import sys; sys.path.append("../")
 from mongo_client import facilities_collection
 from src.bim_helpers import ensure_parent_dir, make_excel_hyperlink, attach_article_urls, FACILITY_FIELDS
 from src.bim_helpers import reorder_columns_gcim_long, reorder_columns
+from reconcile.phase_summary import parse_tract_stage
 from currency_converter import CurrencyConverter
 from datetime import date
 
@@ -27,8 +28,7 @@ def quarter_starts_inclusive_uc_exclusive_op(
     start: pd.Timestamp,
     end: pd.Timestamp,
     *,
-    use_monthly_distribution: bool = False
-) -> list[pd.Period]:
+    use_monthly_distribution: bool = False) -> list[pd.Period]:
     """
     Return quarters over which investment is distributed.
 
@@ -196,9 +196,18 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
             base["product_lv2"] = ", ".join(map(str, base["product_lv2"]))
 
         for ph in phases:
-            row = base.copy()
-            # phase is already a flat dict: phase_num, status, capacity, *_article_id, etc.
-            row.update(ph)
+            row = base.copy() # phase is already a flat dict: phase_num, status, capacity, *_article_id, etc.
+            row.update(ph) # this add new keys to the row, but also updates existing keys. Meaning it will overwrite facility level product_lv2.
+
+            # Extract integer stage from phase_num (handles both "A.1" → 1 and legacy 1 → 1)
+            if "phase_num" in row and row["phase_num"] is not None:
+                _, stage = parse_tract_stage(row["phase_num"])
+                if stage is not None:
+                    row["phase_num"] = stage
+
+            # Convert phase-level product_lv2 from list to comma-separated string (phase-level takes precedence over facility-level)
+            if isinstance(row.get("product_lv2"), (list, tuple, set)):
+                row["product_lv2"] = ", ".join(map(str, row["product_lv2"]))
             rows.append(row)
 
     return pd.DataFrame(rows)

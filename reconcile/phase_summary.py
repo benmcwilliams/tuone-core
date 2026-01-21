@@ -43,6 +43,58 @@ def phase_is_ignored(ev: dict) -> bool:
     v = ev.get("phase_num")
     return isinstance(v, str) and v.strip().lower() == "ignore"
 
+def parse_tract_stage(phase_num: int | str | float | None) -> tuple[str | None, int | None]:
+    """
+    Parse phase_num into (tract, stage) tuple.
+    
+    - "A.1", "B.2" → ("A", 1), ("B", 2)  (tract.stage format)
+    - 1, "1" → (None, 1)  (legacy integer format, no tract)
+    - None, "ignore" → (None, None)
+    
+    Returns:
+        (tract: str | None, stage: int | None)
+    """
+    if phase_num is None:
+        return (None, None)
+    
+    if isinstance(phase_num, int):
+        return (None, phase_num)
+    
+    if isinstance(phase_num, float):
+        if phase_num.is_integer():
+            return (None, int(phase_num))
+        # Non-integer float like 1.1 - treat as legacy decimal, no tract
+        return (None, None)
+    
+    if isinstance(phase_num, str):
+        s = phase_num.strip()
+        if s.lower() == "ignore":
+            return (None, None)
+        
+        # Match tract.stage format: letters followed by dot and digits (e.g., "A.1", "B.2")
+        match = re.fullmatch(r"([A-Za-z]+)\.(\d+)", s)
+        if match:
+            tract = match.group(1).upper()  # normalize to uppercase
+            stage = int(match.group(2))
+            return (tract, stage)
+        
+        # Legacy integer format
+        if re.fullmatch(r"\d+", s):
+            return (None, int(s))
+    
+    return (None, None)
+
+def phase_num_tract_stage(ev: dict) -> str | None:
+    """
+    Return normalized tract.stage phase_num (e.g., 'A.1') if present, else None.
+    Only returns values that match the tract.stage format (letters.stage).
+    """
+    v = ev.get("phase_num")
+    tract, stage = parse_tract_stage(v)
+    if tract is not None and stage is not None:
+        return f"{tract}.{stage}"
+    return None
+
 def phase_num_int(ev: dict) -> int | None:
     ''' 
     Safely evaluate all phase numbers as integers, even if they are read in as strings. 
@@ -60,7 +112,7 @@ def phase_num_int(ev: dict) -> int | None:
             return int(s)
     return None
 
-def _is_relevant_event(c: dict, phase_num: int | None) -> bool:
+def _is_relevant_event(c: dict, phase_num: int | str | None) -> bool:
     """
     Returns a boolean for whether an event should be included or not.
     Basic filter: valid status, not ignored, has date, and matches phase if specified.
@@ -75,8 +127,20 @@ def _is_relevant_event(c: dict, phase_num: int | None) -> bool:
     # Phase filter
     if phase_num is None:
         return True
-    pn = phase_num_int(c)
-    return pn is not None and pn == phase_num
+
+    # Parse both the target phase_num and the event's phase_num
+    target_tract, target_stage = parse_tract_stage(phase_num)
+    ev_tract, ev_stage = parse_tract_stage(c.get("phase_num"))
+
+    # Both must have valid stages to match
+    if target_stage is None or ev_stage is None:
+        return False
+
+    # Match: same tract (both None for legacy, or same string) and same stage
+    if target_tract == ev_tract and target_stage == ev_stage:
+        return True
+
+    return False
 
 def _is_status_eligible(c: dict) -> bool:
     """Who gets to 'vote' for STATUS."""
@@ -125,7 +189,7 @@ def collect_article_ids_from_summary(summary: dict) -> set:
 
 # ---------- main logic ------------
 
-def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None, prev_investment=None) -> dict | None:
+def build_phase_summary(events: list, phase_num: int | str | None, prev_capacity=None, prev_investment=None) -> dict | None:
 
     """
     Build a summary for one phase_num (or all events if phase=None).
@@ -274,6 +338,11 @@ def build_phase_summary(events: list, phase_num: int | None, prev_capacity=None,
         "investment_article_id": investment_article_id,
         "source_date": best_status_row["date"],
     }
+
+    # For tract.stage phases (e.g., 'A.1', 'B.2'), attach union of product_lv2 within that phase
+    tract, _ = parse_tract_stage(phase_num)
+    if tract is not None:  # Only tracted phases get product_lv2
+        summary["product_lv2"] = events_product_lv2_union(phase_events)
     
     # ------------- set CHRONOLOGY ----------------
     # add chronological milestone dates with two rules:
@@ -376,23 +445,42 @@ def compute_summaries(debug_article_id: ObjectId | str | None = None):
         # ------------------------------------------------------------------------
 
         # unique phase_num mentioned in the events, should be robust to string "ignore"
-        phases = sorted({pn for c in events if not phase_is_ignored(c) and (pn := phase_num_int(c)) is not None})  
+        phases_int = {pn for c in events if not phase_is_ignored(c) and (pn := phase_num_int(c)) is not None}
+        phases_tract = {pn for c in events if not phase_is_ignored(c) and (pn := phase_num_tract_stage(c)) is not None}
+        
+        # Sort all phases: legacy ints first, then tract.stage (sorted by tract, then stage)
+        def phase_sort_key(p):
+            tract, stage = parse_tract_stage(p)
+            return (tract or "", stage if stage is not None else 0)
+        
+        phases = sorted(phases_int, key=phase_sort_key) + sorted(phases_tract, key=phase_sort_key)
 
         # build summaries for each phase and store as a list under 'phases'
+        # Maintain separate cumulative totals per tract
         phases_list = []
-        prev_capacity, prev_investment = None, None
+        tract_totals: dict[str | None, dict[str, float | None]] = {}  # {tract: {"capacity": ..., "investment": ...}}
+        
         for p in phases:
+            tract, stage = parse_tract_stage(p)
+            
+            # Get or initialize cumulative totals for this tract
+            if tract not in tract_totals:
+                tract_totals[tract] = {"capacity": None, "investment": None}
+            
+            prev_capacity = tract_totals[tract]["capacity"]
+            prev_investment = tract_totals[tract]["investment"]
+            
             summary = build_phase_summary(events, p, prev_capacity, prev_investment)
             if summary:
                 # do not persist the helper field 'source_date' inside each phase object
                 phase_obj = {"phase_num": p, **{k: v for k, v in summary.items() if k != "source_date"}}
                 phases_list.append(phase_obj)
 
-                # update rolling totals
+                # update rolling totals for this tract only
                 if summary.get("capacity") is not None:
-                    prev_capacity = summary["capacity"]
+                    tract_totals[tract]["capacity"] = summary["capacity"]
                 if summary.get("investment") is not None:
-                    prev_investment = summary["investment"]
+                    tract_totals[tract]["investment"] = summary["investment"]
 
         # --- attach comments from article docs to each phase summary ---
         if ATTACH_COMMENTS and phases_list:
