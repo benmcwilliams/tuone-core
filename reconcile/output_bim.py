@@ -4,6 +4,7 @@ import sys; sys.path.append("../")
 from mongo_client import facilities_collection
 from src.bim_helpers import ensure_parent_dir, make_excel_hyperlink, attach_article_urls, FACILITY_FIELDS
 from src.bim_helpers import reorder_columns_gcim_long, reorder_columns
+from src.assign_nuts import assign_nuts2_to_dataframe
 from reconcile.phase_summary import parse_tract_stage
 from currency_converter import CurrencyConverter
 from datetime import date
@@ -219,6 +220,9 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     Returns the dataframe for convenience.
     """
     df = build_phases_dataframe(query=query)
+
+    # Assign NUTS-2 regions based on lat/lon
+    df = assign_nuts2_to_dataframe(df, lat_col="lat", lon_col="lon")
 
     # drop rows where all phase values are empty (we can drop this but this is typically noise that we have not bothered to validate out....)
     drop_cols = ["phase_capacity", "capacity", "phase_investment", "investment"]
