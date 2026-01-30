@@ -24,6 +24,7 @@ from src.config import GROUPED_CAPACITIES, GROUPED_INVESTMENTS, ZEV_PRODUCTION, 
 from src.capex_dictionary import CAPEX_DICT
 from src.facilities_helpers import parse_capacity_value
 from src.attach_events_helpers import coerce_amount_scalar, iso_date, normalize_pl2, capex_lookup, sort_key, _unit_capex, coerce_is_total, union_pl2_lists
+from src.debug_helpers import debug_print_df
 
 logger = logging.getLogger(__name__)
 
@@ -213,19 +214,21 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
 
         for pid, rows in fac_by_pid.items():
             existing = events_by_pid.setdefault(pid, [])
-            # Build a set of articleIDs already present in capacity/investment events
-            seen_article_ids = {
-                e.get("articleID")
+            # Build a set of (articleID, product_lv2) already present in capacity/investment events
+            seen_article_keys = {
+                (e.get("articleID"), e.get("product_lv2"))
                 for e in existing
-                if e.get("articleID")
+                if e.get("articleID") is not None
             }
 
             for r in rows:
                 art_id = r.get("article_id")
+                pl2 = r.get("product_lv2")
                 if pd.isna(art_id) or art_id is None:
                     continue  # cannot dedup without article
-                if art_id in seen_article_ids:
-                    continue  # skip duplicate based on articleID
+                key = (art_id, pl2)
+                if key in seen_article_keys:
+                    continue  # skip duplicate based on (articleID, product_lv2)
 
                 products = normalize_pl2(r["prod_union"])
 
@@ -242,7 +245,7 @@ def build_events_by_project(df_cap: pd.DataFrame, df_inv: pd.DataFrame, df_fac: 
                     "articleID": art_id,
                 }
                 existing.append(evt)
-                seen_article_ids.add(art_id)  # maintain set as we add
+                seen_article_keys.add(key)  # maintain set as we add
 
     # sort (now includes facility events)
     for pid in list(events_by_pid.keys()):
@@ -263,20 +266,127 @@ def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
         }
     return docs
 
-def attach_events(dry_run: bool = False):
+def attach_events(dry_run: bool = False, debug_article_id: str | None = None):
 
     # load
     df_cap_raw = load_capacities()
     df_inv_raw = load_investments()
     df_fac_raw = load_factories() if INCLUDE_FACTORY_EVENTS else pd.DataFrame()
 
+    # debug view of raw frames for the target article
+    debug_print_df(
+        df_cap_raw,
+        label="capacities / raw",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            "capacity_normalized",
+            "status",
+            "phase",
+            "date",
+            "capacity_id",
+        ],
+        debug_article_id=debug_article_id,
+    )
+    debug_print_df(
+        df_inv_raw,
+        label="investments / raw",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            AMOUNT_COL,
+            "status",
+            "phase",
+            "date",
+            "investment_id",
+        ],
+        debug_article_id=debug_article_id,
+    )
+    debug_print_df(
+        df_fac_raw,
+        label="factories / raw",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            "status",
+            "date",
+            "factory",
+        ],
+        debug_article_id=debug_article_id,
+    )
+
     # dedup/group
     df_cap = dedup_group_capacities(df_cap_raw)
     df_inv = dedup_group_investments(df_inv_raw)
-    df_fac = dedup_group_factories(df_fac_raw) if INCLUDE_FACTORY_EVENTS and not df_fac_raw.empty else pd.DataFrame()
+    df_fac = (
+        dedup_group_factories(df_fac_raw)
+        if INCLUDE_FACTORY_EVENTS and not df_fac_raw.empty
+        else pd.DataFrame()
+    )
 
-    logger.info("Capacities raw=%d → grouped=%d | Investments raw=%d → grouped=%d",
-                len(df_cap_raw), len(df_cap), len(df_inv_raw), len(df_inv))
+    logger.info(
+        "Capacities raw=%d → grouped=%d | Investments raw=%d → grouped=%d",
+        len(df_cap_raw),
+        len(df_cap),
+        len(df_inv_raw),
+        len(df_inv),
+    )
+
+    # debug view of grouped frames
+    debug_print_df(
+        df_cap,
+        label="capacities / after_dedup",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            "capacity_normalized",
+            "status",
+            "phase",
+            "date",
+            "capacity_id",
+            "prod_union",
+        ],
+        debug_article_id=debug_article_id,
+    )
+    debug_print_df(
+        df_inv,
+        label="investments / after_dedup",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            AMOUNT_COL,
+            "status",
+            "phase",
+            "date",
+            "investment_id",
+            "prod_union",
+        ],
+        debug_article_id=debug_article_id,
+    )
+    debug_print_df(
+        df_fac,
+        label="factories / after_dedup",
+        cols=[
+            "article_id",
+            "project_id",
+            "product_lv1",
+            "product_lv2",
+            "status",
+            "date",
+            "prod_union",
+        ],
+        debug_article_id=debug_article_id,
+    )
 
     # build events from excel
     events_by_pid = build_events_by_project(df_cap, df_inv, df_fac)
@@ -297,6 +407,25 @@ def attach_events(dry_run: bool = False):
             continue
 
         incoming_events = events_by_pid[pid]
+
+        if debug_article_id:
+            debug_events = [
+                e
+                for e in incoming_events
+                if e.get("articleID") == debug_article_id
+            ]
+            if debug_events:
+                logger.info(
+                    "[DEBUG events_by_pid] articleID=%s, pid=%s, %d events:\n%s",
+                    debug_article_id,
+                    pid,
+                    len(debug_events),
+                    "\n".join(
+                        f"{e['event_type']} | {e.get('product_lv1')} | {e.get('product_lv2')} "
+                        f"| status={e.get('status')} | phase={e.get('phase')} | eventID={e.get('eventID')}"
+                        for e in debug_events
+                    ),
+                )
 
         # Overlay user-edited phase_num from existing by eventID
         prior = existing[pid]["events"]

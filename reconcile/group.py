@@ -9,12 +9,31 @@ from src.company_mapping import map_to_canonical, SITE_MERGE, JV_MERGE
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import COMPANY_JV
 from src.set_adm_level import add_admin_group_key
+from src.debug_helpers import debug_print_df
 
-def group_projects(file_to_group, out_path, output_cols):
+
+def group_projects(file_to_group, out_path, output_cols, debug_article_id: str | None = None):
 
     # 1) Load (EU-only) and drop required fields with consistent logging
     df = pd.read_excel(file_to_group)
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
+    debug_print_df(
+        df,
+        label=f"{out_path} / raw_eu",
+        cols=[
+            "article_id",
+            "inst_canon",
+            "inst_type",
+            "iso2",
+            "factory",
+            "admin_group_key",
+            "product_lv1",
+            "product_lv2",
+            "factory_status",
+            "city_key",
+        ],
+        debug_article_id=debug_article_id,
+    )
     initial_len = len(df)
     logging.debug(f"Found {len(df)} rows (EU only).")
 
@@ -57,6 +76,23 @@ def group_projects(file_to_group, out_path, output_cols):
     n_changed = (df["admin_group_key"] != before).sum()
     logging.debug(f"Applied site merges to {n_changed} rows.")
 
+    debug_print_df(
+        df,
+        label=f"{out_path} / after_site_merges",
+        cols=[
+            "article_id",
+            "inst_canon",
+            "inst_type",
+            "iso2",
+            "factory",
+            "admin_group_key",
+            "product_lv1",
+            "product_lv2",
+            "factory_status",
+        ],
+        debug_article_id=debug_article_id,
+    )
+
     # 3. Apply manual JV merging
 
     def _jv_merge(row):
@@ -69,6 +105,23 @@ def group_projects(file_to_group, out_path, output_cols):
 
     n_changed = (df["inst_canon"] != df["inst_canon_premerge"]).sum()
     logging.info(f"Applied JV merges to {n_changed} rows (exact match only).")
+
+    debug_print_df(
+        df,
+        label=f"{out_path} / after_jv_merges",
+        cols=[
+            "article_id",
+            "inst_canon",
+            "inst_type",
+            "iso2",
+            "factory",
+            "admin_group_key",
+            "product_lv1",
+            "product_lv2",
+            "factory_status",
+        ],
+        debug_article_id=debug_article_id,
+    )
 
     # Generate hash key - stable namespace for reproducibility
     NS = uuid.uuid5(uuid.NAMESPACE_URL, "bruegel/project-key/v1")
@@ -101,6 +154,24 @@ def group_projects(file_to_group, out_path, output_cols):
     # Additionally, for the kept rows where product_lv1 == "iron" and lv2 is in allowed_lv2, set lv2 to 'DRI'
     iron_mask = (df["product_lv1"] == "iron") & (df["product_lv2"].isin(allowed_lv2))
     df.loc[iron_mask, "product_lv2"] = "DRI"
+
+    debug_print_df(
+        df,
+        label=f"{out_path} / after_product_lv2_filters",
+        cols=[
+            "article_id",
+            "inst_canon",
+            "inst_type",
+            "iso2",
+            "factory",
+            "admin_group_key",
+            "product_lv1",
+            "product_lv2",
+            "factory_status",
+            "project_id",
+        ],
+        debug_article_id=debug_article_id,
+    )
 
     # 4) Clean and save output
 

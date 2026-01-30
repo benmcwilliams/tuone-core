@@ -39,9 +39,12 @@ from attach_events import attach_events
 from assign_phase import assign_phase_num
 from phase_summary import compute_summaries
 
-debug_articleID = None
 
-def main(update_mongo_metadata=False, update_main_database=False):
+def main(
+    update_mongo_metadata: bool = False,
+    update_main_database: bool = False,
+    debug_article_id: str | None = None,
+):
 
     t0_pipeline = time.time()
     setup_logger()
@@ -70,8 +73,8 @@ def main(update_mongo_metadata=False, update_main_database=False):
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
-        if debug_articleID:
-            log_nodes_for_article(ctx, debug_articleID)
+        if debug_article_id:
+            log_nodes_for_article(ctx, debug_article_id)
 
         logging.info("🉑 Merging nodes and relationships...")
         df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric
@@ -99,13 +102,18 @@ def main(update_mongo_metadata=False, update_main_database=False):
         for in_path, out_path, output_cols in GROUP_SPEC:
             print(in_path)
             logging.info(f"Processing: {in_path} → {out_path}")
-            group_projects(in_path, out_path, output_cols)
+            group_projects(
+                in_path,
+                out_path,
+                output_cols,
+                debug_article_id=debug_article_id,
+            )
 
     logging.info("🏭 Importing facilities")
     write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
     logging.info("📅 Assigning events to facilities")
-    attach_events()
+    attach_events(debug_article_id=debug_article_id)
 
     logging.info("🔢 Assigning phase number")
     assign_phase_num(dry_run=False,
@@ -120,5 +128,8 @@ def main(update_mongo_metadata=False, update_main_database=False):
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
 if __name__ == "__main__":
-    main(update_mongo_metadata=True,
-        update_main_database=True)
+    main(
+        update_mongo_metadata=True,
+        update_main_database=True,
+        debug_article_id="67fa93e5eaa4fb525afee99d",
+    )
