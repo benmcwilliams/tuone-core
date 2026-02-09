@@ -1,7 +1,10 @@
 import sys; sys.path.append("../..")
 from mongo_client import articles_collection
 from scrape.keywords import SUBSIDY_KEYWORDS
+from datetime import datetime
 import re
+
+cutoff_date = datetime(2019, 1, 1)
 
 def build_text_blob(doc: dict) -> str:
     title = (doc.get("title") or "").strip()
@@ -24,7 +27,9 @@ def has_subsidy(text_lc: str) -> bool:
 
 
 def main(dry_run: bool = False):
-    query = {"meta.category": "user"}
+    query = {"meta.category": {"$in": ["user", "pvmagazine", "pvtech"]},
+        "meta.date": {"$gt": cutoff_date},
+    }
     cursor = articles_collection.find(
         query,
         projection={"title": 1, "paragraphs": 1, "meta.subsidy": 1}

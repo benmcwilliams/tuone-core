@@ -31,7 +31,7 @@ pv_magazine_max_pages = 10
 pv_tech_max_pages = 10
 renews_biz_max_pages = 10
 offshore_wind_max_pages = 10
-electrive_max_pages = 2
+electrive_max_pages = 3
 power_technology_max_pages = 10
 
 if __name__ == "__main__":

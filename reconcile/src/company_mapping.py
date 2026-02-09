@@ -63,8 +63,8 @@ SITE_MERGE = {
     ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
     # poland
     ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
-
     ("giga pv", "PL", "Silesia"): "Racibórz",
+
     # other
     ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
     # add more:
@@ -72,52 +72,68 @@ SITE_MERGE = {
 }
 
 JV_MERGE = {
-    # for cases at the same location, where we want to collapse 
-    # one company or joint venture into another.
+    # for cases at the same location, where we want to collapse one company or joint venture into another.
+    # spain
     ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
     ("stellantis", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
     ("catl", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
-    ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
-    ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
-    ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
-    ("stellantis", "DE", "Kaiserslautern", "battery"): "automotive cell company",
-    ("stellantis", "FR", "Douvrin", "battery"): "automotive cell company",
-    ("volkswagen northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
-    ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
     ("chery", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("ebro", "ES", "Catalonia", "vehicle"): "chery ebro",
     ("chery", "ES", "Barcelona", "vehicle"): "chery ebro",
     ("ebro", "ES", "Barcelona", "vehicle"): "chery ebro",
-    ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
-    ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
-    ("renault", "FR", "Douai", "battery"): "aesc",
-    ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
-    ("nissan", "GB", "Sunderland", "battery"): "aesc",
-    ("tata motors", "GB", "Somserset", "battery"): "agratas",
-    ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
+    ("seat", "ES", "Navarre", "vehicle"): "volkswagen",
+    ("volkswagen", "ES", "Catalonia", "vehicle"): "seat",
+    ("cupra", "ES", "Catalonia", "vehicle"): "seat",
+
+    # germany
+    ("opel", "DE", "Kaiserslautern", "battery"): "automotive cell company",
+    ("stellantis", "DE", "Kaiserslautern", "battery"): "automotive cell company",
+    ("volkswagen northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
+    ("northvolt volkswagen", "DE", "Salzgitter", "battery"): "volkswagen",
+    ("northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
+    ("vw northvolt", "DE", "Salzgitter", "battery"): "volkswagen",
+    ("european battery union", "DE", "Salzgitter", "battery"): "volkswagen",
     ("northvolt", "DE", "Heide", "battery"): "lyten",
-    ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("daimler", "DE", "Kamenz", "battery"): "accumotive",
     ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
+    ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
+
+    # france
+    ("stellantis", "FR", "Douvrin", "battery"): "automotive cell company",
+    ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
+    ("renault", "FR", "Douai", "battery"): "aesc",
+    ("saft", "FR", "Nersac", "battery"): "automotive cell company",
+
+    # sweden
+    ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
+    ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
+
+    # uk
+    ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
+    ("nissan", "GB", "Sunderland", "battery"): "aesc",
+    ("tata motors", "GB", "Somserset", "battery"): "agratas",
     ("tata motors", "GB", "Somerset", "battery"): "agratas",
     ("envision", "GB", "Sunderland", "battery"): "aesc",
     ("nissan envision aesc", "GB", "Sunderland", "battery"): "aesc",
     ("nissan envision aesc", "GB", "Sunderland", "vehicle"): "nissan",
-    ("skoda", "SK", "Bratislava", "vehicle"): "volkswagen",
-    ("seat", "ES", "Navarre", "vehicle"): "volkswagen",
-    ("volkswagen", "ES", "Catalonia", "vehicle"): "seat",
-    ("cupra", "ES", "Catalonia", "vehicle"): "seat",
-    ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
-    ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
-    ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
-    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
-    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa",
-    ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
-    ("saft", "FR", "Nersac", "battery"): "automotive cell company",
-    ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
     ("siemens gamesa", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens gamesa associated british ports", "GB", "Kingston upon Hull", "wind"): "green port hull",
-    ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
+    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa",
+
+    # poland
+    ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
+    ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
+    ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
+    ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
+
+    # others
+    ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
+    ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
+    ("skoda", "SK", "Bratislava", "vehicle"): "volkswagen",
+    ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
+    ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
+    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
+    ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
     ("siemens", "DK", "Ikast-Brande Kommune", "wind"): "siemens gamesa",
 }

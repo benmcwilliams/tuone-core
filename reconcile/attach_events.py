@@ -6,14 +6,14 @@
 #   Build events object from excel and merge into facilities.
 #   Impute missing amounts from CAPEX.
 #   Sort events by date and eventID.
-#   Overlay user-edited phase_num from existing by eventID.
+#   Overlay user-edited phase_num from existing by (event_type, eventID, product_lv2).
 #   Write events to facilities.
 # -----------------------------------------------------------------------------
 
 import sys; sys.path.append("..")
 import logging
 from datetime import datetime
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 
 import numpy as np
 import pandas as pd
@@ -34,6 +34,18 @@ INVESTMENT_STATUS_ORDER = ["cancelled", "paused", "completed", "ongoing", "annou
 INCLUDE_FACTORY_EVENTS = True
 AMOUNT_COL = "amount_EUR_2023_ameco_pvgd"
 # "amount_EUR_2023_ameco_pvgd"
+
+
+def _event_phase_key(e: dict) -> Optional[Tuple[Any, str, Any]]:
+    """Stable key for phase_num overlay: (event_type, eventID, product_lv2). Normalizes NaN/missing pl2."""
+    eid = e.get("eventID")
+    if not eid:
+        return None
+    pl2 = e.get("product_lv2")
+    if pl2 is None or (isinstance(pl2, float) and pd.isna(pl2)) or (isinstance(pl2, dict) and pl2.get("$numberDouble") == "NaN"):
+        pl2 = None
+    return (e.get("event_type"), eid, pl2)
+
 
 # -------------------- load & normalize --------------------
 
@@ -427,17 +439,17 @@ def attach_events(dry_run: bool = False, debug_article_id: str | None = None):
                     ),
                 )
 
-        # Overlay user-edited phase_num from existing by eventID
+        # Overlay user-edited phase_num from existing by (event_type, eventID, product_lv2)
         prior = existing[pid]["events"]
-        phase_overrides = {
-            e.get("eventID"): e.get("phase_num")
-            for e in prior
-            if e.get("eventID") and (e.get("phase_num") is not None)
-        }
+        phase_overrides = {}
+        for e in prior:
+            k = _event_phase_key(e)
+            if k is not None and e.get("phase_num") is not None:
+                phase_overrides[k] = e.get("phase_num")
         for e in incoming_events:
-            eid = e.get("eventID")
-            if eid in phase_overrides:
-                e["phase_num"] = phase_overrides[eid]
+            k = _event_phase_key(e)
+            if k is not None and k in phase_overrides:
+                e["phase_num"] = phase_overrides[k]
                 e["phase_num_source"] = "user"
 
         # Write only incoming (drops stale)
