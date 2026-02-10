@@ -131,5 +131,5 @@ if __name__ == "__main__":
     main(
         update_mongo_metadata=True,
         update_main_database=True,
-        debug_article_id="67fa93e5eaa4fb525afee99d",
+        #debug_article_id="698a0e250433376e5d569902",
     )

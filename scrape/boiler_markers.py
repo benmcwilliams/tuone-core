@@ -85,6 +85,8 @@ BOILER_STRINGS = {
     "Stay up to date with the latest news, trends and innovations that are driving the global automotive industry with the Reuters Auto.",
     "electrive has been reporting on the development of electric mobility with journalistic depth and industry expertise since 2011 and has been available in English since 2013. As the industry's leading voice on e-mobility, electrive provides high-quality coverage and in-depth reporting on the rapid evolution of e-mobility, including news, background features, interviews, videos and industry communications.",
     "newswire.ca",
-    "© 2026 electrive.com"
+    "© 2026 electrive.com",
+    "Please be mindful of ourcommunity standards.",
+    "This content is protected by copyright and may not be reused. If you want to cooperate with us and would like to reuse some of our content, please contact:editors@pv-magazine.com."
     # …add any other exact lines you see
 }
