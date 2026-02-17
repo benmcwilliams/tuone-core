@@ -87,6 +87,9 @@ BOILER_STRINGS = {
     "newswire.ca",
     "© 2026 electrive.com",
     "Please be mindful of ourcommunity standards.",
-    "This content is protected by copyright and may not be reused. If you want to cooperate with us and would like to reuse some of our content, please contact:editors@pv-magazine.com."
-    # …add any other exact lines you see
+    "This content is protected by copyright and may not be reused. If you want to cooperate with us and would like to reuse some of our content, please contact:editors@pv-magazine.com.",
+    "Image source: Siemens Energy",
+    "Source: Siemens Energy",
+    "Subscribe to Magazine!",
+    "Subscribe",
 }

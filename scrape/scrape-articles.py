@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from config.config_scrape import HEADERS, COOKIES
-from scrap_function.utility import get_date, format_date,extract_article_text_energy_tech
+from scrap_function.utility import get_date, format_date, extract_article_text_energy_tech, should_skip_paragraph
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from requests.exceptions import Timeout, RequestException
@@ -99,9 +99,14 @@ def scrape_article(mongo_doc: dict) -> None:
             date_utc = get_utc_date_from_raw(raw_date)
 
             clean_paras = []
-            for p in soup.select('p'):
+            if category == "transformers-magazine":
+                container = soup.select_one("div.main-content.article-page")
+                p_elements = container.select("p") if container else soup.select("p")
+            else:
+                p_elements = soup.select("p")
+            for p in p_elements:
                 txt = p.get_text(strip=True)
-                if txt in BOILER_STRINGS:
+                if not txt or txt in BOILER_STRINGS or should_skip_paragraph(txt):
                     continue
                 clean_paras.append(txt)
 

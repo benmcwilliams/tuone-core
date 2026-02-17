@@ -1,0 +1,96 @@
+# crawley_transformers.py – URLs from transformers-magazine.com sitemaps
+
+import requests
+import xml.etree.ElementTree as ET
+import os
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import certifi
+from pymongo.server_api import ServerApi
+
+load_dotenv()
+
+import logging
+logger = logging.getLogger(__name__)
+
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("MONGO_DB_NAME")
+COLLECTION_NAME = os.getenv("MONGO_URLS_NAME")
+
+# Paste the exact sitemap numbers to crawl (e.g. 1, 2, 3, 4 for post-1.xml … post-4.xml)
+SITEMAP_NUMBERS = [1, 2, 3, 4, 5, 6]
+
+BASE_SITEMAP_URL = "https://transformers-magazine.com/wp-sitemap-posts-post-{}.xml"
+
+
+def get_mongo_collection():
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
+    db = client[DB_NAME]
+    return db[COLLECTION_NAME]
+
+
+def get_existing_urls(collection, category):
+    return [doc['url'] for doc in collection.find({'category': category}, {'_id': 0, 'url': 1})]
+
+
+def save_new_urls(collection, urls, category):
+    documents = [{'url': url, 'category': category, 'status': 'new'} for url in urls]
+    if documents:
+        try:
+            collection.insert_many(documents, ordered=False)
+            logging.info(f"✅ Inserted {len(documents)} new URLs.")
+        except Exception as e:
+            logging.info("❌ Insert error:", str(e))
+
+
+def fetch_urls_from_sitemap(sitemap_url):
+    try:
+        logging.info(f"🔍 Fetching sitemap: {sitemap_url}")
+        response = requests.get(sitemap_url)
+        response.raise_for_status()
+
+        root = ET.fromstring(response.content)
+        namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+        url_tags = root.findall('ns:url', namespace)
+
+        urls = []
+        for url_tag in url_tags:
+            loc = url_tag.find('ns:loc', namespace)
+            if loc is not None and loc.text:
+                urls.append(loc.text)
+
+        logging.info(f"📰 Found {len(urls)} article URLs.")
+        return urls
+
+    except requests.RequestException as e:
+        logging.info(f"❌ Request failed: {e}")
+        return []
+    except ET.ParseError as e:
+        logging.info(f"❌ XML parsing failed: {e}")
+        return []
+
+
+def transformers_magazine_crawler():
+    category = "transformers-magazine"
+    collection = get_mongo_collection()
+
+    logging.info(f'\n--- 🚀 Starting crawl for {category} ---')
+    existing_urls = set(get_existing_urls(collection, category))
+
+    all_urls = []
+    for n in SITEMAP_NUMBERS:
+        sitemap_url = BASE_SITEMAP_URL.format(n)
+        urls = fetch_urls_from_sitemap(sitemap_url)
+        all_urls.extend(urls)
+
+    all_urls = list(set(all_urls))
+    logging.info(f"📰 Total unique URLs from sitemaps: {len(all_urls)}")
+
+    new_urls = list(set(all_urls) - existing_urls)
+    logging.info(f"🔎 New URLs to insert: {len(new_urls)}")
+    save_new_urls(collection, new_urls, category)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    transformers_magazine_crawler()

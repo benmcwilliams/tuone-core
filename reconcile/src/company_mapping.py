@@ -103,6 +103,7 @@ JV_MERGE = {
     ("psa group", "FR", "Mullhouse", "vehicle"): "stellantis",
     ("renault", "FR", "Douai", "battery"): "aesc",
     ("saft", "FR", "Nersac", "battery"): "automotive cell company",
+    ("lm wind power", "FR", "Montoir-de-Bretagne", "wind"): "general electric",
 
     # sweden
     ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
@@ -119,13 +120,23 @@ JV_MERGE = {
     ("siemens gamesa", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens", "GB", "Kingston upon Hull", "wind"): "green port hull",
     ("siemens gamesa associated british ports", "GB", "Kingston upon Hull", "wind"): "green port hull",
-    ("siemens", "GB", "Kingston upon Hull", "wind"): "siemens gamesa",
+    ("siemens", "GB", "Kingston upon Hull", "wind"): "green port hull",
 
     # poland
     ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
     ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
     ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
+
+    # portugal
+    ("senvion", "PT", "Aveiro", "wind"): "siemens gamesa",
+    ("senvion", "PT", "Viseu", "wind"): "siemens gamesa",
+    ("senvion se and senvion", "PT", "Aveiro", "wind"): "siemens gamesa",
+    ("ria blades", "PT", "Aveiro", "wind"): "siemens gamesa",
+
+    # denmark
+    ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
+    ("siemens", "DK", "Ikast-Brande Kommune", "wind"): "siemens gamesa",
 
     # others
     ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
@@ -134,6 +145,4 @@ JV_MERGE = {
     ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
     ("stellantis", "IT", "Torino", "vehicle"): "fiat",
-    ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
-    ("siemens", "DK", "Ikast-Brande Kommune", "wind"): "siemens gamesa",
 }

@@ -3,6 +3,7 @@ from pymongo.server_api import ServerApi
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from pymongo import MongoClient
@@ -42,7 +43,11 @@ def save_new_urls(collection, urls, category):
 def power_technology_crawler(max_pages=10):
     logging.info(f'\n--- Starting crawl for Power Technology ---')
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     initial_url = 'https://www.power-technology.com/news/?cf-view'
     driver.get(initial_url)
 

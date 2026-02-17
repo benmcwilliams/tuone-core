@@ -9,7 +9,7 @@ from mongo_client import articles_collection
 # outputs flat (pandas) data for all nodes and relationships contained in the monogoDB collection
 # each node or relationship is tagged to track which article it came from 
 
-def run_flatten_articles(save: bool = False):
+def run_flatten_articles(save: bool = False, debug_article_id: str | None = None):
 
     # 1.1: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
     articles_to_process = list(
@@ -88,6 +88,28 @@ def run_flatten_articles(save: bool = False):
     df_all_rels['target_label'] = df_all_rels.apply(lambda row: get_label(row, 'target'), axis=1)
     df_all_rels['source'] = df_all_rels.apply(lambda row: get_unique_id(row, 'source'), axis=1)
     df_all_rels['target'] = df_all_rels.apply(lambda row: get_unique_id(row, 'target'), axis=1)
+
+    # Debug: log factory nodes for one article (non-invasive when debug_article_id is None)
+    if debug_article_id and "article_id" in df_all_nodes.columns:
+        fac = df_all_nodes[
+            (df_all_nodes["article_id"] == debug_article_id)
+            & (df_all_nodes["label"].str.lower().str.contains("factory", na=False))
+        ]
+        if fac.empty:
+            logging.info(
+                "[DEBUG flatten] article %s: no factory rows",
+                debug_article_id,
+            )
+        else:
+            has_loc_city = "location_city" in fac.columns and fac["location_city"].notna().any()
+            has_loc_country = "location_country" in fac.columns and fac["location_country"].notna().any()
+            logging.info(
+                "[DEBUG flatten] article %s: factory rows=%d, has location_city=%s, location_country=%s",
+                debug_article_id,
+                len(fac),
+                has_loc_city,
+                has_loc_country,
+            )
 
     # 1.12: Save raw flattened node and relationship data to Excel
     if save:

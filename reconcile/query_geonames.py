@@ -294,4 +294,4 @@ def debug_single_article(article_id: str, failure_backoff_days: Optional[int] = 
             print("-" * 60)
 
 if __name__ == "__main__":
-    debug_single_article("67f52ac6981040986eab726e", 0, False)
+    debug_single_article("698da8589aaf56f50df10f1f", 0, False)

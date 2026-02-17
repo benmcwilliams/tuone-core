@@ -9,6 +9,7 @@ from pymongo.server_api import ServerApi
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -53,9 +54,13 @@ def get_initial_url(page_type):
     return BASE_URL + PAGE_TYPES.get(page_type, 'automobile/')
 
 def setup_driver():
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
     driver_path = ChromeDriverManager().install()
     service = Service(driver_path)
-    return webdriver.Chrome(service=service)
+    return webdriver.Chrome(service=service, options=options)
 
 def scrape_urls(driver, initial_url, max_pages):
     driver.get(initial_url)

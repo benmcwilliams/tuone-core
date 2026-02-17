@@ -30,6 +30,24 @@ headers = {
 # Constants
 TARGET_FORMAT = "%d-%m-%Y"
 
+# Patterns to skip non–main-text paragraphs (source lines, image captions, tag lines)
+_SOURCE_LINE_RE = re.compile(r"^Source\s*:\s*.+")
+_IMAGE_CAPTION_RE = re.compile(r"^Image\s*(?:source)?\s*:\s*.+", re.IGNORECASE)
+_TAG_LINE_RE = re.compile(r"^#[\w\s#]+$")
+
+
+def should_skip_paragraph(txt: str) -> bool:
+    """Return True if paragraph looks like a source line, image caption, or tag line."""
+    if not txt or not txt.strip():
+        return True
+    if _SOURCE_LINE_RE.match(txt):
+        return True
+    if _IMAGE_CAPTION_RE.match(txt):
+        return True
+    if _TAG_LINE_RE.match(txt.strip()):
+        return True
+    return False
+
 DATE_SELECTORS = {
     'electrive': ('class', '.date'),
     'energy_voice_hydrogen': ('class', '.post-timestamp__published'),
@@ -76,6 +94,19 @@ def battery_news_date_util(soup: BeautifulSoup) -> str:
     date_raw = date_tag.get_text(strip=True) if date_tag else "No date found"
     return parse_date(date_raw)
 
+
+def transformers_magazine_date_util(soup: BeautifulSoup) -> str:
+    """Extract date from span.post-meta (e.g. 'Europe | November 23, 2021')."""
+    meta_tag = soup.select_one("span.post-meta")
+    text = meta_tag.get_text(strip=True) if meta_tag else ""
+    # Take part after last pipe, or match "Month DD, YYYY"
+    if "|" in text:
+        text = text.split("|")[-1].strip()
+    match = re.search(r"([A-Za-z]+\s+\d{1,2},?\s+\d{4})", text)
+    date_raw = match.group(1) if match else (text or "No date found")
+    return parse_date(date_raw)
+
+
 def extract_date_with_regex(date_str: str) -> str:
     date_pattern = r"(\d{2}\.\d{2}\.\d{4})"
     date_match = re.search(date_pattern, date_str)
@@ -88,6 +119,8 @@ def get_date(soup: BeautifulSoup, website: str) -> str:
     elif website == "glass-international":
         print("Using glass international date")
         return glass_international_date_util(soup)
+    elif website == "transformers-magazine":
+        return transformers_magazine_date_util(soup)
 
     selector_type, selector = DATE_SELECTORS.get(website, (None, None))
 

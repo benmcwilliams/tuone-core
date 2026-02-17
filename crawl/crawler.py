@@ -23,6 +23,7 @@ from crawlers.crawley_energy_tech import aspire_energytech_crawler
 from crawlers.crawley_just_auto import just_auto_crawler
 from crawlers.crawley_battery_news import battery_news_crawler
 from crawlers.crawley_glass_international import glass_international_crawler
+from crawlers.crawley_transformers import transformers_magazine_crawler
 from config.config_crawl import WORLD_ENERGY_CHANNELS, PV_MAGAZINE_EXTENSIONS, RENEWS_BIZ_TECH_DICT, ELECTRIVE_PAGE_TYPES
 
 # set max pages to crawl for each source
@@ -31,7 +32,7 @@ pv_magazine_max_pages = 10
 pv_tech_max_pages = 10
 renews_biz_max_pages = 10
 offshore_wind_max_pages = 10
-electrive_max_pages = 3
+electrive_max_pages = 2
 power_technology_max_pages = 10
 
 if __name__ == "__main__":
@@ -70,6 +71,8 @@ if __name__ == "__main__":
     # crawl glass international
     glass_international_crawler()
 
+    # transformers 
+    transformers_magazine_crawler()
 
     # # # 🆕 Crawl Aspire EnergyTech (GraphQL source)
     # #aspire_energytech_crawler(skip=0, limit=10)

@@ -228,7 +228,10 @@ def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataF
     drop_cols = ["phase_capacity", "capacity", "phase_investment", "investment"]
     existing = [c for c in drop_cols if c in df.columns]
     if existing:
-        df = df.dropna(subset=existing, how="all")
+        # Drop rows with no capacity and no investment only for non-wind; keep all wind phases.
+        all_missing = df[existing].isna().all(axis=1)
+        is_wind = df["product_lv1"] == "wind"
+        df = df[is_wind | ~all_missing]
     
     # limit to our current product selection 
     df = df[df["product_lv1"].isin(INCLUDE_LV1)]

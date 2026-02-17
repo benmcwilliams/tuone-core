@@ -69,7 +69,7 @@ def main(
         # read in IEA hydrogen database
 
         logging.info("🗞️ Flattening articles...")
-        nodes_df, rels_df = run_flatten_articles(save=False)
+        nodes_df, rels_df = run_flatten_articles(save=False, debug_article_id=debug_article_id)
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
@@ -80,7 +80,7 @@ def main(
         df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric
         df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       COMPANY_JV,           context=ctx)  # JV directory
         df_investment = run_view(INVESTMENT_FUNDS_SPEC,       INVESTMENT_FUNDS,     context=ctx)  # investment-centric
-        df_facility =   build_registry_union(to_excel=True,                         context=ctx)  # facility directory
+        df_facility =   build_registry_union(to_excel=True, context=ctx, debug_article_id=debug_article_id)  # facility directory
 
         logging.info("- - - Normalising capacities")
         df_clean_caps = run_capacity_normalisation_pipeline(df_in=df_capacity,
@@ -131,5 +131,5 @@ if __name__ == "__main__":
     main(
         update_mongo_metadata=True,
         update_main_database=True,
-        #debug_article_id="698a0e250433376e5d569902",
+        #debug_article_id="698da8589aaf56f50df10f1f",
     )

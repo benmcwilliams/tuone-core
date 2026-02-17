@@ -59,8 +59,8 @@ def scrape_page(page_url, prepend_url, headers=None):
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(
-                headless=False,  # Make it a visible browser window
-                args=["--start-maximized"]
+                headless=True,  # Make it a visible browser window
+                #args=["--start-maximized"]
             )
             context = browser.new_context(
                 user_agent=headers["User-Agent"],
