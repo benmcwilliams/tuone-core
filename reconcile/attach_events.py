@@ -278,7 +278,7 @@ def fetch_existing(pids: List[str]) -> Dict[str, Dict[str, Any]]:
         }
     return docs
 
-def attach_events(dry_run: bool = False, debug_article_id: str | None = None):
+def attach_events(dry_run: bool = False, debug_article_id: str | None = None, verbose_missing_pids: bool = False):
 
     # load
     df_cap_raw = load_capacities()
@@ -414,7 +414,8 @@ def attach_events(dry_run: bool = False, debug_article_id: str | None = None):
 
     for pid in pids:
         if pid not in existing:
-            print(pid)
+            if verbose_missing_pids:
+                print(pid)
             missing += 1
             continue
 

@@ -9,7 +9,7 @@ from mongo_client import articles_collection
 # outputs flat (pandas) data for all nodes and relationships contained in the monogoDB collection
 # each node or relationship is tagged to track which article it came from 
 
-def run_flatten_articles(save: bool = False, debug_article_id: str | None = None):
+def run_flatten_articles(save: bool = False, debug_article_id: str | None = None, verbose: bool = False):
 
     # 1.1: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
     articles_to_process = list(
@@ -67,7 +67,8 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
     # 1.6: Convert all collected nodes and relationships into DataFrames
     df_all_nodes = pd.DataFrame(all_nodes)
     df_all_rels = pd.DataFrame(all_rels)
-    print("Loaded to DataFrames: nodes =", len(df_all_nodes), "| relationships =", len(df_all_rels))
+    if verbose:
+        print("Loaded to DataFrames: nodes =", len(df_all_nodes), "| relationships =", len(df_all_rels))
 
     # 1.7: Create unique IDs by combining article_id and node id
     df_all_nodes["unique_id"] = df_all_nodes["article_id"] + "_" + df_all_nodes["id"]

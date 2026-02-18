@@ -145,4 +145,5 @@ JV_MERGE = {
     ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
     ("stellantis", "IT", "Torino", "vehicle"): "fiat",
+    ("finnish minerals group epsilon advanced materials", "FI", "Vaasa", "battery"): "freyr"
 }

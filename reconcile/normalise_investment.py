@@ -823,6 +823,7 @@ def run_investment_normalisation_pipeline(
     *,
     write_outputs: bool = True,
     write_check: bool = True,
+    verbose_investment_split: bool = False,
 ) -> pd.DataFrame:
     """
     Normalise investment amounts & currencies.
@@ -901,6 +902,7 @@ def run_investment_normalisation_pipeline(
             f"amount_EUR_{base_year}_ameco_pvgd",
             f"amount_USD_{base_year}_ameco_pvgd",
         ),
+        verbose=verbose_investment_split,
     )
 
     def _round_shape_preserving(x, nd=0):

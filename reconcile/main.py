@@ -39,6 +39,14 @@ from attach_events import attach_events
 from assign_phase import assign_phase_num
 from phase_summary import compute_summaries
 
+# --- Verbose / debug (set True to enable noisier logs) ---
+VERBOSE_INVESTMENT_SPLIT = False
+VERBOSE_ATTACH_EVENTS_MISSING_PIDS = False
+VERBOSE_FLATTEN = False
+VERBOSE_GROUPING = False
+VERBOSE_CAPACITY = False
+VERBOSE_GEONAMES = False
+
 
 def main(
     update_mongo_metadata: bool = False,
@@ -56,7 +64,7 @@ def main(
         clean_owner_names()
 
         logging.info("🌎 Querying geonames...") 
-        query_geonames_new_cities(limit=22000, skip=0, failure_backoff_days=2000)
+        query_geonames_new_cities(limit=22000, skip=0, failure_backoff_days=2000, verbose=VERBOSE_GEONAMES)
 
         # logging.info("🧸 Classifying products")             # re-updates all products
         # classify_products_sync_mongo()
@@ -69,7 +77,7 @@ def main(
         # read in IEA hydrogen database
 
         logging.info("🗞️ Flattening articles...")
-        nodes_df, rels_df = run_flatten_articles(save=False, debug_article_id=debug_article_id)
+        nodes_df, rels_df = run_flatten_articles(save=False, debug_article_id=debug_article_id, verbose=VERBOSE_FLATTEN)
 
         logging.info("🔗 Building context in-memory...")
         ctx = make_context_from_frames(nodes_df, rels_df)
@@ -85,22 +93,26 @@ def main(
         logging.info("- - - Normalising capacities")
         df_clean_caps = run_capacity_normalisation_pipeline(df_in=df_capacity,
                                               write_debug=False,
-                                              write_outputs=True)
+                                              write_outputs=True,
+                                              verbose=VERBOSE_CAPACITY)
 
         logging.info("- - - Normalising investments")
         df_clean_caps_invs = run_investment_normalisation_pipeline(df_in=df_clean_caps,
             output_path = FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, 
             write_outputs=True, 
-            write_check=False)
+            write_check=False,
+            verbose_investment_split=VERBOSE_INVESTMENT_SPLIT)
 
         df_clean_invs = run_investment_normalisation_pipeline(df_in=df_investment, 
         output_path = CLEAN_INVESTMENT_FUNDS, 
         write_outputs=True, 
-        write_check=True)
+        write_check=True,
+        verbose_investment_split=VERBOSE_INVESTMENT_SPLIT)
 
         logging.info("🫂 Grouping projects...")
         for in_path, out_path, output_cols in GROUP_SPEC:
-            print(in_path)
+            if VERBOSE_GROUPING:
+                print(in_path)
             logging.info(f"Processing: {in_path} → {out_path}")
             group_projects(
                 in_path,
@@ -113,7 +125,7 @@ def main(
     write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
 
     logging.info("📅 Assigning events to facilities")
-    attach_events(debug_article_id=debug_article_id)
+    attach_events(debug_article_id=debug_article_id, verbose_missing_pids=VERBOSE_ATTACH_EVENTS_MISSING_PIDS)
 
     logging.info("🔢 Assigning phase number")
     assign_phase_num(dry_run=False,

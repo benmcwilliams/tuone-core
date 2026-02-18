@@ -214,7 +214,8 @@ def run_capacity_normalisation_pipeline(df_in: pd.DataFrame | None = None,
                                         file_path: str = FACTORY_TECH,
                                         *,
                                         write_debug: bool = True,
-                                        write_outputs: bool = True) -> pd.DataFrame:
+                                        write_outputs: bool = True,
+                                        verbose: bool = False) -> pd.DataFrame:
 
     # 0) Load input
     if df_in is None:
@@ -261,8 +262,9 @@ def run_capacity_normalisation_pipeline(df_in: pd.DataFrame | None = None,
     pct = (failed / total * 100.0) if total else 0.0
     logging.info("Capacity rows: %d | failed: %d (%.1f%%)", total, failed, pct)
 
-    # which branches fired
-    logging.info(df["normalization_case"].value_counts(dropna=False).to_string())
+    # which branches fired (verbose only)
+    if verbose:
+        logging.info(df["normalization_case"].value_counts(dropna=False).to_string())
 
     if write_debug:
         debug_cols = ["capacity", "raw_value", "unit", "product", "product_lv1", "product_lv2",

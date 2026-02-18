@@ -21,9 +21,9 @@ from datetime import datetime, timezone
 
 # --- Config: edit these in the file ---
 dry_run = False
-limit = 2000  # None = no limit, or set e.g. 10
+limit = None  # None = no limit, or set e.g. 10
 article_id = None  # None = all matching articles, or set a single MongoDB ObjectId string
-#categories = ["user", "electrive"]  # same as main.py: only these meta.category values
+categories = ["electrive"]  # same as main.py: only these meta.category values
 cutoff_date = datetime(2021, 1, 1)  # only articles with meta.date > this
 offset_articles = 0  # skip this many articles (for resuming)
 
@@ -35,7 +35,7 @@ def main() -> None:
     query = {
         "nodes": {"$exists": True, "$ne": []},
         "paragraphs": {"$exists": True, "$ne": []},
-        #"meta.category": {"$in": categories},
+        "meta.category": {"$in": categories},
         "meta.date": {"$gt": cutoff_date},
     }
     if article_id:

@@ -177,7 +177,7 @@ def build_success_update(std_country: str, iso2: str, city_key: str, payload: di
 
 # ---------- Core job ----------
 
-def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european_only: bool = True) -> List[UpdateOne]:
+def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european_only: bool = True, verbose: bool = False) -> List[UpdateOne]:
     updates: List[UpdateOne] = []
 
     for std_country, city_key in sorted(candidates):
@@ -200,7 +200,8 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
             original_country = meta["original_country"]
             original_city = meta["original_city"]
             article_ids = sorted(meta["article_ids"])
-            print(f"- - original city is {original_city} and original country is {original_country}")
+            if verbose:
+                print(f"- - original city is {original_city} and original country is {original_country}")
 
             # ---- override hook (only affects the query string) ----
             override_q = CITY_QUERY_OVERRIDES.get((iso2, city_key))
@@ -211,7 +212,8 @@ def process_candidates(candidates: Set[Key], metadata: Dict[Key, dict], european
             logger.info(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
             logger.info(f"📍 Location is present in the following articles: {article_ids}")
 
-            print(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
+            if verbose:
+                print(f"🗺️ Starting GeoNames lookup for city='{query_city}', country='{original_country}'")
 
             name, adm1, adm2, adm3, adm4, bbox, failed, lat, lon = get_adm_level(query_city, iso2, logger=logger)
 
@@ -258,10 +260,10 @@ def commit_updates(updates: List[UpdateOne], batch_size: int = 1000) -> None:
 
 # ---------- Entry point ----------
 
-def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0, failure_backoff_days: Optional[int] = 2) -> None:
+def query_geonames_new_cities(limit: Optional[int] = 100, skip: int = 0, failure_backoff_days: Optional[int] = 2, verbose: bool = False) -> None:
     existing_pairs = load_existing_pairs(include_failures=True, failure_backoff_days=failure_backoff_days)
     candidates, metadata = collect_candidates(existing_pairs, limit=limit, skip=skip)
-    updates = process_candidates(candidates, metadata, european_only=True)
+    updates = process_candidates(candidates, metadata, european_only=True, verbose=verbose)
     commit_updates(updates)
 
 def debug_single_article(article_id: str, failure_backoff_days: Optional[int] = 0, commit: bool = False) -> None:

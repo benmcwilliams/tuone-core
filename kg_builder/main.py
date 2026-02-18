@@ -304,8 +304,8 @@ def process_articles(articles_to_process, model_dictionary):
 
 offset_articles = 0
 #categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
-#categories = ["user", "electrive", "pvmagazine", "pvtech"]
-categories = ["transformers-magazine", "user"]
+#categories = ["user", "electrive", "pvmagazine", "pvtech", "transformers-magazine", ]
+categories = ["user"]
 
 cutoff_date = datetime(2010, 1, 1)
 
