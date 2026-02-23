@@ -17,6 +17,8 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
     # 1) Load (EU-only) and drop required fields with consistent logging
     df = pd.read_excel(file_to_group)
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
+    if "product_lv3" not in df.columns:
+        df["product_lv3"] = None
     debug_print_df(
         df,
         label=f"{out_path} / raw_eu",
@@ -29,6 +31,7 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
             "admin_group_key",
             "product_lv1",
             "product_lv2",
+            "product_lv3",
             "factory_status",
             "city_key",
         ],
@@ -57,8 +60,10 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
             logging.info(f"Rows reduced to {len(df)} after dropping missing {col}.")
 
     missing_product_lv2 = df["product_lv2"].isna().sum()
+    missing_product_lv3 = df["product_lv3"].isna().sum()
     logging.info(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
     logging.debug(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
+    logging.debug(f"⚠️ {missing_product_lv3} entries without a normalised PRODUCT-LV3.")
 
     # apply any manual company or joint venture name mapping
     logging.debug(f"Unique owners before manual dict: {len(df['inst_canon'].unique())}")
@@ -88,6 +93,7 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
             "admin_group_key",
             "product_lv1",
             "product_lv2",
+            "product_lv3",
             "factory_status",
         ],
         debug_article_id=debug_article_id,
@@ -118,6 +124,7 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
             "admin_group_key",
             "product_lv1",
             "product_lv2",
+            "product_lv3",
             "factory_status",
         ],
         debug_article_id=debug_article_id,
@@ -167,6 +174,7 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
             "admin_group_key",
             "product_lv1",
             "product_lv2",
+            "product_lv3",
             "factory_status",
             "project_id",
         ],

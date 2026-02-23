@@ -46,10 +46,12 @@ def build_registry_union(to_excel: bool = True, *, context=None, debug_article_i
     df = pd.concat([df_direct, df_cap, df_inv], ignore_index=True)
 
     # 3) Deduplicate with clear precedence (per article: same facility in multiple articles keeps one row per article)
-    #    Key: (article_id, factory, inst_canon, iso2, adm1, product_lv1, product_lv2). Best provenance wins per key.
+    #    Key: (article_id, factory, inst_canon, iso2, adm1, product_lv1, product_lv2, product_lv3). Best provenance wins per key.
     if not df.empty:
+        if "product_lv3" not in df.columns:
+            df["product_lv3"] = None
         df["provenance_rank"] = df["provenance"].map({p:i for i,p in enumerate(PROVENANCE_ORDER)})
-        dedupe_key = ["article_id", "factory", "factory_status", "inst_canon", "iso2", "adm1", "product_lv1", "product_lv2"]
+        dedupe_key = ["article_id", "factory", "factory_status", "inst_canon", "iso2", "adm1", "product_lv1", "product_lv2", "product_lv3"]
         df = (df.sort_values(dedupe_key + ["provenance_rank"])
                 .drop_duplicates(dedupe_key, keep="first")
                 .drop(columns=["provenance_rank"]))

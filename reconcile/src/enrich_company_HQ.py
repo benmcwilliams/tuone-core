@@ -1,10 +1,10 @@
 """
-HQ Enrichment: Mongo ⟷ Excel (manual overrides) with optional enrichment
-- Reads Mongo (facilities_develop_2509)
+HQ Enrichment: Mongo ⟷ Excel sync with optional enrichment
+- Reads Mongo (facilities_develop)
 - Ensures Excel buffer exists (hq_enrichment_results.xlsx) with intuitive columns
-- Applies manual ISO2 overrides from Excel (HQ_ISO2_manual always wins)
+- User edits HQ_ISO2 directly in Excel (preserved across runs)
 - Optional enrichment for only-missing values (answer 'y' when prompted)
-- Writes updates back to Mongo (preserving manual/existing data)
+- Writes updates back to Mongo (preserving user edits)
 """
  
 from __future__ import annotations
@@ -17,7 +17,8 @@ from pathlib import Path
  
 import pandas as pd
 from tqdm import tqdm
- 
+import pycountry
+
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
  
@@ -37,10 +38,23 @@ OUTPUT_FILE = Path(__file__).with_name("hq_enrichment_results.xlsx")
  
 # Set True to also store full country/region fields in Mongo (besides ISO2)
 WRITE_EXTRA_FIELDS = True
- 
+
+# Filter: only process facilities with these product_lv1 values
+ALLOWED_PRODUCT_LV1 = ["battery", "solar", "vehicle", "iron", "wind"]
+
 # Gentle rate limiting for enrichment
 SLEEP_BETWEEN_LOOKUPS_SEC = 0.12
- 
+
+def iso2_to_country_name(iso2: str | None) -> str | None:
+    """Convert ISO2 code to full country name using pycountry."""
+    if not iso2:
+        return None
+    try:
+        country = pycountry.countries.get(alpha_2=iso2.upper())
+        return country.name if country else None
+    except (KeyError, AttributeError):
+        return None
+
 # Simple region mapper (edit as needed)
 EUROPE_ISO2 = {
     "AL","AD","AM","AT","AZ","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI",
@@ -57,6 +71,7 @@ def iso2_to_region(iso2: str | None) -> str | None:
     if iso == "KR": return "South Korea"
     if iso == "JP": return "Japan"
     if iso == "US": return "United States"
+    if iso == "JV": return "Joint Venture"
     return "Other"
  
 
@@ -69,10 +84,10 @@ def fetch_mongo_snapshot():
     We allow duplicates in Mongo but aggregate to one row per inst_canon here.
     """
     coll = db[COLLECTION_NAME]
-    # Pull only fields we care about
+    # Pull only fields we care about, filtered by product_lv1
     docs = list(
         coll.find(
-            {},
+            {"product_lv1": {"$in": ALLOWED_PRODUCT_LV1}},
             {
                 "_id": 0,
                 "inst_canon": 1,
@@ -112,13 +127,9 @@ def ensure_excel_columns(df_excel: pd.DataFrame) -> pd.DataFrame:
     """
     Ensure the Excel buffer has the intuitive columns:
     - inst_canon
-    - Name_manual (optional manual name override for enrichment)
-    - HQ_ISO2 (auto)
-    - HQ_ISO2_manual (manual override; ALWAYS wins)
-    - HQ_country (auto)
-    - HQ_region (auto)
+    - HQ_ISO2 (editable - user edits this 2-digit code, country/region auto-computed internally)
     """
-    expected = ["inst_canon", "Name_manual", "HQ_ISO2", "HQ_ISO2_manual", "HQ_country", "HQ_region"]
+    expected = ["inst_canon", "HQ_ISO2"]
     for col in expected:
         if col not in df_excel.columns:
             df_excel[col] = None
@@ -178,29 +189,31 @@ def main():
     excel_df = load_or_create_excel_buffer(df_mongo["inst_canon"])
  
     # Hydrate Excel buffer with current Mongo state for visibility
-    # (only fill Excel auto columns where they are empty)
+    # (only fill Excel ISO2 where empty - preserves user edits)
+    # Country and region will be auto-computed from ISO2 below
     excel_df["HQ_ISO2"] = excel_df["HQ_ISO2"].fillna(df_mongo.set_index("inst_canon")["inst_canon_ctry_hq"])
-    excel_df["HQ_country"] = excel_df["HQ_country"].fillna(df_mongo.set_index("inst_canon")["inst_canon_hq_country"])
-    excel_df["HQ_region"] = excel_df["HQ_region"].fillna(df_mongo.set_index("inst_canon")["inst_canon_hq_region"])
  
     # Decide whether to enrich now (missing-only)
     do_enrich = input("\n⚙️  Run enrichment for missing HQ ISO2 values? (y/n): ").strip().lower() == "y"
  
     # Build a working table (merged view)
     work = excel_df.copy()
- 
-    # Resolve a final ISO2: manual wins -> then existing/auto -> else None (to be enriched)
-    # Priority:
-    #   1) HQ_ISO2_manual (Excel manual)
-    #   2) HQ_ISO2 (Excel auto column if present)
-    #   3) inst_canon_ctry_hq from Mongo (already merged above into HQ_ISO2 if empty)
-    work["HQ_ISO2_final"] = work["HQ_ISO2_manual"]
-    work["HQ_ISO2_final"] = work["HQ_ISO2_final"].where(work["HQ_ISO2_final"].notna(), work["HQ_ISO2"])
+    
+    # Initialize internal columns (not shown in Excel but needed for enrichment/MongoDB)
+    if "Name_manual" not in work.columns:
+        work["Name_manual"] = None
+    if "HQ_country" not in work.columns:
+        work["HQ_country"] = None
+    if "HQ_region" not in work.columns:
+        work["HQ_region"] = None
+
+    # Use HQ_ISO2 directly (user edits are preserved via fillna above)
+    work["HQ_ISO2_final"] = work["HQ_ISO2"]
     # Now enrich only rows still missing HQ_ISO2_final
     need_enrichment_idx = work.index[work["HQ_ISO2_final"].isna()]
- 
+
     enriched_count = 0
-    manual_applied = work["HQ_ISO2_manual"].notna().sum()
+    manual_applied = work["HQ_ISO2"].notna().sum()
  
     if do_enrich and len(need_enrichment_idx) > 0:
         print(f"🌍 Enriching {len(need_enrichment_idx)} companies (missing ISO2 only)...")
@@ -211,9 +224,10 @@ def main():
             country_full = get_headquarters_country(str(name_for_lookup))
             if country_full:
                 iso2 = country_to_iso2(country_full)
-                work.at[i, "HQ_country"] = country_full
                 work.at[i, "HQ_ISO2_final"] = iso2
                 work.at[i, "HQ_ISO2"] = iso2  # keep Excel auto column in sync
+                # Auto-compute country name and region from ISO2
+                work.at[i, "HQ_country"] = iso2_to_country_name(iso2)
                 work.at[i, "HQ_region"] = iso2_to_region(iso2)
                 enriched_count += 1
             else:
@@ -222,21 +236,18 @@ def main():
             time.sleep(SLEEP_BETWEEN_LOOKUPS_SEC)
     else:
         if do_enrich:
-            print("✅ Nothing to enrich — all ISO2 values are present (manual or existing).")
+            print("✅ Nothing to enrich — all ISO2 values are present.")
         else:
             print("⏭️  Skipping enrichment (quick sync mode).")
- 
-    # Any rows where manual ISO2 is set: recompute country/region if not already provided
-    rows_with_manual = work.index[work["HQ_ISO2_manual"].notna()]
-    for i in rows_with_manual:
-        iso2 = str(work.at[i, "HQ_ISO2_manual"]).upper()
-        if pd.isna(work.at[i, "HQ_country"]) or not str(work.at[i, "HQ_country"]).strip():
-            # We only have ISO2 — country name is optional; leave it if no resolver is available.
-            # If you want to back-resolve country names from ISO2, you could add a small map here.
-            pass
-        work.at[i, "HQ_region"] = iso2_to_region(iso2)
+
+    # Auto-compute country name and region for all rows with ISO2 (ensures consistency)
+    # This ensures country/region are always derived from ISO2, not manually entered
+    rows_with_iso2 = work.index[work["HQ_ISO2"].notna()]
+    for i in rows_with_iso2:
+        iso2 = str(work.at[i, "HQ_ISO2"]).upper().strip()
         work.at[i, "HQ_ISO2_final"] = iso2
-        work.at[i, "HQ_ISO2"] = iso2  # reflect into auto column for transparency
+        work.at[i, "HQ_country"] = iso2_to_country_name(iso2)
+        work.at[i, "HQ_region"] = iso2_to_region(iso2)
  
     # --------------------------
     # WRITE BACK TO MONGO
@@ -245,31 +256,28 @@ def main():
     updated_docs = 0
     skipped_docs_existing = 0
  
-    # Build a lookup of current Mongo ISO2 to avoid unnecessary writes
+    # Build lookups of current Mongo values to check if updates are needed
     mongo_iso_lookup = df_mongo.set_index("inst_canon")["inst_canon_ctry_hq"].to_dict()
- 
+    mongo_country_lookup = df_mongo.set_index("inst_canon")["inst_canon_hq_country"].to_dict() if WRITE_EXTRA_FIELDS else {}
+    mongo_region_lookup = df_mongo.set_index("inst_canon")["inst_canon_hq_region"].to_dict() if WRITE_EXTRA_FIELDS else {}
+
     for _, r in work.iterrows():
         canon = r["inst_canon"]
         final_iso2 = r.get("HQ_ISO2_final")
- 
+
         # If no ISO2 at all, skip
         if pd.isna(final_iso2) or not str(final_iso2).strip():
             continue
- 
+
         final_iso2 = str(final_iso2).upper()
         current_iso2 = mongo_iso_lookup.get(canon)
- 
-        # If Mongo already has same ISO2 and there's no manual change, skip
-        if current_iso2 and str(current_iso2).upper() == final_iso2:
-            skipped_docs_existing += 1
-            continue
- 
+
         # Prepare update payload
         update = {
             "inst_canon_ctry_hq": final_iso2,
             "updated_at": datetime.utcnow(),
         }
- 
+
         if WRITE_EXTRA_FIELDS:
             # These extra fields are optional; okay if they didn't exist before
             hq_country = r.get("HQ_country")
@@ -278,15 +286,38 @@ def main():
                 update["inst_canon_hq_country"] = str(hq_country)
             if pd.notna(hq_region) and str(hq_region).strip():
                 update["inst_canon_hq_region"] = str(hq_region)
- 
+
+        # Check if any field has changed
+        iso2_changed = not current_iso2 or str(current_iso2).upper() != final_iso2
+        
+        country_changed = False
+        region_changed = False
+        if WRITE_EXTRA_FIELDS:
+            current_country = mongo_country_lookup.get(canon)
+            current_region = mongo_region_lookup.get(canon)
+            excel_country = update.get("inst_canon_hq_country")
+            excel_region = update.get("inst_canon_hq_region")
+            
+            # Country changed if Excel has value and (Mongo doesn't or values differ)
+            if excel_country:
+                country_changed = (not current_country or str(current_country).strip() != str(excel_country).strip())
+            # Region changed if Excel has value and (Mongo doesn't or values differ)
+            if excel_region:
+                region_changed = (not current_region or str(current_region).strip() != str(excel_region).strip())
+
+        # Skip only if nothing changed
+        if not iso2_changed and not country_changed and not region_changed:
+            skipped_docs_existing += 1
+            continue
+
         res = coll.update_many({"inst_canon": canon}, {"$set": update})
         updated_docs += res.modified_count
  
     # --------------------------
     # SAVE/REFRESH EXCEL BUFFER
     # --------------------------
-    # Keep only the human-friendly view in Excel
-    excel_out = work[["inst_canon", "Name_manual", "HQ_ISO2", "HQ_ISO2_manual", "HQ_country", "HQ_region"]].copy()
+    # Keep only the editable columns in Excel (country/region are auto-computed internally)
+    excel_out = work[["inst_canon", "HQ_ISO2"]].copy()
     excel_out.sort_values("inst_canon", inplace=True, ignore_index=True)
     write_excel_safely(excel_out, OUTPUT_FILE)
  
@@ -297,7 +328,7 @@ def main():
     available_iso2 = work["HQ_ISO2_final"].notna().sum()
     print("\n📊 Summary")
     print(f"  Companies total:                {total_inst}")
-    print(f"  Manual ISO2 applied:            {manual_applied}")
+    print(f"  With ISO2 set:                  {manual_applied}")
     print(f"  Enriched (missing-only):        {enriched_count}")
     print(f"  With ISO2 available (final):    {available_iso2}")
     print(f"  Mongo docs updated:             {updated_docs}")

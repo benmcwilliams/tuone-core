@@ -53,6 +53,6 @@ characteristic_node_types = {
     "products": {
         "id_key": "product_ID",
         "type_match": "product",
-        "attach": {"product_lv1": "product_lv1", "product_lv2": "product_lv2"},
+        "attach": {"product_lv1": "product_lv1", "product_lv2": "product_lv2", "product_lv3": "product_lv3"},
     }
 }

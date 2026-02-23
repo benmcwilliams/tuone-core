@@ -16,7 +16,7 @@ from datetime import datetime
 import pandas as pd
 from mongo_client import facilities_collection, articles_collection
 from bson import ObjectId
-from src.attach_events_helpers import normalize_pl2
+from src.attach_events_helpers import normalize_pl2, normalize_pl3
 
 ## main logic should be updated to read from phases (or drop main...)
 
@@ -162,18 +162,24 @@ def _is_status_eligible(c: dict) -> bool:
     # other event types (e.g., operations/construction) may vote
     return True
 
-def events_product_lv2_union(events: list) -> list[str]:
+def events_product_union(events: list, field: str) -> list[str]:
     """
-    Collect union of product_lv2 from non-ignored events
+    Collect union of a product level from non-ignored events.
+
+    Args:
+        events: Event list from facility document.
+        field: One of {"product_lv2", "product_lv3"}.
     """
+    if field not in {"product_lv2", "product_lv3"}:
+        raise ValueError(f"Unsupported field for product union: {field}")
+
+    normalizer = normalize_pl2 if field == "product_lv2" else normalize_pl3
     acc = set()
     for ev in events or []:
         if phase_is_ignored(ev):
             continue
-        # Use normalize_pl2 for consistent normalization
-        pl2_list = normalize_pl2(ev.get("product_lv2"))
-        acc.update(pl2_list)
-    
+        acc.update(normalizer(ev.get(field)))
+
     return sorted(acc)
 
 def collect_article_ids_from_summary(summary: dict) -> set:
@@ -339,10 +345,11 @@ def build_phase_summary(events: list, phase_num: int | str | None, prev_capacity
         "source_date": best_status_row["date"],
     }
 
-    # For tract.stage phases (e.g., 'A.1', 'B.2'), attach union of product_lv2 within that phase
+    # For tract.stage phases (e.g., 'A.1', 'B.2'), attach union of product_lv2/lv3 within that phase
     tract, _ = parse_tract_stage(phase_num)
-    if tract is not None:  # Only tracted phases get product_lv2
-        summary["product_lv2"] = events_product_lv2_union(phase_events)
+    if tract is not None:  # Only tracted phases get product_lv2/lv3
+        summary["product_lv2"] = events_product_union(phase_events, "product_lv2")
+        summary["product_lv3"] = events_product_union(phase_events, "product_lv3")
     
     # ------------- set CHRONOLOGY ----------------
     # add chronological milestone dates with two rules:
@@ -439,9 +446,13 @@ def compute_summaries(debug_article_id: ObjectId | str | None = None):
 
         # ---------- derive facility product_lv2 from NON-IGNORED events ----------
         current_pl2 = normalize_pl2(doc.get("product_lv2"))
-        events_pl2 = events_product_lv2_union(events)  # skips "ignore"
+        events_pl2 = events_product_union(events, "product_lv2")  # skips "ignore"
         if events_pl2 != current_pl2:
             update_fields["product_lv2"] = events_pl2
+        current_pl3 = normalize_pl3(doc.get("product_lv3"))
+        events_pl3 = events_product_union(events, "product_lv3")  # skips "ignore"
+        if events_pl3 != current_pl3:
+            update_fields["product_lv3"] = events_pl3
         # ------------------------------------------------------------------------
 
         # unique phase_num mentioned in the events, should be robust to string "ignore"

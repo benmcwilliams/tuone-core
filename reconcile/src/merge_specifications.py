@@ -31,7 +31,7 @@ FACTORY_REGISTRY_DIRECT = {
         },
         "product": {
             "label": "product",
-            "keep": ["name", "unique_id", "product_lv1", "product_lv2"],
+            "keep": ["name", "unique_id", "product_lv1", "product_lv2", "product_lv3"],
             "rename": {"unique_id": "product_id", "name": "product"},
         },
     },
@@ -79,6 +79,7 @@ FACTORY_REGISTRY_DIRECT = {
         "product",
         "product_lv1",
         "product_lv2",
+        "product_lv3",
         "article_id",
         # output product_id | owner_id | factory_id to identify them globally
     ],
@@ -115,7 +116,7 @@ FACTORY_REGISTRY_CAP = {
         },
         "product": {
             "label": "product",
-            "keep": ["name", "unique_id", "product_lv1", "product_lv2"],
+            "keep": ["name", "unique_id", "product_lv1", "product_lv2", "product_lv3"],
             "rename": {"unique_id": "product_id", "name": "product"},
         },
         "capacity": {
@@ -163,6 +164,7 @@ FACTORY_REGISTRY_CAP = {
         "product",
         "product_lv1",
         "product_lv2",
+        "product_lv3",
         "city_key",
         "iso2",
         "adm1",
@@ -206,7 +208,7 @@ FACTORY_REGISTRY_INV = {
         },
         "product": {
             "label": "product",
-            "keep": ["name", "unique_id", "product_lv1", "product_lv2"],
+            "keep": ["name", "unique_id", "product_lv1", "product_lv2", "product_lv3"],
             "rename": {"unique_id": "product_id", "name": "product"},
         },
         "investment": {
@@ -254,6 +256,7 @@ FACTORY_REGISTRY_INV = {
         "product",
         "product_lv1",
         "product_lv2",
+        "product_lv3",
         "city_key",
         "iso2",
         "adm1",
@@ -302,7 +305,7 @@ FACTORY_TECH_SPEC = {
         },
         "product": {
             "label": "product",
-            "keep": ["name", "unique_id", "product_lv1", "product_lv2"],
+            "keep": ["name", "unique_id", "product_lv1", "product_lv2", "product_lv3"],
             "rename": {"unique_id": "product_id", "name": "product"},
         },
         "owner": {
@@ -403,6 +406,7 @@ FACTORY_TECH_SPEC = {
         "product",
         "product_lv1",
         "product_lv2",
+        "product_lv3",
         "investment",
         "investment_status",
         "investment_phase",
@@ -491,7 +495,7 @@ INVESTMENT_FUNDS_SPEC = {
         },
         "product": {
             "label": "product",
-            "keep": ["name", "unique_id", "product_lv1", "product_lv2"],
+            "keep": ["name", "unique_id", "product_lv1", "product_lv2", "product_lv3"],
             "rename": {"unique_id": "product_id", "name": "product"},
         },
         "investment": {
@@ -559,6 +563,7 @@ INVESTMENT_FUNDS_SPEC = {
         "product",
         "product_lv1",
         "product_lv2",
+        "product_lv3",
         "article_id",
         "investment_id",
         # output product_id | owner_id | factory_id to identify them globally

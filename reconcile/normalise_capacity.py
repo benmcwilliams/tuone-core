@@ -119,6 +119,7 @@ def capacity_logic(row):
     """
     lv1 = str(row.get("product_lv1", "")).strip().lower()
     lv2 = (none_to_string(row.get("product_lv2"), allow_empty=True) or "")
+    lv3 = (none_to_string(row.get("product_lv3"), allow_empty=True) or "").strip().lower()
     capacity_text_raw = str(row.get("capacity_text", "") or "")
     capacity_text = capacity_text_raw.lower()
 
@@ -173,13 +174,15 @@ def capacity_logic(row):
     if lv1 == "battery":
 
         # 2a) make explicit conversions into desired battery units (eg battery packs to 40 kWh)
-        conv = PRODUCT_CONVERSIONS.get(("battery", lv2))
+        conv = PRODUCT_CONVERSIONS.get(("battery", lv2, lv3)) if lv3 else None
+        if conv is None:
+            conv = PRODUCT_CONVERSIONS.get(("battery", lv2))
         if conv and metric_matches(metric, conv.get("from")):
             res = normalize_to_target(
                 row,
                 target_unit=conv["to"],
                 multiplier=conv["multiplier"],
-                reason=f"battery:{lv2}:{metric}->{conv['to']}"
+                reason=f"battery:{lv2}:{lv3 or 'none'}:{metric}->{conv['to']}"
             )
             return res.value, res.failed, res.unit, res.converted, res.case
 

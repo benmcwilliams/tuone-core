@@ -195,6 +195,8 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
         # optional: make product_lv2 more Excel-friendly (list -> comma-separated string)
         if isinstance(base.get("product_lv2"), (list, tuple, set)):
             base["product_lv2"] = ", ".join(map(str, base["product_lv2"]))
+        if isinstance(base.get("product_lv3"), (list, tuple, set)):
+            base["product_lv3"] = ", ".join(map(str, base["product_lv3"]))
 
         for ph in phases:
             row = base.copy() # phase is already a flat dict: phase_num, status, capacity, *_article_id, etc.
@@ -206,9 +208,11 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
                 if stage is not None:
                     row["phase_num"] = stage
 
-            # Convert phase-level product_lv2 from list to comma-separated string (phase-level takes precedence over facility-level)
+            # Convert phase-level product_lv2/product_lv3 from list to comma-separated string
             if isinstance(row.get("product_lv2"), (list, tuple, set)):
                 row["product_lv2"] = ", ".join(map(str, row["product_lv2"]))
+            if isinstance(row.get("product_lv3"), (list, tuple, set)):
+                row["product_lv3"] = ", ".join(map(str, row["product_lv3"]))
             rows.append(row)
 
     return pd.DataFrame(rows)

@@ -3,22 +3,26 @@ import pandas as pd
 from typing import Dict, List, Any, Tuple
 from src.capex_dictionary import CAPEX_DICT
 
-def normalize_pl2(val, lowercase: bool = False) -> List[str]:
+def normalize_product_level(val, lowercase: bool = False) -> List[str]:
     """
-    Normalize product_lv2 value to a canonical sorted list.
-    
-    This is the single source of truth for pl2 normalization.
+    Normalize a product level value (lv2/lv3) to a canonical sorted list.
+
+    This is the single source of truth for product level normalization.
     Returns a list (MongoDB-friendly, JSON-serializable).
     Convert to tuple only when hashability is explicitly needed.
     
     Args:
-        val: product_lv2 value (str, list, tuple, None, etc.)
+        val: product level value (str, list, tuple, None, etc.)
         lowercase: If True, lowercase all values (for case-insensitive grouping)
         
     Returns:
         Sorted list of unique, trimmed, non-empty strings
     """
-    if val is None or (isinstance(val, float) and pd.isna(val)):
+    if (
+        val is None
+        or (isinstance(val, float) and pd.isna(val))
+        or (isinstance(val, dict) and str(val.get("$numberDouble", "")).lower() == "nan")
+    ):
         return []
     
     # Normalize to iterable
@@ -36,22 +40,60 @@ def normalize_pl2(val, lowercase: bool = False) -> List[str]:
     
     return sorted(set(processed))  # Unique, sorted list
 
+
+def normalize_pl2(val, lowercase: bool = False) -> List[str]:
+    """Backward-compatible wrapper around normalize_product_level()."""
+    return normalize_product_level(val, lowercase=lowercase)
+
+
+def normalize_pl3(val, lowercase: bool = False) -> List[str]:
+    """Backward-compatible wrapper around normalize_product_level()."""
+    return normalize_product_level(val, lowercase=lowercase)
+
 def iso_date(dt) -> str | None:
     if pd.isna(dt): return None
     if isinstance(dt, str): return dt
     d = pd.to_datetime(dt, errors="coerce")
     return d.strftime("%Y-%m-%d") if pd.notna(d) else None
 
-def capex_lookup(product_lv1: str, pl2_key: List[str] | Tuple[str, ...]) -> Dict[str, Any] | None:
-    """Exact match on (product_lv1, product_lv2_key). Units are assumed normalized upstream."""
-    # Normalize to tuple for comparison (handles both list and tuple inputs)
+def capex_lookup(
+    product_lv1: str,
+    pl2_key: List[str] | Tuple[str, ...],
+    pl3_key: str | List[str] | Tuple[str, ...] | None = None,
+) -> Dict[str, Any] | None:
+    """
+    Match CAPEX rules by (product_lv1, product_lv2_key, optional product_lv3_key).
+
+    Fallback behavior (for backward compatibility):
+    - If lv3 is provided, try exact lv3 match first.
+    - Then try generic entries with no product_lv3_key.
+    - If lv3 is missing and only lv3-specific entries exist, fall back to first
+      matching (lv1, lv2) entry so existing rows still resolve.
+    """
     pl2_tuple = tuple(pl2_key) if isinstance(pl2_key, list) else pl2_key
+    pl3_tuple = tuple(normalize_pl3(pl3_key, lowercase=True))
+
+    matches: List[Dict[str, Any]] = []
     for e in CAPEX_DICT.get("entries", []):
         e_pl2 = e.get("product_lv2_key")
         e_pl2_tuple = tuple(e_pl2) if isinstance(e_pl2, (list, tuple)) else (e_pl2,)
         if e.get("product_lv1") == product_lv1 and e_pl2_tuple == pl2_tuple:
+            matches.append(e)
+
+    if not matches:
+        return None
+
+    if pl3_tuple:
+        for e in matches:
+            e_pl3_tuple = tuple(normalize_pl3(e.get("product_lv3_key"), lowercase=True))
+            if e_pl3_tuple and e_pl3_tuple == pl3_tuple:
+                return e
+
+    for e in matches:
+        if not normalize_pl3(e.get("product_lv3_key"), lowercase=True):
             return e
-    return None
+
+    return matches[0]
 
 def sort_key(e: Dict[str, Any]):
     # Define explicit priority by event_type

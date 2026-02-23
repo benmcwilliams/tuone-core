@@ -46,7 +46,7 @@ CAPACITIES_PLOT = "storage/output/capacities_plot.xlsx"
 
 grouped_facilities_cols = [
     "inst_canon", "inst_type", "iso2", "factory", "admin_group_key",
-    "product", "product_lv1", "product_lv2", "factory_status", "date", 
+    "product", "product_lv1", "product_lv2", "product_lv3", "factory_status", "date", 
     "project_id", "project_key_str", 
     "lat", "lon", "city_key", "adm1", "adm2", "adm3", "adm4",
     "article_id"
@@ -54,7 +54,7 @@ grouped_facilities_cols = [
 
 grouped_capacities_cols = [
     "inst_canon", "inst_type", "iso2", "factory", "admin_group_key",
-    "product", "product_lv1", "product_lv2", "factory_status", "date",
+    "product", "product_lv1", "product_lv2", "product_lv3", "factory_status", "date",
     "capacity", "capacity_normalized", "capacity_metric_normalized", "phase", "status", "additional", "capacity_id", 
     "project_id", "project_key_str", "vehicle_touches",
     "investment", "amount_EUR", "amount_EUR_2023_ameco_pvgd",
@@ -65,7 +65,7 @@ grouped_capacities_cols = [
 
 grouped_investments_cols = [
     "inst_canon", "inst_type", "iso2", "factory", "admin_group_key",
-    "product", "product_lv1", "product_lv2", "factory_status", "date",
+    "product", "product_lv1", "product_lv2", "product_lv3", "factory_status", "date",
     "investment", "amount_EUR", "amount_EUR_2023_ameco_pvgd",
     "phase", "status", "is_total",
     "project_id", "project_key_str",

@@ -35,35 +35,45 @@ SITE_MERGE = {
     ("meyer burger", "DE", "Thalheim/Erzgeb."): "Thalheim",
     ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
     ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
+
     # france
     ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
     ("holosolis", "FR", "Sarreguemines"): "Hambach",
     ("automotive cell company", "FR", "Billy-Berclau"): "Douvrin",
+
     # united kingdom
     ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
     ("bmw", "GB", "Swindon"): "Oxfordshire",
     ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
     ("vestas", "GB", "Newport"): "Isle of Wight",
+    ("altilium metals", "GB", "Devon"): "Plymouth",
+
     # spain
     ("hyundai mobis", "ES", "Navarre"): "Pamplona",
     ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
     ("atersa", "ES", "Almussafes"): "Valencia",
     ("stellantis catl", "ES", "Zaragoza Municipality"): "Figueruelas  Municipality",
     ("lm wind power", "ES", "Castellón de la Plana/Castelló de la Plana"): "Valencia",
+
     # hungary
     ("samsung sdi", "HU", "Budapest"): "Pest County",
+
     # italy
     ("italvolt", "IT", "Scarmagno"): "Piedmont",
     ("enel", "IT", "Sicily"): "Catania",
     ("futurasun", "IT", "Cittadella"): "Padova",
     ("midsummer", "IT", "Bari"): "Apulia",
     ("faam fib spa", "IT", "Caserta"): "Teverola",
+
     # netherlands
     ("mcpv", "NL", "Veendam Municipality"): "Groningen. Municipality",
     ("solarge", "NL", "Gemeente Weert"): "Eindhoven Municipality",
+
     # poland
     ("lg energy solution", "PL", "Kobierzyce"): "Wrocław",
     ("giga pv", "PL", "Silesia"): "Racibórz",
+    ("capchem", "PL", "Wroclaw"): "Śrem",
+    ("capchem", "PL", "Wrocław"): "Śrem",
 
     # other
     ("gotion inobat batteries", "SK", "Trnava Region"): "Nitra Region",
@@ -97,6 +107,7 @@ JV_MERGE = {
     ("daimler", "DE", "Kamenz", "battery"): "accumotive",
     ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
     ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
+    ("pbt", "DE", "Hagen", "battery"): "pure battery technologies",
 
     # france
     ("stellantis", "FR", "Douvrin", "battery"): "automotive cell company",
@@ -104,6 +115,7 @@ JV_MERGE = {
     ("renault", "FR", "Douai", "battery"): "aesc",
     ("saft", "FR", "Nersac", "battery"): "automotive cell company",
     ("lm wind power", "FR", "Montoir-de-Bretagne", "wind"): "general electric",
+    ("xtc new energy technology france", "FR", "Dunkerque", "battery"): "orano xtc new energy",
 
     # sweden
     ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
@@ -145,5 +157,7 @@ JV_MERGE = {
     ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
     ("stellantis", "IT", "Torino", "vehicle"): "fiat",
-    ("finnish minerals group epsilon advanced materials", "FI", "Vaasa", "battery"): "freyr"
+
+    ("finnish minerals group epsilon advanced materials", "FI", "Vaasa", "battery"): "freyr",
+    ("Finnish Battery Chemicals Oy", "FI", "Vaasa", "battery"): "epsilon advanced materials"
 }

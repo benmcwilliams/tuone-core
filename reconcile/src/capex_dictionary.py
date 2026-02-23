@@ -25,6 +25,45 @@ CAPEX_DICT = {
       "source": "Rhodium-Bruegel"
     },
     {
+      "product_lv1": "battery",
+      "product_lv2_key": ("eam",),
+      "capacity_unit": "EUR/GWh",
+      "capex_per_unit": 10_000_000,
+      "source": "rough guess from projects (generic EAM fallback)"
+    },
+    {
+      "product_lv1": "battery",
+      "product_lv2_key": ("eam",),
+      "product_lv3_key": "cathode",
+      "capacity_unit": "EUR/GWh",
+      "capex_per_unit": 40_000_000,
+      "source": "rough guess from projects"
+    },
+    {
+      "product_lv1": "battery",
+      "product_lv2_key": ("eam",),
+      "product_lv3_key": "anode",
+      "capacity_unit": "EUR/GWh",
+      "capex_per_unit": 25_000_000,
+      "source": "rough guess from projects"
+    },
+    {
+      "product_lv1": "battery",
+      "product_lv2_key": ("eam",),
+      "product_lv3_key": "electrolyte",
+      "capacity_unit": "EUR/GWh",
+      "capex_per_unit": 10_000_000,
+      "source": "rough guess from projects"
+    },
+    {
+      "product_lv1": "battery",
+      "product_lv2_key": ("eam",),
+      "product_lv3_key": "copper_foil",
+      "capacity_unit": "EUR/GWh",
+      "capex_per_unit": 15_000_000,
+      "source": "rough guess from projects"
+    },
+    {
       "product_lv1": "vehicle",
       "product_lv2_key": ("electric",),
       "capacity_unit": "EUR/vehicle",

@@ -10,10 +10,12 @@ from mongo_client import articles_collection
 FACILITY_FIELDS = [
     "project_id",
     "inst_canon",
+    "inst_canon_hq_country",
     "iso2",
     "admin_group_key",
     "product_lv1",
     "product_lv2",
+    "product_lv3",
     "lat",
     "lon"
 ]
@@ -99,6 +101,7 @@ def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
         "under_construction_on": "construction_start",
         "operational_on": "production_date",
         "product_lv2": "product_classification",
+        "product_lv3": "product_subclassification",
     }
     df = df.rename(columns={k: v for k, v in rename_map.items() if k in df.columns})
 
@@ -120,6 +123,7 @@ def reorder_columns_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
         "investment_distribution",
         "investment_distribution_eur",
         "product_classification",
+        "product_subclassification",
     ]
 
     main_cols = [c for c in desired_order if c in df.columns]
@@ -137,6 +141,7 @@ def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
         "phase_num": "phase",
         "capacity": "capacity_cumulative",
         "investment": "investment_cumulative",
+        "inst_canon_hq_country": "owner_ctry_hq"
     }
     df = df.rename(columns=rename_map)
 
@@ -148,6 +153,7 @@ def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
             "region",
             "product_lv1",
             "product_lv2",
+            "product_lv3",
             "phase",
             "status",
             "phase_capacity",
