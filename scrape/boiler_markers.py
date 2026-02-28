@@ -92,4 +92,9 @@ BOILER_STRINGS = {
     "Source: Siemens Energy",
     "Subscribe to Magazine!",
     "Subscribe",
+    "Source : Link",
+    "Source: Auto Bild 5/2016, print edition",
+    "(Debreceni Nap)",
+    "np-coburg.de(in German)",
+    "autonews.com,heise.de(in German)"
 }

@@ -24,6 +24,20 @@ A database of articles is created and stored in mongoDB with unique article IDs 
 
 The sub-directories, crawl and scrape run the process to update the article database. 
 
+### Backfill boiler-marker cleaning for existing articles
+
+If you need to re-apply paragraph boiler-marker cleanup on articles already in MongoDB:
+
+```bash
+python scrape/backfill_boiler_markers.py --dry-run --limit 50
+```
+
+Then run the write mode once results look correct:
+
+```bash
+python scrape/backfill_boiler_markers.py --no-dry-run
+```
+
 ## 2. Knowledge graph
 
 Knowledge graphs are built using a collection of finetuned language models at the individual article level. 
