@@ -1,9 +1,11 @@
 import re
+import json
 from dateutil import parser
 import requests
+import trafilatura
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, timezone
 
 url = "https://gemenon.graphql.aspire-ebm.com/"
 base_url = "https://www.energytech.com"
@@ -152,6 +154,131 @@ def format_date(date_str: str) -> str:
     except ValueError as e:
         print(f"⚠️ Error parsing date '{date_str}': {e}")
         return None
+
+
+def _parse_datetime_to_utc(value: str):
+    """Parse a datetime string and return UTC datetime, else None."""
+    if not value or not isinstance(value, str):
+        return None
+    try:
+        dt = parser.parse(value)
+    except Exception:
+        return None
+
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def _extract_confident_publication_date(soup: BeautifulSoup, html: str):
+    """
+    Enrichment-only publication date rule:
+    1) article:published_time
+    2) <time datetime="...">
+    3) JSON-LD datePublished
+    Returns UTC datetime or None when not confident.
+    """
+    # 1) High-confidence machine-readable meta published time
+    meta_candidates = [
+        ("property", "article:published_time"),
+        ("name", "article:published_time"),
+    ]
+    for attr, key in meta_candidates:
+        tag = soup.find("meta", attrs={attr: key})
+        if tag and tag.get("content"):
+            dt = _parse_datetime_to_utc(tag.get("content"))
+            if dt is not None:
+                return dt
+
+    # 2) time datetime tag
+    time_tag = soup.find("time")
+    if time_tag and time_tag.get("datetime"):
+        dt = _parse_datetime_to_utc(time_tag.get("datetime"))
+        if dt is not None:
+            return dt
+
+    # 3) JSON-LD datePublished
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = script.string or script.get_text() or ""
+        if not raw.strip():
+            continue
+        try:
+            parsed_json = json.loads(raw)
+        except Exception:
+            continue
+
+        def walk(obj):
+            if isinstance(obj, dict):
+                if "datePublished" in obj:
+                    dt = _parse_datetime_to_utc(str(obj.get("datePublished")))
+                    if dt is not None:
+                        return dt
+                for v in obj.values():
+                    got = walk(v)
+                    if got is not None:
+                        return got
+            elif isinstance(obj, list):
+                for i in obj:
+                    got = walk(i)
+                    if got is not None:
+                        return got
+            return None
+
+        got = walk(parsed_json)
+        if got is not None:
+            return got
+
+    return None
+
+
+def extract_article_text_enrichment(full_article_url, headers_override=None, cookies_override=None, min_chars=200):
+    """
+    Extract enrichment article text using a readability-style parser (trafilatura).
+    Returns dict(title, paragraphs, date) or None.
+    - date is UTC datetime when confident, else None.
+    """
+    response = requests.get(
+        full_article_url,
+        headers=headers_override or {},
+        cookies=cookies_override or {},
+        timeout=30,
+    )
+    response.raise_for_status()
+    html = response.text
+
+    extracted_text = trafilatura.extract(
+        html,
+        include_comments=False,
+        include_tables=False,
+        output_format="txt",
+    )
+    if not extracted_text or len(extracted_text.strip()) < min_chars:
+        return None
+
+    metadata = trafilatura.extract_metadata(html)
+    title = (metadata.title if metadata and metadata.title else None)
+
+    soup = BeautifulSoup(html, "html.parser")
+    if not title:
+        h1 = soup.select_one("h1")
+        title = h1.get_text(strip=True) if h1 else "No Title Found"
+
+    date_utc = _extract_confident_publication_date(soup, html)
+
+    lines = [ln.strip() for ln in extracted_text.splitlines() if ln and ln.strip()]
+    if not lines:
+        return None
+
+    paragraphs = [{
+        f"p{idx + 1}": txt
+        for idx, txt in enumerate(lines)
+    }]
+
+    return {
+        "paragraphs": paragraphs,
+        "date": date_utc,  # None when not confidently found
+        "title": title,
+    }
 
 
 def extract_article_text_energy_tech(full_article_url):

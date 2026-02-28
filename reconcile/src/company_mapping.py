@@ -108,6 +108,9 @@ JV_MERGE = {
     ("mercedes benz", "DE", "Kamenz", "battery"): "accumotive",
     ("siemens", "DE", "Cuxhaven", "wind"): "siemens gamesa",
     ("pbt", "DE", "Hagen", "battery"): "pure battery technologies",
+    ("seat", "DE", "Zwickau", "vehicle"): "volkswagen",
+    ("skoda", "DE", "Zwickau", "vehicle"): "volkswagen",
+    ("audi", "DE", "Zwickau", "vehicle"): "volkswagen",
 
     # france
     ("stellantis", "FR", "Douvrin", "battery"): "automotive cell company",
@@ -139,6 +142,7 @@ JV_MERGE = {
     ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
     ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
+    ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
 
     # portugal
     ("senvion", "PT", "Aveiro", "wind"): "siemens gamesa",
@@ -150,14 +154,28 @@ JV_MERGE = {
     ("bonus energy", "DK", "Ålborg Kommune", "wind"): "siemens gamesa",
     ("siemens", "DK", "Ikast-Brande Kommune", "wind"): "siemens gamesa",
 
-    # others
-    ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
-    ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
-    ("skoda", "SK", "Bratislava", "vehicle"): "volkswagen",
+    # czechia
     ("volkswagen", "CZ", "Mladá Boleslav", "vehicle"): "skoda",
-    ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
-    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
+    ("toyota psa", "CZ", "Kolín", "vehicle"): "tmmcz",
+    ("toyota motor", "CZ", "Kolín", "vehicle"): "tmmcz",
 
+    # finland
     ("finnish minerals group epsilon advanced materials", "FI", "Vaasa", "battery"): "freyr",
-    ("Finnish Battery Chemicals Oy", "FI", "Vaasa", "battery"): "epsilon advanced materials"
+    ("Finnish Battery Chemicals Oy", "FI", "Vaasa", "battery"): "epsilon advanced materials",
+
+    # slovakia
+    ("skoda", "SK", "Bratislava Region", "vehicle"): "volkswagen",
+    ("audi", "SK", "Bratislava Region", "vehicle"): "volkswagen",
+    ("porsche", "SK", "Bratislava Region", "vehicle"): "volkswagen",
+    ("psa", "SK", "Trnava Region", "vehicle"): "stellantis",
+    ("peugeot", "SK", "Trnava Region", "vehicle"): "stellantis",
+
+    # romania
+    ("ford", "RO", "Dolj", "vehicle"): "ford otosan",
+
+    # hungary
+    ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
+    
+    # italy
+    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
 }

@@ -981,7 +981,8 @@ def run_investment_normalisation_pipeline(
         df.to_excel(output_path, index=False)
         print(f"✅ Normalised investment file written to {output_path}")
 
-    return df_out
+    # Return full df so callers (e.g. group_projects) get iso2, inst_canon, etc.; same as reading the Excel output.
+    return df
 
 
 # ======= Example call =======

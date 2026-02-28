@@ -1,11 +1,17 @@
 import os
+import argparse
 import requests
 import certifi
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from config.config_scrape import HEADERS, COOKIES
-from scrap_function.utility import get_date, format_date, extract_article_text_energy_tech, should_skip_paragraph
+from scrap_function.utility import (
+    get_date,
+    extract_article_text_energy_tech,
+    extract_article_text_enrichment,
+    should_skip_paragraph,
+)
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from requests.exceptions import Timeout, RequestException
@@ -65,6 +71,22 @@ def scrape_article(mongo_doc: dict) -> None:
             else:
                 date_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
 
+        elif category == "enrichment":
+            print("[🧭] Using enrichment extractor (readability-style)")
+            article_info = extract_article_text_enrichment(
+                url,
+                headers_override=HEADERS,
+                cookies_override=COOKIES,
+                min_chars=200,
+            )
+            if not article_info or "paragraphs" not in article_info:
+                print(f"[~] No main content extracted for {url}. Leaving URL status unchanged.")
+                return
+
+            title = article_info.get("title", "No Title Found")
+            paragraphs = article_info["paragraphs"]
+            date_utc = article_info.get("date")  # datetime | None (confident date only)
+
         else:
             print("[🌐] Using default scraper")
             response = requests.get(url, headers=HEADERS, cookies=COOKIES, timeout=30)
@@ -116,19 +138,20 @@ def scrape_article(mongo_doc: dict) -> None:
             }
             paragraphs = [paragraphs_dict]
 
-        # Keyword filtering
-        single_word = {k for k in keywords if ' ' not in k}
-        multi_word = {k for k in keywords if ' ' in k}
-
-        word_regex = re.compile(r'\b(' + '|'.join(re.escape(k) for k in single_word) + r')\b', re.IGNORECASE)
         title_txt = title.lower()
         body_txt = " ".join(paragraphs[0].values()).lower()
 
-        found = (
-            word_regex.search(title_txt) or
-            word_regex.search(body_txt) or
-            any(k in title_txt or k in body_txt for k in multi_word)
-        )
+        # Keyword filtering (skip for enrichment: URLs are already targeted by project search)
+        found = True
+        if category != "enrichment":
+            single_word = {k for k in keywords if ' ' not in k}
+            multi_word = {k for k in keywords if ' ' in k}
+            word_regex = re.compile(r'\b(' + '|'.join(re.escape(k) for k in single_word) + r')\b', re.IGNORECASE)
+            found = (
+                word_regex.search(title_txt) or
+                word_regex.search(body_txt) or
+                any(k in title_txt or k in body_txt for k in multi_word)
+            )
 
         subsidy_regex = re.compile(
             r"\b(" + "|".join(re.escape(k) for k in SUBSIDY_KEYWORDS) + r")\b",
@@ -152,6 +175,8 @@ def scrape_article(mongo_doc: dict) -> None:
                 'subsidy': subsidy_found
             }
         }
+        if mongo_doc.get("enrichment_for_project_id"):
+            article_data["meta"]["enrichment_for_project_id"] = mongo_doc.get("enrichment_for_project_id")
 
         articles_collection.insert_one(article_data)
         urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'extracted'}})
@@ -169,9 +194,15 @@ def scrape_article(mongo_doc: dict) -> None:
         urls_collection.update_one({'_id': doc_id}, {'$set': {'status': 'failed', 'error': str(e)}})
         print(f"[✗] Failed to scrape {url}: {e}")
 
-def scrape_all_new_articles():
-    new_articles_cursor = urls_collection.find({'status': 'new'})
-    new_count = urls_collection.count_documents({'status': 'new'})
+def scrape_all_new_articles(category: str | None = None, limit: int | None = None):
+    query = {'status': 'new'}
+    if category:
+        query["category"] = category
+
+    new_articles_cursor = urls_collection.find(query)
+    if limit:
+        new_articles_cursor = new_articles_cursor.limit(limit)
+    new_count = urls_collection.count_documents(query)
     print(f"Found {new_count} new articles to scrape.\n")
 
     for doc in new_articles_cursor:
@@ -180,6 +211,15 @@ def scrape_all_new_articles():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Scrape all URLs with status=new from URLs collection.")
+    parser.add_argument(
+        "--category",
+        default=None,
+        help="Optional category filter (e.g. enrichment).",
+    )
+    parser.add_argument("--limit", type=int, default=None, help="Optional max number of URLs to scrape.")
+    args = parser.parse_args()
+
     print("\n=== Starting full scrape ===\n")
-    scrape_all_new_articles()
+    scrape_all_new_articles(category=args.category, limit=args.limit)
     print("\n=== Finished scraping ===\n")

@@ -28,14 +28,13 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
         article_id = str(doc.get("_id"))
 
         # 1.4: Process nodes - flatten structure and add article ID and label
-        df_nodes = pd.DataFrame(doc.get("nodes", []))
-        for _, row in df_nodes.iterrows():
-            node_id = row.get("id")
-            label = row.get("type", "Entity")
+        for node in doc.get("nodes", []):
+            node_id = node.get("id")
+            label = node.get("type", "Entity")
 
             if not node_id or not label:
                 continue
-            raw_props = {k: v for k, v in row.items() if k not in ["id", "type"]}
+            raw_props = {k: v for k, v in node.items() if k not in ["id", "type"]}
             flat_props = flatten_dict(raw_props)    # dictionary which outputs our location_city and location_country values
             flat_props.update({
                 "article_id": article_id,
@@ -45,15 +44,14 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
             all_nodes.append(flat_props)
 
         # 1.5: Process relationships - flatten and record key fields
-        df_rels = pd.DataFrame(doc.get("relationships", []))
-        for _, row in df_rels.iterrows():
-            source = row.get("source")
-            target = row.get("target")
-            rel_type = row.get("type", "RELATED_TO")      # placeholder RELATED_TO in case of model non-conformity
-            group = row.get("group", "unspecified")
+        for rel in doc.get("relationships", []):
+            source = rel.get("source")
+            target = rel.get("target")
+            rel_type = rel.get("type", "RELATED_TO")      # placeholder RELATED_TO in case of model non-conformity
+            group = rel.get("group", "unspecified")
             if not source or not target:
                 continue
-            raw_props = {k: v for k, v in row.items() if k not in ["source", "target", "type", "group"]}
+            raw_props = {k: v for k, v in rel.items() if k not in ["source", "target", "type", "group"]}
             flat_props = flatten_dict(raw_props)
             flat_props.update({
                 "article_id": article_id,
@@ -73,22 +71,31 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
     # 1.7: Create unique IDs by combining article_id and node id
     df_all_nodes["unique_id"] = df_all_nodes["article_id"] + "_" + df_all_nodes["id"]
 
-    # 1.8: Build lookup dictionaries to resolve IDs and types
-    id_to_unique = df_all_nodes.set_index(['article_id', 'id'])['unique_id'].to_dict()
-    id_to_label = df_all_nodes.set_index(['article_id', 'id'])['label'].to_dict()
+    # 1.8–1.10: Resolve source/target labels and unique IDs via two left merges (vectorized)
+    node_lookup = df_all_nodes[["article_id", "id", "unique_id", "label"]].copy()
 
-    # 1.9: Define helper functions to map relationships to enriched labels and unique IDs
-    def get_unique_id(row, which):
-        return id_to_unique.get((row['article_id'], row[which]))
+    # First merge: source node → source_label, source_unique_id
+    src_lookup = node_lookup.rename(columns={"id": "src_node_id", "unique_id": "source_unique_id", "label": "source_label"})
+    df_all_rels = df_all_rels.merge(
+        src_lookup,
+        left_on=["article_id", "source"],
+        right_on=["article_id", "src_node_id"],
+        how="left",
+    ).drop(columns=["src_node_id"], errors="ignore")
 
-    def get_label(row, which):
-        return id_to_label.get((row['article_id'], row[which]))
+    # Second merge: target node → target_label, target_unique_id
+    tgt_lookup = node_lookup.rename(columns={"id": "tgt_node_id", "unique_id": "target_unique_id", "label": "target_label"})
+    df_all_rels = df_all_rels.merge(
+        tgt_lookup,
+        left_on=["article_id", "target"],
+        right_on=["article_id", "tgt_node_id"],
+        how="left",
+    ).drop(columns=["tgt_node_id"], errors="ignore")
 
-    # 1.10: Apply mapping to source and target fields in relationships
-    df_all_rels['source_label'] = df_all_rels.apply(lambda row: get_label(row, 'source'), axis=1)
-    df_all_rels['target_label'] = df_all_rels.apply(lambda row: get_label(row, 'target'), axis=1)
-    df_all_rels['source'] = df_all_rels.apply(lambda row: get_unique_id(row, 'source'), axis=1)
-    df_all_rels['target'] = df_all_rels.apply(lambda row: get_unique_id(row, 'target'), axis=1)
+    # Overwrite source/target with unique IDs and drop temporary columns
+    df_all_rels["source"] = df_all_rels["source_unique_id"]
+    df_all_rels["target"] = df_all_rels["target_unique_id"]
+    df_all_rels = df_all_rels.drop(columns=["source_unique_id", "target_unique_id"], errors="ignore")
 
     # Debug: log factory nodes for one article (non-invasive when debug_article_id is None)
     if debug_article_id and "article_id" in df_all_nodes.columns:

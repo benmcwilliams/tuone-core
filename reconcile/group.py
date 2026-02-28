@@ -12,10 +12,13 @@ from src.set_adm_level import add_admin_group_key
 from src.debug_helpers import debug_print_df
 
 
-def group_projects(file_to_group, out_path, output_cols, debug_article_id: str | None = None):
+def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, debug_article_id: str | None = None) -> pd.DataFrame:
 
     # 1) Load (EU-only) and drop required fields with consistent logging
-    df = pd.read_excel(file_to_group)
+    if isinstance(file_to_group, pd.DataFrame):
+        df = file_to_group.copy()
+    else:
+        df = pd.read_excel(file_to_group)
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
     if "product_lv3" not in df.columns:
         df["product_lv3"] = None
@@ -57,11 +60,11 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
         before = len(df)
         df = df.dropna(subset=[col])
         if len(df) != before:
-            logging.info(f"Rows reduced to {len(df)} after dropping missing {col}.")
+            logging.debug(f"Rows reduced to {len(df)} after dropping missing {col}.")
 
     missing_product_lv2 = df["product_lv2"].isna().sum()
     missing_product_lv3 = df["product_lv3"].isna().sum()
-    logging.info(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
+    logging.debug(f"⚠️ {initial_len - len(df)} total rows dropped due to missing required fields; {len(df)} remain.")
     logging.debug(f"⚠️ {missing_product_lv2} entries without a normalised PRODUCT-LV2.")
     logging.debug(f"⚠️ {missing_product_lv3} entries without a normalised PRODUCT-LV3.")
 
@@ -110,7 +113,7 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
     df["inst_canon"] = df.apply(_jv_merge, axis=1)
 
     n_changed = (df["inst_canon"] != df["inst_canon_premerge"]).sum()
-    logging.info(f"Applied JV merges to {n_changed} rows (exact match only).")
+    logging.debug(f"Applied JV merges to {n_changed} rows (exact match only).")
 
     debug_print_df(
         df,
@@ -191,8 +194,10 @@ def group_projects(file_to_group, out_path, output_cols, debug_article_id: str |
     df.sort_values(by=["project_id", "date"], na_position='last', inplace=True)
     df['date'] = df['date'].dt.strftime('%Y-%m')
 
-    df[output_cols].to_excel(out_path, index=False)
+    result = df[output_cols].copy()
+    result.to_excel(out_path, index=False)
     logging.info(f"Saving filtered output to {out_path}")
+    return result
 
 from src.config import (
     FACTORY_REGISTRY,

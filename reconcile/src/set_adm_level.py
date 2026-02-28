@@ -64,6 +64,6 @@ def add_admin_group_key(df: pd.DataFrame,
     if log:
         missing = df[out_col].isna().sum()
         if missing:
-            logging.info(f"⚠️ {missing} rows lack an admin_group_key after applying per-country rules.")
+            logging.debug(f"⚠️ {missing} rows lack an admin_group_key after applying per-country rules.")
 
     return df

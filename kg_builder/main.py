@@ -305,9 +305,10 @@ def process_articles(articles_to_process, model_dictionary):
 offset_articles = 0
 #categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
 #categories = ["user", "electrive", "pvmagazine", "pvtech", "transformers-magazine", ]
-categories = ["electrive"]
+#categories = ["electrive", "user"]
+categories = ["user"]
 
-cutoff_date = datetime(2021, 1, 1)
+cutoff_date = datetime(2000, 1, 1)
 
 articles_to_process = list(
     articles_collection.find(
@@ -321,3 +322,7 @@ articles_to_process = list(
 )
 
 process_articles(articles_to_process, model_dictionary)
+
+# Always run mentions extraction for articles that need it (all categories, batched)
+from kg_builder.run_mentions import run_mentions_pipeline
+run_mentions_pipeline(categories=None, batch_size=500)

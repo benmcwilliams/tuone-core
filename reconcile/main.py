@@ -10,13 +10,12 @@ from src.merge_specifications import (
     INVESTMENT_FUNDS_SPEC,
 )
 from src.config import (
-    GROUP_SPEC,
-    FACTORY_TECH,
-    INVESTMENT_FUNDS,
-    COMPANY_JV,
-    FACTORY_TECH_CLEAN_CAPACITIES,
-    FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS,
-    CLEAN_INVESTMENT_FUNDS,
+    GROUPED_CAPACITIES,
+    GROUPED_FACTORIES,
+    GROUPED_INVESTMENTS,
+    grouped_capacities_cols,
+    grouped_facilities_cols,
+    grouped_investments_cols,
 )
 
 # functions to update mongo metadata
@@ -38,6 +37,7 @@ from facilities import write_facilities
 from attach_events import attach_events
 from assign_phase import assign_phase_num
 from phase_summary import compute_summaries
+from sync_inst_canon_opensource import sync_inst_canon_to_opensourcedev
 
 # --- Verbose / debug (set True to enable noisier logs) ---
 VERBOSE_INVESTMENT_SPLIT = False
@@ -72,7 +72,7 @@ def main(
     if update_main_database:
 
         logging.info("Update EV Volumes data")
-        build_zev_og_clean_excel()
+        df_zev = build_zev_og_clean_excel(to_excel=False)
 
         # read in IEA hydrogen database
 
@@ -85,44 +85,49 @@ def main(
             log_nodes_for_article(ctx, debug_article_id)
 
         logging.info("🉑 Merging nodes and relationships...")
-        df_capacity =   run_view(FACTORY_TECH_SPEC,           FACTORY_TECH,         context=ctx)  # capacity-centric
-        df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       COMPANY_JV,           context=ctx)  # JV directory
-        df_investment = run_view(INVESTMENT_FUNDS_SPEC,       INVESTMENT_FUNDS,     context=ctx)  # investment-centric
-        df_facility =   build_registry_union(to_excel=True, context=ctx, debug_article_id=debug_article_id)  # facility directory
+        df_capacity =   run_view(FACTORY_TECH_SPEC,           out_path=None,        context=ctx)  # capacity-centric
+        df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       out_path=None,        context=ctx)  # JV directory
+        df_investment = run_view(INVESTMENT_FUNDS_SPEC,       out_path=None,        context=ctx)  # investment-centric
+        df_facility =   build_registry_union(to_excel=False, context=ctx, debug_article_id=debug_article_id)  # facility directory
 
         logging.info("- - - Normalising capacities")
         df_clean_caps = run_capacity_normalisation_pipeline(df_in=df_capacity,
                                               write_debug=False,
-                                              write_outputs=True,
+                                              write_outputs=False,
                                               verbose=VERBOSE_CAPACITY)
 
         logging.info("- - - Normalising investments")
         df_clean_caps_invs = run_investment_normalisation_pipeline(df_in=df_clean_caps,
-            output_path = FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS, 
-            write_outputs=True, 
+            output_path=None,
+            write_outputs=False,
             write_check=False,
             verbose_investment_split=VERBOSE_INVESTMENT_SPLIT)
 
-        df_clean_invs = run_investment_normalisation_pipeline(df_in=df_investment, 
-        output_path = CLEAN_INVESTMENT_FUNDS, 
-        write_outputs=True, 
+        df_clean_invs = run_investment_normalisation_pipeline(df_in=df_investment,
+        output_path=None,
+        write_outputs=False,
         write_check=True,
         verbose_investment_split=VERBOSE_INVESTMENT_SPLIT)
 
         logging.info("🫂 Grouping projects...")
-        for in_path, out_path, output_cols in GROUP_SPEC:
-            if VERBOSE_GROUPING:
-                print(in_path)
-            logging.info(f"Processing: {in_path} → {out_path}")
-            group_projects(
-                in_path,
-                out_path,
-                output_cols,
-                debug_article_id=debug_article_id,
-            )
+        if VERBOSE_GROUPING:
+            print(GROUPED_CAPACITIES)
+        logging.info(f"Processing: capacities → {GROUPED_CAPACITIES}")
+        group_projects(df_clean_caps_invs, GROUPED_CAPACITIES, grouped_capacities_cols, debug_article_id=debug_article_id)
+        if VERBOSE_GROUPING:
+            print(GROUPED_FACTORIES)
+        logging.info(f"Processing: factories → {GROUPED_FACTORIES}")
+        df_grouped_factories = group_projects(df_facility, GROUPED_FACTORIES, grouped_facilities_cols, debug_article_id=debug_article_id)
+        if VERBOSE_GROUPING:
+            print(GROUPED_INVESTMENTS)
+        logging.info(f"Processing: investments → {GROUPED_INVESTMENTS}")
+        group_projects(df_clean_invs, GROUPED_INVESTMENTS, grouped_investments_cols, debug_article_id=debug_article_id)
 
     logging.info("🏭 Importing facilities")
-    write_facilities()  # this updates only iso2 | adm1 | inst_canon | product_lv1 hexspaceID facilities
+    if update_main_database:
+        write_facilities(grouped_factories_df=df_grouped_factories, zev_df=df_zev)
+    else:
+        write_facilities()
 
     logging.info("📅 Assigning events to facilities")
     attach_events(debug_article_id=debug_article_id, verbose_missing_pids=VERBOSE_ATTACH_EVENTS_MISSING_PIDS)
@@ -135,6 +140,9 @@ def main(
     compute_summaries()
     logging.info(f"✅ Phase summaries computed.")
 
+    logging.info("🔁 Syncing inst_canon to opensourcedev")
+    sync_inst_canon_to_opensourcedev()
+
     # final timing
     t1_pipeline = time.time()
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
@@ -143,5 +151,5 @@ if __name__ == "__main__":
     main(
         update_mongo_metadata=True,
         update_main_database=True,
-        #debug_article_id="6995ee5708750e12b20193e7",
+        #debug_article_id="69a1aee0d5d41a36529fdd03",
     )

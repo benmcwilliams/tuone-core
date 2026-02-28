@@ -13,6 +13,7 @@ def build_zev_og_clean_excel(
     output_excel_path: str = "storage/input/zev_og_clean.xlsx",
     cutoff_date: str = "2025-05-31",
     article_id: str = "68d684fc1c2e9d8ed1487afa",
+    to_excel: bool = True,
 ) -> pd.DataFrame:
     """
     Reads the 'production_to_impute' sheet, cleans/standardizes entities and geography,
@@ -109,7 +110,8 @@ def build_zev_og_clean_excel(
     ]
 
     out_df = df[keep_cols].copy()
-    out_df.to_excel(output_excel_path, index=False)
+    if to_excel:
+        out_df.to_excel(output_excel_path, index=False)
     return out_df
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
 import sys; sys.path.append("..")
 import logging
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import numpy as np
 import pandas as pd
 from pymongo import UpdateOne
@@ -27,11 +27,16 @@ def _latest_status_per_project(df: pd.DataFrame) -> pd.DataFrame:
           .rename(columns={"date": "factory_status_date"})
     )
 
-def _build_facilities_df() -> pd.DataFrame:
-    
-    df = pd.read_excel(GROUPED_FACTORIES)
-    df_zev = pd.read_excel(ZEV_PRODUCTION)
-    df = pd.concat([df, df_zev], ignore_index=True)
+def _build_facilities_df(
+    grouped_factories_df: Optional[pd.DataFrame] = None,
+    zev_df: Optional[pd.DataFrame] = None,
+) -> pd.DataFrame:
+    if grouped_factories_df is not None and zev_df is not None:
+        df = pd.concat([grouped_factories_df, zev_df], ignore_index=True)
+    else:
+        df = pd.read_excel(GROUPED_FACTORIES)
+        df_zev = pd.read_excel(ZEV_PRODUCTION)
+        df = pd.concat([df, df_zev], ignore_index=True)
 
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     latest = _latest_status_per_project(df)
@@ -44,7 +49,7 @@ def _build_facilities_df() -> pd.DataFrame:
               "admin_group_key": "first",
               "lat": "first",
               "lon": "first",
-              "product_lv1": "first",      
+              "product_lv1": "first",
           })
           .merge(latest, on="project_id", how="left")
     )
@@ -150,9 +155,15 @@ def upsert_facilities(docs: List[Dict[str, Any]], dry_run: bool = False, prune_m
         #     {"$set": {"is_active": False, "deleted_at": datetime.utcnow()}}
         # )
 
-def write_facilities():
+def write_facilities(
+    grouped_factories_df: Optional[pd.DataFrame] = None,
+    zev_df: Optional[pd.DataFrame] = None,
+):
     test_mongo_connection()
-    df_fac = _build_facilities_df()
+    df_fac = _build_facilities_df(
+        grouped_factories_df=grouped_factories_df,
+        zev_df=zev_df,
+    )
     docs = [_to_doc(r) for _, r in df_fac.iterrows()]
     upsert_facilities(docs, dry_run=False, prune_missing=True)
 

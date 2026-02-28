@@ -1,11 +1,11 @@
 ---
 name: Project enrichment search feature
-overview: Implement a feature that, given one or more reconciled "projects", uses an LLM and/or web search to discover new article URLs, adds them to the existing crawl/scrape pipeline, runs KG extraction on the new articles, and optionally re-runs reconcile so the knowledge graph and project tables are enriched with the new information.
+overview: Implement a feature that, given one or more reconciled "projects", uses an LLM and/or web search to discover new article URLs, adds them to the URLs collection, and runs the scrape pipeline so that enriched articles are in MongoDB with full text. Running kg_builder (with category "enrichment") and reconcile is done separately by the user.
 todos: []
 isProject: false
 ---
 
-# Project enrichment: AI/LLM search for new articles and KG enrichment
+# Project enrichment: AI/LLM search for new articles (through to DB with full text)
 
 ## Current pipeline (context)
 
@@ -37,39 +37,38 @@ flowchart TB
   URLs --> Dedupe[Dedupe vs articles + URLs collection]
   Dedupe --> Insert[Insert URLs with category enrichment]
   Insert --> Scrape[Existing scrape]
-  Scrape --> Mongo[(articles)]
-  Mongo --> KG[kg_builder on new articles]
-  KG --> Reconcile[Full or incremental reconcile]
-  Reconcile --> Projects[Updated project tables]
+  Scrape --> Mongo[(articles with full text)]
 ```
 
 
+
+Plan scope ends here. The user runs kg_builder (with category "enrichment") and reconcile separately to flow new articles into the KG and project tables.
 
 ## Implementation plan
 
 ### 1. Project summary and input
 
 - **Source of project(s)**:
-  - **Option A**: Read from MongoDB facilities collection (already has project_id, inst_canon, iso2, admin_group_key, product_lv1, latest_factory_status). Prefer this for a single project or small batch.
-  - **Option B**: Read from reconciled Excel (e.g. [GROUPED_FACTORIES](reconcile/src/config.py) or grouped-capacities) to get project_id plus inst_canon, admin_group_key, product_lv1, iso2, and the list of **article_id**s attached to that project.
-- **Articles attached to the project**: For each project, resolve **all** article IDs that belong to it (from grouped Excel or from a query that joins facilities/flatten output to articles). Fetch from articles_collection: at least `title`, and optionally first paragraph or a short snippet per article. Using only one or two articles would bias the summary and miss facets (e.g. capacity in one article, investment in another, location in a third).
-- **Consistent summary**: From the project record (inst_canon, admin_group_key, product_lv1, iso2) **plus all attached article titles/snippets**, build a single coherent project summary. Options: (1) **Concatenate** structured fields and a list of titles/snippets into a fixed-format string for the next step; or (2) **LLM summarisation**: one short prompt that takes "Project: X, Region Y, Country Z, product_lv1: …" and "Existing articles: [title 1], [title 2], …" and returns a single, consistent 2–4 sentence summary (no redundancy, key facts merged). That summary is then used for search-query generation so the search step sees one consistent picture of the project. (Token counting and distribution stats for these collections are handled in a separate plan: "Project summary token distribution statistics".)
+- Read from MongoDB facilities collection (already has project_id, inst_canon, iso2, admin_group_key, product_lv1, product_lv2). 
+- **Articles attached to the project**: For each project, resolve **all** article IDs that belong to it (from a query that joins facilities/flatten output to articles). Relevant articles are listed inside the events array (articleID). Only consider events when event_type == capacity or investment. Only take the most recent 15 filtered events in case necessary. 
+- Fetch from articles_collection using articleID:`title, date`and all paragraphs. 
+- **Consistent summary**: Build one coherent project summary by combining (1) **phase summary** output (from [reconcile/phase_summary.py](reconcile/phase_summary.py)): capacity and investment per phase, status, dates, and any `investment_was_imputed` flag; (2) **structured project fields** (inst_canon, admin_group_key, product_lv1, iso2); and (3) **attached article titles/paragraphs**. Options: (a) **Concatenate** these into a fixed-format string for the next step; or (b) **LLM summarisation**: one short prompt that takes the phase timeline, project identity, and "Existing articles: [title 1], [title 2], …" and returns a single, consistent 2–4 sentence summary (no redundancy, key facts merged; optionally a short "uncertainties" list). That summary is then used for search-query generation. Note: source data (phases, events, articles) may contain errors or conflicts; the summary step should merge/deduplicate where possible, and enrichment search can later surface corrective coverage.
 
 **Deliverable**: New module (e.g. `enrichment/` at repo root, or `reconcile/enrichment/`) with:
 
 - `get_projects_for_enrichment(project_ids: list[str] | None, limit: int | None) -> list[dict]` reading from facilities collection (and optionally from Excel).
 - `get_articles_for_project(project_id: str) -> list[dict]`: returns all articles linked to that project (from grouped tables or a join); each dict at least `article_id`, `title`, optionally `snippet` (e.g. first paragraph).
-- `build_project_summary(project: dict, articles: list[dict], use_llm: bool = True) -> str`: builds one consistent summary from project fields and **all** attached article titles/snippets; if `use_llm`, call a small LLM step to merge and deduplicate into 2–4 sentences.
+- `build_project_summary(project: dict, articles: list[dict], phases: list[dict] | None = None, use_llm: bool = True) -> str`: builds one consistent summary from project fields, optional **phase summary** data (capacity/investment per phase, status, dates), and all attached article titles/snippets; if `use_llm`, call a small LLM step to merge and deduplicate into 2–4 sentences (and optionally an uncertainties list).
 
 ### 2. Search: query generation and URL discovery
 
 - **Query generation**: Use the existing OpenAI client to call a chat/completion model with a small system prompt: "Given this clean-tech project summary, output 1–3 concise search queries (one per line) that would find recent news articles about this project (investments, capacity, construction, subsidies)." Input = project summary; output = plain text lines of queries.
 - **URL discovery** (choose one or combine):
-  - **Option A (recommended for minimal new deps)**: Use OpenAI Responses API with `web_search_preview` (as in [web-browsing.py](web-browsing.py)). Prompt: "Find recent news articles about: [project summary]. Return a list of full article URLs with publication date and title." Parse the model output (or a structured tool response if available) to extract URLs. Limitation: output format may be unstructured; may need a second LLM call to parse "list of URLs" from the response.
+  - **Option A (recommended for minimal new deps)**: Use OpenAI Responses API with `web_search_preview` (as in [web-browsing.py](web-browsing.py)). Prompt: "Find recent news articles about: [project summary]. Return a list of full article URLs with publication date and title." Parse the model output (or a structured tool response if available) to extract URLs. Limitation: output format may be unstructured; may need a second LLM call to parse "list of URLs" from the response. We can encourage the model to return structured format, also **explicitly setting a JSON schema if necessary.**
 - **Deduplication**: Before inserting URLs:
   - Get existing URLs: (1) `articles_collection.distinct("meta.url")`, (2) `urls_collection.distinct("url")`.
-  - Filter candidate URLs to those not in either set (normalise URL for comparison: strip fragment, lowercase host, etc.).
-- **Insert**: Insert into URLs collection: `{ url, category: "enrichment", status: "new" }`. Optionally add `enrichment_for_project_id: project_id` (or a list of project_ids if one search served multiple projects) so you can later report which articles were discovered for which project. Ensure [scrape/scrape-articles.py](scrape/scrape-articles.py) can handle `category == "enrichment"`: it will use the default HTTP scraper path; add a date-extraction fallback for unknown sites (e.g. generic meta tags or "no date") if needed.
+  - Filter candidate URLs to those not in either set (normalise URL for comparison: strip fragment, lowercase host, also normalise any chatGPT suggested URLs that end in ?utm_source=[chatgpt.com](http://chatgpt.com) - just drop that from the end if present, etc.).
+- **Insert**: Insert into URLs collection: `{ url, category: "enrichment", status: "new" }`. Optionally add `enrichment_for_project_id: project_id` (or a list of project_ids if one search served multiple projects) so you can later report which articles were discovered for which project. Ensure [scrape/scrape-articles.py](scrape/scrape-articles.py) can handle `category == "enrichment"` with the enrichment extractor and publication-date rule (see section 3): only set date when confident; otherwise `None`.
 
 **Deliverable**:
 
@@ -77,7 +76,7 @@ flowchart TB
 
 ### 3. URL text extraction: options for getting article text from new URLs
 
-Enrichment URLs can point to **any** domain (news sites, press releases, blogs), not just the known crawl sources. The current scraper uses **per-category** logic: [scrape/scrap_function/utility.py](scrape/scrap_function/utility.py) has `DATE_SELECTORS` and special branches (e.g. `transformers-magazine`, `energytech`). For an unknown category like `"enrichment"`, it falls back to: **all `<p>` tags on the page** and **date = "No Date Found"** (then `get_utc_date_from_raw` uses today). That often pulls in nav, ads, and footer, and fails on JS-rendered or paywalled pages. Below are options, from simplest to most capable.
+Enrichment URLs can point to **any** domain (news sites, press releases, blogs), not just the known crawl sources. The current scraper uses **per-category** logic: [scrape/scrap_function/utility.py](scrape/scrap_function/utility.py) has `DATE_SELECTORS` and special branches (e.g. `transformers-magazine`, `energytech`). For an unknown category like `"enrichment"`, it would fall back to: **all `<p>` tags on the page** and **date = "No Date Found"** (current code then uses today in `get_utc_date_from_raw`—we do **not** want that for enrichment; see publication-date rule below). That often pulls in nav, ads, and footer, and fails on JS-rendered or paywalled pages. Below are options, from simplest to most capable.
 
 
 | Option                                      | Approach                                                                                                                                                                                                                                       | Pros                                                                                            | Cons                                                                                               |
@@ -90,30 +89,24 @@ Enrichment URLs can point to **any** domain (news sites, press releases, blogs),
 | **F. Snippet-only (no full scrape)**        | If search API returns snippets (e.g. SerpAPI/Bing), store **snippet + URL + title** as a minimal “article” (no full body).                                                                                                                     | Fast; works when page is unscrapable or paywalled.                                              | Weak for KG (little text); use only as last resort or for lightweight evidence.                    |
 
 
-**Recommendation**: Start with **B (readability-style)** for `category == "enrichment"`: add a single dependency (e.g. `trafilatura` or `readability-lxml`), implement an `extract_article_enrichment(url)` that returns `{ title, date, paragraphs }`, and call it from [scrape/scrape-articles.py](scrape/scrape-articles.py) when `category == "enrichment"` instead of the default soup path. Add a **generic date fallback** (e.g. `<meta property="article:published_time">`, or `datetime` in HTML, or “No Date Found”) in [scrape/scrap_function/utility.py](scrape/scrap_function/utility.py). If many enrichment URLs fail or return junk, introduce **E (hybrid)** with browser or an extraction API as fallback.
+**Decision**: Use **B (generic HTML extractor / readability-style)** for `category == "enrichment"`. No JavaScript, Selenium, or browser-based extraction for now. Add a single dependency (e.g. `trafilatura` or `readability-lxml`), implement an `extract_article_enrichment(url)` that returns `{ title, date, paragraphs }` or `None` when no main content is found. Call it from [scrape/scrape-articles.py](scrape/scrape-articles.py) when `category == "enrichment"` instead of the default soup path. Use the publication-date rule below (no generic date fallback; see below). `<meta property="article:published_time">`, or `datetime` in HTML, or “No Date Found”) in **When no main content is returned** (extractor returns `None` or empty/too-short body): do **not** update the URL document status—leave it as `"new"` (or unchanged) so the URL remains in the queue; do not insert an article. Over time we collect more URLs and can later decide whether to introduce browser-based or API-based extraction for those that never yield content. No hybrid pipeline (E) or JS (C) for now.
 
-### 4. Wiring into scrape and KG
+**Publication date (enrichment)**  
+Accurate publication date is crucial for ordering, recency, and tying facts to the right phase. **Always fall back to `None` (or equivalent) when the publication date cannot be determined with confidence; do not use fetch date or "today".** For enrichment only, try date sources in this order: (1) High-confidence machine-readable: `<meta property="article:published_time">` (ISO 8601), `<time datetime="...">`, or JSON-LD `datePublished`; parse and validate; if parsing fails, treat as no date. (2) Other meta or in-page dates only if clearly article publication (e.g. `article:modified_time` is secondary; prefer published). (3) If none of the above yield a confident value, store `None`. The enrichment extractor and scrape path for `category == "enrichment"` must never default to fetch date—unlike the current `get_utc_date_from_raw` behaviour for other categories.
 
-- **Scrape**: For `category == "enrichment"`, either (1) use the default HTTP + all-`<p>` path and a date fallback, or (2) prefer a dedicated extractor (Option B above) and a generic date fallback. If date extraction fails, use fetch date. Optionally copy `enrichment_for_project_id` from URL doc to article `meta`.
-- **KG extraction**: Run the existing kg_builder pipeline only on articles that have `meta.category == "enrichment"` (and optionally `meta.enrichment_for_project_id` in a given set). Options:
-  - **A**: Add a small script (e.g. `kg_builder/run_enrichment_articles.py`) that queries `articles_collection.find({ "meta.category": "enrichment", "nodes": { "$exists": false } })` (or similar), then calls the same extraction flow as [kg_builder/main.py](kg_builder/main.py) (reuse `process_articles` and extraction helpers). This avoids re-processing all articles.
-  - **B**: Run full `kg_builder/main.py` with categories including `"enrichment"` and rely on existing skip logic (already processed, validated); only new articles get processed.
-- **Reconcile**: After new articles have nodes/relationships, run the full reconcile pipeline ([reconcile/main.py](reconcile/main.py)) so that flatten, merge, normalise, and group all see the new articles. Result: ALL_NODES/ALL_RELS and project-level tables (and facilities) include the new data. No need for incremental merge in a first version.
+### 4. Wiring into scrape (plan ends at articles in DB)
+
+- **Scrape**: For `category == "enrichment"`, use the **dedicated extractor (Option B)** and the publication-date logic above (high-confidence sources only; fallback to `None`, never fetch date). If the extractor returns no main content (or too little), do **not** insert an article and do **not** update the URL status—leave the URL as-is so it can be retried or revisited later. If extraction succeeds, set article `meta.date` only when a confident publication date is available; otherwise set to `None`. Optionally copy `enrichment_for_project_id` from URL doc to article `meta`. The outcome of this plan is enrichment articles in the articles collection with full text and `meta.category == "enrichment"`.
 
 **Deliverable**:
 
-- Script or CLI: `enrichment/run_enrichment.py` (or `python -m enrichment`) that: (1) takes `--project-id` or `--project-ids` or `--limit`, (2) gets project summaries, (3) generates queries, (4) discovers URLs, (5) dedupes and inserts URLs, (6) optionally runs scrape (subprocess or in-process), (7) optionally runs KG on enrichment articles, (8) optionally runs reconcile. Make steps 6–8 configurable (flags or config) so users can run scrape/KG/reconcile separately if they prefer.
+- Script or CLI: `enrichment/run_enrichment.py` (or `python -m enrichment`) that: (1) takes `--project-id` or `--project-ids` or `--limit`, (2) gets project summaries, (3) generates queries, (4) discovers URLs, (5) dedupes and inserts URLs, (6) runs scrape (subprocess or in-process) so new enrichment articles are in MongoDB with full text. Steps 5–6 can be configurable (e.g. insert URLs only, or run scrape only) so the user can run scrape separately if preferred. **No kg_builder or reconcile in this CLI**—the user runs those separately (kg_builder with category "enrichment", then full reconcile).
 
-### 5. Optional: link articles back to project and reporting
+### 5. Config and dependencies
 
-- When scrape inserts an article from a URL that had `enrichment_for_project_id`, copy that into the article document: e.g. `meta.enrichment_for_project_id: project_id` (or list). This requires scrape to read the URL document when processing and copy optional fields into `meta`. Then you can query "all articles added for project X" and report them (e.g. in a small report or in the facilities UI).
-- Optional: store enrichment run metadata (e.g. project_id, run_ts, urls_found, urls_inserted, articles_created) in a small collection or log for auditing.
-
-### 6. Config and dependencies
-
-- **Config**: Use existing `.env` for MongoDB and OpenAI. If using SerpAPI/Bing, add `SERPAPI_KEY` or similar and read in the new module.
-- **Dependencies**: If Option B or C for search: add `requests` (or existing) for search API; no new dependency for Option A (OpenAI only).
-- **Reconcile config**: Add `"enrichment"` to [ARTICLE_QUERY](reconcile/src/config.py) `meta.category` list so flattened/merged outputs include enrichment-sourced articles.
+- **Config**: Use existing `.env` for MongoDB and OpenAI. 
+- **Dependencies**: If Option B or C for search: add `requests` (or existing) for search API; no new dependency for Option A (OpenAI only). For extraction (Option B): add one dependency (e.g. `trafilatura` or `readability-lxml`).
+- When the user runs reconcile, they should add `"enrichment"` to [ARTICLE_QUERY](reconcile/src/config.py) `meta.category` so flattened/merged outputs include enrichment-sourced articles; that is outside this plan’s scope.
 
 ## Suggested file layout
 
@@ -122,23 +115,19 @@ Enrichment URLs can point to **any** domain (news sites, press releases, blogs),
   - `config.py` — e.g. category name, optional search API keys, limits.
   - `projects.py` — get project(s) from facilities or Excel; build project summary.
   - `search.py` — generate queries (LLM); discover URLs (OpenAI web search and/or external API); dedupe; insert into URLs collection.
-  - `run_enrichment.py` — CLI: project selection, run search + optional scrape/KG/reconcile.
+  - `run_enrichment.py` — CLI: project selection, run search + scrape through to articles in DB (no kg_builder or reconcile).
 - Updates to existing code:
-  - [reconcile/src/config.py](reconcile/src/config.py): add `"enrichment"` to `ARTICLE_QUERY["meta"]["category"]`.
-  - [scrape/scrape-articles.py](scrape/scrape-articles.py): handle `category == "enrichment"` (date fallback, and optionally copy `enrichment_for_project_id` from URL doc to article meta).
+  - [scrape/scrape-articles.py](scrape/scrape-articles.py): handle `category == "enrichment"` (Option B extractor, publication-date logic with fallback to `None` when not confident, and optionally copy `enrichment_for_project_id` from URL doc to article meta).
 
 ## Summary
 
 
-| Step | Action                                                                                                               |
-| ---- | -------------------------------------------------------------------------------------------------------------------- |
-| 1    | Define project input (facilities or Excel) and build project summary.                                                |
-| 2    | LLM generates search queries; web search (OpenAI and/or external API) returns candidate URLs.                        |
-| 3    | Dedupe against articles + URLs; insert new URLs with `category: "enrichment"`, optional `enrichment_for_project_id`. |
-| 4    | Run existing scrape; optionally copy project_id into article meta.                                                   |
-| 5    | Run kg_builder on enrichment articles only (small script) or full main with enrichment category.                     |
-| 6    | Run full reconcile so new articles flow into project structure.                                                      |
-| 7    | Optionally report or store which articles were added for which project.                                              |
+| Step | Action                                                                                                                                            |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Define project input (facilities or Excel) and build project summary.                                                                             |
+| 2    | LLM generates search queries; web search (OpenAI and/or external API) returns candidate URLs.                                                     |
+| 3    | Dedupe against articles + URLs; insert new URLs with `category: "enrichment"`, optional `enrichment_for_project_id`.                              |
+| 4    | Run scrape (Option B extractor for enrichment); enriched articles end up in MongoDB with full text; optionally copy project_id into article meta. |
 
 
-This reuses crawl → scrape → kg_builder → reconcile and adds a single "enrichment" path that starts from a project and injects new URLs into the same pipeline.
+**Plan ends here.** The user runs kg_builder (with category "enrichment") and reconcile separately to flow new articles into the KG and project tables.

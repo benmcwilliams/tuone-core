@@ -28,7 +28,7 @@ geonames_collection = db["geonames_store"]
 def test_mongo_connection():
     try:
         mongo_client.admin.command("ping")
-        print("✅ Connected to MongoDB Atlas!")
+        #print("✅ Connected to MongoDB Atlas!")
     except Exception as e:
         print(f"❌ MongoDB Connection Error: {e}")
         raise
