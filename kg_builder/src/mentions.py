@@ -182,6 +182,14 @@ def should_run_mentions(article: dict) -> bool:
         if val_dt is not None and val_dt > mentions_dt:
             return True
 
+    # meta.boiler_markers_backfilled_at (BSON date from MongoDB) newer than mentions_ts
+    boiler = (article.get("meta") or {}).get("boiler_markers_backfilled_at")
+    if boiler is not None and isinstance(boiler, datetime):
+        if boiler.tzinfo is None:
+            boiler = boiler.replace(tzinfo=timezone.utc)
+        if boiler > mentions_dt:
+            return True
+
     return False
 
 

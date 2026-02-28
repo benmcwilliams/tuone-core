@@ -29,12 +29,26 @@ offset_articles = 0  # skip this many articles (for resuming)
 batch_size = 500  # fetch and process in batches (ignored if limit is set and smaller)
 
 
-# MongoDB filter: only articles that need a mentions update (no mentions_ts, or llm/validation newer)
+# MongoDB filter: only articles that need a mentions update (no mentions_ts, or llm/validation/boiler backfill newer)
 NEEDS_UPDATE_OR = [
     {"mentions_ts": {"$exists": False}},
     {"mentions_ts": None},
     {"mentions_ts": ""},
+    # If any of these is newer than mentions_ts → update (OR across the three below)
     {"$expr": {"$gt": ["$llm_processed.ts", "$mentions_ts"]}},
+    {
+        "$expr": {
+            "$and": [
+                {"$ne": ["$meta.boiler_markers_backfilled_at", None]},
+                {
+                    "$or": [
+                        {"$in": ["$mentions_ts", [None, ""]]},
+                        {"$gt": ["$meta.boiler_markers_backfilled_at", {"$toDate": "$mentions_ts"}]},
+                    ]
+                },
+            ]
+        }
+    },
     {
         "$expr": {
             "$and": [
