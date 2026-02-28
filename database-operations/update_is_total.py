@@ -5,9 +5,8 @@ from pymongo.client_session import ClientSession
 
 # ---------- Config ----------
 
-from mongo_client import mongo_client, test_mongo_connection
+from mongo_client import db, mongo_client, test_mongo_connection
 test_mongo_connection()
-db = mongo_client["tuone"]
 col = db["articles_clone"]
 
 # Safety: start with dry-run; set to True to apply

@@ -1,4 +1,5 @@
 import sys; sys.path.append("..")
+import os
 import logging
 from pathlib import Path
 from typing import Any
@@ -8,8 +9,8 @@ import pandas as pd
 from mongo_client import facilities_collection
 from mongo_client_clone import get_target_client
 
-
-TARGET_DB_NAME = "opensourcedev"
+# Target DB (after migration, same as main app DB so this sync is within-cluster)
+TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
 TARGET_COLLECTION_NAME = "inst_canon"
 BACKUP_EXCEL_PATH = Path(__file__).resolve().parent / "storage" / "input" / "inst_canon.xlsx"
 
@@ -43,7 +44,7 @@ def sync_inst_canon_to_opensourcedev() -> None:
     current_inst_canon = _current_inst_canon_from_facilities()
     if not current_inst_canon:
         logging.warning(
-            "Skipping inst_canon sync: no inst_canon values found in facilities_develop."
+            "Skipping inst_canon sync: no inst_canon values found in facilities."
         )
         return
 

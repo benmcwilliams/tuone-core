@@ -27,13 +27,13 @@ from crawlers.crawley_transformers import transformers_magazine_crawler
 from config.config_crawl import WORLD_ENERGY_CHANNELS, PV_MAGAZINE_EXTENSIONS, RENEWS_BIZ_TECH_DICT, ELECTRIVE_PAGE_TYPES
 
 # set max pages to crawl for each source
-world_energy_max_pages = 10
-pv_magazine_max_pages = 10
-pv_tech_max_pages = 10
-renews_biz_max_pages = 10
-offshore_wind_max_pages = 10
+world_energy_max_pages = 5
+pv_magazine_max_pages = 5
+pv_tech_max_pages = 5
+renews_biz_max_pages = 5
+offshore_wind_max_pages = 5
 electrive_max_pages = 2
-power_technology_max_pages = 10
+power_technology_max_pages = 5
 
 if __name__ == "__main__":
 

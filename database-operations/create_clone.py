@@ -1,13 +1,17 @@
 import sys
 import time
+import os
 sys.path.append("..")
+from dotenv import load_dotenv
+load_dotenv()
 from mongo_client import mongo_client
 
 # ---------- Configuration ----------
-SOURCE_DB_NAME = "tuone"
-SOURCE_COLLECTION_NAME = "facilities_develop"
-TARGET_DB_NAME = "tuone"
-TARGET_COLLECTION_NAME = "facilities_develop_0112"
+DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
+SOURCE_DB_NAME = DB_NAME
+SOURCE_COLLECTION_NAME = "facilities"
+TARGET_DB_NAME = DB_NAME
+TARGET_COLLECTION_NAME = "facilities_0112"
 BATCH_SIZE = 1000
 
 # ---------- Setup ----------

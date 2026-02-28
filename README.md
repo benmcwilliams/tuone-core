@@ -2,6 +2,15 @@
 
 This repository processes newspaper articles to return structured information about clean technology investments. Example investments include the construction of a factory to produce solar panels, the deployment of a wind farm, or the upgrading of a vehicle assembly line to produce electric vehicles.
 
+## MongoDB
+
+The default MongoDB cluster and database for **kg_builder**, **reconcile**, **crawl**, and **scrape** are set in the project root `.env`:
+
+- **MONGO_URI** — connection string for the main cluster (opensource after migration).
+- **MONGO_DB_NAME** — database name (e.g. `opensourcedev`).
+
+For one-off clone scripts that copy from the legacy tuone cluster to the main cluster, set **MONGO_URI_TUONE** and **MONGO_DB_NAME_TUONE** in `.env`; the clone module uses these as source and `MONGO_URI` / `MONGO_DB_NAME` as target.
+
 ## 1. Database construction
 
 A database of articles is created and stored in mongoDB with unique article IDs and paragraph numbering {title, date, ID, url, paragraphs}. This is built from the following sources:

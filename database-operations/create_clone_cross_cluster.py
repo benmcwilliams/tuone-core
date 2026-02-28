@@ -1,17 +1,29 @@
 """
-Clone a collection from source cluster to target cluster.
-Uses mongo_client_clone: set MONGO_URI_TARGET in .env or paste URI in mongo_client_clone.py.
+Clone a collection from source cluster (tuone) to target cluster (opensource).
+Uses mongo_client_clone: MONGO_URI_TUONE / MONGO_DB_NAME_TUONE for source,
+MONGO_URI / MONGO_DB_NAME for target.
+
+Run from project root. Only the root .env is used (not any .env under database-operations).
+  python database-operations/create_clone_cross_cluster.py
 """
 import sys
 import time
+import os
+from pathlib import Path
 
-sys.path.append("..")
+# Use project root .env only (avoids confusion with database-operations/.env if present)
+_project_root = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_project_root))
+os.chdir(_project_root)
+
+from dotenv import load_dotenv
+load_dotenv(_project_root / ".env")
 from mongo_client_clone import source_client, get_target_client
 
 # ---------- Configuration ----------
-SOURCE_DB_NAME = "tuone"
-SOURCE_COLLECTION_NAME = "facilities"
-TARGET_DB_NAME = "opensourcedev"
+SOURCE_DB_NAME = os.getenv("MONGO_DB_NAME_TUONE", "tuone")
+SOURCE_COLLECTION_NAME = "facilities_develop"
+TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
 TARGET_COLLECTION_NAME = "facilities"
 BATCH_SIZE = 1000
 

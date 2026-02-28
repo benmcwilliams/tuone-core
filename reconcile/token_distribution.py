@@ -2,11 +2,11 @@
 Compute token distribution across project summary collections.
 
 Definition of "project summary collection":
-- project metadata from facilities_develop
+- project metadata from facilities
 - full text (title + all paragraphs) from all linked articles in articles collection
 
 Data sources:
-- MongoDB facilities_develop (via mongo_client.facilities_collection)
+- MongoDB facilities (via mongo_client.facilities_collection)
 - MongoDB articles collection (via mongo_client.articles_collection)
 
 Outputs:
@@ -94,7 +94,7 @@ def _extract_article_ids_from_events(events: Any) -> set[str]:
 
 def load_projects_and_article_ids(limit: int | None = None) -> dict[str, ProjectBundle]:
     """
-    Load project metadata + linked article IDs from facilities_develop.
+    Load project metadata + linked article IDs from facilities.
     """
     project_map: dict[str, ProjectBundle] = {}
 
@@ -286,7 +286,7 @@ def run(limit: int | None, output_dir: Path, encoding_name: str | None, model_na
 
     project_map = load_projects_and_article_ids(limit=limit)
     if not project_map:
-        raise RuntimeError("No projects found in facilities_develop.")
+        raise RuntimeError("No projects found in facilities.")
 
     all_article_ids = set()
     for project in project_map.values():

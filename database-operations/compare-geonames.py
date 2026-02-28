@@ -1,20 +1,10 @@
-# Assumes `db` is already defined and points to your MongoDB database.
-# Example: from mongo_client import db
-
-# mongo_client_setup.py
-import os
-
-import certifi
-from pymongo import MongoClient
-from pymongo.server_api import ServerApi
-from dotenv import load_dotenv
+# Uses project mongo_client (env: MONGO_URI, MONGO_DB_NAME).
 import logging
 
-MONGO_URI = "mongodb+srv://greeneconomy:oPHHBBAsFBAPfXyZ@tuone.lgh1dw4.mongodb.net/?retryWrites=true&w=majority&appName=tuone"
-DB_NAME = "tuone"
+from dotenv import load_dotenv
+load_dotenv()
 
-mongo_client = MongoClient(MONGO_URI, server_api=ServerApi('1'), tlsCAFile=certifi.where())
-db = mongo_client[DB_NAME]
+from mongo_client import db
 
 from typing import List, Set, Tuple
 

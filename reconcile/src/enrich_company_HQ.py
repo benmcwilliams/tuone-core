@@ -1,6 +1,6 @@
 """
 HQ Enrichment: Mongo ⟷ Excel sync with optional enrichment
-- Reads Mongo (facilities_develop)
+- Reads Mongo (facilities)
 - Ensures Excel buffer exists (hq_enrichment_results.xlsx) with intuitive columns
 - User edits HQ_ISO2 directly in Excel (preserved across runs)
 - Optional enrichment for only-missing values (answer 'y' when prompted)
@@ -31,7 +31,7 @@ from reconcile.src.country_hq import get_headquarters_country, country_to_iso2
 # --------------------------
 # CONFIG
 # --------------------------
-COLLECTION_NAME = "facilities_develop"
+COLLECTION_NAME = "facilities"
  
 # Excel buffer (created next to this script)
 OUTPUT_FILE = Path(__file__).with_name("hq_enrichment_results.xlsx")

@@ -11,7 +11,7 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("MONGO_DB_NAME")
 ARTICLES_COLLECTION_NAME = os.getenv("MONGO_COLLECTION_NAME")
-FACILITIES_COLLECTION = "facilities_develop" #os.getenv("MONGO_FACILITIES_COLLECTION") change later
+FACILITIES_COLLECTION = "facilities"
 
 
 if not all([MONGO_URI, DB_NAME, ARTICLES_COLLECTION_NAME]):
@@ -22,8 +22,8 @@ db = mongo_client[DB_NAME]
 articles_collection = db[ARTICLES_COLLECTION_NAME]
 facilities_collection = db[FACILITIES_COLLECTION]
 geonames_collection = db["geonames_store"]
-
-#geonames_collection = db["geonames_lookup"]
+# Optional test/articles clone collection (e.g. for database-operations/surgery.py)
+test_articles_collection = db[os.getenv("MONGO_TEST_ARTICLES_COLLECTION", "articles_clone")]
 
 def test_mongo_connection():
     try:
