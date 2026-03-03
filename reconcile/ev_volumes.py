@@ -6,11 +6,12 @@ from src.geonames_helpers import clean_city, clean_country, normalize_city_key
 from src.step_2 import standardize_country
 from src.load_geo_lookup import build_geo_lookup, get_geo_value
 from src.set_adm_level import add_admin_group_key
+from src.config import VEHICLES_IMPUTE, ZEV_PRODUCTION
 
 def build_zev_og_clean_excel(
-    input_excel_path: str = "storage/input/vehicles_impute.xlsx",
+    input_excel_path: str = VEHICLES_IMPUTE,
     sheet_name: str = "production_to_impute",
-    output_excel_path: str = "storage/input/zev_og_clean.xlsx",
+    output_excel_path: str = ZEV_PRODUCTION,
     cutoff_date: str = "2025-05-31",
     article_id: str = "68d684fc1c2e9d8ed1487afa",
     to_excel: bool = True,

@@ -19,6 +19,7 @@ from word2number import w2n
 from reconcile.src import id_date_dict
 from currency_symbols import CurrencySymbols  # pip install currency-symbols
 from src.id_date_dict import get_article_id_to_date_map
+from src.config import INVESTMENT_FUNDS, CLEAN_INVESTMENT_FUNDS, CHECK_INVESTMENTS
 from src.split_investments import _is_missing, _as_iter, multiply_vals, distribute_vehicle_battery_split
 
 
@@ -972,8 +973,7 @@ def run_investment_normalisation_pipeline(
 
     # write to Excel
     if write_check:
-        check_path = "storage/output/check_investments.xlsx"
-        df_out.to_excel(check_path, index=False)
+        df_out.to_excel(CHECK_INVESTMENTS, index=False)
 
     if write_outputs:
         if not output_path:
@@ -987,6 +987,6 @@ def run_investment_normalisation_pipeline(
 
 # ======= Example call =======
 df = run_investment_normalisation_pipeline(
-    input_path="storage/output/investment-funds-factory.xlsx",
-    output_path="storage/output/investment-funds-factory-clean.xlsx",
+    input_path=INVESTMENT_FUNDS,
+    output_path=CLEAN_INVESTMENT_FUNDS,
 )

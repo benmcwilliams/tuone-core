@@ -8,6 +8,7 @@ from currency_symbols import CurrencySymbols
 from forex_python.converter import CurrencyRates  # kept for parity
 from src.id_date_dict import get_article_id_to_date_map
 from src.split_investments import _as_iter, _is_missing, multiply_vals, distribute_vehicle_battery_split
+from src.config import CHECK_INVESTMENTS
 
 # --- Currency metadata ---
 def _strip_accents(s): return "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.combining(ch))
@@ -159,6 +160,7 @@ def run_investment_normalisation_pipeline(df_in=None, input_path=None, output_pa
     rounder = lambda x: None if x is None or (isinstance(x, float) and pd.isna(x)) else [round(float(v), 0) if v is not None else None for v in x] if isinstance(x, (list, tuple)) else round(float(x), 0)
     df["amount_EUR"], df["amount_USD"] = df["amount_EUR"].apply(rounder), df["amount_USD"].apply(rounder)
     df_out = df[["investment", "investment_text", "amount_scalar", "currency_iso", "raw_value", "amount_value", "date", "amount_EUR", "amount_USD", "year"]]
-    if write_check: df_out.to_excel("storage/output/check_investments.xlsx", index=False)
+    if write_check:
+        df_out.to_excel(CHECK_INVESTMENTS, index=False)
     if write_outputs and output_path: df.to_excel(output_path, index=False)
     return df_out

@@ -8,6 +8,7 @@ from src.merge_specifications import (
 from merge import run_view
 from src.config import FACTORY_REGISTRY  # final output excel (if you still want it)
 from src.inputs import EUROPEAN_COUNTRIES
+from src.debug_helpers import get_debug_tracker
 
 PROVENANCE_ORDER = ["direct", "inferred_capacity", "inferred_investment"]
 
@@ -21,26 +22,26 @@ def _add_provenance(df: pd.DataFrame, tag: str) -> pd.DataFrame:
 def build_registry_union(to_excel: bool = True, *, context=None, debug_article_id: str | None = None) -> pd.DataFrame:
 
     logging.info("🏭 Building registry union (direct + capacity + investment)…")
-    
-    # 1) Build three small views
-    df_direct = run_view(FACTORY_REGISTRY_DIRECT, out_path=None, context=context)
-    df_cap    = run_view(FACTORY_REGISTRY_CAP,    out_path=None, context=context)
-    df_inv    = run_view(FACTORY_REGISTRY_INV,    out_path=None, context=context)
+    tracker = get_debug_tracker()
+    use_debug = tracker is not None and debug_article_id and tracker.article_id == debug_article_id
+
+    # 1) Build three small views (view_name used for per-join diagnostics in merge)
+    df_direct = run_view(FACTORY_REGISTRY_DIRECT, out_path=None, context=context, view_name="FACTORY_REGISTRY_DIRECT")
+    df_cap    = run_view(FACTORY_REGISTRY_CAP,    out_path=None, context=context, view_name="FACTORY_REGISTRY_CAP")
+    df_inv    = run_view(FACTORY_REGISTRY_INV,    out_path=None, context=context, view_name="FACTORY_REGISTRY_INV")
 
     df_direct = _add_provenance(df_direct, "direct")
     df_cap    = _add_provenance(df_cap,    "inferred_capacity")
     df_inv    = _add_provenance(df_inv,    "inferred_investment")
 
-    if debug_article_id and not df_direct.empty and "article_id" in df_direct.columns:
-        sub = df_direct[df_direct["article_id"] == debug_article_id]
-        cols = [c for c in ["iso2", "city_key", "adm1"] if c in sub.columns]
-        sample = sub[cols].head(3).to_dict("records") if not sub.empty and cols else None
-        logging.info(
-            "[DEBUG registry] DIRECT view: article %s rows=%d; sample=%s",
-            debug_article_id,
-            len(sub),
-            sample,
-        )
+    if use_debug:
+        tracker.section("Registry union: per-view row counts for article")
+        for name, frame in [("direct", df_direct), ("inferred_capacity", df_cap), ("inferred_investment", df_inv)]:
+            n = len(frame[frame["article_id"] == debug_article_id]) if not frame.empty and "article_id" in frame.columns else 0
+            tracker.checkpoint("registry_" + name, n)
+            if n > 0 and "iso2" in frame.columns:
+                iso2_vals = frame.loc[frame["article_id"] == debug_article_id, "iso2"].dropna().unique().tolist()
+                tracker.info("  iso2 values: %s", iso2_vals)
 
     # 2) Union
     df = pd.concat([df_direct, df_cap, df_inv], ignore_index=True)
@@ -58,13 +59,15 @@ def build_registry_union(to_excel: bool = True, *, context=None, debug_article_i
     else:
         logging.warning("Registry union produced no rows.")
 
-    if debug_article_id and not df.empty and "article_id" in df.columns:
-        sub = df[df["article_id"] == debug_article_id]
-        logging.info(
-            "[DEBUG registry] After union+dedupe: article %s rows=%d",
-            debug_article_id,
-            len(sub),
-        )
+    if use_debug:
+        n_after = len(df[df["article_id"] == debug_article_id]) if not df.empty and "article_id" in df.columns else 0
+        tracker.checkpoint("registry_union_after_dedupe", n_after)
+        if n_after == 0:
+            tracker.drop_reason(
+                "registry_union",
+                "no rows for this article in the facility registry",
+                "All three views (direct, capacity-inferred, investment-inferred) contributed 0 rows for this article after join chain and EU filter. Typical causes: no ownership (owns) edge for EU factories, or facilities only in non-EU countries.",
+            )
 
     # 4) (Optional) Save the union as the new FACTORY_REGISTRY input to grouping
     if to_excel:

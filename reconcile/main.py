@@ -1,8 +1,14 @@
-import sys; sys.path.append("..")
+import sys
+from pathlib import Path
+
+_project_root = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_project_root))
+
 import logging
 import time
 from src.main_helpers import log_nodes_for_article
-from src.logger import setup_logger
+from src.logger import setup_logger, setup_article_debug_logger, get_article_debug_log_path
+from src.debug_helpers import DebugArticleTracker, set_debug_tracker, get_debug_tracker
 
 from src.merge_specifications import (
     FACTORY_TECH_SPEC,
@@ -56,6 +62,15 @@ def main(
 
     t0_pipeline = time.time()
     setup_logger()
+
+    # Per-article debug: write to logs/articleID/{article_id}.log only; main output gets one pointer line
+    if debug_article_id:
+        article_logger = setup_article_debug_logger(debug_article_id)
+        if article_logger:
+            set_debug_tracker(DebugArticleTracker(debug_article_id, article_logger))
+            log_path = get_article_debug_log_path(debug_article_id)
+            logging.info("Debug output for article %s written to: %s", debug_article_id, log_path)
+
     logging.info(f"Updating mongo-metadata is set to {update_mongo_metadata}")
 
     if update_mongo_metadata:
@@ -85,9 +100,9 @@ def main(
             log_nodes_for_article(ctx, debug_article_id)
 
         logging.info("🉑 Merging nodes and relationships...")
-        df_capacity =   run_view(FACTORY_TECH_SPEC,           out_path=None,        context=ctx)  # capacity-centric
-        df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       out_path=None,        context=ctx)  # JV directory
-        df_investment = run_view(INVESTMENT_FUNDS_SPEC,       out_path=None,        context=ctx)  # investment-centric
+        df_capacity =   run_view(FACTORY_TECH_SPEC,           out_path=None, context=ctx, view_name="FACTORY_TECH_SPEC")
+        df_jv =         run_view(COMPANY_FORMS_JV_SPEC,       out_path=None, context=ctx, view_name="COMPANY_FORMS_JV_SPEC")
+        df_investment = run_view(INVESTMENT_FUNDS_SPEC,       out_path=None, context=ctx, view_name="INVESTMENT_FUNDS_SPEC")
         df_facility =   build_registry_union(to_excel=False, context=ctx, debug_article_id=debug_article_id)  # facility directory
 
         logging.info("- - - Normalising capacities")
@@ -147,9 +162,23 @@ def main(
     t1_pipeline = time.time()
     logging.info(f"Total pipeline time: {(t1_pipeline - t0_pipeline)/60:.2f} minutes")
 
+    # Per-article debug: write diagnosis summary to article log file and clear tracker
+    tracker = get_debug_tracker()
+    if tracker is not None:
+        tracker.section("Diagnosis summary")
+        bullets = tracker.get_diagnosis_bullets()
+        if bullets:
+            for b in bullets:
+                tracker.info("  • %s", b)
+            tracker.info("")
+            tracker.info("Next checks: ensure article has ownership (owns) edges for EU factories, or that facility locations resolve to EU countries (iso2 in EUROPEAN_COUNTRIES).")
+        else:
+            tracker.info("No drop reasons recorded; article may have contributed rows to one or more outputs.")
+        set_debug_tracker(None)
+
 if __name__ == "__main__":
     main(
         update_mongo_metadata=True,
         update_main_database=True,
-        #debug_article_id="69a1aee0d5d41a36529fdd03",
+        debug_article_id="68f4e0f3e4e292c6591e5880",
     )

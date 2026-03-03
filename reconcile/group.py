@@ -9,10 +9,19 @@ from src.company_mapping import map_to_canonical, SITE_MERGE, JV_MERGE
 from src.inputs import EUROPEAN_COUNTRIES
 from src.config import COMPANY_JV
 from src.set_adm_level import add_admin_group_key
-from src.debug_helpers import debug_print_df
+from src.debug_helpers import debug_print_df, get_debug_tracker
+
+
+def _article_row_count(df: pd.DataFrame, article_id: str | None) -> int:
+    if not article_id or "article_id" not in df.columns or df.empty:
+        return 0
+    return int((df["article_id"] == article_id).sum())
 
 
 def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, debug_article_id: str | None = None) -> pd.DataFrame:
+
+    tracker = get_debug_tracker()
+    use_debug = tracker is not None and debug_article_id and tracker.article_id == debug_article_id
 
     # 1) Load (EU-only) and drop required fields with consistent logging
     if isinstance(file_to_group, pd.DataFrame):
@@ -22,6 +31,16 @@ def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, deb
     df = df[df["iso2"].isin(EUROPEAN_COUNTRIES)].copy()
     if "product_lv3" not in df.columns:
         df["product_lv3"] = None
+    if use_debug:
+        n = _article_row_count(df, debug_article_id)
+        tracker.section("Grouping: %s" % (out_path or "table"))
+        tracker.checkpoint("after_EU_filter", n, "input to this grouping step")
+        if n == 0:
+            tracker.drop_reason(
+                "grouping_input",
+                "no rows for this article in the input table",
+                "Upstream merge or registry already had 0 rows for this article (e.g. EU filter or join chain removed them).",
+            )
     debug_print_df(
         df,
         label=f"{out_path} / raw_eu",
@@ -57,10 +76,20 @@ def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, deb
         missing = df[col].isna().sum()
         if missing:
             logging.debug(f"⚠️ {missing} entries without {desc} are dropped.")
+        before_count = _article_row_count(df, debug_article_id) if use_debug else 0
         before = len(df)
         df = df.dropna(subset=[col])
         if len(df) != before:
             logging.debug(f"Rows reduced to {len(df)} after dropping missing {col}.")
+        if use_debug:
+            after_count = _article_row_count(df, debug_article_id)
+            if before_count > 0 and after_count == 0:
+                tracker.drop_reason(
+                    "required_field",
+                    "all article rows dropped due to missing required field: %s" % col,
+                    desc,
+                )
+            tracker.checkpoint("after_drop_%s" % col, after_count, desc)
 
     missing_product_lv2 = df["product_lv2"].isna().sum()
     missing_product_lv3 = df["product_lv3"].isna().sum()
@@ -155,6 +184,7 @@ def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, deb
     # 4) Apply any custom filters
 
     # For rows where product_lv1 == "iron", keep only those where product_lv2 is in ["DRI", "hydrogen DRI", "natural gas DRI"]
+    before_product_filter = _article_row_count(df, debug_article_id) if use_debug else 0
     allowed_lv2 = ["DRI", "hydrogen DRI", "natural gas DRI"]
     mask = ~(
         (df["product_lv1"] == "iron") &
@@ -164,6 +194,14 @@ def group_projects(file_to_group: pd.DataFrame | str, out_path, output_cols, deb
     # Additionally, for the kept rows where product_lv1 == "iron" and lv2 is in allowed_lv2, set lv2 to 'DRI'
     iron_mask = (df["product_lv1"] == "iron") & (df["product_lv2"].isin(allowed_lv2))
     df.loc[iron_mask, "product_lv2"] = "DRI"
+    if use_debug:
+        after_product_filter = _article_row_count(df, debug_article_id)
+        tracker.checkpoint("after_product_lv2_filters", after_product_filter)
+        if before_product_filter > 0 and after_product_filter == 0:
+            tracker.drop_reason("product_lv2_filter", "all article rows removed by iron/DRI product_lv2 filter", None)
+        final_n = after_product_filter
+        if final_n == 0:
+            tracker.add_diagnosis_bullet("Final row count for this article in this table: 0. See drop reasons above (EU filter, join chain, or required fields).")
 
     debug_print_df(
         df,

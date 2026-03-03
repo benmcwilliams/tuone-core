@@ -85,6 +85,31 @@ python reconcile/main.py
 In `main()` at the bottom of `main.py`, set:
 - `update_mongo_metadata=True/False` — run company normalisation and Geonames.
 - `update_main_database=True/False` — run flatten → merge → normalise → group.
-- `debug_article_id="..."` — optional MongoDB article ObjectId for debug logging.
+- `debug_article_id="..."` — optional MongoDB article ObjectId for per-article debug (see below).
 
 Verbose flags at the top of `main.py` control extra logging for flatten, grouping, capacity, investment split, Geonames, and attach_events.
+
+## Per-article debug (`debug_article_id`)
+
+When `debug_article_id` is set to a MongoDB article ObjectId, the pipeline writes **all** debug diagnostics for that article to a **single log file** only (no extra lines in the main console). The main run prints one line with the path to that file.
+
+- **Log file location**: `reconcile/logs/articleID/{article_id}.log` (overwritten each run). When running from the `reconcile/` directory, the path is `logs/articleID/{article_id}.log`.
+- **Contents**: Flatten summary (node/relationship counts by type), merge join-chain checkpoints and drop reasons, registry-union per-view counts, grouping step-by-step row counts, and an end-of-run **Diagnosis summary** with bullet points explaining why rows were dropped (if any).
+
+### Interpreting the log
+
+- **Flatten**: Confirms nodes and relationships for the article and whether any relation endpoints failed to resolve (missing source/target label).
+- **Merge (join_chain)**: Each view (e.g. `FACTORY_REGISTRY_DIRECT`) logs row counts after each join. If the count goes to zero at an **inner** join, the log explains that the article had no matching path (e.g. no ownership edge for that factory).
+- **EU filter**: If rows exist before the filter but disappear after, the log states that they were removed because `iso2` is not in `EUROPEAN_COUNTRIES` (e.g. facility only in Turkey or outside EU).
+- **Registry union**: Shows how many rows the article contributed from the direct, capacity-inferred, and investment-inferred views; if the total is zero, a drop reason explains typical causes (no ownership for EU factories, or only non-EU countries).
+- **Grouping**: For each grouped table (capacities, factories, investments), logs row count after EU filter and after each required-field drop; if the article ends with zero rows, it notes whether the input was already empty or rows were dropped for missing `inst_canon`, `city_key`, `admin_group_key`, or `product_lv1`.
+
+### Common drop reasons
+
+| Message / reason | Meaning |
+|------------------|--------|
+| All rows dropped at inner join | The view requires a relationship path (e.g. `owns` + `produced_at`). The article has no such path for the relevant nodes (e.g. no ownership edge for an EU factory). |
+| EU filter removed all article rows | Facilities in the article resolve to non-EU countries (`iso2` not in `EUROPEAN_COUNTRIES`). |
+| No rows from any view for this article (registry) | Direct, capacity-inferred, and investment-inferred views all contributed 0 rows (join chain or EU filter removed them). |
+| No rows in the input table (grouping) | The table fed into grouping already had 0 rows for this article; see merge/registry steps above. |
+| All article rows dropped due to missing required field | A required column (`inst_canon`, `city_key`, `admin_group_key`, `product_lv1`) was null for every row of this article. |

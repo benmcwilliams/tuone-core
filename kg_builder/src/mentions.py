@@ -155,12 +155,16 @@ def _parse_ts(value: str | int | float | None) -> datetime | None:
 def should_run_mentions(article: dict) -> bool:
     """
     Return True if we should run mentions extraction for this article.
-    Run when: no mentions_ts, or llm_processed.ts or validation is after mentions_ts.
+    Run when: no mentions_ts, or llm_processed.ts or validation/boiler is after mentions_ts,
+    or mentions_ts exists but mentions is missing or empty.
     """
     if not article.get("nodes") or not article.get("paragraphs"):
         return False
 
     mentions_ts = article.get("mentions_ts")
+    mentions = article.get("mentions")
+    if mentions_ts and (not mentions or (isinstance(mentions, list) and len(mentions) == 0)):
+        return True
     if not mentions_ts:
         return True
 

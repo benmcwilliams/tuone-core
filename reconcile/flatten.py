@@ -1,9 +1,11 @@
 import sys; sys.path.append("..")  # allow access to parent folder modules
 import logging
 import pandas as pd
+from collections import Counter
 from reconcile.src.flatten_helpers import flatten_dict
 from src.config import ARTICLE_QUERY, ARTICLE_PROJECTION, ALL_NODES, ALL_RELS
 from mongo_client import articles_collection
+from src.debug_helpers import get_debug_tracker
 
 # === OVERVIEW ===
 # outputs flat (pandas) data for all nodes and relationships contained in the monogoDB collection
@@ -97,27 +99,28 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
     df_all_rels["target"] = df_all_rels["target_unique_id"]
     df_all_rels = df_all_rels.drop(columns=["source_unique_id", "target_unique_id"], errors="ignore")
 
-    # Debug: log factory nodes for one article (non-invasive when debug_article_id is None)
-    if debug_article_id and "article_id" in df_all_nodes.columns:
-        fac = df_all_nodes[
-            (df_all_nodes["article_id"] == debug_article_id)
-            & (df_all_nodes["label"].str.lower().str.contains("factory", na=False))
-        ]
+    # Debug: write to per-article log file only (no main console)
+    tracker = get_debug_tracker()
+    if debug_article_id and tracker is not None and tracker.article_id == debug_article_id:
+        tracker.section("Flatten: article summary")
+        sub_nodes = df_all_nodes[df_all_nodes["article_id"] == debug_article_id]
+        sub_rels = df_all_rels[df_all_rels["article_id"] == debug_article_id]
+        node_types = Counter(sub_nodes["label"].astype(str).str.lower()) if "label" in sub_nodes.columns else {}
+        rel_types = Counter(sub_rels["type"].astype(str).str.lower()) if "type" in sub_rels.columns else {}
+        tracker.info("Node counts by type: %s", dict(node_types))
+        tracker.info("Relationship counts by type: %s", dict(rel_types))
+        if not sub_rels.empty and "source_label" in sub_rels.columns and "target_label" in sub_rels.columns:
+            missing_src = sub_rels["source_label"].isna().sum()
+            missing_tgt = sub_rels["target_label"].isna().sum()
+            if missing_src or missing_tgt:
+                tracker.warn("Unresolved relation endpoints: source_label missing=%d, target_label missing=%d", missing_src, missing_tgt)
+        fac = sub_nodes[sub_nodes["label"].astype(str).str.lower().str.contains("factory", na=False)]
         if fac.empty:
-            logging.info(
-                "[DEBUG flatten] article %s: no factory rows",
-                debug_article_id,
-            )
+            tracker.info("No factory nodes in this article.")
         else:
             has_loc_city = "location_city" in fac.columns and fac["location_city"].notna().any()
             has_loc_country = "location_country" in fac.columns and fac["location_country"].notna().any()
-            logging.info(
-                "[DEBUG flatten] article %s: factory rows=%d, has location_city=%s, location_country=%s",
-                debug_article_id,
-                len(fac),
-                has_loc_city,
-                has_loc_country,
-            )
+            tracker.info("Factory rows=%d, has location_city=%s, location_country=%s", len(fac), has_loc_city, has_loc_country)
 
     # 1.12: Save raw flattened node and relationship data to Excel
     if save:

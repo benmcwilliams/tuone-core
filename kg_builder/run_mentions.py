@@ -57,6 +57,13 @@ NEEDS_UPDATE_OR = [
             ]
         }
     },
+    # mentions_ts set but mentions missing or empty (e.g. past run wrote ts but not mentions)
+    {
+        "$and": [
+            {"mentions_ts": {"$exists": True, "$nin": [None, ""]}},
+            {"$or": [{"mentions": {"$exists": False}}, {"mentions": {"$size": 0}}]},
+        ]
+    },
 ]
 
 
@@ -81,11 +88,25 @@ def run_mentions_pipeline(
         f"cutoff_date={cutoff_date}, offset={offset_articles}, batch_size={batch_size}"
     )
 
+    # meta.date can be BSON date or string (e.g. "2024-05-16"); $gt with datetime only matches date type
+    date_cutoff_str = "2000-01-01"
     query = {
         "nodes": {"$exists": True, "$ne": []},
         "paragraphs": {"$exists": True, "$ne": []},
-        "meta.date": {"$gt": cutoff_date},
-        "$or": NEEDS_UPDATE_OR,
+        "$and": [
+            {
+                "$or": [
+                    {"meta.date": {"$gt": cutoff_date}},
+                    {
+                        "$and": [
+                            {"meta.date": {"$type": "string"}},
+                            {"meta.date": {"$gte": date_cutoff_str}},
+                        ]
+                    },
+                ]
+            },
+            {"$or": NEEDS_UPDATE_OR},
+        ],
     }
     if categories:
         query["meta.category"] = {"$in": categories}
@@ -102,6 +123,7 @@ def run_mentions_pipeline(
         "meta": 1,
         "paragraphs": 1,
         "nodes": 1,
+        "mentions": 1,
         "mentions_ts": 1,
         "llm_processed": 1,
         "validation": 1,

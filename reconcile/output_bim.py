@@ -8,13 +8,14 @@ from src.assign_nuts import assign_nuts2_to_dataframe
 from reconcile.phase_summary import parse_tract_stage
 from currency_converter import CurrencyConverter
 from datetime import date
+from src.config import BRUEGEL_IM
 
 _CCY = CurrencyConverter(
     fallback_on_missing_rate=True,
     fallback_on_wrong_date=True
 )
 
-bim_path = "storage/output/bruegel_investment_monitor.xlsx"
+bim_path = BRUEGEL_IM
 INCLUDE_LV1 = ["solar", "vehicle", "battery", "iron", "wind"]
 
 def eur_to_usd(x):

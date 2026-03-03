@@ -1,9 +1,13 @@
-import sys; sys.path.append("..")
+import sys
+from pathlib import Path
+
+sys.path.append("..")
 import json
 import pandas as pd
 
-# Load company mapping
-with open('src/company_mapping.json', 'r', encoding='utf-8') as f:
+# Path relative to this file so it works from project root or from reconcile/
+_mapping_path = Path(__file__).resolve().parent / "company_mapping.json"
+with open(_mapping_path, "r", encoding="utf-8") as f:
     company_mapping = json.load(f)
 
 

@@ -1,5 +1,17 @@
 # config.py
 
+from pathlib import Path
+
+# Reconcile root (reconcile/) so paths work from project root or from reconcile/
+_RECONCILE_ROOT = Path(__file__).resolve().parent.parent
+
+
+def _p(path: str) -> str:
+    """Resolve storage paths relative to reconcile root."""
+    p = path.lstrip("./")
+    return str(_RECONCILE_ROOT / p)
+
+
 # Mongo query to filter articles to process (must have nodes & relationships)
 # optional filter for meta.category.
 ARTICLE_QUERY = {
@@ -16,33 +28,36 @@ ARTICLE_PROJECTION = {
 }
 
 # builder files
-ALL_NODES = "storage/output/all_nodes.xlsx"
-ALL_RELS = "storage/output/all_rels.xlsx"
-GEO_LOOKUP_JSON = "storage/output/geo_lookup.json"
+ALL_NODES = _p("storage/output/all_nodes.xlsx")
+ALL_RELS = _p("storage/output/all_rels.xlsx")
+GEO_LOOKUP_JSON = _p("storage/output/geo_lookup.json")
 
 # raw views
-FACTORY_REGISTRY = "storage/output/factory_registry.xlsx"
-FACTORY_TECH = "storage/output/factory-technological.xlsx"
-COMPANY_JV = "storage/output/company-joint-venture.xlsx"
-INVESTMENT_FUNDS = "storage/output/investment-funds-factory.xlsx"
+FACTORY_REGISTRY = _p("storage/output/factory_registry.xlsx")
+FACTORY_TECH = _p("storage/output/factory-technological.xlsx")
+COMPANY_JV = _p("storage/output/company-joint-venture.xlsx")
+INVESTMENT_FUNDS = _p("storage/output/investment-funds-factory.xlsx")
 
 # cleaning capacities and investments
-FACTORY_TECH_CLEAN_CAPACITIES = "storage/output/factory-technological-clean-capacities.xlsx"
-FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS = "storage/output/factory-technological-clean-capacities-investments.xlsx"
-CLEAN_INVESTMENT_FUNDS = "storage/output/clean-investment-funds-factory.xlsx"
-CAPACITIES_DEBUG = "storage/output/capacities-debug.xlsx"
+FACTORY_TECH_CLEAN_CAPACITIES = _p("storage/output/factory-technological-clean-capacities.xlsx")
+FACTORY_TECH_CLEAN_CAPACITIES_INVESTMENTS = _p("storage/output/factory-technological-clean-capacities-investments.xlsx")
+CLEAN_INVESTMENT_FUNDS = _p("storage/output/clean-investment-funds-factory.xlsx")
+CHECK_INVESTMENTS = _p("storage/output/check_investments.xlsx")
+CAPACITIES_DEBUG = _p("storage/output/capacities-debug.xlsx")
 
 # grouping
-GROUPED_CAPACITIES = "storage/output/grouped-capacities.xlsx"
-GROUPED_FACTORIES = "storage/output/grouped-factories.xlsx"
-GROUPED_INVESTMENTS = "storage/output/grouped-investments.xlsx"
-ZEV_PRODUCTION = "storage/input/zev_og_clean.xlsx"
+GROUPED_CAPACITIES = _p("storage/output/grouped-capacities.xlsx")
+GROUPED_FACTORIES = _p("storage/output/grouped-factories.xlsx")
+GROUPED_INVESTMENTS = _p("storage/output/grouped-investments.xlsx")
+VEHICLES_IMPUTE = _p("storage/input/vehicles_impute.xlsx")
+ZEV_PRODUCTION = _p("storage/input/zev_og_clean.xlsx")
 
-GRPD_PROJECTS = "./storage/output/all_projects.xlsx"
-GRPD_PROJECTS_FILTER = "storage/output/filtered_projects.xlsx"
-PRODUCT_CLASSIFICATION = "storage/input/product_classification.xlsx"
-FACILITIES = "storage/output/facilities.xlsx"
-CAPACITIES_PLOT = "storage/output/capacities_plot.xlsx"
+GRPD_PROJECTS = _p("storage/output/all_projects.xlsx")
+GRPD_PROJECTS_FILTER = _p("storage/output/filtered_projects.xlsx")
+PRODUCT_CLASSIFICATION = _p("storage/input/product_classification.xlsx")
+FACILITIES = _p("storage/output/facilities.xlsx")
+CAPACITIES_PLOT = _p("storage/output/capacities_plot.xlsx")
+BRUEGEL_IM = _p("storage/output/bruegel_investment_monitor.xlsx")
 
 grouped_facilities_cols = [
     "inst_canon", "inst_type", "iso2", "factory", "admin_group_key",

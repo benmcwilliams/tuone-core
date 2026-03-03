@@ -26,9 +26,15 @@ from typing import Any
 
 from bson import ObjectId
 
-import sys; sys.path.append("..")
+import sys
+
+_here = Path(__file__).resolve().parent
+if str(_here.parent) not in sys.path:
+    sys.path.append(str(_here.parent))
 from mongo_client import articles_collection, facilities_collection, test_mongo_connection
 from utils import combine_paragraphs
+
+_DEFAULT_OUTPUT_DIR = str(_here / "storage" / "output")
 
 
 @dataclass
@@ -357,7 +363,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="storage/output",
+        default=_DEFAULT_OUTPUT_DIR,
         help="Directory for CSV, stats report, and histogram.",
     )
     parser.add_argument(

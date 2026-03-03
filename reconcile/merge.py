@@ -11,6 +11,7 @@ from src.load_geo_lookup import build_geo_lookup, get_geo_value
 from src.config import ALL_NODES, ALL_RELS, FACTORY_TECH
 from src.merge_specifications import FACTORY_TECH_SPEC, COMPANY_FORMS_JV_SPEC, INVESTMENT_FUNDS_SPEC
 from src.config import FACTORY_TECH, COMPANY_JV, INVESTMENT_FUNDS
+from src.debug_helpers import get_debug_tracker
 
 # ---- Context type ----
 Context = Tuple[Dict[str, pd.DataFrame], Dict[str, pd.DataFrame], dict]
@@ -74,7 +75,9 @@ def enrich_factory_geo(df_factory: pd.DataFrame, geo_lookup) -> pd.DataFrame:
 def build_view(view_spec: dict,
                nodes_by_label: Dict[str, pd.DataFrame],
                rels_by_label: Dict[str, pd.DataFrame],
-               geo_lookup=None) -> pd.DataFrame:
+               geo_lookup=None,
+               view_name: Optional[str] = None,
+               debug_article_id: Optional[str] = None) -> pd.DataFrame:
     """
     view_spec keys:
       - "nodes": { "<alias>": { "label": ..., "keep": [...], "rename": {...}, "enrich": Optional[Callable] } }
@@ -83,6 +86,9 @@ def build_view(view_spec: dict,
       - "filters": [ Callable[[pd.DataFrame], pd.DataFrame], ... ]
       - "column_order": Optional[List[str]]
     """
+    tracker = get_debug_tracker() if debug_article_id else None
+    use_debug = tracker is not None and tracker.article_id == debug_article_id
+
     # 1) expand nodes
     node_tables = {}
     for alias, spec in view_spec["nodes"].items():
@@ -100,18 +106,43 @@ def build_view(view_spec: dict,
 
     # 3) join chain
     tables = {**node_tables, **edge_tables}
-    # tables holds all aliases and allows merges
-    # start from the first element in the chain's left side
     start_alias = view_spec["join_chain"][0][0]
     df = tables[start_alias]
-    for left_alias, key_left, right_alias, key_right, how in view_spec["join_chain"]:
+    for step_idx, (left_alias, key_left, right_alias, key_right, how) in enumerate(view_spec["join_chain"]):
         left_df = df if left_alias == start_alias else tables[left_alias]
         right_df = tables[right_alias]
+        before_count = None
+        if use_debug and "article_id" in df.columns:
+            sub = df[df["article_id"] == debug_article_id]
+            before_count = len(sub)
         df = left_df.merge(right_df, left_on=key_left, right_on=key_right, how=how)
+        if use_debug and "article_id" in df.columns:
+            after_count = len(df[df["article_id"] == debug_article_id])
+            join_desc = f"{left_alias}.{key_left} x {right_alias}.{key_right} ({how})"
+            stage = f"{view_name or 'view'}_join_{step_idx}" if view_name else f"join_{step_idx}"
+            tracker.checkpoint(stage, after_count, join_desc)
+            if before_count is not None and before_count > 0 and after_count == 0 and how == "inner":
+                tracker.drop_reason(
+                    stage,
+                    "all rows for this article dropped at inner join",
+                    f"Join {join_desc}: left had %d rows for article but no matching keys on right (e.g. missing ownership or relationship path)." % before_count,
+                )
 
     # 4) filters
     for f in view_spec.get("filters", []):
+        before_filter = len(df[df["article_id"] == debug_article_id]) if (use_debug and "article_id" in df.columns) else 0
+        if use_debug and "article_id" in df.columns and before_filter > 0 and "iso2" in df.columns:
+            iso2_vals = df.loc[df["article_id"] == debug_article_id, "iso2"].dropna().unique().tolist()
+            tracker.info("Before EU filter: article rows=%d, iso2 values=%s", before_filter, iso2_vals)
         df = f(df)
+        if use_debug and "article_id" in df.columns:
+            after_filter = len(df[df["article_id"] == debug_article_id])
+            if before_filter > 0 and after_filter == 0:
+                tracker.drop_reason(
+                    "EU_filter",
+                    "all article rows removed by EU country filter (iso2 not in EUROPEAN_COUNTRIES)",
+                    "Add or fix location/country so facilities resolve to an EU country code.",
+                )
 
     # 5) column order
     if "column_order" in view_spec and view_spec["column_order"]:
@@ -120,10 +151,19 @@ def build_view(view_spec: dict,
 
     return df
 
-def run_view(spec, out_path=None, *, context: Context):
+def run_view(spec, out_path=None, *, context: Context, view_name: Optional[str] = None):
     """Build the view using an explicit in-memory context (required)."""
     nodes_by_label, rels_by_label, geo_lookup = context
-    df = build_view(spec, nodes_by_label, rels_by_label, geo_lookup=geo_lookup)
+    tracker = get_debug_tracker()
+    debug_article_id = tracker.article_id if tracker else None
+    df = build_view(
+        spec,
+        nodes_by_label,
+        rels_by_label,
+        geo_lookup=geo_lookup,
+        view_name=view_name,
+        debug_article_id=debug_article_id,
+    )
     if out_path:
         df.to_excel(out_path, index=False)  # keep optional export for humans
         logging.info(f"💾 Saved: {out_path}")

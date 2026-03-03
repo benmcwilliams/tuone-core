@@ -96,5 +96,14 @@ BOILER_STRINGS = {
     "Source: Auto Bild 5/2016, print edition",
     "(Debreceni Nap)",
     "np-coburg.de(in German)",
-    "autonews.com,heise.de(in German)"
+    "autonews.com,heise.de(in German)",
+    "automobilwoche.de(in German)",
+    "wsj.com,autonews.com",
+    "motoring.com.au,worldcarfans.com,insideevs.com",
+    "gummibereifung.de(Pirelli, in German),teslarati.com(Model X tires specs)",
+    "electriccarsreport.com,audi-mediacenter.com",
+    "motoring.com.auviagreencarreports.com",
+    "autoblog.com,electrek.co,insideevs.com",
+    "Every workday,“electrive.com today”delivers the latest electric-mobility news from around the world right to your inbox – short, to the point and free of charge. We cover global stories but also keep a focus on relevant news from the German electric car industry! Anyone, that would like to receive a free subscription, just needs to email us at subscribe@electrive.com or visitwww.electrive.com",
+    "electriccarsreport.com,fiaformulae.com,youtube.com(race highlights)",
 }
