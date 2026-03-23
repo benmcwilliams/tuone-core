@@ -51,10 +51,11 @@ METRIC_MAP = {
     "mwdc": "megawatt",
     "kw": "kilowatt", 
     "tw": "terawatt",
-    "t": "tonne","tonne": 
-    "tonne", "tonnes": 
-    "tonne", "tons": 
-    "tonne", "ton": "tonne", 
+    "t": "tonne",
+    "tonne": "tonne",
+    "tonnes": "tonne",
+    "tons": "tonne",
+    "ton": "tonne",
     "mt": "megatonne",
     "kt": "kilotonne", 
     "kilotonne": "kilotonne",
@@ -68,7 +69,14 @@ METRIC_MAP = {
     "battery systems": "battery systems",
     "hybrid battery systems": "battery systems",
     "battery packs": "battery packs",
-    "packs": "battery packs"
+    "packs": "battery packs",
+    # Uranium enrichment — map common SWU / tSWU spellings to one canonical metric (passthrough scale=1)
+    "separative work units": "tSWU",
+    "separative work unit": "tSWU",
+    "tonnes swu": "tSWU",
+    "tonne swu": "tSWU",
+    "tswu": "tSWU",
+    "swu": "tSWU",
 }
 
 # ========= Metric Unit Extraction =========

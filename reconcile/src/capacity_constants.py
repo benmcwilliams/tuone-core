@@ -20,6 +20,9 @@ DEFAULT_UNIT_MAP = {
     ("wind", "deployment"): "megawatt",
     #nuclear
     ("nuclear", "deployment"): "megawatt",
+    ("uranium", "conversion"): "tSWU",
+    ("uranium", "enrichment"): "tSWU",
+
     #hydro
     ("hydroelectric", "deployment"): "megawatt",
     #iron
