@@ -18,7 +18,7 @@ ARTICLE_QUERY = {
     "nodes": {"$exists": True},
     "relationships": {"$exists": True},
     "meta.category": {"$in": ["user", "user_text", "electrive", "justauto", "pvmagazine", "pvtech", "world_energy",
-                                "offshorewind", "renewsBiz"]}
+                                "offshorewind", "renewsBiz", "enrichment"]}
 }
 
 ARTICLE_PROJECTION = {

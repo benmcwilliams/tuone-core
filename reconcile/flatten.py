@@ -105,6 +105,12 @@ def run_flatten_articles(save: bool = False, debug_article_id: str | None = None
         tracker.section("Flatten: article summary")
         sub_nodes = df_all_nodes[df_all_nodes["article_id"] == debug_article_id]
         sub_rels = df_all_rels[df_all_rels["article_id"] == debug_article_id]
+        if sub_nodes.empty and sub_rels.empty:
+            tracker.warn(
+                "Article has 0 nodes and 0 relationships in flattened data. "
+                "This usually means the document was not returned by the MongoDB query: "
+                "check that meta.category is in ARTICLE_QUERY in reconcile/src/config.py (e.g. add \"enrichment\" if this is an enrichment article)."
+            )
         node_types = Counter(sub_nodes["label"].astype(str).str.lower()) if "label" in sub_nodes.columns else {}
         rel_types = Counter(sub_rels["type"].astype(str).str.lower()) if "type" in sub_rels.columns else {}
         tracker.info("Node counts by type: %s", dict(node_types))

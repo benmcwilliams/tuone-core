@@ -39,6 +39,7 @@ SITE_MERGE = {
     ("meyer burger", "DE", "Thalheim/Erzgeb."): "Thalheim",
     ("oxford pv", "DE", "Brandenburg an der Havel"): "Brandenburg",
     ("leclanche", "DE", "Baden-Wurttemberg"): "Willstätt",
+    ("saarstahl", "DE", "Dillingen/ Saar"): "Völklingen",
 
     # france
     ("carbon", "FR", "Marseille"): "Fos-sur-Mer",
@@ -51,12 +52,15 @@ SITE_MERGE = {
     ("oxford pv", "GB", "Brandenburg an der Havel"): "Brandenburg",
     ("vestas", "GB", "Newport"): "Isle of Wight",
     ("altilium metals", "GB", "Devon"): "Plymouth",
+    ("london electric vehicle company", "GB", "Warwickshire"): "Coventry",
 
     # spain
     ("hyundai mobis", "ES", "Navarre"): "Pamplona",
     ("stellantis", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
+    ("leapmotor", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
+    ("stellantis catl", "ES", "Figueruelas  Municipality"): "Zaragoza Municipality",
     ("atersa", "ES", "Almussafes"): "Valencia",
-    ("stellantis catl", "ES", "Zaragoza Municipality"): "Figueruelas  Municipality",
+    #("stellantis catl", "ES", "Zaragoza Municipality"): "Figueruelas  Municipality",
     ("lm wind power", "ES", "Castellón de la Plana/Castelló de la Plana"): "Valencia",
 
     # hungary
@@ -87,6 +91,11 @@ SITE_MERGE = {
 
 JV_MERGE = {
     # for cases at the same location, where we want to collapse one company or joint venture into another.
+    
+    # austria
+    ("xpeng", "AT", "Graz", "vehicle"): "magna steyr",
+    ("fisker", "AT", "Graz", "vehicle"): "magna steyr",
+    
     # spain
     ("stellantis", "ES", "Aragon", "battery"): "stellantis catl",
     ("stellantis", "ES", "Zaragoza Municipality", "battery"): "stellantis catl",
@@ -127,9 +136,17 @@ JV_MERGE = {
     # sweden
     ("volvo northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
     ("northvolt", "SE", "Gothenburg Municipality", "battery"): "volvo",
+    ("northvolt", "SE", "Skellefteå Kommun", "battery"): "lyten",
+    ("northvolt", "SE", "Västerås Municipality", "battery"): "lyten",
 
     # uk
     ("west midlands gigafactory", "GB", "Coventry", "battery"): "eve energy",
+    ("greenpower park", "GB", "Coventry", "battery"): "eve energy",
+    ("coventry airport", "GB", "Coventry", "battery"): "eve energy",
+    ("coventry city council", "GB", "Coventry", "battery"): "uk battery industrialisation centre",
+    ("warwick manufacturing group", "GB", "Coventry", "battery"): "uk battery industrialisation centre",
+    ("coventry and warwickshire local enterprise partnership", "GB", "Coventry", "battery"): "uk battery industrialisation centre",
+
     ("nissan", "GB", "Sunderland", "battery"): "aesc",
     ("tata motors", "GB", "Somserset", "battery"): "agratas",
     ("tata motors", "GB", "Somerset", "battery"): "agratas",
@@ -145,6 +162,7 @@ JV_MERGE = {
     ("northvolt", "PL", "Gdańsk", "battery"): "lyten",
     ("daimler", "PL", "Jawor", "battery"): "mercedes benz",
     ("fiat", "PL", "Tychy", "vehicle"): "stellantis",
+    ("fca", "PL", "Tychy", "vehicle"): "stellantis",
     ("lm wind power", "PL", "Gmina Goleniów", "wind"): "vestas",
     ("leapmotor international", "PL", "Tychy", "vehicle"): "stellantis",
 
@@ -165,7 +183,7 @@ JV_MERGE = {
 
     # finland
     ("finnish minerals group epsilon advanced materials", "FI", "Vaasa", "battery"): "freyr",
-    ("Finnish Battery Chemicals Oy", "FI", "Vaasa", "battery"): "epsilon advanced materials",
+    ("finnish battery chemicals oy", "FI", "Vaasa", "battery"): "epsilon advanced materials",
 
     # slovakia
     ("skoda", "SK", "Bratislava Region", "vehicle"): "volkswagen",
@@ -181,5 +199,9 @@ JV_MERGE = {
     ("samsung", "HU", "Pest County", "battery"): "samsung sdi",
     
     # italy
-    ("stellantis", "IT", "Torino", "vehicle"): "fiat",
+    ("fiat", "IT", "Torino", "vehicle"): "stellantis",
+    ("fca", "IT", "Torino", "vehicle"): "stellantis",
+    ("fiat chrysler automotives", "IT", "Torino", "vehicle"): "stellantis",
+    ("fiat", "IT", "Melfi", "vehicle"): "stellantis",
+    ("new time", "IT", "Emilia-Romagna", "solar"): "huasun new time"
 }

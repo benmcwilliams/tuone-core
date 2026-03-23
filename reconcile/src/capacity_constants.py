@@ -37,40 +37,35 @@ PRODUCT_CONVERSIONS = {
     ("battery", "eam"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 2.6e-4,  # ~3.8 kg/kWh -> 0.00026 GWh per tonne [oai_citation:2‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,file%20here)
+        "multiplier": 2.6e-4,
     },
 
     # Cathode active material (CAM): tonnes → GWh
-    # The cathode makes up roughly 2 kg per kWh [oai_citation:3‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,Different), so 1 t yields ~500 kWh (~0.0005 GWh).
     ("battery", "eam", "cathode"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 5.0e-4,   # 2 kg/kWh -> 0.0005 GWh per t [oai_citation:4‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,Different)
+        "multiplier": 5.0e-4,  
     },
 
     # Anode active material (graphite): tonnes → GWh
-    # Anodes are roughly 1 kg per kWh [oai_citation:5‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,Different), so 1 t supports ~1 000 kWh (0.001 GWh).
     ("battery", "eam", "anode"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 1.0e-3,    # 1 kg/kWh -> 0.001 GWh per t [oai_citation:6‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,Different)
+        "multiplier": 1.0e-3,  
     },
 
-    # Electrolyte: tonnes → GWh
-    # Typical liquid electrolyte adds about 0.3 kg per kWh [oai_citation:7‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,file%20here), so 1 t corresponds to ~3 333 kWh (~0.00333 GWh).
+    # Electrolyte: tonnes → GWh (roughly 1 - 1,500 tonnes electrolyte per GWh)
     ("battery", "eam", "electrolyte"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 1.5e-3,    # 0.3 kg/kWh -> 0.00333 GWh per t [oai_citation:8‡thundersaidenergy.com](https://thundersaidenergy.com/downloads/lithium-ion-batteries-energy-density/#:~:text=Today%E2%80%99s%20lithium%20ion%20batteries%20have,file%20here)
+        "multiplier": 1.5e-3,
     },
 
     # Copper foil: tonnes → GWh
-    # IDTechEx reports ~0.334 kg of copper foil per kWh (≈30 kg in a 90 kWh battery) [oai_citation:9‡americancopper.org](https://www.americancopper.org/assets/docs/ENEREGY%20STORAGE%20idtechex-copper-demand-in-energy-storage.pdf#:~:text=Copper%20Intensity%20at%20Cell%20Level,ion%20cell%20anode%20current%20collector), consistent with 20 kg of copper in a 60 kWh pack [oai_citation:10‡elements.visualcapitalist.com](https://elements.visualcapitalist.com/the-key-minerals-in-an-ev-battery/#:~:text=The%20cells%20in%20the%20average,separator%2C%20and%20battery%20pack%20casing).
-    # This equates to ~2 994 kWh (≈0.003 GWh) per tonne.
     ("battery", "eam", "copper_foil"): {
         "from": "tonne",
         "to":   "gigawatt hour",
-        "multiplier": 3.0e-3,    # ~0.334 kg/kWh -> 0.00299 GWh per t [oai_citation:11‡americancopper.org](https://www.americancopper.org/assets/docs/ENEREGY%20STORAGE%20idtechex-copper-demand-in-energy-storage.pdf#:~:text=Copper%20Intensity%20at%20Cell%20Level,ion%20cell%20anode%20current%20collector)
+        "multiplier": 3.0e-3,    #
     },
 
     # module/pack systems: units → GWh (assume 50 kWh/pack)

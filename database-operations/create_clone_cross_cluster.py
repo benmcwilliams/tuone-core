@@ -21,9 +21,15 @@ load_dotenv(_project_root / ".env")
 from mongo_client_clone import source_client, get_target_client
 
 # ---------- Configuration ----------
-SOURCE_DB_NAME = os.getenv("MONGO_DB_NAME_TUONE", "tuone")
-SOURCE_COLLECTION_NAME = "facilities_develop"
-TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
+#SOURCE_DB_NAME = os.getenv("MONGO_DB_NAME_TUONE", "tuone")
+#TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
+
+# Set up to copy from opensource dev into opensource
+
+SOURCE_DB_NAME = 'opensourcedev'
+SOURCE_COLLECTION_NAME = "facilities"
+
+TARGET_DB_NAME = 'opensource'
 TARGET_COLLECTION_NAME = "facilities"
 BATCH_SIZE = 1000
 
