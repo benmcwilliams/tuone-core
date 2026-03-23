@@ -4,7 +4,8 @@ relationship_groups = {
     "technological": ["at", "produced_at", "quantifies"],
     "financial_origin": ["invests", "recieves"],
     "financial_technological": ["enables", "targets", "funds"],
-    "grantor_aid": ["pays", "approves", "issues", "targets", "funds"]
+    "grantor_aid": ["pays", "approves", "issues", "targets", "funds"],
+    "gov_relationships": ["issues", "targets"]
 }
 
 # # which prompts to use for each group
@@ -24,6 +25,7 @@ nodes_by_group_prompt = {
     "financial_origin": ["company", "joint_venture", "investment"],
     "financial_technological": ["investment", "capacity", "factory", "product"],
     "grantor_aid": ["grantor", "aid", "product", "factory"],
+    "gov_relationships": ["government", "product", "support_package", "tax_cut"],
     "capacities": ["capacity"],
     "investments": ["investment"],
     "products": ["product"]
@@ -35,7 +37,8 @@ required_node_types = {
     "technological": ["product", "capacity"],
     "financial_origin": ["investment"],
     "financial_technological": ["investment"],
-    "grantor_aid": ["aid"]
+    "grantor_aid": ["aid"],
+    "gov_relationships": ["government", "support_package", "tax_cut", "product"]
 }
 
 # keys for extracting characteristics about particular nodes

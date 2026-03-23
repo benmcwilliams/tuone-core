@@ -1,0 +1,79 @@
+{
+    "name": "extract_government_entities",
+    "description": "Extracts structured entities from a government energy-crisis or support article: governments, energy commodities, support packages, and tax cuts. Does not extract relationships.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "nodes": {
+                "type": "object",
+                "properties": {
+                    "governments": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Government"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    },
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Product"},
+                                "name": {"type": "string"}
+                            },
+                            "required": ["id", "type", "name"]
+                        }
+                    },
+                    "support_packages": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Support Package"},
+                                "name": {"type": "string"},
+                                "amount": {"type": "string"},
+                                "status": {
+                                    "type": "string",
+                                    "enum": ["announced", "implemented", "unclear"]
+                                }
+                            },
+                            "required": ["id", "type", "name", "status"]
+                        }
+                    },
+                    "tax_cuts": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string"},
+                                "type": {"const": "Tax Cut"},
+                                "name": {"type": "string"},
+                                "amount": {"type": "string"},
+                                "status": {
+                                    "type": "string",
+                                    "enum": ["announced", "implemented", "unclear"]
+                                }
+                            },
+                            "required": ["id", "type", "name", "status"]
+                        }
+                    }
+                },
+                "required": [
+                    "governments",
+                    "products",
+                    "support_packages",
+                    "tax_cuts"
+                ]
+            }
+        },
+        "required": ["nodes"]
+    }
+}

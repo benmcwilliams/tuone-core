@@ -43,7 +43,10 @@ model_dictionary = {
     "products": "ft:gpt-4o-mini-2024-07-18:personal:products:CxqF3QG5",
 
     "subsidy_nodes": "gpt-4o",
-    "grantor_aid": "gpt-4o"
+    "grantor_aid": "gpt-4o",
+
+    "gov_entities": "gpt-4o",
+    "gov_relationships": "gpt-4o"
 }
 
 ## gpt-4o-mini 

@@ -12,17 +12,18 @@ from kg_builder.src.inputs import nodes_by_group_prompt, characteristic_node_typ
 from mongo_client import mongo_client, articles_collection, test_mongo_connection
 
 from datetime import datetime, timezone
-from bson import json_util
-
-# establish / test connections
-test_mongo_connection()
-ping_openai()
-
-# update subsidy flags from user-added articles before processing
-check_subsidy_main(dry_run=False) 
+from collections import Counter
 
 def should_process_subsidy(article: dict) -> bool:
     return bool(article.get("meta", {}).get("subsidy") is True)
+
+
+def get_article_domain(article: dict) -> str:
+    """Route KG extraction: government vs investment (default)."""
+    tag = article.get("meta", {}).get("tag")
+    if tag == "government":
+        return "government"
+    return "investment"
 
 def run_extraction(
     text: str,
@@ -86,7 +87,7 @@ def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
     """
 
     logger.info("POST-PROCESSING STARTING.")
-    ENTITY_GROUPS = {"entities", "subsidy_entities"}
+    ENTITY_GROUPS = {"entities", "subsidy_entities", "gov_entities"}
     if group in ENTITY_GROUPS:
         formatted = []
         for t, items in raw.items():
@@ -114,7 +115,14 @@ def post_process(raw: list | dict, cfg: dict, group: str, logger) -> list[dict]:
         result = raw if isinstance(raw, list) else []
         return result
 
-    elif group in ("ownership", "technological", "financial_origin", "financial_technological", "grantor_aid"):
+    elif group in (
+        "ownership",
+        "technological",
+        "financial_origin",
+        "financial_technological",
+        "grantor_aid",
+        "gov_relationships",
+    ):
         formatted = []
         for i, rel in enumerate(raw):
             src = normalize_id(rel.get("source", ""))
@@ -200,6 +208,7 @@ def process_articles(articles_to_process, model_dictionary):
 
     print_article_stats(articles_to_process)
 
+    domain_run_counts: Counter[str] = Counter()
     run_id = model_dictionary["run_id"]
     for article in articles_to_process:
         articleID  = str(article["_id"])
@@ -214,67 +223,94 @@ def process_articles(articles_to_process, model_dictionary):
         logger.info(f"🔍 Text length: {len(text)} characters")
         logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
 
+        domain = get_article_domain(article)
+        domain_run_counts[domain] += 1
+        logger.info("🏷️ KG domain: %s (meta.tag=%r)", domain, article.get("meta", {}).get("tag"))
+
         try:
-            # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
-            formatted_nodes = extract_nodes(text, "entities", logger)
-
-            # ------ 1b extract subsidy entities ------
-            if should_process_subsidy(article):
-                logger.info("💰 Subsidy article detected — extracting subsidy entities")
-                subsidy_nodes = extract_nodes(text, "subsidy_entities", logger)
-                formatted_nodes.extend(subsidy_nodes or [])
-
-            # - - - STAGE 2: enrich entities with characteristics (capacities, investments and products)
-            for relationship_group, config in characteristic_node_types.items():
-                model_name = model_dictionary[relationship_group]  # select fine-tuned model
-                id_key = config["id_key"]                          
-                type_match = config["type_match"]
-                attach_map  = config.get("attach", {})
-
-                # only continue if there are nodes of this type in the article
-                has_relevant_nodes = any(node.get("type") == type_match for node in formatted_nodes)
-                if not has_relevant_nodes:
-                    logger.info(f"⏭️ Skipping {relationship_group} – no nodes of type '{type_match}' found.")
-                    continue
-
-                logger.info(f"🔍 Extracting characteristics for node group: {relationship_group}")
-                node_characteristics = extract_node_characteristics(text, relationship_group, formatted_nodes, logger)  
-
-                # attach the characteristics returned by LLM inference to our JSON objects/documents
-                attach_characteristics_to_nodes(
-                    formatted_nodes=formatted_nodes,
-                    node_characteristics=node_characteristics,
-                    id_key=id_key,
-                    type_match=type_match,
-                    attach_map=attach_map,
-                    logger=logger,
-                )
-
-            # - - - STAGE 3: extract relationships between entities
             all_relationships = []
 
-            RELATIONSHIP_GROUPS = [
-                "ownership",
-                "technological",
-                "financial_origin",
-                "financial_technological"
-            ]
+            if domain == "government":
+                formatted_nodes = extract_nodes(text, "gov_entities", logger)
 
-            # conditionally add subsidy relationships
-            if article.get("meta", {}).get("subsidy") is True:
-                RELATIONSHIP_GROUPS.append("grantor_aid")
+                RELATIONSHIP_GROUPS = ["gov_relationships"]
+                for relationship_group in RELATIONSHIP_GROUPS:
+                    required_types = required_node_types.get(relationship_group, [])
+                    if not has_required_nodes_for_relationship(formatted_nodes, required_types):
+                        logger.info(
+                            f"🛑 Skipping {relationship_group}: required nodes {required_types} not present."
+                        )
+                        continue
 
-            for relationship_group in RELATIONSHIP_GROUPS:
+                    logger.info(f"- - - Querying openai for relationships: {relationship_group}")
+                    relationships = extract_relationships(
+                        text, relationship_group, formatted_nodes, logger
+                    )
+                    all_relationships.extend(relationships)
 
-                required_types = required_node_types.get(relationship_group, [])
-                if not has_required_nodes_for_relationship(formatted_nodes, required_types):
-                    logger.info(f"🛑 Skipping {relationship_group}: required nodes {required_types} not present.")
-                    continue
+            else:
+                # - - - STAGE 1: extract entities (using finetuned GPT-4o-mini)
+                formatted_nodes = extract_nodes(text, "entities", logger)
 
-                logger.info(f"- - - Querying openai for relationships: {relationship_group}")
+                # ------ 1b extract subsidy entities ------
+                if should_process_subsidy(article):
+                    logger.info("💰 Subsidy article detected — extracting subsidy entities")
+                    subsidy_nodes = extract_nodes(text, "subsidy_entities", logger)
+                    formatted_nodes.extend(subsidy_nodes or [])
 
-                relationships = extract_relationships(text, relationship_group, formatted_nodes, logger)
-                all_relationships.extend(relationships)
+                # - - - STAGE 2: enrich entities with characteristics (capacities, investments and products)
+                for relationship_group, config in characteristic_node_types.items():
+                    id_key = config["id_key"]
+                    type_match = config["type_match"]
+                    attach_map = config.get("attach", {})
+
+                    has_relevant_nodes = any(
+                        node.get("type") == type_match for node in formatted_nodes
+                    )
+                    if not has_relevant_nodes:
+                        logger.info(
+                            f"⏭️ Skipping {relationship_group} – no nodes of type '{type_match}' found."
+                        )
+                        continue
+
+                    logger.info(f"🔍 Extracting characteristics for node group: {relationship_group}")
+                    node_characteristics = extract_node_characteristics(
+                        text, relationship_group, formatted_nodes, logger
+                    )
+
+                    attach_characteristics_to_nodes(
+                        formatted_nodes=formatted_nodes,
+                        node_characteristics=node_characteristics,
+                        id_key=id_key,
+                        type_match=type_match,
+                        attach_map=attach_map,
+                        logger=logger,
+                    )
+
+                # - - - STAGE 3: extract relationships between entities
+                RELATIONSHIP_GROUPS = [
+                    "ownership",
+                    "technological",
+                    "financial_origin",
+                    "financial_technological",
+                ]
+
+                if article.get("meta", {}).get("subsidy") is True:
+                    RELATIONSHIP_GROUPS.append("grantor_aid")
+
+                for relationship_group in RELATIONSHIP_GROUPS:
+                    required_types = required_node_types.get(relationship_group, [])
+                    if not has_required_nodes_for_relationship(formatted_nodes, required_types):
+                        logger.info(
+                            f"🛑 Skipping {relationship_group}: required nodes {required_types} not present."
+                        )
+                        continue
+
+                    logger.info(f"- - - Querying openai for relationships: {relationship_group}")
+                    relationships = extract_relationships(
+                        text, relationship_group, formatted_nodes, logger
+                    )
+                    all_relationships.extend(relationships)
 
             # update entries in mongodb with clean entities and relationships
             update_result = articles_collection.update_one(
@@ -302,27 +338,41 @@ def process_articles(articles_to_process, model_dictionary):
                 logger.removeHandler(handler)
             print(f"🔒 Closed logger for article {articleID}. Remaining handlers: {len(logger.handlers)}")
 
-offset_articles = 0
-#categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
-#categories = ["user", "electrive", "pvmagazine", "pvtech", "transformers-magazine", ]
-categories = ["enrichment", "user"]
-#categories = ["user"]
+    print("\n📊 KG domain routing (this run):")
+    print(f"   🏛️ government: {domain_run_counts.get('government', 0)}")
+    print(f"   📈 investment: {domain_run_counts.get('investment', 0)}")
 
-cutoff_date = datetime(2000, 1, 1)
 
-articles_to_process = list(
-    articles_collection.find(
-        {"meta.date": {"$gt": cutoff_date},
-         "meta.category": {"$in": categories}},  
-        {"_id": 1, "meta": 1, "title": 1, "validation": 1, "llm_processed": 1,  "paragraphs": 1}       
+if __name__ == "__main__":
+    # establish / test connections
+    test_mongo_connection()
+    ping_openai()
+
+    # update subsidy flags from user-added articles before processing
+    check_subsidy_main(dry_run=False)
+
+    offset_articles = 0
+    # categories = ["user", "electrive", "justauto", "pvmagazine", "pvtech", "renewsBiz", "offshorewind"]
+    # categories = ["user", "electrive", "pvmagazine", "pvtech", "transformers-magazine", ]
+    categories = ["enrichment", "user"]
+    # categories = ["user"]
+
+    cutoff_date = datetime(2000, 1, 1)
+
+    articles_to_process = list(
+        articles_collection.find(
+            {"meta.date": {"$gt": cutoff_date},
+             "meta.category": {"$in": categories}},
+            {"_id": 1, "meta": 1, "title": 1, "validation": 1, "llm_processed": 1, "paragraphs": 1}
+        )
+        .sort("_id", -1)
+        .skip(offset_articles)
+        # .limit(n_articles)
     )
-    .sort("_id", -1)            # sort by MongoDB ObjectId (descending)
-    .skip(offset_articles)      # skip first `offset` articles
-    #.limit(n_articles)          # limit the number of articles
-)
 
-process_articles(articles_to_process, model_dictionary)
+    process_articles(articles_to_process, model_dictionary)
 
-# Always run mentions extraction for articles that need it (all categories, batched)
-from kg_builder.run_mentions import run_mentions_pipeline
-run_mentions_pipeline(categories=None, batch_size=500)
+    # Always run mentions extraction for articles that need it (all categories, batched)
+    from kg_builder.run_mentions import run_mentions_pipeline
+
+    run_mentions_pipeline(categories=None, batch_size=500)
