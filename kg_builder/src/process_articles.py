@@ -13,11 +13,14 @@ from collections import Counter
 
 FROZEN_RUNS = {"v1.1"}
 
-def should_skip_article(article, run_id):
-    """Returns (proceed, text). If should skip, returns (False, None)."""
+def should_skip_article(article, run_id, *, run_id_field: str = "run_id"):
+    """Returns (proceed, text). If should skip, returns (False, None).
+
+    run_id_field: llm_processed key to compare for this pipeline (investment: run_id, government: run_id_gov).
+    """
 
     # store if article has already been processed by a previous run
-    previous_run = article.get("llm_processed", {}).get("run_id")
+    previous_run = article.get("llm_processed", {}).get(run_id_field)
 
     # skip if article has been validated (True as per old system or a datetime stamp as now)
     val = article.get("validation")
@@ -43,7 +46,7 @@ def should_skip_article(article, run_id):
 
     # skip if this model architecture has already processed article
     if previous_run == run_id:
-        print(f"⏭️  Skipping – article already processed with run_id: {run_id}")
+        print(f"⏭️  Skipping – article already processed with {run_id_field}={run_id}")
         return False, None
 
     # skip if there is no text
@@ -53,9 +56,9 @@ def should_skip_article(article, run_id):
     
     # if we reach here, we are going to process it
     if previous_run is None:
-        print(f"✅ Processing – no previous run_id found")
+        print(f"✅ Processing – no previous {run_id_field} found")
     else:
-        print(f"✅ Overwriting run_id: {previous_run}. Processing article with run_id: {run_id}")
+        print(f"✅ Overwriting {run_id_field}: {previous_run}. Processing with {run_id_field}={run_id}")
 
     return True, text
 
@@ -67,14 +70,18 @@ def print_article_stats(articles):
     n_validated = sum(1 for a in articles if "validation" in a and a["validation"] is not None)
     n_llm_processed = sum(1 for a in articles if "llm_processed" in a and a["llm_processed"] is not None)
 
-    # Count run_id occurrences
+    # Count run_id / run_id_gov occurrences
     run_id_counter = Counter()
+    run_id_gov_counter = Counter()
     for a in articles:
         llm_data = a.get("llm_processed")
         if isinstance(llm_data, dict):
-            run_id = llm_data.get("run_id")
-            if run_id:
-                run_id_counter[run_id] += 1
+            rid = llm_data.get("run_id")
+            if rid:
+                run_id_counter[rid] += 1
+            rgov = llm_data.get("run_id_gov")
+            if rgov:
+                run_id_gov_counter[rgov] += 1
 
     print("\n📊 Descriptive Stats (from articles_to_process)")
     print(f"🧾 Total articles loaded: {n_total}")
@@ -84,11 +91,16 @@ def print_article_stats(articles):
     print(f"🕳️ Not LLM processed: {n_total - n_llm_processed}")
 
     if run_id_counter:
-        print("📦 Processed by run_id:")
+        print("📦 Processed by run_id (investment):")
         for run_id, count in run_id_counter.items():
             print(f"   🔁 {run_id}: {count}")
     else:
-        print("📦 No run_id information found.")
+        print("📦 No run_id (investment) information found.")
+
+    if run_id_gov_counter:
+        print("📦 Processed by run_id_gov (government):")
+        for run_id, count in run_id_gov_counter.items():
+            print(f"   🔁 {run_id}: {count}")
 
 ### has required nodes to process relationship (eg company | factory for ownership)
 

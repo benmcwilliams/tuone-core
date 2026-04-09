@@ -209,22 +209,30 @@ def process_articles(articles_to_process, model_dictionary):
     print_article_stats(articles_to_process)
 
     domain_run_counts: Counter[str] = Counter()
-    run_id = model_dictionary["run_id"]
     for article in articles_to_process:
         articleID  = str(article["_id"])
 
-        proceed, text = should_skip_article(article, run_id)
+        domain = get_article_domain(article)
+        if domain == "government":
+            effective_run_id = model_dictionary["run_id_gov"]
+            run_id_field = "run_id_gov"
+        else:
+            effective_run_id = model_dictionary["run_id"]
+            run_id_field = "run_id"
+
+        proceed, text = should_skip_article(
+            article, effective_run_id, run_id_field=run_id_field
+        )
         if not proceed:
             continue
+
+        domain_run_counts[domain] += 1
 
         #set up logger
         print(f"📌 Processing Article: {article['title']}")
         logger      = setup_logger(articleID)
         logger.info(f"🔍 Text length: {len(text)} characters")
         logger.info("📌 Processing Article ID: %s — %s", articleID, article["title"])
-
-        domain = get_article_domain(article)
-        domain_run_counts[domain] += 1
         logger.info("🏷️ KG domain: %s (meta.tag=%r)", domain, article.get("meta", {}).get("tag"))
 
         try:
@@ -313,14 +321,21 @@ def process_articles(articles_to_process, model_dictionary):
                     all_relationships.extend(relationships)
 
             # update entries in mongodb with clean entities and relationships
+            ts = datetime.now(timezone.utc).isoformat()
+            llm_set = {
+                "nodes": formatted_nodes or [],
+                "relationships": all_relationships or [],
+                "llm_processed.ts": ts,
+            }
+            if domain == "government":
+                llm_set["llm_processed.run_id_gov"] = model_dictionary["run_id_gov"]
+            else:
+                llm_set["llm_processed.run_id"] = model_dictionary["run_id"]
+
             update_result = articles_collection.update_one(
-                {"_id": article["_id"]},  #match by mongodb article id
-                {"$set": {
-                    "nodes": formatted_nodes or [],
-                    "relationships": all_relationships or [],
-                    "llm_processed.run_id": model_dictionary["run_id"],
-                    "llm_processed.ts": datetime.now(timezone.utc).isoformat()
-                    }})
+                {"_id": article["_id"]},
+                {"$set": llm_set},
+            )
 
             if update_result.modified_count > 0:
                 logger.info(f"✅ Updated Article ID: {articleID} with {len(formatted_nodes)} nodes and combined text.")

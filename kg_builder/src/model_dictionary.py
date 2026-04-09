@@ -31,6 +31,7 @@
 ### for version 2.1, used older ownership model.
 model_dictionary = {
     "run_id": "v2.0",
+    "run_id_gov": "v0.1",
 
     "nodes": "ft:gpt-4o-mini-2024-07-18:personal:nodes:Cq0dHbQV",
     #"ownership": "ft:gpt-4o-mini-2024-07-18:personal:ownership:CxUY5h6P", # introduced bad JSON

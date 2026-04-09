@@ -9,8 +9,8 @@ import re
 from datetime import datetime, timezone
 
 # Which node types use which field for matching in text
-MATCH_BY_NAME = {"company", "joint_venture", "product", "grantor"}
-MATCH_BY_AMOUNT = {"capacity", "investment", "aid"}
+MATCH_BY_NAME = {"company", "joint_venture", "product", "grantor", "government"}
+MATCH_BY_AMOUNT = {"capacity", "investment", "aid", "tax_cut", "support_package"}
 MATCH_BY_CITY = {"factory"}
 
 
