@@ -1,8 +1,19 @@
+"""
+Export phase-level facility data from MongoDB to Excel and sidecar reports.
+
+Run as a script only. ``python output_bim.py`` reads the live ``facilities``
+collection; ``python output_bim.py --facilities nature`` reads the journal snapshot
+(see ``mongo_client``).
+"""
+import argparse
+import logging
 import os
 import pandas as pd
 import re
 import sys; sys.path.append("../")
-from mongo_client import facilities_collection
+from pymongo.collection import Collection
+
+from mongo_client import facilities_collection, facilities_collection_nature
 from src.bim_helpers import ensure_parent_dir, make_excel_hyperlink, attach_article_urls, FACILITY_FIELDS
 from src.bim_helpers import reorder_columns_gcim_long, reorder_columns
 from src.assign_nuts import assign_nuts2_to_dataframe
@@ -175,7 +186,10 @@ def build_gcim_long(df: pd.DataFrame) -> pd.DataFrame:
 
     return out_df
 
-def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
+def build_phases_dataframe(
+    facilities_coll: Collection,
+    query: dict | None = None,
+) -> pd.DataFrame:
     """
     Build a flat dataframe with one row per phase.
 
@@ -186,9 +200,11 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
     if query is None:
         query = {}
 
+    logging.info("output_bim.build_phases_dataframe: using Mongo collection %r", facilities_coll.name)
+
     rows: list[dict] = []
 
-    for doc in facilities_collection.find(query):
+    for doc in facilities_coll.find(query):
         phases = doc.get("phases") or []
         if not phases:
             continue  # skip facilities without phase summaries
@@ -221,13 +237,17 @@ def build_phases_dataframe(query: dict | None = None) -> pd.DataFrame:
 
     return pd.DataFrame(rows)
 
-def export_phases_to_excel(filepath: str, query: dict | None = None) -> pd.DataFrame:
+def export_phases_to_excel(
+    filepath: str,
+    facilities_coll: Collection,
+    query: dict | None = None,
+) -> pd.DataFrame:
     """
     Build the phase-level dataframe, attach URLs, drop article IDs,
     reorder columns cleanly, and write to an Excel file.
     Returns the dataframe for convenience.
     """
-    df = build_phases_dataframe(query=query)
+    df = build_phases_dataframe(facilities_coll, query=query)
 
     # Assign NUTS-2 regions based on lat/lon
     df = assign_nuts2_to_dataframe(df, lat_col="lat", lon_col="lon")
@@ -458,9 +478,22 @@ def write_product_lv1_status_investment_report(df: pd.DataFrame, output_path: st
  
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+
+    parser = argparse.ArgumentParser(
+        description="Export phase-level BIM workbook from MongoDB facilities.",
+    )
+    parser.add_argument(
+        "--facilities",
+        choices=("default", "nature"),
+        default="default",
+        help="MongoDB source: default=live facilities; nature=journal snapshot (see mongo_client).",
+    )
+    args = parser.parse_args()
+    coll = facilities_collection_nature if args.facilities == "nature" else facilities_collection
 
     # main export
-    df = export_phases_to_excel(bim_path)
+    df = export_phases_to_excel(bim_path, coll)
     country_status_report_path = f"{os.path.splitext(bim_path)[0]}_country_status_investment.txt"
     write_country_status_investment_report(df, country_status_report_path)
     product_lv1_status_report_path = f"{os.path.splitext(bim_path)[0]}_product_lv1_status_investment.txt"

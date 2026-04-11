@@ -21,6 +21,15 @@ ARTICLE_QUERY = {
                                 "offshorewind", "renewsBiz", "enrichment"]}
 }
 
+# Same as ARTICLE_QUERY but only documents validated (validation True or Unix timestamp; excludes False / missing)
+ARTICLE_QUERY_VALIDATED = {
+    **ARTICLE_QUERY,
+    "$or": [
+        {"validation": True},
+        {"validation": {"$type": ["int", "long", "double"]}},
+    ],
+}
+
 ARTICLE_PROJECTION = {
     "_id": 1,
     "nodes": 1,

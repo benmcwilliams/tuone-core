@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 from collections import Counter
 from reconcile.src.flatten_helpers import flatten_dict
-from src.config import ARTICLE_QUERY, ARTICLE_PROJECTION, ALL_NODES, ALL_RELS
+from src.config import ARTICLE_QUERY, ARTICLE_QUERY_VALIDATED, ARTICLE_PROJECTION, ALL_NODES, ALL_RELS
 from mongo_client import articles_collection
 from src.debug_helpers import get_debug_tracker
 
@@ -12,6 +12,17 @@ from src.debug_helpers import get_debug_tracker
 # each node or relationship is tagged to track which article it came from 
 
 def run_flatten_articles(save: bool = False, debug_article_id: str | None = None, verbose: bool = False):
+
+    n_matching = articles_collection.count_documents(ARTICLE_QUERY)
+    n_validated = articles_collection.count_documents(ARTICLE_QUERY_VALIDATED)
+    logging.info(
+        "Flatten: %d articles match ARTICLE_QUERY (nodes, relationships, meta.category).",
+        n_matching,
+    )
+    logging.info(
+        "Flatten: %d of those are validated (validation is true or numeric timestamp; excludes false).",
+        n_validated,
+    )
 
     # 1.1: Query MongoDB for documents that have both 'nodes' and 'relationships' fields
     articles_to_process = list(

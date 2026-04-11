@@ -24,13 +24,11 @@ from mongo_client_clone import source_client, get_target_client
 #SOURCE_DB_NAME = os.getenv("MONGO_DB_NAME_TUONE", "tuone")
 #TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
 
-# Set up to copy from opensource dev into opensource
-
-SOURCE_DB_NAME = 'opensource'
-SOURCE_COLLECTION_NAME = "electricity"
+SOURCE_DB_NAME = 'opensourcedev'
+SOURCE_COLLECTION_NAME = "facilities"
 
 TARGET_DB_NAME = 'opensourcedev'
-TARGET_COLLECTION_NAME = "electricity"
+TARGET_COLLECTION_NAME = "facilities_nature_submission_april26"
 BATCH_SIZE = 1000
 
 # ---------- Setup ----------
