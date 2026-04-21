@@ -1,66 +1,81 @@
 # Tuone
 
-This repository processes newspaper articles to return structured information about clean technology investments. Example investments include the construction of a factory to produce solar panels, the deployment of a wind farm, or the upgrading of a vehicle assembly line to produce electric vehicles.
+This repository is my working pipeline for turning unstructured reporting on clean technology manufacturing and industrial investment into structured data.
 
-## MongoDB
+At a high level, it:
 
-The default MongoDB cluster and database for **kg_builder**, **reconcile**, **crawl**, and **scrape** are set in the project root `.env`:
+- collects and stores article text
+- extracts entities and relationships with language models
+- normalizes products, capacities, investments, owners, and locations
+- reconciles multiple article-level signals into project-level facility records
+- writes structured outputs to MongoDB for downstream analysis
 
-- **MONGO_URI** — connection string for the main cluster (opensource after migration).
-- **MONGO_DB_NAME** — database name (e.g. `opensourcedev`).
+## What This Repository Does
 
-For one-off clone scripts that copy from the legacy tuone cluster to the main cluster, set **MONGO_URI_TUONE** and **MONGO_DB_NAME_TUONE** in `.env`; the clone module uses these as source and `MONGO_URI` / `MONGO_DB_NAME` as target.
+The aim is to identify and connect entities such as:
 
-## 1. Database construction
+- companies
+- factories and project sites
+- products
+- capacities
+- investments
 
-A database of articles is created and stored in mongoDB with unique article IDs and paragraph numbering {title, date, ID, url, paragraphs}. This is built from the following sources:
-- [Electrive](https://www.electrive.com/)
-- [World Energy](https://world-energy.org/)
-- [RenewsBiz](https://www.renews.biz/)
-- [Offshore Wind](https://www.offshorewind.biz/)
-- [PV Tech](https://www.pv-tech.org/)
-- [PV Magazine](https://www.pv-magazine.com/)
-- [Power Technology](https://www.power-technology.com/)
+It then builds relationships between them, for example:
 
-The sub-directories, crawl and scrape run the process to update the article database. 
+- who owns or operates a site
+- what product is produced at a facility
+- what capacity or investment is associated with a project
+- what stage a project appears to be in
 
-### Backfill boiler-marker cleaning for existing articles
+In practice, I use it to move from article-level text to project-level facility records that can be queried and analysed in MongoDB.
 
-If you need to re-apply paragraph boiler-marker cleanup on articles already in MongoDB:
+## Repository Structure
+
+- `scrape/` and `crawl/`: scripts for collecting and updating article data
+- `kg_builder/`: article-level extraction and node / relationship building
+- `reconcile/`: normalization, grouping, and project-level facility writing
+- `database-operations/`: one-off maintenance and migration scripts
+- `mongo_client.py`: shared MongoDB connection setup
+- `openai_client.py`: shared OpenAI client setup
+
+## Pipeline Overview
+
+The broad flow is:
+
+1. Ingest article text into MongoDB.
+2. Extract nodes and relationships from each article.
+3. Normalize key attributes such as product types, ownership, capacities, amounts, and geography.
+4. Group records that refer to the same underlying project.
+5. Write facility-level documents and attach project events, phase summaries, and derived fields.
+
+## Setup
+
+The code expects local environment variables in a root `.env` file.
+
+Common variables include:
+
+- `MONGO_URI`
+- `MONGO_DB_NAME`
+- `MONGO_COLLECTION_NAME`
+- `OPENAI_API_KEY`
+
+Install dependencies with:
 
 ```bash
-python scrape/backfill_boiler_markers.py --dry-run --limit 50
+pip install -r requirements.txt
 ```
 
-Then run the write mode once results look correct:
+## Running
 
-```bash
-python scrape/backfill_boiler_markers.py --no-dry-run
-```
+The main entry points live inside the module directories. In practice, the two most important ones are:
 
-## 2. Knowledge graph
+- `python kg_builder/main.py`
+- `python reconcile/main.py`
 
-Knowledge graphs are built using a collection of finetuned language models at the individual article level. 
-These are stored in mongoDB under a nodes and relationship header, an example: 
+Some subdirectories also contain their own README files with more task-specific detail.
 
-{"_id":{"$oid":"67f52d07981040986eab7b6a"},
-    "title":"VinFast starts delivering the VF 9 in the US",
-    "paragraphs":[{"p1":"Shortly after completing a billion-euro financing round, Vietnamese car manufacturer VinFast has started delivering its flagship model VF 9 to customers in the US and Canada. The first units were handed over at an event in Los Angeles.","p2":"paragraph-2 text.","pn":"paragraph-n text"],
-    "meta":
-        {"ID":"2708649",
-        "date":{"$date":{"$numberLong":"1732233600000"}},
-        "url":"https://www.electrive.com/2024/11/22/vinfast-starts-delivering-the-vf-9-in-the-us/#comment-368047",
-        "lastModifiedOn":"2025-04-11T16:29:22+03:00","category":"electrive"},
-    "nodes":[
-        {"article_id":"67f52d07981040986eab7b6a","id":"company_vinfast","type":"company","name":"VinFast","location":null,"amount":null,"status":null},{"article_id":"67f52d07981040986eab7b6a","id":"factory_north_carolina","type":"factory","name":"North Carolina","location":{"city":"North Carolina","country":"United States"},"amount":"","status":"","phase":""},
-        {"article_id":"67f52d07981040986eab7b6a","id":"investment_billion_euro_financing_round","type":"investment","name":"billion-euro financing round","location":null,"amount":"billion-euro","status":"completed","phase":"unclear"},
-        {"article_id":"67f52d07981040986eab7b6a","id":"product_vf_9","type":"product","name":"VF 9","location":null,"amount":null,"status":null},
-    "relationships":[
-        {"article_id":"67f52d07981040986eab7b6a","id":"company_vinfast_owns_factory_north_carolina","source":"company_vinfast","target":"factory_north_carolina","type":"owns","group":"ownership"},
-        {"article_id":"67f52d07981040986eab7b6a","id":"company_vinfast_receives_investment_billion_euro_financing_round","source":"company_vinfast","target":"investment_billion_euro_financing_round","type":"receives","group":"financial_origin"}],
-    "validation":true}
+## Notes
 
-## 3. Normalisation 
-
-## 4. Reconcilliation
-
+- This is operational research / pipeline code rather than a polished package.
+- MongoDB is the main working store throughout the pipeline.
+- Some scripts are intended for one-off maintenance, backfills, or debugging rather than routine runs.
