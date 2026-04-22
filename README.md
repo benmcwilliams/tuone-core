@@ -1,6 +1,6 @@
 # Tuone
 
-This repository is my working pipeline for turning unstructured reporting on clean technology manufacturing and industrial investment into structured data.
+This repository is a pipeline for turning unstructured reporting on clean technology manufacturing and industrial investment into structured data.
 
 At a high level, it:
 
@@ -26,8 +26,6 @@ It then builds relationships between them, for example:
 - what product is produced at a facility
 - what capacity or investment is associated with a project
 - what stage a project appears to be in
-
-In practice, I use it to move from article-level text to project-level facility records that can be queried and analysed in MongoDB.
 
 ## Repository Structure
 
