@@ -25,11 +25,12 @@ from mongo_client_clone import source_client, get_target_client
 #TARGET_DB_NAME = os.getenv("MONGO_DB_NAME", "opensourcedev")
 
 SOURCE_DB_NAME = 'opensourcedev'
-SOURCE_COLLECTION_NAME = "facilities"
+SOURCE_COLLECTION_NAME = "demand_dict"
 
-TARGET_DB_NAME = 'opensourcedev'
-TARGET_COLLECTION_NAME = "facilities_nature_submission_april26"
+TARGET_DB_NAME = 'opensource'
+TARGET_COLLECTION_NAME = "demand_dict"
 BATCH_SIZE = 1000
+# "facilities_nature_submission_april26"
 
 # ---------- Setup ----------
 source_collection = source_client[SOURCE_DB_NAME][SOURCE_COLLECTION_NAME]

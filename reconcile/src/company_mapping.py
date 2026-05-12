@@ -62,6 +62,7 @@ SITE_MERGE = {
     ("atersa", "ES", "Almussafes"): "Valencia",
     #("stellantis catl", "ES", "Zaragoza Municipality"): "Figueruelas  Municipality",
     ("lm wind power", "ES", "Castellón de la Plana/Castelló de la Plana"): "Valencia",
+    ("mcpv", "ES", "Navarre"): "Tudela",
 
     # hungary
     ("samsung sdi", "HU", "Budapest"): "Pest County",

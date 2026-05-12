@@ -193,6 +193,166 @@ def collect_article_ids_from_summary(summary: dict) -> set:
             ids.add(v)
     return ids
 
+def _is_missing_value(value) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, (dict, list, tuple, set)):
+        return False
+    try:
+        return bool(pd.isna(value))
+    except (TypeError, ValueError):
+        return False
+
+def _canonical_for_compare(value):
+    if _is_missing_value(value):
+        return None
+    if isinstance(value, dict):
+        return {k: _canonical_for_compare(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_canonical_for_compare(v) for v in value]
+    if isinstance(value, tuple):
+        return tuple(_canonical_for_compare(v) for v in value)
+    return value
+
+def _values_equal(old, new) -> bool:
+    return _canonical_for_compare(old) == _canonical_for_compare(new)
+
+def _format_log_value(value, max_len: int = 80) -> str:
+    value = _canonical_for_compare(value)
+    if isinstance(value, ObjectId):
+        text = str(value)
+    elif isinstance(value, datetime):
+        text = value.isoformat()
+    else:
+        text = repr(value)
+
+    if len(text) > max_len:
+        return text[: max_len - 3] + "..."
+    return text
+
+def _facility_log_label(doc: dict) -> str:
+    project_id = doc.get("project_id") or str(doc.get("_id"))
+    details = []
+    for key in ("inst_canon", "iso2", "admin_group_key"):
+        if doc.get(key):
+            details.append(str(doc[key]))
+    return f"{project_id} ({', '.join(details)})" if details else str(project_id)
+
+def _phase_map(phases: list | None) -> dict:
+    mapped = {}
+    for ph in phases or []:
+        if isinstance(ph, dict):
+            mapped[str(ph.get("phase_num"))] = ph
+    return mapped
+
+def _describe_main_changes(old: dict | None, new: dict | None) -> list[str]:
+    old = old or {}
+    new = new or {}
+    keys = [
+        "status",
+        "capacity",
+        "investment",
+        "investment_was_imputed",
+        "announced_on",
+        "under_construction_on",
+        "operational_on",
+        "main_from_phase_num",
+    ]
+    return [
+        f"main.{key}: {_format_log_value(old.get(key))} -> {_format_log_value(new.get(key))}"
+        for key in keys
+        if not _values_equal(old.get(key), new.get(key))
+    ]
+
+def _describe_phase_changes(old: list | None, new: list | None) -> list[str]:
+    old_map = _phase_map(old)
+    new_map = _phase_map(new)
+    old_nums = set(old_map)
+    new_nums = set(new_map)
+    changes = []
+
+    added = sorted(new_nums - old_nums)
+    removed = sorted(old_nums - new_nums)
+    if added:
+        changes.append(f"phases added: {', '.join(added)}")
+    if removed:
+        changes.append(f"phases removed: {', '.join(removed)}")
+
+    keys = [
+        "status",
+        "status_article_id",
+        "phase_capacity",
+        "capacity",
+        "capacity_article_id",
+        "phase_investment",
+        "investment",
+        "investment_article_id",
+        "investment_was_imputed",
+        "announced_on",
+        "announced_article_id",
+        "under_construction_on",
+        "under_construction_article_id",
+        "operational_on",
+        "operational_article_id",
+        "product_lv2",
+        "product_lv3",
+    ]
+    for phase_num in sorted(old_nums & new_nums):
+        old_phase = old_map[phase_num]
+        new_phase = new_map[phase_num]
+        for key in keys:
+            if not _values_equal(old_phase.get(key), new_phase.get(key)):
+                changes.append(
+                    f"phase {phase_num}.{key}: "
+                    f"{_format_log_value(old_phase.get(key))} -> {_format_log_value(new_phase.get(key))}"
+                )
+
+    if not changes and not _values_equal(old, new):
+        changes.append("phases changed")
+    return changes
+
+def _describe_field_change(field: str, old, new) -> list[str]:
+    if field == "main":
+        return _describe_main_changes(old, new)
+    if field == "phases":
+        return _describe_phase_changes(old, new)
+    return [f"{field}: {_format_log_value(old)} -> {_format_log_value(new)}"]
+
+def _filter_changed_update(doc: dict, update_fields: dict, unset_fields: dict) -> tuple[dict, dict, list[str]]:
+    changed_set = {}
+    changed_unset = {}
+    changes = []
+
+    for field, value in update_fields.items():
+        old_value = doc.get(field)
+        if not _values_equal(old_value, value):
+            changed_set[field] = value
+            changes.extend(_describe_field_change(field, old_value, value))
+
+    for field, value in unset_fields.items():
+        if field in doc:
+            changed_unset[field] = value
+            changes.append(f"{field}: unset (was {_format_log_value(doc.get(field))})")
+
+    return changed_set, changed_unset, changes
+
+def _log_summary_updates(change_reports: list[tuple[str, list[str]]], modified_count: int) -> None:
+    report_count = len(change_reports)
+    if modified_count == report_count:
+        logging.info("✅ Updated summaries for %d facilities.", modified_count)
+    else:
+        logging.info(
+            "✅ Summary changes detected for %d facilities; Mongo reported %d modified.",
+            report_count,
+            modified_count,
+        )
+    for label, changes in change_reports:
+        logging.info("  - %s", label)
+        for change in changes[:12]:
+            logging.info("      %s", change)
+        if len(changes) > 12:
+            logging.info("      ... %d more changes", len(changes) - 12)
+
 # ---------- main logic ------------
 
 def build_phase_summary(events: list, phase_num: int | str | None, prev_capacity=None, prev_investment=None) -> dict | None:
@@ -424,6 +584,7 @@ def compute_summaries(debug_article_id: ObjectId | str | None = None):
     logging.info("🚀 Starting summary updates for main, phase 1 and phase 2...")
 
     updates = []
+    change_reports = []
 
     query = {}
     if debug_article_id is not None:
@@ -582,18 +743,21 @@ def compute_summaries(debug_article_id: ObjectId | str | None = None):
             if "main" in doc:
                 unset_fields["main"] = ""
 
-        # Queue update with both $set and $unset. With $set we are always overwriting.
-        if update_fields or unset_fields:
+        changed_set, changed_unset, changes = _filter_changed_update(doc, update_fields, unset_fields)
+
+        # Queue update with both $set and $unset, but only for fields that changed.
+        if changed_set or changed_unset:
             update_op = {}
-            if update_fields:
-                update_op["$set"] = update_fields
-            if unset_fields:
-                update_op["$unset"] = unset_fields  # CHANGED: remove stale phases/main
+            if changed_set:
+                update_op["$set"] = changed_set
+            if changed_unset:
+                update_op["$unset"] = changed_unset  # CHANGED: remove stale phases/main
             updates.append(UpdateOne({"_id": doc["_id"]}, update_op))
+            change_reports.append((_facility_log_label(doc), changes))
 
     if updates:
         result = facilities_collection.bulk_write(updates)
-        logging.info(f"✅ Updated summaries for {result.modified_count} facilities.")
+        _log_summary_updates(change_reports, result.modified_count)
     else:
         logging.info("⚠️ No facilities needed updates.")
 
